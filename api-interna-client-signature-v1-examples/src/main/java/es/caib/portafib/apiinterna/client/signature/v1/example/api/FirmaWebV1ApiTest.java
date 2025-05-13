@@ -15,22 +15,23 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureResponse;
 import es.caib.portafib.apiinterna.client.signature.v1.model.GetTransactionStatusResponse;
-import es.caib.portafib.apiinterna.client.signature.v1.model.Languages;
+import es.caib.portafib.apiinterna.client.signature.v1.model.KeyValue;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureStatus;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignedFileInfo;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignerInfo;
 import es.caib.portafib.apiinterna.client.signature.v1.model.ProcessStatus;
-import es.caib.portafib.apiinterna.client.signature.v1.model.Profiles;
+import es.caib.portafib.apiinterna.client.signature.v1.model.Profile;
 import es.caib.portafib.apiinterna.client.signature.v1.model.ValidationInfo;
 
 import es.caib.portafib.apiinterna.client.signature.v1.model.AddFileToSignRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.CommonInfo;
 import es.caib.portafib.apiinterna.client.signature.v1.model.CustodyInfo;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Document;
-import es.caib.portafib.apiinterna.client.signature.v1.model.DocumentaryTypes;
+import es.caib.portafib.apiinterna.client.signature.v1.model.DocumentaryType;
 import es.caib.portafib.apiinterna.client.signature.v1.model.FileInfoSignature;
 import es.caib.portafib.apiinterna.client.signature.v1.model.GetSignatureResultRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.StartTransactionRequest;
@@ -54,7 +55,11 @@ public class FirmaWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureOnWebV1A
     public static void main(String[] args) throws FileNotFoundException, IOException {
         FirmaWebV1ApiTest test = new FirmaWebV1ApiTest();
         try {
-            test.signPdfUsingPadesWithSyncWebExample();
+            
+            test.callCommonTests();
+
+            //test.signPdfUsingPadesWithSyncWebExample();
+
         } catch (ApiException ae) {
             test.processApiException(ae, "Tests de Firma Web Sincrona", true);
         } catch (Exception e) {
@@ -99,9 +104,9 @@ public class FirmaWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureOnWebV1A
 
             long tipusDocumentalID;
             {
-                DocumentaryTypes documentTypes = api.getDocumentaryTypes(languageUI);
+                Set<DocumentaryType> documentTypes = api.getDocumentaryTypes(languageUI);
                 // Recollim el primer tipus documental de la llista retornada
-                tipusDocumentalID = documentTypes.getDocumentaryTypes().get(0).getDocumentType();
+                tipusDocumentalID = documentTypes.iterator().next().getDocumentType();
             }
 
             //Fitxers a firmar
@@ -454,17 +459,17 @@ public class FirmaWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureOnWebV1A
     }
 
     @Override
-    protected Languages getLanguages(String lang) throws Exception {
+    protected Set<KeyValue> getLanguages(String lang) throws Exception {
         return getApi().getLanguages(lang);
     }
 
     @Override
-    protected DocumentaryTypes getDocumentaryTypes(String lang, ApiClient apiClient) throws Exception {
+    protected Set<DocumentaryType> getDocumentaryTypes(String lang, ApiClient apiClient) throws Exception {
         return getApi(apiClient).getDocumentaryTypes(lang);
     }
 
     @Override
-    protected Profiles getProfiles(String lang) throws Exception {
+    protected Set<Profile> getProfiles(String lang) throws Exception {
         return getApi().getProfiles(lang);
     }
 

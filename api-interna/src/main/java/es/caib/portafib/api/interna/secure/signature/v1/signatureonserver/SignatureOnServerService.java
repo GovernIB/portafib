@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
@@ -35,11 +36,10 @@ import es.caib.portafib.api.interna.secure.signature.v1.AbstractSignatureService
 import es.caib.portafib.api.interna.secure.signature.v1.CommonsSwaggerOperations;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.CommonInfo;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.Document;
-import es.caib.portafib.api.interna.secure.signature.v1.commons.DocumentaryTypes;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.DocumentaryType;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.KeyValue;
-import es.caib.portafib.api.interna.secure.signature.v1.commons.Languages;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.ProcessStatus;
-import es.caib.portafib.api.interna.secure.signature.v1.commons.Profiles;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.Profile;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignAlgorithmConstants;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignModeConstants;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignOperationConstants;
@@ -170,7 +170,7 @@ public class SignatureOnServerService extends AbstractSignatureService implement
             operationId = "getDocumentaryTypes",            
             summary = GETDOCUMENTARYTYPES_SUMMARY)
     @Override
-    public DocumentaryTypes getDocumentaryTypes(HttpServletRequest request, String languageUI) {
+    public Set<DocumentaryType> getDocumentaryTypes(HttpServletRequest request, String languageUI) {
         return super.commonOperationGetDocumentaryTypes(request, languageUI);
     }
     
@@ -179,7 +179,7 @@ public class SignatureOnServerService extends AbstractSignatureService implement
             operationId = "getLanguages",
             summary = "Retorna els idiomes disponibles.")
     @Override
-    public Languages getLanguages(HttpServletRequest request, String language) throws RestException {
+    public Set<KeyValue> getLanguages(HttpServletRequest request, String language) throws RestException {
         return super.commonOperationGetLanguages(request, language);
     }
 
@@ -188,7 +188,7 @@ public class SignatureOnServerService extends AbstractSignatureService implement
             operationId = "getProfiles",
             summary = "Retorna els perfils de firma.")
     @Override
-    public Profiles getProfiles(HttpServletRequest request, String language) throws RestException {
+    public Set<Profile> getProfiles(HttpServletRequest request, String language) throws RestException {
         return super.commonOperationGetProfiles(request, language);
     }
 

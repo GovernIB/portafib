@@ -253,7 +253,11 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DocumentaryTypes"
+                  "uniqueItems" : true,
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/DocumentaryType"
+                  }
                 }
               }
             }
@@ -334,7 +338,11 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Languages"
+                  "uniqueItems" : true,
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/KeyValue"
+                  }
                 }
               }
             }
@@ -415,7 +423,11 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Profiles"
+                  "uniqueItems" : true,
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Profile"
+                  }
                 }
               }
             }
@@ -846,7 +858,11 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DocumentaryTypes"
+                  "uniqueItems" : true,
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/DocumentaryType"
+                  }
                 }
               }
             }
@@ -927,7 +943,11 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Languages"
+                  "uniqueItems" : true,
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/KeyValue"
+                  }
                 }
               }
             }
@@ -1008,7 +1028,11 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Profiles"
+                  "uniqueItems" : true,
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Profile"
+                  }
                 }
               }
             }
@@ -1407,28 +1431,6 @@
         },
         "description" : "Model de dades d'un tipus documental"
       },
-      "DocumentaryTypes" : {
-        "type" : "object",
-        "properties" : {
-          "documentaryTypes" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/DocumentaryType"
-            }
-          }
-        }
-      },
-      "Languages" : {
-        "type" : "object",
-        "properties" : {
-          "languages" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/KeyValue"
-            }
-          }
-        }
-      },
       "Profile" : {
         "required" : [ "code", "description", "name" ],
         "type" : "object",
@@ -1447,17 +1449,6 @@
           }
         },
         "description" : "Detalls del Perfil d'un usuari Aplicació"
-      },
-      "Profiles" : {
-        "type" : "object",
-        "properties" : {
-          "profiles" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/Profile"
-            }
-          }
-        }
       },
       "GetSignatureResultRequest" : {
         "required" : [ "signID", "transactionID" ],

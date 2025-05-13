@@ -175,7 +175,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DocumentaryTypes'
+                items:
+                  $ref: '#/components/schemas/DocumentaryType'
+                type: array
+                uniqueItems: true
           description: Operació realitzada correctament
       security:
       - BasicAuth: []
@@ -236,7 +239,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Languages'
+                items:
+                  $ref: '#/components/schemas/KeyValue'
+                type: array
+                uniqueItems: true
           description: Operació realitzada correctament
       security:
       - BasicAuth: []
@@ -295,7 +301,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Profiles'
+                items:
+                  $ref: '#/components/schemas/Profile'
+                type: array
+                uniqueItems: true
           description: Operació realitzada correctament
       security:
       - BasicAuth: []
@@ -591,7 +600,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DocumentaryTypes'
+                items:
+                  $ref: '#/components/schemas/DocumentaryType'
+                type: array
+                uniqueItems: true
           description: Operació realitzada correctament
       security:
       - BasicAuth: []
@@ -652,7 +664,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Languages'
+                items:
+                  $ref: '#/components/schemas/KeyValue'
+                type: array
+                uniqueItems: true
           description: Operació realitzada correctament
       security:
       - BasicAuth: []
@@ -711,7 +726,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Profiles'
+                items:
+                  $ref: '#/components/schemas/Profile'
+                type: array
+                uniqueItems: true
           description: Operació realitzada correctament
       security:
       - BasicAuth: []
@@ -1076,34 +1094,6 @@ components:
       - documentTypeBase
       - name
       type: object
-    DocumentaryTypes:
-      example:
-        documentaryTypes:
-        - documentTypeBase: 6
-          documentType: 0
-          name: name
-        - documentTypeBase: 6
-          documentType: 0
-          name: name
-      properties:
-        documentaryTypes:
-          items:
-            $ref: '#/components/schemas/DocumentaryType'
-          type: array
-      type: object
-    Languages:
-      example:
-        languages:
-        - value: value
-          key: key
-        - value: value
-          key: key
-      properties:
-        languages:
-          items:
-            $ref: '#/components/schemas/KeyValue'
-          type: array
-      type: object
     Profile:
       description: Detalls del Perfil d'un usuari Aplicació
       example:
@@ -1124,21 +1114,6 @@ components:
       - code
       - description
       - name
-      type: object
-    Profiles:
-      example:
-        profiles:
-        - code: code
-          name: name
-          description: description
-        - code: code
-          name: name
-          description: description
-      properties:
-        profiles:
-          items:
-            $ref: '#/components/schemas/Profile'
-          type: array
       type: object
     GetSignatureResultRequest:
       example:

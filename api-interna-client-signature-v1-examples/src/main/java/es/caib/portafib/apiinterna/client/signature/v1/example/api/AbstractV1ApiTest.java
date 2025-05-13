@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.ws.rs.core.Response.Status;
 
@@ -17,10 +18,10 @@ import org.jboss.logging.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.caib.portafib.apiinterna.client.signature.v1.model.Document;
-import es.caib.portafib.apiinterna.client.signature.v1.model.DocumentaryTypes;
-import es.caib.portafib.apiinterna.client.signature.v1.model.Languages;
+import es.caib.portafib.apiinterna.client.signature.v1.model.DocumentaryType;
+import es.caib.portafib.apiinterna.client.signature.v1.model.KeyValue;
 import es.caib.portafib.apiinterna.client.signature.v1.model.ProcessStatus;
-import es.caib.portafib.apiinterna.client.signature.v1.model.Profiles;
+import es.caib.portafib.apiinterna.client.signature.v1.model.Profile;
 import es.caib.portafib.apiinterna.client.signature.v1.model.RestExceptionInfo;
 import es.caib.portafib.apiinterna.client.signature.v1.services.ApiClient;
 import es.caib.portafib.apiinterna.client.signature.v1.services.ApiException;
@@ -244,14 +245,14 @@ public abstract class AbstractV1ApiTest<A> extends ProcessStatus {
         internalTestAvailableLanguages(expectedError, "callAvailable LanguagesTest");
     }
 
-    protected Languages internalTestAvailableLanguages(Integer expectedError, String testName)
+    protected Set<KeyValue> internalTestAvailableLanguages(Integer expectedError, String testName)
             throws ApiException, Exception {
         System.out.println("============================ " + testName + " ============================");
         try {
 
             String languageUI = getLanguageUI(getConfigProperties());
 
-            Languages response = getLanguages(languageUI);
+            Set<KeyValue> response = getLanguages(languageUI);
             if (expectedError != null) {
                 log.error(testName + ": S'espera un error " + expectedError + " i la cridada ha funcionat.");
             }
@@ -264,13 +265,13 @@ public abstract class AbstractV1ApiTest<A> extends ProcessStatus {
 
     }
 
-    protected Profiles internalTestPerfilsDeFirmaList(Integer expectedError, String testName)
+    protected Set<Profile> internalTestPerfilsDeFirmaList(Integer expectedError, String testName)
             throws ApiException, Exception {
         System.out.println("============================ " + testName + " ============================");
         try {
             String languageUI = getLanguageUI(getConfigProperties());
 
-            Profiles response = getProfiles(languageUI);
+            Set<Profile> response = getProfiles(languageUI);
             if (expectedError != null) {
                 log.error(testName + ": S'espera un error " + expectedError + " i la cridada ha funcionat.");
             }
@@ -283,7 +284,7 @@ public abstract class AbstractV1ApiTest<A> extends ProcessStatus {
 
     }
 
-    protected DocumentaryTypes internalTestTipusDocumentalList(Integer expectedError, String testName,
+    protected Set<DocumentaryType> internalTestTipusDocumentalList(Integer expectedError, String testName,
             ApiClient apiClient) throws ApiException, Exception {
         System.out.println("============================ " + testName + " ============================");
 
@@ -293,7 +294,7 @@ public abstract class AbstractV1ApiTest<A> extends ProcessStatus {
 
             //ApiClient apiClient = getApiClient();
 
-            DocumentaryTypes response = getDocumentaryTypes(languageUI, apiClient);
+            Set<DocumentaryType> response = getDocumentaryTypes(languageUI, apiClient);
             if (expectedError != null) {
                 throw new Exception(
                         testName + ": S'espera un error " + expectedError + " però la cridada ha funcionat.");
@@ -308,11 +309,11 @@ public abstract class AbstractV1ApiTest<A> extends ProcessStatus {
 
     }
 
-    protected abstract Languages getLanguages(String lang) throws Exception;
+    protected abstract Set<KeyValue> getLanguages(String lang) throws Exception;
 
-    protected abstract DocumentaryTypes getDocumentaryTypes(String lang, ApiClient apiClient) throws Exception;
+    protected abstract Set<DocumentaryType> getDocumentaryTypes(String lang, ApiClient apiClient) throws Exception;
 
-    protected abstract Profiles getProfiles(String lang) throws Exception;
+    protected abstract Set<Profile> getProfiles(String lang) throws Exception;
 
     protected abstract A getApi() throws Exception;
 

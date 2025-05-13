@@ -167,7 +167,7 @@ public class Example {
 
 ## getDocumentaryTypes
 
-> DocumentaryTypes getDocumentaryTypes(language)
+> Set&lt;DocumentaryType&gt; getDocumentaryTypes(language)
 
 Retorna una llista dels Tipus Documentals disponibles en el servidor: tipus documentals base, tipus documentals de l&#39;entitat i tipus documentals de l&#39;usuari aplicació
 
@@ -195,7 +195,7 @@ public class Example {
         DirectSignatureOnWebV1Api apiInstance = new DirectSignatureOnWebV1Api(defaultClient);
         String language = "ca"; // String | Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')
         try {
-            DocumentaryTypes result = apiInstance.getDocumentaryTypes(language);
+            Set<DocumentaryType> result = apiInstance.getDocumentaryTypes(language);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DirectSignatureOnWebV1Api#getDocumentaryTypes");
@@ -217,7 +217,7 @@ public class Example {
 
 ### Return type
 
-[**DocumentaryTypes**](DocumentaryTypes.md)
+[**Set&lt;DocumentaryType&gt;**](DocumentaryType.md)
 
 ### Authorization
 
@@ -241,7 +241,7 @@ public class Example {
 
 ## getLanguages
 
-> Languages getLanguages(language)
+> Set&lt;KeyValue&gt; getLanguages(language)
 
 Retorna els idiomes disponibles.
 
@@ -269,7 +269,7 @@ public class Example {
         DirectSignatureOnWebV1Api apiInstance = new DirectSignatureOnWebV1Api(defaultClient);
         String language = "ca"; // String | Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')
         try {
-            Languages result = apiInstance.getLanguages(language);
+            Set<KeyValue> result = apiInstance.getLanguages(language);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DirectSignatureOnWebV1Api#getLanguages");
@@ -291,7 +291,7 @@ public class Example {
 
 ### Return type
 
-[**Languages**](Languages.md)
+[**Set&lt;KeyValue&gt;**](KeyValue.md)
 
 ### Authorization
 
@@ -315,7 +315,7 @@ public class Example {
 
 ## getProfiles
 
-> Profiles getProfiles(language)
+> Set&lt;Profile&gt; getProfiles(language)
 
 Retorna els perfils de firma.
 
@@ -343,7 +343,7 @@ public class Example {
         DirectSignatureOnWebV1Api apiInstance = new DirectSignatureOnWebV1Api(defaultClient);
         String language = "ca"; // String | Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')
         try {
-            Profiles result = apiInstance.getProfiles(language);
+            Set<Profile> result = apiInstance.getProfiles(language);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DirectSignatureOnWebV1Api#getProfiles");
@@ -365,7 +365,7 @@ public class Example {
 
 ### Return type
 
-[**Profiles**](Profiles.md)
+[**Set&lt;Profile&gt;**](Profile.md)
 
 ### Authorization
 

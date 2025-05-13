@@ -1,5 +1,7 @@
 package es.caib.portafib.api.interna.secure.signature.v1;
 
+import java.util.Set;
+
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -12,12 +14,13 @@ import javax.ws.rs.core.MediaType;
 
 import org.fundaciobit.pluginsib.utils.rest.RestException;
 
-import es.caib.portafib.api.interna.secure.signature.v1.commons.DocumentaryTypes;
-import es.caib.portafib.api.interna.secure.signature.v1.commons.Languages;
-import es.caib.portafib.api.interna.secure.signature.v1.commons.Profiles;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.DocumentaryType;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.KeyValue;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.Profile;
 import es.caib.portafib.commons.utils.Constants;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -53,12 +56,14 @@ public interface CommonsSwaggerOperations {
             value = { @ApiResponse(
                     responseCode = "200",
                     description = "Operació realitzada correctament",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(implementation = DocumentaryTypes.class))),
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    array = @ArraySchema(
+                                            uniqueItems = true,
+                                            schema = @Schema(implementation = DocumentaryType.class)))),
 
             })
-    public DocumentaryTypes getDocumentaryTypes(@Parameter(hidden = true) @Context
+    public Set<DocumentaryType> getDocumentaryTypes(@Parameter(hidden = true) @Context
     HttpServletRequest request,
             @Parameter(
                     name = "language",
@@ -88,8 +93,10 @@ public interface CommonsSwaggerOperations {
                     description = "Operació realitzada correctament",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(implementation = Languages.class))) })
-    public Languages getLanguages(@Parameter(hidden = true) @Context
+                            array = @ArraySchema(
+                                    uniqueItems = true,
+                                    schema = @Schema(implementation = KeyValue.class)))) })
+    public Set<KeyValue> getLanguages(@Parameter(hidden = true) @Context
     HttpServletRequest request,
             @Parameter(
                     name = "language",
@@ -118,8 +125,10 @@ public interface CommonsSwaggerOperations {
                     description = "Operació realitzada correctament",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(implementation = Profiles.class))) })
-    public Profiles getProfiles(@Parameter(hidden = true) @Context
+                            array = @ArraySchema(
+                                    uniqueItems = true,
+                                    schema = @Schema(implementation = Profile.class)))) })
+    public Set<Profile> getProfiles(@Parameter(hidden = true) @Context
     HttpServletRequest request,
             @Parameter(
                     name = "language",

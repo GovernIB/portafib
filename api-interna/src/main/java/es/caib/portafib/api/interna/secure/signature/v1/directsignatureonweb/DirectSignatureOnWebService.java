@@ -23,13 +23,12 @@ import es.caib.portafib.api.interna.secure.signature.v1.AbstractSignatureService
 import es.caib.portafib.api.interna.secure.signature.v1.CommonsSwaggerOperations;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.CommonInfo;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.Document;
-import es.caib.portafib.api.interna.secure.signature.v1.commons.DocumentaryTypes;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.DocumentaryType;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.FileInfoSignature;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.KeyValue;
-import es.caib.portafib.api.interna.secure.signature.v1.commons.Languages;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignatureStatus;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.ProcessStatus;
-import es.caib.portafib.api.interna.secure.signature.v1.commons.Profiles;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.Profile;
 import es.caib.portafib.api.interna.secure.signature.v1.signatureonserver.SignatureResponse;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
@@ -66,6 +65,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -124,39 +124,35 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
     public static final String TAG_NAME = "DirectSignatureOnWeb v1";
 
-
     @EJB(mappedName = es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal.JNDI_NAME)
     protected es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal passarelaDeFirmaWebEjb;
 
     protected static final Map<String, TransactionInfo> currentTransactions = new ConcurrentHashMap<String, TransactionInfo>();
 
-    
-    @Operation(            
+    @Operation(
             tags = DirectSignatureOnWebService.TAG_NAME,
-            operationId = "getDocumentaryTypes",            
+            operationId = "getDocumentaryTypes",
             summary = GETDOCUMENTARYTYPES_SUMMARY)
     @Override
-    public DocumentaryTypes getDocumentaryTypes(HttpServletRequest request, String languageUI) {
+    public Set<DocumentaryType> getDocumentaryTypes(HttpServletRequest request, String languageUI) {
         return super.commonOperationGetDocumentaryTypes(request, languageUI);
     }
-    
+
     @Operation(
             tags = { DirectSignatureOnWebService.TAG_NAME },
             operationId = "getLanguages",
             summary = "Retorna els idiomes disponibles.")
     @Override
-    public Languages getLanguages(HttpServletRequest request, String language) throws RestException {
+    public Set<KeyValue> getLanguages(HttpServletRequest request, String language) throws RestException {
         return super.commonOperationGetLanguages(request, language);
     }
-    
-    
 
     @Operation(
-            tags = { DirectSignatureOnWebService.TAG_NAME},
+            tags = { DirectSignatureOnWebService.TAG_NAME },
             operationId = "getProfiles",
             summary = "Retorna els perfils de firma.")
     @Override
-    public Profiles getProfiles(HttpServletRequest request, String language) throws RestException {
+    public Set<Profile> getProfiles(HttpServletRequest request, String language) throws RestException {
         return super.commonOperationGetProfiles(request, language);
     }
 
@@ -168,7 +164,7 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
     public String versio() {
         return super.commonOperationVersio();
     }
-    
+
     @Path(value = "/getTransactionID")
     @POST
     @RolesAllowed({ Constants.PFI_WS })
@@ -187,15 +183,15 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
                                     implementation = CommonInfo.class))),
             summary = "Operacio per obtenir el Id de una transaccio de la API")
     @ApiResponses(
-            value = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Operació realitzada correctament",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = String.class))) })
+            value = { @ApiResponse(
+                    responseCode = "200",
+                    description = "Operació realitzada correctament",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(implementation = String.class))) })
     public String getTransactionID(@Parameter(hidden = true) @Context
-            HttpServletRequest request, @RequestBody CommonInfo commonInfo) {
+    HttpServletRequest request, @RequestBody
+    CommonInfo commonInfo) {
 
         String userName = checkUsuariAplicacio(request);
 
@@ -242,7 +238,7 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
     }
 
-/*
+    /*
     @Path(value = "/getAvailableProfiles")
     @POST
     @RolesAllowed({ Constants.PFI_WS })
@@ -270,11 +266,11 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
                                     schema = @Schema(implementation = AvailableProfilesRest.class))) })
     public AvailableProfilesRest getAvailableProfiles(@Parameter(hidden = true) @Context
             HttpServletRequest request, @RequestBody String locale) {
-
+    
         String usrApp = checkUsuariAplicacio(request);
-
+    
         return internalGetAvailableProfiles(request, locale, usrApp);
-
+    
     }
     */
 
@@ -296,15 +292,15 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
                                     implementation = AddFileToSignRequest.class))),
             summary = "Afegeix un document  al conjunt de Peticions de Firma a realitzar per l'usuari.")
     @ApiResponses(
-            value = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Operació realitzada correctament",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = String.class))) })
+            value = { @ApiResponse(
+                    responseCode = "200",
+                    description = "Operació realitzada correctament",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(implementation = String.class))) })
     public void addFileToSign(@Parameter(hidden = true) @Context
-            HttpServletRequest request, @RequestBody AddFileToSignRequest holder) {
+    HttpServletRequest request, @RequestBody
+    AddFileToSignRequest holder) {
 
         checkUsuariAplicacio(request);
 
@@ -371,9 +367,6 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
     }
 
-
-
-
     //@RequestMapping(value = "/" + ApiFirmaWebSimple.STARTTRANSACTION, method = RequestMethod.POST)
     //@ResponseBody
     @Path(value = "/startTransaction")
@@ -395,15 +388,15 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
             summary = "Envia identificador de la transacció, url de retorn i tipus de vista web (amb o sense iframe)"
                     + " i inicia el procés de firma retornant una URL de redirecció.")
     @ApiResponses(
-            value = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Operació realitzada correctament",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = String.class))) })
+            value = { @ApiResponse(
+                    responseCode = "200",
+                    description = "Operació realitzada correctament",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(implementation = String.class))) })
     public String startTransaction(@Parameter(hidden = true) @Context
-            HttpServletRequest request, @RequestBody StartTransactionRequest startTransactionRequest) {
+    HttpServletRequest request, @RequestBody
+    StartTransactionRequest startTransactionRequest) {
 
         UsuariAplicacioJPA usrAppJPA = checkUsuariAplicacioFull(request);
 
@@ -467,8 +460,7 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
             // Cercam que tengui configuracio
 
-            FileInfoSignature[] fileInfoSignatureArray = ti.getFirmaSimpleFileList()
-                    .toArray(new FileInfoSignature[0]);
+            FileInfoSignature[] fileInfoSignatureArray = ti.getFirmaSimpleFileList().toArray(new FileInfoSignature[0]);
 
             SignDocumentsRequest simpleSignaturesSet;
             simpleSignaturesSet = new SignDocumentsRequest(ti.getCommonInfo(), fileInfoSignatureArray);
@@ -504,13 +496,12 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
             PassarelaSignaturesSet pss = convertRestBean2PassarelaBeanWeb(transactionID, simpleSignaturesSet,
                     usuariAplicacioID, entitat, perfilDeFirma, configBySignID);
 
-            log.info("**********----------*********** getReturnUrl -->"+startTransactionRequest.getReturnUrl());
+            log.info("**********----------*********** getReturnUrl -->" + startTransactionRequest.getReturnUrl());
             String urlFinal = startTransactionRequest.getReturnUrl();
             pss.getCommonInfoSignature().setUrlFinal(urlFinal);
 
             // CRIDAR A START TRANSACION
-            final boolean fullView = StartTransactionRequest.VIEW_FULLSCREEN
-                    .equals(startTransactionRequest.getView());
+            final boolean fullView = StartTransactionRequest.VIEW_FULLSCREEN.equals(startTransactionRequest.getView());
 
             final int origenPeticioDeFirma = ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_SIMPLE_WEB_V1;
 
@@ -569,15 +560,15 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
                                     implementation = String.class))),
             summary = "Retorna estat de la transacció (el procés de firma en general) i resultat del procés de cada firma")
     @ApiResponses(
-            value = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Operació realitzada correctament",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = GetTransactionStatusResponse.class))) })
+            value = { @ApiResponse(
+                    responseCode = "200",
+                    description = "Operació realitzada correctament",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(implementation = GetTransactionStatusResponse.class))) })
     public GetTransactionStatusResponse getTransactionStatus(@Parameter(hidden = true) @Context
-            HttpServletRequest request, @RequestBody String transactionID) {
+    HttpServletRequest request, @RequestBody
+    String transactionID) {
         try {
 
             log.info(" XYZ ZZZ ENTRA A getTransactionStatus => ]" + transactionID + "[");
@@ -651,15 +642,15 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
                                     implementation = GetSignatureResultRequest.class))),
             summary = "Document signat  i informació d'una firma")
     @ApiResponses(
-            value = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Operació realitzada correctament",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = SignatureResponse.class))) })
+            value = { @ApiResponse(
+                    responseCode = "200",
+                    description = "Operació realitzada correctament",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(implementation = SignatureResponse.class))) })
     public SignatureResponse getSignatureResult(@Parameter(hidden = true) @Context
-            HttpServletRequest request, @RequestBody GetSignatureResultRequest signatureResultRequest) {
+    HttpServletRequest request, @RequestBody
+    GetSignatureResultRequest signatureResultRequest) {
 
         log.info(" XYZ ZZZ getSignaturesResult => ENTRA");
 
@@ -742,16 +733,15 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
                                     implementation = String.class))),
             summary = "Indica al component de firma que la informació s’ha recuperat correctament i que pot fer neteja en el servidor.")
     @ApiResponses(
-            value = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Operació realitzada correctament",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = String.class))) })
+            value = { @ApiResponse(
+                    responseCode = "200",
+                    description = "Operació realitzada correctament",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(implementation = String.class))) })
     public void closeTransaction(@Parameter(hidden = true) @Context
-            HttpServletRequest request, @RequestBody
-            String transactionID) {
+    HttpServletRequest request, @RequestBody
+    String transactionID) {
 
         log.info(" XYZ ZZZ closeTransaction => ENTRA ...");
 
@@ -868,7 +858,7 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
         }
 
     }
-    
+
     protected org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo convertFirmaSimpleCommonInfo(
             CommonInfo swaggerInfo) {
 
@@ -886,9 +876,8 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
         return info;
 
     }
-    
-    protected org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile convertFirmaSimpleFile(
-            Document fsf) {
+
+    protected org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile convertFirmaSimpleFile(Document fsf) {
         org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile f = new org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile();
 
         if (fsf.getData() != null)
@@ -927,9 +916,6 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
         return f;
     }
-    
-    
-
 
     protected List<FirmaSimpleKeyValue> convertListKeyValue(List<KeyValue> additionalInformation) {
         List<FirmaSimpleKeyValue> list = new ArrayList<FirmaSimpleKeyValue>();

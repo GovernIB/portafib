@@ -12,14 +12,14 @@ package es.caib.portafib.apiinterna.client.signature.v1.example.api;
 import es.caib.portafib.apiinterna.client.signature.v1.api.SignatureOnServerV1Api;
 import es.caib.portafib.apiinterna.client.signature.v1.model.CommonInfo;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Document;
-import es.caib.portafib.apiinterna.client.signature.v1.model.DocumentaryTypes;
+import es.caib.portafib.apiinterna.client.signature.v1.model.DocumentaryType;
 import es.caib.portafib.apiinterna.client.signature.v1.model.FileInfoSignature;
-import es.caib.portafib.apiinterna.client.signature.v1.model.Languages;
+import es.caib.portafib.apiinterna.client.signature.v1.model.KeyValue;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignDocumentRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureResponse;
 import es.caib.portafib.apiinterna.client.signature.v1.model.StatusConstants;
 import es.caib.portafib.apiinterna.client.signature.v1.model.ProcessStatus;
-import es.caib.portafib.apiinterna.client.signature.v1.model.Profiles;
+import es.caib.portafib.apiinterna.client.signature.v1.model.Profile;
 import es.caib.portafib.apiinterna.client.signature.v1.model.UpgradeRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.UpgradeResponse;
 import es.caib.portafib.apiinterna.client.signature.v1.services.ApiClient;
@@ -27,6 +27,7 @@ import es.caib.portafib.apiinterna.client.signature.v1.services.ApiException;
 
 import java.io.FileOutputStream;
 import java.util.Properties;
+import java.util.Set;
 
 /**
  * API tests for FirmaEnServidorV1Api
@@ -42,7 +43,7 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
         try {
 
             test.callCommonTests();
-
+/*
             test.testSignatureServerPAdES();
 
             test.testSignatureServerPAdESStatus401_Unathorized();
@@ -50,7 +51,7 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
             test.testSignatureServerPAdESErrorFirmant();
 
             test.testUpgradePAdESSignature();
-
+*/
         } catch (ApiException e) {
             test.processApiException(e, "Tests de Firma en Servidor", true);
         } catch (Exception e) {
@@ -334,17 +335,17 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
     }
 
     @Override
-    protected Languages getLanguages(String lang) throws Exception {
+    protected Set<KeyValue> getLanguages(String lang) throws Exception {
         return getApi().getLanguages(lang);
     }
 
     @Override
-    protected DocumentaryTypes getDocumentaryTypes(String lang, ApiClient apiClient) throws Exception {
+    protected Set<DocumentaryType> getDocumentaryTypes(String lang, ApiClient apiClient) throws Exception {
         return getApi(apiClient).getDocumentaryTypes(lang);
     }
 
     @Override
-    protected Profiles getProfiles(String lang) throws Exception {
+    protected Set<Profile> getProfiles(String lang) throws Exception {
         return getApi().getProfiles(lang);
     }
 

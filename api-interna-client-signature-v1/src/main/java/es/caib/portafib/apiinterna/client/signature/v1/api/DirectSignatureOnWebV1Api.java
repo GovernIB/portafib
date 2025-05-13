@@ -9,12 +9,13 @@ import javax.ws.rs.core.GenericType;
 
 import es.caib.portafib.apiinterna.client.signature.v1.model.AddFileToSignRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.CommonInfo;
-import es.caib.portafib.apiinterna.client.signature.v1.model.DocumentaryTypes;
+import es.caib.portafib.apiinterna.client.signature.v1.model.DocumentaryType;
 import es.caib.portafib.apiinterna.client.signature.v1.model.GetSignatureResultRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.GetTransactionStatusResponse;
-import es.caib.portafib.apiinterna.client.signature.v1.model.Languages;
-import es.caib.portafib.apiinterna.client.signature.v1.model.Profiles;
+import es.caib.portafib.apiinterna.client.signature.v1.model.KeyValue;
+import es.caib.portafib.apiinterna.client.signature.v1.model.Profile;
 import es.caib.portafib.apiinterna.client.signature.v1.model.RestExceptionInfo;
+import java.util.Set;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureResponse;
 import es.caib.portafib.apiinterna.client.signature.v1.model.StartTransactionRequest;
 
@@ -123,10 +124,10 @@ public class DirectSignatureOnWebV1Api {
    * Retorna una llista dels Tipus Documentals disponibles en el servidor: tipus documentals base, tipus documentals de l&#39;entitat i tipus documentals de l&#39;usuari aplicació
    * 
    * @param language Idioma en que s&#39;han de retornar les dades(Només suportat &#39;ca&#39; o &#39;es&#39;) (optional, default to ca)
-   * @return a {@code DocumentaryTypes}
+   * @return a {@code Set<DocumentaryType>}
    * @throws ApiException if fails to make API call
    */
-  public DocumentaryTypes getDocumentaryTypes(String language) throws ApiException {
+  public Set<DocumentaryType> getDocumentaryTypes(String language) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -155,17 +156,17 @@ public class DirectSignatureOnWebV1Api {
 
     String[] localVarAuthNames = new String[] { "BasicAuth" };
 
-    GenericType<DocumentaryTypes> localVarReturnType = new GenericType<DocumentaryTypes>() {};
+    GenericType<Set<DocumentaryType>> localVarReturnType = new GenericType<Set<DocumentaryType>>() {};
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
    * Retorna els idiomes disponibles.
    * 
    * @param language Idioma en que s&#39;han de retornar les dades(Només suportat &#39;ca&#39; o &#39;es&#39;) (optional, default to ca)
-   * @return a {@code Languages}
+   * @return a {@code Set<KeyValue>}
    * @throws ApiException if fails to make API call
    */
-  public Languages getLanguages(String language) throws ApiException {
+  public Set<KeyValue> getLanguages(String language) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -194,17 +195,17 @@ public class DirectSignatureOnWebV1Api {
 
     String[] localVarAuthNames = new String[] { "BasicAuth" };
 
-    GenericType<Languages> localVarReturnType = new GenericType<Languages>() {};
+    GenericType<Set<KeyValue>> localVarReturnType = new GenericType<Set<KeyValue>>() {};
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
    * Retorna els perfils de firma.
    * 
    * @param language Idioma en que s&#39;han de retornar les dades(Només suportat &#39;ca&#39; o &#39;es&#39;) (optional, default to ca)
-   * @return a {@code Profiles}
+   * @return a {@code Set<Profile>}
    * @throws ApiException if fails to make API call
    */
-  public Profiles getProfiles(String language) throws ApiException {
+  public Set<Profile> getProfiles(String language) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -233,7 +234,7 @@ public class DirectSignatureOnWebV1Api {
 
     String[] localVarAuthNames = new String[] { "BasicAuth" };
 
-    GenericType<Profiles> localVarReturnType = new GenericType<Profiles>() {};
+    GenericType<Set<Profile>> localVarReturnType = new GenericType<Set<Profile>>() {};
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**

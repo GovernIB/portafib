@@ -8,9 +8,11 @@ import java.security.cert.X509Certificate;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
@@ -48,12 +50,9 @@ import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.CommonInfo;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.Document;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.DocumentaryType;
-import es.caib.portafib.api.interna.secure.signature.v1.commons.DocumentaryTypes;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.KeyValue;
-import es.caib.portafib.api.interna.secure.signature.v1.commons.Languages;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.ProcessStatus;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.Profile;
-import es.caib.portafib.api.interna.secure.signature.v1.commons.Profiles;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignedFileInfo;
 import es.caib.portafib.api.interna.secure.signature.v1.directsignatureonweb.SignDocumentsRequest;
 import es.caib.portafib.api.interna.secure.signature.v1.signatureonserver.CustodyInfo;
@@ -97,7 +96,6 @@ import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-
 /**
  *
  * @author anadal(u80067)
@@ -117,7 +115,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
                         email = "firma@fundaciobit.org",
                         url = "https://governdigital.fundaciobit.org")))
 public abstract class AbstractSignatureService extends RestUtils {
-
 
     protected static final String TIPUS_WEB = "WEB";
 
@@ -140,7 +137,7 @@ public abstract class AbstractSignatureService extends RestUtils {
 
     @EJB(mappedName = UsuariAplicacioLogicaLocal.JNDI_NAME)
     protected UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
-    
+
     @EJB(mappedName = es.caib.portafib.ejb.IdiomaService.JNDI_NAME)
     protected es.caib.portafib.ejb.IdiomaService idiomaEjb;
 
@@ -207,10 +204,6 @@ public abstract class AbstractSignatureService extends RestUtils {
         }
 
     }
-
-
-
-
 
     protected String internalGetTransacction() {
         String transactionID = IdGeneratorFactory.getGenerator().generate();
@@ -284,8 +277,8 @@ public abstract class AbstractSignatureService extends RestUtils {
         return signAlgorithmID;
     }
 
-    protected PerfilDeFirma getPerfilDeFirma(CommonInfo commonInfo, final boolean esFirmaEnServidor,
-            String username) throws I18NException {
+    protected PerfilDeFirma getPerfilDeFirma(CommonInfo commonInfo, final boolean esFirmaEnServidor, String username)
+            throws I18NException {
 
         String codiPerfil = commonInfo.getSignProfile();
 
@@ -301,12 +294,6 @@ public abstract class AbstractSignatureService extends RestUtils {
         }
         return perfil;
     }
-
-
-
-  
-
-
 
     protected Document convertFitxerBeanToFirmaSimpleFile(FitxerBean fb) throws Exception {
 
@@ -332,11 +319,11 @@ public abstract class AbstractSignatureService extends RestUtils {
             String signID) throws Exception {
         FitxerBean fileToSign = new FitxerBean();
         fileToSign.setDescripcio(null);
-        if(asf.getMime()!=null) {
+        if (asf.getMime() != null) {
             final String mime = asf.getMime();
             fileToSign.setMime(mime);
         }
-        
+
         fileToSign.setNom(asf.getNom());
 
         byte[] data = asf.getData();
@@ -367,13 +354,11 @@ public abstract class AbstractSignatureService extends RestUtils {
         return folderTransaction;
     }
 
-    protected SignatureResponse convertPassarelaSignatureResult2FirmaSimpleSignatureResult(
-            PassarelaSignatureResult psr, PassarelaCommonInfoSignature commonInfo,
-            PassarelaFileInfoSignature infoSignature, ValidacioCompletaResponse infoValidacio,
-            boolean isSignatureInServer) throws Exception {
+    protected SignatureResponse convertPassarelaSignatureResult2FirmaSimpleSignatureResult(PassarelaSignatureResult psr,
+            PassarelaCommonInfoSignature commonInfo, PassarelaFileInfoSignature infoSignature,
+            ValidacioCompletaResponse infoValidacio, boolean isSignatureInServer) throws Exception {
 
-        ProcessStatus status = new ProcessStatus(psr.getStatus(), psr.getErrorMessage(),
-                psr.getErrorStackTrace());
+        ProcessStatus status = new ProcessStatus(psr.getStatus(), psr.getErrorMessage(), psr.getErrorStackTrace());
 
         SignedFileInfo sfi = null;
         Document file = null;
@@ -543,12 +528,11 @@ public abstract class AbstractSignatureService extends RestUtils {
             }
 
             SignerInfo signerInfo;
-            signerInfo = new SignerInfo(eniRolFirma, eniSignerName, eniSignerAdministrationId, eniSignLevel,
-                    signDate, serialNumberCert, issuerCert, subjectCert, additionInformation);
+            signerInfo = new SignerInfo(eniRolFirma, eniSignerName, eniSignerAdministrationId, eniSignLevel, signDate,
+                    serialNumberCert, issuerCert, subjectCert, additionInformation);
 
-            sfi = new SignedFileInfo(signOperation, signType, signAlgorithm, signMode,
-                    signaturesTableLocation, timeStampIncluded, policyIncluded, eniTipoFirma, eniPerfilFirma,
-                    signerInfo, custody, validation);
+            sfi = new SignedFileInfo(signOperation, signType, signAlgorithm, signMode, signaturesTableLocation,
+                    timeStampIncluded, policyIncluded, eniTipoFirma, eniPerfilFirma, signerInfo, custody, validation);
         }
 
         return new SignatureResponse(psr.getSignID(), status, file, sfi);
@@ -559,15 +543,15 @@ public abstract class AbstractSignatureService extends RestUtils {
      * Firma en Servidor
      */
     protected PassarelaSignaturesSet convertRestBean2PassarelaBeanServer(String transactionID,
-            SignDocumentRequest simpleSignature, String usuariAplicacio, EntitatJPA entitat,
-            PerfilDeFirma perfilFirma, Map<String, UsuariAplicacioConfiguracioJPA> configBySignID)
-            throws I18NException, I18NValidationException {
+            SignDocumentRequest simpleSignature, String usuariAplicacio, EntitatJPA entitat, PerfilDeFirma perfilFirma,
+            Map<String, UsuariAplicacioConfiguracioJPA> configBySignID) throws I18NException, I18NValidationException {
 
         final boolean esFirmaEnServidor = true;
 
         SignDocumentsRequest simpleSignaturesSet;
         simpleSignaturesSet = new SignDocumentsRequest(simpleSignature.getCommonInfo(),
-                new es.caib.portafib.api.interna.secure.signature.v1.commons.FileInfoSignature[] { simpleSignature.getFileInfoSignature() });
+                new es.caib.portafib.api.interna.secure.signature.v1.commons.FileInfoSignature[] {
+                        simpleSignature.getFileInfoSignature() });
 
         PassarelaSignaturesSet pss = convertRestBean2PassarelaBean(transactionID, simpleSignaturesSet,
                 esFirmaEnServidor, usuariAplicacio, entitat, perfilFirma, configBySignID);
@@ -591,9 +575,9 @@ public abstract class AbstractSignatureService extends RestUtils {
     }
 
     private PassarelaSignaturesSet convertRestBean2PassarelaBean(String transactionID,
-            SignDocumentsRequest simpleSignaturesSet, final boolean esFirmaEnServidor,
-            String usuariAplicacio, EntitatJPA entitat, PerfilDeFirma perfilFirma,
-            Map<String, UsuariAplicacioConfiguracioJPA> configBySignID) throws I18NException {
+            SignDocumentsRequest simpleSignaturesSet, final boolean esFirmaEnServidor, String usuariAplicacio,
+            EntitatJPA entitat, PerfilDeFirma perfilFirma, Map<String, UsuariAplicacioConfiguracioJPA> configBySignID)
+            throws I18NException {
 
         String languageUI = "ca";
 
@@ -648,30 +632,29 @@ public abstract class AbstractSignatureService extends RestUtils {
                     es.caib.portafib.api.interna.secure.signature.v1.commons.FileInfoSignature sfis = simpleFileInfoSignatureArray[i];
 
                     String signID = sfis.getSignID();
-                    log.info("------------SignID => "+signID);
-                    log.info("------------InfoSignatureArray => "+simpleFileInfoSignatureArray.length);
+                    log.info("------------SignID => " + signID);
+                    log.info("------------InfoSignatureArray => " + simpleFileInfoSignatureArray.length);
                     if (sfis.getFileToSign() != null) {
                         log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::sfis.getFileToSign() => "
                                 + sfis.getFileToSign());
-                    if (sfis.getFileToSign().getNom() != null)
-                        log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::sfis.getFileToSign().getNom() => "
-                                + sfis.getFileToSign().getNom());
-                    
+                        if (sfis.getFileToSign().getNom() != null)
+                            log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::sfis.getFileToSign().getNom() => "
+                                    + sfis.getFileToSign().getNom());
+
                     }
-                    if(sfis.getFileToSign() == null){
+                    if (sfis.getFileToSign() == null) {
                         log.info("ERROR => NO S'HA TROBAT FILE TO SIGN");
                         log.info("FileToSign =>");
                         log.info(simpleFileInfoSignatureArray[0].getFileToSign().getNom());
                     }
-                    
+
                     FitxerBean fileToSign = convertFirmaSimpleFileToFitxerBean(sfis.getFileToSign(), type,
                             transactionID, signID);
-                    if(fileToSign != null)
+                    if (fileToSign != null)
                         log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::fileToSign => " + fileToSign);
-                    if(fileToSign.getNom() != null)
-                    log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::fileToSign.getNom() => "
-                            + fileToSign.getNom());
-                    
+                    if (fileToSign.getNom() != null)
+                        log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::fileToSign.getNom() => "
+                                + fileToSign.getNom());
 
                     // XYZ ZZZ FALTA ENCARA NO SUPORTAT
                     FitxerBean prevSign = null;
@@ -863,13 +846,8 @@ public abstract class AbstractSignatureService extends RestUtils {
             }
         }
     }
-    
-    
 
-    
-    
-    
-/*
+    /*
     @Path(value = "/getDocumentaryTypes")
     @GET    
     @RolesAllowed({ Constants.PFI_WS })
@@ -894,11 +872,11 @@ public abstract class AbstractSignatureService extends RestUtils {
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON,
                             schema = @Schema(implementation = DocumentaryTypes.class))),
-
-            })*/
     
-    protected DocumentaryTypes commonOperationGetDocumentaryTypes(
-    HttpServletRequest request, String languageUI) throws RestException {
+            })*/
+
+    protected Set<DocumentaryType> commonOperationGetDocumentaryTypes(HttpServletRequest request, String languageUI)
+            throws RestException {
 
         log.info("\n\nXYZ ZZZ ZZZ  languageUI => ]" + languageUI + "[ \n\n");
 
@@ -925,7 +903,7 @@ public abstract class AbstractSignatureService extends RestUtils {
             List<TipusDocument> list = tipusDocumentEjb.select(whereTD,
                     new OrderBy(TipusDocumentFields.TIPUSDOCUMENTID));
 
-            List<DocumentaryType> tipus = new ArrayList<DocumentaryType>();
+            Set<DocumentaryType> tipus = new HashSet<DocumentaryType>();
             for (TipusDocument td : list) {
 
                 TraduccioMapJPA tramap;
@@ -940,12 +918,8 @@ public abstract class AbstractSignatureService extends RestUtils {
                 tipus.add(new DocumentaryType(id, nom, id_base));
             }
 
-            //HttpHeaders headers = addAccessControllAllowOrigin();
+            return tipus;
 
-            //ResponseEntity<List<FirmaSimpleDocumentTypeInformation>> res;
-            //res = new ResponseEntity<List<FirmaSimpleDocumentTypeInformation>>(tipus, headers, HttpStatus.OK);
-            DocumentaryTypes response = new DocumentaryTypes(tipus);
-            return response;
 
         } catch (I18NException i18ne) {
 
@@ -982,7 +956,7 @@ public abstract class AbstractSignatureService extends RestUtils {
      * Status.INTERNAL_SERVER_ERROR); }
      */
 
-/*
+    /*
     @Path("/getProfiles")
     @POST
     @RolesAllowed({ Constants.PFI_WS })
@@ -1007,17 +981,17 @@ public abstract class AbstractSignatureService extends RestUtils {
                             @ExampleObject(name = "Castellano", value = "es") },
                     schema = @Schema(defaultValue = "ca", implementation = String.class)) @QueryParam("language")
             String language) throws RestException { */
-    protected Profiles commonOperationGetProfiles(@Parameter(hidden = true) @Context
-            HttpServletRequest request,
-                    @Parameter(
-                            name = "language",
-                            description = "Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')",
-                            in = ParameterIn.QUERY,
-                            required = false,
-                            examples = { @ExampleObject(name = "Català", value = "ca"),
-                                    @ExampleObject(name = "Castellano", value = "es") },
-                            schema = @Schema(defaultValue = "ca", implementation = String.class)) @QueryParam("language")
-                    String language) throws RestException {
+    protected Set<Profile> commonOperationGetProfiles(@Parameter(hidden = true) @Context
+    HttpServletRequest request,
+            @Parameter(
+                    name = "language",
+                    description = "Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')",
+                    in = ParameterIn.QUERY,
+                    required = false,
+                    examples = { @ExampleObject(name = "Català", value = "ca"),
+                            @ExampleObject(name = "Castellano", value = "es") },
+                    schema = @Schema(defaultValue = "ca", implementation = String.class)) @QueryParam("language")
+            String language) throws RestException {
 
         log.info("XYZ ZZZ REST_SERVIDOR:: getAvailableProfiles() => ENTRA");
 
@@ -1031,7 +1005,7 @@ public abstract class AbstractSignatureService extends RestUtils {
         try {
 
             // FALTA ELEGIR ELS PERFILS QUE TENGUIN API_PORTAFIB_WS_V2
-            
+
             //String userApp = getUserApp(request);
             List<Long> perfilIDList = perfilsPerUsuariAplicacioEjb.executeQuery(
                     PerfilsPerUsuariAplicacioFields.PERFILDEFIRMAID,
@@ -1040,7 +1014,7 @@ public abstract class AbstractSignatureService extends RestUtils {
             List<PerfilDeFirma> perfils = perfilDeFirmaEjb
                     .select(PerfilDeFirmaFields.USUARIAPLICACIOPERFILID.in(perfilIDList));
 
-            List<Profile> data = new ArrayList<Profile>();
+            Set<Profile> profiles = new HashSet<Profile>();
 
             for (PerfilDeFirma perfil : perfils) {
 
@@ -1051,12 +1025,10 @@ public abstract class AbstractSignatureService extends RestUtils {
                 // Falta llegir-ho de la BBDD
                 Profile ap = new Profile(codiPerfil, perfil.getNom(), descripcio, null);
 
-                data.add(ap);
+                profiles.add(ap);
             }
 
-            Profiles availableProfiles = new Profiles(data);
-
-            return availableProfiles;
+            return profiles;
 
         } catch (Throwable th) {
 
@@ -1085,35 +1057,24 @@ public abstract class AbstractSignatureService extends RestUtils {
                             mediaType = MediaType.APPLICATION_JSON,
                             schema = @Schema(implementation = Languages.class))) })
     */
-    protected Languages commonOperationGetLanguages(HttpServletRequest request, String language) throws RestException {
+    protected Set<KeyValue> commonOperationGetLanguages(HttpServletRequest request, String language)
+            throws RestException {
 
         // Check Idioma
         language = RestUtils.checkLanguage(language);
 
         try {
-
-            
-           
-
-            // Check XYZ ZZZ languageUI
-            List<StringKeyValue> idiomes;
-
             SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(IdiomaFields.IDIOMAID.select,
                     IdiomaFields.NOM.select);
 
-            idiomes = idiomaEjb.executeQuery(smskv, IdiomaFields.SUPORTAT.equal(true));
+            List<StringKeyValue> idiomes = idiomaEjb.executeQuery(smskv, IdiomaFields.SUPORTAT.equal(true));
 
-            // List<FirmaAsyncSimpleKeyValue> list = new
-            // ArrayList<FirmaAsyncSimpleKeyValue>();
-
-            ArrayList<KeyValue> languages = new ArrayList<KeyValue>();
+            Set<KeyValue> languages = new HashSet<KeyValue>();
             for (StringKeyValue skv : idiomes) {
                 languages.add(new KeyValue(skv.getKey(), skv.getValue()));
             }
 
-            Languages response = new Languages();
-            response.setLanguages(languages);
-            return response;
+            return languages;
 
         } catch (I18NException i18ne) {
 
@@ -1132,10 +1093,7 @@ public abstract class AbstractSignatureService extends RestUtils {
         }
 
     }
-    
-    
-    
-    
+
     /**
      * obtenir versió d'aquest Servei Rest
      * 
