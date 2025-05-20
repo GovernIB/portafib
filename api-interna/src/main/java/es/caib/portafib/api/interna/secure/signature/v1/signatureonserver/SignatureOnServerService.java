@@ -35,6 +35,7 @@ import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureResponse
 import es.caib.portafib.api.interna.secure.signature.v1.AbstractSignatureService;
 import es.caib.portafib.api.interna.secure.signature.v1.CommonsSwaggerOperations;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.CommonInfo;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.CustodyInfo;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.Document;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.DocumentaryType;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.KeyValue;
@@ -47,7 +48,9 @@ import es.caib.portafib.api.interna.secure.signature.v1.commons.SignProfileConst
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignTypeConstants;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignaturesTableLocationConstants;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignedFileInfo;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.SignerInfo;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.StatusConstants;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.ValidationInfo;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.UsuariPersonaService;
 import es.caib.portafib.logic.EntitatLogicaLocal;
@@ -137,6 +140,9 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
                         @Content(
                                 mediaType = MediaType.APPLICATION_JSON,
                                 schema = @Schema(implementation = SignProfileConstants.class)),
+                        @Content(
+                                mediaType = MediaType.APPLICATION_JSON,
+                                schema = @Schema(implementation = StatusConstants.class)),
                         @Content(
                                 mediaType = MediaType.APPLICATION_JSON,
                                 schema = @Schema(implementation = RestExceptionInfo.class))}) })

@@ -1,6 +1,6 @@
 /*
- * API Interna de PortaFIB que ofereix serveis de firma web.
- * Conjunt de Serveis REST de PortaFIB per atendre peticions de firma a través de web de PortaFIB
+ * API Interna de PortaFIB que ofereix serveis de firma web immediada.
+ * Conjunt de Serveis REST de PortaFIB per atendre peticions de firma a través de web de forma immediata.
  *
  * The version of the OpenAPI document: 1.0-SNAPSHOT
  * Contact: otae@fundaciobit.org
@@ -31,8 +31,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  */
 @JsonPropertyOrder({
   ValidacioCompletaResponseCertificateLastSignPublicKey.JSON_PROPERTY_ENCODED,
-  ValidacioCompletaResponseCertificateLastSignPublicKey.JSON_PROPERTY_ALGORITHM,
-  ValidacioCompletaResponseCertificateLastSignPublicKey.JSON_PROPERTY_FORMAT
+  ValidacioCompletaResponseCertificateLastSignPublicKey.JSON_PROPERTY_FORMAT,
+  ValidacioCompletaResponseCertificateLastSignPublicKey.JSON_PROPERTY_ALGORITHM
 })
 @JsonTypeName("ValidacioCompletaResponse_certificateLastSign_publicKey")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -41,13 +41,13 @@ public class ValidacioCompletaResponseCertificateLastSignPublicKey {
   @javax.annotation.Nullable
   private List<byte[]> encoded = new ArrayList<>();
 
-  public static final String JSON_PROPERTY_ALGORITHM = "algorithm";
-  @javax.annotation.Nullable
-  private String algorithm;
-
   public static final String JSON_PROPERTY_FORMAT = "format";
   @javax.annotation.Nullable
   private String format;
+
+  public static final String JSON_PROPERTY_ALGORITHM = "algorithm";
+  @javax.annotation.Nullable
+  private String algorithm;
 
   public ValidacioCompletaResponseCertificateLastSignPublicKey() {
   }
@@ -85,31 +85,6 @@ public class ValidacioCompletaResponseCertificateLastSignPublicKey {
     this.encoded = encoded;
   }
 
-  public ValidacioCompletaResponseCertificateLastSignPublicKey algorithm(@javax.annotation.Nullable String algorithm) {
-    
-    this.algorithm = algorithm;
-    return this;
-  }
-
-  /**
-   * Get algorithm
-   * @return algorithm
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ALGORITHM)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getAlgorithm() {
-    return algorithm;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_ALGORITHM)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setAlgorithm(@javax.annotation.Nullable String algorithm) {
-    this.algorithm = algorithm;
-  }
-
   public ValidacioCompletaResponseCertificateLastSignPublicKey format(@javax.annotation.Nullable String format) {
     
     this.format = format;
@@ -135,6 +110,31 @@ public class ValidacioCompletaResponseCertificateLastSignPublicKey {
     this.format = format;
   }
 
+  public ValidacioCompletaResponseCertificateLastSignPublicKey algorithm(@javax.annotation.Nullable String algorithm) {
+    
+    this.algorithm = algorithm;
+    return this;
+  }
+
+  /**
+   * Get algorithm
+   * @return algorithm
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ALGORITHM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getAlgorithm() {
+    return algorithm;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ALGORITHM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAlgorithm(@javax.annotation.Nullable String algorithm) {
+    this.algorithm = algorithm;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -145,13 +145,13 @@ public class ValidacioCompletaResponseCertificateLastSignPublicKey {
     }
     ValidacioCompletaResponseCertificateLastSignPublicKey validacioCompletaResponseCertificateLastSignPublicKey = (ValidacioCompletaResponseCertificateLastSignPublicKey) o;
     return Objects.equals(this.encoded, validacioCompletaResponseCertificateLastSignPublicKey.encoded) &&
-        Objects.equals(this.algorithm, validacioCompletaResponseCertificateLastSignPublicKey.algorithm) &&
-        Objects.equals(this.format, validacioCompletaResponseCertificateLastSignPublicKey.format);
+        Objects.equals(this.format, validacioCompletaResponseCertificateLastSignPublicKey.format) &&
+        Objects.equals(this.algorithm, validacioCompletaResponseCertificateLastSignPublicKey.algorithm);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(encoded, algorithm, format);
+    return Objects.hash(encoded, format, algorithm);
   }
 
   @Override
@@ -159,8 +159,8 @@ public class ValidacioCompletaResponseCertificateLastSignPublicKey {
     StringBuilder sb = new StringBuilder();
     sb.append("class ValidacioCompletaResponseCertificateLastSignPublicKey {\n");
     sb.append("    encoded: ").append(toIndentedString(encoded)).append("\n");
-    sb.append("    algorithm: ").append(toIndentedString(algorithm)).append("\n");
     sb.append("    format: ").append(toIndentedString(format)).append("\n");
+    sb.append("    algorithm: ").append(toIndentedString(algorithm)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -157,6 +157,7 @@
                                 <package>es.caib.portafib.api.interna.secure.signature.v1.commons</package>
                                 <package>es.caib.portafib.api.interna.secure.signature.v1.signatureonserver</package>
                                 <package>es.caib.portafib.api.interna.secure.signature.v1.directsignatureonweb</package>
+                                <package>es.caib.portafib.api.interna.secure.signature.v1.asyncsignatureonweb</package>
                             </resourcePackages>
                             <!-- Esta es la clave para que Swagger incluya anotaciones heredadas -->
                             <resolveFully>true</resolveFully>

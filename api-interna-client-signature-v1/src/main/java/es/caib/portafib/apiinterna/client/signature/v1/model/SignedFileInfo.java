@@ -1,6 +1,6 @@
 /*
- * API Interna de PortaFIB que ofereix serveis de firma web.
- * Conjunt de Serveis REST de PortaFIB per atendre peticions de firma a través de web de PortaFIB
+ * API Interna de PortaFIB que ofereix serveis de firma web immediada.
+ * Conjunt de Serveis REST de PortaFIB per atendre peticions de firma a través de web de forma immediata.
  *
  * The version of the OpenAPI document: 1.0-SNAPSHOT
  * Contact: otae@fundaciobit.org
@@ -23,6 +23,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import es.caib.portafib.apiinterna.client.signature.v1.model.CustodyInfo;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignerInfo;
 import es.caib.portafib.apiinterna.client.signature.v1.model.ValidationInfo;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -39,7 +42,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   SignedFileInfo.JSON_PROPERTY_POLICY_INCLUDED,
   SignedFileInfo.JSON_PROPERTY_ENI_TIPO_FIRMA,
   SignedFileInfo.JSON_PROPERTY_ENI_PERFIL_FIRMA,
-  SignedFileInfo.JSON_PROPERTY_SIGNER_INFO,
+  SignedFileInfo.JSON_PROPERTY_SIGNERS,
   SignedFileInfo.JSON_PROPERTY_CUSTODY_INFO,
   SignedFileInfo.JSON_PROPERTY_VALIDATION_INFO
 })
@@ -81,9 +84,9 @@ public class SignedFileInfo {
   @javax.annotation.Nullable
   private String eniPerfilFirma;
 
-  public static final String JSON_PROPERTY_SIGNER_INFO = "signerInfo";
-  @javax.annotation.Nonnull
-  private SignerInfo signerInfo;
+  public static final String JSON_PROPERTY_SIGNERS = "signers";
+  @javax.annotation.Nullable
+  private List<SignerInfo> signers = new ArrayList<>();
 
   public static final String JSON_PROPERTY_CUSTODY_INFO = "custodyInfo";
   @javax.annotation.Nullable
@@ -321,29 +324,37 @@ public class SignedFileInfo {
     this.eniPerfilFirma = eniPerfilFirma;
   }
 
-  public SignedFileInfo signerInfo(@javax.annotation.Nonnull SignerInfo signerInfo) {
+  public SignedFileInfo signers(@javax.annotation.Nullable List<SignerInfo> signers) {
     
-    this.signerInfo = signerInfo;
+    this.signers = signers;
+    return this;
+  }
+
+  public SignedFileInfo addSignersItem(SignerInfo signersItem) {
+    if (this.signers == null) {
+      this.signers = new ArrayList<>();
+    }
+    this.signers.add(signersItem);
     return this;
   }
 
   /**
-   * Get signerInfo
-   * @return signerInfo
+   * Informació del signant o signants
+   * @return signers
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_SIGNER_INFO)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SIGNERS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public SignerInfo getSignerInfo() {
-    return signerInfo;
+  public List<SignerInfo> getSigners() {
+    return signers;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SIGNER_INFO)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setSignerInfo(@javax.annotation.Nonnull SignerInfo signerInfo) {
-    this.signerInfo = signerInfo;
+  @JsonProperty(JSON_PROPERTY_SIGNERS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSigners(@javax.annotation.Nullable List<SignerInfo> signers) {
+    this.signers = signers;
   }
 
   public SignedFileInfo custodyInfo(@javax.annotation.Nullable CustodyInfo custodyInfo) {
@@ -414,14 +425,14 @@ public class SignedFileInfo {
         Objects.equals(this.policyIncluded, signedFileInfo.policyIncluded) &&
         Objects.equals(this.eniTipoFirma, signedFileInfo.eniTipoFirma) &&
         Objects.equals(this.eniPerfilFirma, signedFileInfo.eniPerfilFirma) &&
-        Objects.equals(this.signerInfo, signedFileInfo.signerInfo) &&
+        Objects.equals(this.signers, signedFileInfo.signers) &&
         Objects.equals(this.custodyInfo, signedFileInfo.custodyInfo) &&
         Objects.equals(this.validationInfo, signedFileInfo.validationInfo);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(signOperation, signType, signAlgorithm, signMode, signaturesTableLocation, timeStampIncluded, policyIncluded, eniTipoFirma, eniPerfilFirma, signerInfo, custodyInfo, validationInfo);
+    return Objects.hash(signOperation, signType, signAlgorithm, signMode, signaturesTableLocation, timeStampIncluded, policyIncluded, eniTipoFirma, eniPerfilFirma, signers, custodyInfo, validationInfo);
   }
 
   @Override
@@ -437,7 +448,7 @@ public class SignedFileInfo {
     sb.append("    policyIncluded: ").append(toIndentedString(policyIncluded)).append("\n");
     sb.append("    eniTipoFirma: ").append(toIndentedString(eniTipoFirma)).append("\n");
     sb.append("    eniPerfilFirma: ").append(toIndentedString(eniPerfilFirma)).append("\n");
-    sb.append("    signerInfo: ").append(toIndentedString(signerInfo)).append("\n");
+    sb.append("    signers: ").append(toIndentedString(signers)).append("\n");
     sb.append("    custodyInfo: ").append(toIndentedString(custodyInfo)).append("\n");
     sb.append("    validationInfo: ").append(toIndentedString(validationInfo)).append("\n");
     sb.append("}");

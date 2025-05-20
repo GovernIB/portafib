@@ -1,4 +1,4 @@
-package es.caib.portafib.api.interna.secure.signature.v1.signatureonserver;
+package es.caib.portafib.api.interna.secure.signature.v1.commons;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;

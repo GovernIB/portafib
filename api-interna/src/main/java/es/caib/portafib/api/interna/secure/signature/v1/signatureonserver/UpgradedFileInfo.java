@@ -3,6 +3,7 @@ package es.caib.portafib.api.interna.secure.signature.v1.signatureonserver;
 import java.util.List;
 
 import es.caib.portafib.api.interna.secure.signature.v1.commons.KeyValue;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.ValidationInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 

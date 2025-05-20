@@ -77,8 +77,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Path(DirectSignatureOnWebService.PATH)
 @OpenAPIDefinition(
         info = @Info(
-                title = "API Interna de PortaFIB que ofereix serveis de firma web.",
-                description = "Conjunt de Serveis REST de PortaFIB per atendre peticions de firma a través de web de PortaFIB",
+                title = "API Interna de PortaFIB que ofereix serveis de firma web immediada.",
+                description = "Conjunt de Serveis REST de PortaFIB per atendre peticions de firma a través de web de forma immediata.",
                 version = "1.0-SNAPSHOT",
                 license = @License(
                         name = "European Union Public Licence (EUPL v1.2)",
@@ -87,7 +87,7 @@ import java.util.concurrent.ConcurrentHashMap;
                         name = "Departament de Govern Digital a la Fundació Bit",
                         email = "otae@fundaciobit.org",
                         url = "http://governdigital.fundaciobit.org")),
-        tags = @Tag(name = DirectSignatureOnWebService.TAG_NAME, description = "Firma Web Swagger v1"))
+        tags = @Tag(name = DirectSignatureOnWebService.TAG_NAME, description = "Firma Web Directa Swagger v1"))
 @SecurityScheme(type = SecuritySchemeType.HTTP, name = DirectSignatureOnWebService.SECURITY_NAME, scheme = "basic")
 @ApiResponses(
         value = {
@@ -122,6 +122,9 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
     public static final String PATH = "/secure/directsignatureonweb/v1";
 
+    /**
+     * IMPORTANT: Alerta a canviar aquest nom, ja que s'utilitza coma no de servei en el Client Swagger
+     */
     public static final String TAG_NAME = "DirectSignatureOnWeb v1";
 
     @EJB(mappedName = es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal.JNDI_NAME)

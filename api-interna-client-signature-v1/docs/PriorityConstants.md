@@ -1,0 +1,29 @@
+
+
+# PriorityConstants
+
+## Enum
+
+
+* `PRIORITY_PAUSED_PAUSADA` (value: `0`)
+
+* `PRIORITY_INSIGNIFICANT_INSIGNIFICANT` (value: `1`)
+
+* `PRIORITY_VERYLOW_MOLTBAIXA` (value: `2`)
+
+* `PRIORITY_LOW_BAIXA` (value: `3`)
+
+* `PRIORITY_NORMALLOW_NORMALBAIXA` (value: `4`)
+
+* `PRIORITY_NORMAL_NORMAL` (value: `5`)
+
+* `PRIORITY_NORMALHIGH_NORMALALTA` (value: `6`)
+
+* `PRIORITY_HIGH_ALTA` (value: `7`)
+
+* `PRIORITY_VERYHIGH_MOLTALTA` (value: `8`)
+
+* `PRIORITY_IMMEDIATE_INMEDIATA` (value: `9`)
+
+
+

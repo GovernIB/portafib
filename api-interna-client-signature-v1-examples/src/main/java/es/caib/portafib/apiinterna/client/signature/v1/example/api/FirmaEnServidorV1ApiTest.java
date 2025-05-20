@@ -43,15 +43,15 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
         try {
 
             test.callCommonTests();
-/*
+            /*
             test.testSignatureServerPAdES();
-
+            
             test.testSignatureServerPAdESStatus401_Unathorized();
-
+            
             test.testSignatureServerPAdESErrorFirmant();
-
+            
             test.testUpgradePAdESSignature();
-*/
+            */
         } catch (ApiException e) {
             test.processApiException(e, "Tests de Firma en Servidor", true);
         } catch (Exception e) {
@@ -189,21 +189,21 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
 
             int status = transactionStatus.getStatus();
 
-            if (status == (int)StatusConstants.STATUS_INITIALIZING.getValue()) {
+            if (status == (int) StatusConstants.STATUS_INITIALIZING.getValue()) {
                 throw new EstatFinalNoOK(status, "Rebut estat Initializing ...Unknown Error (???)");
 
-            } else if (status ==  (int)StatusConstants.STATUS_IN_PROGRESS.getValue()) {
+            } else if (status == (int) StatusConstants.STATUS_IN_PROGRESS.getValue()) {
                 throw new EstatFinalNoOK(status, "Rebut estat IN_PROGRESS ... Unknown Error (????) ");
 
-            } else if (status ==  (int)StatusConstants.STATUS_FINAL_ERROR.getValue()) {
+            } else if (status == (int) StatusConstants.STATUS_FINAL_ERROR.getValue()) {
 
                 throw new EstatFinalNoOK(status, "Rebut estat ERROR: " + transactionStatus.getErrorMessage(),
                         transactionStatus.getErrorStackTrace());
 
-            } else if (status ==  (int)StatusConstants.STATUS_CANCELLED.getValue()) {
+            } else if (status == (int) StatusConstants.STATUS_CANCELLED.getValue()) {
                 throw new EstatFinalNoOK(status, "Rebut estat CANCELED: S'ha cancel·lat el procés de firmat.");
 
-            } else if (status ==  (int)StatusConstants.STATUS_FINAL_OK.getValue()) {
+            } else if (status == (int) StatusConstants.STATUS_FINAL_OK.getValue()) {
 
                 System.out.println(" ===== RESULTAT  =========");
 

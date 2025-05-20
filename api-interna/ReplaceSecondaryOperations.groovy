@@ -13,6 +13,8 @@ def originalContent = openapiFile.getText("UTF-8")
 // Reemplaza "operationId": "xxxxx_1" por "operationId": "xxxxx"
 def modifiedContent = originalContent.replaceAll(/"operationId"\s*:\s*"([^"]+)_1"/, '"operationId": "$1"')
 
-openapiFile.write(modifiedContent, "UTF-8")
+def modifiedContent2 = modifiedContent.replaceAll(/"operationId"\s*:\s*"([^"]+)_2"/, '"operationId": "$1"')
+
+openapiFile.write(modifiedContent2, "UTF-8")
 
 println "✅ operationId secundarios reemplazados en: ${openapiFile.absolutePath}"

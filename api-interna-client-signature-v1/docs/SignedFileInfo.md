@@ -17,7 +17,7 @@ Informació del fitxer signat.
 |**policyIncluded** | **Boolean** | Indica si inclou política de firma (true, EPES) o no (false) |  |
 |**eniTipoFirma** | **String** | Denominación normalizada del tipo de firma. Los posibles valores asignables son los siguientes:       - TF01 - CSV       - TF02 - XAdES internally detached signature\&quot;);       - TF03 - XAdES enveloped signature.      - TF04 - CAdES detached/explicit signature.      - TF05 – CadES attached/implicit signature.      - TF06 - PAdES. El tipo TF04 será establecido por defecto para documentos firmados, exceptuando los documentos en formato PDF o PDF/A, cuyo tipo será TF06. |  [optional] |
 |**eniPerfilFirma** | **String** | Perfil empleado en una firma con certificado electrónico. Los posibles valores asignables son los siguientes:    AdES-BES    AdES-EPES    AdES-T    AdES-C    AdES-X    AdES-X1    AdES-X2    AdES-XL    AdES-XL1    AdES-XL2    AdES-A    PAdES-LTV    PAdES-Basic |  [optional] |
-|**signerInfo** | [**SignerInfo**](SignerInfo.md) |  |  |
+|**signers** | [**List&lt;SignerInfo&gt;**](SignerInfo.md) | Informació del signant o signants |  [optional] |
 |**custodyInfo** | [**CustodyInfo**](CustodyInfo.md) |  |  [optional] |
 |**validationInfo** | [**ValidationInfo**](ValidationInfo.md) |  |  [optional] |
 

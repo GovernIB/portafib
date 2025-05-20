@@ -1,10 +1,9 @@
-package es.caib.portafib.api.interna.secure.signature.v1.signatureonserver;
+package es.caib.portafib.api.interna.secure.signature.v1.commons;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import es.caib.portafib.api.interna.secure.signature.v1.commons.KeyValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 

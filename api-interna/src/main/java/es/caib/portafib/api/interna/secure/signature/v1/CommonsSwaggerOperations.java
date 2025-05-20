@@ -35,12 +35,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 public interface CommonsSwaggerOperations {
 
     public static final String SECURITY_NAME = "BasicAuth";
-    
-    
-    
+
     public static final String GETDOCUMENTARYTYPES_SUMMARY = "Retorna una llista dels Tipus Documentals disponibles en el servidor: tipus documentals base, tipus documentals de l'entitat i tipus documentals de l'usuari aplicació";
 
-    
     @Path(value = "/getDocumentaryTypes")
     @GET
     @RolesAllowed({ Constants.PFI_WS })
@@ -56,11 +53,11 @@ public interface CommonsSwaggerOperations {
             value = { @ApiResponse(
                     responseCode = "200",
                     description = "Operació realitzada correctament",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON,
-                                    array = @ArraySchema(
-                                            uniqueItems = true,
-                                            schema = @Schema(implementation = DocumentaryType.class)))),
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON,
+                            array = @ArraySchema(
+                                    uniqueItems = true,
+                                    schema = @Schema(implementation = DocumentaryType.class)))),
 
             })
     public Set<DocumentaryType> getDocumentaryTypes(@Parameter(hidden = true) @Context
@@ -74,7 +71,6 @@ public interface CommonsSwaggerOperations {
                             @ExampleObject(name = "Castellano", value = "es") },
                     schema = @Schema(defaultValue = "ca", implementation = String.class)) @QueryParam("language")
             String languageUI) throws RestException;
-    
 
     @Path("/getLanguages")
     @GET

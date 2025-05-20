@@ -405,6 +405,23 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
         return avaluarCondicio(usuariAplicacioID, perfilDeFirma, cfgUtils);
     }
 
+    @Override
+    public UsuariAplicacioConfiguracioJPA getConfiguracioFirmaPerApiFirmaSimpleWeb(String usuariAplicacioID,
+            PerfilDeFirma perfilDeFirma, ConfiguracioApiFirmaSimpleUtils configuracioApiFirmaSimpleUtils)
+            throws I18NException {
+
+        return avaluarCondicio(usuariAplicacioID, perfilDeFirma, configuracioApiFirmaSimpleUtils);
+    }
+
+    @Override
+    public UsuariAplicacioConfiguracioJPA getConfiguracioFirmaPerApiFirma(String usuariAplicacioID,
+            String perfilDeFirmaCodi, ConfiguracioCommonUtils configuracioCommonUtils) throws I18NException {
+
+        PerfilDeFirma perfilDeFirma = getPerfilDeFirma(usuariAplicacioID, perfilDeFirmaCodi);
+
+        return avaluarCondicio(usuariAplicacioID, perfilDeFirma, configuracioCommonUtils);
+    }
+
     protected UsuariAplicacioConfiguracioJPA avaluarCondicio(String usuariAplicacioID, PerfilDeFirma perfilDeFirma,
             ConfiguracioCommonUtils configuracioFirmaUtils) throws I18NException {
 

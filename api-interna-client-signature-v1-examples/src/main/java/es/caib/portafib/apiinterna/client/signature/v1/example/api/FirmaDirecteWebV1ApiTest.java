@@ -50,10 +50,10 @@ import es.caib.portafib.apiinterna.client.signature.v1.services.ApiException;
  * @author fbosch
  * 2 may 2025 12:16:15
  */
-public class FirmaWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureOnWebV1Api> {
+public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureOnWebV1Api> {
     
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        FirmaWebV1ApiTest test = new FirmaWebV1ApiTest();
+        FirmaDirecteWebV1ApiTest test = new FirmaDirecteWebV1ApiTest();
         try {
             
             test.callCommonTests();
@@ -161,6 +161,7 @@ public class FirmaWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureOnWebV1A
 
                 int status = fss.getStatus(); //fss.getSTATUS();
                 StatusConstants statusSign = StatusConstants.fromValue(status);
+                
 
                 switch (statusSign) {
                     case STATUS_INITIALIZING: //fss.getSTATUSINITIALIZING(): // = 0;
@@ -394,7 +395,7 @@ public class FirmaWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureOnWebV1A
 
         str.append("\n").append("      * eniTipoFirma:\t").append(sfi.getEniTipoFirma());
         str.append("\n").append("      * eniPerfilFirma:\t").append(sfi.getEniPerfilFirma());
-        SignerInfo fssfi = sfi.getSignerInfo();
+        SignerInfo fssfi = sfi.getSigners().get(0);
         str.append("\n").append("      * Informacio del Firmant:\t");
         if (fssfi == null) {
             str.append(" -- NO DISPONIBLE --\n");

@@ -1,12 +1,12 @@
 # portafib-api-interna-client-signature-v1
 
-API Interna de PortaFIB que ofereix serveis de firma web.
+API Interna de PortaFIB que ofereix serveis de firma web immediada.
 
 - API version: 1.0-SNAPSHOT
 
 - Generator version: 7.10.0
 
-Conjunt de Serveis REST de PortaFIB per atendre peticions de firma a través de web de PortaFIB
+Conjunt de Serveis REST de PortaFIB per atendre peticions de firma a través de web de forma immediata.
 
   For more information, please visit [http://governdigital.fundaciobit.org](http://governdigital.fundaciobit.org)
 
@@ -85,9 +85,9 @@ Please follow the [installation](#installation) instruction and execute the foll
 import es.caib.portafib.apiinterna.client.signature.v1.services.*;
 import es.caib.portafib.apiinterna.client.signature.v1.services.auth.*;
 import es.caib.portafib.apiinterna.client.signature.v1.model.*;
-import es.caib.portafib.apiinterna.client.signature.v1.api.DirectSignatureOnWebV1Api;
+import es.caib.portafib.apiinterna.client.signature.v1.api.AsyncSignatureOnWebV1Api;
 
-public class DirectSignatureOnWebV1ApiExample {
+public class AsyncSignatureOnWebV1ApiExample {
 
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
@@ -98,13 +98,13 @@ public class DirectSignatureOnWebV1ApiExample {
         BasicAuth.setUsername("YOUR USERNAME");
         BasicAuth.setPassword("YOUR PASSWORD");
 
-        DirectSignatureOnWebV1Api apiInstance = new DirectSignatureOnWebV1Api(defaultClient);
-        AddFileToSignRequest addFileToSignRequest = new AddFileToSignRequest(); // AddFileToSignRequest | Document a signar i dades específiques de la firma a realitzar.
+        AsyncSignatureOnWebV1Api apiInstance = new AsyncSignatureOnWebV1Api(defaultClient);
+        SignatureRequestWithFlowTemplateCode signatureRequestWithFlowTemplateCode = new SignatureRequestWithFlowTemplateCode(); // SignatureRequestWithFlowTemplateCode | Informació de la Petició de Firma a crear.
         try {
-            String result = apiInstance.addFileToSign(addFileToSignRequest);
+            Long result = apiInstance.createAndStartSignatureRequestWithFlowTemplateCode(signatureRequestWithFlowTemplateCode);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling DirectSignatureOnWebV1Api#addFileToSign");
+            System.err.println("Exception when calling AsyncSignatureOnWebV1Api#createAndStartSignatureRequestWithFlowTemplateCode");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -121,6 +121,17 @@ All URIs are relative to */portafibapi/interna*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AsyncSignatureOnWebV1Api* | [**createAndStartSignatureRequestWithFlowTemplateCode**](docs/AsyncSignatureOnWebV1Api.md#createAndStartSignatureRequestWithFlowTemplateCode) | **POST** /secure/asyncsignatureonweb/v1/createAndStartSignatureRequestWithFlowTemplateCode | Crea i posa en marxa una Petició de Firma a partir d&#39;una codi de Plantilla de Flux de Firmes previament creada al servidor
+*AsyncSignatureOnWebV1Api* | [**createAndStartSignatureRequestWithSignBlockList**](docs/AsyncSignatureOnWebV1Api.md#createAndStartSignatureRequestWithSignBlockList) | **POST** /secure/asyncsignatureonweb/v1/createAndStartSignatureRequestWithSignBlockList | Crea i posa en marxa una Petició de Firma a partir d&#39;una llista de Bloc de Firmes
+*AsyncSignatureOnWebV1Api* | [**deleteSignatureRequest**](docs/AsyncSignatureOnWebV1Api.md#deleteSignatureRequest) | **POST** /secure/asyncsignatureonweb/v1/deleteSignatureRequest | Retorna el Fitxer original amb el que es va crear la petició de firma.
+*AsyncSignatureOnWebV1Api* | [**getDocumentaryTypes**](docs/AsyncSignatureOnWebV1Api.md#getDocumentaryTypes) | **GET** /secure/asyncsignatureonweb/v1/getDocumentaryTypes | Retorna una llista dels Tipus Documentals disponibles en el servidor: tipus documentals base, tipus documentals de l&#39;entitat i tipus documentals de l&#39;usuari aplicació
+*AsyncSignatureOnWebV1Api* | [**getLanguages**](docs/AsyncSignatureOnWebV1Api.md#getLanguages) | **GET** /secure/asyncsignatureonweb/v1/getLanguages | Retorna els idiomes disponibles.
+*AsyncSignatureOnWebV1Api* | [**getOriginalFileOfSignatureRequest**](docs/AsyncSignatureOnWebV1Api.md#getOriginalFileOfSignatureRequest) | **POST** /secure/asyncsignatureonweb/v1/getOriginalFileOfSignatureRequest | Retorna el Fitxer original amb el que es va crear la petició de firma.
+*AsyncSignatureOnWebV1Api* | [**getProfiles**](docs/AsyncSignatureOnWebV1Api.md#getProfiles) | **GET** /secure/asyncsignatureonweb/v1/getProfiles | Retorna els perfils de firma.
+*AsyncSignatureOnWebV1Api* | [**getSignatureRequestState**](docs/AsyncSignatureOnWebV1Api.md#getSignatureRequestState) | **POST** /secure/asyncsignatureonweb/v1/getSignatureRequestState | Informació de l&#39;estat d&#39;una Petició de firma
+*AsyncSignatureOnWebV1Api* | [**getSignedFileOfSignatureRequest**](docs/AsyncSignatureOnWebV1Api.md#getSignedFileOfSignatureRequest) | **POST** /secure/asyncsignatureonweb/v1/getSignedFileOfSignatureRequest | Retorna el Fitxer Signat acompanyats de Informació de la Firma, Signants, custòdia i validacions realitzades.
+*AsyncSignatureOnWebV1Api* | [**getUrlToViewFlow**](docs/AsyncSignatureOnWebV1Api.md#getUrlToViewFlow) | **POST** /secure/asyncsignatureonweb/v1/getUrlToViewFlow | Obté una URL des de la que es pot visualitzar el diagrama de flux amb l&#39;estat de la petició (per emprar-la per exemple dins un \&quot;&lt;iframe&gt;\&quot;)
+*AsyncSignatureOnWebV1Api* | [**versio**](docs/AsyncSignatureOnWebV1Api.md#versio) | **GET** /secure/asyncsignatureonweb/v1/versio | Retorna la versió d&#39;aquest Servei
 *DirectSignatureOnWebV1Api* | [**addFileToSign**](docs/DirectSignatureOnWebV1Api.md#addFileToSign) | **POST** /secure/directsignatureonweb/v1/addFileToSign | Afegeix un document  al conjunt de Peticions de Firma a realitzar per l&#39;usuari.
 *DirectSignatureOnWebV1Api* | [**closeTransaction**](docs/DirectSignatureOnWebV1Api.md#closeTransaction) | **POST** /secure/directsignatureonweb/v1/closeTransaction | Indica al component de firma que la informació s’ha recuperat correctament i que pot fer neteja en el servidor.
 *DirectSignatureOnWebV1Api* | [**getDocumentaryTypes**](docs/DirectSignatureOnWebV1Api.md#getDocumentaryTypes) | **GET** /secure/directsignatureonweb/v1/getDocumentaryTypes | Retorna una llista dels Tipus Documentals disponibles en el servidor: tipus documentals base, tipus documentals de l&#39;entitat i tipus documentals de l&#39;usuari aplicació
@@ -142,32 +153,48 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [AddFileToSignRequest](docs/AddFileToSignRequest.md)
+ - [Annex](docs/Annex.md)
  - [CommonInfo](docs/CommonInfo.md)
  - [CustodyInfo](docs/CustodyInfo.md)
  - [Document](docs/Document.md)
  - [DocumentaryType](docs/DocumentaryType.md)
+ - [ExternalSigner](docs/ExternalSigner.md)
+ - [ExternalSignerSecurityLevel](docs/ExternalSignerSecurityLevel.md)
  - [FileInfoSignature](docs/FileInfoSignature.md)
  - [GetSignatureResultRequest](docs/GetSignatureResultRequest.md)
  - [GetTransactionStatusResponse](docs/GetTransactionStatusResponse.md)
  - [InformacioCertificat](docs/InformacioCertificat.md)
  - [KeyValue](docs/KeyValue.md)
+ - [Metadata](docs/Metadata.md)
+ - [PriorityConstants](docs/PriorityConstants.md)
  - [ProcessStatus](docs/ProcessStatus.md)
  - [Profile](docs/Profile.md)
  - [RestExceptionInfo](docs/RestExceptionInfo.md)
+ - [Reviser](docs/Reviser.md)
  - [SignAlgorithmConstants](docs/SignAlgorithmConstants.md)
  - [SignDocumentRequest](docs/SignDocumentRequest.md)
  - [SignModeConstants](docs/SignModeConstants.md)
  - [SignOperationConstants](docs/SignOperationConstants.md)
  - [SignProfileConstants](docs/SignProfileConstants.md)
  - [SignTypeConstants](docs/SignTypeConstants.md)
+ - [Signature](docs/Signature.md)
+ - [SignatureBlock](docs/SignatureBlock.md)
  - [SignatureCheck](docs/SignatureCheck.md)
  - [SignatureDetailInfo](docs/SignatureDetailInfo.md)
+ - [SignatureRequestInfo](docs/SignatureRequestInfo.md)
+ - [SignatureRequestState](docs/SignatureRequestState.md)
+ - [SignatureRequestStateConstants](docs/SignatureRequestStateConstants.md)
+ - [SignatureRequestWithFlowTemplateCode](docs/SignatureRequestWithFlowTemplateCode.md)
+ - [SignatureRequestWithSignBlockList](docs/SignatureRequestWithSignBlockList.md)
  - [SignatureResponse](docs/SignatureResponse.md)
  - [SignatureStatus](docs/SignatureStatus.md)
  - [SignaturesTableLocationConstants](docs/SignaturesTableLocationConstants.md)
+ - [SignedFile](docs/SignedFile.md)
  - [SignedFileInfo](docs/SignedFileInfo.md)
+ - [Signer](docs/Signer.md)
  - [SignerInfo](docs/SignerInfo.md)
  - [StartTransactionRequest](docs/StartTransactionRequest.md)
+ - [StatusConstants](docs/StatusConstants.md)
  - [TimeStampInfo](docs/TimeStampInfo.md)
  - [UpgradeRequest](docs/UpgradeRequest.md)
  - [UpgradeResponse](docs/UpgradeResponse.md)

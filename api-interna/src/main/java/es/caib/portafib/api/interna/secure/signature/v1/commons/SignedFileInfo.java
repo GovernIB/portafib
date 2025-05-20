@@ -1,8 +1,8 @@
 package es.caib.portafib.api.interna.secure.signature.v1.commons;
 
-import es.caib.portafib.api.interna.secure.signature.v1.signatureonserver.CustodyInfo;
-import es.caib.portafib.api.interna.secure.signature.v1.signatureonserver.SignerInfo;
-import es.caib.portafib.api.interna.secure.signature.v1.signatureonserver.ValidationInfo;
+import java.util.ArrayList;
+import java.util.List;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
@@ -287,13 +287,14 @@ public class SignedFileInfo {
             requiredMode = RequiredMode.REQUIRED)
     protected String signAlgorithm;
 
+    /**   TODO XYZ ZZZ  Actualitzar Informacio !!!!!!   **/
     @Schema(
             description = "Valors:\r\n"
                     + "    - 0: Implicit o Attached. La firma resultante incluye internamente una copia de los datos firmados. \r\n"
                     + "    - 1: Explicit o Detached: La firma resultante no incluye los datos firmados. ",
             example = "0",
             requiredMode = RequiredMode.REQUIRED)
-    protected Integer signMode;
+    protected int signMode;
 
     @Schema(
             description = "Posició de la Taula de firmes:\r\n" + "    - 0: Sense taula de firmes\r\n"
@@ -359,8 +360,8 @@ public class SignedFileInfo {
             requiredMode = RequiredMode.NOT_REQUIRED)
     protected String eniPerfilFirma;
 
-    @Schema(description = "Informació del signant", requiredMode = RequiredMode.NOT_REQUIRED)
-    protected SignerInfo signerInfo;
+    @Schema(description = "Informació del signant o signants", requiredMode = RequiredMode.NOT_REQUIRED)
+    protected List<SignerInfo> signers;
 
     /**
      * Informacio de Custòdia
@@ -380,7 +381,7 @@ public class SignedFileInfo {
         super();
     }
 
-    public SignedFileInfo(int signOperation, String signType, String signAlgorithm, Integer signMode,
+    public SignedFileInfo(int signOperation, String signType, String signAlgorithm, int signMode,
             int signaturesTableLocation, boolean timeStampIncluded, boolean policyIncluded, String eniTipoFirma,
             String eniPerfilFirma, SignerInfo signerInfo, CustodyInfo custodyInfo, ValidationInfo validationInfo) {
         super();
@@ -393,7 +394,27 @@ public class SignedFileInfo {
         this.policyIncluded = policyIncluded;
         this.eniTipoFirma = eniTipoFirma;
         this.eniPerfilFirma = eniPerfilFirma;
-        this.signerInfo = signerInfo;
+        this.signers = new ArrayList<SignerInfo>();
+        this.signers.add(signerInfo);
+        this.custodyInfo = custodyInfo;
+        this.validationInfo = validationInfo;
+    }
+
+    public SignedFileInfo(int signOperation, String signType, String signAlgorithm, int signMode,
+            int signaturesTableLocation, boolean timeStampIncluded, boolean policyIncluded, String eniTipoFirma,
+            String eniPerfilFirma, List<SignerInfo> signers, CustodyInfo custodyInfo,
+            ValidationInfo validationInfo) {
+        super();
+        this.signOperation = signOperation;
+        this.signType = signType;
+        this.signAlgorithm = signAlgorithm;
+        this.signMode = signMode;
+        this.signaturesTableLocation = signaturesTableLocation;
+        this.timeStampIncluded = timeStampIncluded;
+        this.policyIncluded = policyIncluded;
+        this.eniTipoFirma = eniTipoFirma;
+        this.eniPerfilFirma = eniPerfilFirma;
+        this.signers = signers;
         this.custodyInfo = custodyInfo;
         this.validationInfo = validationInfo;
     }
@@ -414,11 +435,11 @@ public class SignedFileInfo {
         this.signAlgorithm = signAlgorithm;
     }
 
-    public Integer getSignMode() {
+    public int getSignMode() {
         return signMode;
     }
 
-    public void setSignMode(Integer signMode) {
+    public void setSignMode(int signMode) {
         this.signMode = signMode;
     }
 
@@ -462,12 +483,12 @@ public class SignedFileInfo {
         this.eniPerfilFirma = eniPerfilFirma;
     }
 
-    public SignerInfo getSignerInfo() {
-        return signerInfo;
+    public List<SignerInfo> getSigners() {
+        return signers;
     }
 
-    public void setSignerInfo(SignerInfo signerInfo) {
-        this.signerInfo = signerInfo;
+    public void setSigners(List<SignerInfo> signers) {
+        this.signers = signers;
     }
 
     public CustodyInfo getCustodyInfo() {

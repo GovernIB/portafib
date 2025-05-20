@@ -83,7 +83,7 @@ public abstract class AbstractV1ApiTest<A> extends ProcessStatus {
         String p = prop.getProperty(propName);
         if (p == null) {
             throw new Exception(
-                    "No s'ha trobat la propietat " + propName + " al fitxer de configuració signature.properties");
+                    "No s'ha trobat la propietat " + propName + " al fitxer de configuració " + getConfigPropertiesFile());
         }
         return p;
     }
@@ -151,7 +151,7 @@ public abstract class AbstractV1ApiTest<A> extends ProcessStatus {
     protected Properties getConfigProperties() throws Exception {
         if (properties == null) {
 
-            File f = new File("./signature.properties");
+            File f = new File(getConfigPropertiesFile());
             if (!f.exists()) {
                 throw new Exception("No s'ha trobat el fitxer de configuració: " + f.getAbsolutePath());
             }
@@ -161,6 +161,10 @@ public abstract class AbstractV1ApiTest<A> extends ProcessStatus {
             properties = prop;
         }
         return properties;
+    }
+
+    protected String getConfigPropertiesFile() {
+        return "./signature.properties";
     }
 
     public static byte[] readDataFromFile(String fileName) throws FileNotFoundException, IOException {

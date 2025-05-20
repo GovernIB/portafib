@@ -3,6 +3,8 @@ package es.caib.portafib.logic;
 import es.caib.portafib.ejb.UsuariAplicacioConfiguracioService;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
+import es.caib.portafib.logic.utils.ConfiguracioApiFirmaSimpleUtils;
+import es.caib.portafib.logic.utils.ConfiguracioCommonUtils;
 import es.caib.portafib.logic.utils.PerfilConfiguracionsDeFirma;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 
@@ -43,6 +45,14 @@ public interface ConfiguracioUsuariAplicacioLogicaLocal extends
   public UsuariAplicacioConfiguracioJPA getConfiguracioFirmaPerApiFirmaAsyncSimple(
       String usuariAplicacioID,  String codiPerfil,
       FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest) throws I18NException;
+  
+  public UsuariAplicacioConfiguracioJPA getConfiguracioFirmaPerApiFirmaSimpleWeb(String usuariAplicacioID,
+          PerfilDeFirma perfilDeFirma, ConfiguracioApiFirmaSimpleUtils configuracioApiFirmaSimpleUtils)
+          throws I18NException;
+  
+  public UsuariAplicacioConfiguracioJPA getConfiguracioFirmaPerApiFirma(
+          String usuariAplicacioID,  String codiPerfil, ConfiguracioCommonUtils configuracioCommonUtils) throws I18NException;
+  
   
   public PerfilDeFirma getPerfilDeFirmaPerApiFirmaSimple(final String usuariAplicacioID,
       final boolean esFirmaEnServidor) throws I18NException;
