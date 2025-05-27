@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * Annex
+ * Objecte per afegir una annex a la Petició de firma. Actualment només s&#39;accepten combinacions de (attch&#x3D;true i sign&#x3D;true) o (attch&#x3D;false i sign&#x3D;false).
  */
 @JsonPropertyOrder({
   Annex.JSON_PROPERTY_ANNEX,
@@ -35,21 +35,21 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class Annex {
   public static final String JSON_PROPERTY_ANNEX = "annex";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private Document annex;
 
   public static final String JSON_PROPERTY_ATTACH = "attach";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private Boolean attach;
 
   public static final String JSON_PROPERTY_SIGN = "sign";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private Boolean sign;
 
   public Annex() {
   }
 
-  public Annex annex(@javax.annotation.Nullable Document annex) {
+  public Annex annex(@javax.annotation.Nonnull Document annex) {
     
     this.annex = annex;
     return this;
@@ -59,9 +59,9 @@ public class Annex {
    * Get annex
    * @return annex
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_ANNEX)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Document getAnnex() {
     return annex;
@@ -69,24 +69,24 @@ public class Annex {
 
 
   @JsonProperty(JSON_PROPERTY_ANNEX)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setAnnex(@javax.annotation.Nullable Document annex) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setAnnex(@javax.annotation.Nonnull Document annex) {
     this.annex = annex;
   }
 
-  public Annex attach(@javax.annotation.Nullable Boolean attach) {
+  public Annex attach(@javax.annotation.Nonnull Boolean attach) {
     
     this.attach = attach;
     return this;
   }
 
   /**
-   * Get attach
+   * Indica si s&#39;ha d&#39;adjuntar al PDF
    * @return attach
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_ATTACH)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Boolean getAttach() {
     return attach;
@@ -94,24 +94,24 @@ public class Annex {
 
 
   @JsonProperty(JSON_PROPERTY_ATTACH)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setAttach(@javax.annotation.Nullable Boolean attach) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setAttach(@javax.annotation.Nonnull Boolean attach) {
     this.attach = attach;
   }
 
-  public Annex sign(@javax.annotation.Nullable Boolean sign) {
+  public Annex sign(@javax.annotation.Nonnull Boolean sign) {
     
     this.sign = sign;
     return this;
   }
 
   /**
-   * Get sign
+   * Indica si s&#39;ha de signar també l&#39;annex
    * @return sign
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SIGN)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Boolean getSign() {
     return sign;
@@ -119,8 +119,8 @@ public class Annex {
 
 
   @JsonProperty(JSON_PROPERTY_SIGN)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSign(@javax.annotation.Nullable Boolean sign) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setSign(@javax.annotation.Nonnull Boolean sign) {
     this.sign = sign;
   }
 

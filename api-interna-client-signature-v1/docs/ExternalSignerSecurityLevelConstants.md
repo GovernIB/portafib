@@ -1,6 +1,6 @@
 
 
-# ExternalSignerSecurityLevel
+# ExternalSignerSecurityLevelConstants
 
 ## Enum
 

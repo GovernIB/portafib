@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * 19 may 2025 11:30:53
  */
 @Schema(
-        name = "ExternalSignerSecurityLevel",
         description = "Valors:\n"
                         + "TOKEN = 1;\r\n"
                         + "PASSWORD = 2;\r\n"
@@ -20,7 +19,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
         example = "TOKEN(token)"
                 + "|PASSWORD(contrasenya)"
                 + "|CERTIFICATE(certificat)")
-public enum ExternalSignerSecurityLevel {
+public enum ExternalSignerSecurityLevelConstants {
 /*
       public static final int SECURITY_LEVEL_TOKEN = 1;
   public static final int SECURITY_LEVEL_PASSWORD = 2;
@@ -31,7 +30,7 @@ public enum ExternalSignerSecurityLevel {
     
     public final Integer value;
 
-    ExternalSignerSecurityLevel(Integer value) {
+    ExternalSignerSecurityLevelConstants(Integer value) {
         this.value = value;
     }
 
@@ -44,8 +43,8 @@ public enum ExternalSignerSecurityLevel {
         return String.valueOf(value);
     }
 
-    public static ExternalSignerSecurityLevel fromValue(Integer value) {
-        for (ExternalSignerSecurityLevel b : ExternalSignerSecurityLevel.values()) {
+    public static ExternalSignerSecurityLevelConstants fromValue(Integer value) {
+        for (ExternalSignerSecurityLevelConstants b : ExternalSignerSecurityLevelConstants.values()) {
             if (b.value.equals(value)) {
                 return b;
             }

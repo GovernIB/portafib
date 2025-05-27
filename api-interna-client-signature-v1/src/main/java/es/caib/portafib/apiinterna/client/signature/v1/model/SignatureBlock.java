@@ -28,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * SignatureBlock
+ * Conjunt de firmes que es poden realitzar en paral·lel, o millor dit sense ordre.
  */
 @JsonPropertyOrder({
   SignatureBlock.JSON_PROPERTY_MINIMUM_NUMBER_OF_SIGNATURES_REQUIRED,
@@ -37,29 +37,29 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class SignatureBlock {
   public static final String JSON_PROPERTY_MINIMUM_NUMBER_OF_SIGNATURES_REQUIRED = "minimumNumberOfSignaturesRequired";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private Integer minimumNumberOfSignaturesRequired;
 
   public static final String JSON_PROPERTY_SIGNERS = "signers";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private List<Signature> signers = new ArrayList<>();
 
   public SignatureBlock() {
   }
 
-  public SignatureBlock minimumNumberOfSignaturesRequired(@javax.annotation.Nullable Integer minimumNumberOfSignaturesRequired) {
+  public SignatureBlock minimumNumberOfSignaturesRequired(@javax.annotation.Nonnull Integer minimumNumberOfSignaturesRequired) {
     
     this.minimumNumberOfSignaturesRequired = minimumNumberOfSignaturesRequired;
     return this;
   }
 
   /**
-   * Get minimumNumberOfSignaturesRequired
+   * Numero mínim de signatures per passar al següent bloc de firmes.
    * @return minimumNumberOfSignaturesRequired
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_MINIMUM_NUMBER_OF_SIGNATURES_REQUIRED)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getMinimumNumberOfSignaturesRequired() {
     return minimumNumberOfSignaturesRequired;
@@ -67,12 +67,12 @@ public class SignatureBlock {
 
 
   @JsonProperty(JSON_PROPERTY_MINIMUM_NUMBER_OF_SIGNATURES_REQUIRED)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMinimumNumberOfSignaturesRequired(@javax.annotation.Nullable Integer minimumNumberOfSignaturesRequired) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setMinimumNumberOfSignaturesRequired(@javax.annotation.Nonnull Integer minimumNumberOfSignaturesRequired) {
     this.minimumNumberOfSignaturesRequired = minimumNumberOfSignaturesRequired;
   }
 
-  public SignatureBlock signers(@javax.annotation.Nullable List<Signature> signers) {
+  public SignatureBlock signers(@javax.annotation.Nonnull List<Signature> signers) {
     
     this.signers = signers;
     return this;
@@ -87,12 +87,12 @@ public class SignatureBlock {
   }
 
   /**
-   * Get signers
+   * Llistat de firmes associades a aquest bloc.
    * @return signers
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SIGNERS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public List<Signature> getSigners() {
     return signers;
@@ -100,8 +100,8 @@ public class SignatureBlock {
 
 
   @JsonProperty(JSON_PROPERTY_SIGNERS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSigners(@javax.annotation.Nullable List<Signature> signers) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setSigners(@javax.annotation.Nonnull List<Signature> signers) {
     this.signers = signers;
   }
 

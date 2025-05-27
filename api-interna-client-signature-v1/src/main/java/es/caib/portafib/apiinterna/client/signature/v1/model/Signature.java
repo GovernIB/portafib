@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * Signature
+ * Definició d&#39;una Firma
  */
 @JsonPropertyOrder({
   Signature.JSON_PROPERTY_SIGNER,
@@ -41,11 +41,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class Signature {
   public static final String JSON_PROPERTY_SIGNER = "signer";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private Signer signer;
 
   public static final String JSON_PROPERTY_REQUIRED = "required";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private Boolean required;
 
   public static final String JSON_PROPERTY_REASON = "reason";
@@ -53,8 +53,8 @@ public class Signature {
   private String reason;
 
   public static final String JSON_PROPERTY_MINIMUM_NUMBER_OF_REVISERS = "minimumNumberOfRevisers";
-  @javax.annotation.Nullable
-  private Integer minimumNumberOfRevisers;
+  @javax.annotation.Nonnull
+  private Integer minimumNumberOfRevisers = 0;
 
   public static final String JSON_PROPERTY_REVISERS = "revisers";
   @javax.annotation.Nullable
@@ -63,7 +63,7 @@ public class Signature {
   public Signature() {
   }
 
-  public Signature signer(@javax.annotation.Nullable Signer signer) {
+  public Signature signer(@javax.annotation.Nonnull Signer signer) {
     
     this.signer = signer;
     return this;
@@ -73,9 +73,9 @@ public class Signature {
    * Get signer
    * @return signer
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SIGNER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Signer getSigner() {
     return signer;
@@ -83,24 +83,24 @@ public class Signature {
 
 
   @JsonProperty(JSON_PROPERTY_SIGNER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSigner(@javax.annotation.Nullable Signer signer) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setSigner(@javax.annotation.Nonnull Signer signer) {
     this.signer = signer;
   }
 
-  public Signature required(@javax.annotation.Nullable Boolean required) {
+  public Signature required(@javax.annotation.Nonnull Boolean required) {
     
     this.required = required;
     return this;
   }
 
   /**
-   * Get required
+   * És obligatori que aquesta persona firmi
    * @return required
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_REQUIRED)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Boolean getRequired() {
     return required;
@@ -108,8 +108,8 @@ public class Signature {
 
 
   @JsonProperty(JSON_PROPERTY_REQUIRED)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setRequired(@javax.annotation.Nullable Boolean required) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setRequired(@javax.annotation.Nonnull Boolean required) {
     this.required = required;
   }
 
@@ -120,7 +120,7 @@ public class Signature {
   }
 
   /**
-   * Get reason
+   * Raó de firma específica per aquesta firma. Sinó es defineix s&#39;utilitzarà la raó definida en la Petició de Firma.
    * @return reason
    */
   @javax.annotation.Nullable
@@ -138,19 +138,19 @@ public class Signature {
     this.reason = reason;
   }
 
-  public Signature minimumNumberOfRevisers(@javax.annotation.Nullable Integer minimumNumberOfRevisers) {
+  public Signature minimumNumberOfRevisers(@javax.annotation.Nonnull Integer minimumNumberOfRevisers) {
     
     this.minimumNumberOfRevisers = minimumNumberOfRevisers;
     return this;
   }
 
   /**
-   * Get minimumNumberOfRevisers
+   * Número mínim de revisors. Per defecte 0.
    * @return minimumNumberOfRevisers
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_MINIMUM_NUMBER_OF_REVISERS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getMinimumNumberOfRevisers() {
     return minimumNumberOfRevisers;
@@ -158,8 +158,8 @@ public class Signature {
 
 
   @JsonProperty(JSON_PROPERTY_MINIMUM_NUMBER_OF_REVISERS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMinimumNumberOfRevisers(@javax.annotation.Nullable Integer minimumNumberOfRevisers) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setMinimumNumberOfRevisers(@javax.annotation.Nonnull Integer minimumNumberOfRevisers) {
     this.minimumNumberOfRevisers = minimumNumberOfRevisers;
   }
 
@@ -178,7 +178,7 @@ public class Signature {
   }
 
   /**
-   * Get revisers
+   * Llistat de revisors de la Firma. Abans de que aquest destinatari firma, els revisors hauran d&#39;haver acceptat el document.
    * @return revisers
    */
   @javax.annotation.Nullable

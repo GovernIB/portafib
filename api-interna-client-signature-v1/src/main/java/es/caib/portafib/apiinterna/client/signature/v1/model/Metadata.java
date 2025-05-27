@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * Metadata
+ * Conté informació i valor d&#39;una Metadada
  */
 @JsonPropertyOrder({
   Metadata.JSON_PROPERTY_NAME,
@@ -35,11 +35,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class Metadata {
   public static final String JSON_PROPERTY_NAME = "name";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private String name;
 
   public static final String JSON_PROPERTY_VALUE = "value";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private String value;
 
   public static final String JSON_PROPERTY_DESCRIPTION = "description";
@@ -53,19 +53,19 @@ public class Metadata {
   public Metadata() {
   }
 
-  public Metadata name(@javax.annotation.Nullable String name) {
+  public Metadata name(@javax.annotation.Nonnull String name) {
     
     this.name = name;
     return this;
   }
 
   /**
-   * Get name
+   * Nom de la metadada
    * @return name
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getName() {
     return name;
@@ -73,24 +73,24 @@ public class Metadata {
 
 
   @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setName(@javax.annotation.Nullable String name) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
   }
 
-  public Metadata value(@javax.annotation.Nullable String value) {
+  public Metadata value(@javax.annotation.Nonnull String value) {
     
     this.value = value;
     return this;
   }
 
   /**
-   * Get value
+   * Valor de la metadada
    * @return value
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_VALUE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getValue() {
     return value;
@@ -98,8 +98,8 @@ public class Metadata {
 
 
   @JsonProperty(JSON_PROPERTY_VALUE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setValue(@javax.annotation.Nullable String value) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setValue(@javax.annotation.Nonnull String value) {
     this.value = value;
   }
 
@@ -110,7 +110,7 @@ public class Metadata {
   }
 
   /**
-   * Get description
+   * Descripció de la metadada
    * @return description
    */
   @javax.annotation.Nullable
@@ -135,7 +135,7 @@ public class Metadata {
   }
 
   /**
-   * Get type
+   * Format del valor de la metadada. Per defecte es considera un Sring. Els valors disponibles són:      • MetadataConstants.STRING.getValue() &#x3D; 0;       • MetadataConstants.INTEGER.getValue() &#x3D; 1;      • MetadataConstants. DECIMAL.getValue() &#x3D; 2;      • MetadataConstants.BOOLEAN.getValue() &#x3D; 3;      • MetadataConstants.BASE64.getValue() &#x3D; 4;      • MetadataConstants.DATE.getValue() &#x3D; 5; // ISO8601
    * @return type
    */
   @javax.annotation.Nullable

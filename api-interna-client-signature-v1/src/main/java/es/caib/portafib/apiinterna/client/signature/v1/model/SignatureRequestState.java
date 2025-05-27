@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * SignatureRequestState
+ * Informació de l&#39;estat d&#39;una Petició de Firma. Valors:      • SignatureRequestStateConstants.NOTSTARTET.getValue()&#x3D;0      • SignatureRequestStateConstants.RUNNING.getValue()&#x3D;1      • SignatureRequestStateConstants.PAUSED.getValue()&#x3D;2      • SignatureRequestStateConstants.REJECTED.getValue()&#x3D;3      • SignatureRequestStateConstants.SIGNED.getValue()&#x3D;4
  */
 @JsonPropertyOrder({
   SignatureRequestState.JSON_PROPERTY_STATE,
@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class SignatureRequestState {
   public static final String JSON_PROPERTY_STATE = "state";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private Integer state;
 
   public static final String JSON_PROPERTY_REJECTED_REASON = "rejectedReason";
@@ -43,19 +43,19 @@ public class SignatureRequestState {
   public SignatureRequestState() {
   }
 
-  public SignatureRequestState state(@javax.annotation.Nullable Integer state) {
+  public SignatureRequestState state(@javax.annotation.Nonnull Integer state) {
     
     this.state = state;
     return this;
   }
 
   /**
-   * Get state
+   * Estat de la Peticio de firma. Veure classe SignatureRequestStateConstants.
    * @return state
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_STATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getState() {
     return state;
@@ -63,8 +63,8 @@ public class SignatureRequestState {
 
 
   @JsonProperty(JSON_PROPERTY_STATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setState(@javax.annotation.Nullable Integer state) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setState(@javax.annotation.Nonnull Integer state) {
     this.state = state;
   }
 
@@ -75,7 +75,7 @@ public class SignatureRequestState {
   }
 
   /**
-   * Get rejectedReason
+   * Si l&#39;estat de la Petició de Firma és rebutjat llavors inclou raó de rebuig de la petició.
    * @return rejectedReason
    */
   @javax.annotation.Nullable

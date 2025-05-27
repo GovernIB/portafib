@@ -156,8 +156,10 @@ import java.util.TreeSet;
                                         schema = @Schema(implementation = SignatureRequestStateConstants.class)),
                                 @Content(
                                         mediaType = MediaType.APPLICATION_JSON,
-                                        schema = @Schema(implementation = ExternalSignerSecurityLevel.class))
-
+                                        schema = @Schema(implementation = ExternalSignerSecurityLevelConstants.class)),
+                                @Content(
+                                        mediaType = MediaType.APPLICATION_JSON,
+                                        schema = @Schema(implementation = MetadataConstants.class))
                                  }) })
 
 @RolesAllowed({ Constants.PFI_WS })
@@ -1531,33 +1533,34 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
 
     protected MetadadaJPA toJPA(Metadata metadada) {
         int type = metadada.getType();
+        MetadataConstants metadadaConstants = MetadataConstants.fromValue(type);
         MetadadaJPA metaJPA;
 
-        switch (type) {
+        switch (metadadaConstants) {
 
-            case Metadata.INTEGER:
+            case INTEGER:
                 metaJPA = new MetadadaJPA(metadada.getName(), metadada.getValue(), metadada.getDescription(), 0,
                         ConstantsV2.TIPUSMETADADA_INTEGER);
             break;
-            case Metadata.DECIMAL:
+            case DECIMAL:
                 metaJPA = new MetadadaJPA(metadada.getName(), metadada.getValue(), metadada.getDescription(), 0,
                         ConstantsV2.TIPUSMETADADA_DECIMAL);
             break;
-            case Metadata.BOOLEAN:
+            case BOOLEAN:
                 metaJPA = new MetadadaJPA(metadada.getName(), metadada.getValue(), metadada.getDescription(), 0,
                         ConstantsV2.TIPUSMETADADA_BOOLEAN);
             break;
-            case Metadata.BASE64:
+            case BASE64:
                 metaJPA = new MetadadaJPA(metadada.getName(), metadada.getValue(), metadada.getDescription(), 0,
                         ConstantsV2.TIPUSMETADADA_BASE64);
             break;
-            case Metadata.DATE: // ISO8601
+            case DATE: // ISO8601
                 metaJPA = new MetadadaJPA(metadada.getName(), metadada.getValue(), metadada.getDescription(), 0,
                         ConstantsV2.TIPUSMETADADA_DATE);
             break;
 
             default:
-            case Metadata.STRING:
+            case STRING:
                 metaJPA = new MetadadaJPA(metadada.getName(), metadada.getValue(), metadada.getDescription(), 0,
                         ConstantsV2.TIPUSMETADADA_STRING);
             break;

@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * Reviser
+ * Classe que representa un Revisor d&#39;una Firma. Només s&#39;ha d&#39;omplir un camp dels que conté.
  */
 @JsonPropertyOrder({
   Reviser.JSON_PROPERTY_POSITION_IN_THE_COMPANY,
@@ -52,7 +52,7 @@ public class Reviser {
   private String intermediateServerUsername;
 
   public static final String JSON_PROPERTY_REQUIRED = "required";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private Boolean required;
 
   public Reviser() {
@@ -65,7 +65,7 @@ public class Reviser {
   }
 
   /**
-   * Get positionInTheCompany
+   * Identificador que representa un Càrrec. Exemples: fundaciobit_gerent, caib_president, ...
    * @return positionInTheCompany
    */
   @javax.annotation.Nullable
@@ -90,7 +90,7 @@ public class Reviser {
   }
 
   /**
-   * Get administrationID
+   * Identificador administratiu. En el cas de PortaFIB serà NIF, NIE, ...
    * @return administrationID
    */
   @javax.annotation.Nullable
@@ -115,7 +115,7 @@ public class Reviser {
   }
 
   /**
-   * Get username
+   * Nom d&#39;usuari que té la persona en la corporació o entitat. Exemples: u806666 o anadal
    * @return username
    */
   @javax.annotation.Nullable
@@ -140,7 +140,7 @@ public class Reviser {
   }
 
   /**
-   * Get intermediateServerUsername
+   * ID intern del servidor intermedi (en el nostre cas PortaFIB). Exemples: fundaciobit_anadal, caib_u80067, ...
    * @return intermediateServerUsername
    */
   @javax.annotation.Nullable
@@ -158,19 +158,19 @@ public class Reviser {
     this.intermediateServerUsername = intermediateServerUsername;
   }
 
-  public Reviser required(@javax.annotation.Nullable Boolean required) {
+  public Reviser required(@javax.annotation.Nonnull Boolean required) {
     
     this.required = required;
     return this;
   }
 
   /**
-   * Get required
+   * Indica si aquesta revisió es obligatoria
    * @return required
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_REQUIRED)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Boolean getRequired() {
     return required;
@@ -178,8 +178,8 @@ public class Reviser {
 
 
   @JsonProperty(JSON_PROPERTY_REQUIRED)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setRequired(@javax.annotation.Nullable Boolean required) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setRequired(@javax.annotation.Nonnull Boolean required) {
     this.required = required;
   }
 

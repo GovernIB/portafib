@@ -576,7 +576,7 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
             log.info(" XYZ ZZZ ENTRA A getTransactionStatus => ]" + transactionID + "[");
 
-            checkUsuariAplicacio(request);
+            
 
             PassarelaSignatureStatus status;
             status = passarelaDeFirmaWebEjb.getStatusTransaction(transactionID);
@@ -618,7 +618,7 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
         } catch (Throwable th) {
             final String msg = "Error desconegut intentant recuperar informació de l'estat de la transacció: "
-                    + transactionID + ": " + th.getMessage();
+                    + transactionID + "(USRAPP: " + checkUsuariAplicacio(request) + "): " + th.getMessage();
 
             log.error(msg, th);
 

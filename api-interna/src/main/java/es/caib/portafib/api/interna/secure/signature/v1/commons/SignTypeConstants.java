@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * 6 may 2025 8:55:43
  */
 @Schema(
-        name = "SignTypeConstants",
         description = "Tipus de Firma. Valors possibles:\n" + "    - “PAdES” (Constant SIGN_TYPE_PADES)\n"
                 + "    - “XAdES” (Constant SIGN_TYPE_XADES)\n" + "    - “CAdES” (Constant SIGN_TYPE_CADES)\n"
                 + "    - “FacturaE” (Constant SIGN_TYPE_FACTURAE)\n" + "    - “OOXML” (Constant SIGN_TYPE_OOXML)\n"

@@ -2,6 +2,7 @@
 
 # ExternalSigner
 
+Dades d'un usuari extern
 
 ## Properties
 

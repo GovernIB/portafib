@@ -2,77 +2,87 @@ package es.caib.portafib.api.interna.secure.signature.v1.asyncsignatureonweb;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
- *
- * @author anadal(u80067)
- *
+ * 
+ * @author anadal
+ * 21 may 2025 8:19:25
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+@Schema(description = "Definició d'una Firma")
 public class Signature {
 
-  protected Signer signer;
-  protected boolean required;
-  protected String reason;
-  protected int minimumNumberOfRevisers; // Revisors;
-  protected List<Reviser> revisers;
+    @Schema(description = "Persona destinatària de la firma", requiredMode = RequiredMode.REQUIRED)
+    protected Signer signer;
 
-  public Signature() {
-    super();
-  }
+    @Schema(description = "És obligatori que aquesta persona firmi", requiredMode = RequiredMode.REQUIRED)
+    protected boolean required;
 
-  public Signature(Signer signer, boolean required,
-      String reason, int minimumNumberOfRevisers, List<Reviser> revisers) {
-    super();
-    this.signer = signer;
-    this.required = required;
-    this.reason = reason;
-    this.minimumNumberOfRevisers = minimumNumberOfRevisers;
-    this.revisers = revisers;
-  }
+    @Schema(
+            description = "Raó de firma específica per aquesta firma. Sinó es defineix s'utilitzarà la raó definida en la Petició de Firma.")
+    protected String reason;
 
-  public Signer getSigner() {
-    return signer;
-  }
+    @Schema(description = "Número mínim de revisors. Per defecte 0.", requiredMode = RequiredMode.REQUIRED,nullable = false, defaultValue = "0")
+    protected int minimumNumberOfRevisers; // Revisors;
 
-  public void setSigner(Signer signer) {
-    this.signer = signer;
-  }
+    @Schema(
+            description = "Llistat de revisors de la Firma. Abans de que aquest destinatari firma,"
+                    + " els revisors hauran d'haver acceptat el document.")
+    protected List<Reviser> revisers;
 
-  public boolean isRequired() {
-    return required;
-  }
+    public Signature() {
+        super();
+    }
 
-  public void setRequired(boolean required) {
-    this.required = required;
-  }
+    public Signature(Signer signer, boolean required, String reason, int minimumNumberOfRevisers,
+            List<Reviser> revisers) {
+        super();
+        this.signer = signer;
+        this.required = required;
+        this.reason = reason;
+        this.minimumNumberOfRevisers = minimumNumberOfRevisers;
+        this.revisers = revisers;
+    }
 
-  public String getReason() {
-    return reason;
-  }
+    public Signer getSigner() {
+        return signer;
+    }
 
-  public void setReason(String reason) {
-    this.reason = reason;
-  }
+    public void setSigner(Signer signer) {
+        this.signer = signer;
+    }
 
-  public int getMinimumNumberOfRevisers() {
-    return minimumNumberOfRevisers;
-  }
+    public boolean isRequired() {
+        return required;
+    }
 
-  public void setMinimumNumberOfRevisers(int minimumNumberOfRevisers) {
-    this.minimumNumberOfRevisers = minimumNumberOfRevisers;
-  }
+    public void setRequired(boolean required) {
+        this.required = required;
+    }
 
-  public List<Reviser> getRevisers() {
-    return revisers;
-  }
+    public String getReason() {
+        return reason;
+    }
 
-  public void setRevisers(List<Reviser> revisers) {
-    this.revisers = revisers;
-  }
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public int getMinimumNumberOfRevisers() {
+        return minimumNumberOfRevisers;
+    }
+
+    public void setMinimumNumberOfRevisers(int minimumNumberOfRevisers) {
+        this.minimumNumberOfRevisers = minimumNumberOfRevisers;
+    }
+
+    public List<Reviser> getRevisers() {
+        return revisers;
+    }
+
+    public void setRevisers(List<Reviser> revisers) {
+        this.revisers = revisers;
+    }
 
 }

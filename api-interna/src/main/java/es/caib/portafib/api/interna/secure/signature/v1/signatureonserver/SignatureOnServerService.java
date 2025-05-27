@@ -38,6 +38,7 @@ import es.caib.portafib.api.interna.secure.signature.v1.commons.CommonInfo;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.CustodyInfo;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.Document;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.DocumentaryType;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.DocumentaryTypeConstants;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.KeyValue;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.ProcessStatus;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.Profile;
@@ -143,6 +144,9 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
                         @Content(
                                 mediaType = MediaType.APPLICATION_JSON,
                                 schema = @Schema(implementation = StatusConstants.class)),
+                        @Content(
+                                mediaType = MediaType.APPLICATION_JSON,
+                                schema = @Schema(implementation = DocumentaryTypeConstants.class)),
                         @Content(
                                 mediaType = MediaType.APPLICATION_JSON,
                                 schema = @Schema(implementation = RestExceptionInfo.class))}) })

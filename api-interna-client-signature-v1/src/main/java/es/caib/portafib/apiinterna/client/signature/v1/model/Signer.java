@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * Signer
+ * Classe que representa un firmant. Només s&#39;ha d&#39;omplir un camp dels que conté.
  */
 @JsonPropertyOrder({
   Signer.JSON_PROPERTY_POSITION_IN_THE_COMPANY,
@@ -66,7 +66,7 @@ public class Signer {
   }
 
   /**
-   * Get positionInTheCompany
+   * Identificador que representa un Càrrec. Exemples: fundaciobit_gerent, caib_president, ...
    * @return positionInTheCompany
    */
   @javax.annotation.Nullable
@@ -91,7 +91,7 @@ public class Signer {
   }
 
   /**
-   * Get administrationID
+   * Identificador administratiu. En el cas de PortaFIB serà NIF, NIE, ...
    * @return administrationID
    */
   @javax.annotation.Nullable
@@ -116,7 +116,7 @@ public class Signer {
   }
 
   /**
-   * Get username
+   * Nom d&#39;usuari que té la persona en la corporació o entitat. Exemples: u806666 o anadal
    * @return username
    */
   @javax.annotation.Nullable
@@ -141,7 +141,7 @@ public class Signer {
   }
 
   /**
-   * Get intermediateServerUsername
+   * ID intern del servidor intermedi (en el nostre cas PortaFIB). Exemples: fundaciobit_anadal, caib_u80067, ...
    * @return intermediateServerUsername
    */
   @javax.annotation.Nullable

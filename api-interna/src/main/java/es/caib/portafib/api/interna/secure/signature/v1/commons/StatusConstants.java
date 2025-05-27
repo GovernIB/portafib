@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * 5 may 2025 15:06:23
  */
 @Schema(
-        name = "StatusConstants",
         description = "Valors:\r\n"
                 + "    • STATUS_INITIALIZING: Codi d'estat d'una petició de firma que indica un que s'esta inicialitzant.\n"
                 + "    • STATUS_IN_PROGRESS: Codi d'estat d'una petició de firma que indica un que esta en procés.\n"

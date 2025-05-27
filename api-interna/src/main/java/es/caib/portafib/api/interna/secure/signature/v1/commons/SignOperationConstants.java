@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * 6 may 2025 9:09:10
  */
 @Schema(
-        name = "SignOperationConstants",
         description = "Operació de firma realitzada: Firma (0), Cofirma (1) o Contrafirma (2).\r\n"
                 + "Les constants són:\r\n" + "    • SIGN_OPERATION_SIGN = 0;\r\n"
                 + "    • SIGN_OPERATION_COSIGN = 1;\r\n" + "    • SIGN_OPERATION_COUNTERSIGN = 2;",

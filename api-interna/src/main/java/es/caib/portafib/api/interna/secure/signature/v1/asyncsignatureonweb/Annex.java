@@ -1,22 +1,23 @@
 package es.caib.portafib.api.interna.secure.signature.v1.asyncsignatureonweb;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import es.caib.portafib.api.interna.secure.signature.v1.commons.Document;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 
  * @author anadal
  * 16 may 2025 11:13:33
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+@Schema(description = "Objecte per afegir una annex a la Petició de firma. Actualment només s'accepten combinacions de (attch=true i sign=true) o (attch=false i sign=false).")
 public class Annex {
 
+    @Schema(description = "Fitxer físic",  requiredMode = RequiredMode.REQUIRED)
     protected Document annex;
+    @Schema(description = "Indica si s'ha d'adjuntar al PDF",  requiredMode = RequiredMode.REQUIRED)
     protected boolean attach;
+    @Schema(description = "Indica si s'ha de signar també l'annex",  requiredMode = RequiredMode.REQUIRED)
     protected boolean sign;
 
     public Annex() {

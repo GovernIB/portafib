@@ -2,13 +2,14 @@
 
 # SignatureRequestInfo
 
+Estructura de dades per consultar Peticions de Firma existents
 
 ## Properties
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**signatureRequestID** | **Long** |  |  [optional] |
-|**languageUI** | **String** |  |  [optional] |
+|**signatureRequestID** | **Long** | Identificador de Peticio de firma |  |
+|**languageUI** | **String** | Idioma en que es vol que es retornin els missatges. |  |
 
 
 

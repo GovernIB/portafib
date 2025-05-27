@@ -1,8 +1,6 @@
 package es.caib.portafib.api.interna.secure.signature.v1.asyncsignatureonweb;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Revisor de Firmes
@@ -10,33 +8,33 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author anadal(u80067)
  *
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+@Schema(description = "Classe que representa un Revisor d'una Firma. Només s'ha d'omplir un camp dels que conté.")
 public class Reviser extends Person {
 
-  protected boolean required;
+    @Schema(description = "Indica si aquesta revisió es obligatoria", requiredMode = Schema.RequiredMode.REQUIRED)
+    protected boolean required;
 
-  public Reviser() {
-    super();
-  }
+    public Reviser() {
+        super();
+    }
 
-  public Reviser(Person persona, boolean required) {
-    this(persona.getPositionInTheCompany(), persona.getAdministrationID(), persona
-        .getUsername(), persona.getIntermediateServerUsername(), required);
-  }
+    public Reviser(Person persona, boolean required) {
+        this(persona.getPositionInTheCompany(), persona.getAdministrationID(), persona.getUsername(),
+                persona.getIntermediateServerUsername(), required);
+    }
 
-  public Reviser(String positionInTheCompany, String administrationID,
-      String username, String intermediateServerUsername, boolean required) {
-    super(positionInTheCompany, administrationID, username, intermediateServerUsername);
-    this.required = required;
-  }
+    public Reviser(String positionInTheCompany, String administrationID, String username,
+            String intermediateServerUsername, boolean required) {
+        super(positionInTheCompany, administrationID, username, intermediateServerUsername);
+        this.required = required;
+    }
 
-  public boolean isRequired() {
-    return required;
-  }
+    public boolean isRequired() {
+        return required;
+    }
 
-  public void setRequired(boolean required) {
-    this.required = required;
-  }
+    public void setRequired(boolean required) {
+        this.required = required;
+    }
 
 }

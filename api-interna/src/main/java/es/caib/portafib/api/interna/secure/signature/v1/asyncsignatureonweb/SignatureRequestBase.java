@@ -2,6 +2,9 @@ package es.caib.portafib.api.interna.secure.signature.v1.asyncsignatureonweb;
 
 import java.util.List;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.Document;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.DocumentaryTypeConstants;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * 
@@ -10,76 +13,84 @@ import es.caib.portafib.api.interna.secure.signature.v1.commons.Document;
  */
 public class SignatureRequestBase {
 
-    
-    /** XYZ ZZZ  TODO FALTA PASSAR A ENUM **/
-    public static final long DOCUMENT_TYPE_RESOLUCIO = 1; // TD01
-    public static final long DOCUMENT_TYPE_ACORD = 2; // TD02
-    public static final long DOCUMENT_TYPE_CONTRACTE = 3; // ...
-    public static final long DOCUMENT_TYPE_CONVENI = 4;
-    public static final long DOCUMENT_TYPE_DECLARACIO = 5;
-    public static final long DOCUMENT_TYPE_COMUNICACIO = 6;
-    public static final long DOCUMENT_TYPE_NOTIFICACIO = 7;
-    public static final long DOCUMENT_TYPE_PUBLICACIO = 8;
-    public static final long DOCUMENT_TYPE_JUSTIFICANT_RECEPCIO = 9;
-    public static final long DOCUMENT_TYPE_ACTA = 10;
-    public static final long DOCUMENT_TYPE_CERTIFICAT = 11;
-    public static final long DOCUMENT_TYPE_DILIGENCIA = 12;
-    public static final long DOCUMENT_TYPE_INFORME = 13;
-    public static final long DOCUMENT_TYPE_SOLICITUD = 14;
-    public static final long DOCUMENT_TYPE_DENUNCIA = 15;
-    public static final long DOCUMENT_TYPE_ALEGACIO = 16;
-    public static final long DOCUMENT_TYPE_RECURS = 17;
-    public static final long DOCUMENT_TYPE_COMUNICACIO_CIUTADA = 18;
-    public static final long DOCUMENT_TYPE_FACTURA = 19; // TD19
-    public static final long DOCUMENT_TYPE_ALTRES_INCAUTATS = 20; // TD20
-    public static final long DOCUMENT_TYPE_ALTRES = 99; // TD99
-
-    
-    /** XYZ ZZZ  TODO FALTA PASSAR A ENUM 
-    public static final int PRIORITY_PAUSED_PAUSADA = 0; // Prioritat Pausada
-    public static final int PRIORITY_INSIGNIFICANT_INSIGNIFICANT = 1; // =Prioritat Insignificant
-    public static final int PRIORITY_VERYLOW_MOLTBAIXA = 2; // =Prioritat Molt Baixa
-    public static final int PRIORITY_LOW_BAIXA = 3; // =Prioritat Baixa
-    public static final int PRIORITY_NORMALLOW_NORMALBAIXA = 4; // =Prioritat Normal-Baixa
-    public static final int PRIORITY_NORMAL_NORMAL = 5; // =Prioritat Normal
-    public static final int PRIORITY_NORMALHIGH_NORMALALTA = 6; // =Prioritat Normal-Alta
-    public static final int PRIORITY_HIGH_ALTA = 7; // =Prioritat Alta
-    public static final int PRIORITY_VERYHIGH_MOLTALTA = 8; // =Prioritat Molt Alta
-    public static final int PRIORITY_IMMEDIATE_INMEDIATA = 9; // =Prioritat Immediata**/
-
-    /** XYZ ZZZ  TODO FALTA PASSAR A ENUM **/
-    public static final String LANGUAGE_CA = "ca"; // Català
-    public static final String LANGUAGE_ES = "es"; // Castellano
-
+    @Schema(
+            description = "Perfil a utilitzar per la Firma.Consultar amb administrador del PortaFirmes",
+            requiredMode = RequiredMode.REQUIRED)
     protected String profileCode;
 
-    protected String title;
-    protected String description;
-    protected String reason;
+    @Schema(description = "Document a signar", requiredMode = RequiredMode.REQUIRED)
     protected Document fileToSign;
+
+    @Schema(description = "Només per CAdES i XAdEs Detached amb firma prèvia")
     protected Document originalDetachedSignature;
-    protected long documentType = DOCUMENT_TYPE_ALTRES;
+
+    @Schema(description = "Títol de la Petició de Firma", requiredMode = RequiredMode.REQUIRED)
+    protected String title;
+
+    @Schema(description = "Descripció de la Petició de Firma", requiredMode = RequiredMode.REQUIRED)
+    protected String description;
+
+    @Schema(description = "Raó de la realització de la firma", requiredMode = RequiredMode.REQUIRED)
+    protected String reason;
+
+    @Schema(
+            description = "Identificador de Tipus de Document.Els valors base s poden obtenir de l'enumeració"
+                    + " DocumentaryTypeConstants però es recomana fer una consulta al mètode getDocumentaryTypes()",
+            requiredMode = RequiredMode.REQUIRED)
+    protected long documentType = DocumentaryTypeConstants.ALTRES.getValue();
+
+    @Schema(description = "Descripció detallada del Tipus documental.")
     protected String documentTypeDescription; // Quan tipus es TD99
 
+    @Schema(
+            description = "Idioma en que està escrit el document.Valors són 'es' o 'ca' però es realitzar "
+                    + "una cridada al mètode getLanguages()",
+            requiredMode = RequiredMode.REQUIRED)
     protected String languageDoc;
+
+    @Schema(description = "Idioma de la interficie d'usuari (es o ca)", requiredMode = RequiredMode.REQUIRED)
     protected String languageUI;
+
+    @Schema(
+            description = "Prioritat de la Petició. Veure enumeració PriorityConstants.",
+            requiredMode = RequiredMode.REQUIRED)
     protected int priority;
 
+    @Schema(description = "Nom de la persona/aplicació que envia la petició.", requiredMode = RequiredMode.REQUIRED)
     protected String senderName;
+
+    @Schema(
+            description = "Descripció de la persona o responsable de l'aplicació que envia la petició."
+                    + " Es sol posar el correu electronic de la persona que que envia la petició.")
     protected String senderDescription;
 
+    @Schema(description = "Codi de l'expedient")
     protected String expedientCode;
+
+    @Schema(description = "Nom de l'expedient")
     protected String expedientName;
+
+    @Schema(description = "URL de l'expedient")
     protected String expedientUrl;
 
+    @Schema(description = "Codi del Procediment ")
     protected String procedureCode;
+
+    @Schema(description = "Nom del Procediment")
     protected String procedureName;
 
+    @Schema(description = "Informació Addicional")
     protected String additionalInformation;
+
+    @Schema(
+            description = "Informació Addicional avauluable. Per exemple en documents de tipus factura"
+                    + " en aquest camp s'insereix la quantitat final de la factura.")
     protected Double additionalInformationEvaluable;
 
+    @Schema(description = "Llista de document annexes a la petició de firma")
     protected List<Annex> annexs = null;
 
+    @Schema(description = "Llista de Metadades associades a la Petició de Firma")
     protected List<Metadata> metadadaList = null;
 
     public SignatureRequestBase() {

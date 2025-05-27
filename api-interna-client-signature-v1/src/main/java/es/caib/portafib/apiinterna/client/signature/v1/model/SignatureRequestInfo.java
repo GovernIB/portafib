@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * SignatureRequestInfo
+ * Estructura de dades per consultar Peticions de Firma existents
  */
 @JsonPropertyOrder({
   SignatureRequestInfo.JSON_PROPERTY_SIGNATURE_REQUEST_I_D,
@@ -33,29 +33,29 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class SignatureRequestInfo {
   public static final String JSON_PROPERTY_SIGNATURE_REQUEST_I_D = "signatureRequestID";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private Long signatureRequestID;
 
   public static final String JSON_PROPERTY_LANGUAGE_U_I = "languageUI";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private String languageUI;
 
   public SignatureRequestInfo() {
   }
 
-  public SignatureRequestInfo signatureRequestID(@javax.annotation.Nullable Long signatureRequestID) {
+  public SignatureRequestInfo signatureRequestID(@javax.annotation.Nonnull Long signatureRequestID) {
     
     this.signatureRequestID = signatureRequestID;
     return this;
   }
 
   /**
-   * Get signatureRequestID
+   * Identificador de Peticio de firma
    * @return signatureRequestID
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SIGNATURE_REQUEST_I_D)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Long getSignatureRequestID() {
     return signatureRequestID;
@@ -63,24 +63,24 @@ public class SignatureRequestInfo {
 
 
   @JsonProperty(JSON_PROPERTY_SIGNATURE_REQUEST_I_D)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSignatureRequestID(@javax.annotation.Nullable Long signatureRequestID) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setSignatureRequestID(@javax.annotation.Nonnull Long signatureRequestID) {
     this.signatureRequestID = signatureRequestID;
   }
 
-  public SignatureRequestInfo languageUI(@javax.annotation.Nullable String languageUI) {
+  public SignatureRequestInfo languageUI(@javax.annotation.Nonnull String languageUI) {
     
     this.languageUI = languageUI;
     return this;
   }
 
   /**
-   * Get languageUI
+   * Idioma en que es vol que es retornin els missatges.
    * @return languageUI
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_LANGUAGE_U_I)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getLanguageUI() {
     return languageUI;
@@ -88,8 +88,8 @@ public class SignatureRequestInfo {
 
 
   @JsonProperty(JSON_PROPERTY_LANGUAGE_U_I)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setLanguageUI(@javax.annotation.Nullable String languageUI) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setLanguageUI(@javax.annotation.Nonnull String languageUI) {
     this.languageUI = languageUI;
   }
 

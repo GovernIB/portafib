@@ -1,33 +1,31 @@
 package es.caib.portafib.api.interna.secure.signature.v1.asyncsignatureonweb;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 
- * @author anadal(u80067)
- *
+ * @author anadal
+ * 20 may 2025 14:48:19
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+@Schema(description = "Classe que representa un firmant. Només s'ha d'omplir un camp dels que conté.")
 public class Signer extends Person {
 
-  /**
-   * Dades d'un usuari extern
-   */
-  protected ExternalSigner externalSigner;
+    /**
+     * Dades d'un usuari extern
+     */
+    @Schema(description = "Dades d'un usuari extern", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    protected ExternalSigner externalSigner;
 
-  public Signer() {
-    super();
-  }
+    public Signer() {
+        super();
+    }
 
-  public ExternalSigner getExternalSigner() {
-    return externalSigner;
-  }
+    public ExternalSigner getExternalSigner() {
+        return externalSigner;
+    }
 
-  public void setExternalSigner(ExternalSigner externalSigner) {
-    this.externalSigner = externalSigner;
-  }
+    public void setExternalSigner(ExternalSigner externalSigner) {
+        this.externalSigner = externalSigner;
+    }
 
 }

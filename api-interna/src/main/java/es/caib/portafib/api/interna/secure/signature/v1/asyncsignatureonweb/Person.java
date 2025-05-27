@@ -1,8 +1,7 @@
 package es.caib.portafib.api.interna.secure.signature.v1.asyncsignatureonweb;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
 /**
  * Identificador de persona. Només s'ha d'omplir un camp.
@@ -10,73 +9,83 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author anadal(u80067)
  *
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Person {
 
-  /**
-   * Identificador de Càrrec: fundaciobit_gerent, caib_president, ...
-   */
-  protected String positionInTheCompany;
+    /**
+     * Identificador de Càrrec: fundaciobit_gerent, caib_president, ...
+     */
+    @Schema(
+            description = "Identificador que representa un Càrrec. Exemples: fundaciobit_gerent, caib_president, ...",
+            requiredMode = RequiredMode.NOT_REQUIRED)
+    protected String positionInTheCompany;
 
-  /**
-   * NIF
-   */
-  protected String administrationID;
+    /**
+     * NIF
+     */
+    @Schema(
+            description = "Identificador administratiu. En el cas de PortaFIB serà NIF, NIE, ...",
+            requiredMode = RequiredMode.NOT_REQUIRED)
+    protected String administrationID;
 
-  /**
-   * Nom d'usuari: u80067 o anadal
-   */
-  protected String username;
+    /**
+     * Nom d'usuari: u806666 o anadal
+     */
+    @Schema(
+            description = "Nom d'usuari que té la persona en la corporació o entitat. Exemples: u806666 o anadal",
+            requiredMode = RequiredMode.NOT_REQUIRED)
+    protected String username;
 
-  /**
-   * ID del servidor intermedi(PortaFIB): fundaciobit_anadal, caib_u80067
-   */
-  protected String intermediateServerUsername;
+    /**
+     * ID del servidor intermedi(PortaFIB): fundaciobit_anadal, caib_u80067
+     */
+    @Schema(
+            description = "ID intern del servidor intermedi (en el nostre cas PortaFIB). Exemples: fundaciobit_anadal, caib_u80067, ...",
+            requiredMode = RequiredMode.NOT_REQUIRED)
+    protected String intermediateServerUsername;
 
-  public Person() {
-    super();
-  }
+    public Person() {
+        super();
+    }
 
-  public Person(String positionInTheCompany, String administrationID,
-      String username, String intermediateServerUsername) {
-    super();
-    this.positionInTheCompany = positionInTheCompany;
-    this.administrationID = administrationID;
-    this.username = username;
-    this.intermediateServerUsername = intermediateServerUsername;
-  }
+    public Person(String positionInTheCompany, String administrationID, String username,
+            String intermediateServerUsername) {
+        super();
+        this.positionInTheCompany = positionInTheCompany;
+        this.administrationID = administrationID;
+        this.username = username;
+        this.intermediateServerUsername = intermediateServerUsername;
+    }
 
-  public String getPositionInTheCompany() {
-    return positionInTheCompany;
-  }
+    public String getPositionInTheCompany() {
+        return positionInTheCompany;
+    }
 
-  public void setPositionInTheCompany(String positionInTheCompany) {
-    this.positionInTheCompany = positionInTheCompany;
-  }
+    public void setPositionInTheCompany(String positionInTheCompany) {
+        this.positionInTheCompany = positionInTheCompany;
+    }
 
-  public String getAdministrationID() {
-    return administrationID;
-  }
+    public String getAdministrationID() {
+        return administrationID;
+    }
 
-  public void setAdministrationID(String administrationID) {
-    this.administrationID = administrationID;
-  }
+    public void setAdministrationID(String administrationID) {
+        this.administrationID = administrationID;
+    }
 
-  public String getUsername() {
-    return username;
-  }
+    public String getUsername() {
+        return username;
+    }
 
-  public void setUsername(String username) {
-    this.username = username;
-  }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-  public String getIntermediateServerUsername() {
-    return intermediateServerUsername;
-  }
+    public String getIntermediateServerUsername() {
+        return intermediateServerUsername;
+    }
 
-  public void setIntermediateServerUsername(String intermediateServerUsername) {
-    this.intermediateServerUsername = intermediateServerUsername;
-  }
+    public void setIntermediateServerUsername(String intermediateServerUsername) {
+        this.intermediateServerUsername = intermediateServerUsername;
+    }
 
 }

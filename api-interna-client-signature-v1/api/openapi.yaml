@@ -61,7 +61,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExternalSignerSecurityLevel'
+                $ref: '#/components/schemas/MetadataConstants'
           description: Error no controlat
         "200":
           content:
@@ -111,7 +111,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExternalSignerSecurityLevel'
+                $ref: '#/components/schemas/MetadataConstants'
           description: Error no controlat
         "200":
           content:
@@ -162,7 +162,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExternalSignerSecurityLevel'
+                $ref: '#/components/schemas/MetadataConstants'
           description: Error no controlat
         "200":
           description: Operació realitzada correctament
@@ -218,7 +218,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExternalSignerSecurityLevel'
+                $ref: '#/components/schemas/MetadataConstants'
           description: Error no controlat
         "200":
           content:
@@ -282,7 +282,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExternalSignerSecurityLevel'
+                $ref: '#/components/schemas/MetadataConstants'
           description: Error no controlat
         "200":
           content:
@@ -333,7 +333,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExternalSignerSecurityLevel'
+                $ref: '#/components/schemas/MetadataConstants'
           description: Error no controlat
         "200":
           content:
@@ -393,7 +393,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExternalSignerSecurityLevel'
+                $ref: '#/components/schemas/MetadataConstants'
           description: Error no controlat
         "200":
           content:
@@ -444,7 +444,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExternalSignerSecurityLevel'
+                $ref: '#/components/schemas/MetadataConstants'
           description: Error no controlat
         "200":
           content:
@@ -493,7 +493,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExternalSignerSecurityLevel'
+                $ref: '#/components/schemas/MetadataConstants'
           description: Error no controlat
         "200":
           content:
@@ -543,7 +543,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExternalSignerSecurityLevel'
+                $ref: '#/components/schemas/MetadataConstants'
           description: Error no controlat
         "200":
           content:
@@ -586,7 +586,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExternalSignerSecurityLevel'
+                $ref: '#/components/schemas/MetadataConstants'
           description: Error no controlat
         "200":
           content:
@@ -1551,7 +1551,7 @@ components:
       - Codi d'estat d'una petició de firma que indica que ha sigut pausada temporalment
       - Codi d'estat d'una petició de firma que indica que ha sigut rebutjada
       - Codi d'estat d'una petició de firma que indica que ha finalitzat correctament
-    ExternalSignerSecurityLevel:
+    ExternalSignerSecurityLevelConstants:
       description: "Valors:\nTOKEN = 1;\r\nPASSWORD = 2;\r\nCERTIFICATE = 4;"
       enum:
       - 1
@@ -1567,7 +1567,38 @@ components:
       - token
       - contrasenya
       - certificat
+    MetadataConstants:
+      description: "Valors:\r\nSTRING(Conte una cadena de text)|INTEGER(Conté un valor\
+        \ sencer)|DECIMAL(conté un valor decimal)|BOOLEAN(conte un booleà: true o\
+        \ false)|BASE64(Conté un binari codificat en Base64)|DATE(Conté un valor de\
+        \ tipus data en format ISO8601)"
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      format: int32
+      type: integer
+      x-enum-varnames:
+      - STRING
+      - INTEGER
+      - DECIMAL
+      - BOOLEAN
+      - BASE64
+      - DATE
+      x-enum-descriptions:
+      - Conte una cadena de text
+      - Conté un valor sencer
+      - conté un valor decimal
+      - "conte un booleà: true o false"
+      - Conté un binari codificat en Base64
+      - Conté un valor de tipus data en format ISO8601
     Annex:
+      description: Objecte per afegir una annex a la Petició de firma. Actualment
+        només s'accepten combinacions de (attch=true i sign=true) o (attch=false i
+        sign=false).
       example:
         sign: true
         attach: true
@@ -1579,9 +1610,15 @@ components:
         annex:
           $ref: '#/components/schemas/Document'
         attach:
+          description: Indica si s'ha d'adjuntar al PDF
           type: boolean
         sign:
+          description: Indica si s'ha de signar també l'annex
           type: boolean
+      required:
+      - annex
+      - attach
+      - sign
       type: object
     Document:
       description: Objecte que representa un Document/Fitxer
@@ -1604,6 +1641,7 @@ components:
       - nom
       type: object
     Metadata:
+      description: Conté informació i valor d'una Metadada
       example:
         name: name
         description: description
@@ -1611,14 +1649,26 @@ components:
         value: value
       properties:
         name:
+          description: Nom de la metadada
           type: string
         value:
+          description: Valor de la metadada
           type: string
         description:
+          description: Descripció de la metadada
           type: string
         type:
+          description: "Format del valor de la metadada. Per defecte es considera\
+            \ un Sring. Els valors disponibles són:\r\n    • MetadataConstants.STRING.getValue()\
+            \ = 0; \r\n    • MetadataConstants.INTEGER.getValue() = 1;\r\n    • MetadataConstants.\
+            \ DECIMAL.getValue() = 2;\r\n    • MetadataConstants.BOOLEAN.getValue()\
+            \ = 3;\r\n    • MetadataConstants.BASE64.getValue() = 4;\r\n    • MetadataConstants.DATE.getValue()\
+            \ = 5; // ISO8601"
           format: int32
           type: integer
+      required:
+      - name
+      - value
       type: object
     SignatureRequestWithFlowTemplateCode:
       example:
@@ -1628,11 +1678,11 @@ components:
         documentType: 0
         procedureCode: procedureCode
         additionalInformationEvaluable: 1.4658129805029452
-        description: description
         originalDetachedSignature:
           data: data
           mime: mime
           nom: nom
+        description: description
         languageDoc: languageDoc
         expedientCode: expedientCode
         title: title
@@ -1673,60 +1723,99 @@ components:
         expedientUrl: expedientUrl
       properties:
         profileCode:
-          type: string
-        title:
-          type: string
-        description:
-          type: string
-        reason:
+          description: Perfil a utilitzar per la Firma.Consultar amb administrador
+            del PortaFirmes
           type: string
         fileToSign:
           $ref: '#/components/schemas/Document'
         originalDetachedSignature:
           $ref: '#/components/schemas/Document'
+        title:
+          description: Títol de la Petició de Firma
+          type: string
+        description:
+          description: Descripció de la Petició de Firma
+          type: string
+        reason:
+          description: Raó de la realització de la firma
+          type: string
         documentType:
+          description: Identificador de Tipus de Document.Els valors base s poden
+            obtenir de l'enumeració DocumentaryTypeConstants però es recomana fer
+            una consulta al mètode getDocumentaryTypes()
           format: int64
           type: integer
         documentTypeDescription:
+          description: Descripció detallada del Tipus documental.
           type: string
         languageDoc:
+          description: Idioma en que està escrit el document.Valors són 'es' o 'ca'
+            però es realitzar una cridada al mètode getLanguages()
           type: string
         languageUI:
+          description: Idioma de la interficie d'usuari (es o ca)
           type: string
         priority:
+          description: Prioritat de la Petició. Veure enumeració PriorityConstants.
           format: int32
           type: integer
         senderName:
+          description: Nom de la persona/aplicació que envia la petició.
           type: string
         senderDescription:
+          description: Descripció de la persona o responsable de l'aplicació que envia
+            la petició. Es sol posar el correu electronic de la persona que que envia
+            la petició.
           type: string
         expedientCode:
+          description: Codi de l'expedient
           type: string
         expedientName:
+          description: Nom de l'expedient
           type: string
         expedientUrl:
+          description: URL de l'expedient
           type: string
         procedureCode:
+          description: 'Codi del Procediment '
           type: string
         procedureName:
+          description: Nom del Procediment
           type: string
         additionalInformation:
+          description: Informació Addicional
           type: string
         additionalInformationEvaluable:
+          description: Informació Addicional avauluable. Per exemple en documents
+            de tipus factura en aquest camp s'insereix la quantitat final de la factura.
           format: double
           type: number
         annexs:
+          description: Llista de document annexes a la petició de firma
           items:
             $ref: '#/components/schemas/Annex'
           type: array
         metadadaList:
+          description: Llista de Metadades associades a la Petició de Firma
           items:
             $ref: '#/components/schemas/Metadata'
           type: array
         flowTemplateCode:
           type: string
+      required:
+      - description
+      - documentType
+      - fileToSign
+      - languageDoc
+      - languageUI
+      - priority
+      - profileCode
+      - reason
+      - senderName
+      - title
       type: object
     ExternalSigner:
+      description: Dades d'un usuari extern
       example:
         administrationId: administrationId
         securityLevel: 5
@@ -1750,6 +1839,8 @@ components:
           type: integer
       type: object
     Reviser:
+      description: Classe que representa un Revisor d'una Firma. Només s'ha d'omplir
+        un camp dels que conté.
       example:
         positionInTheCompany: positionInTheCompany
         administrationID: administrationID
@@ -1758,17 +1849,29 @@ components:
         username: username
       properties:
         positionInTheCompany:
+          description: "Identificador que representa un Càrrec. Exemples: fundaciobit_gerent,\
+            \ caib_president, ..."
           type: string
         administrationID:
+          description: "Identificador administratiu. En el cas de PortaFIB serà NIF,\
+            \ NIE, ..."
           type: string
         username:
+          description: "Nom d'usuari que té la persona en la corporació o entitat.\
+            \ Exemples: u806666 o anadal"
           type: string
         intermediateServerUsername:
+          description: "ID intern del servidor intermedi (en el nostre cas PortaFIB).\
+            \ Exemples: fundaciobit_anadal, caib_u80067, ..."
           type: string
         required:
+          description: Indica si aquesta revisió es obligatoria
           type: boolean
+      required:
+      - required
       type: object
     Signature:
+      description: Definició d'una Firma
       example:
         reason: reason
         revisers:
@@ -1800,18 +1903,31 @@ components:
         signer:
           $ref: '#/components/schemas/Signer'
         required:
+          description: És obligatori que aquesta persona firmi
           type: boolean
         reason:
+          description: Raó de firma específica per aquesta firma. Sinó es defineix
+            s'utilitzarà la raó definida en la Petició de Firma.
           type: string
         minimumNumberOfRevisers:
+          default: 0
+          description: Número mínim de revisors. Per defecte 0.
           format: int32
           type: integer
         revisers:
+          description: "Llistat de revisors de la Firma. Abans de que aquest destinatari\
+            \ firma, els revisors hauran d'haver acceptat el document."
           items:
             $ref: '#/components/schemas/Reviser'
           type: array
+      required:
+      - minimumNumberOfRevisers
+      - required
+      - signer
       type: object
     SignatureBlock:
+      description: "Conjunt de firmes que es poden realitzar en paral·lel, o millor\
+        \ dit sense ordre."
       example:
         signers:
         - reason: reason
@@ -1869,14 +1985,21 @@ components:
         minimumNumberOfSignaturesRequired: 5
       properties:
         minimumNumberOfSignaturesRequired:
+          description: Numero mínim de signatures per passar al següent bloc de firmes.
           format: int32
           type: integer
         signers:
+          description: Llistat de firmes associades a aquest bloc.
           items:
             $ref: '#/components/schemas/Signature'
           type: array
+      required:
+      - minimumNumberOfSignaturesRequired
+      - signers
       type: object
     SignatureRequestWithSignBlockList:
+      description: Estructura de dades per a la sol·licitud de signatura electrònica
+        amb una llista de blocs de signatura
       example:
         reason: reason
         additionalInformation: additionalInformation
@@ -1884,11 +2007,11 @@ components:
         documentType: 0
         procedureCode: procedureCode
         additionalInformationEvaluable: 1.4658129805029452
-        description: description
         originalDetachedSignature:
           data: data
           mime: mime
           nom: nom
+        description: description
         languageDoc: languageDoc
         expedientCode: expedientCode
         title: title
@@ -2037,62 +2160,105 @@ components:
         expedientUrl: expedientUrl
       properties:
         profileCode:
-          type: string
-        title:
-          type: string
-        description:
-          type: string
-        reason:
+          description: Perfil a utilitzar per la Firma.Consultar amb administrador
+            del PortaFirmes
           type: string
         fileToSign:
           $ref: '#/components/schemas/Document'
         originalDetachedSignature:
           $ref: '#/components/schemas/Document'
+        title:
+          description: Títol de la Petició de Firma
+          type: string
+        description:
+          description: Descripció de la Petició de Firma
+          type: string
+        reason:
+          description: Raó de la realització de la firma
+          type: string
         documentType:
+          description: Identificador de Tipus de Document.Els valors base s poden
+            obtenir de l'enumeració DocumentaryTypeConstants però es recomana fer
+            una consulta al mètode getDocumentaryTypes()
           format: int64
           type: integer
         documentTypeDescription:
+          description: Descripció detallada del Tipus documental.
           type: string
         languageDoc:
+          description: Idioma en que està escrit el document.Valors són 'es' o 'ca'
+            però es realitzar una cridada al mètode getLanguages()
           type: string
         languageUI:
+          description: Idioma de la interficie d'usuari (es o ca)
           type: string
         priority:
+          description: Prioritat de la Petició. Veure enumeració PriorityConstants.
           format: int32
           type: integer
         senderName:
+          description: Nom de la persona/aplicació que envia la petició.
           type: string
         senderDescription:
+          description: Descripció de la persona o responsable de l'aplicació que envia
+            la petició. Es sol posar el correu electronic de la persona que que envia
+            la petició.
           type: string
         expedientCode:
+          description: Codi de l'expedient
           type: string
         expedientName:
+          description: Nom de l'expedient
           type: string
         expedientUrl:
+          description: URL de l'expedient
           type: string
         procedureCode:
+          description: 'Codi del Procediment '
           type: string
         procedureName:
+          description: Nom del Procediment
           type: string
         additionalInformation:
+          description: Informació Addicional
           type: string
         additionalInformationEvaluable:
+          description: Informació Addicional avauluable. Per exemple en documents
+            de tipus factura en aquest camp s'insereix la quantitat final de la factura.
           format: double
           type: number
         annexs:
+          description: Llista de document annexes a la petició de firma
           items:
             $ref: '#/components/schemas/Annex'
           type: array
         metadadaList:
+          description: Llista de Metadades associades a la Petició de Firma
           items:
             $ref: '#/components/schemas/Metadata'
           type: array
         signatureBlocks:
+          description: "Estructura del Flux de Firmes, és a dir, dels destinataris\
+            \ que han de signar el document."
           items:
             $ref: '#/components/schemas/SignatureBlock'
           type: array
+      required:
+      - description
+      - documentType
+      - fileToSign
+      - languageDoc
+      - languageUI
+      - priority
+      - profileCode
+      - reason
+      - senderName
+      - signatureBlocks
+      - title
       type: object
     Signer:
+      description: Classe que representa un firmant. Només s'ha d'omplir un camp dels
+        que conté.
       example:
         positionInTheCompany: positionInTheCompany
         administrationID: administrationID
@@ -2107,26 +2273,40 @@ components:
         username: username
       properties:
         positionInTheCompany:
+          description: "Identificador que representa un Càrrec. Exemples: fundaciobit_gerent,\
+            \ caib_president, ..."
           type: string
         administrationID:
+          description: "Identificador administratiu. En el cas de PortaFIB serà NIF,\
+            \ NIE, ..."
           type: string
         username:
+          description: "Nom d'usuari que té la persona en la corporació o entitat.\
+            \ Exemples: u806666 o anadal"
           type: string
         intermediateServerUsername:
+          description: "ID intern del servidor intermedi (en el nostre cas PortaFIB).\
+            \ Exemples: fundaciobit_anadal, caib_u80067, ..."
           type: string
         externalSigner:
           $ref: '#/components/schemas/ExternalSigner'
       type: object
     SignatureRequestInfo:
+      description: Estructura de dades per consultar Peticions de Firma existents
       example:
         signatureRequestID: 0
         languageUI: languageUI
       properties:
         signatureRequestID:
+          description: Identificador de Peticio de firma
           format: int64
           type: integer
         languageUI:
+          description: Idioma en que es vol que es retornin els missatges.
           type: string
+      required:
+      - languageUI
+      - signatureRequestID
       type: object
     DocumentaryType:
       description: Model de dades d'un tipus documental
@@ -2189,15 +2369,24 @@ components:
       - name
       type: object
     SignatureRequestState:
+      description: "Informació de l'estat d'una Petició de Firma. Valors:\r\n    •\
+        \ SignatureRequestStateConstants.NOTSTARTET.getValue()=0\r\n    • SignatureRequestStateConstants.RUNNING.getValue()=1\r\
+        \n    • SignatureRequestStateConstants.PAUSED.getValue()=2\r\n    • SignatureRequestStateConstants.REJECTED.getValue()=3\r\
+        \n    • SignatureRequestStateConstants.SIGNED.getValue()=4"
       example:
         rejectedReason: rejectedReason
         state: 6
       properties:
         state:
+          description: Estat de la Peticio de firma. Veure classe SignatureRequestStateConstants.
           format: int32
           type: integer
         rejectedReason:
+          description: Si l'estat de la Petició de Firma és rebutjat llavors inclou
+            raó de rebuig de la petició.
           type: string
+      required:
+      - state
       type: object
     CustodyInfo:
       description: Informació de Custòdia
@@ -3089,6 +3278,98 @@ components:
       - Codi d'estat d'una petició de firma que indica que ha finalitzat correctament
       - Codi d'estat d'una petició de firma que indica que ha finalitzat amb errors
       - Codi d'estat d'una petició de firma que indica que ha sigut cancelada
+    DocumentaryTypeConstants:
+      description: |-
+        Valors:
+        • RESOLUCIO=1(TipusResolució - TD01)
+        • ACORD=2(Tipus Acord - TD02)
+        • CONTRACTE=3(Tipus Contracte - TD03)
+        • CONVENI=4(Tipus Conveni - TD04)
+        • DECLARACIO=5(Tipus Declaració - TD05)
+        • COMUNICACIO=6(Tipus Comunicació - TD06)
+        • NOTIFICACIO=7(Tipus Notificació - TD07)
+        • PUBLICACIO=8(Tipus Publicació - TD08)
+        • JUSTIFICANT_RECEPCIO=9(Tipus Justificant de Recepció - TD09)
+        • ACTA=10(Tipus Acta - TD10)
+        • CERTIFICAT=11(Tipus Certificat - TD11)
+        • DILIGENCIA=12(Tipus Diligencia - TD12)
+        • INFORME=13(Tipus Informe - TD13)
+        • SOLICITUD=14(Tipus Sol·licitud - TD14)
+        • DENUNCIA=15(Tipus Denuncia - TD15)
+        • ALEGACIO=16(Tipus Al·legació - TD16)
+        • RECURS=17(Tipus Recurs - TD17)
+        • COMUNICACIO_CIUTADA=18(Tipus Comunicació Ciutadà - TD18)
+        • FACTURA=19(Tipus Factura - TD19)
+        • ALTRES_INCAUTATS=20(Tipus Altres Encautats - TD20)
+        • ALTRES=99(Tipus Altres - TD99)
+      enum:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+      - "5"
+      - "6"
+      - "7"
+      - "8"
+      - "9"
+      - "10"
+      - "11"
+      - "12"
+      - "13"
+      - "14"
+      - "15"
+      - "16"
+      - "17"
+      - "18"
+      - "19"
+      - "20"
+      - "99"
+      format: int64
+      type: string
+      x-enum-varnames:
+      - RESOLUCIO
+      - ACORD
+      - CONTRACTE
+      - CONVENI
+      - DECLARACIO
+      - COMUNICACIO
+      - NOTIFICACIO
+      - PUBLICACIO
+      - JUSTIFICANT_RECEPCIO
+      - ACTA
+      - CERTIFICAT
+      - DILIGENCIA
+      - INFORME
+      - SOLICITUD
+      - DENUNCIA
+      - ALEGACIO
+      - RECURS
+      - COMUNICACIO_CIUTADA
+      - FACTURA
+      - ALTRES_INCAUTATS
+      - ALTRES
+      x-enum-descriptions:
+      - Tipus Resolució - TD01
+      - Tipus Acord - TD02
+      - Tipus Contracte - TD03
+      - Tipus Conveni - TD04
+      - Tipus Declaració - TD05
+      - Tipus Comunicació - TD06
+      - Tipus Notificació - TD07
+      - Tipus Publicació - TD08
+      - Tipus Justificant de Recepció - TD09
+      - Tipus Acta - TD10
+      - Tipus Certificat - TD11
+      - Tipus Diligencia - TD12
+      - Tipus Informe - TD13
+      - Tipus Sol·licitud - TD14
+      - Tipus Denuncia - TD15
+      - Tipus Al·legació - TD16
+      - Tipus Recurs - TD17
+      - Tipus Comunicació Ciutadà - TD18
+      - Tipus Factura - TD19
+      - Tipus Altres Encautats - TD20
+      - Tipus Altres - TD99
     SignDocumentRequest:
       example:
         fileInfoSignature:
@@ -3461,7 +3742,7 @@ components:
         name:
           type: string
       type: object
-    ValidacioCompletaResponse_certificateLastSign_subjectX500Principal:
+    ValidacioCompletaResponse_certificateLastSign_issuerX500Principal:
       properties:
         name:
           type: string
@@ -3478,9 +3759,9 @@ components:
             format: byte
             type: string
           type: array
-        format:
-          type: string
         algorithm:
+          type: string
+        format:
           type: string
       type: object
     ValidacioCompletaResponse_certificateLastSign:
@@ -3495,13 +3776,26 @@ components:
         basicConstraints:
           format: int32
           type: integer
-        version:
-          format: int32
-          type: integer
         issuerDN:
           $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerDN'
         subjectDN:
           $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerDN'
+        version:
+          format: int32
+          type: integer
+        serialNumber:
+          type: integer
+        tbscertificate:
+          items:
+            format: byte
+            type: string
+          type: array
+        issuerX500Principal:
+          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerX500Principal'
+        extendedKeyUsage:
+          items:
+            type: string
+          type: array
         sigAlgName:
           type: string
         notBefore:
@@ -3511,7 +3805,7 @@ components:
           format: date-time
           type: string
         subjectX500Principal:
-          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_subjectX500Principal'
+          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerX500Principal'
         sigAlgOID:
           type: string
         sigAlgParams:
@@ -3543,25 +3837,12 @@ components:
               type: object
             type: array
           type: array
-        serialNumber:
-          type: integer
-        tbscertificate:
-          items:
-            format: byte
-            type: string
-          type: array
-        issuerX500Principal:
-          $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_subjectX500Principal'
-        extendedKeyUsage:
-          items:
-            type: string
-          type: array
-        nonCriticalExtensionOIDs:
+        criticalExtensionOIDs:
           items:
             type: string
           type: array
           uniqueItems: true
-        criticalExtensionOIDs:
+        nonCriticalExtensionOIDs:
           items:
             type: string
           type: array

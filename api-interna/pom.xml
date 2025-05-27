@@ -262,6 +262,7 @@
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                 <java11>true</java11>
                                 <useJakartaEe>false</useJakartaEe>
+                                <usePrimitives>true</usePrimitives>
                             </configOptions>
                         </configuration>
                     </execution>
@@ -301,6 +302,7 @@
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                 <java11>true</java11>
                                 <useJakartaEe>false</useJakartaEe>
+                                <usePrimitives>true</usePrimitives>
                             </configOptions>
                         </configuration>
                     </execution>
@@ -327,7 +329,9 @@
                             <invokerPackage>
                                 ${client.default.package}.signature.v1.services</invokerPackage>
                             <generateModelTests>false</generateModelTests>
+                            <!--
                             <languageSpecificPrimitives>int,Integer</languageSpecificPrimitives>
+                            -->
                             <configOptions>
                                 <groupId>es.caib.portafib</groupId>
                                 <artifactId>portafib-api-interna-client-signature-v1</artifactId>

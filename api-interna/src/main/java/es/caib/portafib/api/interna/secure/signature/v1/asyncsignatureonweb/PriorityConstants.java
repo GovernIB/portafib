@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * 16 may 2025 12:30:53
  */
 @Schema(
-        name = "PriorityConstants",
         description = "Valors:\n"
                         + "PRIORITY_PAUSED_PAUSADA = 0; // Prioritat Pausada\r\n"
                         + "PRIORITY_INSIGNIFICANT_INSIGNIFICANT = 1; // =Prioritat Insignificant\r\n"

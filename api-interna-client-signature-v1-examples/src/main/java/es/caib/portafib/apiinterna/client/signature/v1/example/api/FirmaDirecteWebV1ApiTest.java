@@ -56,9 +56,9 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
         FirmaDirecteWebV1ApiTest test = new FirmaDirecteWebV1ApiTest();
         try {
             
-            test.callCommonTests();
+            //test.callCommonTests();
 
-            //test.signPdfUsingPadesWithSyncWebExample();
+            test.signPdfUsingPadesWithSyncWebExample();
 
         } catch (ApiException ae) {
             test.processApiException(ae, "Tests de Firma Web Sincrona", true);

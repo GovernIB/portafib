@@ -15,7 +15,7 @@ import es.caib.portafib.apiinterna.client.signature.v1.model.Annex;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Document;
 import es.caib.portafib.apiinterna.client.signature.v1.model.DocumentaryType;
 import es.caib.portafib.apiinterna.client.signature.v1.model.ExternalSigner;
-import es.caib.portafib.apiinterna.client.signature.v1.model.ExternalSignerSecurityLevel;
+import es.caib.portafib.apiinterna.client.signature.v1.model.ExternalSignerSecurityLevelConstants;
 import es.caib.portafib.apiinterna.client.signature.v1.model.KeyValue;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Metadata;
 import es.caib.portafib.apiinterna.client.signature.v1.model.PriorityConstants;
@@ -430,7 +430,7 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
         es.setEmail(getConfigProperties().getProperty(base + ".email"));
         es.setLanguage(getConfigProperties().getProperty(base + ".language"));
         es.setName(getConfigProperties().getProperty(base + ".name"));
-        es.setSecurityLevel(ExternalSignerSecurityLevel.TOKEN.getValue());
+        es.setSecurityLevel(ExternalSignerSecurityLevelConstants.TOKEN.getValue());
         es.setSurnames(getConfigProperties().getProperty(base + ".surnames"));
 
         return es;

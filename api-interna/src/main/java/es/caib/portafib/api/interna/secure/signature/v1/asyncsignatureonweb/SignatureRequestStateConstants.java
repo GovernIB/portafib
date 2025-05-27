@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * 16 may 2025 12:30:53
  */
 @Schema(
-        name="SignatureRequestStateConstants",
         description = "Valors:\r\n"
                         + "* NOTSTARTED(Codi d'estat d'una petició de firma que indica que no s'ha posat en marxa.)"
                         + "* RUNNING(Codi d'estat d'una petició de firma que indica un que esta en procés.)"

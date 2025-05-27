@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * ExternalSigner
+ * Dades d&#39;un usuari extern
  */
 @JsonPropertyOrder({
   ExternalSigner.JSON_PROPERTY_ADMINISTRATION_ID,

@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * 6 may 2025 9:12:24
  */
 @Schema(
-        name = "SignProfileConstants",
         description = "Perfil empleado en una firma con certificado electrónico. Los posibles valores asignables son los siguientes:\r\n"
                 + "  AdES-BES\r\n" + "  AdES-EPES\r\n" + "  AdES-T\r\n" + "  AdES-C\r\n" + "  AdES-X\r\n"
                 + "  AdES-X1\r\n" + "  AdES-X2\r\n" + "  AdES-XL\r\n" + "  AdES-XL1\r\n" + "  AdES-XL2\r\n"

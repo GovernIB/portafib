@@ -9,8 +9,8 @@ import javax.ws.rs.core.GenericType;
 
 import es.caib.portafib.apiinterna.client.signature.v1.model.Document;
 import es.caib.portafib.apiinterna.client.signature.v1.model.DocumentaryType;
-import es.caib.portafib.apiinterna.client.signature.v1.model.ExternalSignerSecurityLevel;
 import es.caib.portafib.apiinterna.client.signature.v1.model.KeyValue;
+import es.caib.portafib.apiinterna.client.signature.v1.model.MetadataConstants;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Profile;
 import es.caib.portafib.apiinterna.client.signature.v1.model.RestExceptionInfo;
 import java.util.Set;

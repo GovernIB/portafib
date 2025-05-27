@@ -34,11 +34,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  */
 @JsonPropertyOrder({
   SignatureRequestWithFlowTemplateCode.JSON_PROPERTY_PROFILE_CODE,
+  SignatureRequestWithFlowTemplateCode.JSON_PROPERTY_FILE_TO_SIGN,
+  SignatureRequestWithFlowTemplateCode.JSON_PROPERTY_ORIGINAL_DETACHED_SIGNATURE,
   SignatureRequestWithFlowTemplateCode.JSON_PROPERTY_TITLE,
   SignatureRequestWithFlowTemplateCode.JSON_PROPERTY_DESCRIPTION,
   SignatureRequestWithFlowTemplateCode.JSON_PROPERTY_REASON,
-  SignatureRequestWithFlowTemplateCode.JSON_PROPERTY_FILE_TO_SIGN,
-  SignatureRequestWithFlowTemplateCode.JSON_PROPERTY_ORIGINAL_DETACHED_SIGNATURE,
   SignatureRequestWithFlowTemplateCode.JSON_PROPERTY_DOCUMENT_TYPE,
   SignatureRequestWithFlowTemplateCode.JSON_PROPERTY_DOCUMENT_TYPE_DESCRIPTION,
   SignatureRequestWithFlowTemplateCode.JSON_PROPERTY_LANGUAGE_DOC,
@@ -60,31 +60,31 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class SignatureRequestWithFlowTemplateCode {
   public static final String JSON_PROPERTY_PROFILE_CODE = "profileCode";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private String profileCode;
 
-  public static final String JSON_PROPERTY_TITLE = "title";
-  @javax.annotation.Nullable
-  private String title;
-
-  public static final String JSON_PROPERTY_DESCRIPTION = "description";
-  @javax.annotation.Nullable
-  private String description;
-
-  public static final String JSON_PROPERTY_REASON = "reason";
-  @javax.annotation.Nullable
-  private String reason;
-
   public static final String JSON_PROPERTY_FILE_TO_SIGN = "fileToSign";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private Document fileToSign;
 
   public static final String JSON_PROPERTY_ORIGINAL_DETACHED_SIGNATURE = "originalDetachedSignature";
   @javax.annotation.Nullable
   private Document originalDetachedSignature;
 
+  public static final String JSON_PROPERTY_TITLE = "title";
+  @javax.annotation.Nonnull
+  private String title;
+
+  public static final String JSON_PROPERTY_DESCRIPTION = "description";
+  @javax.annotation.Nonnull
+  private String description;
+
+  public static final String JSON_PROPERTY_REASON = "reason";
+  @javax.annotation.Nonnull
+  private String reason;
+
   public static final String JSON_PROPERTY_DOCUMENT_TYPE = "documentType";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private Long documentType;
 
   public static final String JSON_PROPERTY_DOCUMENT_TYPE_DESCRIPTION = "documentTypeDescription";
@@ -92,19 +92,19 @@ public class SignatureRequestWithFlowTemplateCode {
   private String documentTypeDescription;
 
   public static final String JSON_PROPERTY_LANGUAGE_DOC = "languageDoc";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private String languageDoc;
 
   public static final String JSON_PROPERTY_LANGUAGE_U_I = "languageUI";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private String languageUI;
 
   public static final String JSON_PROPERTY_PRIORITY = "priority";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private Integer priority;
 
   public static final String JSON_PROPERTY_SENDER_NAME = "senderName";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private String senderName;
 
   public static final String JSON_PROPERTY_SENDER_DESCRIPTION = "senderDescription";
@@ -154,19 +154,19 @@ public class SignatureRequestWithFlowTemplateCode {
   public SignatureRequestWithFlowTemplateCode() {
   }
 
-  public SignatureRequestWithFlowTemplateCode profileCode(@javax.annotation.Nullable String profileCode) {
+  public SignatureRequestWithFlowTemplateCode profileCode(@javax.annotation.Nonnull String profileCode) {
     
     this.profileCode = profileCode;
     return this;
   }
 
   /**
-   * Get profileCode
+   * Perfil a utilitzar per la Firma.Consultar amb administrador del PortaFirmes
    * @return profileCode
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_PROFILE_CODE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getProfileCode() {
     return profileCode;
@@ -174,87 +174,12 @@ public class SignatureRequestWithFlowTemplateCode {
 
 
   @JsonProperty(JSON_PROPERTY_PROFILE_CODE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setProfileCode(@javax.annotation.Nullable String profileCode) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setProfileCode(@javax.annotation.Nonnull String profileCode) {
     this.profileCode = profileCode;
   }
 
-  public SignatureRequestWithFlowTemplateCode title(@javax.annotation.Nullable String title) {
-    
-    this.title = title;
-    return this;
-  }
-
-  /**
-   * Get title
-   * @return title
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TITLE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getTitle() {
-    return title;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_TITLE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setTitle(@javax.annotation.Nullable String title) {
-    this.title = title;
-  }
-
-  public SignatureRequestWithFlowTemplateCode description(@javax.annotation.Nullable String description) {
-    
-    this.description = description;
-    return this;
-  }
-
-  /**
-   * Get description
-   * @return description
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DESCRIPTION)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getDescription() {
-    return description;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_DESCRIPTION)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDescription(@javax.annotation.Nullable String description) {
-    this.description = description;
-  }
-
-  public SignatureRequestWithFlowTemplateCode reason(@javax.annotation.Nullable String reason) {
-    
-    this.reason = reason;
-    return this;
-  }
-
-  /**
-   * Get reason
-   * @return reason
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_REASON)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getReason() {
-    return reason;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_REASON)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setReason(@javax.annotation.Nullable String reason) {
-    this.reason = reason;
-  }
-
-  public SignatureRequestWithFlowTemplateCode fileToSign(@javax.annotation.Nullable Document fileToSign) {
+  public SignatureRequestWithFlowTemplateCode fileToSign(@javax.annotation.Nonnull Document fileToSign) {
     
     this.fileToSign = fileToSign;
     return this;
@@ -264,9 +189,9 @@ public class SignatureRequestWithFlowTemplateCode {
    * Get fileToSign
    * @return fileToSign
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_FILE_TO_SIGN)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Document getFileToSign() {
     return fileToSign;
@@ -274,8 +199,8 @@ public class SignatureRequestWithFlowTemplateCode {
 
 
   @JsonProperty(JSON_PROPERTY_FILE_TO_SIGN)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFileToSign(@javax.annotation.Nullable Document fileToSign) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setFileToSign(@javax.annotation.Nonnull Document fileToSign) {
     this.fileToSign = fileToSign;
   }
 
@@ -304,19 +229,94 @@ public class SignatureRequestWithFlowTemplateCode {
     this.originalDetachedSignature = originalDetachedSignature;
   }
 
-  public SignatureRequestWithFlowTemplateCode documentType(@javax.annotation.Nullable Long documentType) {
+  public SignatureRequestWithFlowTemplateCode title(@javax.annotation.Nonnull String title) {
+    
+    this.title = title;
+    return this;
+  }
+
+  /**
+   * Títol de la Petició de Firma
+   * @return title
+   */
+  @javax.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_TITLE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public String getTitle() {
+    return title;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_TITLE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setTitle(@javax.annotation.Nonnull String title) {
+    this.title = title;
+  }
+
+  public SignatureRequestWithFlowTemplateCode description(@javax.annotation.Nonnull String description) {
+    
+    this.description = description;
+    return this;
+  }
+
+  /**
+   * Descripció de la Petició de Firma
+   * @return description
+   */
+  @javax.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_DESCRIPTION)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public String getDescription() {
+    return description;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DESCRIPTION)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setDescription(@javax.annotation.Nonnull String description) {
+    this.description = description;
+  }
+
+  public SignatureRequestWithFlowTemplateCode reason(@javax.annotation.Nonnull String reason) {
+    
+    this.reason = reason;
+    return this;
+  }
+
+  /**
+   * Raó de la realització de la firma
+   * @return reason
+   */
+  @javax.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_REASON)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public String getReason() {
+    return reason;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REASON)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setReason(@javax.annotation.Nonnull String reason) {
+    this.reason = reason;
+  }
+
+  public SignatureRequestWithFlowTemplateCode documentType(@javax.annotation.Nonnull Long documentType) {
     
     this.documentType = documentType;
     return this;
   }
 
   /**
-   * Get documentType
+   * Identificador de Tipus de Document.Els valors base s poden obtenir de l&#39;enumeració DocumentaryTypeConstants però es recomana fer una consulta al mètode getDocumentaryTypes()
    * @return documentType
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_DOCUMENT_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Long getDocumentType() {
     return documentType;
@@ -324,8 +324,8 @@ public class SignatureRequestWithFlowTemplateCode {
 
 
   @JsonProperty(JSON_PROPERTY_DOCUMENT_TYPE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDocumentType(@javax.annotation.Nullable Long documentType) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setDocumentType(@javax.annotation.Nonnull Long documentType) {
     this.documentType = documentType;
   }
 
@@ -336,7 +336,7 @@ public class SignatureRequestWithFlowTemplateCode {
   }
 
   /**
-   * Get documentTypeDescription
+   * Descripció detallada del Tipus documental.
    * @return documentTypeDescription
    */
   @javax.annotation.Nullable
@@ -354,19 +354,19 @@ public class SignatureRequestWithFlowTemplateCode {
     this.documentTypeDescription = documentTypeDescription;
   }
 
-  public SignatureRequestWithFlowTemplateCode languageDoc(@javax.annotation.Nullable String languageDoc) {
+  public SignatureRequestWithFlowTemplateCode languageDoc(@javax.annotation.Nonnull String languageDoc) {
     
     this.languageDoc = languageDoc;
     return this;
   }
 
   /**
-   * Get languageDoc
+   * Idioma en que està escrit el document.Valors són &#39;es&#39; o &#39;ca&#39; però es realitzar una cridada al mètode getLanguages()
    * @return languageDoc
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_LANGUAGE_DOC)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getLanguageDoc() {
     return languageDoc;
@@ -374,24 +374,24 @@ public class SignatureRequestWithFlowTemplateCode {
 
 
   @JsonProperty(JSON_PROPERTY_LANGUAGE_DOC)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setLanguageDoc(@javax.annotation.Nullable String languageDoc) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setLanguageDoc(@javax.annotation.Nonnull String languageDoc) {
     this.languageDoc = languageDoc;
   }
 
-  public SignatureRequestWithFlowTemplateCode languageUI(@javax.annotation.Nullable String languageUI) {
+  public SignatureRequestWithFlowTemplateCode languageUI(@javax.annotation.Nonnull String languageUI) {
     
     this.languageUI = languageUI;
     return this;
   }
 
   /**
-   * Get languageUI
+   * Idioma de la interficie d&#39;usuari (es o ca)
    * @return languageUI
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_LANGUAGE_U_I)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getLanguageUI() {
     return languageUI;
@@ -399,24 +399,24 @@ public class SignatureRequestWithFlowTemplateCode {
 
 
   @JsonProperty(JSON_PROPERTY_LANGUAGE_U_I)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setLanguageUI(@javax.annotation.Nullable String languageUI) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setLanguageUI(@javax.annotation.Nonnull String languageUI) {
     this.languageUI = languageUI;
   }
 
-  public SignatureRequestWithFlowTemplateCode priority(@javax.annotation.Nullable Integer priority) {
+  public SignatureRequestWithFlowTemplateCode priority(@javax.annotation.Nonnull Integer priority) {
     
     this.priority = priority;
     return this;
   }
 
   /**
-   * Get priority
+   * Prioritat de la Petició. Veure enumeració PriorityConstants.
    * @return priority
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_PRIORITY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getPriority() {
     return priority;
@@ -424,24 +424,24 @@ public class SignatureRequestWithFlowTemplateCode {
 
 
   @JsonProperty(JSON_PROPERTY_PRIORITY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPriority(@javax.annotation.Nullable Integer priority) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setPriority(@javax.annotation.Nonnull Integer priority) {
     this.priority = priority;
   }
 
-  public SignatureRequestWithFlowTemplateCode senderName(@javax.annotation.Nullable String senderName) {
+  public SignatureRequestWithFlowTemplateCode senderName(@javax.annotation.Nonnull String senderName) {
     
     this.senderName = senderName;
     return this;
   }
 
   /**
-   * Get senderName
+   * Nom de la persona/aplicació que envia la petició.
    * @return senderName
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SENDER_NAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getSenderName() {
     return senderName;
@@ -449,8 +449,8 @@ public class SignatureRequestWithFlowTemplateCode {
 
 
   @JsonProperty(JSON_PROPERTY_SENDER_NAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSenderName(@javax.annotation.Nullable String senderName) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setSenderName(@javax.annotation.Nonnull String senderName) {
     this.senderName = senderName;
   }
 
@@ -461,7 +461,7 @@ public class SignatureRequestWithFlowTemplateCode {
   }
 
   /**
-   * Get senderDescription
+   * Descripció de la persona o responsable de l&#39;aplicació que envia la petició. Es sol posar el correu electronic de la persona que que envia la petició.
    * @return senderDescription
    */
   @javax.annotation.Nullable
@@ -486,7 +486,7 @@ public class SignatureRequestWithFlowTemplateCode {
   }
 
   /**
-   * Get expedientCode
+   * Codi de l&#39;expedient
    * @return expedientCode
    */
   @javax.annotation.Nullable
@@ -511,7 +511,7 @@ public class SignatureRequestWithFlowTemplateCode {
   }
 
   /**
-   * Get expedientName
+   * Nom de l&#39;expedient
    * @return expedientName
    */
   @javax.annotation.Nullable
@@ -536,7 +536,7 @@ public class SignatureRequestWithFlowTemplateCode {
   }
 
   /**
-   * Get expedientUrl
+   * URL de l&#39;expedient
    * @return expedientUrl
    */
   @javax.annotation.Nullable
@@ -561,7 +561,7 @@ public class SignatureRequestWithFlowTemplateCode {
   }
 
   /**
-   * Get procedureCode
+   * Codi del Procediment 
    * @return procedureCode
    */
   @javax.annotation.Nullable
@@ -586,7 +586,7 @@ public class SignatureRequestWithFlowTemplateCode {
   }
 
   /**
-   * Get procedureName
+   * Nom del Procediment
    * @return procedureName
    */
   @javax.annotation.Nullable
@@ -611,7 +611,7 @@ public class SignatureRequestWithFlowTemplateCode {
   }
 
   /**
-   * Get additionalInformation
+   * Informació Addicional
    * @return additionalInformation
    */
   @javax.annotation.Nullable
@@ -636,7 +636,7 @@ public class SignatureRequestWithFlowTemplateCode {
   }
 
   /**
-   * Get additionalInformationEvaluable
+   * Informació Addicional avauluable. Per exemple en documents de tipus factura en aquest camp s&#39;insereix la quantitat final de la factura.
    * @return additionalInformationEvaluable
    */
   @javax.annotation.Nullable
@@ -669,7 +669,7 @@ public class SignatureRequestWithFlowTemplateCode {
   }
 
   /**
-   * Get annexs
+   * Llista de document annexes a la petició de firma
    * @return annexs
    */
   @javax.annotation.Nullable
@@ -702,7 +702,7 @@ public class SignatureRequestWithFlowTemplateCode {
   }
 
   /**
-   * Get metadadaList
+   * Llista de Metadades associades a la Petició de Firma
    * @return metadadaList
    */
   @javax.annotation.Nullable
@@ -755,11 +755,11 @@ public class SignatureRequestWithFlowTemplateCode {
     }
     SignatureRequestWithFlowTemplateCode signatureRequestWithFlowTemplateCode = (SignatureRequestWithFlowTemplateCode) o;
     return Objects.equals(this.profileCode, signatureRequestWithFlowTemplateCode.profileCode) &&
+        Objects.equals(this.fileToSign, signatureRequestWithFlowTemplateCode.fileToSign) &&
+        Objects.equals(this.originalDetachedSignature, signatureRequestWithFlowTemplateCode.originalDetachedSignature) &&
         Objects.equals(this.title, signatureRequestWithFlowTemplateCode.title) &&
         Objects.equals(this.description, signatureRequestWithFlowTemplateCode.description) &&
         Objects.equals(this.reason, signatureRequestWithFlowTemplateCode.reason) &&
-        Objects.equals(this.fileToSign, signatureRequestWithFlowTemplateCode.fileToSign) &&
-        Objects.equals(this.originalDetachedSignature, signatureRequestWithFlowTemplateCode.originalDetachedSignature) &&
         Objects.equals(this.documentType, signatureRequestWithFlowTemplateCode.documentType) &&
         Objects.equals(this.documentTypeDescription, signatureRequestWithFlowTemplateCode.documentTypeDescription) &&
         Objects.equals(this.languageDoc, signatureRequestWithFlowTemplateCode.languageDoc) &&
@@ -781,7 +781,7 @@ public class SignatureRequestWithFlowTemplateCode {
 
   @Override
   public int hashCode() {
-    return Objects.hash(profileCode, title, description, reason, fileToSign, originalDetachedSignature, documentType, documentTypeDescription, languageDoc, languageUI, priority, senderName, senderDescription, expedientCode, expedientName, expedientUrl, procedureCode, procedureName, additionalInformation, additionalInformationEvaluable, annexs, metadadaList, flowTemplateCode);
+    return Objects.hash(profileCode, fileToSign, originalDetachedSignature, title, description, reason, documentType, documentTypeDescription, languageDoc, languageUI, priority, senderName, senderDescription, expedientCode, expedientName, expedientUrl, procedureCode, procedureName, additionalInformation, additionalInformationEvaluable, annexs, metadadaList, flowTemplateCode);
   }
 
   @Override
@@ -789,11 +789,11 @@ public class SignatureRequestWithFlowTemplateCode {
     StringBuilder sb = new StringBuilder();
     sb.append("class SignatureRequestWithFlowTemplateCode {\n");
     sb.append("    profileCode: ").append(toIndentedString(profileCode)).append("\n");
+    sb.append("    fileToSign: ").append(toIndentedString(fileToSign)).append("\n");
+    sb.append("    originalDetachedSignature: ").append(toIndentedString(originalDetachedSignature)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
-    sb.append("    fileToSign: ").append(toIndentedString(fileToSign)).append("\n");
-    sb.append("    originalDetachedSignature: ").append(toIndentedString(originalDetachedSignature)).append("\n");
     sb.append("    documentType: ").append(toIndentedString(documentType)).append("\n");
     sb.append("    documentTypeDescription: ").append(toIndentedString(documentTypeDescription)).append("\n");
     sb.append("    languageDoc: ").append(toIndentedString(languageDoc)).append("\n");

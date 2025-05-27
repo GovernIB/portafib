@@ -22,28 +22,43 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Valors: TOKEN &#x3D; 1;  PASSWORD &#x3D; 2;  CERTIFICATE &#x3D; 4;
+ * Valors:  STRING(Conte una cadena de text)|INTEGER(Conté un valor sencer)|DECIMAL(conté un valor decimal)|BOOLEAN(conte un booleà: true o false)|BASE64(Conté un binari codificat en Base64)|DATE(Conté un valor de tipus data en format ISO8601)
  */
-public enum ExternalSignerSecurityLevel {
+public enum MetadataConstants {
   
   /**
-   * token
+   * Conte una cadena de text
    */
-  TOKEN(1),
+  STRING(0),
   
   /**
-   * contrasenya
+   * Conté un valor sencer
    */
-  PASSWORD(2),
+  INTEGER(1),
   
   /**
-   * certificat
+   * conté un valor decimal
    */
-  CERTIFICATE(4);
+  DECIMAL(2),
+  
+  /**
+   * conte un booleà: true o false
+   */
+  BOOLEAN(3),
+  
+  /**
+   * Conté un binari codificat en Base64
+   */
+  BASE64(4),
+  
+  /**
+   * Conté un valor de tipus data en format ISO8601
+   */
+  DATE(5);
 
   private Integer value;
 
-  ExternalSignerSecurityLevel(Integer value) {
+  MetadataConstants(Integer value) {
     this.value = value;
   }
 
@@ -58,8 +73,8 @@ public enum ExternalSignerSecurityLevel {
   }
 
   @JsonCreator
-  public static ExternalSignerSecurityLevel fromValue(Integer value) {
-    for (ExternalSignerSecurityLevel b : ExternalSignerSecurityLevel.values()) {
+  public static MetadataConstants fromValue(Integer value) {
+    for (MetadataConstants b : MetadataConstants.values()) {
       if (b.value.equals(value)) {
         return b;
       }
