@@ -214,7 +214,8 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
             //        + startTransactionInfo);
 
             // TODO XYZ ZZZ CHECKS DE LOGIN
-            LoginInfo loginInfo = commonChecks();
+            //LoginInfo loginInfo = 
+            commonChecks();
 
             //log.info("LOGININFO => " + loginInfo);
 
@@ -334,7 +335,8 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
             //log.info("ENTRA A getAllFlowTemplatesByFilter => filterBy: " + filterBy);
 
             // TODO XYZ ZZZ CHECKS DE LOGIN
-            LoginInfo loginInfo = commonChecks();
+            //LoginInfo loginInfo = 
+                    commonChecks();
 
             //log.info("LOGININFO => " + loginInfo);
 
@@ -390,7 +392,8 @@ public class RestApiPlantillaFluxV1Controller extends RestUtilsErrorManager {
             log.debug("ENTRA A getFlowInfoByFlowTemplateID => flowTemplateID: " + encryptedFlowTemplateID);
 
             // TODO XYZ ZZZ CHECKS DE LOGIN
-            LoginInfo loginInfo = commonChecks();
+            //LoginInfo loginInfo = 
+            commonChecks();
 
             // Validar simpleSignature
             restApiPlantillaFluxLocal.cleanExpiredTransactions();

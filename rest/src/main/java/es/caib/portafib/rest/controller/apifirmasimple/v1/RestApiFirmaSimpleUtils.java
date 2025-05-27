@@ -84,10 +84,10 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
 
     @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
     public ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaLocalEjb;
-    
+
     @EJB(mappedName = ModulDeFirmaWebLogicaLocal.JNDI_NAME)
     protected ModulDeFirmaWebLogicaLocal modulDeFirmaWebEjb;
-    
+
     @EJB(mappedName = ModulDeFirmaServidorLogicaLocal.JNDI_NAME)
     protected ModulDeFirmaServidorLogicaLocal modulDeFirmaServidorEjb;
 
@@ -336,17 +336,29 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
                     ISignaturePlugin signaturePlugin;
                     if (isSignatureInServer) {
                         plugin = modulDeFirmaServidorEjb.findByPrimaryKey(signaturePluginId);
-                        signaturePlugin = modulDeFirmaServidorEjb
-                                .getInstanceByPluginID(signaturePluginId);
+                        signaturePlugin = modulDeFirmaServidorEjb.getInstanceByPluginID(signaturePluginId);
                     } else {
                         plugin = modulDeFirmaWebEjb.findByPrimaryKey(signaturePluginId);
-                        signaturePlugin = modulDeFirmaWebEjb
-                                .getInstanceByPluginID(signaturePluginId);
+                        signaturePlugin = modulDeFirmaWebEjb.getInstanceByPluginID(signaturePluginId);
                     }
-                    
-                    String pluginNameInternal = signaturePlugin.getName(new Locale(langUI));
-                    String pluginNamePublic = plugin.getNom().getTraduccio(langUI).getValor();
-                    String pluginDescripcioPublic = plugin.getDescripcioCurta().getTraduccio(langUI).getValor();
+
+                    final String pluginNamePublic;
+                    final String pluginDescripcioPublic;
+                    if (plugin == null) {
+                        pluginNamePublic = "No s'ha pogut extreure el nom del plugin amb ID " + signaturePluginId;
+                        pluginDescripcioPublic = "No s'ha pogut extreure la descripció del plugin amb ID "
+                                + signaturePluginId;
+                    } else {
+                        pluginNamePublic = plugin.getNom().getTraduccio(langUI).getValor();
+                        pluginDescripcioPublic = plugin.getDescripcioCurta().getTraduccio(langUI).getValor();
+                    }
+
+                    final String pluginNameInternal;
+                    if (signaturePlugin == null) {
+                        pluginNameInternal = "No es troba la instància del PLugin amb ID " + signaturePluginId;
+                    } else {
+                        pluginNameInternal = signaturePlugin.getName(new Locale(langUI));
+                    }
 
                     additionalInformation = new ArrayList<FirmaSimpleKeyValue>();
                     additionalInformation
@@ -354,15 +366,15 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
                     additionalInformation.add(new FirmaSimpleKeyValue("SignaturePlugin.Name.Public", pluginNamePublic));
                     additionalInformation
                             .add(new FirmaSimpleKeyValue("SignaturePlugin.Description.Public", pluginDescripcioPublic));
-                    additionalInformation.add(
-                            new FirmaSimpleKeyValue("SignaturePlugin.Id", String.valueOf(signaturePluginId)));
+                    additionalInformation
+                            .add(new FirmaSimpleKeyValue("SignaturePlugin.Id", String.valueOf(signaturePluginId)));
 
                 } catch (Exception e) {
                     log.error("Error al obtenir el nom del plugin de firma: " + e.getMessage(), e);
                     additionalInformation = null;
                 }
             }
-            
+
             final Date signDate = new Date();
 
             // XYZ ZZZ ZZZ Que passarela retorni dades de la validació de la firma
@@ -485,17 +497,17 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
                 FirmaSimpleFileInfoSignature sfis = simpleFileInfoSignatureArray[i];
 
                 String signID = sfis.getSignID();
-/*
+                /*
                 log.info("\n\n  convertRestBean2PassarelaBean::sfis.getFileToSign() => " + sfis.getFileToSign());
                 log.info("\n\n  convertRestBean2PassarelaBean::sfis.getFileToSign().getNom() => "
                         + sfis.getFileToSign().getNom());
-*/
+                */
                 FitxerBean fileToSign = convertFirmaSimpleFileToFitxerBean(sfis.getFileToSign(), type, transactionID,
                         signID);
-/*
+                /*
                 log.info("\n\n  convertRestBean2PassarelaBean::fileToSign => " + fileToSign);
                 log.info("\n\n  convertRestBean2PassarelaBean::fileToSign.getNom() => " + fileToSign.getNom());
-*/
+                */
                 // XYZ ZZZ FALTA ENCARA NO SUPORTAT
                 FitxerBean prevSign = null;
                 if (sfis.getPreviusSignatureDetachedFile() != null) {

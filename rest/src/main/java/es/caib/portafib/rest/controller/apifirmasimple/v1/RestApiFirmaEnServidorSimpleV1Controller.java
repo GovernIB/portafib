@@ -1,6 +1,5 @@
 package es.caib.portafib.rest.controller.apifirmasimple.v1;
 
-
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.rest.controller.LoginInfo;
 import es.caib.portafib.logic.ValidacioCompletaFirmaLogicaLocal;
@@ -46,11 +45,11 @@ import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureResponse
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
@@ -71,7 +70,7 @@ import java.util.Map;
  * @author anadal
  * @author areus
  */
-@Controller
+@RestController
 @RequestMapping(value = RestApiFirmaEnServidorSimpleV1Controller.CONTEXT)
 public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimpleUtils<FirmaSimpleKeyValue> {
 
@@ -150,7 +149,8 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> upgradeSignature(HttpServletRequest request, @RequestBody FirmaSimpleUpgradeRequest fsur) {
+    public ResponseEntity<?> upgradeSignature(HttpServletRequest request, @RequestBody
+    FirmaSimpleUpgradeRequest fsur) {
 
         FirmaSimpleFile signature = fsur.getSignature();
 
@@ -291,7 +291,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
             int signFormat = vsr.getSignMode();
 
             int signMode = signFormat;
-/*
+            /*
             if (signFormat == null) {
                 signMode = null;
             } else if (ValidateSignatureResponse.SIGN_MODE_ATTACHED_ENVELOPED.equals(signFormat)
@@ -303,7 +303,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
             } else {
                 signMode = null;
             }
-*/
+            */
             // XYZ ZZZ
             String eniTipoFirma = SignatureUtils.getEniTipoFirma(signType, signMode);
 
@@ -329,8 +329,8 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> signDocument(HttpServletRequest request,
-            @RequestBody FirmaSimpleSignDocumentRequest simpleSignature) {
+    public ResponseEntity<?> signDocument(HttpServletRequest request, @RequestBody
+    FirmaSimpleSignDocumentRequest simpleSignature) {
 
         //log.info("ENTRA A signDocuments => simpleSignature: " + simpleSignature);
 
@@ -365,12 +365,12 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
         languageUI = l;
 
         final boolean esFirmaEnServidor = true;
-/*
+        /*
         log.info("simpleSignaturesSet.getCommonInfo().getSignProfile() ==> "
                 + simpleSignature.getCommonInfo().getSignProfile());
         log.info("simpleSignaturesSet.getCommonInfo().getLanguageUI() ==> "
                 + simpleSignature.getCommonInfo().getLanguageUI());
-*/
+        */
         String transactionID = null;
         try {
             LoginInfo loginInfo = commonChecks();
@@ -425,13 +425,11 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
 
                     ValidacioCompletaResponse vcr = fullResults.getValidacioResponseBySignID()
                             .get(fileInfo.getSignID());
-                    
-                    
 
-                    result.setSignedFileInfo(constructFirmaSimpleSignedFileInfo(config, fileInfo,
-                            simpleSignature.getFileInfoSignature(), profileSignType, result.getSignedFile(),
-                            result.getSignedFileInfo(),
-                            loginInfo.getEntitat().getEntitatID(), useSignPolicy, vcr, languageUI));
+                    result.setSignedFileInfo(
+                            constructFirmaSimpleSignedFileInfo(config, fileInfo, simpleSignature.getFileInfoSignature(),
+                                    profileSignType, result.getSignedFile(), result.getSignedFileInfo(),
+                                    loginInfo.getEntitat().getEntitatID(), useSignPolicy, vcr, languageUI));
 
                 }
             } else {
@@ -479,8 +477,8 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
 
     protected FirmaSimpleSignedFileInfo constructFirmaSimpleSignedFileInfo(UsuariAplicacioConfiguracio config,
             PassarelaFileInfoSignature fileInfo, FirmaSimpleFileInfoSignature firmaRequest, String eniPerfilFirma,
-            FirmaSimpleFile signedFile, FirmaSimpleSignedFileInfo fssfi, String entitatID, boolean policyIncluded, ValidacioCompletaResponse vcr,
-            final String languageUI) throws I18NException {
+            FirmaSimpleFile signedFile, FirmaSimpleSignedFileInfo fssfi, String entitatID, boolean policyIncluded,
+            ValidacioCompletaResponse vcr, final String languageUI) throws I18NException {
 
         //log.info(" validateSignature::Entra a Validate Signature ...");
 
@@ -541,7 +539,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
             int signFormat = vsr.getSignMode();
 
             int signMode = signFormat;
-/*
+            /*
             if (signFormat == null) {
                 log.warn("Ens ha arribat un signFormat = null: es retorna signMode null");
                 signMode = null;
@@ -552,10 +550,10 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
                     || ValidateSignatureResponse.SIGNFORMAT_EXPLICIT_EXTERNALLY_DETACHED.equals(signFormat)) {
                 signMode = FirmaSimpleSignedFileInfo.SIGN_MODE_EXPLICIT_DETACHED;
             } else {
-
+            
                 log.error("Ens ha arribat un signFormat = " + signFormat
                         + ". S'hauria de comunicar aquest fet als desenvolupadors !!!!!");
-
+            
                 signMode = null;
             }
             */
@@ -619,9 +617,9 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getAvailableProfiles(HttpServletRequest request,
-            @RequestBody TextNode languageUITextNode) {
-        
+    public ResponseEntity<?> getAvailableProfiles(HttpServletRequest request, @RequestBody
+    TextNode languageUITextNode) {
+
         //log.info("REST_SERVIDOR:: getAvailableProfiles() => ENTRA");
 
         final String languageUI = languageUITextNode.asText();
@@ -661,9 +659,9 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
 
                 validacioInfo = completeResults.getValidacioResponseBySignID().get(psr.getSignID());
 
-                results.add(
-                        convertPassarelaSignatureResult2FirmaSimpleSignatureResult(psr, pss.getCommonInfoSignature(),
-                                infoBySignID.get(psr.getSignID()), validacioInfo, isSignatureInServer, completeResults.getPluginFirmaEnServidorId()));
+                results.add(convertPassarelaSignatureResult2FirmaSimpleSignatureResult(psr,
+                        pss.getCommonInfoSignature(), infoBySignID.get(psr.getSignID()), validacioInfo,
+                        isSignatureInServer, completeResults.getPluginFirmaEnServidorId()));
             }
         } else {
             results = null;

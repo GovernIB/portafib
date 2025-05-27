@@ -10,9 +10,9 @@
 |**type** | **String** |  |  [optional] |
 |**signature** | **List&lt;byte[]&gt;** |  |  [optional] |
 |**basicConstraints** | **Integer** |  |  [optional] |
+|**version** | **Integer** |  |  [optional] |
 |**issuerDN** | [**ValidacioCompletaResponseCertificateLastSignIssuerDN**](ValidacioCompletaResponseCertificateLastSignIssuerDN.md) |  |  [optional] |
 |**subjectDN** | [**ValidacioCompletaResponseCertificateLastSignIssuerDN**](ValidacioCompletaResponseCertificateLastSignIssuerDN.md) |  |  [optional] |
-|**version** | **Integer** |  |  [optional] |
 |**serialNumber** | **Integer** |  |  [optional] |
 |**tbscertificate** | **List&lt;byte[]&gt;** |  |  [optional] |
 |**issuerX500Principal** | [**ValidacioCompletaResponseCertificateLastSignIssuerX500Principal**](ValidacioCompletaResponseCertificateLastSignIssuerX500Principal.md) |  |  [optional] |

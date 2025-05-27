@@ -3759,9 +3759,9 @@ components:
             format: byte
             type: string
           type: array
-        algorithm:
-          type: string
         format:
+          type: string
+        algorithm:
           type: string
       type: object
     ValidacioCompletaResponse_certificateLastSign:
@@ -3776,13 +3776,13 @@ components:
         basicConstraints:
           format: int32
           type: integer
+        version:
+          format: int32
+          type: integer
         issuerDN:
           $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerDN'
         subjectDN:
           $ref: '#/components/schemas/ValidacioCompletaResponse_certificateLastSign_issuerDN'
-        version:
-          format: int32
-          type: integer
         serialNumber:
           type: integer
         tbscertificate:

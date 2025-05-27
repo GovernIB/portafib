@@ -114,7 +114,9 @@
         <param-value>/WEB-INF/applicationContext-security.xml</param-value>
     </context-param>
 
-
-
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/error</location>
+    </error-page>
 
 </web-app>

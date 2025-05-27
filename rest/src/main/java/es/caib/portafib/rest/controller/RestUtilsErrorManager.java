@@ -31,7 +31,7 @@ public class RestUtilsErrorManager extends RestUtils {
         return generateServerError(msg, th, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    public ResponseEntity<ApisIBError> generateServerError(String msg, Throwable th, HttpStatus status) {
+    public static ResponseEntity<ApisIBError> generateServerError(String msg, Throwable th, HttpStatus status) {
         String sStackTrace = null;
         if (th != null) {
             StringWriter sw = new StringWriter();

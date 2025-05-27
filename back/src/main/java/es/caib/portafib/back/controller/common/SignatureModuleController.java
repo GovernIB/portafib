@@ -74,7 +74,11 @@ public class SignatureModuleController extends HttpServlet {
 
         PortaFIBSignaturesSet signaturesSet = getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
 
-        // TODO CHECK signature Set
+        if (signaturesSet == null) {
+            final String msg = "No s'ha trobat transacció de firma amb ID " + signaturesSetID 
+                    + " a l'hora de seleccionar plugin de firma.";
+            return generateErrorMAV(request, signaturesSetID, msg, null);
+        }
 
         Map<String, List<Long>> pluginsFirmaPerTipusDoc = signaturesSet.getPluginsFirmaBySignatureID();
 
@@ -598,7 +602,7 @@ public class SignatureModuleController extends HttpServlet {
         ModelAndView mav = new ModelAndView("PluginFirmaFinal");
         //request.getSession().setAttribute("URL_FINAL", urlError);
         mav.addObject("URL_FINAL", urlFinal);
-        mav.addObject("window", pss.isRedirectToParentWindow() ? "window.top" : "window");
+        mav.addObject("window", ( pss == null || pss.isRedirectToParentWindow()) ? "window.top" : "window");
 
         return mav;
     }

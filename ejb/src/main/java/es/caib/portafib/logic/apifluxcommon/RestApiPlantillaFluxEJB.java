@@ -67,7 +67,7 @@ public class RestApiPlantillaFluxEJB implements RestApiPlantillaFluxLocal {
 
         TransactionInfo ti = currentTransactions.get(transactionID);
 
-        if (!ti.getTransactionInfo().isSaveOnServer()) {
+        if (ti != null && !ti.getTransactionInfo().isSaveOnServer()) {
             try {
                 fluxDeFirmesLogicaEjb.deleteFull(ti.getFluxDeFirmesID());
             } catch (I18NException e) {
