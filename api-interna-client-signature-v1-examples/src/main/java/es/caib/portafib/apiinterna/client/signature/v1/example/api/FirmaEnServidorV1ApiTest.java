@@ -42,10 +42,10 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
         FirmaEnServidorV1ApiTest test = new FirmaEnServidorV1ApiTest();
         try {
 
-            test.callCommonTests();
-            /*
-            test.testSignatureServerPAdES();
+         //   test.callCommonTests();
             
+            test.testSignatureServerPAdES();
+     /*       
             test.testSignatureServerPAdESStatus401_Unathorized();
             
             test.testSignatureServerPAdESErrorFirmant();

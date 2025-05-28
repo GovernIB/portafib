@@ -1,5 +1,24 @@
 package es.caib.portafib.api.interna.secure.signature.v1.directsignatureonweb;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -7,18 +26,6 @@ import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.pluginsib.utils.rest.RestException;
 import org.fundaciobit.pluginsib.utils.rest.RestExceptionInfo;
 
-import es.caib.portafib.persistence.EntitatJPA;
-import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
-import es.caib.portafib.persistence.UsuariAplicacioJPA;
-import es.caib.portafib.logic.passarela.PassarelaSignatureStatusWebInternalUse;
-import es.caib.portafib.logic.passarela.PassarelaSignaturesSetWebInternalUse;
-import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
-import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
-import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
-import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
-import es.caib.portafib.logic.utils.I18NLogicUtils;
-import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
-import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.api.interna.secure.signature.v1.AbstractSignatureService;
 import es.caib.portafib.api.interna.secure.signature.v1.CommonsSwaggerOperations;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.CommonInfo;
@@ -26,11 +33,20 @@ import es.caib.portafib.api.interna.secure.signature.v1.commons.Document;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.DocumentaryType;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.FileInfoSignature;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.KeyValue;
-import es.caib.portafib.api.interna.secure.signature.v1.commons.SignatureStatus;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.ProcessStatus;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.Profile;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.SignatureStatus;
 import es.caib.portafib.api.interna.secure.signature.v1.signatureonserver.SignatureResponse;
 import es.caib.portafib.commons.utils.Constants;
+import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
+import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
+import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
+import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
+import es.caib.portafib.logic.utils.I18NLogicUtils;
+import es.caib.portafib.model.entity.PerfilDeFirma;
+import es.caib.portafib.persistence.EntitatJPA;
+import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
+import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import es.caib.portafib.utils.ConstantsV2;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,25 +64,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
-import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJB;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Controller REST per l'API de Firma Simple Web.
@@ -667,43 +664,7 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
         try {
 
-            PassarelaSignatureResult result;
-            result = passarelaDeFirmaWebEjb.getSignatureResult(transactionID, signID);
-
-            if (result == null) {
-                // XYZ ZZZ Traduir
-                String msg = "No s'ha pogut trobar informació de la firma [" + signID + "] de la transacció: "
-                        + transactionID;
-                throw new RestException(msg);
-            }
-
-            PassarelaSignaturesSetWebInternalUse pss = passarelaDeFirmaWebEjb
-                    .getSignaturesSetFullByTransactionID(transactionID);
-            PassarelaFileInfoSignature infoSign = null;
-            ValidacioCompletaResponse infoValidacio = null;
-
-            for (PassarelaFileInfoSignature pfis : pss.getSignaturesSet().getFileInfoSignatureArray()) {
-
-                if (signID.equals(pfis.getSignID())) {
-                    infoSign = pfis;
-                    PassarelaSignatureStatusWebInternalUse status = pss.getStatusBySignatureID().get(signID);
-                    if (status != null) {
-                        infoValidacio = status.getInfoValidacio();
-                    }
-                    break;
-                }
-            }
-
-            // FirmaSimpleFile fsf = convertFitxerBeanToFirmaSimpleFile(result.getSignedFile());
-            final boolean isSignatureInServer = false;
-            SignatureResponse fssr;
-            fssr = convertPassarelaSignatureResult2FirmaSimpleSignatureResult(result,
-                    pss.getSignaturesSet().getCommonInfoSignature(), infoSign, infoValidacio, isSignatureInServer);
-
-            //HttpHeaders headers = addAccessControllAllowOrigin();
-            //ResponseEntity<?> re = new ResponseEntity<FirmaSimpleSignatureResult>(fssr, headers, HttpStatus.OK);
-            log.info(" XYZ ZZZ getSignaturesStatus => FINAL OK");
-            return fssr;
+            return internalGetSignatureResult(passarelaDeFirmaWebEjb, signID, transactionID);
 
         } catch (Throwable th) {
 
@@ -717,6 +678,7 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
         }
 
     }
+
 
     @Path(value = "/closeTransaction")
     @POST

@@ -39,6 +39,12 @@
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
         </dependency>
+        
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-core</artifactId>
+            <version>2.2.27</version>
+        </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
@@ -159,11 +165,8 @@
                                 <package>es.caib.portafib.api.interna.secure.signature.v1.directsignatureonweb</package>
                                 <package>es.caib.portafib.api.interna.secure.signature.v1.asyncsignatureonweb</package>
                             </resourcePackages>
-                            <!-- Esta es la clave para que Swagger incluya anotaciones heredadas -->
-                            <resolveFully>true</resolveFully>
-                
-                            <!-- Opcional: para que también mire interfaces -->
-                            <scanDependencies>true</scanDependencies>
+                            <!-- S'estan generant un conjunt de -->
+                            <filterClass>es.caib.portafib.api.interna.secure.signature.v1.CustomSwaggerFilter</filterClass>
                         </configuration>
                     </execution>
                 </executions>
@@ -342,6 +345,7 @@
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                 <java11>true</java11>
                                 <useJakartaEe>false</useJakartaEe>
+                                <usePrimitives>true</usePrimitives>
                             </configOptions>
                             <!-- DO NOT WORK -->
                             <!--
