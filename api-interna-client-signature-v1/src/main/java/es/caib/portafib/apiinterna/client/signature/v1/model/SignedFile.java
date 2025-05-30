@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * SignedFile
+ * Representa una fitxer firmat i informació associada
  */
 @JsonPropertyOrder({
   SignedFile.JSON_PROPERTY_SIGNED_FILE,
@@ -35,17 +35,17 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class SignedFile {
   public static final String JSON_PROPERTY_SIGNED_FILE = "signedFile";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private Document signedFile;
 
   public static final String JSON_PROPERTY_SIGNED_FILE_INFO = "signedFileInfo";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private SignedFileInfo signedFileInfo;
 
   public SignedFile() {
   }
 
-  public SignedFile signedFile(@javax.annotation.Nullable Document signedFile) {
+  public SignedFile signedFile(@javax.annotation.Nonnull Document signedFile) {
     
     this.signedFile = signedFile;
     return this;
@@ -55,9 +55,9 @@ public class SignedFile {
    * Get signedFile
    * @return signedFile
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SIGNED_FILE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Document getSignedFile() {
     return signedFile;
@@ -65,12 +65,12 @@ public class SignedFile {
 
 
   @JsonProperty(JSON_PROPERTY_SIGNED_FILE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSignedFile(@javax.annotation.Nullable Document signedFile) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setSignedFile(@javax.annotation.Nonnull Document signedFile) {
     this.signedFile = signedFile;
   }
 
-  public SignedFile signedFileInfo(@javax.annotation.Nullable SignedFileInfo signedFileInfo) {
+  public SignedFile signedFileInfo(@javax.annotation.Nonnull SignedFileInfo signedFileInfo) {
     
     this.signedFileInfo = signedFileInfo;
     return this;
@@ -80,9 +80,9 @@ public class SignedFile {
    * Get signedFileInfo
    * @return signedFileInfo
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SIGNED_FILE_INFO)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public SignedFileInfo getSignedFileInfo() {
     return signedFileInfo;
@@ -90,8 +90,8 @@ public class SignedFile {
 
 
   @JsonProperty(JSON_PROPERTY_SIGNED_FILE_INFO)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSignedFileInfo(@javax.annotation.Nullable SignedFileInfo signedFileInfo) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setSignedFileInfo(@javax.annotation.Nonnull SignedFileInfo signedFileInfo) {
     this.signedFileInfo = signedFileInfo;
   }
 

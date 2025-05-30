@@ -15,7 +15,6 @@ public class SignatureRequestInfo {
     protected long signatureRequestID;
 
     @Schema(description = "Idioma en que es vol que es retornin els missatges.", requiredMode = RequiredMode.REQUIRED)
-
     protected String languageUI;
 
     /**

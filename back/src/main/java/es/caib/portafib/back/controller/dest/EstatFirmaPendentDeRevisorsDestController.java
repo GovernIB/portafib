@@ -50,8 +50,6 @@ public class EstatFirmaPendentDeRevisorsDestController extends EstatFirmaPendent
     public EstatDeFirmaFilterForm getEstatDeFirmaFilterForm(Integer pagina, ModelAndView mav,
             HttpServletRequest request) throws I18NException {
 
-        log.info("  =========== getEstatDeFirmaFilterForm ============================");
-
         // Lleva "Llistat de" del Títol
         EstatDeFirmaFilterForm ff = super.getEstatDeFirmaFilterForm(pagina, mav, request);
 
@@ -68,13 +66,10 @@ public class EstatFirmaPendentDeRevisorsDestController extends EstatFirmaPendent
 
         super.postList(request, mav, filterForm, estatDeFirmaList);
 
-        log.info("  =========== postList ============================");
-
         Map<Object, ArrayList<AdditionalButton>> nousBotons = new HashMap<Object, ArrayList<AdditionalButton>>();
 
         for (Entry<Object, ArrayList<AdditionalButton>> entry : filterForm.getAdditionalButtonsByPK().entrySet()) {
 
-            log.info(" -------------------------------------- ");
             for (AdditionalButton additionalButton : entry.getValue()) {
 
                 if (additionalButton.getLink().contains("/fullView/")) {

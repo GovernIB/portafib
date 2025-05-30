@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Valors: PRIORITY_PAUSED_PAUSADA &#x3D; 0; // Prioritat Pausada  PRIORITY_INSIGNIFICANT_INSIGNIFICANT &#x3D; 1; // &#x3D;Prioritat Insignificant  PRIORITY_VERYLOW_MOLTBAIXA &#x3D; 2; // &#x3D;Prioritat Molt Baixa  PRIORITY_LOW_BAIXA &#x3D; 3; // &#x3D;Prioritat Baixa  PRIORITY_NORMALLOW_NORMALBAIXA &#x3D; 4; // &#x3D;Prioritat Normal-Baixa  PRIORITY_NORMAL_NORMAL &#x3D; 5; // &#x3D;Prioritat Normal  PRIORITY_NORMALHIGH_NORMALALTA &#x3D; 6; // &#x3D;Prioritat Normal-Alta  PRIORITY_HIGH_ALTA &#x3D; 7; // &#x3D;Prioritat Alta  PRIORITY_VERYHIGH_MOLTALTA &#x3D; 8; // &#x3D;Prioritat Molt Alta  PRIORITY_IMMEDIATE_INMEDIATA &#x3D; 9; // &#x3D;Prioritat Immediata
+ * Valors:   • PRIORITY_PAUSED_PAUSADA(0): Prioritat Pausada   • PRIORITY_INSIGNIFICANT_INSIGNIFICANT(1):Prioritat Insignificant   • PRIORITY_VERYLOW_MOLTBAIXA(2):Prioritat Molt Baixa   • PRIORITY_LOW_BAIXA(3):Prioritat Baixa   • PRIORITY_NORMALLOW_NORMALBAIXA(4):Prioritat Normal-Baixa   • PRIORITY_NORMAL_NORMAL(5):Prioritat Normal   • PRIORITY_NORMALHIGH_NORMALALTA(6):Prioritat Normal-Alta   • PRIORITY_HIGH_ALTA(7):Prioritat Alta   • PRIORITY_VERYHIGH_MOLTALTA(8):Prioritat Molt Alta   • PRIORITY_IMMEDIATE_INMEDIATA(9):Prioritat Immediata
  */
 public enum PriorityConstants {
   

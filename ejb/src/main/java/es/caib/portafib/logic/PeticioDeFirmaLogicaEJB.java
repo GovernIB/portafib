@@ -95,6 +95,7 @@ import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.fundaciobit.genapp.common.KeyValue;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
@@ -991,9 +992,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                 // si estam en mode actualització.
                 File fileToConvert = file; // peticioDeFirmaForm.isNou() ? file : fileTmp;
 
-                // TODO PASSAR A DEBUG
-                log.info(" FILE ORIG = " + file.getAbsolutePath() + "\t" + file.exists() + "\t" + file.length() + "\t"
+                if (log.isDebugEnabled()) {
+                    log.debug(" FILE ORIG = " + file.getAbsolutePath() + "\t" + file.exists() + "\t" + file.length() + "\t"
                         + new Date(file.lastModified()));
+                }
 
                 Fitxer fileToConvertInfo = new FitxerBean();
                 fileToConvertInfo.setMime(fitxer.getMime());
@@ -1031,9 +1033,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                             }
                         }
 
-                        // TODO PASSAR A DEBUG
-                        log.info(" FILE CONV = " + fileToConvert.getAbsolutePath() + "\t" + fileToConvert.exists()
+                        if (log.isDebugEnabled()) {
+                            log.info(" FILE CONV = " + fileToConvert.getAbsolutePath() + "\t" + fileToConvert.exists()
                                 + "\t" + fileToConvert.length() + "\t" + new Date(fileToConvert.lastModified()));
+                        }
                     }
                 } catch (I18NException e) {
                     throw e;
@@ -1742,14 +1745,13 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                             }
                         }
 
-                        
-                        // TODO llevar
-                        log.info("\n\n ======  INICI d'UN BLOC VERGE  ========\n"
+                        if (log.isDebugEnabled()) {
+                          log.debug("\n\n ======  INICI d'UN BLOC VERGE  ========\n"
                                 + "Revisors pendents: " + numeroDeRevisorsPendents + "\n"
                                 + "Col·laboradors-Revisors pendents: " + numeroDeColaboradorsRevisorsPendents + "\n"
                                 + "enviarNotificacioADestinatari: " + enviarNotificacioADestinatari + "\n" + "\n\n");
-                        
-                        
+                        }
+
                         // No s'ha d'enviar correu a Destinatari de firma pendent si abans hi ha revisor/s #946
                         estatDeFirmaEventHelper.requeritPerSignar(peticioDeFirma, firmaJPA, events,
                                     destinatariReal, enviarNotificacioADestinatari);
@@ -3128,7 +3130,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             // Marcar l'Estat de Firma com a rebutjat
             estatDeFirma.setDataFi(now);
             estatDeFirma.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT);
-            estatDeFirma.setDescripcio(motiuDeRebuig);
+            estatDeFirma.setDescripcio(StringUtils.truncate(motiuDeRebuig, 250));
             estatDeFirma = estatDeFirmaLogicaEjb.updateUnauthorized(estatDeFirma);
 
             firma.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT);

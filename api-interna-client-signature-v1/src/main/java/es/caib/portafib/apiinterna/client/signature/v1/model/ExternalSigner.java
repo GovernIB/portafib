@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * Dades d&#39;un usuari extern
+ * Informació requerida per definir un Usuari Extern per a la firma electrònica.
  */
 @JsonPropertyOrder({
   ExternalSigner.JSON_PROPERTY_ADMINISTRATION_ID,
@@ -37,45 +37,45 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class ExternalSigner {
   public static final String JSON_PROPERTY_ADMINISTRATION_ID = "administrationId";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private String administrationId;
 
   public static final String JSON_PROPERTY_NAME = "name";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private String name;
 
   public static final String JSON_PROPERTY_SURNAMES = "surnames";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private String surnames;
 
   public static final String JSON_PROPERTY_EMAIL = "email";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private String email;
 
   public static final String JSON_PROPERTY_LANGUAGE = "language";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private String language;
 
   public static final String JSON_PROPERTY_SECURITY_LEVEL = "securityLevel";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private Integer securityLevel;
 
   public ExternalSigner() {
   }
 
-  public ExternalSigner administrationId(@javax.annotation.Nullable String administrationId) {
+  public ExternalSigner administrationId(@javax.annotation.Nonnull String administrationId) {
     
     this.administrationId = administrationId;
     return this;
   }
 
   /**
-   * Get administrationId
+   * NIF o DNI
    * @return administrationId
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_ADMINISTRATION_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getAdministrationId() {
     return administrationId;
@@ -83,24 +83,24 @@ public class ExternalSigner {
 
 
   @JsonProperty(JSON_PROPERTY_ADMINISTRATION_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setAdministrationId(@javax.annotation.Nullable String administrationId) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setAdministrationId(@javax.annotation.Nonnull String administrationId) {
     this.administrationId = administrationId;
   }
 
-  public ExternalSigner name(@javax.annotation.Nullable String name) {
+  public ExternalSigner name(@javax.annotation.Nonnull String name) {
     
     this.name = name;
     return this;
   }
 
   /**
-   * Get name
+   * Nom de la Persona
    * @return name
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getName() {
     return name;
@@ -108,24 +108,24 @@ public class ExternalSigner {
 
 
   @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setName(@javax.annotation.Nullable String name) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
   }
 
-  public ExternalSigner surnames(@javax.annotation.Nullable String surnames) {
+  public ExternalSigner surnames(@javax.annotation.Nonnull String surnames) {
     
     this.surnames = surnames;
     return this;
   }
 
   /**
-   * Get surnames
+   * Llinatges de la Persona
    * @return surnames
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SURNAMES)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getSurnames() {
     return surnames;
@@ -133,24 +133,24 @@ public class ExternalSigner {
 
 
   @JsonProperty(JSON_PROPERTY_SURNAMES)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSurnames(@javax.annotation.Nullable String surnames) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setSurnames(@javax.annotation.Nonnull String surnames) {
     this.surnames = surnames;
   }
 
-  public ExternalSigner email(@javax.annotation.Nullable String email) {
+  public ExternalSigner email(@javax.annotation.Nonnull String email) {
     
     this.email = email;
     return this;
   }
 
   /**
-   * Get email
+   * Correu electrònic de la persona
    * @return email
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_EMAIL)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getEmail() {
     return email;
@@ -158,24 +158,24 @@ public class ExternalSigner {
 
 
   @JsonProperty(JSON_PROPERTY_EMAIL)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEmail(@javax.annotation.Nullable String email) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setEmail(@javax.annotation.Nonnull String email) {
     this.email = email;
   }
 
-  public ExternalSigner language(@javax.annotation.Nullable String language) {
+  public ExternalSigner language(@javax.annotation.Nonnull String language) {
     
     this.language = language;
     return this;
   }
 
   /**
-   * Get language
+   * Idioma en que mostrar les pantalles web.
    * @return language
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_LANGUAGE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getLanguage() {
     return language;
@@ -183,24 +183,24 @@ public class ExternalSigner {
 
 
   @JsonProperty(JSON_PROPERTY_LANGUAGE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setLanguage(@javax.annotation.Nullable String language) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setLanguage(@javax.annotation.Nonnull String language) {
     this.language = language;
   }
 
-  public ExternalSigner securityLevel(@javax.annotation.Nullable Integer securityLevel) {
+  public ExternalSigner securityLevel(@javax.annotation.Nonnull Integer securityLevel) {
     
     this.securityLevel = securityLevel;
     return this;
   }
 
   /**
-   * Get securityLevel
+   * Nivell de Seguretat
    * @return securityLevel
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SECURITY_LEVEL)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getSecurityLevel() {
     return securityLevel;
@@ -208,8 +208,8 @@ public class ExternalSigner {
 
 
   @JsonProperty(JSON_PROPERTY_SECURITY_LEVEL)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSecurityLevel(@javax.annotation.Nullable Integer securityLevel) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setSecurityLevel(@javax.annotation.Nonnull Integer securityLevel) {
     this.securityLevel = securityLevel;
   }
 

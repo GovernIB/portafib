@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
  * 21 may 2025 10:47:13
  */
 @Schema(
-        description = "Estructura de dades per a la sol·licitud de signatura electrònica amb una llista de blocs de signatura")
+        description = "Estructura de dades per a la sol·licitud de signatura electrònica a partir d'una llista de blocs de signatura")
 public class SignatureRequestWithSignBlockList extends SignatureRequestBase {
 
     @Schema(

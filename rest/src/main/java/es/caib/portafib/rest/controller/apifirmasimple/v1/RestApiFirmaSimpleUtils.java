@@ -330,7 +330,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
 
                 try {
 
-                    String langUI = commonInfo.getLanguageUI();
+                    String langUI = checkLanguageUI(commonInfo.getLanguageUI());
 
                     PluginJPA plugin;
                     ISignaturePlugin signaturePlugin;

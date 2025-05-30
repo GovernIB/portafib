@@ -1481,14 +1481,28 @@ components:
       - errorMessage
       type: object
     PriorityConstants:
-      description: "Valors:\nPRIORITY_PAUSED_PAUSADA = 0; // Prioritat Pausada\r\n\
-        PRIORITY_INSIGNIFICANT_INSIGNIFICANT = 1; // =Prioritat Insignificant\r\n\
-        PRIORITY_VERYLOW_MOLTBAIXA = 2; // =Prioritat Molt Baixa\r\nPRIORITY_LOW_BAIXA\
-        \ = 3; // =Prioritat Baixa\r\nPRIORITY_NORMALLOW_NORMALBAIXA = 4; // =Prioritat\
-        \ Normal-Baixa\r\nPRIORITY_NORMAL_NORMAL = 5; // =Prioritat Normal\r\nPRIORITY_NORMALHIGH_NORMALALTA\
-        \ = 6; // =Prioritat Normal-Alta\r\nPRIORITY_HIGH_ALTA = 7; // =Prioritat\
-        \ Alta\r\nPRIORITY_VERYHIGH_MOLTALTA = 8; // =Prioritat Molt Alta\r\nPRIORITY_IMMEDIATE_INMEDIATA\
-        \ = 9; // =Prioritat Immediata"
+      description: |-
+        #Valors:
+
+         • PRIORITY_PAUSED_PAUSADA(0): Prioritat Pausada
+
+         • PRIORITY_INSIGNIFICANT_INSIGNIFICANT(1):Prioritat Insignificant
+
+         • PRIORITY_VERYLOW_MOLTBAIXA(2):Prioritat Molt Baixa
+
+         • PRIORITY_LOW_BAIXA(3):Prioritat Baixa
+
+         • PRIORITY_NORMALLOW_NORMALBAIXA(4):Prioritat Normal-Baixa
+
+         • PRIORITY_NORMAL_NORMAL(5):Prioritat Normal
+
+         • PRIORITY_NORMALHIGH_NORMALALTA(6):Prioritat Normal-Alta
+
+         • PRIORITY_HIGH_ALTA(7):Prioritat Alta
+
+         • PRIORITY_VERYHIGH_MOLTALTA(8):Prioritat Molt Alta
+
+         • PRIORITY_IMMEDIATE_INMEDIATA(9):Prioritat Immediata
       enum:
       - 0
       - 1
@@ -1671,6 +1685,8 @@ components:
       - value
       type: object
     SignatureRequestWithFlowTemplateCode:
+      description: Estructura de dades per a la sol·licitud de signatura electrònica
+        a partir d'un identificador de Plantilla de Flux de Firmes
       example:
         reason: reason
         additionalInformation: additionalInformation
@@ -1801,11 +1817,16 @@ components:
             $ref: '#/components/schemas/Metadata'
           type: array
         flowTemplateCode:
+          description: "Codi de la Plantilla del Flux de Firmes a utilitzar que es\
+            \ troba en el PortaFirmes. PortaFIB actualment no suporta codis en Plantilles\
+            \ de flux de firmes en format String, per la qual cosa aquí s'ha de posar\
+            \ l'ID de BBDD de la Plantilla de Flux de Firmes."
           type: string
       required:
       - description
       - documentType
       - fileToSign
+      - flowTemplateCode
       - languageDoc
       - languageUI
       - priority
@@ -1815,7 +1836,8 @@ components:
       - title
       type: object
     ExternalSigner:
-      description: Dades d'un usuari extern
+      description: Informació requerida per definir un Usuari Extern per a la firma
+        electrònica.
       example:
         administrationId: administrationId
         securityLevel: 5
@@ -1825,18 +1847,31 @@ components:
         email: email
       properties:
         administrationId:
+          description: NIF o DNI
           type: string
         name:
+          description: Nom de la Persona
           type: string
         surnames:
+          description: Llinatges de la Persona
           type: string
         email:
+          description: Correu electrònic de la persona
           type: string
         language:
+          description: Idioma en que mostrar les pantalles web.
           type: string
         securityLevel:
+          description: Nivell de Seguretat
           format: int32
           type: integer
+      required:
+      - administrationId
+      - email
+      - language
+      - name
+      - securityLevel
+      - surnames
       type: object
     Reviser:
       description: Classe que representa un Revisor d'una Firma. Només s'ha d'omplir
@@ -1999,7 +2034,7 @@ components:
       type: object
     SignatureRequestWithSignBlockList:
       description: Estructura de dades per a la sol·licitud de signatura electrònica
-        amb una llista de blocs de signatura
+        a partir d'una llista de blocs de signatura
       example:
         reason: reason
         additionalInformation: additionalInformation
@@ -2438,6 +2473,7 @@ components:
       - custodyID
       type: object
     SignedFile:
+      description: Representa una fitxer firmat i informació associada
       example:
         signedFileInfo:
           signaturesTableLocation: 1
@@ -2501,6 +2537,9 @@ components:
           $ref: '#/components/schemas/Document'
         signedFileInfo:
           $ref: '#/components/schemas/SignedFileInfo'
+      required:
+      - signedFile
+      - signedFileInfo
       type: object
     SignedFileInfo:
       description: Informació del fitxer signat.
@@ -2565,7 +2604,7 @@ components:
           format: int32
           type: integer
         signType:
-          description: "Tipus de Firma. Valors possibles:\r\n    "
+          description: Tipus de Firma. Valors possibles veure SignTypeConstants.
           type: string
         signAlgorithm:
           description: "Algorisme de Firma. Valors: \r\n    - \"SHA-1\"\r\n    - \"\
@@ -2573,16 +2612,12 @@ components:
           example: SHA-1
           type: string
         signMode:
-          description: "Valors:\r\n    - 0: Implicit o Attached. La firma resultante\
-            \ incluye internamente una copia de los datos firmados. \r\n    - 1: Explicit\
-            \ o Detached: La firma resultante no incluye los datos firmados. "
+          description: Mode de firma. Valors veure SignModeConstants. Exemple SignModeConstants.SIGN_MODE_ATTACHED_ENVELOPED.value()
           example: 0
           format: int32
           type: integer
         signaturesTableLocation:
-          description: "Posició de la Taula de firmes:\r\n    - 0: Sense taula de\
-            \ firmes\r\n    - 1: Taula de firmes en la 1a pàgina\r\n    - -1: Darrera\
-            \ pàgina"
+          description: Posició de la Taula de firmes:Veure classe SignaturesTableLocationConstants
           example: 1
           format: int32
           type: integer

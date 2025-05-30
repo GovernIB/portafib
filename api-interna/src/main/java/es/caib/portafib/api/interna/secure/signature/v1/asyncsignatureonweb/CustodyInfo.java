@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
  * @author anadal
  * 20 may 2025 14:26:07
  */
-@Schema(description = "", requiredMode = RequiredMode.REQUIRED)
+@Schema(description = "Informació en cas de que el document signat s'hagi Custodiat o Arxivat", requiredMode = RequiredMode.REQUIRED)
 public class CustodyInfo {
 
     @Schema(description = "Identificador del sistema de custòdia", requiredMode = RequiredMode.REQUIRED)

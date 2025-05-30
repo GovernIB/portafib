@@ -2015,6 +2015,12 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
         FluxDeFirmesJPA fluxDeFirmes;
         fluxDeFirmes = fluxDeFirmesLogicaEjb.findByPrimaryKeyFullForPlantilla(fluxDeFirmesID);
 
+        if (fluxDeFirmes == null) {
+            // XYZ ZZZ TRA
+            throw new I18NException("genapp.comodi", "No he trobat el fFlux de Firmes amb ID "
+                 + String.valueOf(fluxDeFirmesID));
+        }
+
         Set<BlocDeFirmesJPA> blocsUnordered = fluxDeFirmes.getBlocDeFirmess();
 
         if (blocsUnordered != null) {

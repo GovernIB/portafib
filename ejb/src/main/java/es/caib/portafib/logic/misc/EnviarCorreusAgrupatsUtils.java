@@ -161,6 +161,10 @@ public class EnviarCorreusAgrupatsUtils {
                             + I18NCommonUtils.getMessage(e, new Locale("ca")) + "):\n" + email.getMessage(), e);
 
                     result.put(email.getEmail(), -1 * missatges);
+                } catch (Throwable e) {
+                    log.error("Error NO CONTROLAT enviant correu a " + email.getSubject() + " - " + email.getUsuariEntitatID() + "("
+                            + e.getMessage() + "):\n" + email.getMessage(), e);
+                    result.put(email.getEmail(), -1 * missatges);
                 }
                 // Per no saturar (1) el servidor, (2) ni l'enviament de correus (3) ni la firma de sol·licituds 
                 Thread.sleep(500);

@@ -159,8 +159,7 @@ import java.util.TreeSet;
                                         schema = @Schema(implementation = ExternalSignerSecurityLevelConstants.class)),
                                 @Content(
                                         mediaType = MediaType.APPLICATION_JSON,
-                                        schema = @Schema(implementation = MetadataConstants.class))
-                                 }) })
+                                        schema = @Schema(implementation = MetadataConstants.class)) }) })
 
 @RolesAllowed({ Constants.PFI_WS })
 public class AsyncSignatureOnWebService extends AbstractSignatureService implements CommonsSwaggerOperations {
@@ -949,7 +948,8 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
                                     description = "Retorna el Fitxer original amb el que es va crear la petició de firma.",
                                     requiredMode = RequiredMode.REQUIRED,
                                     implementation = Document.class))), })
-    public Document getOriginalFileOfSignatureRequest(@Parameter(hidden = true) @Context HttpServletRequest request, @RequestBody
+    public Document getOriginalFileOfSignatureRequest(@Parameter(hidden = true) @Context
+    HttpServletRequest request, @RequestBody
     SignatureRequestInfo info) {
 
         String languageUI = "ca";
@@ -1003,7 +1003,8 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
                                     requiredMode = RequiredMode.REQUIRED,
                                     implementation = SignatureRequestInfo.class))))
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operació realitzada correctament") })
-    public void deleteSignatureRequest(@Parameter(hidden = true) @Context HttpServletRequest request, @RequestBody
+    public void deleteSignatureRequest(@Parameter(hidden = true) @Context
+    HttpServletRequest request, @RequestBody
     SignatureRequestInfo info) {
 
         String languageUI = "ca";
@@ -1479,13 +1480,13 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
                         extSigner.setSurnames(persona.getLlinatges());
                     }
 
-                    switch (extSigner.getSecurityLevel()) {
-                        case ExternalSigner.SECURITY_LEVEL_TOKEN:
+                    switch (ExternalSignerSecurityLevelConstants.fromValue(extSigner.getSecurityLevel())) {
+                        case TOKEN:
                         // OK
                         break;
 
-                        case ExternalSigner.SECURITY_LEVEL_CERTIFICATE:
-                        case ExternalSigner.SECURITY_LEVEL_PASSWORD:
+                        case CERTIFICATE:
+                        case PASSWORD:
                             // XYZ ZZZ XYZ
                             throw new I18NException("genapp.comodi",
                                     "Encara no es suporta el nivell de seguretat " + extSigner.getSecurityLevel());
@@ -1495,7 +1496,6 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
                                     "Nivell de seguretat desconegut" + extSigner.getSecurityLevel());
 
                     }
-
                 }
             }
             break;

@@ -215,7 +215,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         return false;
     }
 
-    // ---------------------------------------------------------------
+
 
     public String getTileSeleccioUsuari() {
         return "seleccioUsuariForm" + (esDeCarrec() ? "_ADEN" : "_DEST");

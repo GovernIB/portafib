@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
  * @author anadal(u80067)
  *
  */
-@Schema(description = "Informació del signant",  requiredMode = RequiredMode.REQUIRED)
+@Schema(description = "Informació del signant", requiredMode = RequiredMode.REQUIRED)
 public class SignerInfo {
 
     /**
@@ -52,7 +52,7 @@ public class SignerInfo {
                     + "Firma electrónica avanzada basada en certificados, CSV, ..",
             requiredMode = RequiredMode.NOT_REQUIRED)
     protected String eniSignLevel;
-    
+
     //@Schema(description = "Data en que es va realitzar la firma", requiredMode = RequiredMode.NOT_REQUIRED)
     // protected Date signDate;
     @Schema(
@@ -63,7 +63,9 @@ public class SignerInfo {
             pattern = "yyyy-MM-dd'T'HH:mm:ss")
     protected Timestamp signDate;
 
-    @Schema(description = "Número de Sèrie del Certificat utilitzat en la firma", requiredMode = RequiredMode.NOT_REQUIRED)
+    @Schema(
+            description = "Número de Sèrie del Certificat utilitzat en la firma",
+            requiredMode = RequiredMode.NOT_REQUIRED)
     protected String serialNumberCert;
 
     @Schema(description = "Issuer del Certificat utilitzat en la firma", requiredMode = RequiredMode.NOT_REQUIRED)
@@ -76,16 +78,18 @@ public class SignerInfo {
      * eEMGDE.Firma.InformacionAdicional (eEMGDE17.5.5) Ofrecer cualquier otra
      * información que se considere útil acerca del firmante.
      */
-    
-    @Schema(description = "Ofrecer cualquier otra información que se  considere útil acerca del firmante.", requiredMode = RequiredMode.NOT_REQUIRED)
+
+    @Schema(
+            description = "Ofrecer cualquier otra información que se  considere útil acerca del firmante.",
+            requiredMode = RequiredMode.NOT_REQUIRED)
     protected List<KeyValue> additionalInformation = null;
 
     public SignerInfo() {
         super();
     }
 
-    public SignerInfo(String eniRolFirma, String eniSignerName, String eniSignerAdministrationId,
-            String eniSignLevel, Timestamp signDate, String serialNumberCert, String issuerCert, String subjectCert,
+    public SignerInfo(String eniRolFirma, String eniSignerName, String eniSignerAdministrationId, String eniSignLevel,
+            Timestamp signDate, String serialNumberCert, String issuerCert, String subjectCert,
             List<KeyValue> additionalInformation) {
         super();
         this.eniRolFirma = eniRolFirma;
@@ -130,7 +134,6 @@ public class SignerInfo {
     public void setEniSignLevel(String eniSignLevel) {
         this.eniSignLevel = eniSignLevel;
     }
-
 
     public Timestamp getSignDate() {
         return signDate;
@@ -188,8 +191,7 @@ public class SignerInfo {
         if (additionalInformation != null && additionalInformation.size() != 0) {
             str.append("\n").append("        + INFORMACIO ADDICIONAL:");
             for (KeyValue KeyValue : additionalInformation) {
-                str.append("\n").append(
-                        "          >> KEY[" + KeyValue.getKey() + "]: " + KeyValue.getValue());
+                str.append("\n").append("          >> KEY[" + KeyValue.getKey() + "]: " + KeyValue.getValue());
             }
         }
 

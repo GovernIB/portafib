@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * Estructura de dades per a la sol·licitud de signatura electrònica amb una llista de blocs de signatura
+ * Estructura de dades per a la sol·licitud de signatura electrònica a partir d&#39;una llista de blocs de signatura
  */
 @JsonPropertyOrder({
   SignatureRequestWithSignBlockList.JSON_PROPERTY_PROFILE_CODE,

@@ -13,7 +13,7 @@ public class Signer extends Person {
     /**
      * Dades d'un usuari extern
      */
-    @Schema(description = "Dades d'un usuari extern", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(description = "Dades a omplir en cas de que la persona sigui un usuari extern", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     protected ExternalSigner externalSigner;
 
     public Signer() {

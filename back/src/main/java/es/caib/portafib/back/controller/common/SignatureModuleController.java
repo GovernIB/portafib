@@ -274,7 +274,7 @@ public class SignatureModuleController extends HttpServlet {
         // Check pss is null
         if (pss == null) {
             String msg = I18NUtils.tradueix("moduldefirma.caducat", signaturesSetID);
-            generateErrorMAV(request, pss, msg, null);
+            return generateErrorMAV(request, pss, msg, null);
         }
 
         StatusSignaturesSet sss = pss.getStatusSignaturesSet();
@@ -331,6 +331,12 @@ public class SignatureModuleController extends HttpServlet {
         // EL portaFIBSignaturesSet existeix?
         PortaFIBSignaturesSet signaturesSet;
         signaturesSet = getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
+        
+        if (signaturesSet == null) {
+            final String msg = "No es troba l'objecte PortaFIBSignaturesSet associat al ID = " + signaturesSetID
+                    + " a l'hora de mostrar el mòdul de firma. Caducat?";
+            return generateErrorMAV(request, signaturesSetID, msg, null);
+        }
 
         if (log.isDebugEnabled()) {
             log.debug("PortaFIBSignaturesSet signaturesSet = " + signaturesSet);

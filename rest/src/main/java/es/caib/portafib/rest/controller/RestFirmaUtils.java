@@ -42,6 +42,23 @@ public class RestFirmaUtils<K extends ApisIBKeyValue> extends RestUtilsErrorMana
     @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentService.JNDI_NAME)
     protected es.caib.portafib.ejb.TipusDocumentService tipusDocumentEjb;
 
+    
+    protected String checkLanguageUI(String langUI) {
+        if (langUI == null || langUI.isEmpty()) {
+            // Si no hi ha idioma, per defecte en català
+            langUI = "ca";
+        } else {
+            // Si hi ha idioma, comprovar que sigui un idioma correcte
+            if (langUI.equals("ca") || langUI.equals("es")) {
+                // OK esta be
+            } else {
+                langUI = "ca";
+            }
+        }
+        return langUI;
+    }
+    
+    
     /**
      * 
      * @param w

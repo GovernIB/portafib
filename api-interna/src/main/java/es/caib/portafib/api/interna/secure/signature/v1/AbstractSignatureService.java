@@ -51,7 +51,6 @@ import es.caib.portafib.api.interna.secure.signature.v1.commons.Profile;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignedFileInfo;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignerInfo;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.ValidationInfo;
-import es.caib.portafib.api.interna.secure.signature.v1.directsignatureonweb.SignDocumentsRequest;
 import es.caib.portafib.api.interna.secure.signature.v1.signatureonserver.SignDocumentRequest;
 import es.caib.portafib.api.interna.secure.signature.v1.signatureonserver.SignatureResponse;
 import es.caib.portafib.api.interna.secure.signature.v1.signatureonserver.UpgradedFileInfo;
@@ -354,8 +353,8 @@ public abstract class AbstractSignatureService extends RestUtils {
 
             // TODO XYZ FALTA CHECK
             if (simpleSignaturesSet.getFileInfoSignatureArray() != null) {
-                es.caib.portafib.api.interna.secure.signature.v1.commons.FileInfoSignature[] simpleFileInfoSignatureArray = simpleSignaturesSet
-                        .getFileInfoSignatureArray();
+                es.caib.portafib.api.interna.secure.signature.v1.commons.FileInfoSignature[] simpleFileInfoSignatureArray;
+                simpleFileInfoSignatureArray = simpleSignaturesSet.getFileInfoSignatureArray();
 
                 if (simpleFileInfoSignatureArray == null || simpleFileInfoSignatureArray.length == 0) {
                     // XYZ ZZZ TRA
@@ -1402,6 +1401,46 @@ public abstract class AbstractSignatureService extends RestUtils {
 
         }
         return signatureFileInfo;
+    }
+
+    
+    
+    protected static class SignDocumentsRequest {
+
+        CommonInfo commonInfo;
+
+        es.caib.portafib.api.interna.secure.signature.v1.commons.FileInfoSignature[] fileInfoSignatureArray;
+
+        /**
+         * 
+         */
+        public SignDocumentsRequest() {
+            super();
+        }
+
+        public SignDocumentsRequest(CommonInfo commonInfo,
+                es.caib.portafib.api.interna.secure.signature.v1.commons.FileInfoSignature[] fileInfoSignatureArray) {
+            super();
+            this.commonInfo = commonInfo;
+            this.fileInfoSignatureArray = fileInfoSignatureArray;
+        }
+
+        public es.caib.portafib.api.interna.secure.signature.v1.commons.FileInfoSignature[] getFileInfoSignatureArray() {
+            return fileInfoSignatureArray;
+        }
+
+        public void setFileInfoSignatureArray(es.caib.portafib.api.interna.secure.signature.v1.commons.FileInfoSignature[] fileInfoSignatureArray) {
+            this.fileInfoSignatureArray = fileInfoSignatureArray;
+        }
+
+        public CommonInfo getCommonInfo() {
+            return commonInfo;
+        }
+
+        public void setCommonInfo(CommonInfo commonInfo) {
+            this.commonInfo = commonInfo;
+        }
+
     }
 
     

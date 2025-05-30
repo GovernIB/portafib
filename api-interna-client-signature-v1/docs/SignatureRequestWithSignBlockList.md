@@ -2,7 +2,7 @@
 
 # SignatureRequestWithSignBlockList
 
-Estructura de dades per a la sol·licitud de signatura electrònica amb una llista de blocs de signatura
+Estructura de dades per a la sol·licitud de signatura electrònica a partir d'una llista de blocs de signatura
 
 ## Properties
 

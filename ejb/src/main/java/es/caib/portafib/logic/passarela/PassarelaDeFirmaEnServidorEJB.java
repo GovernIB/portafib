@@ -122,7 +122,7 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
             ssbv.throwValidationExceptionIfErrors(passarelaSignaturesSet, isNou);
 
             signaturesSetID = passarelaSignaturesSet.getSignaturesSetID();
-            log.info("signDocuments: " + signaturesSetID);
+            log.info("signDocuments()::signaturesSetID=" + signaturesSetID);
 
             PassarelaFileInfoSignature[] fisArray = passarelaSignaturesSet.getFileInfoSignatureArray();
 

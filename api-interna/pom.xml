@@ -45,12 +45,12 @@
             <artifactId>swagger-core</artifactId>
             <version>2.2.27</version>
         </dependency>
-
+<!--
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-json-provider</artifactId>
         </dependency>
-
+-->
         <dependency>
             <artifactId>pluginsib-utils-rest</artifactId>
             <groupId>org.fundaciobit.pluginsib.utils</groupId>

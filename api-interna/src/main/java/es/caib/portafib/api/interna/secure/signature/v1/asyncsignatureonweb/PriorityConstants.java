@@ -9,17 +9,17 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * 16 may 2025 12:30:53
  */
 @Schema(
-        description = "Valors:\n"
-                        + "PRIORITY_PAUSED_PAUSADA = 0; // Prioritat Pausada\r\n"
-                        + "PRIORITY_INSIGNIFICANT_INSIGNIFICANT = 1; // =Prioritat Insignificant\r\n"
-                        + "PRIORITY_VERYLOW_MOLTBAIXA = 2; // =Prioritat Molt Baixa\r\n"
-                        + "PRIORITY_LOW_BAIXA = 3; // =Prioritat Baixa\r\n"
-                        + "PRIORITY_NORMALLOW_NORMALBAIXA = 4; // =Prioritat Normal-Baixa\r\n"
-                        + "PRIORITY_NORMAL_NORMAL = 5; // =Prioritat Normal\r\n"
-                        + "PRIORITY_NORMALHIGH_NORMALALTA = 6; // =Prioritat Normal-Alta\r\n"
-                        + "PRIORITY_HIGH_ALTA = 7; // =Prioritat Alta\r\n"
-                        + "PRIORITY_VERYHIGH_MOLTALTA = 8; // =Prioritat Molt Alta\r\n"
-                        + "PRIORITY_IMMEDIATE_INMEDIATA = 9; // =Prioritat Immediata",
+        description = "Valors:\n\n"
+                        + " • PRIORITY_PAUSED_PAUSADA(0): Prioritat Pausada\n\n"
+                        + " • PRIORITY_INSIGNIFICANT_INSIGNIFICANT(1):Prioritat Insignificant\n\n"
+                        + " • PRIORITY_VERYLOW_MOLTBAIXA(2):Prioritat Molt Baixa\n\n"
+                        + " • PRIORITY_LOW_BAIXA(3):Prioritat Baixa\n\n"
+                        + " • PRIORITY_NORMALLOW_NORMALBAIXA(4):Prioritat Normal-Baixa\n\n"
+                        + " • PRIORITY_NORMAL_NORMAL(5):Prioritat Normal\n\n"
+                        + " • PRIORITY_NORMALHIGH_NORMALALTA(6):Prioritat Normal-Alta\n\n"
+                        + " • PRIORITY_HIGH_ALTA(7):Prioritat Alta\n\n"
+                        + " • PRIORITY_VERYHIGH_MOLTALTA(8):Prioritat Molt Alta\n\n"
+                        + " • PRIORITY_IMMEDIATE_INMEDIATA(9):Prioritat Immediata",
         format = "int32",
         enumAsRef = true,
         /** Parxe utilitzat per a la generació correcta dels noms dels enums dins de l'openapi.json */

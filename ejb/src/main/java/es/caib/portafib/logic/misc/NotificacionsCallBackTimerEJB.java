@@ -123,12 +123,14 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
             Collection<Timer> timers = timerService.getTimers();
             for (Timer timer : timers) {
                 if (isWakeUpTimer(timer)) {
-                    log.info("wakeUp: Ja hi ha un wakeUp programat. No feim res.");
+                    log.debug("wakeUp: Ja hi ha un wakeUp programat. No feim res.");
                     return;
                 }
             }
 
-            log.info("wakeUp: Reprogamam els timers");
+            if (log.isDebugEnabled()) {
+              log.debug("wakeUp: Reprogamam els timers");
+            }
             startScheduler();
             Timer timer = timerService.createSingleActionTimer(2000, new TimerConfig("wakeUp", false));
             log.info("wakeUp: Programat wakeUp per " + timer.getNextTimeout());
@@ -311,9 +313,9 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
                         + ". Tancam de la notificacio");
 
             } else {
-                log.info("\n\tUSRAPP: " + usuariAplicacio.getUsuariAplicacioID() + "\n\tSERVER: "
-                        + usuariAplicacio.getCallbackURL() + "\n\tVERSIO: " + usuariAplicacio.getCallbackVersio()
-                        + "\n\tPETICIO: " + notificacioJPA.getPeticioDeFirmaID() + "\n\tEVENT: "
+                log.info("Notificant: \tUSRAPP: " + usuariAplicacio.getUsuariAplicacioID() + "\tSERVER: "
+                        + usuariAplicacio.getCallbackURL() + "\tVERSIO: " + usuariAplicacio.getCallbackVersio()
+                        + "\n\tPETICIO: " + notificacioJPA.getPeticioDeFirmaID() + "\tEVENT: "
                         + notificacioInfo.getFirmaEvent().getEventID());
 
                 NotificacioSender sender = NotificacioSenderFactory.getSender(usuariAplicacio);

@@ -2101,7 +2101,7 @@
       },
       "PriorityConstants" : {
         "type" : "integer",
-        "description" : "Valors:\nPRIORITY_PAUSED_PAUSADA = 0; // Prioritat Pausada\r\nPRIORITY_INSIGNIFICANT_INSIGNIFICANT = 1; // =Prioritat Insignificant\r\nPRIORITY_VERYLOW_MOLTBAIXA = 2; // =Prioritat Molt Baixa\r\nPRIORITY_LOW_BAIXA = 3; // =Prioritat Baixa\r\nPRIORITY_NORMALLOW_NORMALBAIXA = 4; // =Prioritat Normal-Baixa\r\nPRIORITY_NORMAL_NORMAL = 5; // =Prioritat Normal\r\nPRIORITY_NORMALHIGH_NORMALALTA = 6; // =Prioritat Normal-Alta\r\nPRIORITY_HIGH_ALTA = 7; // =Prioritat Alta\r\nPRIORITY_VERYHIGH_MOLTALTA = 8; // =Prioritat Molt Alta\r\nPRIORITY_IMMEDIATE_INMEDIATA = 9; // =Prioritat Immediata",
+        "description" : "#Valors:\n\n • PRIORITY_PAUSED_PAUSADA(0): Prioritat Pausada\n\n • PRIORITY_INSIGNIFICANT_INSIGNIFICANT(1):Prioritat Insignificant\n\n • PRIORITY_VERYLOW_MOLTBAIXA(2):Prioritat Molt Baixa\n\n • PRIORITY_LOW_BAIXA(3):Prioritat Baixa\n\n • PRIORITY_NORMALLOW_NORMALBAIXA(4):Prioritat Normal-Baixa\n\n • PRIORITY_NORMAL_NORMAL(5):Prioritat Normal\n\n • PRIORITY_NORMALHIGH_NORMALALTA(6):Prioritat Normal-Alta\n\n • PRIORITY_HIGH_ALTA(7):Prioritat Alta\n\n • PRIORITY_VERYHIGH_MOLTALTA(8):Prioritat Molt Alta\n\n • PRIORITY_IMMEDIATE_INMEDIATA(9):Prioritat Immediata",
         "format" : "int32",
         "x-enum-varnames" : [ "PRIORITY_PAUSED_PAUSADA", "PRIORITY_INSIGNIFICANT_INSIGNIFICANT", "PRIORITY_VERYLOW_MOLTBAIXA", "PRIORITY_LOW_BAIXA", "PRIORITY_NORMALLOW_NORMALBAIXA", "PRIORITY_NORMAL_NORMAL", "PRIORITY_NORMALHIGH_NORMALALTA", "PRIORITY_HIGH_ALTA", "PRIORITY_VERYHIGH_MOLTALTA", "PRIORITY_IMMEDIATE_INMEDIATA" ],
         "x-enum-descriptions" : [ "Prioritat Pausada", "Prioritat Insignificant", "Prioritat Molt Baixa", "Prioritat Baixa", "Prioritat Normal-Baixa", "Prioritat Normal", "Prioritat Normal-Alta", "Prioritat Alta", "Prioritat Molt Alta", "Prioritat Immediata" ],
@@ -2194,7 +2194,7 @@
         "description" : "Conté informació i valor d'una Metadada"
       },
       "SignatureRequestWithFlowTemplateCode" : {
-        "required" : [ "description", "documentType", "fileToSign", "languageDoc", "languageUI", "priority", "profileCode", "reason", "senderName", "title" ],
+        "required" : [ "description", "documentType", "fileToSign", "flowTemplateCode", "languageDoc", "languageUI", "priority", "profileCode", "reason", "senderName", "title" ],
         "type" : "object",
         "properties" : {
           "profileCode" : {
@@ -2293,34 +2293,43 @@
             }
           },
           "flowTemplateCode" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Codi de la Plantilla del Flux de Firmes a utilitzar que es troba en el PortaFirmes. PortaFIB actualment no suporta codis en Plantilles de flux de firmes en format String, per la qual cosa aquí s'ha de posar l'ID de BBDD de la Plantilla de Flux de Firmes."
           }
-        }
+        },
+        "description" : "Estructura de dades per a la sol·licitud de signatura electrònica a partir d'un identificador de Plantilla de Flux de Firmes"
       },
       "ExternalSigner" : {
+        "required" : [ "administrationId", "email", "language", "name", "securityLevel", "surnames" ],
         "type" : "object",
         "properties" : {
           "administrationId" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "NIF o DNI"
           },
           "name" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Nom de la Persona"
           },
           "surnames" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Llinatges de la Persona"
           },
           "email" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Correu electrònic de la persona"
           },
           "language" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Idioma en que mostrar les pantalles web."
           },
           "securityLevel" : {
             "type" : "integer",
+            "description" : "Nivell de Seguretat",
             "format" : "int32"
           }
         },
-        "description" : "Dades d'un usuari extern"
+        "description" : "Informació requerida per definir un Usuari Extern per a la firma electrònica."
       },
       "Reviser" : {
         "required" : [ "required" ],
@@ -2506,7 +2515,7 @@
             }
           }
         },
-        "description" : "Estructura de dades per a la sol·licitud de signatura electrònica amb una llista de blocs de signatura"
+        "description" : "Estructura de dades per a la sol·licitud de signatura electrònica a partir d'una llista de blocs de signatura"
       },
       "Signer" : {
         "type" : "object",
@@ -2668,6 +2677,7 @@
         "description" : "Informació de Custòdia"
       },
       "SignedFile" : {
+        "required" : [ "signedFile", "signedFileInfo" ],
         "type" : "object",
         "properties" : {
           "signedFile" : {
@@ -2676,7 +2686,8 @@
           "signedFileInfo" : {
             "$ref" : "#/components/schemas/SignedFileInfo"
           }
-        }
+        },
+        "description" : "Representa una fitxer firmat i informació associada"
       },
       "SignedFileInfo" : {
         "required" : [ "policyIncluded", "signAlgorithm", "signMode", "signOperation", "signType", "signaturesTableLocation", "timeStampIncluded" ],
@@ -2690,7 +2701,7 @@
           },
           "signType" : {
             "type" : "string",
-            "description" : "Tipus de Firma. Valors possibles:\r\n    "
+            "description" : "Tipus de Firma. Valors possibles veure SignTypeConstants."
           },
           "signAlgorithm" : {
             "type" : "string",
@@ -2699,13 +2710,13 @@
           },
           "signMode" : {
             "type" : "integer",
-            "description" : "Valors:\r\n    - 0: Implicit o Attached. La firma resultante incluye internamente una copia de los datos firmados. \r\n    - 1: Explicit o Detached: La firma resultante no incluye los datos firmados. ",
+            "description" : "Mode de firma. Valors veure SignModeConstants. Exemple SignModeConstants.SIGN_MODE_ATTACHED_ENVELOPED.value()",
             "format" : "int32",
             "example" : 0
           },
           "signaturesTableLocation" : {
             "type" : "integer",
-            "description" : "Posició de la Taula de firmes:\r\n    - 0: Sense taula de firmes\r\n    - 1: Taula de firmes en la 1a pàgina\r\n    - -1: Darrera pàgina",
+            "description" : "Posició de la Taula de firmes:Veure classe SignaturesTableLocationConstants",
             "format" : "int32",
             "example" : 1
           },

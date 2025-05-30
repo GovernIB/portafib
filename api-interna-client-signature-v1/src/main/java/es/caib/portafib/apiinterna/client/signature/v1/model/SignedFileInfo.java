@@ -131,7 +131,7 @@ public class SignedFileInfo {
   }
 
   /**
-   * Tipus de Firma. Valors possibles:      
+   * Tipus de Firma. Valors possibles veure SignTypeConstants.
    * @return signType
    */
   @javax.annotation.Nonnull
@@ -181,7 +181,7 @@ public class SignedFileInfo {
   }
 
   /**
-   * Valors:      - 0: Implicit o Attached. La firma resultante incluye internamente una copia de los datos firmados.       - 1: Explicit o Detached: La firma resultante no incluye los datos firmados. 
+   * Mode de firma. Valors veure SignModeConstants. Exemple SignModeConstants.SIGN_MODE_ATTACHED_ENVELOPED.value()
    * @return signMode
    */
   @javax.annotation.Nonnull
@@ -206,7 +206,7 @@ public class SignedFileInfo {
   }
 
   /**
-   * Posició de la Taula de firmes:      - 0: Sense taula de firmes      - 1: Taula de firmes en la 1a pàgina      - -1: Darrera pàgina
+   * Posició de la Taula de firmes:Veure classe SignaturesTableLocationConstants
    * @return signaturesTableLocation
    */
   @javax.annotation.Nonnull

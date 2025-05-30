@@ -68,20 +68,16 @@ public class NotificacioSenderApiPortafibRESTv1 extends NotificacioSenderApiPort
         client = configuration.register(provider).build();
     }
     
-    
     public class JsonStdDateSerializer extends JsonSerializer<Timestamp> {
 
- 
+        @Override
+        public void serialize(Timestamp value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+            //log.info("\n\n\n\n ----------- ENTRA A TIMESTAMP SERIALIZER NUMBER---------------\n\n\n\n");
 
-      @Override
-      public void serialize(Timestamp value, JsonGenerator gen, SerializerProvider serializers)
-            throws IOException {
-          log.info("\n\n\n\n ----------- ENTRA A TIMESTAMP SERIALIZER NUMBER---------------\n\n\n\n");
+            // clone because DateFormat is not thread-safe
+            gen.writeNumber(value.getTime());
 
-          // clone because DateFormat is not thread-safe
-          gen.writeNumber(value.getTime());
-        
-      }
+        }
     }
 
     @Override

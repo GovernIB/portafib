@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * SignatureRequestWithFlowTemplateCode
+ * Estructura de dades per a la sol·licitud de signatura electrònica a partir d&#39;un identificador de Plantilla de Flux de Firmes
  */
 @JsonPropertyOrder({
   SignatureRequestWithFlowTemplateCode.JSON_PROPERTY_PROFILE_CODE,
@@ -148,7 +148,7 @@ public class SignatureRequestWithFlowTemplateCode {
   private List<Metadata> metadadaList = new ArrayList<>();
 
   public static final String JSON_PROPERTY_FLOW_TEMPLATE_CODE = "flowTemplateCode";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private String flowTemplateCode;
 
   public SignatureRequestWithFlowTemplateCode() {
@@ -720,19 +720,19 @@ public class SignatureRequestWithFlowTemplateCode {
     this.metadadaList = metadadaList;
   }
 
-  public SignatureRequestWithFlowTemplateCode flowTemplateCode(@javax.annotation.Nullable String flowTemplateCode) {
+  public SignatureRequestWithFlowTemplateCode flowTemplateCode(@javax.annotation.Nonnull String flowTemplateCode) {
     
     this.flowTemplateCode = flowTemplateCode;
     return this;
   }
 
   /**
-   * Get flowTemplateCode
+   * Codi de la Plantilla del Flux de Firmes a utilitzar que es troba en el PortaFirmes. PortaFIB actualment no suporta codis en Plantilles de flux de firmes en format String, per la qual cosa aquí s&#39;ha de posar l&#39;ID de BBDD de la Plantilla de Flux de Firmes.
    * @return flowTemplateCode
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_FLOW_TEMPLATE_CODE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getFlowTemplateCode() {
     return flowTemplateCode;
@@ -740,8 +740,8 @@ public class SignatureRequestWithFlowTemplateCode {
 
 
   @JsonProperty(JSON_PROPERTY_FLOW_TEMPLATE_CODE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFlowTemplateCode(@javax.annotation.Nullable String flowTemplateCode) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setFlowTemplateCode(@javax.annotation.Nonnull String flowTemplateCode) {
     this.flowTemplateCode = flowTemplateCode;
   }
 

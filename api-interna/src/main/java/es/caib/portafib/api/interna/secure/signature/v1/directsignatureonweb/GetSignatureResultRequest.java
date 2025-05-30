@@ -9,50 +9,44 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
  * 18 dic 2024 14:57:03
  */
 public class GetSignatureResultRequest {
-    
-    @Schema(
-            description = "Identificador de la transaccio",
-            example = "",
-            requiredMode = RequiredMode.REQUIRED)
-	protected String transactionID;
-    
-    @Schema(
-            description = "Identificador de la firma",
-            example = "",
-            requiredMode = RequiredMode.REQUIRED)
-	protected String signID;
 
-	/**
-	 * 
-	 */
-	public GetSignatureResultRequest() {
-		super();
-	}
+    @Schema(description = "Identificador de la transaccio", example = "", requiredMode = RequiredMode.REQUIRED)
+    protected String transactionID;
 
-	/**
-	 * @param transactionID
-	 * @param signID
-	 */
-	public GetSignatureResultRequest(String transactionID, String signID) {
-		super();
-		this.transactionID = transactionID;
-		this.signID = signID;
-	}
+    @Schema(description = "Identificador de la firma", example = "", requiredMode = RequiredMode.REQUIRED)
+    protected String signID;
 
-	public String getTransactionID() {
-		return transactionID;
-	}
+    /**
+     * 
+     */
+    public GetSignatureResultRequest() {
+        super();
+    }
 
-	public void setTransactionID(String transactionID) {
-		this.transactionID = transactionID;
-	}
+    /**
+     * @param transactionID
+     * @param signID
+     */
+    public GetSignatureResultRequest(String transactionID, String signID) {
+        super();
+        this.transactionID = transactionID;
+        this.signID = signID;
+    }
 
-	public String getSignID() {
-		return signID;
-	}
+    public String getTransactionID() {
+        return transactionID;
+    }
 
-	public void setSignID(String signID) {
-		this.signID = signID;
-	}
+    public void setTransactionID(String transactionID) {
+        this.transactionID = transactionID;
+    }
+
+    public String getSignID() {
+        return signID;
+    }
+
+    public void setSignID(String signID) {
+        this.signID = signID;
+    }
 
 }

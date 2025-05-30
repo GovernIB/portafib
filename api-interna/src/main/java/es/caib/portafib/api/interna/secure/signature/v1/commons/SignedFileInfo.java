@@ -9,241 +9,6 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 @Schema(description = "Informació del fitxer signat.")
 public class SignedFileInfo {
 
-    /*@Schema(
-            description = "Identificador d'algoritme de firma SHA-1",
-            nullable = false,
-            defaultValue = "" + Constants.SIGN_ALGORITHM_SHA1,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGN_ALGORITHM_SHA1 = Constants.SIGN_ALGORITHM_SHA1;
-    @Schema(
-            description = "Identificador d'algoritme de firma SHA-256",
-            nullable = false,
-            defaultValue = "" + Constants.SIGN_ALGORITHM_SHA256,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGN_ALGORITHM_SHA256 = Constants.SIGN_ALGORITHM_SHA256;
-    @Schema(
-            description = "Identificador d'algoritme de firma SHA-384",
-            nullable = false,
-            defaultValue = "" + Constants.SIGN_ALGORITHM_SHA384,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGN_ALGORITHM_SHA384 = Constants.SIGN_ALGORITHM_SHA384;
-    @Schema(
-            description = "Identificador d'algoritme de firma SHA-512",
-            nullable = false,
-            defaultValue = "" + Constants.SIGN_ALGORITHM_SHA512,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGN_ALGORITHM_SHA512 = Constants.SIGN_ALGORITHM_SHA512;*/
-
-    //========================  MODES DE FIRMA =========================
-    // Veure
-    // https://ec.europa.eu/digital-building-blocks/DSS/webapp-demo/doc/dss-documentation.html#Packaging
-    // veure
-    // https://ec.europa.eu/digital-building-blocks/DSS/webapp-demo/doc/dss-documentation.html#SignatureProfileGuide
-    /*@Schema(
-            description = "El fitxer de dades resultant inclou la firma: PDF, ODT, ...",
-            nullable = false,
-            defaultValue = "" + Constants.SIGN_MODE_ATTACHED_ENVELOPED,
-            implementation = Integer.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final int SIGN_MODE_ATTACHED_ENVELOPED = Constants.SIGN_MODE_ATTACHED_ENVELOPED;
-    
-    @Schema(
-            description = "El fitxer resultant serà la firma que incloura les dades originals",
-            nullable = false,
-            defaultValue = "" + Constants.SIGN_MODE_ATTACHED_ENVELOPING,
-            implementation = Integer.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final int SIGN_MODE_ATTACHED_ENVELOPING = Constants.SIGN_MODE_ATTACHED_ENVELOPING;
-    
-    
-    @Schema(
-            description = "El fitxer de firma no inclourà les dades: per separat trobarem un fitxer de firma i el fitxer original",
-            nullable = false,
-            defaultValue = "" + Constants.SIGN_MODE_DETACHED,
-            implementation = Integer.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final int SIGN_MODE_DETACHED = Constants.SIGN_MODE_DETACHED;
-    
-    @Schema(
-            description = "Firma especial XAdES en que la firma i les dades estan al mateix nivell dins de l'XML: ni la firma inclou les dades ni les dades inclouen la firma",
-            nullable = false,
-            defaultValue = "" + Constants.SIGN_MODE_INTERNALLY_DETACHED,
-            implementation = Integer.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final int SIGN_MODE_INTERNALLY_DETACHED = Constants.SIGN_MODE_INTERNALLY_DETACHED;*/
-
-    /*@Schema(
-            description = "Localitzador de la signatura al document. (Sense signatura visible)",
-            nullable = false,
-            defaultValue = "" + Constants.SIGNATURESTABLELOCATION_WITHOUT,
-            implementation = Integer.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final int SIGNATURESTABLELOCATION_WITHOUT = Constants.SIGNATURESTABLELOCATION_WITHOUT;
-    
-    @Schema(
-            description = "Localitzador de la signatura al document. (Primera pagina)",
-            nullable = false,
-            defaultValue = "" + Constants.SIGNATURESTABLELOCATION_FIRSTPAGE,
-            implementation = Integer.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final int SIGNATURESTABLELOCATION_FIRSTPAGE = Constants.SIGNATURESTABLELOCATION_FIRSTPAGE;
-    
-    @Schema(
-            description = "Localitzador de la signatura al document. (Darrera pagina)",
-            nullable = false,
-            defaultValue = "" + Constants.SIGNATURESTABLELOCATION_LASTPAGE,
-            implementation = Integer.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final int SIGNATURESTABLELOCATION_LASTPAGE = Constants.SIGNATURESTABLELOCATION_LASTPAGE;*/
-
-    // FIRMA
-    /*@Schema(
-            description = "Identificador d'operació per Firma",
-            nullable = false,
-            defaultValue = "" + Constants.SIGN_OPERATION_SIGN,
-            implementation = Integer.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final int SIGN_OPERATION_SIGN = Constants.SIGN_OPERATION_SIGN;
-    // COFIRMA
-    @Schema(
-            description = "Identificador d'operació per Cofirma",
-            nullable = false,
-            defaultValue = "" + Constants.SIGN_OPERATION_COSIGN,
-            implementation = Integer.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final int SIGN_OPERATION_COSIGN = Constants.SIGN_OPERATION_COSIGN;
-    // CONTRAFIRMA
-    @Schema(
-            description = "Identificador d'operació per Contrafirma",
-            nullable = false,
-            defaultValue = "" + Constants.SIGN_OPERATION_COUNTERSIGN,
-            implementation = Integer.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final int SIGN_OPERATION_COUNTERSIGN = Constants.SIGN_OPERATION_COUNTERSIGN;*/
-
-    /*@Schema(
-            description = "Perfil de firma AdES-BES",
-            nullable = false,
-            defaultValue = "" + Constants.SIGNPROFILE_BES,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGNPROFILE_BES = Constants.SIGNPROFILE_BES;
-    @Schema(
-            description = "Perfil de firma AdES-EPES",
-            nullable = false,
-            defaultValue = "" + Constants.SIGNPROFILE_EPES,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGNPROFILE_EPES = Constants.SIGNPROFILE_EPES;
-    @Schema(
-            description = "Perfil de firma AdES-T",
-            nullable = false,
-            defaultValue = "" + Constants.SIGNPROFILE_T,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGNPROFILE_T = Constants.SIGNPROFILE_T;
-    @Schema(
-            description = "Perfil de firma AdES-C",
-            nullable = false,
-            defaultValue = "" + Constants.SIGNPROFILE_C,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGNPROFILE_C = Constants.SIGNPROFILE_C;
-    @Schema(
-            description = "Perfil de firma AdES-X",
-            nullable = false,
-            defaultValue = "" + Constants.SIGNPROFILE_X,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGNPROFILE_X = Constants.SIGNPROFILE_X;
-    @Schema(
-            description = "Perfil de firma AdES-X1",
-            nullable = false,
-            defaultValue = "" + Constants.SIGNPROFILE_X1,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGNPROFILE_X1 = Constants.SIGNPROFILE_X1;
-    @Schema(
-            description = "Perfil de firma AdES-X2",
-            nullable = false,
-            defaultValue = "" + Constants.SIGNPROFILE_X2,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGNPROFILE_X2 = Constants.SIGNPROFILE_X2;
-    @Schema(
-            description = "Perfil de firma AdES-XL",
-            nullable = false,
-            defaultValue = "" + Constants.SIGNPROFILE_XL,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGNPROFILE_XL = Constants.SIGNPROFILE_XL;
-    @Schema(
-            description = "Perfil de firma AdES-XL1",
-            nullable = false,
-            defaultValue = "" + Constants.SIGNPROFILE_XL1,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGNPROFILE_XL1 = Constants.SIGNPROFILE_XL1;
-    @Schema(
-            description = "Perfil de firma AdES-XL2",
-            nullable = false,
-            defaultValue = "" + Constants.SIGNPROFILE_XL2,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGNPROFILE_XL2 = Constants.SIGNPROFILE_XL2;
-    @Schema(
-            description = "Perfil de firma AdES-A",
-            nullable = false,
-            defaultValue = "" + Constants.SIGNPROFILE_A,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGNPROFILE_A = Constants.SIGNPROFILE_A;
-    @Schema(
-            description = "Perfil de firma PAdES-LTV",
-            nullable = false,
-            defaultValue = "" + Constants.SIGNPROFILE_PADES_LTV,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGNPROFILE_PADES_LTV = Constants.SIGNPROFILE_PADES_LTV;
-    @Schema(
-            description = "Perfil de firma PAdES-Basic",
-            nullable = false,
-            defaultValue = "" + Constants.SIGNPROFILE_PADES_BASIC,
-            implementation = String.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final String SIGNPROFILE_PADES_BASIC = Constants.SIGNPROFILE_PADES_BASIC;*/
-
     /**
      * eEMGDE.Firma.Firmante.EnCalidadDe(eEMGDE17.5.3): Firmante; Cofirmante;
      * Contrafirmante
@@ -256,29 +21,10 @@ public class SignedFileInfo {
             requiredMode = RequiredMode.REQUIRED)
     protected int signOperation;
 
-    @Schema(description = "Tipus de Firma. Valors possibles:\r\n" + "    ", requiredMode = RequiredMode.REQUIRED)
+    @Schema(
+            description = "Tipus de Firma. Valors possibles veure SignTypeConstants.",
+            requiredMode = RequiredMode.REQUIRED)
     protected String signType;
-
-    public String getSignType() {
-        return signType;
-    }
-
-    public void setSignType(String signType) {
-        this.signType = signType;
-    }
-
-    /*@Schema(
-            description = "Tipus de Firma. Valors possibles:\r\n" + "    - “PAdES” (Constant SIGN_TYPE_PADES)\r\n"
-                    + "    - “XAdES” (Constant SIGN_TYPE_XADES)\r\n" + "    - “CAdES” (Constant SIGN_TYPE_CADES)\r\n"
-                    + "    - “FacturaE” (Constant SIGN_TYPE_FACTURAE)\r\n"
-                    + "    - “OOXML” (Constant SIGN_TYPE_OOXML)\r\n" + "    - “ODF” (Constant SIGN_TYPE_ODF)\r\n"
-                    + "    - “SMIME” (Constant SIGN_TYPE_SMIME)\r\n"
-                    + "    - “CAdES-ASiC-S” (Constant SIGN_TYPE_CADES_ASIC_S)\r\n"
-                    + "    - “XAdES-ASiC-S” (Constant SIGN_TYPE_XADES_ASIC_S)\r\n"
-                    + "    - “PKCS#1” (Constant SIGN_TYPE_PKCS1)",
-            example = "PAdES",
-             requiredMode = RequiredMode.REQUIRED)
-    protected String signType;*/
 
     @Schema(
             description = "Algorisme de Firma. Valors: \r\n" + "    - \"SHA-1\"\r\n" + "    - \"SHA-256\"\r\n"
@@ -289,16 +35,13 @@ public class SignedFileInfo {
 
     /**   TODO XYZ ZZZ  Actualitzar Informacio !!!!!!   **/
     @Schema(
-            description = "Valors:\r\n"
-                    + "    - 0: Implicit o Attached. La firma resultante incluye internamente una copia de los datos firmados. \r\n"
-                    + "    - 1: Explicit o Detached: La firma resultante no incluye los datos firmados. ",
+            description = "Mode de firma. Valors veure SignModeConstants. Exemple SignModeConstants.SIGN_MODE_ATTACHED_ENVELOPED.value()",
             example = "0",
             requiredMode = RequiredMode.REQUIRED)
     protected int signMode;
 
     @Schema(
-            description = "Posició de la Taula de firmes:\r\n" + "    - 0: Sense taula de firmes\r\n"
-                    + "    - 1: Taula de firmes en la 1a pàgina\r\n" + "    - -1: Darrera pàgina",
+            description = "Posició de la Taula de firmes:Veure classe SignaturesTableLocationConstants",
             example = "1",
             requiredMode = RequiredMode.REQUIRED)
     protected int signaturesTableLocation;
@@ -402,8 +145,7 @@ public class SignedFileInfo {
 
     public SignedFileInfo(int signOperation, String signType, String signAlgorithm, int signMode,
             int signaturesTableLocation, boolean timeStampIncluded, boolean policyIncluded, String eniTipoFirma,
-            String eniPerfilFirma, List<SignerInfo> signers, CustodyInfo custodyInfo,
-            ValidationInfo validationInfo) {
+            String eniPerfilFirma, List<SignerInfo> signers, CustodyInfo custodyInfo, ValidationInfo validationInfo) {
         super();
         this.signOperation = signOperation;
         this.signType = signType;
@@ -417,6 +159,14 @@ public class SignedFileInfo {
         this.signers = signers;
         this.custodyInfo = custodyInfo;
         this.validationInfo = validationInfo;
+    }
+
+    public String getSignType() {
+        return signType;
+    }
+
+    public void setSignType(String signType) {
+        this.signType = signType;
     }
 
     public int getSignOperation() {
