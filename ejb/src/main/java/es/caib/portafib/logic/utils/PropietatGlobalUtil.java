@@ -366,7 +366,7 @@ public class PropietatGlobalUtil implements ConstantsV2 {
         final String partialPropertyName = "emailsgroupedsendercronexpression";
         String val = getString(partialPropertyName);
         if (val == null) {
-            val = "0 0 6 1/1 * ? *";
+            val = "0 */10 6 1/1 * ? *";
         }
         if (log.isDebugEnabled()) {
             log.debug(" getEmailsGroupedSenderCronExpression() = " + val);

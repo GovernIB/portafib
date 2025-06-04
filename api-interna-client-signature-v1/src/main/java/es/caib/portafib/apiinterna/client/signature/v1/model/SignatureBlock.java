@@ -31,20 +31,50 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * Conjunt de firmes que es poden realitzar en paral·lel, o millor dit sense ordre.
  */
 @JsonPropertyOrder({
+  SignatureBlock.JSON_PROPERTY_ORDER,
   SignatureBlock.JSON_PROPERTY_MINIMUM_NUMBER_OF_SIGNATURES_REQUIRED,
-  SignatureBlock.JSON_PROPERTY_SIGNERS
+  SignatureBlock.JSON_PROPERTY_SIGNATURES
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class SignatureBlock {
+  public static final String JSON_PROPERTY_ORDER = "order";
+  @javax.annotation.Nonnull
+  private Integer order;
+
   public static final String JSON_PROPERTY_MINIMUM_NUMBER_OF_SIGNATURES_REQUIRED = "minimumNumberOfSignaturesRequired";
   @javax.annotation.Nonnull
   private Integer minimumNumberOfSignaturesRequired;
 
-  public static final String JSON_PROPERTY_SIGNERS = "signers";
+  public static final String JSON_PROPERTY_SIGNATURES = "signatures";
   @javax.annotation.Nonnull
-  private List<Signature> signers = new ArrayList<>();
+  private List<Signature> signatures = new ArrayList<>();
 
   public SignatureBlock() {
+  }
+
+  public SignatureBlock order(@javax.annotation.Nonnull Integer order) {
+    
+    this.order = order;
+    return this;
+  }
+
+  /**
+   * Ordre d&#39;execució dels Blocs
+   * @return order
+   */
+  @javax.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_ORDER)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public Integer getOrder() {
+    return order;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ORDER)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setOrder(@javax.annotation.Nonnull Integer order) {
+    this.order = order;
   }
 
   public SignatureBlock minimumNumberOfSignaturesRequired(@javax.annotation.Nonnull Integer minimumNumberOfSignaturesRequired) {
@@ -72,37 +102,37 @@ public class SignatureBlock {
     this.minimumNumberOfSignaturesRequired = minimumNumberOfSignaturesRequired;
   }
 
-  public SignatureBlock signers(@javax.annotation.Nonnull List<Signature> signers) {
+  public SignatureBlock signatures(@javax.annotation.Nonnull List<Signature> signatures) {
     
-    this.signers = signers;
+    this.signatures = signatures;
     return this;
   }
 
-  public SignatureBlock addSignersItem(Signature signersItem) {
-    if (this.signers == null) {
-      this.signers = new ArrayList<>();
+  public SignatureBlock addSignaturesItem(Signature signaturesItem) {
+    if (this.signatures == null) {
+      this.signatures = new ArrayList<>();
     }
-    this.signers.add(signersItem);
+    this.signatures.add(signaturesItem);
     return this;
   }
 
   /**
    * Llistat de firmes associades a aquest bloc.
-   * @return signers
+   * @return signatures
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_SIGNERS)
+  @JsonProperty(JSON_PROPERTY_SIGNATURES)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
-  public List<Signature> getSigners() {
-    return signers;
+  public List<Signature> getSignatures() {
+    return signatures;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SIGNERS)
+  @JsonProperty(JSON_PROPERTY_SIGNATURES)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setSigners(@javax.annotation.Nonnull List<Signature> signers) {
-    this.signers = signers;
+  public void setSignatures(@javax.annotation.Nonnull List<Signature> signatures) {
+    this.signatures = signatures;
   }
 
   @Override
@@ -114,21 +144,23 @@ public class SignatureBlock {
       return false;
     }
     SignatureBlock signatureBlock = (SignatureBlock) o;
-    return Objects.equals(this.minimumNumberOfSignaturesRequired, signatureBlock.minimumNumberOfSignaturesRequired) &&
-        Objects.equals(this.signers, signatureBlock.signers);
+    return Objects.equals(this.order, signatureBlock.order) &&
+        Objects.equals(this.minimumNumberOfSignaturesRequired, signatureBlock.minimumNumberOfSignaturesRequired) &&
+        Objects.equals(this.signatures, signatureBlock.signatures);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(minimumNumberOfSignaturesRequired, signers);
+    return Objects.hash(order, minimumNumberOfSignaturesRequired, signatures);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class SignatureBlock {\n");
+    sb.append("    order: ").append(toIndentedString(order)).append("\n");
     sb.append("    minimumNumberOfSignaturesRequired: ").append(toIndentedString(minimumNumberOfSignaturesRequired)).append("\n");
-    sb.append("    signers: ").append(toIndentedString(signers)).append("\n");
+    sb.append("    signatures: ").append(toIndentedString(signatures)).append("\n");
     sb.append("}");
     return sb.toString();
   }

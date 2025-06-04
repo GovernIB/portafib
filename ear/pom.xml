@@ -711,9 +711,14 @@
                         **/apache-mime4j*redhat*.jar, <!-- Requereix afegir mòdul 'org.apache.neethi' a jboss-deployment-structure.xml --> **/neethi*redhat*.jar, <!-- Requereix afegir mòdul 'org.apache.santuario.xmlsec' a jboss-deployment-structure.xml --> **/xmlsec*redhat*.jar, <!-- Requereix afegir mòdul 'org.apache.ws.security' a jboss-deployment-structure.xml --> **/wss4j-bindings*redhat*.jar,
                         **/wss4j-policy*redhat*.jar, **/wss4j-ws-security-common*redhat*.jar, **/wss4j-ws-security-dom*redhat*.jar,
                         **/wss4j-ws-security-policy-stax*redhat*.jar, **/wss4j-ws-security-stax*redhat*.jar, **/jasypt*redhat*.jar, <!-- Requereix afegir mòdul 'org.apache.ws.xmlschema' a jboss-deployment-structure.xml -->
-                        **/xmlschema-core*redhat*.jar, <!-- Requereix afegir mòdul 'org.apache.xalan' a jboss-deployment-structure.xml --> **/serializer*redhat*.jar, **/xalan*redhat*.jar, <!-- Requereix afegir mòdul 'org.apache.xerces' a jboss-deployment-structure.xml --> **/xercesImpl*redhat*.jar, <!-- Requereix afegir mòdul 'org.apache.xml-resolver' a jboss-deployment-structure.xml -->
-                        **/xml-resolver*redhat*.jar, <!-- Requereix afegir mòdul 'org.bouncycastle' a jboss-deployment-structure.xml --> **/bcprov-jdk15on*redhat*.jar, **/bcmail-jdk15on*redhat*.jar,
-                        **/bcpkix-jdk15on*redhat*.jar, <!-- Requereix afegir mòdul 'org.codehaus.jackson.jackson-core-asl' a jboss-deployment-structure.xml --> **/jackson-core-asl*redhat*.jar, <!-- Requereix afegir mòdul 'org.codehaus.jackson.jackson-mapper-asl' a jboss-deployment-structure.xml --> **/jackson-mapper-asl*redhat*.jar, <!-- Requereix afegir mòdul 'org.codehaus.woodstox' a jboss-deployment-structure.xml -->
+                        **/xmlschema-core*redhat*.jar, 
+                        <!-- Requereix afegir mòdul 'org.apache.xalan' a jboss-deployment-structure.xml -->
+                        **/serializer*redhat*.jar, **/xalan*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.apache.xerces' a jboss-deployment-structure.xml -->
+                        **/xercesImpl*redhat*.jar, <!-- Requereix afegir mòdul 'org.apache.xml-resolver' a jboss-deployment-structure.xml -->
+                        **/xml-resolver*redhat*.jar, <!-- Requereix afegir mòdul 'org.bouncycastle' a jboss-deployment-structure.xml -->
+                        **/bcprov-jdk15on*redhat*.jar, **/bcmail-jdk15on*redhat*.jar, **/bcpkix-jdk15on*redhat*.jar,
+                         <!-- Requereix afegir mòdul 'org.codehaus.jackson.jackson-core-asl' a jboss-deployment-structure.xml --> **/jackson-core-asl*redhat*.jar, <!-- Requereix afegir mòdul 'org.codehaus.jackson.jackson-mapper-asl' a jboss-deployment-structure.xml --> **/jackson-mapper-asl*redhat*.jar, <!-- Requereix afegir mòdul 'org.codehaus.woodstox' a jboss-deployment-structure.xml -->
                         **/woodstox-core*redhat*.jar, **/stax2-api*redhat*.jar, <!-- Requereix afegir mòdul 'org.jaxen' a jboss-deployment-structure.xml --> **/jaxen*redhat*.jar, <!-- Requereix afegir mòdul 'org.jboss.logging' a jboss-deployment-structure.xml --> **/jboss-logging*redhat*.jar, <!-- Requereix afegir mòdul 'org.jboss.logging.commons.logging' a jboss-deployment-structure.xml -->
                         **/commons-logging-jboss-logging*redhat*.jar, <!-- Requereix afegir mòdul 'org.jboss.resteasy.resteasy-jackson2-provider' a jboss-deployment-structure.xml --> **/resteasy-jackson2-provider*redhat*.jar, <!-- Requereix afegir mòdul 'org.jboss.resteasy.resteasy-jaxb-provider' a jboss-deployment-structure.xml -->
                         **/resteasy-jaxb-provider*redhat*.jar, <!-- Requereix afegir mòdul 'org.jboss.resteasy.resteasy-jaxrs' a jboss-deployment-structure.xml --> **/resteasy-jaxrs*redhat*.jar, **/resteasy-client*redhat*.jar,
@@ -723,7 +728,12 @@
                         **/opensaml-soap-api*redhat*.jar, **/opensaml-xacml-api*redhat*.jar, **/opensaml-xacml-impl*redhat*.jar,
                         **/opensaml-xacml-saml-api*redhat*.jar, **/opensaml-xacml-saml-impl*redhat*.jar, **/opensaml-xmlsec-api*redhat*.jar,
                         **/opensaml-xmlsec-impl*redhat*.jar, **/cryptacular*redhat*.jar, **/java-support*redhat*.jar, <!-- Requereix afegir mòdul 'org.reactivestreams' a jboss-deployment-structure.xml -->
-                        **/reactive-streams*redhat*.jar, <!-- Requereix afegir mòdul 'org.slf4j' a jboss-deployment-structure.xml --> **/slf4j-api*redhat*.jar, </packagingExcludes>
+                        **/reactive-streams*redhat*.jar, <!-- Requereix afegir mòdul 'org.slf4j' a jboss-deployment-structure.xml -->
+                        **/slf4j-api*redhat*.jar, 
+                        **/commons-cli*redhat*.jar,
+                        **/jboss-ejb3-ext-api*redhat*.jar,
+                        
+                        </packagingExcludes>
                     <modules>
                         <!-- BACK -->
                         <webModule>

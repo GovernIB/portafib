@@ -20,7 +20,7 @@ public class SignatureRequestWithFlowTemplateCode extends SignatureRequestBase {
                     + " PortaFIB actualment no suporta codis en Plantilles de flux de firmes en format String,"
                     + " per la qual cosa aquí s'ha de posar l'ID de BBDD de la Plantilla de Flux de Firmes.",
             requiredMode = RequiredMode.REQUIRED)
-    protected String flowTemplateCode = null;
+    protected long flowTemplateCode;
 
     public SignatureRequestWithFlowTemplateCode() {
         super();
@@ -30,7 +30,7 @@ public class SignatureRequestWithFlowTemplateCode extends SignatureRequestBase {
             Document fileToSign, Document originalDetachedSignature, long documentType, String documentTypeDescription,
             String languageDoc, String languageUI, int priority, String senderName, String senderDescription,
             String expedientCode, String expedientName, String expedientUrl, String procedureCode, String procedureName,
-            String additionalInformation, Double additionalInformationEvaluable, String flowTemplateCode) {
+            String additionalInformation, Double additionalInformationEvaluable, long flowTemplateCode) {
         this(profileCode, title, description, reason, fileToSign, originalDetachedSignature, documentType,
                 documentTypeDescription, languageDoc, languageUI, priority, senderName, senderDescription,
                 expedientCode, expedientName, expedientUrl, procedureCode, procedureName, additionalInformation,
@@ -41,7 +41,7 @@ public class SignatureRequestWithFlowTemplateCode extends SignatureRequestBase {
             Document fileToSign, Document originalDetachedSignature, long documentType, String documentTypeDescription,
             String languageDoc, String languageUI, int priority, String senderName, String senderDescription,
             String expedientCode, String expedientName, String expedientUrl, String procedureCode, String procedureName,
-            String additionalInformation, Double additionalInformationEvaluable, String flowTemplateCode,
+            String additionalInformation, Double additionalInformationEvaluable, long flowTemplateCode,
             List<Annex> annexs, List<Metadata> metadadaList) {
         super(profileCode, title, description, reason, fileToSign, originalDetachedSignature, documentType,
                 documentTypeDescription, languageDoc, languageUI, priority, senderName, senderDescription,
@@ -51,16 +51,16 @@ public class SignatureRequestWithFlowTemplateCode extends SignatureRequestBase {
 
     }
 
-    public SignatureRequestWithFlowTemplateCode(SignatureRequestBase base, String flowTemplateCode) {
+    public SignatureRequestWithFlowTemplateCode(SignatureRequestBase base, long flowTemplateCode) {
         super(base);
         this.flowTemplateCode = flowTemplateCode;
     }
 
-    public String getFlowTemplateCode() {
+    public long getFlowTemplateCode() {
         return flowTemplateCode;
     }
 
-    public void setFlowTemplateCode(String flowTemplateCode) {
+    public void setFlowTemplateCode(long flowTemplateCode) {
         this.flowTemplateCode = flowTemplateCode;
     }
 

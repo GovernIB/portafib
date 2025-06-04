@@ -687,7 +687,7 @@ public class SignatureModuleController extends HttpServlet {
                 for (Map.Entry<String, PortaFIBSignaturesSet> entry : portaFIBSignaturesSets.entrySet()) {
                     PortaFIBSignaturesSet ss = entry.getValue();
                     if (ss != null && now > ss.getExpiryDate().getTime()) {
-                        log.info("Tancarem Signature SET amb ID = " + entry.getKey() + " a causa de que està caducat "
+                        log.warn("Tancarem Signature SET amb ID = " + entry.getKey() + " a causa de que està caducat "
                                 + "( ARA: " + sdf.format(new Date(now)) + " | CADUCITAT: "
                                 + sdf.format(ss.getExpiryDate()) + ")");
                         setsToDelete.add(ss);

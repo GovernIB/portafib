@@ -122,13 +122,16 @@
         "type" : "object",
         "properties" : {
           "username" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Username de l'usuari"
           },
           "name" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Nom de l'usuari"
           },
           "surname" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Llinatges de l'usuari"
           },
           "administrationId" : {
             "type" : "string",

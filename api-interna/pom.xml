@@ -164,6 +164,7 @@
                                 <package>es.caib.portafib.api.interna.secure.signature.v1.signatureonserver</package>
                                 <package>es.caib.portafib.api.interna.secure.signature.v1.directsignatureonweb</package>
                                 <package>es.caib.portafib.api.interna.secure.signature.v1.asyncsignatureonweb</package>
+                                <package>es.caib.portafib.api.interna.secure.signature.v1.signatureflow</package>
                             </resourcePackages>
                             <!-- S'estan generant un conjunt de -->
                             <filterClass>es.caib.portafib.api.interna.secure.signature.v1.CustomSwaggerFilter</filterClass>
@@ -403,6 +404,9 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+                    
+                    <packagingExcludes>**/snakeyaml*redhat*.jar</packagingExcludes>
+                    
                     <webResources>
                         <resource>
                             <directory>${project.basedir}/openapi</directory>

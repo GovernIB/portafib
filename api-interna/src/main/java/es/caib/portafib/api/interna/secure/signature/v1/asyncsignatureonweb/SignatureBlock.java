@@ -12,6 +12,11 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
  */
 @Schema(description = "Conjunt de firmes que es poden realitzar en paral·lel, o millor dit sense ordre.")
 public class SignatureBlock {
+    
+    @Schema(
+            description = "Ordre d'execució dels Blocs",
+            requiredMode = RequiredMode.REQUIRED)
+    protected int order;
 
     @Schema(
             description = "Numero mínim de signatures per passar al següent bloc de firmes.",
@@ -19,17 +24,19 @@ public class SignatureBlock {
     protected int minimumNumberOfSignaturesRequired;
 
     @Schema(description = "Llistat de firmes associades a aquest bloc.", requiredMode = RequiredMode.REQUIRED)
-    protected List<Signature> signers;
+    protected List<Signature> signatures;
 
     public SignatureBlock() {
         super();
     }
 
-    public SignatureBlock(int minimumNumberOfSignaturesRequired, List<Signature> signers) {
+    public SignatureBlock(int order, int minimumNumberOfSignaturesRequired, List<Signature> signatures) {
         super();
+        this.order = order;
         this.minimumNumberOfSignaturesRequired = minimumNumberOfSignaturesRequired;
-        this.signers = signers;
+        this.signatures = signatures;
     }
+
 
     public int getMinimumNumberOfSignaturesRequired() {
         return minimumNumberOfSignaturesRequired;
@@ -39,12 +46,41 @@ public class SignatureBlock {
         this.minimumNumberOfSignaturesRequired = minimumNumberOfSignaturesRequired;
     }
 
-    public List<Signature> getSigners() {
-        return signers;
+    public int getOrder() {
+        return order;
     }
 
-    public void setSigners(List<Signature> signers) {
-        this.signers = signers;
+    public void setOrder(int order) {
+        this.order = order;
+    }
+    
+
+    public List<Signature> getSignatures() {
+        return signatures;
+    }
+
+    public void setSignatures(List<Signature> signatures) {
+        this.signatures = signatures;
+    }
+
+    public static String toString(SignatureBlock block) {
+
+        StringBuffer str = new StringBuffer();
+
+        str.append("SignatureMinimum: " + block.getMinimumNumberOfSignaturesRequired()).append("\n");
+        str.append("Order: " + block.getOrder()).append("\n");
+
+        int count = 0;
+        for (Signature signature : block.getSignatures()) {
+            str.append("    ---------  SIGNATURE[" + count + "]  ------------------").append("\n");
+
+            str.append(Signature.toString(signature));
+
+            count++;
+        }
+
+        return str.toString();
+
     }
 
 }

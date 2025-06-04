@@ -2478,6 +2478,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             }
 
         } catch (Throwable error) {
+            
+            
 
             if (fileID != null) {
                 try {
@@ -2487,15 +2489,16 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                 }
             }
 
-            log.error("ERROR GREU AL REBRE UN NOU FITXER FIRMAT: " + error.getMessage(), error);
-
             context.setRollbackOnly();
 
             if (error instanceof I18NException) {
-                throw (I18NException) error;
+                log.error("ERROR GREU AL REBRE UN NOU FITXER FIRMAT(I18NException): " 
+                   + I18NCommonUtils.getMessage((I18NException)error, new Locale("ca")), error);
+                throw (I18NException) error;                
+            } else {
+                log.error("ERROR GREU AL REBRE UN NOU FITXER FIRMAT: " +  error.getMessage(), error);
+                throw new I18NException(error, "error.unknown", new I18NArgumentString(error.getMessage()));
             }
-
-            throw new I18NException(error, "error.unknown", new I18NArgumentString(error.getMessage()));
         } finally {
             try {
                 if (!unlockPeticioDeFirma(peticioDeFirmaID, token)) {

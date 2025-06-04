@@ -7,12 +7,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 @Schema(description = "Informació basica d'un usuari")
 public class BasicUserInfo {
-    
-    
+
+    @Schema(description = "Username de l'usuari")
     private String username;
-    
+
+    @Schema(description = "Nom de l'usuari")
     private String name;
-    
+
+    @Schema(description = "Llinatges de l'usuari")
     private String surname;
 
     @Schema(description = "NIF de l'usuari")
@@ -49,7 +51,5 @@ public class BasicUserInfo {
     public void setAdministrationId(String administrationId) {
         this.administrationId = administrationId;
     }
-    
-    
 
 }

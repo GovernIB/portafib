@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * Estat del procés de firma
+ * Estat d&#39;algun procés
  */
 @JsonPropertyOrder({
   ProcessStatus.JSON_PROPERTY_STATUS,

@@ -60,7 +60,7 @@ public class BasicUserInfo {
   }
 
   /**
-   * Get username
+   * Username de l&#39;usuari
    * @return username
    */
   @javax.annotation.Nullable
@@ -85,7 +85,7 @@ public class BasicUserInfo {
   }
 
   /**
-   * Get name
+   * Nom de l&#39;usuari
    * @return name
    */
   @javax.annotation.Nullable
@@ -110,7 +110,7 @@ public class BasicUserInfo {
   }
 
   /**
-   * Get surname
+   * Llinatges de l&#39;usuari
    * @return surname
    */
   @javax.annotation.Nullable

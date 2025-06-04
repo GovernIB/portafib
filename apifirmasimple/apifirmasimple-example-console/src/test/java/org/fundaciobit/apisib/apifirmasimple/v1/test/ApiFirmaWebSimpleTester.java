@@ -25,11 +25,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URI;
 import java.util.List;
 import java.util.Properties;
+
+import com.sun.jersey.api.client.filter.LoggingFilter;
 
 /**
  *
@@ -307,8 +310,19 @@ public class ApiFirmaWebSimpleTester {
     }
 
     protected static ApiFirmaWebSimple getApiFirmaWebSimple(Properties prop) throws Exception {
-        return new ApiFirmaWebSimpleJersey(prop.getProperty("endpoint"), prop.getProperty("username"),
+        
+        ApiFirmaWebSimpleJersey api = new ApiFirmaWebSimpleJersey(prop.getProperty("endpoint"), prop.getProperty("username"),
                 prop.getProperty("password"));
+        
+        
+        // AIXÔ ES PER DEPURAR CRIDADA HTTP I RESPOSTA HTTP
+        Method method = org.fundaciobit.apisib.jerseycore.AbstractApisIBConnectionManagerJersey.class.getDeclaredMethod("getClient");
+        method.setAccessible(true);
+        Object resultado = method.invoke(api);
+        com.sun.jersey.client.apache4.ApacheHttpClient4 client = (com.sun.jersey.client.apache4.ApacheHttpClient4)resultado;
+        client.addFilter(new LoggingFilter(System.out));
+        
+        return api;
     }
 
 }

@@ -135,13 +135,29 @@ Class | Method | HTTP request | Description
 *DirectSignatureOnWebV1Api* | [**addFileToSign**](docs/DirectSignatureOnWebV1Api.md#addFileToSign) | **POST** /secure/directsignatureonweb/v1/addFileToSign | Afegeix un document  al conjunt de Peticions de Firma a realitzar per l&#39;usuari.
 *DirectSignatureOnWebV1Api* | [**closeTransaction**](docs/DirectSignatureOnWebV1Api.md#closeTransaction) | **POST** /secure/directsignatureonweb/v1/closeTransaction | Indica al component de firma que la informació s’ha recuperat correctament i que pot fer neteja en el servidor.
 *DirectSignatureOnWebV1Api* | [**getDocumentaryTypes**](docs/DirectSignatureOnWebV1Api.md#getDocumentaryTypes) | **GET** /secure/directsignatureonweb/v1/getDocumentaryTypes | Retorna una llista dels Tipus Documentals disponibles en el servidor: tipus documentals base, tipus documentals de l&#39;entitat i tipus documentals de l&#39;usuari aplicació
+*DirectSignatureOnWebV1Api* | [**getDocumentaryTypes_0**](docs/DirectSignatureOnWebV1Api.md#getDocumentaryTypes_0) | **GET** /secure/signatureflowtemplate/v1/getDocumentaryTypes | Retorna una llista dels Tipus Documentals disponibles en el servidor: tipus documentals base, tipus documentals de l&#39;entitat i tipus documentals de l&#39;usuari aplicació
 *DirectSignatureOnWebV1Api* | [**getLanguages**](docs/DirectSignatureOnWebV1Api.md#getLanguages) | **GET** /secure/directsignatureonweb/v1/getLanguages | Retorna els idiomes disponibles.
+*DirectSignatureOnWebV1Api* | [**getLanguages_0**](docs/DirectSignatureOnWebV1Api.md#getLanguages_0) | **GET** /secure/signatureflowtemplate/v1/getLanguages | Retorna els idiomes disponibles.
 *DirectSignatureOnWebV1Api* | [**getProfiles**](docs/DirectSignatureOnWebV1Api.md#getProfiles) | **GET** /secure/directsignatureonweb/v1/getProfiles | Retorna els perfils de firma.
+*DirectSignatureOnWebV1Api* | [**getProfiles_0**](docs/DirectSignatureOnWebV1Api.md#getProfiles_0) | **GET** /secure/signatureflowtemplate/v1/getProfiles | Retorna els perfils de firma.
 *DirectSignatureOnWebV1Api* | [**getSignatureResult**](docs/DirectSignatureOnWebV1Api.md#getSignatureResult) | **POST** /secure/directsignatureonweb/v1/getSignatureResult | Document signat  i informació d&#39;una firma
 *DirectSignatureOnWebV1Api* | [**getTransactionID**](docs/DirectSignatureOnWebV1Api.md#getTransactionID) | **POST** /secure/directsignatureonweb/v1/getTransactionID | Operacio per obtenir el Id de una transaccio de la API
 *DirectSignatureOnWebV1Api* | [**getTransactionStatus**](docs/DirectSignatureOnWebV1Api.md#getTransactionStatus) | **POST** /secure/directsignatureonweb/v1/getTransactionStatus | Retorna estat de la transacció (el procés de firma en general) i resultat del procés de cada firma
 *DirectSignatureOnWebV1Api* | [**startTransaction**](docs/DirectSignatureOnWebV1Api.md#startTransaction) | **POST** /secure/directsignatureonweb/v1/startTransaction | Envia identificador de la transacció, url de retorn i tipus de vista web (amb o sense iframe) i inicia el procés de firma retornant una URL de redirecció.
 *DirectSignatureOnWebV1Api* | [**versio**](docs/DirectSignatureOnWebV1Api.md#versio) | **GET** /secure/directsignatureonweb/v1/versio | Retorna la versió d&#39;aquest Servei
+*DirectSignatureOnWebV1Api* | [**versio_0**](docs/DirectSignatureOnWebV1Api.md#versio_0) | **GET** /secure/signatureflowtemplate/v1/versio | Retorna la versió d&#39;aquest Servei
+*SignatureFlowTemplateV1Api* | [**closeTransaction**](docs/SignatureFlowTemplateV1Api.md#closeTransaction) | **GET** /secure/signatureflowtemplate/v1/closeTransaction/{transactionID} | Tanca una transacció de creació de flux de firmes
+*SignatureFlowTemplateV1Api* | [**deleteFlowTemplate**](docs/SignatureFlowTemplateV1Api.md#deleteFlowTemplate) | **DELETE** /secure/signatureflowtemplate/v1/deleteFlowTemplate/{flowTemplateID} | Esborra una Plantilla de Flux de Firmes a partir del seu ID
+*SignatureFlowTemplateV1Api* | [**getAllFlowTemplates**](docs/SignatureFlowTemplateV1Api.md#getAllFlowTemplates) | **GET** /secure/signatureflowtemplate/v1/getAllFlowTemplates | Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica.
+*SignatureFlowTemplateV1Api* | [**getAllFlowTemplatesByFilter**](docs/SignatureFlowTemplateV1Api.md#getAllFlowTemplatesByFilter) | **GET** /secure/signatureflowtemplate/v1/getAllFlowTemplatesByFilter | Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica.
+*SignatureFlowTemplateV1Api* | [**getFlowInfoByFlowTemplateID**](docs/SignatureFlowTemplateV1Api.md#getFlowInfoByFlowTemplateID) | **GET** /secure/signatureflowtemplate/v1/getFlowInfoByFlowTemplateID/{flowTemplateID} | Serveix per obtenir Informació completa d&#39;una Plantilla de Flux de Firmes a partir del seu ID
+*SignatureFlowTemplateV1Api* | [**getInternalFlowIDByFlowTemplateID**](docs/SignatureFlowTemplateV1Api.md#getInternalFlowIDByFlowTemplateID) | **GET** /secure/signatureflowtemplate/v1/getInternalFlowIDByFlowTemplateID/{flowTemplateID} | Serveix per obtenir l&#39;ID intern del flux a partir de l&#39;ID públic de la Plantilla de Flux de Firmes
+*SignatureFlowTemplateV1Api* | [**getReviseursByDestinationAdministrationID**](docs/SignatureFlowTemplateV1Api.md#getReviseursByDestinationAdministrationID) | **GET** /secure/signatureflowtemplate/v1/getReviseursByDestinationAdministrationID/{administrationID} | Retorna una llista dels Revisors globals i els associats al NIF d&#39;un Destinatari
+*SignatureFlowTemplateV1Api* | [**getSignatureFlowTransactionResult**](docs/SignatureFlowTemplateV1Api.md#getSignatureFlowTransactionResult) | **GET** /secure/signatureflowtemplate/v1/getSignatureFlowTransactionResult/{transactionID} | Metode per obtenir els resultats de la creació d&#39;un flux o plantilla de flux de firmes
+*SignatureFlowTemplateV1Api* | [**getTransactionID**](docs/SignatureFlowTemplateV1Api.md#getTransactionID) | **POST** /secure/signatureflowtemplate/v1/getTransactionID | Mètode per obtenir un Identificador de Transacció.
+*SignatureFlowTemplateV1Api* | [**getUrlToEditFlowTemplate**](docs/SignatureFlowTemplateV1Api.md#getUrlToEditFlowTemplate) | **POST** /secure/signatureflowtemplate/v1/getUrlToEditFlowTemplate | Retorna una URL per poder editar una Plantilla de Flux de Firmes de forma gràfica
+*SignatureFlowTemplateV1Api* | [**getUrlToViewFlowTemplate**](docs/SignatureFlowTemplateV1Api.md#getUrlToViewFlowTemplate) | **GET** /secure/signatureflowtemplate/v1/getUrlToViewFlowTemplate/{flowTemplateID} | Retorna una URL que mostra una Plantilla de Flux de Firmes de forma gràfica en model només lectura
+*SignatureFlowTemplateV1Api* | [**startTransaction**](docs/SignatureFlowTemplateV1Api.md#startTransaction) | **POST** /secure/signatureflowtemplate/v1/startTransaction | Mètode per iniciar una Transacció.
 *SignatureOnServerV1Api* | [**getDocumentaryTypes**](docs/SignatureOnServerV1Api.md#getDocumentaryTypes) | **GET** /secure/signatureonserver/v1/getDocumentaryTypes | Retorna una llista dels Tipus Documentals disponibles en el servidor: tipus documentals base, tipus documentals de l&#39;entitat i tipus documentals de l&#39;usuari aplicació
 *SignatureOnServerV1Api* | [**getLanguages**](docs/SignatureOnServerV1Api.md#getLanguages) | **GET** /secure/signatureonserver/v1/getLanguages | Retorna els idiomes disponibles.
 *SignatureOnServerV1Api* | [**getProfiles**](docs/SignatureOnServerV1Api.md#getProfiles) | **GET** /secure/signatureonserver/v1/getProfiles | Retorna els perfils de firma.
@@ -154,6 +170,7 @@ Class | Method | HTTP request | Description
 
  - [AddFileToSignRequest](docs/AddFileToSignRequest.md)
  - [Annex](docs/Annex.md)
+ - [BasicUserInfo](docs/BasicUserInfo.md)
  - [CommonInfo](docs/CommonInfo.md)
  - [CustodyInfo](docs/CustodyInfo.md)
  - [Document](docs/Document.md)
@@ -180,6 +197,12 @@ Class | Method | HTTP request | Description
  - [SignTypeConstants](docs/SignTypeConstants.md)
  - [Signature](docs/Signature.md)
  - [SignatureBlock](docs/SignatureBlock.md)
+ - [SignatureFlowTemplate](docs/SignatureFlowTemplate.md)
+ - [SignatureFlowTemplateEdit](docs/SignatureFlowTemplateEdit.md)
+ - [SignatureFlowTemplateStartTransactionRequest](docs/SignatureFlowTemplateStartTransactionRequest.md)
+ - [SignatureFlowTemplateTransactionIdRequest](docs/SignatureFlowTemplateTransactionIdRequest.md)
+ - [SignatureFlowTemplateTransactionResult](docs/SignatureFlowTemplateTransactionResult.md)
+ - [SignatureFlowTemplateTransactionStatusConstants](docs/SignatureFlowTemplateTransactionStatusConstants.md)
  - [SignatureRequestInfo](docs/SignatureRequestInfo.md)
  - [SignatureRequestState](docs/SignatureRequestState.md)
  - [SignatureRequestStateConstants](docs/SignatureRequestStateConstants.md)

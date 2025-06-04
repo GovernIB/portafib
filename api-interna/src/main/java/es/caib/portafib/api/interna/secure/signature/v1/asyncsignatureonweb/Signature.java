@@ -84,5 +84,31 @@ public class Signature {
     public void setRevisers(List<Reviser> revisers) {
         this.revisers = revisers;
     }
+    
+    
+    public static String toString(Signature signature) {
+
+        StringBuffer str = new StringBuffer();
+
+        str.append("Reason: ").append(signature.getReason()).append("\n");
+        str.append("Signer: ").append(Signer.toString(signature.getSigner()))
+            .append("\n");
+
+        // REvisors i altres
+        List<Reviser> revisers = signature.getRevisers();
+
+        if (revisers != null && revisers.size() != 0) {
+          str.append("Minimum Number Of Revisers: ").append(signature.getMinimumNumberOfRevisers())
+              .append("\n");
+          int revCount = 1;
+          for (Reviser reviser : revisers) {
+            str.append("   ===  REVISER [" + revCount + "] ===");
+            str.append(Reviser.toString(reviser));
+          }
+        }
+
+        return str.toString();
+
+      }
 
 }

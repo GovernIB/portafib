@@ -149,7 +149,7 @@ public class SignatureRequestWithFlowTemplateCode {
 
   public static final String JSON_PROPERTY_FLOW_TEMPLATE_CODE = "flowTemplateCode";
   @javax.annotation.Nonnull
-  private String flowTemplateCode;
+  private Long flowTemplateCode;
 
   public SignatureRequestWithFlowTemplateCode() {
   }
@@ -720,7 +720,7 @@ public class SignatureRequestWithFlowTemplateCode {
     this.metadadaList = metadadaList;
   }
 
-  public SignatureRequestWithFlowTemplateCode flowTemplateCode(@javax.annotation.Nonnull String flowTemplateCode) {
+  public SignatureRequestWithFlowTemplateCode flowTemplateCode(@javax.annotation.Nonnull Long flowTemplateCode) {
     
     this.flowTemplateCode = flowTemplateCode;
     return this;
@@ -734,14 +734,14 @@ public class SignatureRequestWithFlowTemplateCode {
   @JsonProperty(JSON_PROPERTY_FLOW_TEMPLATE_CODE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
-  public String getFlowTemplateCode() {
+  public Long getFlowTemplateCode() {
     return flowTemplateCode;
   }
 
 
   @JsonProperty(JSON_PROPERTY_FLOW_TEMPLATE_CODE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setFlowTemplateCode(@javax.annotation.Nonnull String flowTemplateCode) {
+  public void setFlowTemplateCode(@javax.annotation.Nonnull Long flowTemplateCode) {
     this.flowTemplateCode = flowTemplateCode;
   }
 

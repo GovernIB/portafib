@@ -2,8 +2,10 @@ package es.caib.portafib.api.interna.secure.revisors.v1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.security.RolesAllowed;
 
@@ -19,6 +21,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
+import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 
 import org.fundaciobit.genapp.common.query.selectcolumn.Select4Columns;
@@ -28,6 +31,9 @@ import org.fundaciobit.pluginsib.utils.rest.RestExceptionInfo;
 import org.fundaciobit.pluginsib.utils.rest.RestUtils;
 
 import es.caib.portafib.commons.utils.Constants;
+import es.caib.portafib.ejb.RoleUsuariEntitatService;
+import es.caib.portafib.ejb.UsuariAplicacioService;
+import es.caib.portafib.ejb.UsuariEntitatService;
 import es.caib.portafib.logic.RevisorDeDestinatariLogicaService;
 import es.caib.portafib.model.bean.UsuariPersonaBean;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
@@ -83,17 +89,17 @@ public class RevisorsService extends RestUtils {
 
     public static final String TAG_NAME = "Revisors v1";
 
-    @EJB(mappedName = es.caib.portafib.ejb.RoleUsuariEntitatService.JNDI_NAME)
-    protected es.caib.portafib.ejb.RoleUsuariEntitatService roleUsuariEntitatEjb;
+    @EJB(mappedName = RoleUsuariEntitatService.JNDI_NAME)
+    protected RoleUsuariEntitatService roleUsuariEntitatEjb;
 
-    @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioService.JNDI_NAME)
-    protected es.caib.portafib.ejb.UsuariAplicacioService usuariAplicacioEjb;
+    @EJB(mappedName = UsuariAplicacioService.JNDI_NAME)
+    protected UsuariAplicacioService usuariAplicacioEjb;
 
     @EJB(mappedName = RevisorDeDestinatariLogicaService.JNDI_NAME)
     protected RevisorDeDestinatariLogicaService revisorDeDestinatariEjb;
 
     @EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatService.JNDI_NAME)
-    protected es.caib.portafib.ejb.UsuariEntitatService usuariEntitatEjb;
+    protected UsuariEntitatService usuariEntitatEjb;
 
     @Path("/revisorsbydestinatarinif")
     @GET
@@ -173,104 +179,8 @@ public class RevisorsService extends RestUtils {
                 throw new RestException(Status.BAD_REQUEST,msg);
             }
             
-            String entitatID = userApp.getEntitatID();
-            log.info("XXX revisorsByDestinatariNIF:: entitatID: " + entitatID);
-            log.info("XXX revisorsByDestinatariNIF:: dni: " + dni);
-            
-            // Comprovar NIF de Destinatari
-            String destinatariUsuariEntitatID = null;
-            if (dni != null && !dni.isEmpty()) {
-
-                log.info("XXX revisorsByDestinatariNIF:: Entra a dni!= null");
-
-                // Comprovar que NIF de DESTINATARI existeix en l'entitat de l'usuari-aplicacio
-                dni = dni.toUpperCase();
-
-                UsuariEntitatQueryPath ueqp = new UsuariEntitatQueryPath();
-                Where w1 = ueqp.ENTITATID().equal(entitatID);
-                Where w2 = ueqp.USUARIPERSONA().NIF().equal(dni);
-                Where w3 = UsuariEntitatFields.ACTIU.equal(true);
-                Where w4 = ueqp.USUARIPERSONA().USUARIINTERN().equal(true);
-
-                destinatariUsuariEntitatID = usuariEntitatEjb.executeQueryOne(UsuariEntitatFields.USUARIENTITATID, Where.AND(w1,w2,w3,w4));
-
-                log.info(
-                        "XXX revisorsByDestinatariNIF:: destinatariUsuariEntitatID: " + destinatariUsuariEntitatID);
-                if (destinatariUsuariEntitatID == null) {
-
-                    String msg;
-                    msg = "NIF de Destinatari incorrecte o inexistent: " + dni;
-                    log.error(msg);
-                    throw new RestException(Status.BAD_REQUEST, msg);
-                }
-            }
-
-            Map<String,BasicUserInfo> list = new HashMap<String, BasicUserInfo>();
-
-            if (destinatariUsuariEntitatID != null) {
-
-                List<UsuariPersonaBean> persones = revisorDeDestinatariEjb.getRevisorsDeDestinatariUsingUsuariEntitatID(
-                        destinatariUsuariEntitatID);
-
-                log.info("XXX resultat revisorDeDestinatari[" + dni + "|" + destinatariUsuariEntitatID + "] => Numero: " + persones.size());
-                
-                for (UsuariPersonaBean up : persones) {
-                    BasicUserInfo bui = new BasicUserInfo();
-                    bui.setUsername(up.getUsuariPersonaID());
-                    bui.setAdministrationId(up.getNif());
-                    bui.setName(up.getNom());
-                    bui.setSurname(up.getLlinatges());
-                    list.put(bui.getAdministrationId(), bui);
-                }
-
-            }
-
-            // Quins revisors volem ???? 
-            //  true: revisors globals
-            //  false: revisors de destinatari
-            //  null: revisors globals i revisors de destinatari
-            Boolean quinsRevisors;
-            quinsRevisors = usuariAplicacioEjb.executeQueryOne(UsuariAplicacioFields.TIPUSREVISORS,
-                    UsuariAplicacioFields.USUARIAPLICACIOID.equal(usernameApp));
-
-            log.info("XXX revisorsByDestinatariNIF:: usrApp.quinsRevisors = " + quinsRevisors);
-            
-            if (destinatariUsuariEntitatID == null || quinsRevisors == null || quinsRevisors.booleanValue() == true) {
-
-                log.info("XXX resultat revisorDeDestinatari[GLOBALS] => Entra ... ");
-
-                RoleUsuariEntitatQueryPath rueqp = new RoleUsuariEntitatQueryPath();
-                UsuariEntitatQueryPath ueqp = rueqp.USUARIENTITAT();
-                Where w1 = ueqp.ENTITATID().equal(entitatID);
-                Where w2 = ueqp.ACTIU().equal(true);
-                Where w3 = RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_REVI);
-
-                //  1 username,
-                //  2 administrationId
-                //  3 name
-                //  4 surname            
-                UsuariPersonaQueryPath upqp = ueqp.USUARIPERSONA();
-
-                Select4Columns<String, String, String, String> sc;
-                sc = new Select4Columns<String, String, String, String>(upqp.USUARIPERSONAID().select,
-                        upqp.NIF().select, upqp.NOM().select, upqp.LLINATGES().select);
-
-                List<Select4Values<String, String, String, String>> result = roleUsuariEntitatEjb.executeQuery(sc,
-                        Where.AND(w1, w2, w3));
-                
-                log.info("XXX resultat revisorDeDestinatari[GLOBALS] => Numero: " + result.size());
-
-                for (Select4Values<String, String, String, String> sv : result) {
-                    BasicUserInfo bui = new BasicUserInfo();
-                    bui.setUsername(sv.getValue1());
-                    bui.setAdministrationId(sv.getValue2());
-                    bui.setName(sv.getValue3());
-                    bui.setSurname(sv.getValue4());
-                    list.put(bui.getAdministrationId(), bui);
-                }
-            }
-
-            return new BasicUserInfoList(new ArrayList<BasicUserInfo>(list.values()));
+            return new BasicUserInfoList(new ArrayList<BasicUserInfo>(getReviseurByAdministratinID(usuariEntitatEjb,
+                    revisorDeDestinatariEjb, usuariAplicacioEjb, roleUsuariEntitatEjb, dni, userApp)));
 
         } catch (RestException re) {
             throw re;
@@ -280,6 +190,113 @@ public class RevisorsService extends RestUtils {
             throw new RestException(msg, th);
         }
 
+    }
+
+    public static Set<BasicUserInfo> getReviseurByAdministratinID(UsuariEntitatService usuariEntitatEjb, 
+            RevisorDeDestinatariLogicaService revisorDeDestinatariEjb, UsuariAplicacioService usuariAplicacioEjb,
+            RoleUsuariEntitatService roleUsuariEntitatEjb,
+            String dni, UsuariAplicacioJPA userApp)
+            throws I18NException {
+        
+        String usernameApp = userApp.getUsuariAplicacioID();
+        String entitatID = userApp.getEntitatID();
+        log.info("XXX revisorsByDestinatariNIF:: entitatID: " + entitatID);
+        log.info("XXX revisorsByDestinatariNIF:: dni: " + dni);
+        
+        // Comprovar NIF de Destinatari
+        String destinatariUsuariEntitatID = null;
+        if (dni != null && !dni.isEmpty()) {
+
+            log.info("XXX revisorsByDestinatariNIF:: Entra a dni!= null");
+
+            // Comprovar que NIF de DESTINATARI existeix en l'entitat de l'usuari-aplicacio
+            dni = dni.toUpperCase();
+
+            UsuariEntitatQueryPath ueqp = new UsuariEntitatQueryPath();
+            Where w1 = ueqp.ENTITATID().equal(entitatID);
+            Where w2 = ueqp.USUARIPERSONA().NIF().equal(dni);
+            Where w3 = UsuariEntitatFields.ACTIU.equal(true);
+            Where w4 = ueqp.USUARIPERSONA().USUARIINTERN().equal(true);
+
+            destinatariUsuariEntitatID = usuariEntitatEjb.executeQueryOne(UsuariEntitatFields.USUARIENTITATID, Where.AND(w1,w2,w3,w4));
+
+            log.info(
+                    "XXX revisorsByDestinatariNIF:: destinatariUsuariEntitatID: " + destinatariUsuariEntitatID);
+            if (destinatariUsuariEntitatID == null) {
+
+                String msg;
+                msg = "NIF de Destinatari incorrecte o inexistent: " + dni;
+                log.error(msg);
+                throw new RestException(Status.BAD_REQUEST, msg);
+            }
+        }
+
+        Map<String,BasicUserInfo> list = new HashMap<String, BasicUserInfo>();
+
+        if (destinatariUsuariEntitatID != null) {
+
+            List<UsuariPersonaBean> persones = revisorDeDestinatariEjb.getRevisorsDeDestinatariUsingUsuariEntitatID(
+                    destinatariUsuariEntitatID);
+
+            log.info("XXX resultat revisorDeDestinatari[" + dni + "|" + destinatariUsuariEntitatID + "] => Numero: " + persones.size());
+            
+            for (UsuariPersonaBean up : persones) {
+                BasicUserInfo bui = new BasicUserInfo();
+                bui.setUsername(up.getUsuariPersonaID());
+                bui.setAdministrationId(up.getNif());
+                bui.setName(up.getNom());
+                bui.setSurname(up.getLlinatges());
+                list.put(bui.getAdministrationId(), bui);
+            }
+
+        }
+
+        // Quins revisors volem ???? 
+        //  true: revisors globals
+        //  false: revisors de destinatari
+        //  null: revisors globals i revisors de destinatari
+        Boolean quinsRevisors;
+        quinsRevisors = usuariAplicacioEjb.executeQueryOne(UsuariAplicacioFields.TIPUSREVISORS,
+                UsuariAplicacioFields.USUARIAPLICACIOID.equal(usernameApp));
+
+        log.info("XXX revisorsByDestinatariNIF:: usrApp.quinsRevisors = " + quinsRevisors);
+        
+        if (destinatariUsuariEntitatID == null || quinsRevisors == null || quinsRevisors.booleanValue() == true) {
+
+            log.info("XXX resultat revisorDeDestinatari[GLOBALS] => Entra ... ");
+
+            RoleUsuariEntitatQueryPath rueqp = new RoleUsuariEntitatQueryPath();
+            UsuariEntitatQueryPath ueqp = rueqp.USUARIENTITAT();
+            Where w1 = ueqp.ENTITATID().equal(entitatID);
+            Where w2 = ueqp.ACTIU().equal(true);
+            Where w3 = RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_REVI);
+
+            //  1 username,
+            //  2 administrationId
+            //  3 name
+            //  4 surname            
+            UsuariPersonaQueryPath upqp = ueqp.USUARIPERSONA();
+
+            Select4Columns<String, String, String, String> sc;
+            sc = new Select4Columns<String, String, String, String>(upqp.USUARIPERSONAID().select,
+                    upqp.NIF().select, upqp.NOM().select, upqp.LLINATGES().select);
+
+            List<Select4Values<String, String, String, String>> result = roleUsuariEntitatEjb.executeQuery(sc,
+                    Where.AND(w1, w2, w3));
+            
+            log.info("XXX resultat revisorDeDestinatari[GLOBALS] => Numero: " + result.size());
+
+            for (Select4Values<String, String, String, String> sv : result) {
+                BasicUserInfo bui = new BasicUserInfo();
+                bui.setUsername(sv.getValue1());
+                bui.setAdministrationId(sv.getValue2());
+                bui.setName(sv.getValue3());
+                bui.setSurname(sv.getValue4());
+                list.put(bui.getAdministrationId(), bui);
+            }
+        }
+
+        return new HashSet<BasicUserInfo>(list.values());
     }
 
     /**

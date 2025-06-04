@@ -27,7 +27,7 @@ public interface RestApiPlantillaFluxLocal {
     void internalCloseTransaction(String transactionID);
 
     void storeTransactionInfo(String transactionID, UsuariAplicacioJPA usuariAplicacio,
-            FlowTemplateSimpleGetTransactionIdRequest transactionIInfo);
+            FlowTemplateSimpleGetTransactionIdRequest transactionInfo);
 
     TransactionInfo readTransactionInfo(String transactionID);
 

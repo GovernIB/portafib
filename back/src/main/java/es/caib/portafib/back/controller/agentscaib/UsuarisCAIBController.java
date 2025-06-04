@@ -36,7 +36,7 @@ public class UsuarisCAIBController {
     @ResponseBody
     public void index(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        log.info(" ==================== Entra dins INDEX USUARIS ========================");
+        //log.info(" ==================== Entra dins INDEX USUARIS ========================");
 
         if (log.isDebugEnabled()) {
             Map<String, String[]> params = request.getParameterMap();
@@ -79,7 +79,7 @@ public class UsuarisCAIBController {
             response.getOutputStream().println("OK: " + ue.getUsuariEntitatID());
         }
 
-        log.info(" ------------------ Final INDEX USUARIS ------------------");
+        //log.info(" ------------------ Final INDEX USUARIS ------------------");
 
     }
 

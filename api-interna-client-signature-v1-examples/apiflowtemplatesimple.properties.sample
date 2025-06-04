@@ -1,0 +1,9 @@
+
+basePath=http://10.215.216.175:8080/portafibapi/interna
+username=username
+password=password
+
+
+languageUI=es
+saveonserver=true
+

@@ -626,7 +626,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
             // Donam de temps 5 minuts més un minut per cada signatura
             // Proporcional al numero de firmes !!!!
             Calendar expiryDate = Calendar.getInstance();
-            expiryDate.add(Calendar.MINUTE, 5 + simpleFileInfoSignatureArray.length);
+            expiryDate.add(Calendar.MINUTE, 7 + simpleFileInfoSignatureArray.length);
 
             // ========== FILTRE DE CERTIFICATS
             // Cercar-ho a info de l'usuari-app.Si val null o buit cercar-ho de les

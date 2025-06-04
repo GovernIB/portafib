@@ -1,6 +1,5 @@
 package es.caib.portafib.api.interna.secure.signature.v1.asyncsignatureonweb;
 
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
@@ -86,6 +85,17 @@ public class ExternalSigner {
 
     public void setSecurityLevel(int securityLevel) {
         this.securityLevel = securityLevel;
+    }
+
+    public static String toString(ExternalSigner externalSigner) {
+        StringBuffer str = new StringBuffer();
+
+        str.append("ExternalSigner: ");
+        str.append(externalSigner.getName()).append(" ").append(externalSigner.getSurnames());
+        str.append("(").append(externalSigner.getAdministrationId()).append(")[");
+        str.append(externalSigner.getEmail()).append("]\n");
+
+        return str.toString();
     }
 
 }

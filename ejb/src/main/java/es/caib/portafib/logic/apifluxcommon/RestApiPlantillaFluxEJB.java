@@ -30,9 +30,9 @@ public class RestApiPlantillaFluxEJB implements RestApiPlantillaFluxLocal {
 
     @Override
     public void storeTransactionInfo(String transactionID, UsuariAplicacioJPA usuariAplicacio,
-            FlowTemplateSimpleGetTransactionIdRequest transactionIInfo) {
+            FlowTemplateSimpleGetTransactionIdRequest transactionInfo) {
 
-        currentTransactions.put(transactionID, new TransactionInfo(transactionID, usuariAplicacio, transactionIInfo));
+        currentTransactions.put(transactionID, new TransactionInfo(transactionID, usuariAplicacio, transactionInfo));
     }
 
     @Override

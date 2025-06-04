@@ -27,5 +27,20 @@ public class Signer extends Person {
     public void setExternalSigner(ExternalSigner externalSigner) {
         this.externalSigner = externalSigner;
     }
+    
+
+    /**
+     * 
+     * @param signer
+     * @return
+     */
+    public static String toString(Signer signer) {
+      ExternalSigner externalSigner = signer.getExternalSigner();
+      if (externalSigner == null) {
+        return Person.toString(signer);
+      } else {
+        return "UsuariExtern => " + ExternalSigner.toString(externalSigner);
+      }
+    }
 
 }

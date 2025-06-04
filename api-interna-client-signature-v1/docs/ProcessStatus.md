@@ -2,7 +2,7 @@
 
 # ProcessStatus
 
-Estat del procés de firma
+Estat d'algun procés
 
 ## Properties
 

@@ -38,6 +38,9 @@
     "name" : "DirectSignatureOnWeb v1",
     "description" : "Firma Web Directa Swagger v1"
   }, {
+    "name" : "SignatureFlowTemplate v1",
+    "description" : "API Interna de PortaFIB que ofereix serveis de firma en servidor."
+  }, {
     "name" : "SignatureOnServer v1",
     "description" : "API Interna de PortaFIB que ofereix serveis de firma en servidor."
   } ],
@@ -1607,6 +1610,1302 @@
         } ]
       }
     },
+    "/secure/signatureflowtemplate/v1/closeTransaction/{transactionID}" : {
+      "get" : {
+        "tags" : [ "SignatureFlowTemplate v1" ],
+        "summary" : "Tanca una transacció de creació de flux de firmes",
+        "operationId": "closeTransaction",
+        "parameters" : [ {
+          "name" : "transactionID",
+          "in" : "path",
+          "description" : "Identificador de la Transacció que volem finalitzar",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : { }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureflowtemplate/v1/deleteFlowTemplate/{flowTemplateID}" : {
+      "delete" : {
+        "tags" : [ "SignatureFlowTemplate v1" ],
+        "summary" : "Esborra una Plantilla de Flux de Firmes a partir del seu ID",
+        "operationId" : "deleteFlowTemplate",
+        "parameters" : [ {
+          "name" : "languageUI",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        }, {
+          "name" : "flowTemplateID",
+          "in" : "path",
+          "description" : "Identificador del Flux de Firmes el qual volem esborrar.",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "boolean"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureflowtemplate/v1/getAllFlowTemplates" : {
+      "get" : {
+        "tags" : [ "SignatureFlowTemplate v1" ],
+        "summary" : "Retorna una llista de totes les plantilles de flux de firmes associades a l'usuari aplicació amb el que s'autentica.",
+        "operationId" : "getAllFlowTemplates",
+        "parameters" : [ {
+          "name" : "languageUI",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "uniqueItems" : true,
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/KeyValue"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureflowtemplate/v1/getAllFlowTemplatesByFilter" : {
+      "get" : {
+        "tags" : [ "SignatureFlowTemplate v1" ],
+        "summary" : "Retorna una llista de totes les plantilles de flux de firmes associades a l'usuari aplicació amb el que s'autentica.",
+        "operationId" : "getAllFlowTemplatesByFilter",
+        "parameters" : [ {
+          "name" : "languageUI",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        }, {
+          "name" : "nameFilter",
+          "in" : "query",
+          "description" : "Patró per filtrar a partir del Nom",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "descriptionFilter",
+          "in" : "query",
+          "description" : "Patró per filtrar a partir de la Descripció",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "uniqueItems" : true,
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/KeyValue"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureflowtemplate/v1/getDocumentaryTypes" : {
+      "get" : {
+        "tags" : [ "DirectSignatureOnWeb v1" ],
+        "summary" : "Retorna una llista dels Tipus Documentals disponibles en el servidor: tipus documentals base, tipus documentals de l'entitat i tipus documentals de l'usuari aplicació",
+        "operationId": "getDocumentaryTypes",
+        "parameters" : [ {
+          "name" : "language",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "uniqueItems" : true,
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/DocumentaryType"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureflowtemplate/v1/getFlowInfoByFlowTemplateID/{flowTemplateID}" : {
+      "get" : {
+        "tags" : [ "SignatureFlowTemplate v1" ],
+        "summary" : "Serveix per obtenir Informació completa d'una Plantilla de Flux de Firmes a partir del seu ID",
+        "operationId" : "getFlowInfoByFlowTemplateID",
+        "parameters" : [ {
+          "name" : "languageUI",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        }, {
+          "name" : "flowTemplateID",
+          "in" : "path",
+          "description" : "Identificador del Flux de Firmes a obtenir",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SignatureFlowTemplate"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureflowtemplate/v1/getInternalFlowIDByFlowTemplateID/{flowTemplateID}" : {
+      "get" : {
+        "tags" : [ "SignatureFlowTemplate v1" ],
+        "summary" : "Serveix per obtenir l'ID intern del flux a partir de l'ID públic de la Plantilla de Flux de Firmes",
+        "operationId" : "getInternalFlowIDByFlowTemplateID",
+        "parameters" : [ {
+          "name" : "languageUI",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        }, {
+          "name" : "flowTemplateID",
+          "in" : "path",
+          "description" : "Identificador del Flux de Firmes del qual volem l'ID intern",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament. ID intern del Flux de Firmes associat a la Plantilla. Aquest ID és el que s'ha d'utilitzar en el mètode createAndStartSignatureRequestWithFlowTemplateCode() de AsyncSignatureOnWebApiV1",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "integer",
+                  "format" : "int64"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureflowtemplate/v1/getLanguages" : {
+      "get" : {
+        "tags" : [ "DirectSignatureOnWeb v1" ],
+        "summary" : "Retorna els idiomes disponibles.",
+        "operationId": "getLanguages",
+        "parameters" : [ {
+          "name" : "language",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "uniqueItems" : true,
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/KeyValue"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureflowtemplate/v1/getProfiles" : {
+      "get" : {
+        "tags" : [ "DirectSignatureOnWeb v1" ],
+        "summary" : "Retorna els perfils de firma.",
+        "operationId": "getProfiles",
+        "parameters" : [ {
+          "name" : "language",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "uniqueItems" : true,
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Profile"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureflowtemplate/v1/getReviseursByDestinationAdministrationID/{administrationID}" : {
+      "get" : {
+        "tags" : [ "SignatureFlowTemplate v1" ],
+        "summary" : "Retorna una llista dels Revisors globals i els associats al NIF d'un Destinatari",
+        "operationId" : "getReviseursByDestinationAdministrationID",
+        "parameters" : [ {
+          "name" : "administrationID",
+          "in" : "path",
+          "description" : "DNI del destinatari del qual volem obtenir els revisors associats.",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "languageUI",
+          "in" : "query",
+          "description" : "Idioma en que s'enviaran els missatges d'error",
+          "schema" : {
+            "pattern" : "^|ca|es$",
+            "type" : "string"
+          },
+          "example" : "ca"
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "uniqueItems" : true,
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/BasicUserInfo"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureflowtemplate/v1/getSignatureFlowTransactionResult/{transactionID}" : {
+      "get" : {
+        "tags" : [ "SignatureFlowTemplate v1" ],
+        "summary" : "Metode per obtenir els resultats de la creació d'un flux o plantilla de flux de firmes",
+        "operationId" : "getSignatureFlowTransactionResult",
+        "parameters" : [ {
+          "name" : "transactionID",
+          "in" : "path",
+          "description" : "Identificador de la Transacció de creació de Flux de Firmes",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament.Informació de l'estat de la transacció i del flux o plantilla creats.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SignatureFlowTemplateTransactionResult"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureflowtemplate/v1/getTransactionID" : {
+      "post" : {
+        "tags" : [ "SignatureFlowTemplate v1" ],
+        "summary" : "Mètode per obtenir un Identificador de Transacció.",
+        "operationId": "getTransactionID",
+        "requestBody" : {
+          "description" : "Dades requerides per la devolució d'un ID de transacció.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SignatureFlowTemplateTransactionIdRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Identificador de transacció.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureflowtemplate/v1/getUrlToEditFlowTemplate" : {
+      "post" : {
+        "tags" : [ "SignatureFlowTemplate v1" ],
+        "summary" : "Retorna una URL per poder editar una Plantilla de Flux de Firmes de forma gràfica",
+        "operationId" : "getUrlToEditFlowTemplate",
+        "requestBody" : {
+          "description" : "Dades de petició de la URL",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SignatureFlowTemplateEdit"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament. URL a l'edició de la Plantilla",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureflowtemplate/v1/getUrlToViewFlowTemplate/{flowTemplateID}" : {
+      "get" : {
+        "tags" : [ "SignatureFlowTemplate v1" ],
+        "summary" : "Retorna una URL que mostra una Plantilla de Flux de Firmes de forma gràfica en model només lectura",
+        "operationId" : "getUrlToViewFlowTemplate",
+        "parameters" : [ {
+          "name" : "languageUI",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        }, {
+          "name" : "flowTemplateID",
+          "in" : "path",
+          "description" : "Identificador del Flux de Firmes del qual volen la URL per mostrar-ho",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament.URL a la vista de la Plantilla.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureflowtemplate/v1/startTransaction" : {
+      "post" : {
+        "tags" : [ "SignatureFlowTemplate v1" ],
+        "summary" : "Mètode per iniciar una Transacció.",
+        "operationId": "startTransaction",
+        "requestBody" : {
+          "description" : "Dades requerides per l'inici d'una transacció",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SignatureFlowTemplateStartTransactionRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament.Url de redirecció cap al Servidor Intermedi",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureflowtemplate/v1/versio" : {
+      "get" : {
+        "tags" : [ "DirectSignatureOnWeb v1" ],
+        "summary" : "Retorna la versió d'aquest Servei",
+        "operationId": "versio",
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Retornada correctament la versió d'aquest Servei",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
     "/secure/signatureonserver/v1/getDocumentaryTypes" : {
       "get" : {
         "tags" : [ "SignatureOnServer v1" ],
@@ -2101,7 +3400,7 @@
       },
       "PriorityConstants" : {
         "type" : "integer",
-        "description" : "#Valors:\n\n • PRIORITY_PAUSED_PAUSADA(0): Prioritat Pausada\n\n • PRIORITY_INSIGNIFICANT_INSIGNIFICANT(1):Prioritat Insignificant\n\n • PRIORITY_VERYLOW_MOLTBAIXA(2):Prioritat Molt Baixa\n\n • PRIORITY_LOW_BAIXA(3):Prioritat Baixa\n\n • PRIORITY_NORMALLOW_NORMALBAIXA(4):Prioritat Normal-Baixa\n\n • PRIORITY_NORMAL_NORMAL(5):Prioritat Normal\n\n • PRIORITY_NORMALHIGH_NORMALALTA(6):Prioritat Normal-Alta\n\n • PRIORITY_HIGH_ALTA(7):Prioritat Alta\n\n • PRIORITY_VERYHIGH_MOLTALTA(8):Prioritat Molt Alta\n\n • PRIORITY_IMMEDIATE_INMEDIATA(9):Prioritat Immediata",
+        "description" : "Valors:\n\n • PRIORITY_PAUSED_PAUSADA(0): Prioritat Pausada\n\n • PRIORITY_INSIGNIFICANT_INSIGNIFICANT(1):Prioritat Insignificant\n\n • PRIORITY_VERYLOW_MOLTBAIXA(2):Prioritat Molt Baixa\n\n • PRIORITY_LOW_BAIXA(3):Prioritat Baixa\n\n • PRIORITY_NORMALLOW_NORMALBAIXA(4):Prioritat Normal-Baixa\n\n • PRIORITY_NORMAL_NORMAL(5):Prioritat Normal\n\n • PRIORITY_NORMALHIGH_NORMALALTA(6):Prioritat Normal-Alta\n\n • PRIORITY_HIGH_ALTA(7):Prioritat Alta\n\n • PRIORITY_VERYHIGH_MOLTALTA(8):Prioritat Molt Alta\n\n • PRIORITY_IMMEDIATE_INMEDIATA(9):Prioritat Immediata",
         "format" : "int32",
         "x-enum-varnames" : [ "PRIORITY_PAUSED_PAUSADA", "PRIORITY_INSIGNIFICANT_INSIGNIFICANT", "PRIORITY_VERYLOW_MOLTBAIXA", "PRIORITY_LOW_BAIXA", "PRIORITY_NORMALLOW_NORMALBAIXA", "PRIORITY_NORMAL_NORMAL", "PRIORITY_NORMALHIGH_NORMALALTA", "PRIORITY_HIGH_ALTA", "PRIORITY_VERYHIGH_MOLTALTA", "PRIORITY_IMMEDIATE_INMEDIATA" ],
         "x-enum-descriptions" : [ "Prioritat Pausada", "Prioritat Insignificant", "Prioritat Molt Baixa", "Prioritat Baixa", "Prioritat Normal-Baixa", "Prioritat Normal", "Prioritat Normal-Alta", "Prioritat Alta", "Prioritat Molt Alta", "Prioritat Immediata" ],
@@ -2293,8 +3592,9 @@
             }
           },
           "flowTemplateCode" : {
-            "type" : "string",
-            "description" : "Codi de la Plantilla del Flux de Firmes a utilitzar que es troba en el PortaFirmes. PortaFIB actualment no suporta codis en Plantilles de flux de firmes en format String, per la qual cosa aquí s'ha de posar l'ID de BBDD de la Plantilla de Flux de Firmes."
+            "type" : "integer",
+            "description" : "Codi de la Plantilla del Flux de Firmes a utilitzar que es troba en el PortaFirmes. PortaFIB actualment no suporta codis en Plantilles de flux de firmes en format String, per la qual cosa aquí s'ha de posar l'ID de BBDD de la Plantilla de Flux de Firmes.",
+            "format" : "int64"
           }
         },
         "description" : "Estructura de dades per a la sol·licitud de signatura electrònica a partir d'un identificador de Plantilla de Flux de Firmes"
@@ -2390,15 +3690,20 @@
         "description" : "Definició d'una Firma"
       },
       "SignatureBlock" : {
-        "required" : [ "minimumNumberOfSignaturesRequired", "signers" ],
+        "required" : [ "minimumNumberOfSignaturesRequired", "order", "signatures" ],
         "type" : "object",
         "properties" : {
+          "order" : {
+            "type" : "integer",
+            "description" : "Ordre d'execució dels Blocs",
+            "format" : "int32"
+          },
           "minimumNumberOfSignaturesRequired" : {
             "type" : "integer",
             "description" : "Numero mínim de signatures per passar al següent bloc de firmes.",
             "format" : "int32"
           },
-          "signers" : {
+          "signatures" : {
             "type" : "array",
             "description" : "Llistat de firmes associades a aquest bloc.",
             "items" : {
@@ -2948,7 +4253,7 @@
             "type" : "string"
           }
         },
-        "description" : "Estat del procés de firma"
+        "description" : "Estat d'algun procés"
       },
       "SignatureResponse" : {
         "required" : [ "signID", "status" ],
@@ -3054,6 +4359,118 @@
           "language" : {
             "type" : "string",
             "description" : "Idioma seleccionat"
+          }
+        }
+      },
+      "SignatureFlowTemplateTransactionStatusConstants" : {
+        "type" : "integer",
+        "description" : "Valors:\r\n    • STATUS_RESERVED_ID: Codi d'estat de la creació d'un flux de firmes que indica que s'ha reservat ID\n    • STATUS_IN_PROGRESS: Codi d'estat de la creació d'un flux de firmes que indica un que esta en procés.\n    • STATUS_FINAL_OK: Codi d'estat de la creació d'un flux de firmes que indica que ha finalitzat correctament\n    • STATUS_FINAL_ERROR: Codi d'estat de la creació d'un flux de firmes que indica que ha finalitzat amb errors\n    • STATUS_CANCELLED: Codi d'estat de la creació d'un flux de firmes que indica que ha sigut cancelada\n",
+        "format" : "int32",
+        "x-enum-varnames" : [ "STATUS_RESERVED_ID", "STATUS_IN_PROGRESS", "STATUS_FINAL_OK", "STATUS_FINAL_ERROR", "STATUS_CANCELLED" ],
+        "x-enum-descriptions" : [ "Codi d'estat de la creació d'un flux de firmes que indica que s'ha reservat ID", "Codi d'estat de la creació d'un flux de firmes que indica un que esta en procés.", "Codi d'estat de la creació d'un flux de firmes que indica que ha finalitzat correctament", "Codi d'estat de la creació d'un flux de firmes que indica que ha finalitzat amb errors", "Codi d'estat de la creació d'un flux de firmes que indica que ha sigut cancelada" ],
+        "enum" : [ "0", "1", "2", "-1", "-2" ]
+      },
+      "SignatureFlowTemplate" : {
+        "type" : "object",
+        "properties" : {
+          "intermediateServerFlowTemplateId" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "blocks" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/SignatureBlock"
+            }
+          }
+        }
+      },
+      "BasicUserInfo" : {
+        "type" : "object",
+        "properties" : {
+          "username" : {
+            "type" : "string",
+            "description" : "Username de l'usuari"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "Nom de l'usuari"
+          },
+          "surname" : {
+            "type" : "string",
+            "description" : "Llinatges de l'usuari"
+          },
+          "administrationId" : {
+            "type" : "string",
+            "description" : "NIF de l'usuari"
+          }
+        },
+        "description" : "Informació basica d'un usuari"
+      },
+      "SignatureFlowTemplateTransactionResult" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "$ref" : "#/components/schemas/ProcessStatus"
+          },
+          "flowInfo" : {
+            "$ref" : "#/components/schemas/SignatureFlowTemplate"
+          },
+          "properties" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/KeyValue"
+            }
+          }
+        }
+      },
+      "SignatureFlowTemplateTransactionIdRequest" : {
+        "type" : "object",
+        "properties" : {
+          "languageUI" : {
+            "type" : "string"
+          },
+          "saveOnServer" : {
+            "type" : "boolean"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "visibleDescription" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "SignatureFlowTemplateEdit" : {
+        "type" : "object",
+        "properties" : {
+          "languageUI" : {
+            "type" : "string"
+          },
+          "flowTemplateId" : {
+            "type" : "string"
+          },
+          "returnUrl" : {
+            "type" : "string"
+          }
+        }
+      },
+      "SignatureFlowTemplateStartTransactionRequest" : {
+        "type" : "object",
+        "properties" : {
+          "transactionID" : {
+            "type" : "string"
+          },
+          "returnUrl" : {
+            "type" : "string"
           }
         }
       },

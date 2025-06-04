@@ -87,5 +87,30 @@ public class Person {
     public void setIntermediateServerUsername(String intermediateServerUsername) {
         this.intermediateServerUsername = intermediateServerUsername;
     }
+    
+
+    public static String toString(Person person) {
+      
+      if (person.getUsername() != null) {
+        return "Username: " + person.getUsername();
+      }
+      
+      
+      if (person.getAdministrationID() != null) {
+        return "AdministrationID: " + person.getAdministrationID();
+      }
+      
+      if (person.getIntermediateServerUsername() != null) {
+        return "IntermediateServerUsername: " + person.getIntermediateServerUsername();
+      }
+      
+      if (person.getPositionInTheCompany() != null) {
+        return "PositionInTheCompany: " + person.getPositionInTheCompany();
+      }
+      
+      return "Error Name: Not defined value for FlowTemplateSimplePerson !!!";
+      
+      
+    }
 
 }

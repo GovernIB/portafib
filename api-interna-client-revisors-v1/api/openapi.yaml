@@ -97,10 +97,13 @@ components:
         username: username
       properties:
         username:
+          description: Username de l'usuari
           type: string
         name:
+          description: Nom de l'usuari
           type: string
         surname:
+          description: Llinatges de l'usuari
           type: string
         administrationId:
           description: NIF de l'usuari

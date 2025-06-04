@@ -52,6 +52,7 @@ import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.RevisorDeFirmaFields;
 import es.caib.portafib.api.interna.secure.signature.v1.AbstractSignatureService;
 import es.caib.portafib.api.interna.secure.signature.v1.CommonsSwaggerOperations;
+import es.caib.portafib.api.interna.secure.signature.v1.ComparatorBlocDeFirmesJPA;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.CustodyInfo;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.Document;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.DocumentaryType;
@@ -92,7 +93,6 @@ import javax.ws.rs.core.MediaType;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -169,7 +169,7 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
     /**
      * IMPORTANT: Alerta a canviar aquest nom, ja que s'utilitza coma no de servei en el Client Swagger
      */
-    public static final String TAG_NAME = "AsyncSignatureOnWeb v1";
+    public static final String TAG_NAME = "AsyncSignatureOnWeb v1"; // AsyncSignatureOnWebApiV1
 
     @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
     protected ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaLocalEjb;
@@ -421,23 +421,16 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
             languageUI = checkLanguage(signatureRequest.getLanguageUI());
 
             // Per ara collirem el Codi com l'ID de les plantilles !!!!
-            String codiPlantilla = signatureRequest.getFlowTemplateCode();
+            long plantillaDeFluxDeFirmesID = signatureRequest.getFlowTemplateCode();
 
-            long plantillaDeFluxDeFirmesID;
-            try {
-                plantillaDeFluxDeFirmesID = Long.parseLong(codiPlantilla);
-            } catch (NumberFormatException nfe) {
-                // XYZ ZZZ TRA
-                throw new RestException("Durant aquesta fase de desenvolupament"
-                        + " requerim que els codis de plantilla de flux siguin els IDs.");
-            }
+           
 
             // Cercar per ID
             FluxDeFirmesJPA flux = fluxDeFirmesLogicaEjb.findByPrimaryKeyFullForPlantilla(plantillaDeFluxDeFirmesID);
             if (flux == null || flux.getPlantillaFluxDeFirmes() == null) {
                 // XYZ ZZZ TRA
                 throw new RestException(
-                        "El codi de plantilla " + codiPlantilla + " no existeix o no és una plantilla.");
+                        "El codi de plantilla " + plantillaDeFluxDeFirmesID + " no existeix o no és una plantilla.");
             }
             // Check que la plantilla és de l'usuari que crida o esta compartida
             // per algun usuari-entitat o usuari-aplicacio de la pròpia entitat
@@ -446,7 +439,7 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
                 String userapp = checkUsuariAplicacio(request);
                 if (!userapp.equals(plantilla.getUsuariAplicacioID())) {
                     // TODO XYZ ZZZ TRA Traduir
-                    String msg = "L'usuari app connectat " + userapp + " no té permis sobre la plantilla amd ID "
+                    String msg = "L'usuari app connectat " + userapp + " no té permis sobre la plantilla amb ID "
                             + plantillaDeFluxDeFirmesID;
                     log.error(msg);
                     // Error desconegut: {0}
@@ -523,7 +516,7 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
 
                 }
 
-                signatureBlocks[count] = new SignatureBlock(minimumNumberOfSignaturesRequired, signers);
+                signatureBlocks[count] = new SignatureBlock(count, minimumNumberOfSignaturesRequired, signers);
                 count++;
             }
 
@@ -551,15 +544,6 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
 
     }
 
-    public static class ComparatorBlocDeFirmesJPA implements Comparator<BlocDeFirmesJPA> {
-
-        @Override
-        public int compare(BlocDeFirmesJPA o1, BlocDeFirmesJPA o2) {
-
-            return o1.getOrdre() - o2.getOrdre();
-        }
-
-    }
 
     @Path(value = "/getSignatureRequestState")
     @POST
@@ -1202,7 +1186,7 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
         // Bean
         BlocDeFirmesJPA jpa = new BlocDeFirmesJPA(ordre, null, 0, bloc.getMinimumNumberOfSignaturesRequired());
         // Firmes
-        List<Signature> firmants = bloc.getSigners();
+        List<Signature> firmants = bloc.getSignatures();
         if (firmants == null || firmants.size() == 0) {
             // XYZ ZZZ TRA
             final String msg = "Les firmes del Bloc de Firmes " + ordre + " val null o està buit";

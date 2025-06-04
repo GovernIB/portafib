@@ -1,65 +1,25 @@
 package es.caib.portafib.api.interna.secure.signature.v1.commons;
 
-import es.caib.portafib.commons.utils.Constants;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * Resultat d'una firma
+ * Estat d'algun procés
  * @author anadal
  * 6 may 2025 10:01:59
  */
+@Schema(description = "Estat d'algun procés")
 public class ProcessStatus {
 
-    /**
-    @Schema(
-            description = "Codi d'estat d'una petició de firma que indica un que s'esta inicialitzant",
-            nullable = false,
-            defaultValue = "" + Constants.STATUS_INITIALIZING,
-            implementation = Integer.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final int STATUS_INITIALIZING = Constants.STATUS_INITIALIZING;
 
-    @Schema(
-            description = "Codi d'estat d'una petició de firma que indica un que esta en procés",
-            nullable = false,
-            defaultValue = "" + Constants.STATUS_IN_PROGRESS,
-            implementation = Integer.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final int STATUS_IN_PROGRESS = Constants.STATUS_IN_PROGRESS;
+    // TODO
+    protected int status; 
 
-    @Schema(
-            description = "Codi d'estat d'una petició de firma que indica que ha finalitzat correctament",
-            nullable = false,
-            defaultValue = "" + Constants.STATUS_FINAL_OK,
-            implementation = Integer.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final int STATUS_FINAL_OK = Constants.STATUS_FINAL_OK;
 
-    @Schema(
-            description = "Codi d'estat d'una petició de firma que indica que ha finalitzat amb errors",
-            nullable = false,
-            defaultValue = "" + Constants.STATUS_FINAL_ERROR,
-            implementation = Integer.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final int STATUS_FINAL_ERROR = Constants.STATUS_FINAL_ERROR;
-
-    @Schema(
-            description = "Codi d'estat d'una petició de firma que indica que ha sigut cancelada",
-            nullable = false,
-            defaultValue = "" + Constants.STATUS_CANCELLED,
-            implementation = Integer.class,
-            requiredMode = RequiredMode.REQUIRED,
-            accessMode = AccessMode.READ_ONLY)
-    public final int STATUS_CANCELLED = Constants.STATUS_CANCELLED;
-    */
-
-    protected int status = Constants.STATUS_INITIALIZING; // STATUS_INITIALIZING;
-
+    // TODO
     protected String errorMessage;
 
+
+    // TODO
     protected String errorStackTrace;
 
     public ProcessStatus() {

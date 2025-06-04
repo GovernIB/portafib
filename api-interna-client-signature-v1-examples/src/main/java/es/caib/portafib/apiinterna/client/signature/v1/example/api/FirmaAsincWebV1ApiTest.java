@@ -82,10 +82,10 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
 
         AsyncSignatureOnWebV1Api api = getApi();
 
-        String plantillaDeFirmes = getPlantillaDeFirmes();
+        long plantillaDeFirmes = getPlantillaDeFirmes();
         SignatureBlock[] signatureBlocks = null;
 
-        if (plantillaDeFirmes == null || plantillaDeFirmes.trim().length() == 0) {
+        if (plantillaDeFirmes > 0) {
 
             String[][] destinataris = getNifsDestinataris();
             String nifRevisor = getNifRevisor();
@@ -102,7 +102,7 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
                     throw new Exception("Els destinataris del bloc " + i + " està buit o val null");
                 }
                 System.out.println("BLOC[" + i + "] => Destinataris = " + Arrays.toString(destinatarisBloc));
-                List<Signature> signers = new ArrayList<Signature>();
+                List<Signature> signatures = new ArrayList<Signature>();
                 for (int j = 0; j < destinatarisBloc.length; j++) {
 
                     String nif = destinatarisBloc[j].trim();
@@ -153,13 +153,13 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
                     signature.setMinimumNumberOfRevisers(minimumNumberOfRevisers);
                     signature.setRevisers(revisers);
 
-                    signers.add(signature);
+                    signatures.add(signature);
 
                 }
 
                 SignatureBlock signatureBlock = new SignatureBlock();
-                signatureBlock.setMinimumNumberOfSignaturesRequired(signers.size());
-                signatureBlock.setSigners(signers);
+                signatureBlock.setMinimumNumberOfSignaturesRequired(signatures.size());
+                signatureBlock.setSignatures(signatures);
 
                 signatureBlocks[i] = signatureBlock;
 
@@ -466,8 +466,8 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
         return getFitxer("fitxerAFirmar");
     }
 
-    protected String getPlantillaDeFirmes() throws Exception {
-        return getConfigProperties().getProperty("plantillaDeFirmes");
+    protected long getPlantillaDeFirmes() throws Exception {
+        return Long.parseLong(getConfigProperties().getProperty("plantillaDeFirmes"));
     }
 
     protected Document getFitxerAAnnexar() throws Exception {

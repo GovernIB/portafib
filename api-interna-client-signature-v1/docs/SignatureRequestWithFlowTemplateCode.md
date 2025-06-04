@@ -30,7 +30,7 @@ Estructura de dades per a la sol·licitud de signatura electrònica a partir d'u
 |**additionalInformationEvaluable** | **Double** | Informació Addicional avauluable. Per exemple en documents de tipus factura en aquest camp s&#39;insereix la quantitat final de la factura. |  [optional] |
 |**annexs** | [**List&lt;Annex&gt;**](Annex.md) | Llista de document annexes a la petició de firma |  [optional] |
 |**metadadaList** | [**List&lt;Metadata&gt;**](Metadata.md) | Llista de Metadades associades a la Petició de Firma |  [optional] |
-|**flowTemplateCode** | **String** | Codi de la Plantilla del Flux de Firmes a utilitzar que es troba en el PortaFirmes. PortaFIB actualment no suporta codis en Plantilles de flux de firmes en format String, per la qual cosa aquí s&#39;ha de posar l&#39;ID de BBDD de la Plantilla de Flux de Firmes. |  |
+|**flowTemplateCode** | **Long** | Codi de la Plantilla del Flux de Firmes a utilitzar que es troba en el PortaFirmes. PortaFIB actualment no suporta codis en Plantilles de flux de firmes en format String, per la qual cosa aquí s&#39;ha de posar l&#39;ID de BBDD de la Plantilla de Flux de Firmes. |  |
 
 
 
