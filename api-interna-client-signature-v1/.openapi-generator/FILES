@@ -7,7 +7,6 @@ build.sbt
 docs/AddFileToSignRequest.md
 docs/Annex.md
 docs/AsyncSignatureOnWebV1Api.md
-docs/BasicUserInfo.md
 docs/CommonInfo.md
 docs/CustodyInfo.md
 docs/DirectSignatureOnWebV1Api.md
@@ -35,13 +34,6 @@ docs/SignProfileConstants.md
 docs/SignTypeConstants.md
 docs/Signature.md
 docs/SignatureBlock.md
-docs/SignatureFlowTemplate.md
-docs/SignatureFlowTemplateEdit.md
-docs/SignatureFlowTemplateStartTransactionRequest.md
-docs/SignatureFlowTemplateTransactionIdRequest.md
-docs/SignatureFlowTemplateTransactionResult.md
-docs/SignatureFlowTemplateTransactionStatusConstants.md
-docs/SignatureFlowTemplateV1Api.md
 docs/SignatureOnServerV1Api.md
 docs/SignatureRequestInfo.md
 docs/SignatureRequestState.md
@@ -71,11 +63,9 @@ settings.gradle
 src/main/AndroidManifest.xml
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/api/AsyncSignatureOnWebV1Api.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/api/DirectSignatureOnWebV1Api.java
-src/main/java/es/caib/portafib/apiinterna/client/signature/v1/api/SignatureFlowTemplateV1Api.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/api/SignatureOnServerV1Api.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/AddFileToSignRequest.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/Annex.java
-src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/BasicUserInfo.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/CommonInfo.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/CustodyInfo.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/Document.java
@@ -102,12 +92,6 @@ src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignProfileC
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignTypeConstants.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/Signature.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureBlock.java
-src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureFlowTemplate.java
-src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureFlowTemplateEdit.java
-src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureFlowTemplateStartTransactionRequest.java
-src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureFlowTemplateTransactionIdRequest.java
-src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureFlowTemplateTransactionResult.java
-src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureFlowTemplateTransactionStatusConstants.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureRequestInfo.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureRequestState.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureRequestStateConstants.java

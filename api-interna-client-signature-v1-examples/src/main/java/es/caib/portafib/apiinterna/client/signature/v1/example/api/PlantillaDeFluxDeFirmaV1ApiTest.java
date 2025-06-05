@@ -9,7 +9,6 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URI;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,15 +63,13 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
             //System.out.println("UPDATES ====>" + test.getApi().updateDescriptionOfFlowTemplate("4K6p0YrnXfdAGWguz5RyTw==", "XXXXXXXXXXXX", languageUI));
 
             // Crear plantilla de Flux de Firmes des de codi
+            @SuppressWarnings("unused")
             String id = test.testCreateSignatureFlowTemplateFromCode(languageUI);
 
             // Llistat plantilles de Flux
             Set<KeyValue> fluxos = test.testGetAllSignatureFlowTemplates(languageUI);
             String plantillaFluxFirmesID;
             boolean creatNouFluxe = false;
-
-            if (true)
-                return;
 
             // Crear Flux via Web
             String descrRandom = null;

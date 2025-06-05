@@ -7,17 +7,13 @@ All URIs are relative to */portafibapi/interna*
 | [**addFileToSign**](DirectSignatureOnWebV1Api.md#addFileToSign) | **POST** /secure/directsignatureonweb/v1/addFileToSign | Afegeix un document  al conjunt de Peticions de Firma a realitzar per l&#39;usuari. |
 | [**closeTransaction**](DirectSignatureOnWebV1Api.md#closeTransaction) | **POST** /secure/directsignatureonweb/v1/closeTransaction | Indica al component de firma que la informació s’ha recuperat correctament i que pot fer neteja en el servidor. |
 | [**getDocumentaryTypes**](DirectSignatureOnWebV1Api.md#getDocumentaryTypes) | **GET** /secure/directsignatureonweb/v1/getDocumentaryTypes | Retorna una llista dels Tipus Documentals disponibles en el servidor: tipus documentals base, tipus documentals de l&#39;entitat i tipus documentals de l&#39;usuari aplicació |
-| [**getDocumentaryTypes_0**](DirectSignatureOnWebV1Api.md#getDocumentaryTypes_0) | **GET** /secure/signatureflowtemplate/v1/getDocumentaryTypes | Retorna una llista dels Tipus Documentals disponibles en el servidor: tipus documentals base, tipus documentals de l&#39;entitat i tipus documentals de l&#39;usuari aplicació |
 | [**getLanguages**](DirectSignatureOnWebV1Api.md#getLanguages) | **GET** /secure/directsignatureonweb/v1/getLanguages | Retorna els idiomes disponibles. |
-| [**getLanguages_0**](DirectSignatureOnWebV1Api.md#getLanguages_0) | **GET** /secure/signatureflowtemplate/v1/getLanguages | Retorna els idiomes disponibles. |
 | [**getProfiles**](DirectSignatureOnWebV1Api.md#getProfiles) | **GET** /secure/directsignatureonweb/v1/getProfiles | Retorna els perfils de firma. |
-| [**getProfiles_0**](DirectSignatureOnWebV1Api.md#getProfiles_0) | **GET** /secure/signatureflowtemplate/v1/getProfiles | Retorna els perfils de firma. |
 | [**getSignatureResult**](DirectSignatureOnWebV1Api.md#getSignatureResult) | **POST** /secure/directsignatureonweb/v1/getSignatureResult | Document signat  i informació d&#39;una firma |
 | [**getTransactionID**](DirectSignatureOnWebV1Api.md#getTransactionID) | **POST** /secure/directsignatureonweb/v1/getTransactionID | Operacio per obtenir el Id de una transaccio de la API |
 | [**getTransactionStatus**](DirectSignatureOnWebV1Api.md#getTransactionStatus) | **POST** /secure/directsignatureonweb/v1/getTransactionStatus | Retorna estat de la transacció (el procés de firma en general) i resultat del procés de cada firma |
 | [**startTransaction**](DirectSignatureOnWebV1Api.md#startTransaction) | **POST** /secure/directsignatureonweb/v1/startTransaction | Envia identificador de la transacció, url de retorn i tipus de vista web (amb o sense iframe) i inicia el procés de firma retornant una URL de redirecció. |
 | [**versio**](DirectSignatureOnWebV1Api.md#versio) | **GET** /secure/directsignatureonweb/v1/versio | Retorna la versió d&#39;aquest Servei |
-| [**versio_0**](DirectSignatureOnWebV1Api.md#versio_0) | **GET** /secure/signatureflowtemplate/v1/versio | Retorna la versió d&#39;aquest Servei |
 
 
 
@@ -243,80 +239,6 @@ public class Example {
 | **200** | Operació realitzada correctament |  -  |
 
 
-## getDocumentaryTypes_0
-
-> Set&lt;DocumentaryType&gt; getDocumentaryTypes_0(language)
-
-Retorna una llista dels Tipus Documentals disponibles en el servidor: tipus documentals base, tipus documentals de l&#39;entitat i tipus documentals de l&#39;usuari aplicació
-
-### Example
-
-```java
-// Import classes:
-import es.caib.portafib.apiinterna.client.signature.v1.services.ApiClient;
-import es.caib.portafib.apiinterna.client.signature.v1.services.ApiException;
-import es.caib.portafib.apiinterna.client.signature.v1.services.Configuration;
-import es.caib.portafib.apiinterna.client.signature.v1.services.auth.*;
-import es.caib.portafib.apiinterna.client.signature.v1.services.models.*;
-import es.caib.portafib.apiinterna.client.signature.v1.api.DirectSignatureOnWebV1Api;
-
-public class Example {
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("/portafibapi/interna");
-        
-        // Configure HTTP basic authorization: BasicAuth
-        HttpBasicAuth BasicAuth = (HttpBasicAuth) defaultClient.getAuthentication("BasicAuth");
-        BasicAuth.setUsername("YOUR USERNAME");
-        BasicAuth.setPassword("YOUR PASSWORD");
-
-        DirectSignatureOnWebV1Api apiInstance = new DirectSignatureOnWebV1Api(defaultClient);
-        String language = "ca"; // String | Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')
-        try {
-            Set<DocumentaryType> result = apiInstance.getDocumentaryTypes_0(language);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling DirectSignatureOnWebV1Api#getDocumentaryTypes_0");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
-            System.err.println("Response headers: " + e.getResponseHeaders());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **language** | **String**| Idioma en que s&#39;han de retornar les dades(Només suportat &#39;ca&#39; o &#39;es&#39;) | [optional] [default to ca] |
-
-### Return type
-
-[**Set&lt;DocumentaryType&gt;**](DocumentaryType.md)
-
-### Authorization
-
-[BasicAuth](../README.md#BasicAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **400** | Paràmetres incorrectes |  -  |
-| **401** | No Autenticat |  -  |
-| **403** | No autoritzat |  -  |
-| **500** | Error no controlat |  -  |
-| **200** | Operació realitzada correctament |  -  |
-
-
 ## getLanguages
 
 > Set&lt;KeyValue&gt; getLanguages(language)
@@ -391,80 +313,6 @@ public class Example {
 | **200** | Operació realitzada correctament |  -  |
 
 
-## getLanguages_0
-
-> Set&lt;KeyValue&gt; getLanguages_0(language)
-
-Retorna els idiomes disponibles.
-
-### Example
-
-```java
-// Import classes:
-import es.caib.portafib.apiinterna.client.signature.v1.services.ApiClient;
-import es.caib.portafib.apiinterna.client.signature.v1.services.ApiException;
-import es.caib.portafib.apiinterna.client.signature.v1.services.Configuration;
-import es.caib.portafib.apiinterna.client.signature.v1.services.auth.*;
-import es.caib.portafib.apiinterna.client.signature.v1.services.models.*;
-import es.caib.portafib.apiinterna.client.signature.v1.api.DirectSignatureOnWebV1Api;
-
-public class Example {
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("/portafibapi/interna");
-        
-        // Configure HTTP basic authorization: BasicAuth
-        HttpBasicAuth BasicAuth = (HttpBasicAuth) defaultClient.getAuthentication("BasicAuth");
-        BasicAuth.setUsername("YOUR USERNAME");
-        BasicAuth.setPassword("YOUR PASSWORD");
-
-        DirectSignatureOnWebV1Api apiInstance = new DirectSignatureOnWebV1Api(defaultClient);
-        String language = "ca"; // String | Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')
-        try {
-            Set<KeyValue> result = apiInstance.getLanguages_0(language);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling DirectSignatureOnWebV1Api#getLanguages_0");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
-            System.err.println("Response headers: " + e.getResponseHeaders());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **language** | **String**| Idioma en que s&#39;han de retornar les dades(Només suportat &#39;ca&#39; o &#39;es&#39;) | [optional] [default to ca] |
-
-### Return type
-
-[**Set&lt;KeyValue&gt;**](KeyValue.md)
-
-### Authorization
-
-[BasicAuth](../README.md#BasicAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **400** | Paràmetres incorrectes |  -  |
-| **401** | No Autenticat |  -  |
-| **403** | No autoritzat |  -  |
-| **500** | Error no controlat |  -  |
-| **200** | Operació realitzada correctament |  -  |
-
-
 ## getProfiles
 
 > Set&lt;Profile&gt; getProfiles(language)
@@ -499,80 +347,6 @@ public class Example {
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DirectSignatureOnWebV1Api#getProfiles");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
-            System.err.println("Response headers: " + e.getResponseHeaders());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **language** | **String**| Idioma en que s&#39;han de retornar les dades(Només suportat &#39;ca&#39; o &#39;es&#39;) | [optional] [default to ca] |
-
-### Return type
-
-[**Set&lt;Profile&gt;**](Profile.md)
-
-### Authorization
-
-[BasicAuth](../README.md#BasicAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **400** | Paràmetres incorrectes |  -  |
-| **401** | No Autenticat |  -  |
-| **403** | No autoritzat |  -  |
-| **500** | Error no controlat |  -  |
-| **200** | Operació realitzada correctament |  -  |
-
-
-## getProfiles_0
-
-> Set&lt;Profile&gt; getProfiles_0(language)
-
-Retorna els perfils de firma.
-
-### Example
-
-```java
-// Import classes:
-import es.caib.portafib.apiinterna.client.signature.v1.services.ApiClient;
-import es.caib.portafib.apiinterna.client.signature.v1.services.ApiException;
-import es.caib.portafib.apiinterna.client.signature.v1.services.Configuration;
-import es.caib.portafib.apiinterna.client.signature.v1.services.auth.*;
-import es.caib.portafib.apiinterna.client.signature.v1.services.models.*;
-import es.caib.portafib.apiinterna.client.signature.v1.api.DirectSignatureOnWebV1Api;
-
-public class Example {
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("/portafibapi/interna");
-        
-        // Configure HTTP basic authorization: BasicAuth
-        HttpBasicAuth BasicAuth = (HttpBasicAuth) defaultClient.getAuthentication("BasicAuth");
-        BasicAuth.setUsername("YOUR USERNAME");
-        BasicAuth.setPassword("YOUR PASSWORD");
-
-        DirectSignatureOnWebV1Api apiInstance = new DirectSignatureOnWebV1Api(defaultClient);
-        String language = "ca"; // String | Idioma en que s'han de retornar les dades(Només suportat 'ca' o 'es')
-        try {
-            Set<Profile> result = apiInstance.getProfiles_0(language);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling DirectSignatureOnWebV1Api#getProfiles_0");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -942,76 +716,6 @@ public class Example {
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DirectSignatureOnWebV1Api#versio");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
-            System.err.println("Response headers: " + e.getResponseHeaders());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**String**
-
-### Authorization
-
-[BasicAuth](../README.md#BasicAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **400** | Paràmetres incorrectes |  -  |
-| **401** | No Autenticat |  -  |
-| **403** | No autoritzat |  -  |
-| **500** | Error no controlat |  -  |
-| **200** | Retornada correctament la versió d&#39;aquest Servei |  -  |
-
-
-## versio_0
-
-> String versio_0()
-
-Retorna la versió d&#39;aquest Servei
-
-### Example
-
-```java
-// Import classes:
-import es.caib.portafib.apiinterna.client.signature.v1.services.ApiClient;
-import es.caib.portafib.apiinterna.client.signature.v1.services.ApiException;
-import es.caib.portafib.apiinterna.client.signature.v1.services.Configuration;
-import es.caib.portafib.apiinterna.client.signature.v1.services.auth.*;
-import es.caib.portafib.apiinterna.client.signature.v1.services.models.*;
-import es.caib.portafib.apiinterna.client.signature.v1.api.DirectSignatureOnWebV1Api;
-
-public class Example {
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("/portafibapi/interna");
-        
-        // Configure HTTP basic authorization: BasicAuth
-        HttpBasicAuth BasicAuth = (HttpBasicAuth) defaultClient.getAuthentication("BasicAuth");
-        BasicAuth.setUsername("YOUR USERNAME");
-        BasicAuth.setPassword("YOUR PASSWORD");
-
-        DirectSignatureOnWebV1Api apiInstance = new DirectSignatureOnWebV1Api(defaultClient);
-        try {
-            String result = apiInstance.versio_0();
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling DirectSignatureOnWebV1Api#versio_0");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());

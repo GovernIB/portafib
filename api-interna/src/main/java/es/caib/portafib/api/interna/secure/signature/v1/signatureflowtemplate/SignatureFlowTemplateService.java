@@ -1353,7 +1353,7 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
 
             FluxDeFirmesJPA fluxDeFirmes;
 
-            fluxDeFirmes = toJPA(blocks.toArray(new SignatureBlock[blocks.size()]), usuariApp.getEntitatID(),
+            fluxDeFirmes = toJPA(blocks, usuariApp.getEntitatID(),
                     languageUI, signatureFlowTemplate.getName(), usuariApp.isCrearUsuaris());
 
             fluxDeFirmes.setPlantillaFluxDeFirmes(plantilla);
