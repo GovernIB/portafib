@@ -1,20 +1,29 @@
-package es.caib.portafib.api.interna.secure.signature.v1.signatureflow;
+package es.caib.portafib.api.interna.secure.signature.v1.signatureflowtemplate;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * 
  * @author anadal(u80067)
  *
  */
+@Schema(description = "Informació requerida a que el sistema retorni un identificador de transacció "
+        + "per a la creació web d'una plantilla de flux de signatura")
 public class SignatureFlowTemplateTransactionIdRequest {
 
+    @Schema(description = "Codi de l'idioma de la interfície d'usuari", example = "ca")
     protected String languageUI;
 
+    @Schema(description = "Indica si s'ha de guardar la plantilla al servidor", example = "true")
     protected boolean saveOnServer;
 
+    @Schema(description = "Nom de la plantilla de flux", example = "Plantilla de flux de signatura")
     protected String name;
 
+    @Schema(description = "Descripció de la plantilla de flux")
     protected String description;
 
+    @Schema(description = "Indica si la descripció de la plantilla de flux és visible per l'usuari que l'edita o el veu.", example = "true")
     protected boolean visibleDescription;
 
     /**

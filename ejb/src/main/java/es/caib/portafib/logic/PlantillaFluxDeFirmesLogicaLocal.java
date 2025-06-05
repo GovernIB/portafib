@@ -21,6 +21,6 @@ public interface PlantillaFluxDeFirmesLogicaLocal extends PlantillaFluxDeFirmesS
 
   public PlantillaFluxDeFirmesJPA findByPrimaryKeyFull(Long PlantillaFluxDeFirmesID);
 
-  public void afegirRevisorAFlusDeFirmes(String usuariEntitatID, FluxDeFirmesJPA flux, FirmaJPA firma) throws I18NException;
+  public void afegirRevisorAFluxDeFirmes(String usuariEntitatID, FluxDeFirmesJPA flux, FirmaJPA firma) throws I18NException;
 
 }

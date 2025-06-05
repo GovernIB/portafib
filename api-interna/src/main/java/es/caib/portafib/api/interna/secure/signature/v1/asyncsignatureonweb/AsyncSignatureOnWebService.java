@@ -1,12 +1,9 @@
 package es.caib.portafib.api.interna.secure.signature.v1.asyncsignatureonweb;
 
-import org.apache.commons.lang3.StringUtils;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
-import org.fundaciobit.genapp.common.i18n.I18NCommonUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
-import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.pluginsib.utils.rest.RestException;
 import org.fundaciobit.pluginsib.utils.rest.RestExceptionInfo;
 
@@ -180,29 +177,17 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
     @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
     protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
 
-    @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME)
-    private FirmaLogicaLocal firmaLogicaEjb;
-
     @EJB(mappedName = FitxerLogicaLocal.JNDI_NAME)
     protected FitxerLogicaLocal fitxerLogicaEjb;
 
     @EJB(mappedName = es.caib.portafib.ejb.IdiomaService.JNDI_NAME)
     protected es.caib.portafib.ejb.IdiomaService idiomaEjb;
 
-    @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
-    protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
-
     @EJB(mappedName = FluxDeFirmesLogicaLocal.JNDI_NAME)
     private FluxDeFirmesLogicaLocal fluxDeFirmesLogicaEjb;
 
     @EJB(mappedName = EstatDeFirmaLogicaLocal.JNDI_NAME)
     protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
-
-    @EJB(mappedName = CreateUsuariServiceLocal.JNDI_NAME)
-    protected CreateUsuariServiceLocal createUsuariServiceEjb;
-
-    @EJB(mappedName = RevisorDeDestinatariLogicaService.JNDI_NAME)
-    protected RevisorDeDestinatariLogicaService revisorDeDestinatariEjb;
 
     @Operation(
             tags = AsyncSignatureOnWebService.TAG_NAME,
@@ -400,7 +385,7 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
     HttpServletRequest request, @RequestBody
     SignatureRequestWithFlowTemplateCode signatureRequest) {
 
-        SignatureBlock[] signatureBlocks;
+        List<SignatureBlock> signatureBlocks;
 
         String languageUI = "ca";
 
@@ -422,8 +407,6 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
 
             // Per ara collirem el Codi com l'ID de les plantilles !!!!
             long plantillaDeFluxDeFirmesID = signatureRequest.getFlowTemplateCode();
-
-           
 
             // Cercar per ID
             FluxDeFirmesJPA flux = fluxDeFirmesLogicaEjb.findByPrimaryKeyFullForPlantilla(plantillaDeFluxDeFirmesID);
@@ -451,9 +434,7 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
 
             Set<BlocDeFirmesJPA> blocs = flux.getPlantillaFluxDeFirmes().getFluxDeFirmes().getBlocDeFirmess();
 
-            signatureBlocks = new SignatureBlock[blocs.size()];
-
-            int count = 0;
+            signatureBlocks = new ArrayList<SignatureBlock>(blocs.size());
 
             TreeSet<BlocDeFirmesJPA> blocsOrdered = new TreeSet<BlocDeFirmesJPA>(new ComparatorBlocDeFirmesJPA());
             blocsOrdered.addAll(blocs);
@@ -516,8 +497,8 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
 
                 }
 
-                signatureBlocks[count] = new SignatureBlock(count, minimumNumberOfSignaturesRequired, signers);
-                count++;
+                signatureBlocks.add(new SignatureBlock(blocDeFirmes.getOrdre(), minimumNumberOfSignaturesRequired, signers));
+                
             }
 
             SignatureRequestWithSignBlockList sr = new SignatureRequestWithSignBlockList(signatureRequest,
@@ -543,7 +524,6 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
         }
 
     }
-
 
     @Path(value = "/getSignatureRequestState")
     @POST
@@ -1142,361 +1122,17 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
         }
 
         // Flux de firmes
-        SignatureBlock[] blocks = signatureRequest.getSignatureBlocks();
-        if (blocks == null || blocks.length == 0) {
+        List<SignatureBlock> blocks = signatureRequest.getSignatureBlocks();
+        if (blocks == null || blocks.size() == 0) {
             // XYZ ZZZ TRA
             final String msg = "Els blocs de firmes de la Petició de Firmes val null o està buit";
             throw new I18NException("genapp.comodi", msg);
         } else {
-            jpa.setFluxDeFirmes(toJPA(blocks, entitatJPA.getEntitatID(), fitxersCreats, languageUI,
-                    signatureRequest.getTitle(), usrapp.isCrearUsuaris()));
+            jpa.setFluxDeFirmes(toJPA(blocks, entitatJPA.getEntitatID(), languageUI, signatureRequest.getTitle(),
+                    usrapp.isCrearUsuaris()));
         }
 
         return jpa;
-    }
-
-    protected FluxDeFirmesJPA toJPA(SignatureBlock[] blocks, String entitatID, Set<Long> fitxersCreats,
-            String languageUI, String titolPeticio, boolean canCreate) throws I18NException {
-
-        // #562
-        String nomFlux = "Flux per Petició Async " + titolPeticio;
-        if (nomFlux.length() > 255) {
-            nomFlux = nomFlux.substring(0, 255);
-        }
-        FluxDeFirmesJPA jpa = new FluxDeFirmesJPA(nomFlux);
-
-        Set<BlocDeFirmesJPA> blocsDeFirmesJPA = new HashSet<BlocDeFirmesJPA>();
-        for (int b = 0; b < blocks.length; b++) {
-            SignatureBlock bloc = blocks[b];
-            blocsDeFirmesJPA.add(toJPA(b, bloc, entitatID, fitxersCreats, languageUI, canCreate));
-        }
-        jpa.setBlocDeFirmess(blocsDeFirmesJPA);
-
-        return jpa;
-    }
-
-    protected BlocDeFirmesJPA toJPA(int ordre, SignatureBlock bloc, String entitatID, Set<Long> fitxersCreats,
-            String languageUI, boolean canCreate) throws I18NException {
-
-        if (bloc == null) {
-            // XYZ ZZZ TRA
-            throw new I18NException("genapp.comodi", "El Bloc de Firmes de la posició " + ordre + " val NULL.");
-        }
-
-        // Bean
-        BlocDeFirmesJPA jpa = new BlocDeFirmesJPA(ordre, null, 0, bloc.getMinimumNumberOfSignaturesRequired());
-        // Firmes
-        List<Signature> firmants = bloc.getSignatures();
-        if (firmants == null || firmants.size() == 0) {
-            // XYZ ZZZ TRA
-            final String msg = "Les firmes del Bloc de Firmes " + ordre + " val null o està buit";
-            throw new I18NException("genapp.comodi", msg);
-        }
-
-        Set<FirmaJPA> firmesJPA = new HashSet<FirmaJPA>();
-        for (Signature firmaBean : firmants) {
-
-            firmesJPA.add(toJPA(firmaBean, entitatID, fitxersCreats, languageUI, canCreate));
-
-            jpa.setFirmas(firmesJPA);
-        }
-
-        return jpa;
-    }
-
-    protected FirmaJPA toJPA(Signature firmaBean, String entitatID, Set<Long> fitxersCreats, String languageUI,
-            boolean canCreate) throws I18NException {
-
-        if (firmaBean == null) {
-            // XYZ ZZZ TRA
-            final String msg = "Hi ha una firma del Bloc de Firmes que val null.";
-            throw new I18NException("genapp.comodi", msg);
-        }
-
-        long firmaID = 0;
-
-        long blocDeFirmaID = 0;
-        boolean obligatori = firmaBean.isRequired();
-
-        java.lang.Integer numFirmaDocument = null;
-        int caixaPagina = -1;
-        java.lang.Integer caixaX = null;
-        java.lang.Integer caixaY = null;
-        java.lang.Integer caixaAmple = null;
-        java.lang.Integer caixaAlt = null;
-        java.math.BigInteger numeroSerieCertificat = null;
-        java.lang.String emissorCertificat = null;
-        java.lang.String nomCertificat = null;
-        java.lang.Long tipusEstatDeFirmaFinalID = null;
-        boolean mostrarRubrica = false;
-        java.lang.String motiu = firmaBean.getReason();
-        int minimDeRevisors = firmaBean.getMinimumNumberOfRevisers();
-
-        java.lang.String destinatariID = searchUser(firmaBean.getSigner(), entitatID, FirmaFields.DESTINATARIID,
-                languageUI, canCreate);
-        java.lang.Long fitxerFirmatID = null;
-
-        // External Signer
-        java.lang.String extern_nom = null;
-        java.lang.String extern_llinatges = null;
-        java.lang.String extern_email = null;
-        java.lang.String extern_idioma = null;
-        java.lang.Integer extern_nivellseguretat = null;
-        java.lang.String extern_token = null;
-
-        ExternalSigner es = firmaBean.getSigner().getExternalSigner();
-        if (es != null) {
-            extern_nom = es.getName();
-            extern_llinatges = es.getSurnames();
-            extern_email = es.getEmail();
-            extern_idioma = es.getLanguage();
-            extern_nivellseguretat = es.getSecurityLevel();
-
-            // Genera un token únic
-            extern_token = firmaLogicaEjb.getUniqueTokenForFirma();
-        }
-
-        FirmaJPA jpa = new FirmaJPA(firmaID, destinatariID, blocDeFirmaID, obligatori, fitxerFirmatID, numFirmaDocument,
-                caixaPagina, caixaX, caixaY, caixaAmple, caixaAlt, numeroSerieCertificat, emissorCertificat,
-                nomCertificat, tipusEstatDeFirmaFinalID, mostrarRubrica, motiu, minimDeRevisors, null, null, null, null,
-                extern_nom, extern_llinatges, extern_email, extern_idioma, extern_token, extern_nivellseguretat);
-
-        List<Reviser> revisors = firmaBean.getRevisers();
-
-        if (revisors != null && revisors.size() > 0) {
-            for (Reviser rev : revisors) {
-                String usuariEntitatID = searchUser(rev, entitatID, RevisorDeFirmaFields.USUARIENTITATID, languageUI,
-                        false);// canCreate=false
-                                                                                                                                     // pq no cream
-                                                                                                                                     // automàticament
-                                                                                                                                     // revisors
-
-                // Comprovar que l'usuari es revisor
-
-                if (!revisorDeDestinatariEjb.usuariEntitatIdEsRevisor(usuariEntitatID)) {
-                    log.error("XXXXXXXXXX- L'usuari " + usuariEntitatID + " no es revisor", new Exception());
-                    throw new I18NException("error.noesrevisor", usuariEntitatID);
-                }
-
-                log.info("Afegim al revisor: " + usuariEntitatID);
-                RevisorDeFirmaJPA revisor = new RevisorDeFirmaJPA(usuariEntitatID, 0, rev.isRequired());
-                jpa.getRevisorDeFirmas().add(revisor);
-
-            }
-        }
-
-        return jpa;
-    }
-
-    protected String searchUser(Person person, String entitatID, Field<?> camp, String languageUI, boolean canCreate)
-            throws I18NException {
-
-        int count = 0;
-        int type = -1;
-        if (person.getAdministrationID() != null && person.getAdministrationID().trim().length() != 0) {
-            count++;
-            type = 0;
-        }
-        if (person.getUsername() != null && person.getUsername().trim().length() != 0) {
-            count++;
-            type = 1;
-        }
-        if (person.getIntermediateServerUsername() != null
-                && person.getIntermediateServerUsername().trim().length() != 0) {
-            count++;
-            type = 2;
-        }
-        if (person.getPositionInTheCompany() != null && person.getPositionInTheCompany().trim().length() != 0) {
-            type = 3;
-            count++;
-        }
-        if (person instanceof Signer) {
-            Signer signer = (Signer) person;
-            if (signer.getExternalSigner() != null) {
-                type = 4;
-                count++;
-            }
-        }
-
-        if (count == 0) {
-            // XYZ ZZZ TRA
-            throw new I18NException("genapp.comodi",
-                    "No s´ha definit cap camp de l´objecte FirmaAsyncSimplePerson declarat " + camp.fullName);
-        }
-
-        if (count != 1) {
-            // XYZ ZZZ TRA
-            throw new I18NException("genapp.comodi",
-                    "S´ha definit múltiples camps de l´objecte FirmaAsyncSimplePerson (només se´n permet un) declarat a "
-                            + camp.fullName);
-        }
-
-        UsuariEntitatJPA ue;
-        switch (type) {
-
-            case 0: // NIF
-                ue = canCreate
-                        ? createUsuariServiceEjb.getOrCreateByAdministrationId(person.getAdministrationID(), entitatID)
-                        : usuariEntitatLogicaEjb.findUsuariEntitatInternByNif(entitatID, person.getAdministrationID());
-                if (ue == null) {
-                    // XYZ ZZZ TRA
-                    throw new I18NException("genapp.comodi", "No existeix cap usuari amb NIF "
-                            + person.getAdministrationID() + " i l'aplicació no té permís per crear-ne");
-                }
-            break;
-
-            case 1: // Username
-                ue = canCreate ? createUsuariServiceEjb.getOrCreateByUsername(person.getUsername(), entitatID)
-                        : usuariEntitatLogicaEjb.findUsuariEntitatByUsername(entitatID, person.getUsername());
-                if (ue == null) {
-                    // XYZ ZZZ TRA
-                    throw new I18NException("genapp.comodi", "No existeix cap usuari amb username "
-                            + person.getUsername() + " i l'aplicació no té permís per crear-ne");
-                }
-
-            break;
-
-            case 2: // UsuariEntitatID
-                ue = usuariEntitatLogicaEjb.findByPrimaryKey(person.getIntermediateServerUsername());
-                if (ue == null) {
-                    // XYZ ZZZ TRA
-                    throw new I18NException("genapp.comodi",
-                            "No existeix cap usuari entitat (IntermediateServerUsername) "
-                                    + person.getIntermediateServerUsername());
-                }
-                if (ue.getCarrec() != null) {
-                    // XYZ ZZZ TRA
-                    throw new I18NException("genapp.comodi",
-                            "S´ha assignat dins IntermediateServerUsername un identificador que correspon a un càrrec (PositionInTheCompany)");
-                }
-            break;
-
-            case 3: // Càrrec
-                ue = usuariEntitatLogicaEjb.findByPrimaryKey(person.getPositionInTheCompany());
-                if (ue == null) {
-                    // XYZ ZZZ TRA
-                    throw new I18NException("genapp.comodi",
-                            "No existeix cap càrrec (PositionInTheCompany) " + person.getIntermediateServerUsername());
-                }
-                // Comprovar que
-                if (ue.getCarrec() == null) {
-                    // XYZ ZZZ TRA
-                    throw new I18NException("genapp.comodi",
-                            "S´ha assignat dins càrrec (PositionInTheCompany) un identificador que correspon a un usuari entitat (IntermediateServerUsername)");
-                }
-            break;
-
-            case 4: // Usuari Extern
-            {
-
-                Signer signer = (Signer) person;
-
-                ExternalSigner extSigner = signer.getExternalSigner();
-                // Cercar usuari extern amb NIF
-
-                // Check camps
-                String nif = extSigner.getAdministrationId();
-
-                if (nif == null || nif.trim().length() == 0) {
-                    // XYZ ZZZ TRA
-                    throw new I18NException("genapp.comodi", "El camp NIF de l'Usuari Extern val null o està buit");
-                }
-
-                // XYZ ZZZ ZZZ CHECK NIF
-                if (nif.length() > 9) {
-                    // XYZ ZZZ TRA
-                    throw new I18NException("genapp.validation.sizeexceeds", // XYZ ZZZ TRA
-                            new org.fundaciobit.genapp.common.i18n.I18NArgumentString("NIF de l'Usuari Extern"),
-                            new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(9)));
-                }
-
-                // XYZ ZZZ TRA
-                java.util.regex.Pattern p = java.util.regex.Pattern.compile("([XYZ][0-9]{7}[A-Z])|([0-9]{8}[A-Z])");
-                if (!p.matcher(nif).matches()) {
-                    throw new I18NException("genapp.validation.malformed",
-                            // XYZ ZZZ TRA
-                            new org.fundaciobit.genapp.common.i18n.I18NArgumentString("NIF de l'Usuari Extern"));
-                }
-
-                ue = usuariEntitatLogicaEjb.findUsuariEntitatExternByNif(entitatID, nif);
-                if (ue == null) {
-                    log.warn("No existeix cap usuari entitat extern amb NIF " + nif + ". El cream.");
-
-                    // L'hem de crear persona i usuari entitat extern
-                    UsuariPersonaJPA persona = new UsuariPersonaJPA();
-                    persona.setEmail(extSigner.getEmail());
-                    persona.setIdiomaID(extSigner.getLanguage());
-                    persona.setLlinatges(extSigner.getSurnames());
-                    persona.setNif(extSigner.getAdministrationId());
-                    persona.setNom(extSigner.getName());
-                    persona.setUsuariIntern(false);
-
-                    log.info("Cridant a crear persona externa: " + extSigner.getName() + " " + extSigner.getSurnames()
-                            + "[" + extSigner.getEmail() + "] {" + extSigner.getAdministrationId() + "}");
-
-                    UsuariEntitatJPA ueExtern = new UsuariEntitatJPA();
-                    ueExtern.setActiu(true);
-                    ueExtern.setEntitatID(entitatID);
-                    ueExtern.setUsuariPersona(persona);
-
-                    try {
-                        ue = usuariEntitatLogicaEjb.createUsuariEntitatExtern(ueExtern, entitatID);
-                    } catch (I18NValidationException ve) {
-
-                        throw new I18NException("genapp.comodi",
-                                "Pareix se que algunes dades de l´usuari extern són incorrectes: "
-                                        + I18NCommonUtils.getMessage(ve, new Locale(languageUI)));
-                    }
-                } else {
-                    // Usuari Entitat Extern existeix
-                    // Revisar si tots els camps de FirmaAsyncSimpleExternalSigner són correctes
-                    UsuariPersonaJPA persona = ue.getUsuariPersona();
-                    if (StringUtils.isBlank(extSigner.getEmail())) {
-                        extSigner.setEmail(persona.getEmail());
-                    }
-                    if (StringUtils.isBlank(extSigner.getLanguage())) {
-                        extSigner.setLanguage(persona.getIdiomaID());
-                    }
-                    if (StringUtils.isBlank(extSigner.getName())) {
-                        extSigner.setName(persona.getNom());
-                    }
-                    if (StringUtils.isBlank(extSigner.getSurnames())) {
-                        extSigner.setSurnames(persona.getLlinatges());
-                    }
-
-                    switch (ExternalSignerSecurityLevelConstants.fromValue(extSigner.getSecurityLevel())) {
-                        case TOKEN:
-                        // OK
-                        break;
-
-                        case CERTIFICATE:
-                        case PASSWORD:
-                            // XYZ ZZZ XYZ
-                            throw new I18NException("genapp.comodi",
-                                    "Encara no es suporta el nivell de seguretat " + extSigner.getSecurityLevel());
-                        default:
-                            // XYZ ZZZ XYZ
-                            throw new I18NException("genapp.comodi",
-                                    "Nivell de seguretat desconegut" + extSigner.getSecurityLevel());
-
-                    }
-                }
-            }
-            break;
-
-            default:
-                throw new I18NException("genapp.comodi", "Tipus de firmant desconegut: " + type);
-
-        }
-
-        if (!entitatID.equals(ue.getEntitatID())) {
-            // XYZ ZZZ TRA
-            throw new I18NException("genapp.comodi",
-                    "Usuari definit a " + camp.fullName + " no pertany a l´entitat " + entitatID);
-        }
-
-        return ue.getUsuariEntitatID();
-
     }
 
     protected AnnexJPA toJPA(Annex annexBean, Set<Long> fitxersCreats) throws I18NException, I18NValidationException {

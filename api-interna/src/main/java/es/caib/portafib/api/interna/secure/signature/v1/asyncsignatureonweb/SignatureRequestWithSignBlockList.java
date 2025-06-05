@@ -18,13 +18,13 @@ public class SignatureRequestWithSignBlockList extends SignatureRequestBase {
     @Schema(
             description = "Estructura del Flux de Firmes, és a dir, dels destinataris que han de signar el document.",
             requiredMode = RequiredMode.REQUIRED)
-    protected SignatureBlock[] signatureBlocks = null;
+    protected List<SignatureBlock> signatureBlocks = null;
 
     public SignatureRequestWithSignBlockList() {
         super();
     }
 
-    public SignatureRequestWithSignBlockList(SignatureRequestBase base, SignatureBlock[] signatureBlocks) {
+    public SignatureRequestWithSignBlockList(SignatureRequestBase base, List<SignatureBlock> signatureBlocks) {
         super(base);
         this.signatureBlocks = signatureBlocks;
     }
@@ -33,7 +33,7 @@ public class SignatureRequestWithSignBlockList extends SignatureRequestBase {
             Document fileToSign, Document originalDetachedSignature, long documentType, String documentTypeDescription,
             String languageDoc, String languageUI, int priority, String senderName, String senderDescription,
             String expedientCode, String expedientName, String expedientUrl, String procedureCode, String procedureName,
-            String additionalInformation, Double additionalInformationEvaluable, SignatureBlock[] signatureBlocks) {
+            String additionalInformation, Double additionalInformationEvaluable, List<SignatureBlock> signatureBlocks) {
         this(profileCode, title, description, reason, fileToSign, originalDetachedSignature, documentType,
                 documentTypeDescription, languageDoc, languageUI, priority, senderName, senderDescription,
                 expedientCode, expedientName, expedientUrl, procedureCode, procedureName, additionalInformation,
@@ -44,7 +44,7 @@ public class SignatureRequestWithSignBlockList extends SignatureRequestBase {
             Document fileToSign, Document originalDetachedSignature, long documentType, String documentTypeDescription,
             String languageDoc, String languageUI, int priority, String senderName, String senderDescription,
             String expedientCode, String expedientName, String expedientUrl, String procedureCode, String procedureName,
-            String additionalInformation, Double additionalInformationEvaluable, SignatureBlock[] signatureBlocks,
+            String additionalInformation, Double additionalInformationEvaluable, List<SignatureBlock> signatureBlocks,
             List<Annex> annexs, List<Metadata> metadadaList) {
         super(profileCode, title, description, reason, fileToSign, originalDetachedSignature, documentType,
                 documentTypeDescription, languageDoc, languageUI, priority, senderName, senderDescription,
@@ -54,11 +54,11 @@ public class SignatureRequestWithSignBlockList extends SignatureRequestBase {
 
     }
 
-    public SignatureBlock[] getSignatureBlocks() {
+    public List<SignatureBlock> getSignatureBlocks() {
         return signatureBlocks;
     }
 
-    public void setSignatureBlocks(SignatureBlock[] signatureBlocks) {
+    public void setSignatureBlocks(List<SignatureBlock> signatureBlocks) {
         this.signatureBlocks = signatureBlocks;
     }
 

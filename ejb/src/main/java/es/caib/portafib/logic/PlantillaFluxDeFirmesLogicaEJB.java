@@ -73,7 +73,7 @@ public class PlantillaFluxDeFirmesLogicaEJB extends PlantillaFluxDeFirmesEJB
     }
 
     @Override
-    public void afegirRevisorAFlusDeFirmes(String usuariEntitatID, FluxDeFirmesJPA flux, FirmaJPA firma)
+    public void afegirRevisorAFluxDeFirmes(String usuariEntitatID, FluxDeFirmesJPA flux, FirmaJPA firma)
             throws I18NException {
 
         UsuariEntitatJPA usuariEntitat = usuariEntitatLogicaEjb.findByPrimaryKeyFull(usuariEntitatID);

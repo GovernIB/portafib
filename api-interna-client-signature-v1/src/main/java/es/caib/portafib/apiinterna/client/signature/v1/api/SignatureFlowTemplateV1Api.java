@@ -86,6 +86,51 @@ public class SignatureFlowTemplateV1Api {
     apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
+   * Crea una Plantilla de Flux de Firmes a partir de la informació d&#39;un Flux De Firmes
+   * 
+   * @param signatureFlowTemplate Informació de la plantilla de Flux de Firmes (required)
+   * @param languageUI Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) (optional, default to ca)
+   * @return a {@code String}
+   * @throws ApiException if fails to make API call
+   */
+  public String createSignatureFlowTemplate(SignatureFlowTemplate signatureFlowTemplate, String languageUI) throws ApiException {
+    Object localVarPostBody = signatureFlowTemplate;
+    
+    // verify the required parameter 'signatureFlowTemplate' is set
+    if (signatureFlowTemplate == null) {
+      throw new ApiException(400, "Missing the required parameter 'signatureFlowTemplate' when calling createSignatureFlowTemplate");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/secure/signatureflowtemplate/v1/createSignatureFlowTemplate".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "languageUI", languageUI));
+
+    
+    
+    
+    final String[] localVarAccepts = {
+      "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "application/json"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] { "BasicAuth" };
+
+    GenericType<String> localVarReturnType = new GenericType<String>() {};
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+      }
+  /**
    * Esborra una Plantilla de Flux de Firmes a partir del seu ID
    * 
    * @param flowTemplateID Identificador del Flux de Firmes el qual volem esborrar. (required)
@@ -554,5 +599,57 @@ public class SignatureFlowTemplateV1Api {
 
     GenericType<String> localVarReturnType = new GenericType<String>() {};
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+      }
+  /**
+   * Actualitza la descripció d&#39;una Plantilla de Flux de Firmes a partir del seu ID
+   * 
+   * @param flowTemplateID Identificador de la Plantilla de Flux de Firmes de la qual volem actualitzar la descripció (required)
+   * @param body Nova descripció del flux de firmes (required)
+   * @param languageUI Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) (optional, default to ca)
+   * @return a {@code Boolean}
+   * @throws ApiException if fails to make API call
+   */
+  public Boolean updateDescriptionOfFlowTemplate(String flowTemplateID, String body, String languageUI) throws ApiException {
+    Object localVarPostBody = body;
+    
+    // verify the required parameter 'flowTemplateID' is set
+    if (flowTemplateID == null) {
+      throw new ApiException(400, "Missing the required parameter 'flowTemplateID' when calling updateDescriptionOfFlowTemplate");
+    }
+    
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling updateDescriptionOfFlowTemplate");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/secure/signatureflowtemplate/v1/updateDescriptionOfFlowTemplate/{flowTemplateID}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "flowTemplateID" + "\\}", apiClient.escapeString(flowTemplateID.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "languageUI", languageUI));
+
+    
+    
+    
+    final String[] localVarAccepts = {
+      "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "application/json"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] { "BasicAuth" };
+
+    GenericType<Boolean> localVarReturnType = new GenericType<Boolean>() {};
+    return apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
 }

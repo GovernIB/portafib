@@ -1,9 +1,10 @@
-package es.caib.portafib.api.interna.secure.signature.v1.signatureflow;
+package es.caib.portafib.api.interna.secure.signature.v1.signatureflowtemplate;
 
 import java.util.List;
 
 import es.caib.portafib.api.interna.secure.signature.v1.commons.KeyValue;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.ProcessStatus;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Resultat d'una firma
@@ -11,13 +12,20 @@ import es.caib.portafib.api.interna.secure.signature.v1.commons.ProcessStatus;
  * @author anadal
  *
  */
-
+@Schema(description = "Informació de l'estat d'un procés de creacio d'una plantilla de flux de signatura via web.")
 public class SignatureFlowTemplateTransactionResult {
 
+    @Schema(
+            description = "Estat del procés de creació de la plantilla de flux de signatura",
+            requiredMode = Schema.RequiredMode.REQUIRED)
     protected ProcessStatus status;
 
+    @Schema(
+            description = "Detalls de la plantilla de Flux de Firmes Creada. Només si el procés ha finalitzat correctament.",
+            requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     protected SignatureFlowTemplate flowInfo;
 
+    @Schema(description = "Llistat de propietat addicionals", requiredMode = Schema.RequiredMode.REQUIRED)
     protected List<KeyValue> properties;
 
     /**
@@ -27,7 +35,8 @@ public class SignatureFlowTemplateTransactionResult {
         super();
     }
 
-    public SignatureFlowTemplateTransactionResult(ProcessStatus status, SignatureFlowTemplate flowInfo, List<KeyValue> properties) {
+    public SignatureFlowTemplateTransactionResult(ProcessStatus status, SignatureFlowTemplate flowInfo,
+            List<KeyValue> properties) {
         super();
         this.status = status;
         this.flowInfo = flowInfo;

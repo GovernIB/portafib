@@ -8,7 +8,9 @@ import io.swagger.v3.core.filter.AbstractSpecFilter;
 import io.swagger.v3.oas.models.media.Schema;
 
 /**
- * 
+ * No sabem per quina raó però el plugin genera varis classes de Mòdel que els Serveis Rest no utilitzen.
+ * Amb aquest filtre aconseguim eliminar-les de la inclusió en l'openapi.json
+ *
  * @author anadal
  * 28 may 2025 8:31:36
  */

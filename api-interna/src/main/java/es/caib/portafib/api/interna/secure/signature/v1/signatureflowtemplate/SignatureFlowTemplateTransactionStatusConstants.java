@@ -1,4 +1,4 @@
-package es.caib.portafib.api.interna.secure.signature.v1.signatureflow;
+package es.caib.portafib.api.interna.secure.signature.v1.signatureflowtemplate;
 
 import es.caib.portafib.commons.utils.Constants;
 import io.swagger.v3.oas.annotations.media.Schema;

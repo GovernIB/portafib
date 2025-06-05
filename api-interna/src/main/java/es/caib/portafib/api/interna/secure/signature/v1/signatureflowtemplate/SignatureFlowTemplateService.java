@@ -1,4 +1,4 @@
-package es.caib.portafib.api.interna.secure.signature.v1.signatureflow;
+package es.caib.portafib.api.interna.secure.signature.v1.signatureflowtemplate;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Pattern;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -67,6 +68,7 @@ import es.caib.portafib.model.fields.PlantillaFluxDeFirmesQueryPath;
 import es.caib.portafib.persistence.BlocDeFirmesJPA;
 import es.caib.portafib.persistence.FirmaJPA;
 import es.caib.portafib.persistence.FluxDeFirmesJPA;
+import es.caib.portafib.persistence.PlantillaFluxDeFirmesJPA;
 import es.caib.portafib.persistence.RevisorDeFirmaJPA;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -95,7 +97,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @OpenAPIDefinition(
         tags = @Tag(
                 name = SignatureFlowTemplateService.TAG_NAME,
-                description = "API Interna de PortaFIB que ofereix serveis de firma en servidor."))
+                description = "API Interna de PortaFIB que ofereix operacions CRUD sobre Plantilles de Flux de Firmes."))
 @SecurityScheme(type = SecuritySchemeType.HTTP, name = SignatureFlowTemplateService.SECURITY_NAME, scheme = "basic")
 @ApiResponses(
         value = {
@@ -205,9 +207,9 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
     @Operation(
             tags = TAG_NAME,
             operationId = "getTransactionID",
-            summary = "Mètode per obtenir un Identificador de Transacció.",
+            summary = "Mètode per obtenir un Identificador de Transacció  per a la creació d'una plantilla de flux de firmes via web.",
             requestBody = @RequestBody(
-                    description = "Dades requerides per la devolució d'un ID de transacció.",
+                    description = "Dades requerides per a l'obtenció d'un ID de transacció per a la creació d'una plantilla de flux de firmes via web.",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON,
                             schema = @Schema(
@@ -505,7 +507,7 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(
             tags = TAG_NAME,
-            operationId = "getAllFlowTemplatesByFilter",            
+            operationId = "getAllFlowTemplatesByFilter",
             summary = "Retorna una llista de totes les plantilles de flux de firmes associades a l'usuari aplicació amb el que s'autentica.")
     @ApiResponses(
             value = { @ApiResponse(
@@ -625,7 +627,7 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
 
             SignatureFlowTemplate info = getFlowTemplateInfo(flowTemplateID);
 
-            info.setIntermediateServerFlowTemplateId(encryptedFlowTemplateID);
+            info.setFlowTemplateId(encryptedFlowTemplateID);
 
             return info;
         } catch (RestException re) {
@@ -696,7 +698,7 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
                 } else {
                     returnedFluxID = null;
                 }
-                flowInfo.setIntermediateServerFlowTemplateId(returnedFluxID);
+                flowInfo.setFlowTemplateId(returnedFluxID);
 
             }
 
@@ -1213,6 +1215,175 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
             throw new RestException(msg, th);
         }
 
+    }
+
+    @Path("/updateDescriptionOfFlowTemplate/{flowTemplateID}")
+    @PATCH
+    @RolesAllowed({ Constants.PFI_WS })
+    @SecurityRequirement(name = SECURITY_NAME)
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Operation(
+
+            tags = TAG_NAME,
+            operationId = "updateDescriptionOfFlowTemplate",
+            summary = "Actualitza la descripció d'una Plantilla de Flux de Firmes a partir del seu ID",
+            requestBody = @RequestBody(
+
+                    required = true,
+                    description = "Nova descripció del flux de firmes",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(
+                                    name = "description",
+                                    requiredMode = RequiredMode.REQUIRED,
+                                    implementation = String.class))))
+    @ApiResponses(
+            value = { @ApiResponse(
+                    responseCode = "200",
+                    description = "Operació realitzada correctament. true si s'ha actualitzat la descripció, false si no s'ha trobat el flux de firmes",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(implementation = Boolean.class))) })
+    public boolean updateDescriptionOfFlowTemplate(@Parameter(
+            description = "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+            in = ParameterIn.QUERY,
+            required = false,
+            examples = { @ExampleObject(name = "Català", value = "ca"),
+                    @ExampleObject(name = "Castellano", value = "es") },
+            schema = @Schema(defaultValue = "ca", implementation = String.class)) @QueryParam("languageUI")
+    String languageUI, @Parameter(
+            description = "Identificador de la Plantilla de Flux de Firmes de la qual volem actualitzar la descripció",
+            in = ParameterIn.PATH,
+            required = true,
+            schema = @Schema(implementation = String.class)) @PathParam("flowTemplateID")
+    String encryptedFlowTemplateID,
+
+            @RequestBody @Parameter(name = "signatureFlowTemplate")
+            String description) throws RestException {
+
+        try {
+
+            Long fluxDeFirmesID;
+
+            FileIDEncrypter encrypter = HibernateFileUtil.getEncrypter();
+            try {
+                fluxDeFirmesID = Long.parseLong(encrypter.decrypt(encryptedFlowTemplateID));
+            } catch (Throwable e) {
+                throw new RestException("Error desencriptant identificador de Flux de Firmes ]"
+                        + encryptedFlowTemplateID + "[: " + e.getMessage(), e);
+            }
+
+            int count = plantillaFluxDeFirmesEjb.update(PlantillaFluxDeFirmesFields.DESCRIPCIO, description,
+                    PlantillaFluxDeFirmesFields.FLUXDEFIRMESID.equal(fluxDeFirmesID));
+
+            return count != 0;
+
+        } catch (RestException re) {
+            throw re;
+        } catch (I18NException i18ne) {
+            String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
+            log.error(msg, i18ne);
+            throw new RestException(msg);
+        } catch (Throwable th) {
+
+            // XYZ ZZZ ZZZZ
+            final String msg = "Error desconegut intentant esborrar Plantilla de "
+                    + " Flux de Firmes d'un usuari apicació:" + th.getMessage();
+
+            log.error(msg, th);
+
+            throw new RestException(msg, th);
+        }
+    }
+
+    @Path("/createSignatureFlowTemplate")
+    @POST
+    @RolesAllowed({ Constants.PFI_WS })
+    @SecurityRequirement(name = SECURITY_NAME)
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Operation(
+            tags = TAG_NAME,
+            operationId = "createSignatureFlowTemplate",
+            summary = "Crea una Plantilla de Flux de Firmes a partir de la informació d'un Flux De Firmes",
+            requestBody = @RequestBody(
+                    required = true,
+                    description = "Informació de la plantilla de Flux de Firmes",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(
+                                    name = "signatureFlowTemplateEdit",
+                                    requiredMode = RequiredMode.REQUIRED,
+                                    implementation = SignatureFlowTemplate.class))))
+    @ApiResponses(
+            value = { @ApiResponse(
+                    responseCode = "200",
+                    description = "Operació realitzada correctament. Identificador de la plantilla creada",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON,
+                            schema = @Schema(implementation = String.class))) })
+    public String createSignatureFlowTemplate(@Parameter(hidden = true) @Context
+    HttpServletRequest request,
+
+            @Parameter(
+                    description = "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+                    in = ParameterIn.QUERY,
+                    required = false,
+                    examples = { @ExampleObject(name = "Català", value = "ca"),
+                            @ExampleObject(name = "Castellano", value = "es") },
+                    schema = @Schema(defaultValue = "ca", implementation = String.class)) @QueryParam("languageUI")
+            String languageUI, @RequestBody
+            SignatureFlowTemplate signatureFlowTemplate) throws RestException {
+
+        languageUI = checkLanguage(languageUI); // XYZ ZZZ Canviar per idioma per defecte
+        try {
+
+            UsuariAplicacioJPA usuariApp = checkUsuariAplicacioFull(request);
+
+            PlantillaFluxDeFirmesJPA plantilla = new PlantillaFluxDeFirmesJPA();
+            plantilla.setCompartir(false);
+            plantilla.setDescripcio(signatureFlowTemplate.getDescription());
+            plantilla.setUsuariAplicacioID(usuariApp.getUsuariAplicacioID());
+
+            List<SignatureBlock> blocks = signatureFlowTemplate.getBlocks();
+            if (blocks == null || blocks.size() == 0) {
+                // XYZ ZZZ TRA
+                final String msg = "Els blocs de firmes de la Plantilla de Firmes val null o està buit";
+                throw new I18NException("genapp.comodi", msg);
+            }
+
+            FluxDeFirmesJPA fluxDeFirmes;
+
+            fluxDeFirmes = toJPA(blocks.toArray(new SignatureBlock[blocks.size()]), usuariApp.getEntitatID(),
+                    languageUI, signatureFlowTemplate.getName(), usuariApp.isCrearUsuaris());
+
+            fluxDeFirmes.setPlantillaFluxDeFirmes(plantilla);
+
+            fluxDeFirmes = fluxDeFirmesLogicaEjb.createFull(fluxDeFirmes);
+
+            String returnedFluxID;
+
+            FileIDEncrypter encrypter = HibernateFileUtil.getEncrypter();
+            // El flux de firmes i la plantilla tenen el mateix ID
+            returnedFluxID = encrypter.encrypt(String.valueOf(fluxDeFirmes.getFluxDeFirmesID()));
+
+            return returnedFluxID;
+
+        } catch (RestException re) {
+            throw re;
+        } catch (I18NException i18ne) {
+            String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
+            log.error(msg, i18ne);
+            throw new RestException(msg);
+        } catch (Throwable th) {
+
+            // XYZ ZZZ ZZZZ
+            final String msg = "Error desconegut intentant recuperar informació "
+                    + "dels Flux de Firmes d'un uauari apicació:" + th.getMessage();
+
+            log.error(msg, th);
+
+            throw new RestException(msg, th);
+        }
     }
 
 }

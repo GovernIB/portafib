@@ -3,14 +3,17 @@ package es.caib.portafib.apiinterna.client.signature.v1.example.api;
 import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URI;
-import java.net.URISyntaxException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
@@ -21,43 +24,57 @@ import es.caib.portafib.apiinterna.client.signature.v1.model.DocumentaryType;
 import es.caib.portafib.apiinterna.client.signature.v1.model.KeyValue;
 import es.caib.portafib.apiinterna.client.signature.v1.model.ProcessStatus;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Profile;
+import es.caib.portafib.apiinterna.client.signature.v1.model.Signature;
+import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureBlock;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureFlowTemplate;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureFlowTemplateEdit;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureFlowTemplateStartTransactionRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureFlowTemplateTransactionIdRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureFlowTemplateTransactionResult;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureFlowTemplateTransactionStatusConstants;
+import es.caib.portafib.apiinterna.client.signature.v1.model.Signer;
 import es.caib.portafib.apiinterna.client.signature.v1.services.ApiClient;
 import es.caib.portafib.apiinterna.client.signature.v1.services.ApiException;
 
 /**
  * 
- * @author anadal(u80067)
- *
+ * @author anadal
+ * 4 jun 2025 12:55:53
  */
 public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<SignatureFlowTemplateV1Api> {
 
     public static final Logger log = Logger.getLogger(PlantillaDeFluxDeFirmaV1ApiTest.class);
 
+    /**
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
 
         PlantillaDeFluxDeFirmaV1ApiTest test = new PlantillaDeFluxDeFirmaV1ApiTest();
 
         try {
-            
+
             boolean testCreatePlantillaFluxFirmes = true;
-            
 
             Properties prop = test.getConfigProperties();
 
             final String languageUI = test.getLanguageUI(prop);
+
+            //System.out.println("UPDATES ====>" + test.getApi().updateDescriptionOfFlowTemplate("4K6p0YrnXfdAGWguz5RyTw==", "XXXXXXXXXXXX", languageUI));
+
+            // Crear plantilla de Flux de Firmes des de codi
+            String id = test.testCreateSignatureFlowTemplateFromCode(languageUI);
 
             // Llistat plantilles de Flux
             Set<KeyValue> fluxos = test.testGetAllSignatureFlowTemplates(languageUI);
             String plantillaFluxFirmesID;
             boolean creatNouFluxe = false;
 
-            // Crear Flux
+            if (true)
+                return;
+
+            // Crear Flux via Web
             String descrRandom = null;
             if (testCreatePlantillaFluxFirmes) {
                 final boolean saveOnServer = isSaveOnServer(prop);
@@ -78,15 +95,14 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
                     return;
                 } else {
                     plantillaFluxFirmesID = fluxos.iterator().next().getKey();
-                    
-                    SignatureFlowTemplate flow = test.testGetFlowInfoByFlowTemplateID(languageUI, plantillaFluxFirmesID);
-                    
+
+                    SignatureFlowTemplate flow = test.testGetFlowInfoByFlowTemplateID(languageUI,
+                            plantillaFluxFirmesID);
+
                     descrRandom = flow.getDescription();
-                    
+
                 }
             }
-            
-            
 
             // Mostrar Flux de Firmes
             test.testGetUrlToViewFlowTemplate(languageUI, plantillaFluxFirmesID);
@@ -96,14 +112,16 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
 
             // Mostrar ID real flux de firmes
             {
-            Long plantillaIdInterna = test.getApi().getInternalFlowIDByFlowTemplateID(plantillaFluxFirmesID, languageUI);
-            System.out.println("La plantilla " + plantillaFluxFirmesID + " té ID Intern " + plantillaIdInterna + " per usar-se en ApiAsyncSimple.");
+                Long plantillaIdInterna = test.getApi().getInternalFlowIDByFlowTemplateID(plantillaFluxFirmesID,
+                        languageUI);
+                System.out.println("La plantilla " + plantillaFluxFirmesID + " té ID Intern " + plantillaIdInterna
+                        + " per usar-se en ApiAsyncSimple.");
             }
 
             // Llistar Plantilles amb filtre
             String name = null; // Qualsevol nom
             String description = descrRandom;
-            
+
             System.out.println("Cercant plantilla de flux amb descripcio: ]" + description + "[");
             {
                 String plantillaFluxFirmesIDFound = test.testGetAllFlowTemplatesByFilter(languageUI, name, description);
@@ -111,7 +129,7 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
                     System.err.println("No s'ha trobat cap plantilla de flux amb filtre: ]" + description + "[");
                     return;
                 } else {
-                    
+
                     if (plantillaFluxFirmesIDFound.equals(plantillaFluxFirmesID)) {
                         System.out.println("Plantilla de flux trobada amb filtre i és la mateixa que la creada: "
                                 + plantillaFluxFirmesIDFound);
@@ -120,7 +138,7 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
                                 + plantillaFluxFirmesIDFound + " != " + plantillaFluxFirmesID);
                         return;
                     }
-                    
+
                 }
             }
 
@@ -131,7 +149,7 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
             if (creatNouFluxe) {
                 // Eliminar Flux de Firmes
                 System.out.println("Eliminant Flux de Firmes: " + plantillaFluxFirmesID);
-               test.testDeleteFlowTemplate( languageUI, plantillaFluxFirmesID);
+                test.testDeleteFlowTemplate(languageUI, plantillaFluxFirmesID);
             }
 
         } catch (ApiException e) {
@@ -139,6 +157,50 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
+    }
+
+    public String testCreateSignatureFlowTemplateFromCode(final String languageUI) throws ApiException, Exception {
+
+        Signer signer = new Signer();
+        signer.setUsername("anadal");
+
+        Signature signature = new Signature();
+        signature.setMinimumNumberOfRevisers(0);
+        signature.setReason("Hola");
+        signature.setRequired(true);
+        signature.setRevisers(null);
+        signature.setSigner(signer);
+
+        List<Signature> signatures = new ArrayList<Signature>();
+        signatures.add(signature);
+
+        SignatureBlock block1 = new SignatureBlock();
+        block1.setOrder(1);
+        block1.setMinimumNumberOfSignaturesRequired(1);
+        block1.setSignatures(signatures);
+
+        List<SignatureBlock> blocks = new ArrayList<SignatureBlock>();
+        blocks.add(block1);
+
+        SignatureFlowTemplate flow = new SignatureFlowTemplate();
+
+        flow.setName("PROVAAAAAAAAAA " + SimpleDateFormat.getDateTimeInstance().format(new Date()));
+        flow.setDescription("Descripció de la plantilla de flux de firmes creada des de codi");
+        flow.setFlowTemplateId(null);
+        flow.setBlocks(blocks);
+
+        String id = getApi().createSignatureFlowTemplate(flow, languageUI);
+
+        Set<KeyValue> fluxos = testGetAllSignatureFlowTemplates(languageUI);
+
+        for (KeyValue flowTemplateSimpleKeyValue : fluxos) {
+            if (flowTemplateSimpleKeyValue.getKey().equals(id)) {
+                return id;
+            }
+        }
+
+        throw new Exception("No s'ha trobat la plantilla de flux creada amb ID: " + id);
+
     }
 
     public Set<KeyValue> testGetAllSignatureFlowTemplates(final String languageUI) throws ApiException, Exception {
@@ -159,8 +221,7 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
         return list;
     }
 
-    public void testGetUrlToViewFlowTemplate(final String languageUI, String lastKey)
-            throws ApiException, Exception {
+    public void testGetUrlToViewFlowTemplate(final String languageUI, String lastKey) throws ApiException, Exception {
 
         SignatureFlowTemplateV1Api api = getApi();
 
@@ -176,15 +237,13 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
         }
     }
 
+    public SignatureFlowTemplate testGetFlowInfoByFlowTemplateID(final String languageUI, String flowTemplateId)
+            throws ApiException, Exception {
 
-
-    public SignatureFlowTemplate testGetFlowInfoByFlowTemplateID( final String languageUI,
-            String flowTemplateId) throws ApiException, Exception {
-        
         SignatureFlowTemplateV1Api api = getApi();
 
         SignatureFlowTemplate flow = api.getFlowInfoByFlowTemplateID(flowTemplateId, languageUI);
-        
+
         if (flow == null) {
             System.out.println("No hi ha cap plantilla de flux amb ID: " + flowTemplateId);
             return null;
@@ -193,14 +252,13 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
         System.out.println(" Flow Template Info = " + flow.getName());
 
         System.out.println(flow.toString());
-        
+
         return flow;
 
     }
 
-    public void testDeleteFlowTemplate(final String languageUI,
-            String flowTemplateID) throws ApiException, Exception {
-        
+    public void testDeleteFlowTemplate(final String languageUI, String flowTemplateID) throws ApiException, Exception {
+
         SignatureFlowTemplateV1Api api = getApi();
 
         boolean esborrat = api.deleteFlowTemplate(flowTemplateID, languageUI);
@@ -209,10 +267,9 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
 
     }
 
-    public String testGetAllFlowTemplatesByFilter(final String languageUI,
-            final String name, final String description) throws ApiException, Exception {
-        
-        
+    public String testGetAllFlowTemplatesByFilter(final String languageUI, final String name, final String description)
+            throws ApiException, Exception {
+
         SignatureFlowTemplateV1Api api = getApi();
 
         Set<KeyValue> list = api.getAllFlowTemplatesByFilter(languageUI, name, description);
@@ -234,7 +291,8 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
         return lastKey;
     }
 
-    public String testCrearFluxDeFirmesDesdeNavegador(String languageUI, boolean saveOnServer, String descr) throws Exception {
+    public String testCrearFluxDeFirmesDesdeNavegador(String languageUI, boolean saveOnServer, String descr)
+            throws Exception {
 
         SignatureFlowTemplateV1Api api = getApi();
 
@@ -242,7 +300,7 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
         try {
 
             String name = "Prova des de API REST àáèéòó- " + System.currentTimeMillis();
-            
+
             final boolean visibleDescription = false;
 
             SignatureFlowTemplateTransactionIdRequest transactionRequest;
@@ -321,7 +379,7 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
 
                     System.out.println(flux.toString());
 
-                    return flux.getIntermediateServerFlowTemplateId();
+                    return flux.getFlowTemplateId();
 
                 } // Final Case Firma OK
 
@@ -343,10 +401,7 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
         }
 
     }
-    
-    
-    
-    
+
     public void testGetUrlToEditFlowTemplate(final String languageUI, String flowTemplateId)
             throws ApiException, Exception {
 
@@ -356,10 +411,10 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
         editFlowRequest = new SignatureFlowTemplateEdit(); //languageUI, lastKey, "http://google.es");
         editFlowRequest.setLanguageUI(languageUI);
         editFlowRequest.setFlowTemplateId(flowTemplateId);
-        
+
         int port = 1989 + (int) (Math.random() * 100.0);
         final String returnUrl = "http://localhost:" + port + "/callbackafteredit/" + flowTemplateId;
-        
+
         editFlowRequest.setReturnUrl(returnUrl); // Per ara només suportam FULLVIEW
 
         String url = api.getUrlToEditFlowTemplate(editFlowRequest);
@@ -372,15 +427,12 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
         } else {
             System.out.println("Per favor obri un Navegador i copia-li la URL anterior ...");
         }
-        
+
         readFromSocket(port);
-        
+
         System.out.println("-- Final de l'edició del Flux de Firmes --");
-        
+
     }
-    
-    
-    
 
     /**
      * 

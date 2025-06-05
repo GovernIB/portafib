@@ -31,16 +31,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * SignatureFlowTemplate
  */
 @JsonPropertyOrder({
-  SignatureFlowTemplate.JSON_PROPERTY_INTERMEDIATE_SERVER_FLOW_TEMPLATE_ID,
+  SignatureFlowTemplate.JSON_PROPERTY_FLOW_TEMPLATE_ID,
   SignatureFlowTemplate.JSON_PROPERTY_NAME,
   SignatureFlowTemplate.JSON_PROPERTY_DESCRIPTION,
   SignatureFlowTemplate.JSON_PROPERTY_BLOCKS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class SignatureFlowTemplate {
-  public static final String JSON_PROPERTY_INTERMEDIATE_SERVER_FLOW_TEMPLATE_ID = "intermediateServerFlowTemplateId";
+  public static final String JSON_PROPERTY_FLOW_TEMPLATE_ID = "flowTemplateId";
   @javax.annotation.Nullable
-  private String intermediateServerFlowTemplateId;
+  private String flowTemplateId;
 
   public static final String JSON_PROPERTY_NAME = "name";
   @javax.annotation.Nullable
@@ -57,29 +57,29 @@ public class SignatureFlowTemplate {
   public SignatureFlowTemplate() {
   }
 
-  public SignatureFlowTemplate intermediateServerFlowTemplateId(@javax.annotation.Nullable String intermediateServerFlowTemplateId) {
+  public SignatureFlowTemplate flowTemplateId(@javax.annotation.Nullable String flowTemplateId) {
     
-    this.intermediateServerFlowTemplateId = intermediateServerFlowTemplateId;
+    this.flowTemplateId = flowTemplateId;
     return this;
   }
 
   /**
-   * Get intermediateServerFlowTemplateId
-   * @return intermediateServerFlowTemplateId
+   * Get flowTemplateId
+   * @return flowTemplateId
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_INTERMEDIATE_SERVER_FLOW_TEMPLATE_ID)
+  @JsonProperty(JSON_PROPERTY_FLOW_TEMPLATE_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getIntermediateServerFlowTemplateId() {
-    return intermediateServerFlowTemplateId;
+  public String getFlowTemplateId() {
+    return flowTemplateId;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_INTERMEDIATE_SERVER_FLOW_TEMPLATE_ID)
+  @JsonProperty(JSON_PROPERTY_FLOW_TEMPLATE_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setIntermediateServerFlowTemplateId(@javax.annotation.Nullable String intermediateServerFlowTemplateId) {
-    this.intermediateServerFlowTemplateId = intermediateServerFlowTemplateId;
+  public void setFlowTemplateId(@javax.annotation.Nullable String flowTemplateId) {
+    this.flowTemplateId = flowTemplateId;
   }
 
   public SignatureFlowTemplate name(@javax.annotation.Nullable String name) {
@@ -174,7 +174,7 @@ public class SignatureFlowTemplate {
       return false;
     }
     SignatureFlowTemplate signatureFlowTemplate = (SignatureFlowTemplate) o;
-    return Objects.equals(this.intermediateServerFlowTemplateId, signatureFlowTemplate.intermediateServerFlowTemplateId) &&
+    return Objects.equals(this.flowTemplateId, signatureFlowTemplate.flowTemplateId) &&
         Objects.equals(this.name, signatureFlowTemplate.name) &&
         Objects.equals(this.description, signatureFlowTemplate.description) &&
         Objects.equals(this.blocks, signatureFlowTemplate.blocks);
@@ -182,14 +182,14 @@ public class SignatureFlowTemplate {
 
   @Override
   public int hashCode() {
-    return Objects.hash(intermediateServerFlowTemplateId, name, description, blocks);
+    return Objects.hash(flowTemplateId, name, description, blocks);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class SignatureFlowTemplate {\n");
-    sb.append("    intermediateServerFlowTemplateId: ").append(toIndentedString(intermediateServerFlowTemplateId)).append("\n");
+    sb.append("    flowTemplateId: ").append(toIndentedString(flowTemplateId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    blocks: ").append(toIndentedString(blocks)).append("\n");

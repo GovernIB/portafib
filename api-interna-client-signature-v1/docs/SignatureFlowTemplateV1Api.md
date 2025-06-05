@@ -5,6 +5,7 @@ All URIs are relative to */portafibapi/interna*
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
 | [**closeTransaction**](SignatureFlowTemplateV1Api.md#closeTransaction) | **GET** /secure/signatureflowtemplate/v1/closeTransaction/{transactionID} | Tanca una transacció de creació de flux de firmes |
+| [**createSignatureFlowTemplate**](SignatureFlowTemplateV1Api.md#createSignatureFlowTemplate) | **POST** /secure/signatureflowtemplate/v1/createSignatureFlowTemplate | Crea una Plantilla de Flux de Firmes a partir de la informació d&#39;un Flux De Firmes |
 | [**deleteFlowTemplate**](SignatureFlowTemplateV1Api.md#deleteFlowTemplate) | **DELETE** /secure/signatureflowtemplate/v1/deleteFlowTemplate/{flowTemplateID} | Esborra una Plantilla de Flux de Firmes a partir del seu ID |
 | [**getAllFlowTemplates**](SignatureFlowTemplateV1Api.md#getAllFlowTemplates) | **GET** /secure/signatureflowtemplate/v1/getAllFlowTemplates | Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica. |
 | [**getAllFlowTemplatesByFilter**](SignatureFlowTemplateV1Api.md#getAllFlowTemplatesByFilter) | **GET** /secure/signatureflowtemplate/v1/getAllFlowTemplatesByFilter | Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica. |
@@ -16,6 +17,7 @@ All URIs are relative to */portafibapi/interna*
 | [**getUrlToEditFlowTemplate**](SignatureFlowTemplateV1Api.md#getUrlToEditFlowTemplate) | **POST** /secure/signatureflowtemplate/v1/getUrlToEditFlowTemplate | Retorna una URL per poder editar una Plantilla de Flux de Firmes de forma gràfica |
 | [**getUrlToViewFlowTemplate**](SignatureFlowTemplateV1Api.md#getUrlToViewFlowTemplate) | **GET** /secure/signatureflowtemplate/v1/getUrlToViewFlowTemplate/{flowTemplateID} | Retorna una URL que mostra una Plantilla de Flux de Firmes de forma gràfica en model només lectura |
 | [**startTransaction**](SignatureFlowTemplateV1Api.md#startTransaction) | **POST** /secure/signatureflowtemplate/v1/startTransaction | Mètode per iniciar una Transacció. |
+| [**updateDescriptionOfFlowTemplate**](SignatureFlowTemplateV1Api.md#updateDescriptionOfFlowTemplate) | **PATCH** /secure/signatureflowtemplate/v1/updateDescriptionOfFlowTemplate/{flowTemplateID} | Actualitza la descripció d&#39;una Plantilla de Flux de Firmes a partir del seu ID |
 
 
 
@@ -90,6 +92,82 @@ null (empty response body)
 | **403** | No autoritzat |  -  |
 | **500** | Error no controlat |  -  |
 | **200** | Operació realitzada correctament |  -  |
+
+
+## createSignatureFlowTemplate
+
+> String createSignatureFlowTemplate(signatureFlowTemplate, languageUI)
+
+Crea una Plantilla de Flux de Firmes a partir de la informació d&#39;un Flux De Firmes
+
+### Example
+
+```java
+// Import classes:
+import es.caib.portafib.apiinterna.client.signature.v1.services.ApiClient;
+import es.caib.portafib.apiinterna.client.signature.v1.services.ApiException;
+import es.caib.portafib.apiinterna.client.signature.v1.services.Configuration;
+import es.caib.portafib.apiinterna.client.signature.v1.services.auth.*;
+import es.caib.portafib.apiinterna.client.signature.v1.services.models.*;
+import es.caib.portafib.apiinterna.client.signature.v1.api.SignatureFlowTemplateV1Api;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("/portafibapi/interna");
+        
+        // Configure HTTP basic authorization: BasicAuth
+        HttpBasicAuth BasicAuth = (HttpBasicAuth) defaultClient.getAuthentication("BasicAuth");
+        BasicAuth.setUsername("YOUR USERNAME");
+        BasicAuth.setPassword("YOUR PASSWORD");
+
+        SignatureFlowTemplateV1Api apiInstance = new SignatureFlowTemplateV1Api(defaultClient);
+        SignatureFlowTemplate signatureFlowTemplate = new SignatureFlowTemplate(); // SignatureFlowTemplate | Informació de la plantilla de Flux de Firmes
+        String languageUI = "ca"; // String | Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')
+        try {
+            String result = apiInstance.createSignatureFlowTemplate(signatureFlowTemplate, languageUI);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling SignatureFlowTemplateV1Api#createSignatureFlowTemplate");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **signatureFlowTemplate** | [**SignatureFlowTemplate**](SignatureFlowTemplate.md)| Informació de la plantilla de Flux de Firmes | |
+| **languageUI** | **String**| Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) | [optional] [default to ca] |
+
+### Return type
+
+**String**
+
+### Authorization
+
+[BasicAuth](../README.md#BasicAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Paràmetres incorrectes |  -  |
+| **401** | No Autenticat |  -  |
+| **403** | No autoritzat |  -  |
+| **500** | Error no controlat |  -  |
+| **200** | Operació realitzada correctament. Identificador de la plantilla creada |  -  |
 
 
 ## deleteFlowTemplate
@@ -918,4 +996,82 @@ public class Example {
 | **403** | No autoritzat |  -  |
 | **500** | Error no controlat |  -  |
 | **200** | Operació realitzada correctament.Url de redirecció cap al Servidor Intermedi |  -  |
+
+
+## updateDescriptionOfFlowTemplate
+
+> Boolean updateDescriptionOfFlowTemplate(flowTemplateID, body, languageUI)
+
+Actualitza la descripció d&#39;una Plantilla de Flux de Firmes a partir del seu ID
+
+### Example
+
+```java
+// Import classes:
+import es.caib.portafib.apiinterna.client.signature.v1.services.ApiClient;
+import es.caib.portafib.apiinterna.client.signature.v1.services.ApiException;
+import es.caib.portafib.apiinterna.client.signature.v1.services.Configuration;
+import es.caib.portafib.apiinterna.client.signature.v1.services.auth.*;
+import es.caib.portafib.apiinterna.client.signature.v1.services.models.*;
+import es.caib.portafib.apiinterna.client.signature.v1.api.SignatureFlowTemplateV1Api;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("/portafibapi/interna");
+        
+        // Configure HTTP basic authorization: BasicAuth
+        HttpBasicAuth BasicAuth = (HttpBasicAuth) defaultClient.getAuthentication("BasicAuth");
+        BasicAuth.setUsername("YOUR USERNAME");
+        BasicAuth.setPassword("YOUR PASSWORD");
+
+        SignatureFlowTemplateV1Api apiInstance = new SignatureFlowTemplateV1Api(defaultClient);
+        String flowTemplateID = "flowTemplateID_example"; // String | Identificador de la Plantilla de Flux de Firmes de la qual volem actualitzar la descripció
+        String body = "body_example"; // String | Nova descripció del flux de firmes
+        String languageUI = "ca"; // String | Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')
+        try {
+            Boolean result = apiInstance.updateDescriptionOfFlowTemplate(flowTemplateID, body, languageUI);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling SignatureFlowTemplateV1Api#updateDescriptionOfFlowTemplate");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **flowTemplateID** | **String**| Identificador de la Plantilla de Flux de Firmes de la qual volem actualitzar la descripció | |
+| **body** | **String**| Nova descripció del flux de firmes | |
+| **languageUI** | **String**| Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) | [optional] [default to ca] |
+
+### Return type
+
+**Boolean**
+
+### Authorization
+
+[BasicAuth](../README.md#BasicAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Paràmetres incorrectes |  -  |
+| **401** | No Autenticat |  -  |
+| **403** | No autoritzat |  -  |
+| **500** | Error no controlat |  -  |
+| **200** | Operació realitzada correctament. true si s&#39;ha actualitzat la descripció, false si no s&#39;ha trobat el flux de firmes |  -  |
 
