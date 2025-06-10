@@ -164,7 +164,7 @@
                                 <package>es.caib.portafib.api.interna.secure.signature.v1.signatureonserver</package>
                                 <package>es.caib.portafib.api.interna.secure.signature.v1.directsignatureonweb</package>
                                 <package>es.caib.portafib.api.interna.secure.signature.v1.asyncsignatureonweb</package>
-                                <package>es.caib.portafib.api.interna.secure.signature.v1.signatureflow</package>
+                                <package>es.caib.portafib.api.interna.secure.signature.v1.signatureflowtemplate</package>
                             </resourcePackages>
                             <!-- S'estan generant un conjunt de -->
                             <filterClass>es.caib.portafib.api.interna.secure.signature.v1.CustomSwaggerFilter</filterClass>

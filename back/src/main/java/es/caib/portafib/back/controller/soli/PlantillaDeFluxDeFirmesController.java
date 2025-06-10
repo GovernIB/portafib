@@ -1226,7 +1226,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                         new I18NArgumentCode("firma.firmaID"), new I18NArgumentString(firmaIDStr));
             }
 
-            plantillaFluxDeFirmesEjb.afegirRevisorAFlusDeFirmes(usuariEntitatID, flux, firma);
+            plantillaFluxDeFirmesEjb.afegirRevisorAFluxDeFirmes(usuariEntitatID, flux, firma);
 
             saveMinimRevisorsFirma(firma);
 

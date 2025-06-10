@@ -281,7 +281,7 @@ public class UsuariEntitatSenseRolsAdenController extends UsuariEntitatControlle
                                             + "?redirectOnModify=" + getContextWeb() + "/list&readOnly=true",
                                     "Flux de Firmes")
 
-                            + crearBotoIntern(request.getContextPath() + getContextWeb() + "/rebutjarPeticio/" + ueID + "/"
+                            + crearBotoIntern(request.getContextPath() + getContextWeb() + "/rebutjar/" + ueID + "/"
                                     + peticio.getValue1(), "Rebutjar Peticio", "fas fa-times icon-white", "btn-danger")
                             + "</td></tr>");
                 }

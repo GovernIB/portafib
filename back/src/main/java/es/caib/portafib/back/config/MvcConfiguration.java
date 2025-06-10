@@ -121,6 +121,8 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 		return messageSource;
 	}
 	
+	
+	// TODO Crec que això es pot esborrar :-(
 	@Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
         

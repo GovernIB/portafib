@@ -95,10 +95,9 @@ public class InfoVersioV1ApiExample {
         
         InfoVersioV1Api apiInstance = new InfoVersioV1Api(defaultClient);
         try {
-            InfoVersio result = apiInstance.versioApi();
-            System.out.println(result);
+            apiInstance.checkstatus();
         } catch (ApiException e) {
-            System.err.println("Exception when calling InfoVersioV1Api#versioApi");
+            System.err.println("Exception when calling InfoVersioV1Api#checkstatus");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -115,6 +114,7 @@ All URIs are relative to */portafibapi/interna*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*InfoVersioV1Api* | [**checkstatus**](docs/InfoVersioV1Api.md#checkstatus) | **GET** /public/infoversio/v1/checkstatus | Revisa l&#39;estat del servidor: valida CPU, valida BBDD i valida sistema de fitxers.
 *InfoVersioV1Api* | [**versioApi**](docs/InfoVersioV1Api.md#versioApi) | **GET** /public/infoversio/v1/versioapi | Retorna la versió de PortaFIB REST
 *InfoVersioV1Api* | [**versioApp**](docs/InfoVersioV1Api.md#versioApp) | **GET** /public/infoversio/v1/versioapp | Retorna la versió de PortaFIB
 

@@ -711,7 +711,7 @@ public abstract class AbstractSignatureService extends RestUtils {
     protected Set<DocumentaryType> commonOperationGetDocumentaryTypes(HttpServletRequest request, String languageUI)
             throws RestException {
 
-        log.info("\n\nXYZ ZZZ ZZZ  languageUI => ]" + languageUI + "[ \n\n");
+        //log.info("\n\nXYZ ZZZ ZZZ  languageUI => ]" + languageUI + "[ \n\n");
 
         String usuariAplicacio = checkUsuariAplicacio(request);
 

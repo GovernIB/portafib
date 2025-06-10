@@ -28,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * SignatureFlowTemplate
+ * Informació d&#39;una Plantilla de flux de firmes.
  */
 @JsonPropertyOrder({
   SignatureFlowTemplate.JSON_PROPERTY_FLOW_TEMPLATE_ID,
@@ -43,7 +43,7 @@ public class SignatureFlowTemplate {
   private String flowTemplateId;
 
   public static final String JSON_PROPERTY_NAME = "name";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private String name;
 
   public static final String JSON_PROPERTY_DESCRIPTION = "description";
@@ -51,7 +51,7 @@ public class SignatureFlowTemplate {
   private String description;
 
   public static final String JSON_PROPERTY_BLOCKS = "blocks";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private List<SignatureBlock> blocks = new ArrayList<>();
 
   public SignatureFlowTemplate() {
@@ -64,7 +64,7 @@ public class SignatureFlowTemplate {
   }
 
   /**
-   * Get flowTemplateId
+   * Identificador de la plantilla flux de firmes.Ha de quedar buit durant l&#39;operació de creació. Durant la creació via web només s&#39;omplirà si es una plantilla a guardar en servidor.
    * @return flowTemplateId
    */
   @javax.annotation.Nullable
@@ -82,19 +82,19 @@ public class SignatureFlowTemplate {
     this.flowTemplateId = flowTemplateId;
   }
 
-  public SignatureFlowTemplate name(@javax.annotation.Nullable String name) {
+  public SignatureFlowTemplate name(@javax.annotation.Nonnull String name) {
     
     this.name = name;
     return this;
   }
 
   /**
-   * Get name
+   * Nom de la plantilla flux de firmes.
    * @return name
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getName() {
     return name;
@@ -102,8 +102,8 @@ public class SignatureFlowTemplate {
 
 
   @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setName(@javax.annotation.Nullable String name) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
   }
 
@@ -114,7 +114,7 @@ public class SignatureFlowTemplate {
   }
 
   /**
-   * Get description
+   * Descripció de la plantilla flux de firmes.
    * @return description
    */
   @javax.annotation.Nullable
@@ -132,7 +132,7 @@ public class SignatureFlowTemplate {
     this.description = description;
   }
 
-  public SignatureFlowTemplate blocks(@javax.annotation.Nullable List<SignatureBlock> blocks) {
+  public SignatureFlowTemplate blocks(@javax.annotation.Nonnull List<SignatureBlock> blocks) {
     
     this.blocks = blocks;
     return this;
@@ -147,12 +147,12 @@ public class SignatureFlowTemplate {
   }
 
   /**
-   * Get blocks
+   * Llista de blocs de signatura que composen el flux de firmes de la plantilla.
    * @return blocks
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_BLOCKS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public List<SignatureBlock> getBlocks() {
     return blocks;
@@ -160,8 +160,8 @@ public class SignatureFlowTemplate {
 
 
   @JsonProperty(JSON_PROPERTY_BLOCKS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBlocks(@javax.annotation.Nullable List<SignatureBlock> blocks) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setBlocks(@javax.annotation.Nonnull List<SignatureBlock> blocks) {
     this.blocks = blocks;
   }
 

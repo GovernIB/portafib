@@ -13,7 +13,7 @@ All URIs are relative to */portafibapi/interna*
 | [**getInternalFlowIDByFlowTemplateID**](SignatureFlowTemplateV1Api.md#getInternalFlowIDByFlowTemplateID) | **GET** /secure/signatureflowtemplate/v1/getInternalFlowIDByFlowTemplateID/{flowTemplateID} | Serveix per obtenir l&#39;ID intern del flux a partir de l&#39;ID públic de la Plantilla de Flux de Firmes |
 | [**getReviseursByDestinationAdministrationID**](SignatureFlowTemplateV1Api.md#getReviseursByDestinationAdministrationID) | **GET** /secure/signatureflowtemplate/v1/getReviseursByDestinationAdministrationID/{administrationID} | Retorna una llista dels Revisors globals i els associats al NIF d&#39;un Destinatari |
 | [**getSignatureFlowTransactionResult**](SignatureFlowTemplateV1Api.md#getSignatureFlowTransactionResult) | **GET** /secure/signatureflowtemplate/v1/getSignatureFlowTransactionResult/{transactionID} | Metode per obtenir els resultats de la creació d&#39;un flux o plantilla de flux de firmes |
-| [**getTransactionID**](SignatureFlowTemplateV1Api.md#getTransactionID) | **POST** /secure/signatureflowtemplate/v1/getTransactionID | Mètode per obtenir un Identificador de Transacció. |
+| [**getTransactionID**](SignatureFlowTemplateV1Api.md#getTransactionID) | **POST** /secure/signatureflowtemplate/v1/getTransactionID | Mètode per obtenir un Identificador de Transacció  per a la creació d&#39;una plantilla de flux de firmes via web. |
 | [**getUrlToEditFlowTemplate**](SignatureFlowTemplateV1Api.md#getUrlToEditFlowTemplate) | **POST** /secure/signatureflowtemplate/v1/getUrlToEditFlowTemplate | Retorna una URL per poder editar una Plantilla de Flux de Firmes de forma gràfica |
 | [**getUrlToViewFlowTemplate**](SignatureFlowTemplateV1Api.md#getUrlToViewFlowTemplate) | **GET** /secure/signatureflowtemplate/v1/getUrlToViewFlowTemplate/{flowTemplateID} | Retorna una URL que mostra una Plantilla de Flux de Firmes de forma gràfica en model només lectura |
 | [**startTransaction**](SignatureFlowTemplateV1Api.md#startTransaction) | **POST** /secure/signatureflowtemplate/v1/startTransaction | Mètode per iniciar una Transacció. |
@@ -704,7 +704,7 @@ public class Example {
 
 > String getTransactionID(signatureFlowTemplateTransactionIdRequest)
 
-Mètode per obtenir un Identificador de Transacció.
+Mètode per obtenir un Identificador de Transacció  per a la creació d&#39;una plantilla de flux de firmes via web.
 
 ### Example
 
@@ -728,7 +728,7 @@ public class Example {
         BasicAuth.setPassword("YOUR PASSWORD");
 
         SignatureFlowTemplateV1Api apiInstance = new SignatureFlowTemplateV1Api(defaultClient);
-        SignatureFlowTemplateTransactionIdRequest signatureFlowTemplateTransactionIdRequest = new SignatureFlowTemplateTransactionIdRequest(); // SignatureFlowTemplateTransactionIdRequest | Dades requerides per la devolució d'un ID de transacció.
+        SignatureFlowTemplateTransactionIdRequest signatureFlowTemplateTransactionIdRequest = new SignatureFlowTemplateTransactionIdRequest(); // SignatureFlowTemplateTransactionIdRequest | Dades requerides per a l'obtenció d'un ID de transacció per a la creació d'una plantilla de flux de firmes via web.
         try {
             String result = apiInstance.getTransactionID(signatureFlowTemplateTransactionIdRequest);
             System.out.println(result);
@@ -748,7 +748,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **signatureFlowTemplateTransactionIdRequest** | [**SignatureFlowTemplateTransactionIdRequest**](SignatureFlowTemplateTransactionIdRequest.md)| Dades requerides per la devolució d&#39;un ID de transacció. | [optional] |
+| **signatureFlowTemplateTransactionIdRequest** | [**SignatureFlowTemplateTransactionIdRequest**](SignatureFlowTemplateTransactionIdRequest.md)| Dades requerides per a l&#39;obtenció d&#39;un ID de transacció per a la creació d&#39;una plantilla de flux de firmes via web. | [optional] |
 
 ### Return type
 

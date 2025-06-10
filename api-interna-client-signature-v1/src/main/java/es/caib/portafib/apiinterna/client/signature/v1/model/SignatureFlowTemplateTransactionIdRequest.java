@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * SignatureFlowTemplateTransactionIdRequest
+ * Informació requerida a que el sistema retorni un identificador de transacció per a la creació web d&#39;una plantilla de flux de signatura
  */
 @JsonPropertyOrder({
   SignatureFlowTemplateTransactionIdRequest.JSON_PROPERTY_LANGUAGE_U_I,
@@ -65,7 +65,7 @@ public class SignatureFlowTemplateTransactionIdRequest {
   }
 
   /**
-   * Get languageUI
+   * Codi de l&#39;idioma de la interfície d&#39;usuari
    * @return languageUI
    */
   @javax.annotation.Nullable
@@ -90,7 +90,7 @@ public class SignatureFlowTemplateTransactionIdRequest {
   }
 
   /**
-   * Get saveOnServer
+   * Indica si s&#39;ha de guardar la plantilla al servidor
    * @return saveOnServer
    */
   @javax.annotation.Nullable
@@ -115,7 +115,7 @@ public class SignatureFlowTemplateTransactionIdRequest {
   }
 
   /**
-   * Get name
+   * Nom de la plantilla de flux
    * @return name
    */
   @javax.annotation.Nullable
@@ -140,7 +140,7 @@ public class SignatureFlowTemplateTransactionIdRequest {
   }
 
   /**
-   * Get description
+   * Descripció de la plantilla de flux
    * @return description
    */
   @javax.annotation.Nullable
@@ -165,7 +165,7 @@ public class SignatureFlowTemplateTransactionIdRequest {
   }
 
   /**
-   * Get visibleDescription
+   * Indica si la descripció de la plantilla de flux és visible per l&#39;usuari que l&#39;edita o el veu.
    * @return visibleDescription
    */
   @javax.annotation.Nullable

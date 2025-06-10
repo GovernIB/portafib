@@ -16,7 +16,7 @@ public class SignatureFlowTemplate {
 
     // NOT REQUIRED !!!! Durant la creació
     @Schema(description = "Identificador de la plantilla flux de firmes."
-            + "Ha de quear buit durant en l'operació de creació."
+            + "Ha de quedar buit durant l'operació de creació."
             + " Durant la creació via web només s'omplirà si es una plantilla a guardar en servidor.",
             requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     protected String flowTemplateId;

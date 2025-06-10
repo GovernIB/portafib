@@ -441,9 +441,9 @@ public class SignatureFlowTemplateV1Api {
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
-   * Mètode per obtenir un Identificador de Transacció.
+   * Mètode per obtenir un Identificador de Transacció  per a la creació d&#39;una plantilla de flux de firmes via web.
    * 
-   * @param signatureFlowTemplateTransactionIdRequest Dades requerides per la devolució d&#39;un ID de transacció. (optional)
+   * @param signatureFlowTemplateTransactionIdRequest Dades requerides per a l&#39;obtenció d&#39;un ID de transacció per a la creació d&#39;una plantilla de flux de firmes via web. (optional)
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */

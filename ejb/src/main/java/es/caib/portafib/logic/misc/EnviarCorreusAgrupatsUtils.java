@@ -91,7 +91,7 @@ public class EnviarCorreusAgrupatsUtils {
     public static Map<String, Integer> enviarAvisosAgrupats(ControlOfExecution coe) throws Exception {
 
         Map<String, Integer> result = new HashMap<String, Integer>();
-        
+
         final boolean isDebug = log.isDebugEnabled();
 
         if (isDebug) {
@@ -162,8 +162,10 @@ public class EnviarCorreusAgrupatsUtils {
 
                     result.put(email.getEmail(), -1 * missatges);
                 } catch (Throwable e) {
-                    log.error("Error NO CONTROLAT enviant correu a " + email.getSubject() + " - " + email.getUsuariEntitatID() + "("
-                            + e.getMessage() + "):\n" + email.getMessage(), e);
+                    log.error(
+                            "Error NO CONTROLAT enviant correu a " + email.getSubject() + " - "
+                                    + email.getUsuariEntitatID() + "(" + e.getMessage() + "):\n" + email.getMessage(),
+                            e);
                     result.put(email.getEmail(), -1 * missatges);
                 }
                 // Per no saturar (1) el servidor, (2) ni l'enviament de correus (3) ni la firma de sol·licituds 
@@ -186,39 +188,45 @@ public class EnviarCorreusAgrupatsUtils {
     protected static List<EmailInfo> readEmailsFromFile(File f)
             throws FileNotFoundException, JAXBException, IOException, UnsupportedEncodingException {
 
-        if (!f.exists()) {
-            return new ArrayList<EmailInfo>();
+        ArrayList<EmailInfo> list = new ArrayList<EmailInfo>();
+        if (f == null || !f.exists()) {
+            return list;
         }
 
-        FileReader fr = new FileReader(f);
-        BufferedReader br = new BufferedReader(fr);
-        Object obj;
+        try {
 
-        JAXBContext jc = JAXBContext.newInstance(EmailInfo.class);
-        Unmarshaller u = jc.createUnmarshaller();
+            FileReader fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+            Object obj;
 
-        ArrayList<EmailInfo> list = new ArrayList<EmailInfo>();
-        do {
+            JAXBContext jc = JAXBContext.newInstance(EmailInfo.class);
+            Unmarshaller u = jc.createUnmarshaller();
 
-            String lineEnc = br.readLine();
+            do {
 
-            if (lineEnc == null) {
-                break;
-            }
+                String lineEnc = br.readLine();
 
-            String lineXml = URLDecoder.decode(lineEnc, "UTF-8");
+                if (lineEnc == null) {
+                    break;
+                }
 
-            obj = u.unmarshal(new ByteArrayInputStream(lineXml.getBytes()));
+                String lineXml = URLDecoder.decode(lineEnc, "UTF-8");
 
-            if (obj != null) {
-                list.add(((EmailInfo) obj));
-            }
+                obj = u.unmarshal(new ByteArrayInputStream(lineXml.getBytes()));
 
-        } while (true);
+                if (obj != null) {
+                    list.add(((EmailInfo) obj));
+                }
 
-        br.close();
-        fr.close();
+            } while (true);
 
+            br.close();
+            fr.close();
+
+        } catch (Exception e) {
+            // TODO ENVIAR CORREU 
+            log.error("Error llegint fitxer ]" + f.getAbsolutePath() + "[ de correus agrupats: " + e.getMessage(), e);
+        }
         return list;
     }
 

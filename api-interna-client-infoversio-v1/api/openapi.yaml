@@ -25,28 +25,78 @@ tags:
 - description: "Informació basica del servidor: versió producte, versió API, ..."
   name: InfoVersio v1
 paths:
-  /public/infoversio/v1/versioapi:
+  /public/infoversio/v1/checkstatus:
     get:
-      operationId: versioApi
+      operationId: checkstatus
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InfoVersio'
-          description: Operació realitzada correctament
-        "404":
+        "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
         "500":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Error no controlat
+        "200":
+          content:
+            application/json: {}
+          description: Operació realitzada correctament
+      summary: "Revisa l'estat del servidor: valida CPU, valida BBDD i valida sistema\
+        \ de fitxers."
+      tags:
+      - InfoVersio v1
+      x-accepts:
+      - application/json
+  /public/infoversio/v1/versioapi:
+    get:
+      operationId: versioApi
+      responses:
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfoVersio'
+          description: Operació realitzada correctament
       summary: Retorna la versió de PortaFIB REST
       tags:
       - InfoVersio v1
@@ -56,24 +106,36 @@ paths:
     get:
       operationId: versioApp
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InfoVersio'
-          description: Operació realitzada correctament
-        "404":
+        "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
         "500":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestExceptionInfo'
           description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfoVersio'
+          description: Operació realitzada correctament
       summary: Retorna la versió de PortaFIB
       tags:
       - InfoVersio v1
@@ -81,32 +143,6 @@ paths:
       - application/json
 components:
   schemas:
-    InfoVersio:
-      description: Model de dades de Informació bàsica a retornar.
-      example:
-        buildTime: buildTime
-        jdkVersion: jdkVersion
-        caib: true
-        version: version
-      properties:
-        caib:
-          description: És un servidor de la CAIB
-          type: boolean
-        version:
-          description: Versió
-          type: string
-        buildTime:
-          description: Data compilació
-          type: string
-        jdkVersion:
-          description: Versió de JDK en que s'ha compilat
-          type: string
-      required:
-      - buildTime
-      - caib
-      - jdkVersion
-      - version
-      type: object
     RestExceptionInfo:
       description: Estructura de dades utilitzada per passar informació d'un error
       example:
@@ -135,5 +171,31 @@ components:
           type: string
       required:
       - errorMessage
+      type: object
+    InfoVersio:
+      description: Model de dades de Informació bàsica a retornar.
+      example:
+        buildTime: buildTime
+        jdkVersion: jdkVersion
+        caib: true
+        version: version
+      properties:
+        caib:
+          description: És un servidor de la CAIB
+          type: boolean
+        version:
+          description: Versió
+          type: string
+        buildTime:
+          description: Data compilació
+          type: string
+        jdkVersion:
+          description: Versió de JDK en que s'ha compilat
+          type: string
+      required:
+      - buildTime
+      - caib
+      - jdkVersion
+      - version
       type: object
 

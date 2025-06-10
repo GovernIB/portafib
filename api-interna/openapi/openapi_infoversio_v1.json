@@ -36,24 +36,34 @@
     "description" : "Informació basica del servidor: versió producte, versió API, ..."
   } ],
   "paths" : {
-    "/public/infoversio/v1/versioapi" : {
+    "/public/infoversio/v1/checkstatus" : {
       "get" : {
         "tags" : [ "InfoVersio v1" ],
-        "summary" : "Retorna la versió de PortaFIB REST",
-        "operationId" : "versioApi",
+        "summary" : "Revisa l'estat del servidor: valida CPU, valida BBDD i valida sistema de fitxers.",
+        "operationId" : "checkstatus",
         "responses" : {
-          "200" : {
-            "description" : "Operació realitzada correctament",
+          "400" : {
+            "description" : "Paràmetres incorrectes",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/InfoVersio"
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
                 }
               }
             }
           },
-          "404" : {
-            "description" : "Paràmetres incorrectes",
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -68,6 +78,71 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : { }
+            }
+          }
+        }
+      }
+    },
+    "/public/infoversio/v1/versioapi" : {
+      "get" : {
+        "tags" : [ "InfoVersio v1" ],
+        "summary" : "Retorna la versió de PortaFIB REST",
+        "operationId" : "versioApi",
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InfoVersio"
                 }
               }
             }
@@ -81,18 +156,28 @@
         "summary" : "Retorna la versió de PortaFIB",
         "operationId" : "versioApp",
         "responses" : {
-          "200" : {
-            "description" : "Operació realitzada correctament",
+          "400" : {
+            "description" : "Paràmetres incorrectes",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/InfoVersio"
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
                 }
               }
             }
           },
-          "404" : {
-            "description" : "Paràmetres incorrectes",
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -110,6 +195,16 @@
                 }
               }
             }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InfoVersio"
+                }
+              }
+            }
           }
         }
       }
@@ -117,29 +212,6 @@
   },
   "components" : {
     "schemas" : {
-      "InfoVersio" : {
-        "required" : [ "buildTime", "caib", "jdkVersion", "version" ],
-        "type" : "object",
-        "properties" : {
-          "caib" : {
-            "type" : "boolean",
-            "description" : "És un servidor de la CAIB"
-          },
-          "version" : {
-            "type" : "string",
-            "description" : "Versió"
-          },
-          "buildTime" : {
-            "type" : "string",
-            "description" : "Data compilació"
-          },
-          "jdkVersion" : {
-            "type" : "string",
-            "description" : "Versió de JDK en que s'ha compilat"
-          }
-        },
-        "description" : "Model de dades de Informació bàsica a retornar."
-      },
       "RestExceptionInfo" : {
         "required" : [ "errorMessage" ],
         "type" : "object",
@@ -167,6 +239,29 @@
           }
         },
         "description" : "Estructura de dades utilitzada per passar informació d'un error"
+      },
+      "InfoVersio" : {
+        "required" : [ "buildTime", "caib", "jdkVersion", "version" ],
+        "type" : "object",
+        "properties" : {
+          "caib" : {
+            "type" : "boolean",
+            "description" : "És un servidor de la CAIB"
+          },
+          "version" : {
+            "type" : "string",
+            "description" : "Versió"
+          },
+          "buildTime" : {
+            "type" : "string",
+            "description" : "Data compilació"
+          },
+          "jdkVersion" : {
+            "type" : "string",
+            "description" : "Versió de JDK en que s'ha compilat"
+          }
+        },
+        "description" : "Model de dades de Informació bàsica a retornar."
       }
     }
   }

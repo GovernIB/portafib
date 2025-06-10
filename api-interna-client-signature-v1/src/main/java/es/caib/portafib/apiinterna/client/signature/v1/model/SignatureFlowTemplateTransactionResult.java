@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * SignatureFlowTemplateTransactionResult
+ * Informació de l&#39;estat d&#39;un procés de creacio d&#39;una plantilla de flux de signatura via web.
  */
 @JsonPropertyOrder({
   SignatureFlowTemplateTransactionResult.JSON_PROPERTY_STATUS,
@@ -40,21 +40,21 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class SignatureFlowTemplateTransactionResult {
   public static final String JSON_PROPERTY_STATUS = "status";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private ProcessStatus status;
 
   public static final String JSON_PROPERTY_FLOW_INFO = "flowInfo";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private SignatureFlowTemplate flowInfo;
 
   public static final String JSON_PROPERTY_PROPERTIES = "properties";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private List<KeyValue> properties = new ArrayList<>();
 
   public SignatureFlowTemplateTransactionResult() {
   }
 
-  public SignatureFlowTemplateTransactionResult status(@javax.annotation.Nullable ProcessStatus status) {
+  public SignatureFlowTemplateTransactionResult status(@javax.annotation.Nonnull ProcessStatus status) {
     
     this.status = status;
     return this;
@@ -64,9 +64,9 @@ public class SignatureFlowTemplateTransactionResult {
    * Get status
    * @return status
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public ProcessStatus getStatus() {
     return status;
@@ -74,12 +74,12 @@ public class SignatureFlowTemplateTransactionResult {
 
 
   @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setStatus(@javax.annotation.Nullable ProcessStatus status) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setStatus(@javax.annotation.Nonnull ProcessStatus status) {
     this.status = status;
   }
 
-  public SignatureFlowTemplateTransactionResult flowInfo(@javax.annotation.Nullable SignatureFlowTemplate flowInfo) {
+  public SignatureFlowTemplateTransactionResult flowInfo(@javax.annotation.Nonnull SignatureFlowTemplate flowInfo) {
     
     this.flowInfo = flowInfo;
     return this;
@@ -89,9 +89,9 @@ public class SignatureFlowTemplateTransactionResult {
    * Get flowInfo
    * @return flowInfo
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_FLOW_INFO)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public SignatureFlowTemplate getFlowInfo() {
     return flowInfo;
@@ -99,12 +99,12 @@ public class SignatureFlowTemplateTransactionResult {
 
 
   @JsonProperty(JSON_PROPERTY_FLOW_INFO)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFlowInfo(@javax.annotation.Nullable SignatureFlowTemplate flowInfo) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setFlowInfo(@javax.annotation.Nonnull SignatureFlowTemplate flowInfo) {
     this.flowInfo = flowInfo;
   }
 
-  public SignatureFlowTemplateTransactionResult properties(@javax.annotation.Nullable List<KeyValue> properties) {
+  public SignatureFlowTemplateTransactionResult properties(@javax.annotation.Nonnull List<KeyValue> properties) {
     
     this.properties = properties;
     return this;
@@ -119,12 +119,12 @@ public class SignatureFlowTemplateTransactionResult {
   }
 
   /**
-   * Get properties
+   * Llistat de propietat addicionals
    * @return properties
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_PROPERTIES)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public List<KeyValue> getProperties() {
     return properties;
@@ -132,8 +132,8 @@ public class SignatureFlowTemplateTransactionResult {
 
 
   @JsonProperty(JSON_PROPERTY_PROPERTIES)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setProperties(@javax.annotation.Nullable List<KeyValue> properties) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setProperties(@javax.annotation.Nonnull List<KeyValue> properties) {
     this.properties = properties;
   }
 

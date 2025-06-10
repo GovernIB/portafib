@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * SignatureFlowTemplateEdit
+ * Informació requerida per iniciar un procés web de modificació d&#39;una Plantilla
  */
 @JsonPropertyOrder({
   SignatureFlowTemplateEdit.JSON_PROPERTY_LANGUAGE_U_I,
@@ -55,7 +55,7 @@ public class SignatureFlowTemplateEdit {
   }
 
   /**
-   * Get languageUI
+   * Codi de l&#39;idioma de la interfície d&#39;usuari
    * @return languageUI
    */
   @javax.annotation.Nullable
@@ -80,7 +80,7 @@ public class SignatureFlowTemplateEdit {
   }
 
   /**
-   * Get flowTemplateId
+   * Identificador de la plantilla de flux que volem editar
    * @return flowTemplateId
    */
   @javax.annotation.Nullable
@@ -105,7 +105,7 @@ public class SignatureFlowTemplateEdit {
   }
 
   /**
-   * Get returnUrl
+   * URL de retorn a la que s&#39;ha de redirigir l&#39;usuari un cop finalitzat el procés de modificació de la plantilla
    * @return returnUrl
    */
   @javax.annotation.Nullable

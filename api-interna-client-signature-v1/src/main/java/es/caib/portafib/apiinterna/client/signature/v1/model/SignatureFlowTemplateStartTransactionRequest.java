@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * SignatureFlowTemplateStartTransactionRequest
+ * Informació requerida per iniciar un procés web de signatura d&#39;una plantilla de flux
  */
 @JsonPropertyOrder({
   SignatureFlowTemplateStartTransactionRequest.JSON_PROPERTY_TRANSACTION_I_D,
@@ -50,7 +50,7 @@ public class SignatureFlowTemplateStartTransactionRequest {
   }
 
   /**
-   * Get transactionID
+   * Identificador de la transacción que se va a iniciar
    * @return transactionID
    */
   @javax.annotation.Nullable
@@ -75,7 +75,7 @@ public class SignatureFlowTemplateStartTransactionRequest {
   }
 
   /**
-   * Get returnUrl
+   * URL de retorn a la que s&#39;ha de redirigir a l&#39;usuari una vegada hagi finalizat el procés de firma
    * @return returnUrl
    */
   @javax.annotation.Nullable
