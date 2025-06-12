@@ -57,8 +57,10 @@
 	<sec:authentication-manager alias="authenticationManager">
 		<sec:authentication-provider ref="preAuthenticatedAuthenticationProvider"/>
 	</sec:authentication-manager>
+
 	<bean id="defaultHttpFirewall" class="org.springframework.security.web.firewall.DefaultHttpFirewall"/>
 	<sec:http-firewall ref="defaultHttpFirewall"/>
+
 	<bean id="preAuthenticatedProcessingFilterEntryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint"/>
 	<bean id="preAuthenticatedAuthenticationProvider" class="org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider">
 		<property name="preAuthenticatedUserDetailsService">

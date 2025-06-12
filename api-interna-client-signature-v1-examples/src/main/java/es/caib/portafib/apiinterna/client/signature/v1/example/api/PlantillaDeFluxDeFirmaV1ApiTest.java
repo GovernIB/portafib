@@ -11,10 +11,14 @@ import java.net.Socket;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 
@@ -54,100 +58,33 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
 
         try {
 
-            boolean testCreatePlantillaFluxFirmes = true;
+            test.testUpdateNameOfFlowTemplate();
 
-            Properties prop = test.getConfigProperties();
+            test.testUpdateDescriptionOfFlowTemplate();
 
-            final String languageUI = test.getLanguageUI(prop);
-
-            //System.out.println("UPDATES ====>" + test.getApi().updateDescriptionOfFlowTemplate("4K6p0YrnXfdAGWguz5RyTw==", "XXXXXXXXXXXX", languageUI));
-
-            // Crear plantilla de Flux de Firmes des de codi
-            @SuppressWarnings("unused")
-            String id = test.testCreateSignatureFlowTemplateFromCode(languageUI);
+            // Crear plantilla de Flux de Firmes des de codi            
+            test.testCreateSignatureFlowTemplateFromCode();
 
             // Llistat plantilles de Flux
-            Set<KeyValue> fluxos = test.testGetAllSignatureFlowTemplates(languageUI);
-            String plantillaFluxFirmesID;
-            boolean creatNouFluxe = false;
+            test.testGetAllSignatureFlowTemplates();
 
-            // Crear Flux via Web
-            String descrRandom = null;
-            if (testCreatePlantillaFluxFirmes) {
-                final boolean saveOnServer = isSaveOnServer(prop);
-                descrRandom = "random=" + System.currentTimeMillis();
-                final String descr = "test=true;\n" + "user=anadal\n" + descrRandom;
-                plantillaFluxFirmesID = test.testCrearFluxDeFirmesDesdeNavegador(languageUI, saveOnServer, descr);
-                System.out.println("Plantilla de Flux creada amb ID: " + plantillaFluxFirmesID);
-                creatNouFluxe = true;
-            } else {
-                plantillaFluxFirmesID = null;
-            }
+            // Crear Flux via Web (sense guardar a servidor)
+            test.testCrearFluxDeFirmesDesdeNavegadorSenseGuardarFlux();
 
-            if (plantillaFluxFirmesID == null) {
-                creatNouFluxe = false;
-                if (fluxos == null || fluxos.isEmpty()) {
-                    System.err.println(
-                            "No hi ha cap plantilla de flux guardada i no s'ha pogut crear nova plantilla !!!!");
-                    return;
-                } else {
-                    plantillaFluxFirmesID = fluxos.iterator().next().getKey();
-
-                    SignatureFlowTemplate flow = test.testGetFlowInfoByFlowTemplateID(languageUI,
-                            plantillaFluxFirmesID);
-
-                    descrRandom = flow.getDescription();
-
-                }
-            }
+            // Crear Flux via Web (sense guardar a servidor)
+            test.testCrearFluxDeFirmesDesdeNavegadorGuardantFlux();
 
             // Mostrar Flux de Firmes
-            test.testGetUrlToViewFlowTemplate(languageUI, plantillaFluxFirmesID);
+            test.testGetUrlToViewFlowTemplate();
 
             // Editar Flux de Firmes            
-            test.testGetUrlToEditFlowTemplate(languageUI, plantillaFluxFirmesID);
+            test.testGetUrlToEditFlowTemplate();
 
             // Mostrar ID real flux de firmes
-            {
-                Long plantillaIdInterna = test.getApi().getInternalFlowIDByFlowTemplateID(plantillaFluxFirmesID,
-                        languageUI);
-                System.out.println("La plantilla " + plantillaFluxFirmesID + " té ID Intern " + plantillaIdInterna
-                        + " per usar-se en ApiAsyncSimple.");
-            }
+            test.testGetInternalFlowIDByFlowTemplateID();
 
             // Llistar Plantilles amb filtre
-            String name = null; // Qualsevol nom
-            String description = descrRandom;
-
-            System.out.println("Cercant plantilla de flux amb descripcio: ]" + description + "[");
-            {
-                String plantillaFluxFirmesIDFound = test.testGetAllFlowTemplatesByFilter(languageUI, name, description);
-                if (plantillaFluxFirmesIDFound == null) {
-                    System.err.println("No s'ha trobat cap plantilla de flux amb filtre: ]" + description + "[");
-                    return;
-                } else {
-
-                    if (plantillaFluxFirmesIDFound.equals(plantillaFluxFirmesID)) {
-                        System.out.println("Plantilla de flux trobada amb filtre i és la mateixa que la creada: "
-                                + plantillaFluxFirmesIDFound);
-                    } else {
-                        System.out.println("Plantilla de flux trobada no es la mateixa que la creada: "
-                                + plantillaFluxFirmesIDFound + " != " + plantillaFluxFirmesID);
-                        return;
-                    }
-
-                }
-            }
-
-            // Mostrar detalls de flux
-            //lastKey = "kWuDt8W-mTGUEawp66KjdA==";
-            //descarregarFluxDeFirmesInfo(api, languageUI, lastKey);
-
-            if (creatNouFluxe) {
-                // Eliminar Flux de Firmes
-                System.out.println("Eliminant Flux de Firmes: " + plantillaFluxFirmesID);
-                test.testDeleteFlowTemplate(languageUI, plantillaFluxFirmesID);
-            }
+            test.testGetAllFlowTemplatesByFilter();
 
         } catch (ApiException e) {
             test.processApiException(e, "Tests de Firma en Servidor", true);
@@ -156,55 +93,299 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
         }
     }
 
-    public String testCreateSignatureFlowTemplateFromCode(final String languageUI) throws ApiException, Exception {
+    public void testGetInternalFlowIDByFlowTemplateID() throws ApiException, Exception {
 
-        Signer signer = new Signer();
-        signer.setUsername("anadal");
+        new InternalTest() {
+            @Override
+            public void doTest(String createdSignatureFlowTemplateId) throws Exception {
 
-        Signature signature = new Signature();
-        signature.setMinimumNumberOfRevisers(0);
-        signature.setReason("Hola");
-        signature.setRequired(true);
-        signature.setRevisers(null);
-        signature.setSigner(signer);
+                Long plantillaIdInterna = api.getInternalFlowIDByFlowTemplateID(createdSignatureFlowTemplateId,
+                        this.languageUI);
 
-        List<Signature> signatures = new ArrayList<Signature>();
-        signatures.add(signature);
+                if (plantillaIdInterna == null) {
+                    throw new Exception("No s'ha pogut obtenir l'ID intern del flux de firmes amb ID: "
+                            + createdSignatureFlowTemplateId);
+                }
 
-        SignatureBlock block1 = new SignatureBlock();
-        block1.setOrder(1);
-        block1.setMinimumNumberOfSignaturesRequired(1);
-        block1.setSignatures(signatures);
+                System.out.println("ID intern de la plantilla de flux de firmes ]createdSignatureFlowTemplateId[ és ]"
+                        + plantillaIdInterna + "[");
 
-        List<SignatureBlock> blocks = new ArrayList<SignatureBlock>();
-        blocks.add(block1);
-
-        SignatureFlowTemplate flow = new SignatureFlowTemplate();
-
-        flow.setName("PROVAAAAAAAAAA " + SimpleDateFormat.getDateTimeInstance().format(new Date()));
-        flow.setDescription("Descripció de la plantilla de flux de firmes creada des de codi");
-        flow.setFlowTemplateId(null);
-        flow.setBlocks(blocks);
-
-        String id = getApi().createSignatureFlowTemplate(flow, languageUI);
-
-        Set<KeyValue> fluxos = testGetAllSignatureFlowTemplates(languageUI);
-
-        for (KeyValue flowTemplateSimpleKeyValue : fluxos) {
-            if (flowTemplateSimpleKeyValue.getKey().equals(id)) {
-                return id;
             }
-        }
-
-        throw new Exception("No s'ha trobat la plantilla de flux creada amb ID: " + id);
+        }.runTest();
 
     }
 
-    public Set<KeyValue> testGetAllSignatureFlowTemplates(final String languageUI) throws ApiException, Exception {
+    public void testCrearFluxDeFirmesDesdeNavegadorSenseGuardarFlux() throws ApiException, Exception {
+
+        new InternalTestBasic() {
+
+            @Override
+            public void doTest() throws Exception, ApiException {
+
+                final String languageUI = getLanguageUI();
+                final boolean saveOnServer = false;
+
+                //SignatureFlowTemplate sft = 
+                internalTestCrearFluxDeFirmesDesdeNavegador(languageUI, saveOnServer);
+
+            }
+        }.runTest();
+
+    }
+
+    public void testCrearFluxDeFirmesDesdeNavegadorGuardantFlux() throws ApiException, Exception {
+
+        new InternalTestBasic() {
+
+            @Override
+            public void doTest() throws Exception, ApiException {
+
+                final String languageUI = getLanguageUI();
+                final boolean saveOnServer = true;
+
+                //SignatureFlowTemplate sft = 
+                internalTestCrearFluxDeFirmesDesdeNavegador(languageUI, saveOnServer);
+
+            }
+        }.runTest();
+
+    }
+
+    public void testCreateSignatureFlowTemplateFromCode() throws ApiException, Exception {
+
+        new InternalTest() {
+
+            @Override
+            public void doTest(String createdSignatureFlowTemplateId) throws Exception {
+
+                Set<KeyValue> fluxos = this.api.getAllFlowTemplates(languageUI);
+
+                for (KeyValue flowTemplateSimpleKeyValue : fluxos) {
+                    if (flowTemplateSimpleKeyValue.getKey().equals(createdSignatureFlowTemplateId)) {
+                        return;
+                    }
+                }
+
+                throw new Exception(
+                        "No s'ha trobat la plantilla de flux creada amb ID: " + createdSignatureFlowTemplateId);
+
+            }
+        }.runTest();
+
+    }
+
+    public void testUpdateNameOfFlowTemplate() throws ApiException, Exception {
+
+        new InternalTest() {
+
+            @Override
+            public void doTest(String createdSignatureFlowTemplateId) throws Exception {
+
+                String newName = "nom actualitzat de la plantilla de flux de firmes creada des de codi "
+                        + SimpleDateFormat.getDateTimeInstance().format(new Date());
+
+                Boolean result;
+                result = this.api.updateNameOfSignatureFlowTemplate(createdSignatureFlowTemplateId, newName,
+                        languageUI);
+
+                if (result == null || result.booleanValue() == false) {
+                    throw new Exception("El mètode updateNameOfSignatureFlowTemplate ha retornat null o false. "
+                            + "Revisar els logs per veure que ha pogut passar. (" + createdSignatureFlowTemplateId
+                            + ")");
+                }
+
+                SignatureFlowTemplate flow = this.api.getFlowInfoByFlowTemplateID(createdSignatureFlowTemplateId,
+                        newName);
+
+                if (!newName.equals(flow.getName())) {
+
+                    throw new Exception("S'esperava la desripció ]" + newName + "[ però s'ha obtingut: ]"
+                            + flow.getName() + "[ (" + createdSignatureFlowTemplateId + ")");
+                }
+
+            }
+        }.runTest();
+
+    }
+
+    public void testUpdateDescriptionOfFlowTemplate() throws ApiException, Exception {
+
+        new InternalTest() {
+
+            @Override
+            public void doTest(String createdSignatureFlowTemplateId) throws Exception {
+
+                String newDescription = "Descripció actualitzada de la plantilla de flux de firmes creada des de codi "
+                        + SimpleDateFormat.getDateTimeInstance().format(new Date());
+
+                Boolean result;
+                result = this.api.updateDescriptionOfSignatureFlowTemplate(createdSignatureFlowTemplateId,
+                        newDescription, languageUI);
+
+                if (result == null || result.booleanValue() == false) {
+                    throw new Exception("El mètode updateDescriptionOfSignatureFlowTemplate ha retornat null o false. "
+                            + "Revisar els logs per veure que ha pogut passar. (" + createdSignatureFlowTemplateId
+                            + ")");
+                }
+
+                SignatureFlowTemplate flow = this.api.getFlowInfoByFlowTemplateID(createdSignatureFlowTemplateId,
+                        languageUI);
+
+                if (!newDescription.equals(flow.getDescription())) {
+
+                    throw new Exception("S'esperava la desripció ]" + newDescription + "[ però s'ha obtingut: ]"
+                            + flow.getDescription() + "[ (" + createdSignatureFlowTemplateId + ")");
+                }
+
+            }
+        }.runTest();
+
+    }
+
+    public static String getTestMethod() {
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+        //System.out.println(Arrays.toString(stackTrace));
+
+        // Índices:
+        // 0 -> getStackTrace
+        // 1 -> obtenerMetodoLlamador
+        // 2 -> método que llamó a obtenerMetodoLlamador
+
+        if (stackTrace.length >= 3) {
+            return stackTrace[2].getMethodName();
+        } else {
+            return "Desconocido";
+        }
+    }
+
+    public abstract class InternalTestBasic {
+
+        protected final String testName;
+
+        protected final SignatureFlowTemplateV1Api api;
+
+        protected final String languageUI;
+
+        public InternalTestBasic() throws Exception {
+
+            this(Thread.currentThread().getStackTrace()[3].getMethodName(), getApi(), getLanguageUI());
+            /*
+            // Obtener el stack trace actual
+            StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+            
+            // El elemento 0 es getStackTrace, 1 es este constructor, 2 es el método llamador
+            if (stackTrace.length >= 4) {
+                StackTraceElement caller = stackTrace[3];
+                System.out.println("Esta clase fue instanciada desde: " + 
+                                  
+                                  caller.getMethodName() );
+            } else {
+                System.out.println("No se pudo determinar el método llamador");
+            }
+            */
+        }
+
+        public InternalTestBasic(String testName, SignatureFlowTemplateV1Api api, String languageUI) {
+            super();
+            this.testName = testName;
+            this.api = api;
+            this.languageUI = languageUI;
+        }
+
+        public abstract void doTest() throws Exception, ApiException;
+
+        public void runTest() throws Exception, ApiException {
+            long startTime = System.currentTimeMillis();
+            System.out.println("\n-------------  " + testName + " -------------");
+            try {
+                doTest();
+            } finally {
+                System.out.println("-------------  " + testName + " - FINALITZAT ["
+                        + (System.currentTimeMillis() - startTime) + "ms] -------------\n");
+            }
+        }
+
+    }
+
+    public abstract class InternalTest {
+
+        protected final String testName;
+
+        protected final SignatureFlowTemplateV1Api api;
+
+        protected final String languageUI;
+
+        public InternalTest() throws Exception {
+
+            this(Thread.currentThread().getStackTrace()[3].getMethodName(), getApi(), getLanguageUI());
+            /*
+            // Obtener el stack trace actual
+            StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+            
+            // El elemento 0 es getStackTrace, 1 es este constructor, 2 es el método llamador
+            if (stackTrace.length >= 4) {
+                StackTraceElement caller = stackTrace[3];
+                System.out.println("Esta clase fue instanciada desde: " + 
+                                  
+                                  caller.getMethodName() );
+            } else {
+                System.out.println("No se pudo determinar el método llamador");
+            }
+            */
+        }
+
+        public InternalTest(String testName, SignatureFlowTemplateV1Api api, String languageUI) {
+            super();
+            this.testName = testName;
+            this.api = api;
+            this.languageUI = languageUI;
+        }
+
+        public abstract void doTest(String createdSignatureFlowTemplateId) throws Exception, ApiException;
+
+        public void runTest() throws Exception, ApiException {
+            long startTime = System.currentTimeMillis();
+            String createdSignatureFlowTemplateId = null;
+            System.out.println("\n-------------  " + testName + " -------------");
+            try {
+
+                Properties testProperties = getConfigProperties();
+                String username = testProperties.getProperty("test.username"); // Per fer proves
+
+                if (username == null || username.trim().isEmpty()) {
+                    throw new Exception(
+                            "No s'ha definit l'usuari de prova (propietat test.username) a les propietats del test ("
+                                    + getConfigPropertiesFile() + ")");
+                }
+
+                createdSignatureFlowTemplateId = internalCreateSignatureFlowTemplateFromUsername(this.api,
+                        this.languageUI, username);
+
+                doTest(createdSignatureFlowTemplateId);
+
+            } finally {
+                if (createdSignatureFlowTemplateId != null) {
+                    try {
+                        this.api.deleteFlowTemplate(createdSignatureFlowTemplateId, this.languageUI);
+                    } catch (Throwable e) {
+                        System.err.println("No s'ha pogut esborrar la plantilla de flux creada amb ID: "
+                                + createdSignatureFlowTemplateId);
+                        e.printStackTrace(System.err);
+                    }
+                }
+                System.out.println("-------------  " + testName + " - FINALITZAT ["
+                        + (System.currentTimeMillis() - startTime) + "ms] -------------\n");
+            }
+        }
+
+    }
+
+    public Set<KeyValue> testGetAllSignatureFlowTemplates() throws ApiException, Exception {
 
         System.out.println(" -------------  testGetAllSignatureFlowTemplates ------------- ");
 
-        Set<KeyValue> list = getApi().getAllFlowTemplates(languageUI);
+        Set<KeyValue> list = getApi().getAllFlowTemplates(getLanguageUI());
 
         if (list == null || list.isEmpty()) {
             System.out.println("No hi ha cap plantilla de flux !!!!");
@@ -218,20 +399,32 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
         return list;
     }
 
-    public void testGetUrlToViewFlowTemplate(final String languageUI, String lastKey) throws ApiException, Exception {
+    public void testGetUrlToViewFlowTemplate() throws ApiException, Exception {
 
-        SignatureFlowTemplateV1Api api = getApi();
+        new InternalTest() {
 
-        String url = api.getUrlToViewFlowTemplate(lastKey, languageUI);
+            @Override
+            public void doTest(String createdSignatureFlowTemplateId) throws Exception {
 
-        System.out.println();
-        System.out.println("View Flow Template Url = " + url);
+                String url = api.getUrlToViewFlowTemplate(createdSignatureFlowTemplateId, languageUI);
 
-        if (Desktop.isDesktopSupported()) {
-            Desktop.getDesktop().browse(new URI(url));
-        } else {
-            System.out.println("Per favor obri un Navegador i copia-li la URL anterior ...");
-        }
+                if (url == null || url.trim().isEmpty()) {
+                    throw new Exception("No s'ha pogut obtenir la URL per veure el flux de firmes amb ID: "
+                            + createdSignatureFlowTemplateId);
+                }
+
+                System.out.println();
+                System.out.println("View Flow Template Url = " + url);
+
+                if (Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().browse(new URI(url));
+                } else {
+                    System.out.println("Per favor obri un Navegador i copia-li la URL anterior ...");
+                }
+
+            }
+        }.runTest();
+
     }
 
     public SignatureFlowTemplate testGetFlowInfoByFlowTemplateID(final String languageUI, String flowTemplateId)
@@ -264,39 +457,87 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
 
     }
 
-    public String testGetAllFlowTemplatesByFilter(final String languageUI, final String name, final String description)
+    public void testGetAllFlowTemplatesByFilter() throws ApiException, Exception {
+
+        new InternalTest() {
+
+            @Override
+            public void doTest(String createdSignatureFlowTemplateId) throws Exception, ApiException {
+
+                String partDescr = UUID.randomUUID().toString();
+
+                String randomDescrUnike = " Descripio unica " + partDescr;
+
+                String partName = UUID.randomUUID().toString();
+                String randomNameUnike = " Nom unic " + partName;
+
+                api.updateNameOfSignatureFlowTemplate(createdSignatureFlowTemplateId, randomNameUnike, this.languageUI);
+                api.updateDescriptionOfSignatureFlowTemplate(createdSignatureFlowTemplateId, randomDescrUnike,
+                        this.languageUI);
+
+                //String filtername = null; // No filtrar per nom
+                //String filterdesc = partDescr; // Filtrar per part de la descripció
+                String[] expectedFlows = new String[] { createdSignatureFlowTemplateId }; // S'espera que trobi la plantilla de flux
+
+                internalTestFilter(null, partDescr, expectedFlows);
+
+                internalTestFilter(partName, null, expectedFlows);
+
+                internalTestFilter(partName, partDescr, expectedFlows);
+
+                internalTestFilter(partDescr, partName, null);
+
+            }
+
+            private void internalTestFilter(String filtername, String filterdesc, String[] expectedFlows)
+                    throws ApiException, Exception {
+
+                System.out.println("Filtrant per nom ]" + filtername + "[ i descripció: ]" + filterdesc + "[ ...");
+
+                Set<KeyValue> list = api.getAllFlowTemplatesByFilter(languageUI, filtername, filterdesc);
+
+                if (expectedFlows == null || expectedFlows.length == 0) {
+
+                    if (list != null && list.size() > 0) {
+
+                        System.err.append("Plantilles Trobades: " + Arrays.toString(list.toArray()));
+
+                        throw new Exception("S'han trobat plantilles de flux amb filtre de nom ]" + filtername
+                                + "[ i filtre de descripció: ]" + filterdesc + "[ però no n'hauria d'haver trobat");
+                    }
+
+                } else {
+
+                    Map<String, String> foundMap = new HashMap<String, String>();
+                    for (KeyValue flowTemplateSimpleKeyValue : list) {
+                        foundMap.put(flowTemplateSimpleKeyValue.getKey(), flowTemplateSimpleKeyValue.getValue());
+                    }
+
+                    for (String expectedFlow : expectedFlows) {
+                        if (!foundMap.containsKey(expectedFlow)) {
+                            System.err.append("Plantilles Trobades: " + Arrays.toString(list.toArray()));
+                            throw new Exception("S'esperava trobar la plantilla de flux amb ID: " + expectedFlow
+                                    + " però no s'ha trobat.");
+                        }
+                    }
+                }
+            }
+
+        }.runTest();
+
+    }
+
+    private SignatureFlowTemplate internalTestCrearFluxDeFirmesDesdeNavegador(String languageUI, boolean saveOnServer)
             throws ApiException, Exception {
 
         SignatureFlowTemplateV1Api api = getApi();
 
-        Set<KeyValue> list = api.getAllFlowTemplatesByFilter(languageUI, name, description);
-        String lastKey = null;
-        {
-
-            System.out.println();
-            System.out.println(" ---- LLISTAT PLANTILLES DE FLUX AMB FILTRE-----");
-
-            for (KeyValue flowTemplateSimpleKeyValue : list) {
-                System.out.println(
-                        "   " + flowTemplateSimpleKeyValue.getKey() + "  " + flowTemplateSimpleKeyValue.getValue());
-
-                lastKey = flowTemplateSimpleKeyValue.getKey();
-
-            }
-
-        }
-        return lastKey;
-    }
-
-    public String testCrearFluxDeFirmesDesdeNavegador(String languageUI, boolean saveOnServer, String descr)
-            throws Exception {
-
-        SignatureFlowTemplateV1Api api = getApi();
-
         String transactionID = null;
+        String flowTemplateId = null;
         try {
 
             String name = "Prova des de API REST àáèéòó- " + System.currentTimeMillis();
+            String descr = "test=true;\n" + "user=anadal\n" + "random=" + System.currentTimeMillis();
 
             final boolean visibleDescription = false;
 
@@ -356,33 +597,79 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
 
                 case STATUS_FINAL_ERROR: // = -1;
                 {
-                    System.err.println("Error durant la construcció del flux: " + transactionStatus.getErrorMessage());
+                    String msg = "Error durant la construcció del flux: " + transactionStatus.getErrorMessage();
                     String errdesc = transactionStatus.getErrorStackTrace();
                     if (errdesc != null) {
-                        System.err.println(errdesc);
+                        msg = msg + "\n" + errdesc;
                     }
-                    return null;
+                    throw new Exception(msg);
+
                 }
 
                 case STATUS_CANCELLED: // = -2;
                 {
-                    System.err.println("L'usuari ha cancelat la construcció del flux");
-                    return null;
+                    throw new Exception("L'usuari ha cancelat la construcció del flux");
                 }
 
                 case STATUS_FINAL_OK: // = 2;
                 {
                     SignatureFlowTemplate flux = fullResult.getFlowInfo();
 
+                    flowTemplateId = flux.getFlowTemplateId();
+
                     System.out.println(flux.toString());
 
-                    return flux.getFlowTemplateId();
+                    // Hem de fer tests
+
+                    if (saveOnServer) {
+
+                        if (flux.getFlowTemplateId() == null || flux.getFlowTemplateId().trim().isEmpty()) {
+                            throw new Exception(
+                                    "S'ha creat un flux de firmes amb saveOnServer a true però ha retornat un FlowTemplateId buit.");
+                        }
+
+                        System.out.println("Recuperant Plantilla creada a partir de l'ID retornat: " + flowTemplateId);
+                        SignatureFlowTemplate flow = api.getFlowInfoByFlowTemplateID(flowTemplateId, languageUI);
+
+                        if (flow == null) {
+                            throw new Exception("No s'ha trobat la plantilla de flux amb ID: " + flowTemplateId);
+                        }
+
+                        if (!name.equals(flow.getName())) {
+                            throw new Exception("S'esperava el nom ]" + name + "[ però s'ha obtingut: ]"
+                                    + flow.getName() + "[ (" + flowTemplateId + ")");
+                        }
+
+                        if (!descr.equals(flow.getDescription())) {
+                            throw new Exception("S'esperava la descripció ]" + descr + "[ però s'ha obtingut: ]"
+                                    + flow.getDescription() + "[ (" + flowTemplateId + ")");
+                        }
+
+                    } else {
+
+                        if (flowTemplateId != null) {
+                            throw new Exception(
+                                    "S'ha creat un flux de firmes amb saveOnServer a alse però ha retornat un FlowTemplateId.");
+                        }
+
+                        if (!name.equals(flux.getName())) {
+                            throw new Exception("S'esperava el nom ]" + name + "[ però s'ha obtingut: ]"
+                                    + flux.getName() + "[ (" + flowTemplateId + ")");
+                        }
+
+                        if (!descr.equals(flux.getDescription())) {
+                            throw new Exception("S'esperava la descripció ]" + descr + "[ però s'ha obtingut: ]"
+                                    + flux.getDescription() + "[ (" + flowTemplateId + ")");
+                        }
+                    }
+
+                    return flux;
 
                 } // Final Case Firma OK
 
                 default: {
-                    System.err.println("Codi d'estat de finalització desconegut (" + status + ")");
-                    return null;
+                    throw new Exception("Codi d'estat de finalització desconegut (" + status + ") per la transaccioID "
+                            + transactionID);
                 }
 
             } // Final Switch Firma
@@ -392,42 +679,58 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
                 try {
                     api.closeTransaction(transactionID);
                 } catch (Throwable th) {
-                    th.printStackTrace();
+                    System.err.println("Error tancant transaccio amb ID " + transactionID + ":" + th.getMessage());
+                    th.printStackTrace(System.err);
+                }
+                try {
+                    if (flowTemplateId != null) {
+                        api.deleteFlowTemplate(flowTemplateId, languageUI);
+                    }
+                } catch (Throwable th) {
+                    System.err
+                            .println("Error esborrant flux de firmes amb ID " + flowTemplateId + ":" + th.getMessage());
+                    th.printStackTrace(System.err);
                 }
             }
         }
 
     }
 
-    public void testGetUrlToEditFlowTemplate(final String languageUI, String flowTemplateId)
-            throws ApiException, Exception {
+    public void testGetUrlToEditFlowTemplate() throws ApiException, Exception {
 
-        SignatureFlowTemplateV1Api api = getApi();
+        new InternalTest() {
 
-        SignatureFlowTemplateEdit editFlowRequest;
-        editFlowRequest = new SignatureFlowTemplateEdit(); //languageUI, lastKey, "http://google.es");
-        editFlowRequest.setLanguageUI(languageUI);
-        editFlowRequest.setFlowTemplateId(flowTemplateId);
+            @Override
+            public void doTest(String createdSignatureFlowTemplateId) throws Exception {
 
-        int port = 1989 + (int) (Math.random() * 100.0);
-        final String returnUrl = "http://localhost:" + port + "/callbackafteredit/" + flowTemplateId;
+                SignatureFlowTemplateEdit editFlowRequest;
+                editFlowRequest = new SignatureFlowTemplateEdit(); //languageUI, lastKey, "http://google.es");
+                editFlowRequest.setLanguageUI(languageUI);
+                editFlowRequest.setFlowTemplateId(createdSignatureFlowTemplateId);
 
-        editFlowRequest.setReturnUrl(returnUrl); // Per ara només suportam FULLVIEW
+                int port = 1989 + (int) (Math.random() * 100.0);
+                final String returnUrl = "http://localhost:" + port + "/callbackafteredit/"
+                        + createdSignatureFlowTemplateId;
 
-        String url = api.getUrlToEditFlowTemplate(editFlowRequest);
+                editFlowRequest.setReturnUrl(returnUrl); // Per ara només suportam FULLVIEW
 
-        System.out.println();
-        System.out.println("Edit Flow Template Url = " + url);
+                String url = api.getUrlToEditFlowTemplate(editFlowRequest);
 
-        if (Desktop.isDesktopSupported()) {
-            Desktop.getDesktop().browse(new URI(url));
-        } else {
-            System.out.println("Per favor obri un Navegador i copia-li la URL anterior ...");
-        }
+                System.out.println();
+                System.out.println("Edit Flow Template Url = " + url);
 
-        readFromSocket(port);
+                if (Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().browse(new URI(url));
+                } else {
+                    System.out.println("Per favor obri un Navegador i copia-li la URL anterior ...");
+                }
 
-        System.out.println("-- Final de l'edició del Flux de Firmes --");
+                readFromSocket(port);
+
+                System.out.println("-- Final de l'edició del Flux de Firmes --");
+
+            }
+        }.runTest();
 
     }
 
@@ -472,27 +775,6 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
         serverSocket.close();
     }
 
-    protected static boolean isSaveOnServer(Properties testProperties) {
-        return "true".equals(testProperties.getProperty("saveonserver"));
-    }
-
-    /**
-     * 
-     * @return
-     * @throws Exception
-     */
-    /*
-    public static SignatureFlowTemplateV1Api getSignatureFlowTemplateV1Api(Properties testProperties) throws Exception {
-    
-        String host = testProperties.getProperty("endpoint");
-        String username = testProperties.getProperty("username");
-        System.out.println(" Connectant amb " + host + " emprant l'usuari " + username);
-    
-        return new SignatureFlowTemplateV1Api(host, username, testProperties.getProperty("password"));
-    
-    }
-    */
-
     @Override
     public SignatureFlowTemplateV1Api getApi() throws Exception {
         return getApi(getApiClient());
@@ -522,6 +804,43 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
     @Override
     protected String getConfigPropertiesFile() {
         return "./apiflowtemplatesimple.properties";
+    }
+
+    private String internalCreateSignatureFlowTemplateFromUsername(SignatureFlowTemplateV1Api api, String languageUI,
+            String username) throws ApiException, Exception {
+        String createdSignatureFlowTemplateId;
+        Signer signer = new Signer();
+
+        signer.setUsername(username);
+
+        Signature signature = new Signature();
+        signature.setMinimumNumberOfRevisers(0);
+        signature.setReason("Hola");
+        signature.setRequired(true);
+        signature.setRevisers(null);
+        signature.setSigner(signer);
+
+        List<Signature> signatures = new ArrayList<Signature>();
+        signatures.add(signature);
+
+        SignatureBlock block1 = new SignatureBlock();
+        block1.setOrder(1);
+        block1.setMinimumNumberOfSignaturesRequired(1);
+        block1.setSignatures(signatures);
+
+        List<SignatureBlock> blocks = new ArrayList<SignatureBlock>();
+        blocks.add(block1);
+
+        SignatureFlowTemplate flow = new SignatureFlowTemplate();
+
+        flow.setName("Flux creat des de Tests. Esborrar-la si la veus. "
+                + SimpleDateFormat.getDateTimeInstance().format(new Date()));
+        flow.setDescription("Descripció de la plantilla de flux de firmes creada des de codi");
+        flow.setFlowTemplateId(null);
+        flow.setBlocks(blocks);
+
+        createdSignatureFlowTemplateId = getApi().createSignatureFlowTemplate(flow, getLanguageUI());
+        return createdSignatureFlowTemplateId;
     }
 
 }

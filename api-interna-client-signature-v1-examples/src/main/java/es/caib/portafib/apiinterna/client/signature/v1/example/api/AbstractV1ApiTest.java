@@ -53,9 +53,9 @@ public abstract class AbstractV1ApiTest<A> extends ProcessStatus {
         String languageUI = getLanguageUI(prop);
 
         String basePath = getRequiredProperty(prop, "basePath");
-        log.info("BasePath: " + basePath);
+        log.debug("BasePath: " + basePath);
         String username = getRequiredProperty(prop, "username");
-        log.info("Username: " + username);
+        log.debug("Username: " + username);
         String password = getRequiredProperty(prop, "password");
 
         ApiClient apiClient = getApiClient(basePath, username, password, languageUI);
@@ -74,8 +74,13 @@ public abstract class AbstractV1ApiTest<A> extends ProcessStatus {
         client.addDefaultHeader("Accept-Language", languageUI);
         return client;
     }
-
+    
     protected String getLanguageUI(Properties prop) throws Exception {
+        return getRequiredProperty(prop, "languageUI");
+    }
+
+    protected String getLanguageUI() throws Exception {
+        Properties prop = getConfigProperties();
         return getRequiredProperty(prop, "languageUI");
     }
 
@@ -91,7 +96,7 @@ public abstract class AbstractV1ApiTest<A> extends ProcessStatus {
     protected boolean processApiException(ApiException e, final String testName, boolean printLogs) {
 
         if (printLogs) {
-
+            log.error("Stack trace:", e);
             log.error("Error durant la realització del test: " + testName);
             log.error("    - Code: " + e.getCode() + " (" + Status.fromStatusCode(e.getCode()).name() + ")");
         }

@@ -2127,7 +2127,7 @@
         } ]
       }
     },
-    "/secure/signatureflowtemplate/v1/getFlowInfoByFlowTemplateID/{flowTemplateID}" : {
+    "/secure/signatureflowtemplate/v1/getFlowInfoByFlowTemplateID/{encryptedFlowTemplateID}" : {
       "get" : {
         "tags" : [ "SignatureFlowTemplate v1" ],
         "summary" : "Serveix per obtenir Informació completa d'una Plantilla de Flux de Firmes a partir del seu ID",
@@ -2151,7 +2151,7 @@
             }
           }
         }, {
-          "name" : "flowTemplateID",
+          "name" : "encryptedFlowTemplateID",
           "in" : "path",
           "description" : "Identificador del Flux de Firmes a obtenir",
           "required" : true,
@@ -2936,11 +2936,11 @@
         } ]
       }
     },
-    "/secure/signatureflowtemplate/v1/updateDescriptionOfFlowTemplate/{flowTemplateID}" : {
+    "/secure/signatureflowtemplate/v1/updateDescriptionOfSignatureFlowTemplate/{flowTemplateID}" : {
       "patch" : {
         "tags" : [ "SignatureFlowTemplate v1" ],
         "summary" : "Actualitza la descripció d'una Plantilla de Flux de Firmes a partir del seu ID",
-        "operationId" : "updateDescriptionOfFlowTemplate",
+        "operationId" : "updateDescriptionOfSignatureFlowTemplate",
         "parameters" : [ {
           "name" : "languageUI",
           "in" : "query",
@@ -3022,6 +3022,106 @@
           },
           "200" : {
             "description" : "Operació realitzada correctament. true si s'ha actualitzat la descripció, false si no s'ha trobat el flux de firmes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "boolean"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureflowtemplate/v1/updateNameOfSignatureFlowTemplate/{flowTemplateID}" : {
+      "patch" : {
+        "tags" : [ "SignatureFlowTemplate v1" ],
+        "summary" : "Actualitza el nom d'una Plantilla de Flux de Firmes a partir del seu ID",
+        "operationId" : "updateNameOfSignatureFlowTemplate",
+        "parameters" : [ {
+          "name" : "languageUI",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        }, {
+          "name" : "flowTemplateID",
+          "in" : "path",
+          "description" : "Identificador de la Plantilla de Flux de Firmes de la qual volem actualitzar la descripció",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "Nou nom de la plantilla de flux de firmes",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "string"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament. true si s'ha actualitzat el nom, false si no s'ha trobat el flux de firmes",
             "content" : {
               "application/json" : {
                 "schema" : {
