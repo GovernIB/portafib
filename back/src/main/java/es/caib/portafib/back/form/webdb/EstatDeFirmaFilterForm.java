@@ -205,12 +205,12 @@ public class EstatDeFirmaFilterForm extends PortaFIBBaseFilterForm implements Es
 
   @Override
   public List<Field<?>> getDefaultFilterByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DATAINICI ,DATAFI }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { USUARIENTITATID ,DATAINICI ,DATAFI }));
   }
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { USUARIENTITATID ,DATAINICI ,DATAFI ,TIPUSESTATDEFIRMAINICIALID ,TIPUSESTATDEFIRMAFINALID ,COLABORACIODELEGACIOID }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TIPUSESTATDEFIRMAINICIALID ,TIPUSESTATDEFIRMAFINALID }));
   }
 
 

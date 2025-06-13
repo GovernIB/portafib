@@ -425,7 +425,7 @@ public class FirmaFilterForm extends PortaFIBBaseFilterForm implements FirmaFiel
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { EMISSORCERTIFICAT ,TIPUSESTATDEFIRMAFINALID }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TIPUSESTATDEFIRMAFINALID }));
   }
 
 

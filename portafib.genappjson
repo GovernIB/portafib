@@ -770,9 +770,9 @@
           "showInWebList": true,
           "showInReferenceList": false,
           "transientField": false,
-          "filter": false,
+          "filter": true,
           "orderBy": 0,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 3,
             "foreignKey": {
@@ -1015,9 +1015,9 @@
           "showInWebList": true,
           "showInReferenceList": true,
           "transientField": false,
-          "filter": false,
+          "filter": true,
           "orderBy": 0,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 3,
             "foreignKey": {
@@ -1054,9 +1054,9 @@
           "showInWebList": true,
           "showInReferenceList": true,
           "transientField": false,
-          "filter": false,
+          "filter": true,
           "orderBy": 0,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 3,
             "foreignKey": {
@@ -1170,9 +1170,9 @@
           "showInWebList": true,
           "showInReferenceList": false,
           "transientField": false,
-          "filter": false,
+          "filter": true,
           "orderBy": 0,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 7
           },
@@ -1196,9 +1196,9 @@
           "showInWebList": true,
           "showInReferenceList": false,
           "transientField": false,
-          "filter": false,
+          "filter": true,
           "orderBy": 0,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 7
           },
@@ -3855,9 +3855,9 @@
           "showInWebList": true,
           "showInReferenceList": true,
           "transientField": false,
-          "filter": false,
+          "filter": true,
           "orderBy": 0,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 3,
             "foreignKey": {
@@ -3895,7 +3895,7 @@
           "transientField": false,
           "filter": true,
           "orderBy": -2,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 7
           },
@@ -3921,7 +3921,7 @@
           "transientField": false,
           "filter": true,
           "orderBy": 0,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 7
           },
@@ -4004,7 +4004,7 @@
           "transientField": false,
           "filter": false,
           "orderBy": 0,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 3,
             "foreignKey": {
@@ -4469,7 +4469,7 @@
           "transientField": false,
           "filter": false,
           "orderBy": 0,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 1
           },
@@ -5232,7 +5232,7 @@
           "transientField": false,
           "filter": true,
           "orderBy": 1,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 1
           },
@@ -7767,7 +7767,7 @@
           "showInWebList": true,
           "showInReferenceList": false,
           "transientField": false,
-          "minAllowedValue": "0,1,2,3,4",
+          "minAllowedValue": "0[0_NO_INICIADA],1[1_EN_PROGRES],2[2_PAUSADA],3[3_REBUTJADA],4[4_FIRMADA]",
           "filter": false,
           "orderBy": 2,
           "groupBy": true,
@@ -7932,7 +7932,7 @@
           "transientField": false,
           "filter": true,
           "orderBy": 0,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 3,
             "foreignKey": {
@@ -8599,7 +8599,7 @@
           "showInReferenceList": true,
           "transientField": false,
           "defaultValue": "NULL::character varying",
-          "filter": false,
+          "filter": true,
           "orderBy": 0,
           "groupBy": false,
           "webFieldInfo": {
@@ -8626,9 +8626,9 @@
           "showInWebList": true,
           "showInReferenceList": false,
           "transientField": false,
-          "filter": false,
+          "filter": true,
           "orderBy": 0,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 3,
             "foreignKey": {
@@ -8665,9 +8665,9 @@
           "showInWebList": true,
           "showInReferenceList": false,
           "transientField": false,
-          "filter": false,
+          "filter": true,
           "orderBy": 0,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 3,
             "foreignKey": {
@@ -10319,9 +10319,9 @@
           "showInWebList": true,
           "showInReferenceList": true,
           "transientField": false,
-          "filter": false,
+          "filter": true,
           "orderBy": 0,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 3,
             "foreignKey": {
@@ -10359,9 +10359,9 @@
           "showInWebList": true,
           "showInReferenceList": true,
           "transientField": false,
-          "filter": false,
+          "filter": true,
           "orderBy": 0,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 3,
             "foreignKey": {

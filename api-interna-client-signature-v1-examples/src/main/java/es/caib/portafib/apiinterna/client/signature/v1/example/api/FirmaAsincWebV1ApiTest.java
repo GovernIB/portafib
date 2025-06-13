@@ -82,10 +82,10 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
 
         AsyncSignatureOnWebV1Api api = getApi();
 
-        long plantillaDeFirmes = getPlantillaDeFirmes();
+        Long plantillaDeFirmes = getPlantillaDeFirmes();
         SignatureBlock[] signatureBlocks = null;
 
-        if (plantillaDeFirmes > 0) {
+        if (plantillaDeFirmes == null) {
 
             String[][] destinataris = getNifsDestinataris();
             String nifRevisor = getNifRevisor();
@@ -221,7 +221,7 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
             */
             // Crear Peticio
             Long peticioDeFirmaID2;
-            if (signatureBlocks == null) {
+            if (plantillaDeFirmes != null) {
                 // Utilitzar plantilla
                 log.info("Petició de Firma emprant Plantilla de Flux de Firmes");
                 SignatureRequestWithFlowTemplateCode signatureRequest;
@@ -466,8 +466,13 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
         return getFitxer("fitxerAFirmar");
     }
 
-    protected long getPlantillaDeFirmes() throws Exception {
-        return Long.parseLong(getConfigProperties().getProperty("plantillaDeFirmes"));
+    protected Long getPlantillaDeFirmes() throws Exception {
+        String templateIDStr = getConfigProperties().getProperty("plantillaDeFirmes");
+        if (templateIDStr == null || templateIDStr.trim().length() == 0) {
+            return null; // No s'utilitza plantilla
+        } else {
+            return Long.parseLong(templateIDStr);
+        }
     }
 
     protected Document getFitxerAAnnexar() throws Exception {

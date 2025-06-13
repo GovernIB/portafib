@@ -166,12 +166,12 @@ public class ColaboracioDelegacioFilterForm extends PortaFIBBaseFilterForm imple
 
   @Override
   public List<Field<?>> getDefaultFilterByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { MOTIU ,MOTIUDESHABILITADA }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DESTINATARIID ,COLABORADORDELEGATID ,MOTIU ,DATAINICI ,DATAFI ,MOTIUDESHABILITADA }));
   }
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DESTINATARIID ,COLABORADORDELEGATID ,DATAINICI ,DATAFI ,ACTIVA }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { ACTIVA }));
   }
 
 
