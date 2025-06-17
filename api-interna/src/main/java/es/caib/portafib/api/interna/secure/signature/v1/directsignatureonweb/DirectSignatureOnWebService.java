@@ -35,9 +35,12 @@ import es.caib.portafib.api.interna.secure.signature.v1.commons.FileInfoSignatur
 import es.caib.portafib.api.interna.secure.signature.v1.commons.KeyValue;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.ProcessStatus;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.Profile;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.SignPlugin;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignatureStatus;
 import es.caib.portafib.api.interna.secure.signature.v1.signatureonserver.SignatureResponse;
 import es.caib.portafib.commons.utils.Constants;
+import es.caib.portafib.logic.passarela.PassarelaSignatureStatusWebInternalUse;
+import es.caib.portafib.logic.passarela.PassarelaSignaturesSetWebInternalUse;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
@@ -118,6 +121,8 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
     private static final boolean ES_FIRMA_EN_SERVIDOR = false;
 
     public static final String PATH = "/secure/directsignatureonweb/v1";
+    
+    
 
     /**
      * IMPORTANT: Alerta a canviar aquest nom, ja que s'utilitza coma no de servei en el Client Swagger
@@ -565,23 +570,29 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
                     description = "Operació realitzada correctament",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(implementation = GetTransactionStatusResponse.class))) })
-    public GetTransactionStatusResponse getTransactionStatus(@Parameter(hidden = true) @Context
+                            schema = @Schema(implementation = TransactionStatusResponse.class))) })
+    public TransactionStatusResponse getTransactionStatus(@Parameter(hidden = true) @Context
     HttpServletRequest request, @RequestBody
     String transactionID) {
         try {
 
             log.info(" XYZ ZZZ ENTRA A getTransactionStatus => ]" + transactionID + "[");
-
+            
+            final PassarelaSignaturesSetWebInternalUse pss;
+            pss = passarelaDeFirmaWebEjb.getSignaturesSetFullByTransactionID(transactionID);
+            
             
 
-            PassarelaSignatureStatus status;
-            status = passarelaDeFirmaWebEjb.getStatusTransaction(transactionID);
+            final PassarelaSignatureStatus status = pss;
+            //status = passarelaDeFirmaWebEjb.getStatusTransaction(transactionID);
 
             if (status == null) {
                 // XYZ ZZZ TRA
                 throw new RestException("Transacció amb ID " + transactionID + " no existeix o ha caducat.");
             }
+            
+            log.info("\n\n XYZ ZZZ Estat de la transacció " + transactionID + " es de " + status.getStatus() + "\n\n");
+            
 
             ProcessStatus transactionStatus;
             transactionStatus = new ProcessStatus(status.getStatus(), status.getErrorMessage(),
@@ -592,19 +603,36 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
             List<PassarelaSignatureResult> results;
             results = passarelaDeFirmaWebEjb.getSignatureResults(transactionID, addFiles);
 
-            log.info("\n\n XYZ ZZZ Numero d'arxius firmat trobats per la transacció " + transactionID + " es de "
+            log.info("\n\n XYZ ZZZ Numero d'arxius enviats a la transacció " + transactionID + " es de "
                     + results.size() + "\n\n");
 
             List<SignatureStatus> signResults = new ArrayList<SignatureStatus>();
             for (PassarelaSignatureResult psr : results) {
+                
+                
+                log.info("\n\n XYZ ZZZ Estat Firma "  + psr.getSignID()+ " de la transacció " + transactionID + " es " + psr.getStatus() + "\n\n");
+                
 
                 signResults.add(new SignatureStatus(psr.getSignID(),
                         new ProcessStatus(psr.getStatus(), psr.getErrorMessage(), psr.getErrorStackTrace())));
 
             }
+            
+            
+      
+            
+            Long signaturePluginId = pss.getSignaturePluginId();
+            
+            SignPlugin signPlugin;
+            if (signaturePluginId != null) {
+               signPlugin = getSignaturePluginInformation(ES_FIRMA_EN_SERVIDOR, 
+                       pss.getSignaturesSet().getCommonInfoSignature().getLanguageUI(),signaturePluginId);
+            } else {
+                signPlugin = null;
+            }
 
-            GetTransactionStatusResponse ssresponse;
-            ssresponse = new GetTransactionStatusResponse(transactionStatus, signResults);
+            TransactionStatusResponse ssresponse;
+            ssresponse = new TransactionStatusResponse(transactionStatus, signResults, signPlugin);
 
             //HttpHeaders headers = addAccessControllAllowOrigin();
             //ResponseEntity<?> re = new ResponseEntity<FirmaSimpleGetTransactionStatusResponse>(ssresponse, headers,
@@ -639,7 +667,7 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
                             schema = @Schema(
                                     name = "languageUI",
                                     requiredMode = RequiredMode.REQUIRED,
-                                    implementation = GetSignatureResultRequest.class))),
+                                    implementation = SignatureResultRequest.class))),
             summary = "Document signat  i informació d'una firma")
     @ApiResponses(
             value = { @ApiResponse(
@@ -650,7 +678,7 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
                             schema = @Schema(implementation = SignatureResponse.class))) })
     public SignatureResponse getSignatureResult(@Parameter(hidden = true) @Context
     HttpServletRequest request, @RequestBody
-    GetSignatureResultRequest signatureResultRequest) {
+    SignatureResultRequest signatureResultRequest) {
 
         log.info(" XYZ ZZZ getSignaturesResult => ENTRA");
 
@@ -664,7 +692,46 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
         try {
 
-            return internalGetSignatureResult(passarelaDeFirmaWebEjb, signID, transactionID);
+            PassarelaSignatureResult result;
+            result = passarelaDeFirmaWebEjb.getSignatureResult(transactionID, signID);
+
+            if (result == null) {
+                // XYZ ZZZ Traduir
+                String msg = "No s'ha pogut trobar informació de la firma [" + signID + "] de la transacció: "
+                        + transactionID;
+                throw new RestException(msg);
+            }
+
+            PassarelaSignaturesSetWebInternalUse pss = passarelaDeFirmaWebEjb
+                    .getSignaturesSetFullByTransactionID(transactionID);
+            PassarelaFileInfoSignature infoSign = null;
+            es.caib.portafib.logic.utils.ValidacioCompletaResponse infoValidacio = null;
+
+            for (PassarelaFileInfoSignature pfis : pss.getSignaturesSet().getFileInfoSignatureArray()) {
+
+                if (signID.equals(pfis.getSignID())) {
+                    infoSign = pfis;
+                    PassarelaSignatureStatusWebInternalUse status = pss.getStatusBySignatureID().get(signID);
+                    if (status != null) {
+                        infoValidacio = status.getInfoValidacio();
+                    }
+                    break;
+                }
+            }
+            
+            
+
+            // FirmaSimpleFile fsf = convertFitxerBeanToFirmaSimpleFile(result.getSignedFile());
+            
+            SignatureResponse fssr;
+            fssr = convertPassarelaSignatureResult2FirmaSimpleSignatureResult(result,
+                    pss.getSignaturesSet().getCommonInfoSignature(), infoSign, infoValidacio,
+                    ES_FIRMA_EN_SERVIDOR, pss.getSignaturePluginId());
+
+            //HttpHeaders headers = addAccessControllAllowOrigin();
+            //ResponseEntity<?> re = new ResponseEntity<FirmaSimpleSignatureResult>(fssr, headers, HttpStatus.OK);
+            log.info(" XYZ ZZZ getSignaturesStatus => FINAL OK");
+            return fssr;
 
         } catch (Throwable th) {
 
@@ -678,7 +745,6 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
         }
 
     }
-
 
     @Path(value = "/closeTransaction")
     @POST

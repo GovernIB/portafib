@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
  * @author anadal
  * 18 dic 2024 14:57:03
  */
-public class GetSignatureResultRequest {
+public class SignatureResultRequest {
 
     @Schema(description = "Identificador de la transaccio", example = "", requiredMode = RequiredMode.REQUIRED)
     protected String transactionID;
@@ -19,7 +19,7 @@ public class GetSignatureResultRequest {
     /**
      * 
      */
-    public GetSignatureResultRequest() {
+    public SignatureResultRequest() {
         super();
     }
 
@@ -27,7 +27,7 @@ public class GetSignatureResultRequest {
      * @param transactionID
      * @param signID
      */
-    public GetSignatureResultRequest(String transactionID, String signID) {
+    public SignatureResultRequest(String transactionID, String signID) {
         super();
         this.transactionID = transactionID;
         this.signID = signID;

@@ -95,8 +95,9 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaService {
     public boolean checkPeticioDeFirmaByUsuariEntitat(long peticioDeFirmaID, String usuariEntitatId);
 
     public void nouFitxerFirmat(File file, Long estatDeFirmaID, Long peticioDeFirmaID, String token, int numFirma,
-            int numFirmesOriginals, String usernameLoguejat, boolean administrationIdCanBeValidatedFromPlugin)
-            throws I18NException;
+            int numFirmesOriginals, String usernameLoguejat, boolean administrationIdCanBeValidatedFromPlugin, 
+            // Afegir informació del PLugin que ha realitzat la Firmes en totes les Apis #1043
+            Long signaturePluginID)  throws I18NException;
 
     public void rebutjarPeticioDesDeProcesIntern(long peticioDeFirmaId, String motiuDeRebuig) throws I18NException;
 

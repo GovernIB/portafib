@@ -2096,7 +2096,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
     @Override
     public void nouFitxerFirmat(File signatureFile2, Long estatDeFirmaID, Long peticioDeFirmaID, String token,
             int numFirmaPortaFIB, int numFirmesOriginals, String usernameLoguejat,
-            boolean administrationIdCanBeValidatedFromPlugin) throws I18NException {
+            boolean administrationIdCanBeValidatedFromPlugin, 
+            // Afegir informació del PLugin que ha realitzat la Firmes en totes les Apis #1043
+            Long signaturePluginID) throws I18NException {
 
         Long fileID = null;
         // XYZ ZZZ
@@ -2313,6 +2315,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             firma.setNumFirmaDocument(numFirmaPortaFIB);
             firma.setFitxerFirmatID(fitxer.getFitxerID());
             firma.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT);
+            
+            // Afegir informació del PLugin que ha realitzat la Firmes en totes les Apis  #1043
+            firma.setSignaturePluginId(signaturePluginID);
+            
             firmaLogicaEjb.updateUnauthorized(firma);
 
             // 4.- Descartar tots els EstatDeFirma associats a la firma
@@ -3264,7 +3270,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                     firma.setNomCertificat(null);
 
                     firma.setTipusEstatDeFirmaFinalID(null);
-
+                    firma.setSignaturePluginId(null);
                     firma.setAnnexFirmats(new HashSet<AnnexFirmatJPA>());
                     firma.setEstatDeFirmas(new HashSet<EstatDeFirmaJPA>());
                     // Actualitzam firma
@@ -3581,6 +3587,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                     firmaJPA.setFitxerFirmatID(null);
 
                     firmaJPA.setTipusEstatDeFirmaFinalID(null);
+                    firmaJPA.setSignaturePluginId(null);
                     if (firmaOrig.getUsuariExternToken() != null) {
                         firmaJPA.setUsuariExternToken(firmaLogicaEjb.getUniqueTokenForFirma());
                     }

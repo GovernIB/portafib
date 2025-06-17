@@ -1270,7 +1270,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/GetSignatureResultRequest"
+                "$ref" : "#/components/schemas/SignatureResultRequest"
               }
             }
           }
@@ -1465,7 +1465,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/GetTransactionStatusResponse"
+                  "$ref" : "#/components/schemas/TransactionStatusResponse"
                 }
               }
             }
@@ -3514,7 +3514,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SignatureResponse"
+                  "$ref" : "#/components/schemas/SignDocumentResponse"
                 }
               }
             }
@@ -4273,6 +4273,32 @@
         },
         "description" : "Informació de Custòdia"
       },
+      "SignPlugin" : {
+        "type" : "object",
+        "properties" : {
+          "signaturePluginId" : {
+            "type" : "string",
+            "description" : "Identificador del plugin de firma utilitzat."
+          },
+          "signaturePluginCode" : {
+            "type" : "string",
+            "description" : "Codi del plugin de firma utilitzat."
+          },
+          "signaturePluginNameInternal" : {
+            "type" : "string",
+            "description" : "Nom intern del plugin de firma utilitzat."
+          },
+          "signaturePluginNamePublic" : {
+            "type" : "string",
+            "description" : "Nom públic del plugin de firma utilitzat."
+          },
+          "signaturePluginDescriptionPublic" : {
+            "type" : "string",
+            "description" : "Descripció pública del plugin de firma utilitzat."
+          }
+        },
+        "description" : "Informació del Plugin de firma utilitzat en la signatura d'aquest document."
+      },
       "SignedFile" : {
         "required" : [ "signedFile", "signedFileInfo" ],
         "type" : "object",
@@ -4390,9 +4416,12 @@
             "type" : "string",
             "description" : "Subject del Certificat utilitzat en la firma"
           },
+          "signPlugin" : {
+            "$ref" : "#/components/schemas/SignPlugin"
+          },
           "additionalInformation" : {
             "type" : "array",
-            "description" : "Ofrecer cualquier otra información que se  considere útil acerca del firmante.",
+            "description" : "Ofrecer cualquier otra información que se considere útil acerca del firmante.",
             "items" : {
               "$ref" : "#/components/schemas/KeyValue"
             }
@@ -4517,7 +4546,7 @@
         },
         "description" : "Informació especifica per a realitzar la firma"
       },
-      "GetSignatureResultRequest" : {
+      "SignatureResultRequest" : {
         "required" : [ "signID", "transactionID" ],
         "type" : "object",
         "properties" : {
@@ -4548,21 +4577,21 @@
         "description" : "Estat d'algun procés"
       },
       "SignatureResponse" : {
-        "required" : [ "signID", "status" ],
+        "required" : [ "signID", "signedFile", "signedFileInfo", "status" ],
         "type" : "object",
         "properties" : {
+          "signedFile" : {
+            "$ref" : "#/components/schemas/Document"
+          },
+          "signedFileInfo" : {
+            "$ref" : "#/components/schemas/SignedFileInfo"
+          },
           "signID" : {
             "type" : "string",
             "description" : "Identificador de la firma"
           },
           "status" : {
             "$ref" : "#/components/schemas/ProcessStatus"
-          },
-          "signedFile" : {
-            "$ref" : "#/components/schemas/Document"
-          },
-          "signedFileInfo" : {
-            "$ref" : "#/components/schemas/SignedFileInfo"
           }
         },
         "description" : "Resposta de la petició de firma en servidor"
@@ -4604,7 +4633,19 @@
         },
         "description" : "Configuracions generals de firma i identificacio del solicitant i solicitat"
       },
-      "GetTransactionStatusResponse" : {
+      "SignatureStatus" : {
+        "type" : "object",
+        "properties" : {
+          "signID" : {
+            "type" : "string"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/ProcessStatus"
+          }
+        },
+        "description" : "Estat de cada firma. Pot passar que l'estat general sigui que tot ha anat bé, però que totes o algunes de les firmes no."
+      },
+      "TransactionStatusResponse" : {
         "required" : [ "signaturesStatusList", "transactionStatus" ],
         "type" : "object",
         "properties" : {
@@ -4617,20 +4658,12 @@
             "items" : {
               "$ref" : "#/components/schemas/SignatureStatus"
             }
-          }
-        }
-      },
-      "SignatureStatus" : {
-        "type" : "object",
-        "properties" : {
-          "signID" : {
-            "type" : "string"
           },
-          "status" : {
-            "$ref" : "#/components/schemas/ProcessStatus"
+          "signPlugin" : {
+            "$ref" : "#/components/schemas/SignPlugin"
           }
         },
-        "description" : "Estat de cada firma. Pot passar que l'estat general sigui que tot ha anat bé, però que totes o algunes de les firmes no."
+        "description" : "informació de l'estat d'una Transaccio de tipus Firma Web Directe"
       },
       "StartTransactionRequest" : {
         "required" : [ "language", "returnUrl", "transactionID", "view" ],
@@ -4865,6 +4898,29 @@
             "$ref" : "#/components/schemas/FileInfoSignature"
           }
         }
+      },
+      "SignDocumentResponse" : {
+        "required" : [ "signID", "signedFile", "signedFileInfo", "status" ],
+        "type" : "object",
+        "properties" : {
+          "signedFile" : {
+            "$ref" : "#/components/schemas/Document"
+          },
+          "signedFileInfo" : {
+            "$ref" : "#/components/schemas/SignedFileInfo"
+          },
+          "signID" : {
+            "type" : "string",
+            "description" : "Identificador de la firma"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/ProcessStatus"
+          },
+          "signPlugin" : {
+            "$ref" : "#/components/schemas/SignPlugin"
+          }
+        },
+        "description" : "Resposta de la petició de firma en servidor"
       },
       "UpgradeRequest" : {
         "required" : [ "languageUI", "signature" ],

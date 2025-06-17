@@ -322,7 +322,7 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
 
                 if (estat == (int) SignatureRequestStateConstants.REJECTED.getValue()) {
 
-                    System.err.println("La peticio de firma ha sigut rebutjada: " + state.getRejectedReason());
+                    System.err.println("La peticio de firma ha sigut rebutjada. Motiu: " + state.getRejectedReason());
 
                 } else {
 
@@ -332,10 +332,13 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
 
                     // Imprimir Informacio
 
-                    System.out.println(" === INFO ===");
+                    
                     SignedFileInfo info = signedFileFull.getSignedFileInfo();
-
-                    System.out.println(info.toString());
+                    if (info != null) {
+                      System.out.println(info.toString());
+                    } else {
+                        System.err.println("No hi ha informació del SignedFileInfo");
+                    }
 
                     // Obtenir document signat
                     Document firma = signedFileFull.getSignedFile();

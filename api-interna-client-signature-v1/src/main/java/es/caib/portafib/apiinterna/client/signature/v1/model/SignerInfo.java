@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import es.caib.portafib.apiinterna.client.signature.v1.model.KeyValue;
+import es.caib.portafib.apiinterna.client.signature.v1.model.SignPlugin;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,6 +41,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   SignerInfo.JSON_PROPERTY_SERIAL_NUMBER_CERT,
   SignerInfo.JSON_PROPERTY_ISSUER_CERT,
   SignerInfo.JSON_PROPERTY_SUBJECT_CERT,
+  SignerInfo.JSON_PROPERTY_SIGN_PLUGIN,
   SignerInfo.JSON_PROPERTY_ADDITIONAL_INFORMATION
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -75,6 +77,10 @@ public class SignerInfo {
   public static final String JSON_PROPERTY_SUBJECT_CERT = "subjectCert";
   @javax.annotation.Nullable
   private String subjectCert;
+
+  public static final String JSON_PROPERTY_SIGN_PLUGIN = "signPlugin";
+  @javax.annotation.Nullable
+  private SignPlugin signPlugin;
 
   public static final String JSON_PROPERTY_ADDITIONAL_INFORMATION = "additionalInformation";
   @javax.annotation.Nullable
@@ -283,6 +289,31 @@ public class SignerInfo {
     this.subjectCert = subjectCert;
   }
 
+  public SignerInfo signPlugin(@javax.annotation.Nullable SignPlugin signPlugin) {
+    
+    this.signPlugin = signPlugin;
+    return this;
+  }
+
+  /**
+   * Get signPlugin
+   * @return signPlugin
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SIGN_PLUGIN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public SignPlugin getSignPlugin() {
+    return signPlugin;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SIGN_PLUGIN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSignPlugin(@javax.annotation.Nullable SignPlugin signPlugin) {
+    this.signPlugin = signPlugin;
+  }
+
   public SignerInfo additionalInformation(@javax.annotation.Nullable List<KeyValue> additionalInformation) {
     
     this.additionalInformation = additionalInformation;
@@ -298,7 +329,7 @@ public class SignerInfo {
   }
 
   /**
-   * Ofrecer cualquier otra información que se  considere útil acerca del firmante.
+   * Ofrecer cualquier otra información que se considere útil acerca del firmante.
    * @return additionalInformation
    */
   @javax.annotation.Nullable
@@ -333,12 +364,13 @@ public class SignerInfo {
         Objects.equals(this.serialNumberCert, signerInfo.serialNumberCert) &&
         Objects.equals(this.issuerCert, signerInfo.issuerCert) &&
         Objects.equals(this.subjectCert, signerInfo.subjectCert) &&
+        Objects.equals(this.signPlugin, signerInfo.signPlugin) &&
         Objects.equals(this.additionalInformation, signerInfo.additionalInformation);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(eniRolFirma, eniSignerName, eniSignerAdministrationId, eniSignLevel, signDate, serialNumberCert, issuerCert, subjectCert, additionalInformation);
+    return Objects.hash(eniRolFirma, eniSignerName, eniSignerAdministrationId, eniSignLevel, signDate, serialNumberCert, issuerCert, subjectCert, signPlugin, additionalInformation);
   }
 
   @Override
@@ -353,6 +385,7 @@ public class SignerInfo {
     sb.append("    serialNumberCert: ").append(toIndentedString(serialNumberCert)).append("\n");
     sb.append("    issuerCert: ").append(toIndentedString(issuerCert)).append("\n");
     sb.append("    subjectCert: ").append(toIndentedString(subjectCert)).append("\n");
+    sb.append("    signPlugin: ").append(toIndentedString(signPlugin)).append("\n");
     sb.append("    additionalInformation: ").append(toIndentedString(additionalInformation)).append("\n");
     sb.append("}");
     return sb.toString();

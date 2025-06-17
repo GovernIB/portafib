@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import es.caib.portafib.apiinterna.client.signature.v1.model.ProcessStatus;
+import es.caib.portafib.apiinterna.client.signature.v1.model.SignPlugin;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureStatus;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,14 +30,15 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * GetTransactionStatusResponse
+ * informació de l&#39;estat d&#39;una Transaccio de tipus Firma Web Directe
  */
 @JsonPropertyOrder({
-  GetTransactionStatusResponse.JSON_PROPERTY_TRANSACTION_STATUS,
-  GetTransactionStatusResponse.JSON_PROPERTY_SIGNATURES_STATUS_LIST
+  TransactionStatusResponse.JSON_PROPERTY_TRANSACTION_STATUS,
+  TransactionStatusResponse.JSON_PROPERTY_SIGNATURES_STATUS_LIST,
+  TransactionStatusResponse.JSON_PROPERTY_SIGN_PLUGIN
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
-public class GetTransactionStatusResponse {
+public class TransactionStatusResponse {
   public static final String JSON_PROPERTY_TRANSACTION_STATUS = "transactionStatus";
   @javax.annotation.Nonnull
   private ProcessStatus transactionStatus;
@@ -45,10 +47,14 @@ public class GetTransactionStatusResponse {
   @javax.annotation.Nonnull
   private List<SignatureStatus> signaturesStatusList = new ArrayList<>();
 
-  public GetTransactionStatusResponse() {
+  public static final String JSON_PROPERTY_SIGN_PLUGIN = "signPlugin";
+  @javax.annotation.Nullable
+  private SignPlugin signPlugin;
+
+  public TransactionStatusResponse() {
   }
 
-  public GetTransactionStatusResponse transactionStatus(@javax.annotation.Nonnull ProcessStatus transactionStatus) {
+  public TransactionStatusResponse transactionStatus(@javax.annotation.Nonnull ProcessStatus transactionStatus) {
     
     this.transactionStatus = transactionStatus;
     return this;
@@ -73,13 +79,13 @@ public class GetTransactionStatusResponse {
     this.transactionStatus = transactionStatus;
   }
 
-  public GetTransactionStatusResponse signaturesStatusList(@javax.annotation.Nonnull List<SignatureStatus> signaturesStatusList) {
+  public TransactionStatusResponse signaturesStatusList(@javax.annotation.Nonnull List<SignatureStatus> signaturesStatusList) {
     
     this.signaturesStatusList = signaturesStatusList;
     return this;
   }
 
-  public GetTransactionStatusResponse addSignaturesStatusListItem(SignatureStatus signaturesStatusListItem) {
+  public TransactionStatusResponse addSignaturesStatusListItem(SignatureStatus signaturesStatusListItem) {
     if (this.signaturesStatusList == null) {
       this.signaturesStatusList = new ArrayList<>();
     }
@@ -106,6 +112,31 @@ public class GetTransactionStatusResponse {
     this.signaturesStatusList = signaturesStatusList;
   }
 
+  public TransactionStatusResponse signPlugin(@javax.annotation.Nullable SignPlugin signPlugin) {
+    
+    this.signPlugin = signPlugin;
+    return this;
+  }
+
+  /**
+   * Get signPlugin
+   * @return signPlugin
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SIGN_PLUGIN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public SignPlugin getSignPlugin() {
+    return signPlugin;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SIGN_PLUGIN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSignPlugin(@javax.annotation.Nullable SignPlugin signPlugin) {
+    this.signPlugin = signPlugin;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -114,22 +145,24 @@ public class GetTransactionStatusResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetTransactionStatusResponse getTransactionStatusResponse = (GetTransactionStatusResponse) o;
-    return Objects.equals(this.transactionStatus, getTransactionStatusResponse.transactionStatus) &&
-        Objects.equals(this.signaturesStatusList, getTransactionStatusResponse.signaturesStatusList);
+    TransactionStatusResponse transactionStatusResponse = (TransactionStatusResponse) o;
+    return Objects.equals(this.transactionStatus, transactionStatusResponse.transactionStatus) &&
+        Objects.equals(this.signaturesStatusList, transactionStatusResponse.signaturesStatusList) &&
+        Objects.equals(this.signPlugin, transactionStatusResponse.signPlugin);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(transactionStatus, signaturesStatusList);
+    return Objects.hash(transactionStatus, signaturesStatusList, signPlugin);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetTransactionStatusResponse {\n");
+    sb.append("class TransactionStatusResponse {\n");
     sb.append("    transactionStatus: ").append(toIndentedString(transactionStatus)).append("\n");
     sb.append("    signaturesStatusList: ").append(toIndentedString(signaturesStatusList)).append("\n");
+    sb.append("    signPlugin: ").append(toIndentedString(signPlugin)).append("\n");
     sb.append("}");
     return sb.toString();
   }

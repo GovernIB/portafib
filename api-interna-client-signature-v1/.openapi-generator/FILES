@@ -17,8 +17,6 @@ docs/DocumentaryTypeConstants.md
 docs/ExternalSigner.md
 docs/ExternalSignerSecurityLevelConstants.md
 docs/FileInfoSignature.md
-docs/GetSignatureResultRequest.md
-docs/GetTransactionStatusResponse.md
 docs/KeyValue.md
 docs/Metadata.md
 docs/MetadataConstants.md
@@ -29,8 +27,10 @@ docs/RestExceptionInfo.md
 docs/Reviser.md
 docs/SignAlgorithmConstants.md
 docs/SignDocumentRequest.md
+docs/SignDocumentResponse.md
 docs/SignModeConstants.md
 docs/SignOperationConstants.md
+docs/SignPlugin.md
 docs/SignProfileConstants.md
 docs/SignTypeConstants.md
 docs/Signature.md
@@ -49,6 +49,7 @@ docs/SignatureRequestStateConstants.md
 docs/SignatureRequestWithFlowTemplateCode.md
 docs/SignatureRequestWithSignBlockList.md
 docs/SignatureResponse.md
+docs/SignatureResultRequest.md
 docs/SignatureStatus.md
 docs/SignaturesTableLocationConstants.md
 docs/SignedFile.md
@@ -57,6 +58,7 @@ docs/Signer.md
 docs/SignerInfo.md
 docs/StartTransactionRequest.md
 docs/StatusConstants.md
+docs/TransactionStatusResponse.md
 docs/UpgradeRequest.md
 docs/UpgradeResponse.md
 docs/UpgradedFileInfo.md
@@ -84,8 +86,6 @@ src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/DocumentaryT
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/ExternalSigner.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/ExternalSignerSecurityLevelConstants.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/FileInfoSignature.java
-src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/GetSignatureResultRequest.java
-src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/GetTransactionStatusResponse.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/KeyValue.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/Metadata.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/MetadataConstants.java
@@ -96,8 +96,10 @@ src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/RestExceptio
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/Reviser.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignAlgorithmConstants.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignDocumentRequest.java
+src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignDocumentResponse.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignModeConstants.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignOperationConstants.java
+src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignPlugin.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignProfileConstants.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignTypeConstants.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/Signature.java
@@ -114,6 +116,7 @@ src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureReq
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureRequestWithFlowTemplateCode.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureRequestWithSignBlockList.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureResponse.java
+src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureResultRequest.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureStatus.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignaturesTableLocationConstants.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignedFile.java
@@ -122,6 +125,7 @@ src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/Signer.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignerInfo.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/StartTransactionRequest.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/StatusConstants.java
+src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/TransactionStatusResponse.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/UpgradeRequest.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/UpgradeResponse.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/UpgradedFileInfo.java

@@ -86,6 +86,9 @@ public interface Firma extends org.fundaciobit.genapp.common.IGenAppEntity {
 	public java.lang.Integer getUsuariExternNivellSeguretat();
 	public void setUsuariExternNivellSeguretat(java.lang.Integer _usuariExternNivellSeguretat_);
 
+	public java.lang.Long getSignaturePluginId();
+	public void setSignaturePluginId(java.lang.Long _signaturePluginId_);
+
   // Fitxer
   public <F extends Fitxer> F getFitxerFirmat();
 

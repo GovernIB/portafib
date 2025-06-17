@@ -184,6 +184,11 @@
           </c:if>
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.SIGNATUREPLUGINID)}">
+          <td>
+          ${firma.signaturePluginId}
+          </td>
+        </c:if>
 
 
         <!--  /** Additional Fields */  -->

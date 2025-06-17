@@ -36,6 +36,7 @@ import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.pluginsib.core.v3.utils.CertificateUtils;
 import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
+import org.fundaciobit.pluginsib.signature.api.ISignaturePlugin;
 import org.fundaciobit.pluginsib.signature.api.PolicyInfoSignature;
 import org.fundaciobit.pluginsib.signature.api.StatusSignature;
 import org.fundaciobit.pluginsib.utils.rest.RestException;
@@ -58,6 +59,7 @@ import es.caib.portafib.api.interna.secure.signature.v1.commons.DocumentaryType;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.KeyValue;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.ProcessStatus;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.Profile;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.SignPlugin;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignedFileInfo;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignerInfo;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.ValidationInfo;
@@ -69,14 +71,13 @@ import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.FirmaLogicaLocal;
+import es.caib.portafib.logic.ModulDeFirmaServidorLogicaLocal;
+import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.RevisorDeDestinatariLogicaService;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.generator.IdGeneratorFactory;
-import es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal;
 import es.caib.portafib.logic.passarela.PassarelaKeyValue;
-import es.caib.portafib.logic.passarela.PassarelaSignatureStatusWebInternalUse;
-import es.caib.portafib.logic.passarela.PassarelaSignaturesSetWebInternalUse;
 import es.caib.portafib.logic.passarela.UpgradeResponse;
 import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaCustodyInfo;
@@ -104,6 +105,7 @@ import es.caib.portafib.persistence.BlocDeFirmesJPA;
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.FirmaJPA;
 import es.caib.portafib.persistence.FluxDeFirmesJPA;
+import es.caib.portafib.persistence.PluginJPA;
 import es.caib.portafib.persistence.RevisorDeFirmaJPA;
 import es.caib.portafib.persistence.TipusDocumentJPA;
 import es.caib.portafib.persistence.TraduccioMapJPA;
@@ -177,6 +179,12 @@ public abstract class AbstractSignatureService extends RestUtils {
 
     @EJB(mappedName = RevisorDeDestinatariLogicaService.JNDI_NAME)
     protected RevisorDeDestinatariLogicaService revisorDeDestinatariEjb;
+
+    @EJB(mappedName = ModulDeFirmaWebLogicaLocal.JNDI_NAME)
+    protected ModulDeFirmaWebLogicaLocal modulDeFirmaWebEjb;
+
+    @EJB(mappedName = ModulDeFirmaServidorLogicaLocal.JNDI_NAME)
+    protected ModulDeFirmaServidorLogicaLocal modulDeFirmaServidorEjb;
 
     protected final Logger log = Logger.getLogger(getClass());
 
@@ -963,8 +971,8 @@ public abstract class AbstractSignatureService extends RestUtils {
      */
     protected SignatureResponse convertPassarelaSignatureResult2FirmaSimpleSignatureResult(PassarelaSignatureResult psr,
             PassarelaCommonInfoSignature commonInfo, PassarelaFileInfoSignature infoSignature,
-            es.caib.portafib.logic.utils.ValidacioCompletaResponse infoValidacio, boolean isSignatureInServer)
-            throws Exception {
+            es.caib.portafib.logic.utils.ValidacioCompletaResponse infoValidacio, boolean isSignatureInServer,
+            Long signaturePluginId) throws Exception {
 
         ProcessStatus status = new ProcessStatus(psr.getStatus(), psr.getErrorMessage(), psr.getErrorStackTrace());
 
@@ -1120,7 +1128,7 @@ public abstract class AbstractSignatureService extends RestUtils {
 
             final List<KeyValue> additionInformation = null;
             final Timestamp signDate = new Timestamp(System.currentTimeMillis());
-            ;
+
 
             // XYZ ZZZ ZZZ Que passarela retorni dades de la validació de la firma
             // i que aqui es puguin usar !!!!
@@ -1134,58 +1142,82 @@ public abstract class AbstractSignatureService extends RestUtils {
                 subjectCert = infoValidacio.getSubjectCertificat();
 
             }
+            
+            SignPlugin signPlugin;
+            if (signaturePluginId != null) {
+               signPlugin = getSignaturePluginInformation(isSignatureInServer, commonInfo.getLanguageUI(),
+                       signaturePluginId);
+            } else {
+                signPlugin = null;
+            }
 
             SignerInfo signerInfo;
             signerInfo = new SignerInfo(eniRolFirma, eniSignerName, eniSignerAdministrationId, eniSignLevel, signDate,
-                    serialNumberCert, issuerCert, subjectCert, additionInformation);
+                    serialNumberCert, issuerCert, subjectCert, signPlugin, additionInformation);
 
             sfi = new SignedFileInfo(signOperation, signType, signAlgorithm, signMode, signaturesTableLocation,
                     timeStampIncluded, policyIncluded, eniTipoFirma, eniPerfilFirma, signerInfo, custody, validation);
+
         }
 
         return new SignatureResponse(psr.getSignID(), status, file, sfi);
 
     }
 
-    protected SignatureResponse internalGetSignatureResult(PassarelaDeFirmaWebLocal passarelaDeFirmaWebEjb,
-            String signID, String transactionID) throws I18NException, Exception {
-        PassarelaSignatureResult result;
-        result = passarelaDeFirmaWebEjb.getSignatureResult(transactionID, signID);
+    /**
+     *  Obté la información del plugin de firma
+     * @param isSignatureInServer
+     * @param languageUI
+     * @param signaturePluginId
+     * @return
+     * @throws RestException
+     */
+    protected SignPlugin getSignaturePluginInformation(boolean isSignatureInServer, String languageUI,
+            Long signaturePluginId) throws Exception {
 
-        if (result == null) {
-            // XYZ ZZZ Traduir
-            String msg = "No s'ha pogut trobar informació de la firma [" + signID + "] de la transacció: "
-                    + transactionID;
-            throw new RestException(msg);
+        String langUI = RestUtils.checkLanguage(languageUI);
+
+        PluginJPA plugin;
+        ISignaturePlugin signaturePlugin;
+        if (isSignatureInServer) {
+            plugin = modulDeFirmaServidorEjb.findByPrimaryKey(signaturePluginId);
+            signaturePlugin = modulDeFirmaServidorEjb.getInstanceByPluginID(signaturePluginId);
+        } else {
+            plugin = modulDeFirmaWebEjb.findByPrimaryKey(signaturePluginId);
+            signaturePlugin = modulDeFirmaWebEjb.getInstanceByPluginID(signaturePluginId);
         }
 
-        PassarelaSignaturesSetWebInternalUse pss = passarelaDeFirmaWebEjb
-                .getSignaturesSetFullByTransactionID(transactionID);
-        PassarelaFileInfoSignature infoSign = null;
-        es.caib.portafib.logic.utils.ValidacioCompletaResponse infoValidacio = null;
-
-        for (PassarelaFileInfoSignature pfis : pss.getSignaturesSet().getFileInfoSignatureArray()) {
-
-            if (signID.equals(pfis.getSignID())) {
-                infoSign = pfis;
-                PassarelaSignatureStatusWebInternalUse status = pss.getStatusBySignatureID().get(signID);
-                if (status != null) {
-                    infoValidacio = status.getInfoValidacio();
-                }
-                break;
-            }
+        final String pluginNamePublic;
+        final String pluginDescripcioPublic;
+        if (plugin == null) {
+            pluginNamePublic = "No s'ha pogut extreure el nom del plugin amb ID " + signaturePluginId;
+            pluginDescripcioPublic = "No s'ha pogut extreure la descripció del plugin amb ID " + signaturePluginId;
+        } else {
+            pluginNamePublic = plugin.getNom().getTraduccio(langUI).getValor();
+            pluginDescripcioPublic = plugin.getDescripcioCurta().getTraduccio(langUI).getValor();
         }
 
-        // FirmaSimpleFile fsf = convertFitxerBeanToFirmaSimpleFile(result.getSignedFile());
-        final boolean isSignatureInServer = false;
-        SignatureResponse fssr;
-        fssr = convertPassarelaSignatureResult2FirmaSimpleSignatureResult(result,
-                pss.getSignaturesSet().getCommonInfoSignature(), infoSign, infoValidacio, isSignatureInServer);
+        final String pluginNameInternal;
+        if (signaturePlugin == null) {
+            pluginNameInternal = "No es troba la instància del PLugin amb ID " + signaturePluginId;
+        } else {
+            pluginNameInternal = signaturePlugin.getName(new Locale(langUI));
+        }
 
-        //HttpHeaders headers = addAccessControllAllowOrigin();
-        //ResponseEntity<?> re = new ResponseEntity<FirmaSimpleSignatureResult>(fssr, headers, HttpStatus.OK);
-        log.info(" XYZ ZZZ getSignaturesStatus => FINAL OK");
-        return fssr;
+        SignPlugin sp = new SignPlugin();
+
+        sp.setSignaturePluginId(String.valueOf(signaturePluginId));
+        
+        sp.setSignaturePluginCode(plugin.getCodi());
+
+        sp.setSignaturePluginNameInternal(pluginNameInternal);
+
+        sp.setSignaturePluginNamePublic(pluginNamePublic);
+
+        sp.setSignaturePluginDescriptionPublic(pluginDescripcioPublic);
+
+        return sp;
+
     }
 
     protected Document convertFitxerBeanToFirmaSimpleFile(FitxerBean fb) throws Exception {
@@ -1276,7 +1308,10 @@ public abstract class AbstractSignatureService extends RestUtils {
             PassarelaFileInfoSignature fileInfo,
             es.caib.portafib.api.interna.secure.signature.v1.commons.FileInfoSignature firmaRequest,
             String eniPerfilFirma, Document signedFile, String entitatID, boolean policyIncluded,
-            es.caib.portafib.logic.utils.ValidacioCompletaResponse vcr, final String languageUI) throws I18NException {
+            es.caib.portafib.logic.utils.ValidacioCompletaResponse vcr, final String languageUI,
+            boolean isSignatureInServer,
+            Long signaturePluginId
+            ) throws I18NException, Exception {
 
         log.info("XYZ ZZZ validateSignature::Entra a Validate Signature ...");
 
@@ -1397,9 +1432,17 @@ public abstract class AbstractSignatureService extends RestUtils {
                     String subjectCert = info.getSubject();
 
                     List<KeyValue> additionalInformation = null;
+                    
+                    SignPlugin signPlugin;
+                    if (signaturePluginId != null) {
+                       signPlugin = getSignaturePluginInformation(isSignatureInServer, languageUI,
+                               signaturePluginId);
+                    } else {
+                        signPlugin = null;
+                    }
 
                     signerInfo = new SignerInfo(eniRolFirma, eniSignerName, eniSignerAdministrationId, eniSignLevel,
-                            signDate, serialNumberCert, issuerCert, subjectCert, additionalInformation);
+                            signDate, serialNumberCert, issuerCert, subjectCert, signPlugin, additionalInformation);
                 }
             }
 
@@ -1520,7 +1563,7 @@ public abstract class AbstractSignatureService extends RestUtils {
         FirmaJPA jpa = new FirmaJPA(firmaID, destinatariID, blocDeFirmaID, obligatori, fitxerFirmatID, numFirmaDocument,
                 caixaPagina, caixaX, caixaY, caixaAmple, caixaAlt, numeroSerieCertificat, emissorCertificat,
                 nomCertificat, tipusEstatDeFirmaFinalID, mostrarRubrica, motiu, minimDeRevisors, null, null, null, null,
-                extern_nom, extern_llinatges, extern_email, extern_idioma, extern_token, extern_nivellseguretat);
+                extern_nom, extern_llinatges, extern_email, extern_idioma, extern_token, extern_nivellseguretat, null);
 
         List<Reviser> revisors = firmaBean.getRevisers();
 

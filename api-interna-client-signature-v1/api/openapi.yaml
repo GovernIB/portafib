@@ -897,7 +897,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/GetSignatureResultRequest'
+              $ref: '#/components/schemas/SignatureResultRequest'
         description: Identificador de transacció i de firma.
       responses:
         "400":
@@ -1024,7 +1024,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetTransactionStatusResponse'
+                $ref: '#/components/schemas/TransactionStatusResponse'
           description: Operació realitzada correctament
       security:
       - BasicAuth: []
@@ -2535,7 +2535,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SignatureResponse'
+                $ref: '#/components/schemas/SignDocumentResponse'
           description: Operació realitzada correctament
       security:
       - BasicAuth: []
@@ -3666,6 +3666,32 @@ components:
       required:
       - custodyID
       type: object
+    SignPlugin:
+      description: Informació del Plugin de firma utilitzat en la signatura d'aquest
+        document.
+      example:
+        signaturePluginCode: signaturePluginCode
+        signaturePluginNamePublic: signaturePluginNamePublic
+        signaturePluginDescriptionPublic: signaturePluginDescriptionPublic
+        signaturePluginId: signaturePluginId
+        signaturePluginNameInternal: signaturePluginNameInternal
+      properties:
+        signaturePluginId:
+          description: Identificador del plugin de firma utilitzat.
+          type: string
+        signaturePluginCode:
+          description: Codi del plugin de firma utilitzat.
+          type: string
+        signaturePluginNameInternal:
+          description: Nom intern del plugin de firma utilitzat.
+          type: string
+        signaturePluginNamePublic:
+          description: Nom públic del plugin de firma utilitzat.
+          type: string
+        signaturePluginDescriptionPublic:
+          description: Descripció pública del plugin de firma utilitzat.
+          type: string
+      type: object
     SignedFile:
       description: Representa una fitxer firmat i informació associada
       example:
@@ -3679,6 +3705,12 @@ components:
               key: key
             - value: value
               key: key
+            signPlugin:
+              signaturePluginCode: signaturePluginCode
+              signaturePluginNamePublic: signaturePluginNamePublic
+              signaturePluginDescriptionPublic: signaturePluginDescriptionPublic
+              signaturePluginId: signaturePluginId
+              signaturePluginNameInternal: signaturePluginNameInternal
             subjectCert: subjectCert
             eniSignerName: eniSignerName
             eniSignLevel: eniSignLevel
@@ -3692,6 +3724,12 @@ components:
               key: key
             - value: value
               key: key
+            signPlugin:
+              signaturePluginCode: signaturePluginCode
+              signaturePluginNamePublic: signaturePluginNamePublic
+              signaturePluginDescriptionPublic: signaturePluginDescriptionPublic
+              signaturePluginId: signaturePluginId
+              signaturePluginNameInternal: signaturePluginNameInternal
             subjectCert: subjectCert
             eniSignerName: eniSignerName
             eniSignLevel: eniSignLevel
@@ -3747,6 +3785,12 @@ components:
             key: key
           - value: value
             key: key
+          signPlugin:
+            signaturePluginCode: signaturePluginCode
+            signaturePluginNamePublic: signaturePluginNamePublic
+            signaturePluginDescriptionPublic: signaturePluginDescriptionPublic
+            signaturePluginId: signaturePluginId
+            signaturePluginNameInternal: signaturePluginNameInternal
           subjectCert: subjectCert
           eniSignerName: eniSignerName
           eniSignLevel: eniSignLevel
@@ -3760,6 +3804,12 @@ components:
             key: key
           - value: value
             key: key
+          signPlugin:
+            signaturePluginCode: signaturePluginCode
+            signaturePluginNamePublic: signaturePluginNamePublic
+            signaturePluginDescriptionPublic: signaturePluginDescriptionPublic
+            signaturePluginId: signaturePluginId
+            signaturePluginNameInternal: signaturePluginNameInternal
           subjectCert: subjectCert
           eniSignerName: eniSignerName
           eniSignLevel: eniSignLevel
@@ -3869,6 +3919,12 @@ components:
           key: key
         - value: value
           key: key
+        signPlugin:
+          signaturePluginCode: signaturePluginCode
+          signaturePluginNamePublic: signaturePluginNamePublic
+          signaturePluginDescriptionPublic: signaturePluginDescriptionPublic
+          signaturePluginId: signaturePluginId
+          signaturePluginNameInternal: signaturePluginNameInternal
         subjectCert: subjectCert
         eniSignerName: eniSignerName
         eniSignLevel: eniSignLevel
@@ -3907,8 +3963,10 @@ components:
         subjectCert:
           description: Subject del Certificat utilitzat en la firma
           type: string
+        signPlugin:
+          $ref: '#/components/schemas/SignPlugin'
         additionalInformation:
-          description: Ofrecer cualquier otra información que se  considere útil acerca
+          description: Ofrecer cualquier otra información que se considere útil acerca
             del firmante.
           items:
             $ref: '#/components/schemas/KeyValue'
@@ -4068,7 +4126,7 @@ components:
       - signID
       - signNumber
       type: object
-    GetSignatureResultRequest:
+    SignatureResultRequest:
       example:
         signID: signID
         transactionID: transactionID
@@ -4111,6 +4169,12 @@ components:
               key: key
             - value: value
               key: key
+            signPlugin:
+              signaturePluginCode: signaturePluginCode
+              signaturePluginNamePublic: signaturePluginNamePublic
+              signaturePluginDescriptionPublic: signaturePluginDescriptionPublic
+              signaturePluginId: signaturePluginId
+              signaturePluginNameInternal: signaturePluginNameInternal
             subjectCert: subjectCert
             eniSignerName: eniSignerName
             eniSignLevel: eniSignLevel
@@ -4124,6 +4188,12 @@ components:
               key: key
             - value: value
               key: key
+            signPlugin:
+              signaturePluginCode: signaturePluginCode
+              signaturePluginNamePublic: signaturePluginNamePublic
+              signaturePluginDescriptionPublic: signaturePluginDescriptionPublic
+              signaturePluginId: signaturePluginId
+              signaturePluginNameInternal: signaturePluginNameInternal
             subjectCert: subjectCert
             eniSignerName: eniSignerName
             eniSignLevel: eniSignLevel
@@ -4164,17 +4234,19 @@ components:
           errorMessage: errorMessage
           status: 0
       properties:
+        signedFile:
+          $ref: '#/components/schemas/Document'
+        signedFileInfo:
+          $ref: '#/components/schemas/SignedFileInfo'
         signID:
           description: Identificador de la firma
           type: string
         status:
           $ref: '#/components/schemas/ProcessStatus'
-        signedFile:
-          $ref: '#/components/schemas/Document'
-        signedFileInfo:
-          $ref: '#/components/schemas/SignedFileInfo'
       required:
       - signID
+      - signedFile
+      - signedFileInfo
       - status
       type: object
     CommonInfo:
@@ -4232,8 +4304,30 @@ components:
       - administrationID
       - languageUI
       type: object
-    GetTransactionStatusResponse:
+    SignatureStatus:
+      description: "Estat de cada firma. Pot passar que l'estat general sigui que\
+        \ tot ha anat bé, però que totes o algunes de les firmes no."
       example:
+        signID: signID
+        status:
+          errorStackTrace: errorStackTrace
+          errorMessage: errorMessage
+          status: 0
+      properties:
+        signID:
+          type: string
+        status:
+          $ref: '#/components/schemas/ProcessStatus'
+      type: object
+    TransactionStatusResponse:
+      description: informació de l'estat d'una Transaccio de tipus Firma Web Directe
+      example:
+        signPlugin:
+          signaturePluginCode: signaturePluginCode
+          signaturePluginNamePublic: signaturePluginNamePublic
+          signaturePluginDescriptionPublic: signaturePluginDescriptionPublic
+          signaturePluginId: signaturePluginId
+          signaturePluginNameInternal: signaturePluginNameInternal
         transactionStatus:
           errorStackTrace: errorStackTrace
           errorMessage: errorMessage
@@ -4258,24 +4352,11 @@ components:
           items:
             $ref: '#/components/schemas/SignatureStatus'
           type: array
+        signPlugin:
+          $ref: '#/components/schemas/SignPlugin'
       required:
       - signaturesStatusList
       - transactionStatus
-      type: object
-    SignatureStatus:
-      description: "Estat de cada firma. Pot passar que l'estat general sigui que\
-        \ tot ha anat bé, però que totes o algunes de les firmes no."
-      example:
-        signID: signID
-        status:
-          errorStackTrace: errorStackTrace
-          errorMessage: errorMessage
-          status: 0
-      properties:
-        signID:
-          type: string
-        status:
-          $ref: '#/components/schemas/ProcessStatus'
       type: object
     StartTransactionRequest:
       example:
@@ -5039,6 +5120,107 @@ components:
       required:
       - commonInfo
       - fileInfoSignature
+      type: object
+    SignDocumentResponse:
+      description: Resposta de la petició de firma en servidor
+      example:
+        signPlugin:
+          signaturePluginCode: signaturePluginCode
+          signaturePluginNamePublic: signaturePluginNamePublic
+          signaturePluginDescriptionPublic: signaturePluginDescriptionPublic
+          signaturePluginId: signaturePluginId
+          signaturePluginNameInternal: signaturePluginNameInternal
+        signedFileInfo:
+          signaturesTableLocation: 1
+          signers:
+          - issuerCert: issuerCert
+            eniRolFirma: eniRolFirma
+            additionalInformation:
+            - value: value
+              key: key
+            - value: value
+              key: key
+            signPlugin:
+              signaturePluginCode: signaturePluginCode
+              signaturePluginNamePublic: signaturePluginNamePublic
+              signaturePluginDescriptionPublic: signaturePluginDescriptionPublic
+              signaturePluginId: signaturePluginId
+              signaturePluginNameInternal: signaturePluginNameInternal
+            subjectCert: subjectCert
+            eniSignerName: eniSignerName
+            eniSignLevel: eniSignLevel
+            signDate: 2000-01-23T04:56:07.000+00:00
+            eniSignerAdministrationId: eniSignerAdministrationId
+            serialNumberCert: serialNumberCert
+          - issuerCert: issuerCert
+            eniRolFirma: eniRolFirma
+            additionalInformation:
+            - value: value
+              key: key
+            - value: value
+              key: key
+            signPlugin:
+              signaturePluginCode: signaturePluginCode
+              signaturePluginNamePublic: signaturePluginNamePublic
+              signaturePluginDescriptionPublic: signaturePluginDescriptionPublic
+              signaturePluginId: signaturePluginId
+              signaturePluginNameInternal: signaturePluginNameInternal
+            subjectCert: subjectCert
+            eniSignerName: eniSignerName
+            eniSignLevel: eniSignLevel
+            signDate: 2000-01-23T04:56:07.000+00:00
+            eniSignerAdministrationId: eniSignerAdministrationId
+            serialNumberCert: serialNumberCert
+          signOperation: 1
+          custodyInfo:
+            validationFileUrl: validationFileUrl
+            originalFileDirectURL: originalFileDirectURL
+            expedientID: expedientID
+            custodyID: custodyID
+            csv: csv
+            eniFileDirectUrl: eniFileDirectUrl
+            csvValidationWeb: csvValidationWeb
+            documentID: documentID
+            csvGenerationDefinition: csvGenerationDefinition
+            printableFileDirectUrl: printableFileDirectUrl
+          eniTipoFirma: TF01
+          eniPerfilFirma: AdES-BES
+          validationInfo:
+            checkDocumentModifications: true
+            noCheckValidationReason: noCheckValidationReason
+            checkValidationSignature: true
+            checkAdministrationIDOfSigner: true
+          signType: signType
+          signMode: 0
+          signAlgorithm: SHA-1
+          timeStampIncluded: true
+          policyIncluded: true
+        signedFile:
+          data: data
+          mime: mime
+          nom: nom
+        signID: signID
+        status:
+          errorStackTrace: errorStackTrace
+          errorMessage: errorMessage
+          status: 0
+      properties:
+        signedFile:
+          $ref: '#/components/schemas/Document'
+        signedFileInfo:
+          $ref: '#/components/schemas/SignedFileInfo'
+        signID:
+          description: Identificador de la firma
+          type: string
+        status:
+          $ref: '#/components/schemas/ProcessStatus'
+        signPlugin:
+          $ref: '#/components/schemas/SignPlugin'
+      required:
+      - signID
+      - signedFile
+      - signedFileInfo
+      - status
       type: object
     UpgradeRequest:
       example:

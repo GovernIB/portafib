@@ -1,6 +1,6 @@
 
 
-# GetSignatureResultRequest
+# SignatureResultRequest
 
 
 ## Properties

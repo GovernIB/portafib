@@ -141,7 +141,7 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
     protected es.caib.portafib.ejb.IdiomaService idiomaEjb;
 
     @EJB(mappedName = PlantillaFluxDeFirmesLogicaLocal.JNDI_NAME)
-    private PlantillaFluxDeFirmesLogicaLocal plantillaFluxDeFirmesEjb;
+    protected PlantillaFluxDeFirmesLogicaLocal plantillaFluxDeFirmesEjb;
 
     @EJB(mappedName = FluxDeFirmesLogicaLocal.JNDI_NAME)
     protected FluxDeFirmesLogicaLocal fluxDeFirmesLogicaEjb;

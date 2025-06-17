@@ -40,6 +40,7 @@ public interface FirmaFields extends java.io.Serializable {
 	 public static final StringField USUARIEXTERNIDIOMA = new StringField(_TABLE_MODEL, "usuariExternIdioma", "extern_idioma");
 	 public static final StringField USUARIEXTERNTOKEN = new StringField(_TABLE_MODEL, "usuariExternToken", "extern_token");
 	 public static final IntegerField USUARIEXTERNNIVELLSEGURETAT = new IntegerField(_TABLE_MODEL, "usuariExternNivellSeguretat", "extern_nivellseguretat");
+	 public static final LongField SIGNATUREPLUGINID = new LongField(_TABLE_MODEL, "signaturePluginId", "signaturepluginid");
 
 
   public static final Field<?>[] ALL_FIRMA_FIELDS = {
@@ -70,7 +71,8 @@ public interface FirmaFields extends java.io.Serializable {
     USUARIEXTERNEMAIL,
     USUARIEXTERNIDIOMA,
     USUARIEXTERNTOKEN,
-    USUARIEXTERNNIVELLSEGURETAT
+    USUARIEXTERNNIVELLSEGURETAT,
+    SIGNATUREPLUGINID
   };
 
 

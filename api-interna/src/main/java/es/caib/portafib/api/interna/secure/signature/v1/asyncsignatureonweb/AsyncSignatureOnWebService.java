@@ -52,6 +52,8 @@ import es.caib.portafib.api.interna.secure.signature.v1.commons.SignedFileInfo;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignerInfo;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.ValidationInfo;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.Profile;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.SignPlugin;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.SignedFile;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.hibernate.HibernateFileUtil;
 import es.caib.portafib.utils.ConstantsV2;
@@ -224,32 +226,6 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
     // -----------------------| Petició de Firma |------------------------
     // -------------------------------------------------------------------
     // -------------------------------------------------------------------
-    /*
-    public long createAndStartSignatureRequestWithSignBlockList(FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest)
-        throws AbstractApisIBException;
-    
-    
-    
-    public long createAndStartSignatureRequestWithFlowTemplateCode(
-        FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode signatureRequest)
-        throws AbstractApisIBException;
-    
-    public FirmaAsyncSimpleSignatureRequestState getSignatureRequestState(
-        FirmaAsyncSimpleSignatureRequestInfo info) throws AbstractApisIBException;
-    
-    public String getUrlToViewFlow(
-        FirmaAsyncSimpleSignatureRequestInfo info) throws AbstractApisIBException;
-    
-    public FirmaAsyncSimpleSignedFile getSignedFileOfSignatureRequest(
-        FirmaAsyncSimpleSignatureRequestInfo info) throws AbstractApisIBException;
-    
-    public Document getOriginalFileOfSignatureRequest(
-        FirmaAsyncSimpleSignatureRequestInfo info) throws AbstractApisIBException;
-    
-    public void deleteSignatureRequest(FirmaAsyncSimpleSignatureRequestInfo info)
-        throws AbstractApisIBException;
-    
-    */
 
     @Path(value = "/createAndStartSignatureRequestWithSignBlockList")
     @POST
@@ -491,8 +467,9 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
 
                 }
 
-                signatureBlocks.add(new SignatureBlock(blocDeFirmes.getOrdre(), minimumNumberOfSignaturesRequired, signers));
-                
+                signatureBlocks
+                        .add(new SignatureBlock(blocDeFirmes.getOrdre(), minimumNumberOfSignaturesRequired, signers));
+
             }
 
             SignatureRequestWithSignBlockList sr = new SignatureRequestWithSignBlockList(signatureRequest,
@@ -785,6 +762,7 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
             ValidationInfo validationInfo = null;
             List<SignerInfo> signers;
             String eniPerfilFirma = null;
+            
             {
 
                 List<FirmaJPA> firmes = estatDeFirmaLogicaEjb
@@ -796,6 +774,20 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
                     signers = new ArrayList<SignerInfo>(firmes.size());
 
                     for (FirmaJPA firma : firmes) {
+                        
+                        
+                        SignPlugin signPlugin = null;
+                        Long signaturePluginID = firma.getSignaturePluginId();
+
+                        if (signaturePluginID != null) {
+                            // Si hi ha un plugin de firma, llavors afegir informació
+                            final boolean isSignatureInserver = false;
+                            signPlugin = getSignaturePluginInformation(isSignatureInserver, languageUI, signaturePluginID);
+                        }
+                        
+                        
+                        
+                        
                         // XYZ ZZZ ZZZ
                         // FALTA API firma Simple per Signatures Asíncrones #224
                         // eEMGDE17.2 - ROL DE FIRMA: Valida, Refrenda, Testimonia.
@@ -830,8 +822,9 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
 
                             SignerInfo signerInfo = new SignerInfo(eniRolFirma, eniSignerName,
                                     eniSignerAdministrationId, eniSignLevel, signDate, serialNumberCert, issuerCert,
-                                    subjectCert, additionalInformation);
+                                    subjectCert, signPlugin, additionalInformation);
                             signers.add(signerInfo);
+
                             // Només hi ha una firma en els EstatsDeFirma
                             break;
                         }
@@ -849,6 +842,9 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
 
                     validationInfo = new ValidationInfo(firma.getCheckAdministrationIdOfSigner(),
                             firma.getCheckDocumentModifications(), firma.getCheckValidationSignature(), null);
+
+                   
+
                 }
             }
 
@@ -859,6 +855,9 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
             SignedFile response = new SignedFile(signedFile, signedFileInfo);
 
             return response;
+        } catch (RestException re) {
+            log.error("Error al cridar a getSignedFileOfSignatureRequest(): " + re.getMessage(), re);
+            throw re;
         } catch (I18NException i18ne) {
 
             String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));

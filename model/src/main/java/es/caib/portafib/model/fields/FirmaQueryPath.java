@@ -123,6 +123,10 @@ public class FirmaQueryPath extends org.fundaciobit.genapp.common.query.QueryPat
     return new IntegerField(getQueryPath(), FirmaFields.USUARIEXTERNNIVELLSEGURETAT);
   }
 
+  public LongField SIGNATUREPLUGINID() {
+    return new LongField(getQueryPath(), FirmaFields.SIGNATUREPLUGINID);
+  }
+
 
 
   @Override

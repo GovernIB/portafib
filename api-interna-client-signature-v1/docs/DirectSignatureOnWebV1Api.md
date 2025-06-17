@@ -615,7 +615,7 @@ public class Example {
 
 ## getSignatureResult
 
-> SignatureResponse getSignatureResult(getSignatureResultRequest)
+> SignatureResponse getSignatureResult(signatureResultRequest)
 
 Document signat  i informació d&#39;una firma
 
@@ -641,9 +641,9 @@ public class Example {
         BasicAuth.setPassword("YOUR PASSWORD");
 
         DirectSignatureOnWebV1Api apiInstance = new DirectSignatureOnWebV1Api(defaultClient);
-        GetSignatureResultRequest getSignatureResultRequest = new GetSignatureResultRequest(); // GetSignatureResultRequest | Identificador de transacció i de firma.
+        SignatureResultRequest signatureResultRequest = new SignatureResultRequest(); // SignatureResultRequest | Identificador de transacció i de firma.
         try {
-            SignatureResponse result = apiInstance.getSignatureResult(getSignatureResultRequest);
+            SignatureResponse result = apiInstance.getSignatureResult(signatureResultRequest);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DirectSignatureOnWebV1Api#getSignatureResult");
@@ -661,7 +661,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **getSignatureResultRequest** | [**GetSignatureResultRequest**](GetSignatureResultRequest.md)| Identificador de transacció i de firma. | [optional] |
+| **signatureResultRequest** | [**SignatureResultRequest**](SignatureResultRequest.md)| Identificador de transacció i de firma. | [optional] |
 
 ### Return type
 
@@ -763,7 +763,7 @@ public class Example {
 
 ## getTransactionStatus
 
-> GetTransactionStatusResponse getTransactionStatus(body)
+> TransactionStatusResponse getTransactionStatus(body)
 
 Retorna estat de la transacció (el procés de firma en general) i resultat del procés de cada firma
 
@@ -791,7 +791,7 @@ public class Example {
         DirectSignatureOnWebV1Api apiInstance = new DirectSignatureOnWebV1Api(defaultClient);
         String body = "body_example"; // String | Identificador de transacció retornat de la cridada getTransactionID().
         try {
-            GetTransactionStatusResponse result = apiInstance.getTransactionStatus(body);
+            TransactionStatusResponse result = apiInstance.getTransactionStatus(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DirectSignatureOnWebV1Api#getTransactionStatus");
@@ -813,7 +813,7 @@ public class Example {
 
 ### Return type
 
-[**GetTransactionStatusResponse**](GetTransactionStatusResponse.md)
+[**TransactionStatusResponse**](TransactionStatusResponse.md)
 
 ### Authorization
 

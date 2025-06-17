@@ -237,7 +237,7 @@ public class Example {
 
 ## signdocument
 
-> SignatureResponse signdocument(signDocumentRequest)
+> SignDocumentResponse signdocument(signDocumentRequest)
 
 Operacio de firma simple en servidor d&#39;un document
 
@@ -265,7 +265,7 @@ public class Example {
         SignatureOnServerV1Api apiInstance = new SignatureOnServerV1Api(defaultClient);
         SignDocumentRequest signDocumentRequest = new SignDocumentRequest(); // SignDocumentRequest | Operacio de firma simple en servidor d'un document
         try {
-            SignatureResponse result = apiInstance.signdocument(signDocumentRequest);
+            SignDocumentResponse result = apiInstance.signdocument(signDocumentRequest);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling SignatureOnServerV1Api#signdocument");
@@ -287,7 +287,7 @@ public class Example {
 
 ### Return type
 
-[**SignatureResponse**](SignatureResponse.md)
+[**SignDocumentResponse**](SignDocumentResponse.md)
 
 ### Authorization
 

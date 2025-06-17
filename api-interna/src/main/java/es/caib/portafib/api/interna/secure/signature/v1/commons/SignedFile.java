@@ -1,7 +1,5 @@
-package es.caib.portafib.api.interna.secure.signature.v1.asyncsignatureonweb;
+package es.caib.portafib.api.interna.secure.signature.v1.commons;
 
-import es.caib.portafib.api.interna.secure.signature.v1.commons.Document;
-import es.caib.portafib.api.interna.secure.signature.v1.commons.SignedFileInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 
@@ -44,5 +42,4 @@ public class SignedFile {
     public void setSignedFileInfo(SignedFileInfo signedFileInfo) {
         this.signedFileInfo = signedFileInfo;
     }
-
 }

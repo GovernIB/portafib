@@ -14,30 +14,15 @@
 package es.caib.portafib.apiinterna.client.signature.v1.api;
 
 import es.caib.portafib.apiinterna.client.signature.v1.services.ApiException;
-import es.caib.portafib.apiinterna.client.signature.v1.model.AddFileToSignRequest;
-import es.caib.portafib.apiinterna.client.signature.v1.model.CommonInfo;
-import es.caib.portafib.apiinterna.client.signature.v1.model.GetSignatureResultRequest;
-import es.caib.portafib.apiinterna.client.signature.v1.model.GetTransactionStatusResponse;
-import es.caib.portafib.apiinterna.client.signature.v1.model.RestExceptionInfo;
-import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureResponse;
-import es.caib.portafib.apiinterna.client.signature.v1.model.StartTransactionRequest;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * API tests for DirectSignatureOnWebV1Api
  */
 class DirectSignatureOnWebV1ApiTest {
 
-    private final DirectSignatureOnWebV1Api api = new DirectSignatureOnWebV1Api();
+    protected final DirectSignatureOnWebV1Api api = new DirectSignatureOnWebV1Api();
 
     /**
      * Afegeix un document  al conjunt de Peticions de Firma a realitzar per l&#39;usuari.

@@ -13,7 +13,7 @@ import es.caib.portafib.apiinterna.client.signature.v1.model.Profile;
 import es.caib.portafib.apiinterna.client.signature.v1.model.RestExceptionInfo;
 import java.util.Set;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignDocumentRequest;
-import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureResponse;
+import es.caib.portafib.apiinterna.client.signature.v1.model.SignDocumentResponse;
 import es.caib.portafib.apiinterna.client.signature.v1.model.UpgradeRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.UpgradeResponse;
 
@@ -163,10 +163,10 @@ public class SignatureOnServerV1Api {
    * Operacio de firma simple en servidor d&#39;un document
    * 
    * @param signDocumentRequest Operacio de firma simple en servidor d&#39;un document (optional)
-   * @return a {@code SignatureResponse}
+   * @return a {@code SignDocumentResponse}
    * @throws ApiException if fails to make API call
    */
-  public SignatureResponse signdocument(SignDocumentRequest signDocumentRequest) throws ApiException {
+  public SignDocumentResponse signdocument(SignDocumentRequest signDocumentRequest) throws ApiException {
     Object localVarPostBody = signDocumentRequest;
     
     // create path and map variables
@@ -194,7 +194,7 @@ public class SignatureOnServerV1Api {
 
     String[] localVarAuthNames = new String[] { "BasicAuth" };
 
-    GenericType<SignatureResponse> localVarReturnType = new GenericType<SignatureResponse>() {};
+    GenericType<SignDocumentResponse> localVarReturnType = new GenericType<SignDocumentResponse>() {};
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**

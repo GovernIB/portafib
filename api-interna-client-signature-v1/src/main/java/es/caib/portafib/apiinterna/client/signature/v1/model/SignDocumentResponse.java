@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Document;
 import es.caib.portafib.apiinterna.client.signature.v1.model.ProcessStatus;
+import es.caib.portafib.apiinterna.client.signature.v1.model.SignPlugin;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignedFileInfo;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -30,13 +31,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * Resposta de la petició de firma en servidor
  */
 @JsonPropertyOrder({
-  SignatureResponse.JSON_PROPERTY_SIGNED_FILE,
-  SignatureResponse.JSON_PROPERTY_SIGNED_FILE_INFO,
-  SignatureResponse.JSON_PROPERTY_SIGN_I_D,
-  SignatureResponse.JSON_PROPERTY_STATUS
+  SignDocumentResponse.JSON_PROPERTY_SIGNED_FILE,
+  SignDocumentResponse.JSON_PROPERTY_SIGNED_FILE_INFO,
+  SignDocumentResponse.JSON_PROPERTY_SIGN_I_D,
+  SignDocumentResponse.JSON_PROPERTY_STATUS,
+  SignDocumentResponse.JSON_PROPERTY_SIGN_PLUGIN
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
-public class SignatureResponse {
+public class SignDocumentResponse {
   public static final String JSON_PROPERTY_SIGNED_FILE = "signedFile";
   @javax.annotation.Nonnull
   private Document signedFile;
@@ -53,10 +55,14 @@ public class SignatureResponse {
   @javax.annotation.Nonnull
   private ProcessStatus status;
 
-  public SignatureResponse() {
+  public static final String JSON_PROPERTY_SIGN_PLUGIN = "signPlugin";
+  @javax.annotation.Nullable
+  private SignPlugin signPlugin;
+
+  public SignDocumentResponse() {
   }
 
-  public SignatureResponse signedFile(@javax.annotation.Nonnull Document signedFile) {
+  public SignDocumentResponse signedFile(@javax.annotation.Nonnull Document signedFile) {
     
     this.signedFile = signedFile;
     return this;
@@ -81,7 +87,7 @@ public class SignatureResponse {
     this.signedFile = signedFile;
   }
 
-  public SignatureResponse signedFileInfo(@javax.annotation.Nonnull SignedFileInfo signedFileInfo) {
+  public SignDocumentResponse signedFileInfo(@javax.annotation.Nonnull SignedFileInfo signedFileInfo) {
     
     this.signedFileInfo = signedFileInfo;
     return this;
@@ -106,7 +112,7 @@ public class SignatureResponse {
     this.signedFileInfo = signedFileInfo;
   }
 
-  public SignatureResponse signID(@javax.annotation.Nonnull String signID) {
+  public SignDocumentResponse signID(@javax.annotation.Nonnull String signID) {
     
     this.signID = signID;
     return this;
@@ -131,7 +137,7 @@ public class SignatureResponse {
     this.signID = signID;
   }
 
-  public SignatureResponse status(@javax.annotation.Nonnull ProcessStatus status) {
+  public SignDocumentResponse status(@javax.annotation.Nonnull ProcessStatus status) {
     
     this.status = status;
     return this;
@@ -156,6 +162,31 @@ public class SignatureResponse {
     this.status = status;
   }
 
+  public SignDocumentResponse signPlugin(@javax.annotation.Nullable SignPlugin signPlugin) {
+    
+    this.signPlugin = signPlugin;
+    return this;
+  }
+
+  /**
+   * Get signPlugin
+   * @return signPlugin
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SIGN_PLUGIN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public SignPlugin getSignPlugin() {
+    return signPlugin;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SIGN_PLUGIN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSignPlugin(@javax.annotation.Nullable SignPlugin signPlugin) {
+    this.signPlugin = signPlugin;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -164,26 +195,28 @@ public class SignatureResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SignatureResponse signatureResponse = (SignatureResponse) o;
-    return Objects.equals(this.signedFile, signatureResponse.signedFile) &&
-        Objects.equals(this.signedFileInfo, signatureResponse.signedFileInfo) &&
-        Objects.equals(this.signID, signatureResponse.signID) &&
-        Objects.equals(this.status, signatureResponse.status);
+    SignDocumentResponse signDocumentResponse = (SignDocumentResponse) o;
+    return Objects.equals(this.signedFile, signDocumentResponse.signedFile) &&
+        Objects.equals(this.signedFileInfo, signDocumentResponse.signedFileInfo) &&
+        Objects.equals(this.signID, signDocumentResponse.signID) &&
+        Objects.equals(this.status, signDocumentResponse.status) &&
+        Objects.equals(this.signPlugin, signDocumentResponse.signPlugin);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(signedFile, signedFileInfo, signID, status);
+    return Objects.hash(signedFile, signedFileInfo, signID, status, signPlugin);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SignatureResponse {\n");
+    sb.append("class SignDocumentResponse {\n");
     sb.append("    signedFile: ").append(toIndentedString(signedFile)).append("\n");
     sb.append("    signedFileInfo: ").append(toIndentedString(signedFileInfo)).append("\n");
     sb.append("    signID: ").append(toIndentedString(signID)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    signPlugin: ").append(toIndentedString(signPlugin)).append("\n");
     sb.append("}");
     return sb.toString();
   }

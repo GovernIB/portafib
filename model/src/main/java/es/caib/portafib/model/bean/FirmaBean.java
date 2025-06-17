@@ -36,6 +36,7 @@ public class FirmaBean implements Firma {
 	java.lang.String usuariExternIdioma;
 	java.lang.String usuariExternToken;
 	java.lang.Integer usuariExternNivellSeguretat;
+	java.lang.Long signaturePluginId;
 
 
   /** Constructor Buit */
@@ -43,7 +44,7 @@ public class FirmaBean implements Firma {
   }
 
   /** Constructor amb tots els camps  */
-  public FirmaBean(long firmaID , java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , java.lang.Long fitxerFirmatID , java.lang.Integer numFirmaDocument , int caixaPagina , java.lang.Integer caixaX , java.lang.Integer caixaY , java.lang.Integer caixaAmple , java.lang.Integer caixaAlt , java.math.BigInteger numeroSerieCertificat , java.lang.String emissorCertificat , java.lang.String nomCertificat , java.lang.Long tipusEstatDeFirmaFinalID , boolean mostrarRubrica , java.lang.String motiu , int minimDeRevisors , java.lang.Boolean checkAdministrationIdOfSigner , java.lang.Boolean checkDocumentModifications , java.lang.Boolean checkValidationSignature , java.lang.String perfilDeFirma , java.lang.String usuariExternNom , java.lang.String usuariExternLlinatges , java.lang.String usuariExternEmail , java.lang.String usuariExternIdioma , java.lang.String usuariExternToken , java.lang.Integer usuariExternNivellSeguretat) {
+  public FirmaBean(long firmaID , java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , java.lang.Long fitxerFirmatID , java.lang.Integer numFirmaDocument , int caixaPagina , java.lang.Integer caixaX , java.lang.Integer caixaY , java.lang.Integer caixaAmple , java.lang.Integer caixaAlt , java.math.BigInteger numeroSerieCertificat , java.lang.String emissorCertificat , java.lang.String nomCertificat , java.lang.Long tipusEstatDeFirmaFinalID , boolean mostrarRubrica , java.lang.String motiu , int minimDeRevisors , java.lang.Boolean checkAdministrationIdOfSigner , java.lang.Boolean checkDocumentModifications , java.lang.Boolean checkValidationSignature , java.lang.String perfilDeFirma , java.lang.String usuariExternNom , java.lang.String usuariExternLlinatges , java.lang.String usuariExternEmail , java.lang.String usuariExternIdioma , java.lang.String usuariExternToken , java.lang.Integer usuariExternNivellSeguretat , java.lang.Long signaturePluginId) {
     this.firmaID=firmaID;
     this.destinatariID=destinatariID;
     this.blocDeFirmaID=blocDeFirmaID;
@@ -72,9 +73,10 @@ public class FirmaBean implements Firma {
     this.usuariExternIdioma=usuariExternIdioma;
     this.usuariExternToken=usuariExternToken;
     this.usuariExternNivellSeguretat=usuariExternNivellSeguretat;
+    this.signaturePluginId=signaturePluginId;
 }
   /** Constructor sense valors autoincrementals */
-  public FirmaBean(java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , java.lang.Long fitxerFirmatID , java.lang.Integer numFirmaDocument , int caixaPagina , java.lang.Integer caixaX , java.lang.Integer caixaY , java.lang.Integer caixaAmple , java.lang.Integer caixaAlt , java.math.BigInteger numeroSerieCertificat , java.lang.String emissorCertificat , java.lang.String nomCertificat , java.lang.Long tipusEstatDeFirmaFinalID , boolean mostrarRubrica , java.lang.String motiu , int minimDeRevisors , java.lang.Boolean checkAdministrationIdOfSigner , java.lang.Boolean checkDocumentModifications , java.lang.Boolean checkValidationSignature , java.lang.String perfilDeFirma , java.lang.String usuariExternNom , java.lang.String usuariExternLlinatges , java.lang.String usuariExternEmail , java.lang.String usuariExternIdioma , java.lang.String usuariExternToken , java.lang.Integer usuariExternNivellSeguretat) {
+  public FirmaBean(java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , java.lang.Long fitxerFirmatID , java.lang.Integer numFirmaDocument , int caixaPagina , java.lang.Integer caixaX , java.lang.Integer caixaY , java.lang.Integer caixaAmple , java.lang.Integer caixaAlt , java.math.BigInteger numeroSerieCertificat , java.lang.String emissorCertificat , java.lang.String nomCertificat , java.lang.Long tipusEstatDeFirmaFinalID , boolean mostrarRubrica , java.lang.String motiu , int minimDeRevisors , java.lang.Boolean checkAdministrationIdOfSigner , java.lang.Boolean checkDocumentModifications , java.lang.Boolean checkValidationSignature , java.lang.String perfilDeFirma , java.lang.String usuariExternNom , java.lang.String usuariExternLlinatges , java.lang.String usuariExternEmail , java.lang.String usuariExternIdioma , java.lang.String usuariExternToken , java.lang.Integer usuariExternNivellSeguretat , java.lang.Long signaturePluginId) {
     this.destinatariID=destinatariID;
     this.blocDeFirmaID=blocDeFirmaID;
     this.obligatori=obligatori;
@@ -102,6 +104,7 @@ public class FirmaBean implements Firma {
     this.usuariExternIdioma=usuariExternIdioma;
     this.usuariExternToken=usuariExternToken;
     this.usuariExternNivellSeguretat=usuariExternNivellSeguretat;
+    this.signaturePluginId=signaturePluginId;
 }
   /** Constructor dels valors Not Null */
   public FirmaBean(long firmaID , java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , int caixaPagina , boolean mostrarRubrica , int minimDeRevisors) {
@@ -142,6 +145,7 @@ public class FirmaBean implements Firma {
     this.setUsuariExternIdioma(__bean.getUsuariExternIdioma());
     this.setUsuariExternToken(__bean.getUsuariExternToken());
     this.setUsuariExternNivellSeguretat(__bean.getUsuariExternNivellSeguretat());
+    this.setSignaturePluginId(__bean.getSignaturePluginId());
     // Fitxer
     this.setFitxerFirmat(FitxerBean.toBean(__bean.getFitxerFirmat()));
 	}
@@ -342,6 +346,13 @@ public class FirmaBean implements Firma {
 		this.usuariExternNivellSeguretat = _usuariExternNivellSeguretat_;
 	};
 
+	public java.lang.Long getSignaturePluginId() {
+		return(signaturePluginId);
+	};
+	public void setSignaturePluginId(java.lang.Long _signaturePluginId_) {
+		this.signaturePluginId = _signaturePluginId_;
+	};
+
 
 
   // ======================================
@@ -377,6 +388,7 @@ public class FirmaBean implements Firma {
     __tmp.setUsuariExternIdioma(__bean.getUsuariExternIdioma());
     __tmp.setUsuariExternToken(__bean.getUsuariExternToken());
     __tmp.setUsuariExternNivellSeguretat(__bean.getUsuariExternNivellSeguretat());
+    __tmp.setSignaturePluginId(__bean.getSignaturePluginId());
     // Fitxer
     __tmp.setFitxerFirmat(FitxerBean.toBean(__bean.getFitxerFirmat()));
 		return __tmp;

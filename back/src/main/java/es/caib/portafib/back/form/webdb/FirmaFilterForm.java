@@ -373,6 +373,28 @@ public class FirmaFilterForm extends PortaFIBBaseFilterForm implements FirmaFiel
   }
 
 
+  private java.lang.Long signaturePluginIdDesde;
+
+  public java.lang.Long getSignaturePluginIdDesde() {
+    return this.signaturePluginIdDesde;
+  }
+
+  public void setSignaturePluginIdDesde(java.lang.Long signaturePluginIdDesde) {
+    this.signaturePluginIdDesde = signaturePluginIdDesde;
+  }
+
+
+  private java.lang.Long signaturePluginIdFins;
+
+  public java.lang.Long getSignaturePluginIdFins() {
+    return this.signaturePluginIdFins;
+  }
+
+  public void setSignaturePluginIdFins(java.lang.Long signaturePluginIdFins) {
+    this.signaturePluginIdFins = signaturePluginIdFins;
+  }
+
+
   public FirmaFilterForm() {
   }
   
@@ -410,6 +432,8 @@ public class FirmaFilterForm extends PortaFIBBaseFilterForm implements FirmaFiel
     this.usuariExternIdioma = __toClone.usuariExternIdioma;
     this.usuariExternToken = __toClone.usuariExternToken;
     this.usuariExternNivellSeguretatSelect = __toClone.usuariExternNivellSeguretatSelect;
+    this.signaturePluginIdDesde = __toClone.signaturePluginIdDesde;
+    this.signaturePluginIdFins = __toClone.signaturePluginIdFins;
     this.mapOfUsuariEntitatForDestinatariID = __toClone.mapOfUsuariEntitatForDestinatariID;
     this.mapOfBlocDeFirmesForBlocDeFirmaID = __toClone.mapOfBlocDeFirmesForBlocDeFirmaID;
     this.mapOfValuesForTipusEstatDeFirmaFinalID = __toClone.mapOfValuesForTipusEstatDeFirmaFinalID;

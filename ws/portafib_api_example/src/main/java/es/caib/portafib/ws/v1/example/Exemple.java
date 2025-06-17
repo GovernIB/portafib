@@ -187,6 +187,9 @@ public class Exemple {
                 // Obtenir petició de Firma
                 peticioDeFirmaID = peticioDeFirmaWs.getPeticioDeFirmaID();
                 peticioDeFirmaWs = api.getPeticioDeFirma(peticioDeFirmaID);
+                
+                System.out.println("Peticio de firma creada amb ID = " + peticioDeFirmaWs);
+                
 
                 // Imprimir estat
                 log.info("Estat de la peticio = " + peticioDeFirmaWs.getTipusEstatPeticioDeFirmaID());

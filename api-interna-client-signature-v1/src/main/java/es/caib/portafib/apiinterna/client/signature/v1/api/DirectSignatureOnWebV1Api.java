@@ -10,14 +10,14 @@ import javax.ws.rs.core.GenericType;
 import es.caib.portafib.apiinterna.client.signature.v1.model.AddFileToSignRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.CommonInfo;
 import es.caib.portafib.apiinterna.client.signature.v1.model.DocumentaryType;
-import es.caib.portafib.apiinterna.client.signature.v1.model.GetSignatureResultRequest;
-import es.caib.portafib.apiinterna.client.signature.v1.model.GetTransactionStatusResponse;
 import es.caib.portafib.apiinterna.client.signature.v1.model.KeyValue;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Profile;
 import es.caib.portafib.apiinterna.client.signature.v1.model.RestExceptionInfo;
 import java.util.Set;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureResponse;
+import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureResultRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.StartTransactionRequest;
+import es.caib.portafib.apiinterna.client.signature.v1.model.TransactionStatusResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -357,12 +357,12 @@ public class DirectSignatureOnWebV1Api {
   /**
    * Document signat  i informació d&#39;una firma
    * 
-   * @param getSignatureResultRequest Identificador de transacció i de firma. (optional)
+   * @param signatureResultRequest Identificador de transacció i de firma. (optional)
    * @return a {@code SignatureResponse}
    * @throws ApiException if fails to make API call
    */
-  public SignatureResponse getSignatureResult(GetSignatureResultRequest getSignatureResultRequest) throws ApiException {
-    Object localVarPostBody = getSignatureResultRequest;
+  public SignatureResponse getSignatureResult(SignatureResultRequest signatureResultRequest) throws ApiException {
+    Object localVarPostBody = signatureResultRequest;
     
     // create path and map variables
     String localVarPath = "/secure/directsignatureonweb/v1/getSignatureResult".replaceAll("\\{format\\}","json");
@@ -434,10 +434,10 @@ public class DirectSignatureOnWebV1Api {
    * Retorna estat de la transacció (el procés de firma en general) i resultat del procés de cada firma
    * 
    * @param body Identificador de transacció retornat de la cridada getTransactionID(). (optional)
-   * @return a {@code GetTransactionStatusResponse}
+   * @return a {@code TransactionStatusResponse}
    * @throws ApiException if fails to make API call
    */
-  public GetTransactionStatusResponse getTransactionStatus(String body) throws ApiException {
+  public TransactionStatusResponse getTransactionStatus(String body) throws ApiException {
     Object localVarPostBody = body;
     
     // create path and map variables
@@ -465,7 +465,7 @@ public class DirectSignatureOnWebV1Api {
 
     String[] localVarAuthNames = new String[] { "BasicAuth" };
 
-    GenericType<GetTransactionStatusResponse> localVarReturnType = new GenericType<GetTransactionStatusResponse>() {};
+    GenericType<TransactionStatusResponse> localVarReturnType = new GenericType<TransactionStatusResponse>() {};
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**

@@ -4870,6 +4870,33 @@
             "webtype": 16
           },
           "foreignKeys": []
+        },
+        {
+          "isAutoIncrement": false,
+          "sqlName": "signaturepluginid",
+          "sqlType": -5,
+          "size": 19,
+          "digits": 0,
+          "isNotNullable": false,
+          "labels": {
+            "en": "Signature Plugin ID",
+            "ca": "ID de Plugin de Firma",
+            "es": "ID de Plugin de Firma"
+          },
+          "javaName": "signaturePluginId",
+          "javaType": "java.lang.Long",
+          "traduible": false,
+          "showInWebList": true,
+          "showInReferenceList": false,
+          "transientField": false,
+          "descripcio": "No feim un ForeignKey a la taula de Plugins per Evitar problems d\u0027esborrat de plugins.",
+          "filter": false,
+          "orderBy": 0,
+          "groupBy": false,
+          "webFieldInfo": {
+            "webtype": 14
+          },
+          "foreignKeys": []
         }
       ]
     },

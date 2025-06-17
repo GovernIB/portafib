@@ -24,14 +24,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * GetSignatureResultRequest
+ * SignatureResultRequest
  */
 @JsonPropertyOrder({
-  GetSignatureResultRequest.JSON_PROPERTY_TRANSACTION_I_D,
-  GetSignatureResultRequest.JSON_PROPERTY_SIGN_I_D
+  SignatureResultRequest.JSON_PROPERTY_TRANSACTION_I_D,
+  SignatureResultRequest.JSON_PROPERTY_SIGN_I_D
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
-public class GetSignatureResultRequest {
+public class SignatureResultRequest {
   public static final String JSON_PROPERTY_TRANSACTION_I_D = "transactionID";
   @javax.annotation.Nonnull
   private String transactionID;
@@ -40,10 +40,10 @@ public class GetSignatureResultRequest {
   @javax.annotation.Nonnull
   private String signID;
 
-  public GetSignatureResultRequest() {
+  public SignatureResultRequest() {
   }
 
-  public GetSignatureResultRequest transactionID(@javax.annotation.Nonnull String transactionID) {
+  public SignatureResultRequest transactionID(@javax.annotation.Nonnull String transactionID) {
     
     this.transactionID = transactionID;
     return this;
@@ -68,7 +68,7 @@ public class GetSignatureResultRequest {
     this.transactionID = transactionID;
   }
 
-  public GetSignatureResultRequest signID(@javax.annotation.Nonnull String signID) {
+  public SignatureResultRequest signID(@javax.annotation.Nonnull String signID) {
     
     this.signID = signID;
     return this;
@@ -101,9 +101,9 @@ public class GetSignatureResultRequest {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    GetSignatureResultRequest getSignatureResultRequest = (GetSignatureResultRequest) o;
-    return Objects.equals(this.transactionID, getSignatureResultRequest.transactionID) &&
-        Objects.equals(this.signID, getSignatureResultRequest.signID);
+    SignatureResultRequest signatureResultRequest = (SignatureResultRequest) o;
+    return Objects.equals(this.transactionID, signatureResultRequest.transactionID) &&
+        Objects.equals(this.signID, signatureResultRequest.signID);
   }
 
   @Override
@@ -114,7 +114,7 @@ public class GetSignatureResultRequest {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class GetSignatureResultRequest {\n");
+    sb.append("class SignatureResultRequest {\n");
     sb.append("    transactionID: ").append(toIndentedString(transactionID)).append("\n");
     sb.append("    signID: ").append(toIndentedString(signID)).append("\n");
     sb.append("}");

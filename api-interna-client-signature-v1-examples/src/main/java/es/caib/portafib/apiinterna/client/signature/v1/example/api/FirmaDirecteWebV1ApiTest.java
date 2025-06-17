@@ -18,7 +18,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureResponse;
-import es.caib.portafib.apiinterna.client.signature.v1.model.GetTransactionStatusResponse;
+import es.caib.portafib.apiinterna.client.signature.v1.model.TransactionStatusResponse;
 import es.caib.portafib.apiinterna.client.signature.v1.model.KeyValue;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureStatus;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignedFileInfo;
@@ -33,7 +33,7 @@ import es.caib.portafib.apiinterna.client.signature.v1.model.CustodyInfo;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Document;
 import es.caib.portafib.apiinterna.client.signature.v1.model.DocumentaryType;
 import es.caib.portafib.apiinterna.client.signature.v1.model.FileInfoSignature;
-import es.caib.portafib.apiinterna.client.signature.v1.model.GetSignatureResultRequest;
+import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureResultRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.StartTransactionRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.StatusConstants;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignModeConstants;
@@ -51,11 +51,11 @@ import es.caib.portafib.apiinterna.client.signature.v1.services.ApiException;
  * 2 may 2025 12:16:15
  */
 public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureOnWebV1Api> {
-    
+
     public static void main(String[] args) throws FileNotFoundException, IOException {
         FirmaDirecteWebV1ApiTest test = new FirmaDirecteWebV1ApiTest();
         try {
-            
+
             //test.callCommonTests();
 
             test.signPdfUsingPadesWithSyncWebExample();
@@ -68,7 +68,7 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
 
     }
 
-    public String signPdfUsingPadesWithSyncWebExample() throws ApiException, Exception {
+    public void signPdfUsingPadesWithSyncWebExample() throws ApiException, Exception {
         String transactionID = null;
         Properties prop = getConfigProperties();
         DirectSignatureOnWebV1Api api = null;
@@ -145,83 +145,117 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
             // Esperam a que POrtaFIB ens cridi a la URL de retorn 
             readFromSocket(port);
 
-            // comprovacio de resultats
-            GetTransactionStatusResponse fullTransactionStatus;
+            // Comprovacio de resultats
+            TransactionStatusResponse fullTransactionStatus;
             fullTransactionStatus = api.getTransactionStatus(transactionID);
+            
+            System.out.println(fullTransactionStatus.getSignPlugin());
 
-            List<SignatureStatus> ssl = fullTransactionStatus.getSignaturesStatusList();
+            ProcessStatus processStatus = fullTransactionStatus.getTransactionStatus();
 
-            for (SignatureStatus signatureStatus : ssl) {
+            switch (StatusConstants.fromValue(processStatus.getStatus())) {
+                case STATUS_INITIALIZING: //fss.getSTATUSINITIALIZING(): // = 0;
+                    System.err.println("  STATUS TRANSACCIO = " + processStatus.getStatus() + " (STATUS_INITIALIZING)");
+                    System.err.println("  RESULT: Incoherent Status (Indica que hi ha hagut una mala gestió en el procés de firma)");
+                break;
 
-                final String signID = signatureStatus.getSignID();
+                case STATUS_IN_PROGRESS: //fss.getSTATUSINPROGRESS(): // = 1;
+                    System.err.println("  STATUS TRANSACCIO= " + processStatus.getStatus() + " (STATUS_IN_PROGRESS)");
+                    System.err.println("  RESULT: Incoherent Status (Indica que hi ha hagut una mala gestió en el procés de firma)");
+                break;
 
-                System.out.println("======= Resultats Signature [ " + signID + " ] =======");
+                case STATUS_FINAL_ERROR: //fss.getSTATUSFINALERROR(): // = -1;
+                    System.err.println("  STATUS TRANSACCIO= " + processStatus.getStatus() + " (STATUS_ERROR)");
+                    System.err.println("  RESULT: Error en la firma: " + processStatus.getErrorMessage());
+                break;
 
-                ProcessStatus fss = signatureStatus.getStatus();
+                case STATUS_CANCELLED: //fss.getSTATUSCANCELLED(): // = -2;
+                    System.err.println("  STATUS TRANSACCIO= " + processStatus.getStatus() + " (STATUS_CANCELLED)");
+                    System.err.println("  RESULT: L'usuari ha cancel.lat el procés de firma.");
+                break;
 
-                int status = fss.getStatus(); //fss.getSTATUS();
-                StatusConstants statusSign = StatusConstants.fromValue(status);
-                
+                case STATUS_FINAL_OK:
+                    System.err.println("  STATUS TRANSACCIO= " + processStatus.getStatus() + " (STATUS_FINAL_OK)");
 
-                switch (statusSign) {
-                    case STATUS_INITIALIZING: //fss.getSTATUSINITIALIZING(): // = 0;
-                        System.err.println("  STATUS = " + statusSign + " (STATUS_INITIALIZING)");
-                        System.err.println("  ESULT: Incoherent Status");
-                    break;
+                { // PROCESSAR CADA FIRMA !!!!!
 
-                    case STATUS_IN_PROGRESS: //fss.getSTATUSINPROGRESS(): // = 1;
-                        System.err.println("  STATUS = " + statusSign + " (STATUS_IN_PROGRESS)");
-                        System.err.println("  RESULT: Incoherent Status");
-                    break;
+                    List<SignatureStatus> ssl = fullTransactionStatus.getSignaturesStatusList();
 
-                    case STATUS_FINAL_ERROR: //fss.getSTATUSFINALERROR(): // = -1;
-                        System.err.println("  STATUS = " + statusSign + " (STATUS_ERROR)");
-                        System.err.println("  RESULT: Error en la firma: " + fss.getErrorMessage());
-                    break;
+                    for (SignatureStatus signatureStatus : ssl) {
 
-                    case STATUS_CANCELLED: //fss.getSTATUSCANCELLED(): // = -2;
-                        System.err.println("  STATUS = " + statusSign + " (STATUS_CANCELLED)");
-                        System.err.println("  RESULT: L'usuari ha cancel.lat la firma.");
-                    break;
+                        final String signID = signatureStatus.getSignID();
 
-                    case STATUS_FINAL_OK: //fss.getSTATUSFINALOK(): // = 2;
+                        System.out.println("======= Resultats Signature [ " + signID + " ] =======");
 
-                        GetSignatureResultRequest getSignatureResultRequest = new GetSignatureResultRequest();
-                        getSignatureResultRequest.setTransactionID(transactionID);
-                        getSignatureResultRequest.setSignID(signID);
+                        ProcessStatus fss = signatureStatus.getStatus();
 
-                        SignatureResponse fssr = api.getSignatureResult(getSignatureResultRequest);
-                        Document fsf = fssr.getSignedFile();
+                        int status = fss.getStatus(); //fss.getSTATUS();
+                        System.out.println("Estat Firma Numeric: " + status);
+                        StatusConstants statusSign = StatusConstants.fromValue(status);
 
-                        String postFix;
-                        String signType = fssr.getSignedFileInfo().getSignType();
-                        // XYZ ZZZ Canviar comparacio amb String Values de Enumerat SignType (Encara no es generava be quan es va fer el test)
-                        if (signType.equals("PAdES")) {
-                            postFix = "_signed.pdf";
-                        } else if (signType.equals("CAdES")) {
-                            postFix = "_signed.csig";
-                        } else if (signType.equals("XAdES")) {
-                            postFix = "_signed.xsig";
-                        } else {
-                            postFix = "_signed.unknown_extension_for_sign_type_" + signType;
+                        switch (statusSign) {
+                            case STATUS_INITIALIZING: //fss.getSTATUSINITIALIZING(): // = 0;
+                                System.err.println("  STATUS SIGN = " + statusSign + " (STATUS_INITIALIZING)");
+                                System.err.println("  RESULT: Incoherent Status");
+                            break;
+
+                            case STATUS_IN_PROGRESS: //fss.getSTATUSINPROGRESS(): // = 1;
+                                System.err.println("  STATUS SIGN= " + statusSign + " (STATUS_IN_PROGRESS)");
+                                System.err.println("  RESULT: Incoherent Status");
+                            break;
+
+                            case STATUS_FINAL_ERROR: //fss.getSTATUSFINALERROR(): // = -1;
+                                System.err.println("  STATUS SIGN= " + statusSign + " (STATUS_ERROR)");
+                                System.err.println("  RESULT: Error en la firma: " + fss.getErrorMessage());
+                            break;
+
+                            case STATUS_CANCELLED: //fss.getSTATUSCANCELLED(): // = -2;
+                                System.err.println("  STATUS SIGN= " + statusSign + " (STATUS_CANCELLED)");
+                                System.err.println("  RESULT: L'usuari ha cancel.lat la firma.");
+                            break;
+
+                            case STATUS_FINAL_OK: //fss.getSTATUSFINALOK(): // = 2;
+
+                                SignatureResultRequest signatureResultRequest = new SignatureResultRequest();
+                                signatureResultRequest.setTransactionID(transactionID);
+                                signatureResultRequest.setSignID(signID);
+
+                                SignatureResponse fssr = api.getSignatureResult(signatureResultRequest);
+                                Document fsf = fssr.getSignedFile();
+
+                                String postFix;
+                                String signType = fssr.getSignedFileInfo().getSignType();
+                                // XYZ ZZZ Canviar comparacio amb String Values de Enumerat SignType (Encara no es generava be quan es va fer el test)
+                                if (signType.equals("PAdES")) {
+                                    postFix = "_signed.pdf";
+                                } else if (signType.equals("CAdES")) {
+                                    postFix = "_signed.csig";
+                                } else if (signType.equals("XAdES")) {
+                                    postFix = "_signed.xsig";
+                                } else {
+                                    postFix = "_signed.unknown_extension_for_sign_type_" + signType;
+                                }
+
+                                final String outFile = signID + "_" + fsf.getNom() + postFix;
+
+                                FileOutputStream fos = new FileOutputStream(outFile);
+                                fos.write(fsf.getData());
+                                fos.flush();
+                                fos.close();
+
+                                System.out.println("  + Fitxer signat guardat en '" + outFile + "'");
+                                System.out.println(SignedFileInfoToString(fssr.getSignedFileInfo()));
+
+                            break;
                         }
 
-                        final String outFile = signID + "_" + fsf.getNom() + postFix;
+                    } // Final for de fitxers firmats
 
-                        FileOutputStream fos = new FileOutputStream(outFile);
-                        fos.write(fsf.getData());
-                        fos.flush();
-                        fos.close();
+                    
 
-                        System.out.println("  + Fitxer signat guardat en '" + outFile + "'");
-                        System.out.println(SignedFileInfoToString(fssr.getSignedFileInfo()));
+                } // FINAL CASE ESTAT TRANSACCIO
 
-                    break;
-                }
-
-            } // Final for de fitxers firmats
-
-            return redirectUrl;
+            }
 
         } finally {
             if (api != null && transactionID != null) {
@@ -451,9 +485,9 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
 
     @Override
     protected DirectSignatureOnWebV1Api getApi() throws Exception {
-       return getApi(getApiClient());
+        return getApi(getApiClient());
     }
-        
+
     @Override
     protected DirectSignatureOnWebV1Api getApi(ApiClient apiClient) throws Exception {
         return new DirectSignatureOnWebV1Api(apiClient);

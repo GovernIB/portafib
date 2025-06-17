@@ -1,6 +1,6 @@
 
 
-# SignatureResponse
+# SignDocumentResponse
 
 Resposta de la petició de firma en servidor
 
@@ -12,6 +12,7 @@ Resposta de la petició de firma en servidor
 |**signedFileInfo** | [**SignedFileInfo**](SignedFileInfo.md) |  |  |
 |**signID** | **String** | Identificador de la firma |  |
 |**status** | [**ProcessStatus**](ProcessStatus.md) |  |  |
+|**signPlugin** | [**SignPlugin**](SignPlugin.md) |  |  [optional] |
 
 
 

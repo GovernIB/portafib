@@ -73,14 +73,17 @@ public class SignerInfo {
 
     @Schema(description = "Subject del Certificat utilitzat en la firma", requiredMode = RequiredMode.NOT_REQUIRED)
     protected String subjectCert;
+    
+    @Schema(description="Informació del Plugin Utilitzat per a la realització de la Firma")
+    protected SignPlugin signPlugin;
+    
 
     /**
      * eEMGDE.Firma.InformacionAdicional (eEMGDE17.5.5) Ofrecer cualquier otra
      * información que se considere útil acerca del firmante.
      */
-
     @Schema(
-            description = "Ofrecer cualquier otra información que se  considere útil acerca del firmante.",
+            description = "Ofrecer cualquier otra información que se considere útil acerca del firmante.",
             requiredMode = RequiredMode.NOT_REQUIRED)
     protected List<KeyValue> additionalInformation = null;
 
@@ -89,7 +92,7 @@ public class SignerInfo {
     }
 
     public SignerInfo(String eniRolFirma, String eniSignerName, String eniSignerAdministrationId, String eniSignLevel,
-            Timestamp signDate, String serialNumberCert, String issuerCert, String subjectCert,
+            Timestamp signDate, String serialNumberCert, String issuerCert, String subjectCert, SignPlugin signPlugin,
             List<KeyValue> additionalInformation) {
         super();
         this.eniRolFirma = eniRolFirma;
@@ -100,6 +103,7 @@ public class SignerInfo {
         this.serialNumberCert = serialNumberCert;
         this.issuerCert = issuerCert;
         this.subjectCert = subjectCert;
+        this.signPlugin = signPlugin;
         this.additionalInformation = additionalInformation;
     }
 
@@ -170,10 +174,20 @@ public class SignerInfo {
     public List<KeyValue> getAdditionalInformation() {
         return additionalInformation;
     }
+    
+    public SignPlugin getSignPlugin() {
+        return signPlugin;
+    }
+
+    public void setSignPlugin(SignPlugin signPlugin) {
+        this.signPlugin = signPlugin;
+    }
 
     public void setAdditionalInformation(List<KeyValue> additionalInformation) {
         this.additionalInformation = additionalInformation;
     }
+
+
 
     @Override
     public String toString() {

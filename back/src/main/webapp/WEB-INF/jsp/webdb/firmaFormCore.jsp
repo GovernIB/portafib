@@ -625,3 +625,21 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.SIGNATUREPLUGINID)}">
+        <tr id="firma_signaturePluginId_rowid">
+          <td id="firma_signaturePluginId_columnlabelid">
+            <label>
+              <fmt:message key="${(empty __theForm.labels[FirmaFields.SIGNATUREPLUGINID])?'firma.signaturePluginId':__theForm.labels[FirmaFields.SIGNATUREPLUGINID]}" />
+             </label>
+              <c:if test="${not empty __theForm.help[FirmaFields.SIGNATUREPLUGINID]}">
+              <i class="fas fa-info-circle" title="${__theForm.help[FirmaFields.SIGNATUREPLUGINID]}" ></i>
+              </c:if>
+            </td>
+          <td id="firma_signaturePluginId_columnvalueid">
+            <form:errors path="firma.signaturePluginId" cssClass="errorField alert alert-danger" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.SIGNATUREPLUGINID)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.SIGNATUREPLUGINID)? ' uneditable-input' : ''}"  style=""  path="firma.signaturePluginId"   />
+
+           </td>
+        </tr>
+        </c:if>
+        

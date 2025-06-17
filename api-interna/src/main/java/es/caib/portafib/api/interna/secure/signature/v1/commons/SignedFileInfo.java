@@ -105,6 +105,11 @@ public class SignedFileInfo {
 
     @Schema(description = "Informació del signant o signants", requiredMode = RequiredMode.NOT_REQUIRED)
     protected List<SignerInfo> signers;
+    
+    
+    
+    
+    
 
     /**
      * Informacio de Custòdia

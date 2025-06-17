@@ -17,7 +17,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
-
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
@@ -39,9 +38,11 @@ import es.caib.portafib.api.interna.secure.signature.v1.commons.Profile;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignAlgorithmConstants;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignModeConstants;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignOperationConstants;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.SignPlugin;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignProfileConstants;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignTypeConstants;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignaturesTableLocationConstants;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.SignedFileInfo;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.StatusConstants;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.UsuariPersonaService;
@@ -308,8 +309,8 @@ public class SignatureOnServerService extends AbstractSignatureService implement
                 mime = null;
             }
 
-            UpgradedFileInfo upgradedFileInfo = constructFirmaSimpleUpgradedFileInfo(upgradeResponse,
-                    signatureType, singTypeForm.getName());
+            UpgradedFileInfo upgradedFileInfo = constructFirmaSimpleUpgradedFileInfo(upgradeResponse, signatureType,
+                    singTypeForm.getName());
 
             Document signedFile = new Document(null, mime, upgradeResponse.getUpgradedSignature());
 
@@ -370,8 +371,8 @@ public class SignatureOnServerService extends AbstractSignatureService implement
                     description = "Operació realitzada correctament",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(implementation = SignatureResponse.class))) })
-    public SignatureResponse signDocument(@Parameter(hidden = true) @Context
+                            schema = @Schema(implementation = SignDocumentResponse.class))) })
+    public SignDocumentResponse signDocument(@Parameter(hidden = true) @Context
     HttpServletRequest request, @RequestBody
     SignDocumentRequest simpleSignature) throws RestException {
 
@@ -407,8 +408,9 @@ public class SignatureOnServerService extends AbstractSignatureService implement
                 + simpleSignature.getCommonInfo().getLanguageUI());
 
         String transactionID = null;
-        final boolean isSignatureInServer = true;
+
         try {
+            Long signaturePluginId = null;
             transactionID = internalGetTransacction();
             String username = request.getUserPrincipal().getName();
 
@@ -417,8 +419,8 @@ public class SignatureOnServerService extends AbstractSignatureService implement
 
             PerfilConfiguracionsDeFirma pcf;
 
-            org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest simpleSignatureRequestApisib = getSimpleSignatureRequestApisib(
-                    simpleSignature);
+            org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest simpleSignatureRequestApisib;
+            simpleSignatureRequestApisib = getSimpleSignatureRequestApisib(simpleSignature);
 
             pcf = configuracioUsuariAplicacioLogicaLocalEjb.getConfiguracioFirmaPerApiFirmaSimpleEnServidor(username,
                     perfil.getCodi(), simpleSignatureRequestApisib);
@@ -441,51 +443,108 @@ public class SignatureOnServerService extends AbstractSignatureService implement
             fullResults = passarelaDeFirmaEnServidorEjb.signDocuments(pss, entitat, usuariAplicacio, pcf.perfilDeFirma,
                     pcf.configBySignID);
 
-            SignDocumentsResponse fssfrFull = processPassarelaResults(fullResults, pss,
-                    isSignatureInServer);
+            signaturePluginId = fullResults.getPluginFirmaEnServidorId();
 
-            ProcessStatus statusGlobal = fssfrFull.getStatusSignatureProcess();
+            //SignDocumentsResponse fssfrFull = processPassarelaResults(fullResults, pss, isSignatureInServer,
+            //        fullResults.getPluginFirmaEnServidorId());
+            // private SignDocumentsResponse processPassarelaResults(PassarelaSignatureInServerResults completeResults,
+            // PassarelaSignaturesSet pss, boolean isSignatureInServer, Long signaturePluginID) throws Exception {
+            //
+            ProcessStatus statusGlobal;
+            List<SignatureResponse> results;
+            {
+                PassarelaFullResults pfullResults = fullResults.getPassarelaFullResults();
+
+                PassarelaSignatureStatus passarelaSS = pfullResults.getSignaturesSetStatus();
+
+                statusGlobal = new es.caib.portafib.api.interna.secure.signature.v1.commons.ProcessStatus(
+                        passarelaSS.getStatus(), passarelaSS.getErrorMessage(), passarelaSS.getErrorStackTrace());
+
+                if (passarelaSS.getStatus() == StatusSignature.STATUS_FINAL_OK) {
+
+                    List<PassarelaSignatureResult> passarelaSR = pfullResults.getSignResults();
+
+                    results = new ArrayList<SignatureResponse>();
+
+                    Map<String, PassarelaFileInfoSignature> infoBySignID = new HashMap<String, PassarelaFileInfoSignature>();
+                    for (PassarelaFileInfoSignature pfis : pss.getFileInfoSignatureArray()) {
+
+                        infoBySignID.put(pfis.getSignID(), pfis);
+
+                    }
+
+                    es.caib.portafib.logic.utils.ValidacioCompletaResponse validacioInfo;
+                    for (PassarelaSignatureResult psr : passarelaSR) {
+
+                        validacioInfo = fullResults.getValidacioResponseBySignID().get(psr.getSignID());
+
+                        results.add(convertPassarelaSignatureResult2FirmaSimpleSignatureResult(psr,
+                                pss.getCommonInfoSignature(), infoBySignID.get(psr.getSignID()), validacioInfo,
+                                esFirmaEnServidor, signaturePluginId));
+                    }
+                } else {
+                    results = null;
+                }
+            }
+
+            //SignDocumentsResponse fssfr;
+            //fssfr = new SignDocumentsResponse(statusSignatureProcess, results);
+            //return fssfr;
+
+            //ProcessStatus statusGlobal = fssfrFull.getStatusSignatureProcess();
 
             SignatureResponse result;
 
             String signID = simpleSignature.getFileInfoSignature().getSignID();
 
             if (statusGlobal.getStatus() == (int) StatusConstants.STATUS_FINAL_OK.getValue()) {
-                // Només hi ha una firma
-                result = fssfrFull.getResults().get(0);
+                // Només hi ha d'haver una firma
+                result = results.get(0);
 
                 if (result.getStatus().getStatus() == (int) StatusConstants.STATUS_FINAL_OK.getValue()) {
 
                     // En API DE FIRMA SIMPE; EN SERVIDOR NOMES S'ENVIA UN DOCUMENT DE FIRMA A LA
                     // VEGADA
                     PassarelaFileInfoSignature fileInfo = pss.getFileInfoSignatureArray()[0];
-                    
+
                     final String profileSignType = null;
-                    
+
                     final boolean useSignPolicy = (pss.getCommonInfoSignature().getPolicyInfoSignature() != null);
-                    
+
                     UsuariAplicacioConfiguracioJPA config = pcf.configBySignID.get(signID);
-                    
-                    es.caib.portafib.logic.utils.ValidacioCompletaResponse vcr = fullResults.getValidacioResponseBySignID()
-                            .get(fileInfo.getSignID());
-                    
-                    result.setSignedFileInfo(constructFirmaSimpleSignedFileInfo(config, fileInfo,
+
+                    es.caib.portafib.logic.utils.ValidacioCompletaResponse vcr = fullResults
+                            .getValidacioResponseBySignID().get(fileInfo.getSignID());
+
+                    SignedFileInfo sfi = constructFirmaSimpleSignedFileInfo(config, fileInfo,
                             simpleSignature.getFileInfoSignature(), profileSignType, result.getSignedFile(), entitatId,
-                            useSignPolicy, vcr, languageUI));
+                            useSignPolicy, vcr, languageUI, esFirmaEnServidor, signaturePluginId);
+
+                    result.setSignedFileInfo(sfi);
 
                 }
             } else {
                 // Passam l'error general a l'error de la firma
+
                 result = new SignatureResponse(signID, statusGlobal, null, null);
             }
 
+            // Ho podria collir de Signer però es més senzill consultar-ho de nou
+            SignPlugin signPlugin;
+            if (signaturePluginId != null) {
+                signPlugin = getSignaturePluginInformation(esFirmaEnServidor, languageUI, signaturePluginId);
+            } else {
+                signPlugin = null;
+            }
+
             log.info(" XYZ ZZZ Surt de signDocuments => FINAL");
-            return result;
+
+            return new SignDocumentResponse(result, signPlugin);
 
         } catch (NoCompatibleSignaturePluginException nape) {
 
             throw new RestException(Status.INTERNAL_SERVER_ERROR,
-                    getNoAvailablePluginErrorMessage(languageUI, isSignatureInServer, nape), nape);
+                    getNoAvailablePluginErrorMessage(languageUI, esFirmaEnServidor, nape), nape);
 
         } catch (Throwable th) {
 
@@ -665,53 +724,99 @@ public class SignatureOnServerService extends AbstractSignatureService implement
 
         return msg;
     }
-    
-    
 
-    private SignDocumentsResponse processPassarelaResults(
-            PassarelaSignatureInServerResults completeResults, PassarelaSignaturesSet pss, boolean isSignatureInServer)
-            throws Exception {
-
+    /*
+    private SignDocumentsResponse processPassarelaResults(PassarelaSignatureInServerResults completeResults,
+            PassarelaSignaturesSet pss, boolean isSignatureInServer, Long signaturePluginID) throws Exception {
+    
         PassarelaFullResults fullResults = completeResults.getPassarelaFullResults();
-
+    
         PassarelaSignatureStatus passarelaSS = fullResults.getSignaturesSetStatus();
-
+    
         es.caib.portafib.api.interna.secure.signature.v1.commons.ProcessStatus statusSignatureProcess;
-        statusSignatureProcess = new es.caib.portafib.api.interna.secure.signature.v1.commons.ProcessStatus(passarelaSS.getStatus(),
-                passarelaSS.getErrorMessage(), passarelaSS.getErrorStackTrace());
-
+        statusSignatureProcess = new es.caib.portafib.api.interna.secure.signature.v1.commons.ProcessStatus(
+                passarelaSS.getStatus(), passarelaSS.getErrorMessage(), passarelaSS.getErrorStackTrace());
+    
         List<SignatureResponse> results;
-
+    
         if (passarelaSS.getStatus() == StatusSignature.STATUS_FINAL_OK) {
-
+    
             List<PassarelaSignatureResult> passarelaSR = fullResults.getSignResults();
-
+    
             results = new ArrayList<SignatureResponse>();
-
+    
             Map<String, PassarelaFileInfoSignature> infoBySignID = new HashMap<String, PassarelaFileInfoSignature>();
             for (PassarelaFileInfoSignature pfis : pss.getFileInfoSignatureArray()) {
-
+    
                 infoBySignID.put(pfis.getSignID(), pfis);
-
+    
             }
-
+    
             es.caib.portafib.logic.utils.ValidacioCompletaResponse validacioInfo;
             for (PassarelaSignatureResult psr : passarelaSR) {
-
+    
                 validacioInfo = completeResults.getValidacioResponseBySignID().get(psr.getSignID());
-
-                results.add(
-                        convertPassarelaSignatureResult2FirmaSimpleSignatureResult(psr, pss.getCommonInfoSignature(),
-                                infoBySignID.get(psr.getSignID()), validacioInfo, isSignatureInServer));
+    
+                results.add(convertPassarelaSignatureResult2FirmaSimpleSignatureResult(psr,
+                        pss.getCommonInfoSignature(), infoBySignID.get(psr.getSignID()), validacioInfo,
+                        isSignatureInServer, signaturePluginID));
             }
         } else {
             results = null;
         }
-
+    
         SignDocumentsResponse fssfr;
         fssfr = new SignDocumentsResponse(statusSignatureProcess, results);
         return fssfr;
     }
     
-
+    
+    
+    public class SignDocumentsResponse {
+    
+        @Schema(
+                description = "Estat general del procés de firma. En Firma web, pot passar que aquest estat digui que tot ha anat bé, però que l'estat "
+                        + "intern d'alguna de les firmes no hagi anat bé (Veure FirmaSimpleSignatureResult)",
+                example = "",
+                requiredMode = RequiredMode.REQUIRED)
+        protected ProcessStatus statusSignatureProcess;
+        
+        
+        @Schema(
+                description = "Resposta de la petició de firma en servidor",
+                example = "",
+                requiredMode = RequiredMode.REQUIRED)
+        protected List<SignatureResponse> results;
+    
+    
+        public SignDocumentsResponse() {
+            super();
+        }
+    
+      
+        public SignDocumentsResponse(ProcessStatus statusSignatureProcess,
+                List<SignatureResponse> results) {
+            super();
+            this.statusSignatureProcess = statusSignatureProcess;
+            this.results = results;
+        }
+    
+        public List<SignatureResponse> getResults() {
+            return results;
+        }
+    
+        public void setResults(List<SignatureResponse> results) {
+            this.results = results;
+        }
+    
+        public ProcessStatus getStatusSignatureProcess() {
+            return statusSignatureProcess;
+        }
+    
+        public void setStatusSignatureProcess(ProcessStatus statusSignatureProcess) {
+            this.statusSignatureProcess = statusSignatureProcess;
+        }
+    
+    }
+    */
 }

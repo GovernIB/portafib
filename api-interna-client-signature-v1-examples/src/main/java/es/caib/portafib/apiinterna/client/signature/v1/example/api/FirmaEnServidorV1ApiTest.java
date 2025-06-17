@@ -16,7 +16,8 @@ import es.caib.portafib.apiinterna.client.signature.v1.model.DocumentaryType;
 import es.caib.portafib.apiinterna.client.signature.v1.model.FileInfoSignature;
 import es.caib.portafib.apiinterna.client.signature.v1.model.KeyValue;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignDocumentRequest;
-import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureResponse;
+import es.caib.portafib.apiinterna.client.signature.v1.model.SignDocumentResponse;
+import es.caib.portafib.apiinterna.client.signature.v1.model.SignedFileInfo;
 import es.caib.portafib.apiinterna.client.signature.v1.model.StatusConstants;
 import es.caib.portafib.apiinterna.client.signature.v1.model.ProcessStatus;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Profile;
@@ -112,12 +113,12 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
 
     }
 
-    protected SignatureResponse internalTestSignatureServerPAdES(final String testName, final Integer expectedError,
+    protected SignDocumentResponse internalTestSignatureServerPAdES(final String testName, final Integer expectedError,
             SignatureOnServerV1Api api) throws Exception, ApiException {
         return internalTestSignatureServerPAdES(testName, expectedError, api, null);
     }
 
-    protected SignatureResponse internalTestSignatureServerPAdES(final String testName, final Integer expectedError,
+    protected SignDocumentResponse internalTestSignatureServerPAdES(final String testName, final Integer expectedError,
             SignatureOnServerV1Api api, String file) throws Exception, ApiException {
         Properties prop = getConfigProperties();
 
@@ -136,7 +137,7 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
         return internalSignDocument(api, perfil, fileToSign, languageUI, testName, expectedError);
     }
 
-    protected SignatureResponse internalSignDocument(SignatureOnServerV1Api api, final String perfil,
+    protected SignDocumentResponse internalSignDocument(SignatureOnServerV1Api api, final String perfil,
             Document fileToSign, String languageUI, String testName, Integer expectedError)
             throws ApiException, Exception {
 
@@ -183,7 +184,9 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
             signature.setCommonInfo(commonInfo);
             signature.setFileInfoSignature(fileInfoSignature);
 
-            SignatureResponse fullResults = api.signdocument(signature);
+            SignDocumentResponse fullResults = api.signdocument(signature);
+            
+            System.out.println(fullResults.getSignPlugin());
 
             ProcessStatus transactionStatus = fullResults.getStatus();
 
@@ -205,10 +208,18 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
 
             } else if (status == (int) StatusConstants.STATUS_FINAL_OK.getValue()) {
 
-                System.out.println(" ===== RESULTAT  =========");
+                System.out.println(" ========= RESULTAT  =========");
 
-                {
-                    System.out.println(" ---- Signature [ " + fullResults.getSignID() + " ]");
+                {   
+                    
+                    SignedFileInfo signedFileInfo = fullResults.getSignedFileInfo();
+                    if (signedFileInfo != null) {
+                        System.out.println(fullResults.getSignedFileInfo());
+                    } else {
+                        System.out.println("  Signed File Info: NULL");
+                    }
+                    
+                    
 
                     System.err.println("  RESULT: OK");
                     Document fsf = fullResults.getSignedFile();
@@ -217,7 +228,6 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
                     fos.flush();
                     fos.close();
                     System.out.println("  RESULT: Fitxer signat guardat en '" + fsf.getNom() + "'");
-                    System.out.println(fullResults.getSignedFileInfo().toString());
 
                     return fullResults;
 

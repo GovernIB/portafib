@@ -94,7 +94,6 @@ import org.fundaciobit.pluginsib.signature.api.ITimeStampGenerator;
 import org.fundaciobit.pluginsib.signature.api.PolicyInfoSignature;
 import org.fundaciobit.pluginsib.signature.api.StatusSignature;
 import org.fundaciobit.pluginsib.signature.api.StatusSignaturesSet;
-import org.fundaciobit.pluginsib.signatureweb.api.SignaturesSetWeb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
 import org.springframework.mobile.device.DeviceUtils;
@@ -1196,7 +1195,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
         SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
 
-        SignaturesSetWeb ss;
+        PortaFIBSignaturesSet ss;
         boolean administrationIdCanBeValidatedFromPlugin;
         {
             PortaFIBSignaturesSet pss = SignatureModuleController.getPortaFIBSignaturesSet(request, signaturesSetID,
@@ -1254,14 +1253,14 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         return mav;
     }
 
-    public void signPostProcessOfSignaturesSet(HttpServletRequest request, SignaturesSetWeb ss,
+    public void signPostProcessOfSignaturesSet(HttpServletRequest request, PortaFIBSignaturesSet ss,
             boolean administrationIdCanBeValidatedFromPlugin) {
 
         FileInfoSignature[] signedFiles = ss.getFileInfoSignatureArray();
 
         final boolean isDebug = log.isDebugEnabled();
 
-        int[] originalNumberOfSignsArray = ((PortaFIBSignaturesSet) ss).getOriginalNumberOfSignsArray();
+        int[] originalNumberOfSignsArray = ss.getOriginalNumberOfSignsArray();
 
         int signats = 0;
         for (int i = 0; i < signedFiles.length; i++) {
@@ -1303,7 +1302,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                             peticioDeFirmaLogicaEjb.nouFitxerFirmat(firmat, estatDeFirmaID, peticioDeFirmaID, token,
                                     signedFile.getSignNumber(), originalNumberOfSignsArray[i],
                                     LoginInfo.getInstance().getUsuariPersona().getUsuariPersonaID(),
-                                    administrationIdCanBeValidatedFromPlugin);
+                                    administrationIdCanBeValidatedFromPlugin, ss.getSelectedPluginID());
 
                             status.setProcessed(true);
                             signats++;
@@ -1419,7 +1418,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             peticioDeFirmaLogicaEjb.nouFitxerFirmat(firmat, estatDeFirmaID, peticioDeFirmaID, token,
                     signedFileInfo.getSignNumber(), originalNumberOfSigns,
                     LoginInfo.getInstance().getUsuariPersona().getUsuariPersonaID(),
-                    administrationIdCanBeValidatedFromPlugin);
+                    administrationIdCanBeValidatedFromPlugin, this.signaturesSet.getSelectedPluginID() );
 
         }
     }

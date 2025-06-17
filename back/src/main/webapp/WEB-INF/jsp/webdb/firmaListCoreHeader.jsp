@@ -96,6 +96,9 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNNIVELLSEGURETAT)}">
         <th>${pfi:getSortIcons(__theFilterForm,FirmaFields.USUARIEXTERNNIVELLSEGURETAT)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.SIGNATUREPLUGINID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,FirmaFields.SIGNATUREPLUGINID)}</th>
+        </c:if>
 
 
         <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
