@@ -1129,7 +1129,6 @@ public abstract class AbstractSignatureService extends RestUtils {
             final List<KeyValue> additionInformation = null;
             final Timestamp signDate = new Timestamp(System.currentTimeMillis());
 
-
             // XYZ ZZZ ZZZ Que passarela retorni dades de la validació de la firma
             // i que aqui es puguin usar !!!!
             String serialNumberCert = null;
@@ -1142,11 +1141,11 @@ public abstract class AbstractSignatureService extends RestUtils {
                 subjectCert = infoValidacio.getSubjectCertificat();
 
             }
-            
+
             SignPlugin signPlugin;
             if (signaturePluginId != null) {
-               signPlugin = getSignaturePluginInformation(isSignatureInServer, commonInfo.getLanguageUI(),
-                       signaturePluginId);
+                signPlugin = getSignaturePluginInformation(isSignatureInServer, commonInfo.getLanguageUI(),
+                        signaturePluginId);
             } else {
                 signPlugin = null;
             }
@@ -1175,46 +1174,60 @@ public abstract class AbstractSignatureService extends RestUtils {
     protected SignPlugin getSignaturePluginInformation(boolean isSignatureInServer, String languageUI,
             Long signaturePluginId) throws Exception {
 
+        if (signaturePluginId == null) {
+            return null;
+        }
+
         String langUI = RestUtils.checkLanguage(languageUI);
 
         PluginJPA plugin;
         ISignaturePlugin signaturePlugin;
         if (isSignatureInServer) {
             plugin = modulDeFirmaServidorEjb.findByPrimaryKey(signaturePluginId);
+            if (plugin == null) {
+                log.warn("No s'ha trobat el plugin de firma en servidor amb ID: " + signaturePluginId);
+                return null;
+            }
             signaturePlugin = modulDeFirmaServidorEjb.getInstanceByPluginID(signaturePluginId);
         } else {
             plugin = modulDeFirmaWebEjb.findByPrimaryKey(signaturePluginId);
+            if (plugin == null) {
+                log.warn("No s'ha trobat el plugin de firma web amb ID: " + signaturePluginId);
+                return null;
+            }
             signaturePlugin = modulDeFirmaWebEjb.getInstanceByPluginID(signaturePluginId);
         }
 
-        final String pluginNamePublic;
-        final String pluginDescripcioPublic;
-        if (plugin == null) {
-            pluginNamePublic = "No s'ha pogut extreure el nom del plugin amb ID " + signaturePluginId;
-            pluginDescripcioPublic = "No s'ha pogut extreure la descripció del plugin amb ID " + signaturePluginId;
-        } else {
-            pluginNamePublic = plugin.getNom().getTraduccio(langUI).getValor();
-            pluginDescripcioPublic = plugin.getDescripcioCurta().getTraduccio(langUI).getValor();
-        }
-
-        final String pluginNameInternal;
-        if (signaturePlugin == null) {
-            pluginNameInternal = "No es troba la instància del PLugin amb ID " + signaturePluginId;
-        } else {
-            pluginNameInternal = signaturePlugin.getName(new Locale(langUI));
+        try {
+            if (isSignatureInServer) {
+                signaturePlugin = modulDeFirmaServidorEjb.getInstanceByPluginID(signaturePluginId);
+                if (signaturePlugin == null) {
+                    log.warn("No s'ha pogut instanciar plugin de firma en servidor amb ID: " + signaturePluginId);
+                    return null;
+                }
+            } else {
+                signaturePlugin = modulDeFirmaWebEjb.getInstanceByPluginID(signaturePluginId);
+                if (signaturePlugin == null) {
+                    log.warn("No s'ha pogut instanciar el plugin de firma web amb ID: " + signaturePluginId);
+                    return null;
+                }
+            }
+        } catch (Throwable e) {
+            log.error("Error no controlat instanciant el plugin de firma amb ID: " + signaturePluginId, e);
+            return null;
         }
 
         SignPlugin sp = new SignPlugin();
 
         sp.setSignaturePluginId(String.valueOf(signaturePluginId));
-        
+
         sp.setSignaturePluginCode(plugin.getCodi());
 
-        sp.setSignaturePluginNameInternal(pluginNameInternal);
+        sp.setSignaturePluginNameInternal(signaturePlugin.getName(new Locale(langUI)));
 
-        sp.setSignaturePluginNamePublic(pluginNamePublic);
+        sp.setSignaturePluginNamePublic(plugin.getNom().getTraduccio(langUI).getValor());
 
-        sp.setSignaturePluginDescriptionPublic(pluginDescripcioPublic);
+        sp.setSignaturePluginDescriptionPublic(plugin.getDescripcioCurta().getTraduccio(langUI).getValor());
 
         return sp;
 
@@ -1309,9 +1322,7 @@ public abstract class AbstractSignatureService extends RestUtils {
             es.caib.portafib.api.interna.secure.signature.v1.commons.FileInfoSignature firmaRequest,
             String eniPerfilFirma, Document signedFile, String entitatID, boolean policyIncluded,
             es.caib.portafib.logic.utils.ValidacioCompletaResponse vcr, final String languageUI,
-            boolean isSignatureInServer,
-            Long signaturePluginId
-            ) throws I18NException, Exception {
+            boolean isSignatureInServer, Long signaturePluginId) throws I18NException, Exception {
 
         log.info("XYZ ZZZ validateSignature::Entra a Validate Signature ...");
 
@@ -1432,11 +1443,10 @@ public abstract class AbstractSignatureService extends RestUtils {
                     String subjectCert = info.getSubject();
 
                     List<KeyValue> additionalInformation = null;
-                    
+
                     SignPlugin signPlugin;
                     if (signaturePluginId != null) {
-                       signPlugin = getSignaturePluginInformation(isSignatureInServer, languageUI,
-                               signaturePluginId);
+                        signPlugin = getSignaturePluginInformation(isSignatureInServer, languageUI, signaturePluginId);
                     } else {
                         signPlugin = null;
                     }
