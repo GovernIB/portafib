@@ -119,12 +119,11 @@ public abstract class AbstractV1ApiTest<A> extends ProcessStatus {
                 if (printLogs) {
                     log.error(
                             "    - Message: Error no controlat realitzant: " + testName + ". Error: " + e.getMessage());
-
-                    log.error("    ----------------- IMPORTANT ----------------\n"
-                            + "    El body del missatge HTTP hauria de contenir\n"
-                            + "    un objecte RestExceptionInfo representat en\n"
-                            + "    format JSON però en el seu lloc conté:\n" + e.getMessage() + "\n"
-                            + "    ---------------------------------------------");
+                    log.error("\n"
+                            + "    ---------------------------------- IMPORTANT -------------------------------\n"
+                            + "    El body del missatge HTTP hauria de contenir un objecte RestExceptionInfo\n"
+                            + "    representat en format JSON però en el seu lloc conté:\n" + e.getMessage() + "\n"
+                            + "    ----------------------------------------------------------------------------\n");
                 }
                 return false;
             }

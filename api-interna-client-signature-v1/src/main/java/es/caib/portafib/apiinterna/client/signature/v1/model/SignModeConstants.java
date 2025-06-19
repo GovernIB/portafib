@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Valors:     • SIGN_MODE_ATTACHED_ENVELOPED(0): El fitxer de dades resultant inclou la firma: PDF, ODT, ...     • SIGN_MODE_ATTACHED_ENVELOPING(3): El fitxer resultant serà la firma que incloura les dades originals     • SIGN_MODE_DETACHED(1): El fitxer de firma no inclourà les dades: per separat trobarem un fitxer de firma i el fitxer original    • SIGN_MODE_INTERNALLY_DETACHED(4): Firma especial XAdES en que la firma i les dades estan al mateix nivell dins de l&#39;XML: ni la firma inclou les dades ni les dades inclouen la firma
+ * Valors:     • SIGN_MODE_ATTACHED_ENVELOPED(0): El fitxer de dades resultant inclou la firma: PDF, ODT, ...     • SIGN_MODE_ATTACHED_ENVELOPING(3): El fitxer resultant serà la firma que incloura les dades originals     • SIGN_MODE_DETACHED(1): El fitxer de firma no inclourà les dades: per separat trobarem un fitxer de firma i el fitxer original     • SIGN_MODE_INTERNALLY_DETACHED(4): Firma especial XAdES en que la firma i les dades estan al mateix nivell dins de l&#39;XML: ni la firma inclou les dades ni les dades inclouen la firma     • SIGN_MODE_EXTERNALLY_DETACHED(5):  Firma especial XAdES en que les dades es substitueixen per un resum del fitxer a signar. Entre les dades del resum hi ha una URL a les dades del fitxer original. 
  */
 public enum SignModeConstants {
   
@@ -44,7 +44,12 @@ public enum SignModeConstants {
   /**
    * Firma especial XAdES en que la firma i les dades estan al mateix nivell dins de l&#39;XML: ni la firma inclou les dades ni les dades inclouen la firma
    */
-  SIGN_MODE_INTERNALLY_DETACHED(4);
+  SIGN_MODE_INTERNALLY_DETACHED(4),
+  
+  /**
+   * Firma especial XAdES en que les dades es substitueixen per un resum del fitxer a signar. Entre les dades del resum hi ha una URL a les dades del fitxer original
+   */
+  SIGN_MODE_EXTERNALLY_DETACHED(5);
 
   private Integer value;
 

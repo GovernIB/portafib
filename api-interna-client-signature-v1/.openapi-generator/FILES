@@ -43,13 +43,11 @@ docs/SignatureFlowTemplateTransactionResult.md
 docs/SignatureFlowTemplateTransactionStatusConstants.md
 docs/SignatureFlowTemplateV1Api.md
 docs/SignatureOnServerV1Api.md
-docs/SignatureRequestInfo.md
 docs/SignatureRequestState.md
 docs/SignatureRequestStateConstants.md
 docs/SignatureRequestWithFlowTemplateCode.md
 docs/SignatureRequestWithSignBlockList.md
 docs/SignatureResponse.md
-docs/SignatureResultRequest.md
 docs/SignatureStatus.md
 docs/SignaturesTableLocationConstants.md
 docs/SignedFile.md
@@ -63,6 +61,7 @@ docs/UpgradeRequest.md
 docs/UpgradeResponse.md
 docs/UpgradedFileInfo.md
 docs/ValidationInfo.md
+docs/ViewConstants.md
 git_push.sh
 gradle.properties
 gradle/wrapper/gradle-wrapper.jar
@@ -110,13 +109,11 @@ src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureFlo
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureFlowTemplateTransactionIdRequest.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureFlowTemplateTransactionResult.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureFlowTemplateTransactionStatusConstants.java
-src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureRequestInfo.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureRequestState.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureRequestStateConstants.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureRequestWithFlowTemplateCode.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureRequestWithSignBlockList.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureResponse.java
-src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureResultRequest.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureStatus.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignaturesTableLocationConstants.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignedFile.java
@@ -130,6 +127,7 @@ src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/UpgradeReque
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/UpgradeResponse.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/UpgradedFileInfo.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/ValidationInfo.java
+src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/ViewConstants.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/services/ApiClient.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/services/ApiException.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/services/Configuration.java

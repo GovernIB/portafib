@@ -15,9 +15,9 @@ import es.caib.portafib.apiinterna.client.signature.v1.model.Profile;
 import es.caib.portafib.apiinterna.client.signature.v1.model.RestExceptionInfo;
 import java.util.Set;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureResponse;
-import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureResultRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.StartTransactionRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.TransactionStatusResponse;
+import es.caib.portafib.apiinterna.client.signature.v1.model.ViewConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -355,17 +355,30 @@ public class DirectSignatureOnWebV1Api {
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
-   * Document signat  i informació d&#39;una firma
+   * Document signat i informació d&#39;una firma
    * 
-   * @param signatureResultRequest Identificador de transacció i de firma. (optional)
+   * @param transactionID Identificador de la Transacció que volem recuperar la firma (required)
+   * @param signID Identificador de la Firma que volem recuperar (required)
    * @return a {@code SignatureResponse}
    * @throws ApiException if fails to make API call
    */
-  public SignatureResponse getSignatureResult(SignatureResultRequest signatureResultRequest) throws ApiException {
-    Object localVarPostBody = signatureResultRequest;
+  public SignatureResponse getSignatureResult(String transactionID, String signID) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'transactionID' is set
+    if (transactionID == null) {
+      throw new ApiException(400, "Missing the required parameter 'transactionID' when calling getSignatureResult");
+    }
+    
+    // verify the required parameter 'signID' is set
+    if (signID == null) {
+      throw new ApiException(400, "Missing the required parameter 'signID' when calling getSignatureResult");
+    }
     
     // create path and map variables
-    String localVarPath = "/secure/directsignatureonweb/v1/getSignatureResult".replaceAll("\\{format\\}","json");
+    String localVarPath = "/secure/directsignatureonweb/v1/getSignatureResult/{transactionID}/{signID}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "transactionID" + "\\}", apiClient.escapeString(transactionID.toString()))
+      .replaceAll("\\{" + "signID" + "\\}", apiClient.escapeString(signID.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -383,14 +396,14 @@ public class DirectSignatureOnWebV1Api {
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      "application/json"
+      
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
     String[] localVarAuthNames = new String[] { "BasicAuth" };
 
     GenericType<SignatureResponse> localVarReturnType = new GenericType<SignatureResponse>() {};
-    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
    * Operacio per obtenir el Id de una transaccio de la API
@@ -433,15 +446,21 @@ public class DirectSignatureOnWebV1Api {
   /**
    * Retorna estat de la transacció (el procés de firma en general) i resultat del procés de cada firma
    * 
-   * @param body Identificador de transacció retornat de la cridada getTransactionID(). (optional)
+   * @param transactionID Identificador de la Transacció que volem finalitzar (required)
    * @return a {@code TransactionStatusResponse}
    * @throws ApiException if fails to make API call
    */
-  public TransactionStatusResponse getTransactionStatus(String body) throws ApiException {
-    Object localVarPostBody = body;
+  public TransactionStatusResponse getTransactionStatus(String transactionID) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'transactionID' is set
+    if (transactionID == null) {
+      throw new ApiException(400, "Missing the required parameter 'transactionID' when calling getTransactionStatus");
+    }
     
     // create path and map variables
-    String localVarPath = "/secure/directsignatureonweb/v1/getTransactionStatus".replaceAll("\\{format\\}","json");
+    String localVarPath = "/secure/directsignatureonweb/v1/getTransactionStatus/{transactionID}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "transactionID" + "\\}", apiClient.escapeString(transactionID.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -459,14 +478,14 @@ public class DirectSignatureOnWebV1Api {
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      "application/json"
+      
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
     String[] localVarAuthNames = new String[] { "BasicAuth" };
 
     GenericType<TransactionStatusResponse> localVarReturnType = new GenericType<TransactionStatusResponse>() {};
-    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
    * Envia identificador de la transacció, url de retorn i tipus de vista web (amb o sense iframe) i inicia el procés de firma retornant una URL de redirecció.

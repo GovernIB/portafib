@@ -14,27 +14,9 @@
 package es.caib.portafib.apiinterna.client.signature.v1.api;
 
 import es.caib.portafib.apiinterna.client.signature.v1.services.ApiException;
-import es.caib.portafib.apiinterna.client.signature.v1.model.Document;
-import es.caib.portafib.apiinterna.client.signature.v1.model.DocumentaryType;
-import es.caib.portafib.apiinterna.client.signature.v1.model.KeyValue;
-import es.caib.portafib.apiinterna.client.signature.v1.model.Profile;
-import es.caib.portafib.apiinterna.client.signature.v1.model.RestExceptionInfo;
-import java.util.Set;
-import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureRequestInfo;
-import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureRequestState;
-import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureRequestWithFlowTemplateCode;
-import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureRequestWithSignBlockList;
-import es.caib.portafib.apiinterna.client.signature.v1.model.SignedFile;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 /**
  * API tests for AsyncSignatureOnWebV1Api

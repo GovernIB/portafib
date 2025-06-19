@@ -191,21 +191,39 @@
         } ]
       }
     },
-    "/secure/asyncsignatureonweb/v1/deleteSignatureRequest" : {
+    "/secure/asyncsignatureonweb/v1/deleteSignatureRequest/{signatureRequestID}" : {
       "post" : {
         "tags" : [ "AsyncSignatureOnWeb v1" ],
         "summary" : "Retorna el Fitxer original amb el que es va crear la petició de firma.",
         "operationId" : "deleteSignatureRequest",
-        "requestBody" : {
-          "description" : "Identificador de la petició de Firma i idioma en que retornar missatges i errors",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/SignatureRequestInfo"
-              }
+        "parameters" : [ {
+          "name" : "signatureRequestID",
+          "in" : "path",
+          "description" : "Identificador de Petició de firma",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "languageUI",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
             }
           }
-        },
+        } ],
         "responses" : {
           "400" : {
             "description" : "Paràmetres incorrectes",
@@ -426,21 +444,39 @@
         } ]
       }
     },
-    "/secure/asyncsignatureonweb/v1/getOriginalFileOfSignatureRequest" : {
-      "post" : {
+    "/secure/asyncsignatureonweb/v1/getOriginalFileOfSignatureRequest/{signatureRequestID}" : {
+      "get" : {
         "tags" : [ "AsyncSignatureOnWeb v1" ],
         "summary" : "Retorna el Fitxer original amb el que es va crear la petició de firma.",
         "operationId" : "getOriginalFileOfSignatureRequest",
-        "requestBody" : {
-          "description" : "Identificador de la petició de Firma i idioma en que retornar missatges i errors",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/SignatureRequestInfo"
-              }
+        "parameters" : [ {
+          "name" : "signatureRequestID",
+          "in" : "path",
+          "description" : "Identificador de Petició de firma",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "languageUI",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
             }
           }
-        },
+        } ],
         "responses" : {
           "400" : {
             "description" : "Paràmetres incorrectes",
@@ -583,21 +619,39 @@
         } ]
       }
     },
-    "/secure/asyncsignatureonweb/v1/getSignatureRequestState" : {
-      "post" : {
+    "/secure/asyncsignatureonweb/v1/getSignatureRequestState/{signatureRequestID}" : {
+      "get" : {
         "tags" : [ "AsyncSignatureOnWeb v1" ],
         "summary" : "Informació de l'estat d'una Petició de firma",
         "operationId" : "getSignatureRequestState",
-        "requestBody" : {
-          "description" : "Identificador de la petició de Firma i idioma en que retornar missatges i errors",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/SignatureRequestInfo"
-              }
+        "parameters" : [ {
+          "name" : "signatureRequestID",
+          "in" : "path",
+          "description" : "Identificador de Petició de firma",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "languageUI",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
             }
           }
-        },
+        } ],
         "responses" : {
           "400" : {
             "description" : "Paràmetres incorrectes",
@@ -655,21 +709,39 @@
         } ]
       }
     },
-    "/secure/asyncsignatureonweb/v1/getSignedFileOfSignatureRequest" : {
-      "post" : {
+    "/secure/asyncsignatureonweb/v1/getSignedFileOfSignatureRequest/{signatureRequestID}" : {
+      "get" : {
         "tags" : [ "AsyncSignatureOnWeb v1" ],
         "summary" : "Retorna el Fitxer Signat acompanyats de Informació de la Firma, Signants, custòdia i validacions realitzades.",
         "operationId" : "getSignedFileOfSignatureRequest",
-        "requestBody" : {
-          "description" : "Identificador de la petició de Firma i idioma en que retornar missatges i errors",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/SignatureRequestInfo"
-              }
+        "parameters" : [ {
+          "name" : "signatureRequestID",
+          "in" : "path",
+          "description" : "Identificador de Petició de firma",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "languageUI",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
             }
           }
-        },
+        } ],
         "responses" : {
           "400" : {
             "description" : "Paràmetres incorrectes",
@@ -727,21 +799,39 @@
         } ]
       }
     },
-    "/secure/asyncsignatureonweb/v1/getUrlToViewFlow" : {
-      "post" : {
+    "/secure/asyncsignatureonweb/v1/getUrlToViewFlow/{signatureRequestID}" : {
+      "get" : {
         "tags" : [ "AsyncSignatureOnWeb v1" ],
         "summary" : "Obté una URL des de la que es pot visualitzar el diagrama de flux amb l'estat de la petició (per emprar-la per exemple dins un \"<iframe>\")",
         "operationId" : "getUrlToViewFlow",
-        "requestBody" : {
-          "description" : "Identificador de la petició de Firma i idioma en que retornar missatges i errors",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/SignatureRequestInfo"
-              }
+        "parameters" : [ {
+          "name" : "signatureRequestID",
+          "in" : "path",
+          "description" : "Identificador de Petició de firma",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "languageUI",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
             }
           }
-        },
+        } ],
         "responses" : {
           "400" : {
             "description" : "Paràmetres incorrectes",
@@ -912,7 +1002,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                  "$ref" : "#/components/schemas/ViewConstants"
                 }
               }
             }
@@ -984,7 +1074,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                  "$ref" : "#/components/schemas/ViewConstants"
                 }
               }
             }
@@ -1065,7 +1155,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                  "$ref" : "#/components/schemas/ViewConstants"
                 }
               }
             }
@@ -1150,7 +1240,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                  "$ref" : "#/components/schemas/ViewConstants"
                 }
               }
             }
@@ -1235,7 +1325,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                  "$ref" : "#/components/schemas/ViewConstants"
                 }
               }
             }
@@ -1260,21 +1350,28 @@
         } ]
       }
     },
-    "/secure/directsignatureonweb/v1/getSignatureResult" : {
-      "post" : {
+    "/secure/directsignatureonweb/v1/getSignatureResult/{transactionID}/{signID}" : {
+      "get" : {
         "tags" : [ "DirectSignatureOnWeb v1" ],
-        "summary" : "Document signat  i informació d'una firma",
+        "summary" : "Document signat i informació d'una firma",
         "operationId" : "getSignatureResult",
-        "requestBody" : {
-          "description" : "Identificador de transacció i de firma.",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/SignatureResultRequest"
-              }
-            }
+        "parameters" : [ {
+          "name" : "transactionID",
+          "in" : "path",
+          "description" : "Identificador de la Transacció que volem recuperar la firma",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
           }
-        },
+        }, {
+          "name" : "signID",
+          "in" : "path",
+          "description" : "Identificador de la Firma que volem recuperar",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
         "responses" : {
           "400" : {
             "description" : "Paràmetres incorrectes",
@@ -1311,7 +1408,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                  "$ref" : "#/components/schemas/ViewConstants"
                 }
               }
             }
@@ -1383,7 +1480,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                  "$ref" : "#/components/schemas/ViewConstants"
                 }
               }
             }
@@ -1404,21 +1501,20 @@
         } ]
       }
     },
-    "/secure/directsignatureonweb/v1/getTransactionStatus" : {
-      "post" : {
+    "/secure/directsignatureonweb/v1/getTransactionStatus/{transactionID}" : {
+      "get" : {
         "tags" : [ "DirectSignatureOnWeb v1" ],
         "summary" : "Retorna estat de la transacció (el procés de firma en general) i resultat del procés de cada firma",
         "operationId" : "getTransactionStatus",
-        "requestBody" : {
-          "description" : "Identificador de transacció retornat de la cridada getTransactionID().",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "type" : "string"
-              }
-            }
+        "parameters" : [ {
+          "name" : "transactionID",
+          "in" : "path",
+          "description" : "Identificador de la Transacció que volem finalitzar",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
           }
-        },
+        } ],
         "responses" : {
           "400" : {
             "description" : "Paràmetres incorrectes",
@@ -1455,7 +1551,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                  "$ref" : "#/components/schemas/ViewConstants"
                 }
               }
             }
@@ -1527,7 +1623,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                  "$ref" : "#/components/schemas/ViewConstants"
                 }
               }
             }
@@ -1589,7 +1685,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                  "$ref" : "#/components/schemas/ViewConstants"
                 }
               }
             }
@@ -3530,6 +3626,25 @@
         "tags" : [ "SignatureOnServer v1" ],
         "summary" : "Operacio de firma simple en servidor d'un document",
         "operationId" : "upgradeSignature",
+        "parameters" : [ {
+          "name" : "languageUI",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        } ],
         "requestBody" : {
           "description" : "Funcio de upgrade se firma digital",
           "content" : {
@@ -4139,22 +4254,6 @@
         },
         "description" : "Classe que representa un firmant. Només s'ha d'omplir un camp dels que conté."
       },
-      "SignatureRequestInfo" : {
-        "required" : [ "languageUI", "signatureRequestID" ],
-        "type" : "object",
-        "properties" : {
-          "signatureRequestID" : {
-            "type" : "integer",
-            "description" : "Identificador de Peticio de firma",
-            "format" : "int64"
-          },
-          "languageUI" : {
-            "type" : "string",
-            "description" : "Idioma en que es vol que es retornin els missatges."
-          }
-        },
-        "description" : "Estructura de dades per consultar Peticions de Firma existents"
-      },
       "DocumentaryType" : {
         "required" : [ "documentType", "documentTypeBase", "name" ],
         "type" : "object",
@@ -4451,6 +4550,14 @@
         },
         "description" : "Informació de les validacions realitzades despres de la firma."
       },
+      "ViewConstants" : {
+        "type" : "string",
+        "description" : "Valors:\n    • VIEW_FULLSCREEN(\"fullview\"): El proces de firma es realitzarà en pantalla completa\n    • VIEW_IFRAME(\"iframe\"): El proces de firma es realitzarà en un iframe\n",
+        "format" : "string",
+        "x-enum-varnames" : [ "VIEW_FULLSCREEN", "VIEW_IFRAME" ],
+        "x-enum-descriptions" : [ "El proces de firma es realitzarà en pantalla completa", "El proces de firma es realitzarà en un iframe" ],
+        "enum" : [ "fullview", "iframe" ]
+      },
       "AddFileToSignRequest" : {
         "required" : [ "fileInfoSignature", "transactionID" ],
         "type" : "object",
@@ -4462,7 +4569,8 @@
           "fileInfoSignature" : {
             "$ref" : "#/components/schemas/FileInfoSignature"
           }
-        }
+        },
+        "description" : "Estructura de dades per afegir un fitxer a signar a una transacció ja existent"
       },
       "FileInfoSignature" : {
         "required" : [ "fileToSign", "languageSign", "location", "name", "reason", "signID", "signNumber" ],
@@ -4545,20 +4653,6 @@
           }
         },
         "description" : "Informació especifica per a realitzar la firma"
-      },
-      "SignatureResultRequest" : {
-        "required" : [ "signID", "transactionID" ],
-        "type" : "object",
-        "properties" : {
-          "transactionID" : {
-            "type" : "string",
-            "description" : "Identificador de la transaccio"
-          },
-          "signID" : {
-            "type" : "string",
-            "description" : "Identificador de la firma"
-          }
-        }
       },
       "ProcessStatus" : {
         "type" : "object",
@@ -4666,7 +4760,7 @@
         "description" : "informació de l'estat d'una Transaccio de tipus Firma Web Directe"
       },
       "StartTransactionRequest" : {
-        "required" : [ "language", "returnUrl", "transactionID", "view" ],
+        "required" : [ "returnUrl", "transactionID", "view" ],
         "type" : "object",
         "properties" : {
           "transactionID" : {
@@ -4680,12 +4774,9 @@
           "view" : {
             "type" : "string",
             "description" : "Indica si la presentació de la firma es farà a pantalla completa o dins d'un iframe:\r\n    • \"fullview\" (Constant VIEW_FULLSCREEN)\r\n    • \"iframe\" (Constant VIEW_IFRAME)"
-          },
-          "language" : {
-            "type" : "string",
-            "description" : "Idioma seleccionat"
           }
-        }
+        },
+        "description" : "Paràmetres per iniciar una transacció de firma electrònica directa via web."
       },
       "SignatureFlowTemplateTransactionStatusConstants" : {
         "type" : "integer",
@@ -4842,11 +4933,11 @@
       },
       "SignModeConstants" : {
         "type" : "integer",
-        "description" : "Valors:\n    • SIGN_MODE_ATTACHED_ENVELOPED(0): El fitxer de dades resultant inclou la firma: PDF, ODT, ...\n    • SIGN_MODE_ATTACHED_ENVELOPING(3): El fitxer resultant serà la firma que incloura les dades originals\n    • SIGN_MODE_DETACHED(1): El fitxer de firma no inclourà les dades: per separat trobarem un fitxer de firma i el fitxer original    • SIGN_MODE_INTERNALLY_DETACHED(4): Firma especial XAdES en que la firma i les dades estan al mateix nivell dins de l'XML: ni la firma inclou les dades ni les dades inclouen la firma",
+        "description" : "Valors:\n    • SIGN_MODE_ATTACHED_ENVELOPED(0): El fitxer de dades resultant inclou la firma: PDF, ODT, ...\n    • SIGN_MODE_ATTACHED_ENVELOPING(3): El fitxer resultant serà la firma que incloura les dades originals\n    • SIGN_MODE_DETACHED(1): El fitxer de firma no inclourà les dades: per separat trobarem un fitxer de firma i el fitxer original\n    • SIGN_MODE_INTERNALLY_DETACHED(4): Firma especial XAdES en que la firma i les dades estan al mateix nivell dins de l'XML: ni la firma inclou les dades ni les dades inclouen la firma\n    • SIGN_MODE_EXTERNALLY_DETACHED(5):  Firma especial XAdES en que les dades es substitueixen per un resum del fitxer a signar. Entre les dades del resum hi ha una URL a les dades del fitxer original.\n",
         "format" : "int32",
-        "x-enum-varnames" : [ "SIGN_MODE_ATTACHED_ENVELOPED", "SIGN_MODE_ATTACHED_ENVELOPING", "SIGN_MODE_DETACHED", "SIGN_MODE_INTERNALLY_DETACHED" ],
-        "x-enum-descriptions" : [ "El fitxer de dades resultant inclou la firma: PDF, ODT, ...", "El fitxer resultant serà la firma que incloura les dades originals", "El fitxer de firma no inclourà les dades: per separat trobarem un fitxer de firma i el fitxer origina", "Firma especial XAdES en que la firma i les dades estan al mateix nivell dins de l'XML: ni la firma inclou les dades ni les dades inclouen la firma" ],
-        "enum" : [ "0", "3", "1", "4" ]
+        "x-enum-varnames" : [ "SIGN_MODE_ATTACHED_ENVELOPED", "SIGN_MODE_ATTACHED_ENVELOPING", "SIGN_MODE_DETACHED", "SIGN_MODE_INTERNALLY_DETACHED", "SIGN_MODE_EXTERNALLY_DETACHED" ],
+        "x-enum-descriptions" : [ "El fitxer de dades resultant inclou la firma: PDF, ODT, ...", "El fitxer resultant serà la firma que incloura les dades originals", "El fitxer de firma no inclourà les dades: per separat trobarem un fitxer de firma i el fitxer origina", "Firma especial XAdES en que la firma i les dades estan al mateix nivell dins de l'XML: ni la firma inclou les dades ni les dades inclouen la firma", "Firma especial XAdES en que les dades es substitueixen per un resum del fitxer a signar. Entre les dades del resum hi ha una URL a les dades del fitxer original" ],
+        "enum" : [ "0", "3", "1", "4", "5" ]
       },
       "SignOperationConstants" : {
         "type" : "integer",
@@ -4923,7 +5014,7 @@
         "description" : "Resposta de la petició de firma en servidor"
       },
       "UpgradeRequest" : {
-        "required" : [ "languageUI", "signature" ],
+        "required" : [ "signature" ],
         "type" : "object",
         "properties" : {
           "profileCode" : {
@@ -4938,11 +5029,6 @@
           },
           "targetCertificate" : {
             "$ref" : "#/components/schemas/Document"
-          },
-          "languageUI" : {
-            "type" : "string",
-            "description" : "Idioma dels missatges en cas d'informar o d'errors.",
-            "example" : "ca"
           }
         }
       },

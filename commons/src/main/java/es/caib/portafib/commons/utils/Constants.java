@@ -79,6 +79,12 @@ public interface Constants {
      * de l'XML: ni la firma inclou les dades ni les dades inclouen la firma
      */
     public static final int SIGN_MODE_INTERNALLY_DETACHED = 4;
+    
+    /** Firma especial XAdES en que les dades es substitueixen per un resum del fitxer a signar. 
+     * Entre les dades del resum hi ha una URL a les dades del fitxer original.
+     */
+    public static final int SIGN_MODE_EXTERNALLY_DETACHED = 5;
+    
 
     public static final int SIGNATURESTABLELOCATION_WITHOUT = 0;
     public static final int SIGNATURESTABLELOCATION_FIRSTPAGE = 1;

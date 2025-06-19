@@ -231,6 +231,7 @@ public abstract class AbstractSignatureService extends RestUtils {
             return usuariAplicacio;
 
         } catch (RestException re) {
+            // TODO Aqui falta LOG !!!!
             throw re;
         } catch (Throwable e) {
 

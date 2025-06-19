@@ -9,19 +9,21 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
  * @author anadal
  *
  */
-
+@Schema(
+        description = "Estructura de dades per afegir un fitxer a signar a una transacció ja existent",
+        requiredMode = RequiredMode.REQUIRED)
 public class AddFileToSignRequest {
     @Schema(
             description = "Identificador de transacció",
             example = "",
             requiredMode = RequiredMode.REQUIRED)
-	String transactionID;
+	protected String transactionID;
     
     @Schema(
             description = "Document a signar i informació associada a la firma a realitzar",
             example = "",
             requiredMode = RequiredMode.REQUIRED)
-	FileInfoSignature fileInfoSignature;
+	protected FileInfoSignature fileInfoSignature;
 
 	/**
 	 *

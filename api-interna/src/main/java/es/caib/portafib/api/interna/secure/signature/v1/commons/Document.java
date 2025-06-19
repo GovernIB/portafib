@@ -13,6 +13,7 @@ public class Document {
 
     @Schema(description = "Nom del fitxer.", requiredMode = RequiredMode.REQUIRED)
     protected java.lang.String nom;
+
     @Schema(description = "Tipus mime del fitxer.",  requiredMode = RequiredMode.NOT_REQUIRED, type = "string")
     protected java.lang.String mime;
 

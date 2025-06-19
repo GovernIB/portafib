@@ -123,14 +123,14 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AsyncSignatureOnWebV1Api* | [**createAndStartSignatureRequestWithFlowTemplateCode**](docs/AsyncSignatureOnWebV1Api.md#createAndStartSignatureRequestWithFlowTemplateCode) | **POST** /secure/asyncsignatureonweb/v1/createAndStartSignatureRequestWithFlowTemplateCode | Crea i posa en marxa una Petició de Firma a partir d&#39;una codi de Plantilla de Flux de Firmes previament creada al servidor
 *AsyncSignatureOnWebV1Api* | [**createAndStartSignatureRequestWithSignBlockList**](docs/AsyncSignatureOnWebV1Api.md#createAndStartSignatureRequestWithSignBlockList) | **POST** /secure/asyncsignatureonweb/v1/createAndStartSignatureRequestWithSignBlockList | Crea i posa en marxa una Petició de Firma a partir d&#39;una llista de Bloc de Firmes
-*AsyncSignatureOnWebV1Api* | [**deleteSignatureRequest**](docs/AsyncSignatureOnWebV1Api.md#deleteSignatureRequest) | **POST** /secure/asyncsignatureonweb/v1/deleteSignatureRequest | Retorna el Fitxer original amb el que es va crear la petició de firma.
+*AsyncSignatureOnWebV1Api* | [**deleteSignatureRequest**](docs/AsyncSignatureOnWebV1Api.md#deleteSignatureRequest) | **POST** /secure/asyncsignatureonweb/v1/deleteSignatureRequest/{signatureRequestID} | Retorna el Fitxer original amb el que es va crear la petició de firma.
 *AsyncSignatureOnWebV1Api* | [**getDocumentaryTypes**](docs/AsyncSignatureOnWebV1Api.md#getDocumentaryTypes) | **GET** /secure/asyncsignatureonweb/v1/getDocumentaryTypes | Retorna una llista dels Tipus Documentals disponibles en el servidor: tipus documentals base, tipus documentals de l&#39;entitat i tipus documentals de l&#39;usuari aplicació
 *AsyncSignatureOnWebV1Api* | [**getLanguages**](docs/AsyncSignatureOnWebV1Api.md#getLanguages) | **GET** /secure/asyncsignatureonweb/v1/getLanguages | Retorna els idiomes disponibles.
-*AsyncSignatureOnWebV1Api* | [**getOriginalFileOfSignatureRequest**](docs/AsyncSignatureOnWebV1Api.md#getOriginalFileOfSignatureRequest) | **POST** /secure/asyncsignatureonweb/v1/getOriginalFileOfSignatureRequest | Retorna el Fitxer original amb el que es va crear la petició de firma.
+*AsyncSignatureOnWebV1Api* | [**getOriginalFileOfSignatureRequest**](docs/AsyncSignatureOnWebV1Api.md#getOriginalFileOfSignatureRequest) | **GET** /secure/asyncsignatureonweb/v1/getOriginalFileOfSignatureRequest/{signatureRequestID} | Retorna el Fitxer original amb el que es va crear la petició de firma.
 *AsyncSignatureOnWebV1Api* | [**getProfiles**](docs/AsyncSignatureOnWebV1Api.md#getProfiles) | **GET** /secure/asyncsignatureonweb/v1/getProfiles | Retorna els perfils de firma.
-*AsyncSignatureOnWebV1Api* | [**getSignatureRequestState**](docs/AsyncSignatureOnWebV1Api.md#getSignatureRequestState) | **POST** /secure/asyncsignatureonweb/v1/getSignatureRequestState | Informació de l&#39;estat d&#39;una Petició de firma
-*AsyncSignatureOnWebV1Api* | [**getSignedFileOfSignatureRequest**](docs/AsyncSignatureOnWebV1Api.md#getSignedFileOfSignatureRequest) | **POST** /secure/asyncsignatureonweb/v1/getSignedFileOfSignatureRequest | Retorna el Fitxer Signat acompanyats de Informació de la Firma, Signants, custòdia i validacions realitzades.
-*AsyncSignatureOnWebV1Api* | [**getUrlToViewFlow**](docs/AsyncSignatureOnWebV1Api.md#getUrlToViewFlow) | **POST** /secure/asyncsignatureonweb/v1/getUrlToViewFlow | Obté una URL des de la que es pot visualitzar el diagrama de flux amb l&#39;estat de la petició (per emprar-la per exemple dins un \&quot;&lt;iframe&gt;\&quot;)
+*AsyncSignatureOnWebV1Api* | [**getSignatureRequestState**](docs/AsyncSignatureOnWebV1Api.md#getSignatureRequestState) | **GET** /secure/asyncsignatureonweb/v1/getSignatureRequestState/{signatureRequestID} | Informació de l&#39;estat d&#39;una Petició de firma
+*AsyncSignatureOnWebV1Api* | [**getSignedFileOfSignatureRequest**](docs/AsyncSignatureOnWebV1Api.md#getSignedFileOfSignatureRequest) | **GET** /secure/asyncsignatureonweb/v1/getSignedFileOfSignatureRequest/{signatureRequestID} | Retorna el Fitxer Signat acompanyats de Informació de la Firma, Signants, custòdia i validacions realitzades.
+*AsyncSignatureOnWebV1Api* | [**getUrlToViewFlow**](docs/AsyncSignatureOnWebV1Api.md#getUrlToViewFlow) | **GET** /secure/asyncsignatureonweb/v1/getUrlToViewFlow/{signatureRequestID} | Obté una URL des de la que es pot visualitzar el diagrama de flux amb l&#39;estat de la petició (per emprar-la per exemple dins un \&quot;&lt;iframe&gt;\&quot;)
 *AsyncSignatureOnWebV1Api* | [**versio**](docs/AsyncSignatureOnWebV1Api.md#versio) | **GET** /secure/asyncsignatureonweb/v1/versio | Retorna la versió d&#39;aquest Servei
 *DirectSignatureOnWebV1Api* | [**addFileToSign**](docs/DirectSignatureOnWebV1Api.md#addFileToSign) | **POST** /secure/directsignatureonweb/v1/addFileToSign | Afegeix un document  al conjunt de Peticions de Firma a realitzar per l&#39;usuari.
 *DirectSignatureOnWebV1Api* | [**closeTransaction**](docs/DirectSignatureOnWebV1Api.md#closeTransaction) | **POST** /secure/directsignatureonweb/v1/closeTransaction | Indica al component de firma que la informació s’ha recuperat correctament i que pot fer neteja en el servidor.
@@ -140,9 +140,9 @@ Class | Method | HTTP request | Description
 *DirectSignatureOnWebV1Api* | [**getLanguages_0**](docs/DirectSignatureOnWebV1Api.md#getLanguages_0) | **GET** /secure/signatureflowtemplate/v1/getLanguages | Retorna els idiomes disponibles.
 *DirectSignatureOnWebV1Api* | [**getProfiles**](docs/DirectSignatureOnWebV1Api.md#getProfiles) | **GET** /secure/directsignatureonweb/v1/getProfiles | Retorna els perfils de firma.
 *DirectSignatureOnWebV1Api* | [**getProfiles_0**](docs/DirectSignatureOnWebV1Api.md#getProfiles_0) | **GET** /secure/signatureflowtemplate/v1/getProfiles | Retorna els perfils de firma.
-*DirectSignatureOnWebV1Api* | [**getSignatureResult**](docs/DirectSignatureOnWebV1Api.md#getSignatureResult) | **POST** /secure/directsignatureonweb/v1/getSignatureResult | Document signat  i informació d&#39;una firma
+*DirectSignatureOnWebV1Api* | [**getSignatureResult**](docs/DirectSignatureOnWebV1Api.md#getSignatureResult) | **GET** /secure/directsignatureonweb/v1/getSignatureResult/{transactionID}/{signID} | Document signat i informació d&#39;una firma
 *DirectSignatureOnWebV1Api* | [**getTransactionID**](docs/DirectSignatureOnWebV1Api.md#getTransactionID) | **POST** /secure/directsignatureonweb/v1/getTransactionID | Operacio per obtenir el Id de una transaccio de la API
-*DirectSignatureOnWebV1Api* | [**getTransactionStatus**](docs/DirectSignatureOnWebV1Api.md#getTransactionStatus) | **POST** /secure/directsignatureonweb/v1/getTransactionStatus | Retorna estat de la transacció (el procés de firma en general) i resultat del procés de cada firma
+*DirectSignatureOnWebV1Api* | [**getTransactionStatus**](docs/DirectSignatureOnWebV1Api.md#getTransactionStatus) | **GET** /secure/directsignatureonweb/v1/getTransactionStatus/{transactionID} | Retorna estat de la transacció (el procés de firma en general) i resultat del procés de cada firma
 *DirectSignatureOnWebV1Api* | [**startTransaction**](docs/DirectSignatureOnWebV1Api.md#startTransaction) | **POST** /secure/directsignatureonweb/v1/startTransaction | Envia identificador de la transacció, url de retorn i tipus de vista web (amb o sense iframe) i inicia el procés de firma retornant una URL de redirecció.
 *DirectSignatureOnWebV1Api* | [**versio**](docs/DirectSignatureOnWebV1Api.md#versio) | **GET** /secure/directsignatureonweb/v1/versio | Retorna la versió d&#39;aquest Servei
 *DirectSignatureOnWebV1Api* | [**versio_0**](docs/DirectSignatureOnWebV1Api.md#versio_0) | **GET** /secure/signatureflowtemplate/v1/versio | Retorna la versió d&#39;aquest Servei
@@ -206,13 +206,11 @@ Class | Method | HTTP request | Description
  - [SignatureFlowTemplateTransactionIdRequest](docs/SignatureFlowTemplateTransactionIdRequest.md)
  - [SignatureFlowTemplateTransactionResult](docs/SignatureFlowTemplateTransactionResult.md)
  - [SignatureFlowTemplateTransactionStatusConstants](docs/SignatureFlowTemplateTransactionStatusConstants.md)
- - [SignatureRequestInfo](docs/SignatureRequestInfo.md)
  - [SignatureRequestState](docs/SignatureRequestState.md)
  - [SignatureRequestStateConstants](docs/SignatureRequestStateConstants.md)
  - [SignatureRequestWithFlowTemplateCode](docs/SignatureRequestWithFlowTemplateCode.md)
  - [SignatureRequestWithSignBlockList](docs/SignatureRequestWithSignBlockList.md)
  - [SignatureResponse](docs/SignatureResponse.md)
- - [SignatureResultRequest](docs/SignatureResultRequest.md)
  - [SignatureStatus](docs/SignatureStatus.md)
  - [SignaturesTableLocationConstants](docs/SignaturesTableLocationConstants.md)
  - [SignedFile](docs/SignedFile.md)
@@ -226,6 +224,7 @@ Class | Method | HTTP request | Description
  - [UpgradeResponse](docs/UpgradeResponse.md)
  - [UpgradedFileInfo](docs/UpgradedFileInfo.md)
  - [ValidationInfo](docs/ValidationInfo.md)
+ - [ViewConstants](docs/ViewConstants.md)
 
 
 <a id="documentation-for-authorization"></a>

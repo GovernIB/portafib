@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
@@ -68,8 +69,10 @@ import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -229,25 +232,35 @@ public class SignatureOnServerService extends AbstractSignatureService implement
     public es.caib.portafib.api.interna.secure.signature.v1.signatureonserver.UpgradeResponse upgradeSignature(
             @Parameter(hidden = true) @Context
             HttpServletRequest request, @RequestBody
-            UpgradeRequest fsur) {
-
-        String usuariAplicacioID = checkUsuariAplicacio(request);
-
-        if (fsur == null) {
-            // XYZ ZZZ TRA
-            String errorMsg = "L'objecte FirmaSimpleUpgradeRequest val null.";
-            throw new RestException(errorMsg, "FirmaSimpleUpgradeRequest");
-        }
-
-        String lang = RestUtils.checkLanguage(fsur.getLanguageUI());
-
-        // XYZ ZZZ Falta checks sobre fsur
-
-        Document signature = fsur.getSignature();
-
-        log.info(" XYZ ZZZ eNTRA A upgradeSignature => signature: " + signature);
-
+            UpgradeRequest fsur, @Parameter(
+                    description = "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+                    in = ParameterIn.QUERY,
+                    required = false,
+                    examples = { @ExampleObject(name = "Català", value = "ca"),
+                            @ExampleObject(name = "Castellano", value = "es") },
+                    schema = @Schema(defaultValue = "ca", implementation = String.class)) @QueryParam("languageUI")
+            String languageUI) {
+        
+        languageUI = RestUtils.checkLanguage(languageUI);
+        
         try {
+            
+            
+            
+            log.info(" XYZ ZZZ eNTRA A upgradeSignature => upgrade: " + fsur);
+            String usuariAplicacioID = checkUsuariAplicacio(request);
+    
+            if (fsur == null) {
+                // XYZ ZZZ TRA
+                String errorMsg = "L'objecte FirmaSimpleUpgradeRequest val null.";
+                throw new RestException(errorMsg, "FirmaSimpleUpgradeRequest");
+            }
+    
+            
+    
+            // XYZ ZZZ Falta checks sobre fsur
+    
+            Document signature = fsur.getSignature();
 
             final PerfilDeFirma perfilDeFirma;
             {
@@ -260,7 +273,7 @@ public class SignatureOnServerService extends AbstractSignatureService implement
             UsuariAplicacioConfiguracio config;
 
             config = configuracioUsuariAplicacioLogicaLocalEjb.getConfiguracioUsuariAplicacioPerUpgrade(
-                    usuariAplicacioID, perfilDeFirma, getFirmaSimpleUpgradeRequestApisib(fsur));
+                    usuariAplicacioID, perfilDeFirma, getFirmaSimpleUpgradeRequestApisib(fsur, languageUI));
 
             if (log.isDebugEnabled()) {
                 log.info("UPGRADE CONFIG  " + config.getNom());
@@ -291,14 +304,14 @@ public class SignatureOnServerService extends AbstractSignatureService implement
 
             UpgradeResponse upgradeResponse;
 
-            String entitatId = getEntitatId(usuariAplicacioID, fsur.getLanguageUI());
+            String entitatId = getEntitatId(usuariAplicacioID, languageUI);
             EntitatJPA entitat = getEntitatJpa(entitatId);
 
             UsuariAplicacioJPA usuariAplicacio = usuariAplicacioLogicaEjb.findByPrimaryKey(usuariAplicacioID);
 
             upgradeResponse = passarelaDeFirmaEnServidorEjb.upgradeSignature(getFirmaSimpleFile(signature),
                     getFirmaSimpleFile(fsur.getDetachedDocument()), getFirmaSimpleFile(fsur.getTargetCertificate()),
-                    singTypeForm, usuariAplicacio, perfilDeFirma, config, entitat, fsur.getLanguageUI());
+                    singTypeForm, usuariAplicacio, perfilDeFirma, config, entitat, languageUI);
 
             // VALIDATE
             final String mime;
@@ -329,12 +342,12 @@ public class SignatureOnServerService extends AbstractSignatureService implement
 
         } catch (NoCompatibleSignaturePluginException nape) {
 
-            String errorMsg = getNoAvailablePluginErrorMessage(lang, false, nape);
+            String errorMsg = getNoAvailablePluginErrorMessage(languageUI, false, nape);
             throw new RestException(Status.INTERNAL_SERVER_ERROR, errorMsg);
 
         } catch (I18NException i18ne) {
             // XYZ ZZZ
-            String msg = I18NLogicUtils.getMessage(i18ne, new Locale(lang));
+            String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
             log.error(msg, i18ne);
             throw new RestException(Status.INTERNAL_SERVER_ERROR, msg);
 
@@ -375,41 +388,43 @@ public class SignatureOnServerService extends AbstractSignatureService implement
     public SignDocumentResponse signDocument(@Parameter(hidden = true) @Context
     HttpServletRequest request, @RequestBody
     SignDocumentRequest simpleSignature) throws RestException {
-
-        log.info(" XYZ ZZZ eNTRA A signDocuments => simpleSignature: " + simpleSignature);
-
-        // Validar simpleSignature
-        // XYZ ZZZ Canviar per idioma per defecte
-
-        if (simpleSignature == null) {
-            // XYZ ZZZ TRA
-            String errMsg = "L´objecte FirmaSimpleSignDocumentRequest passat per paràmetre val null";
-            throw new RestException(Status.BAD_REQUEST, errMsg, "FirmaSimpleSignDocumentRequest");
-        }
-
-        if (simpleSignature.getCommonInfo() == null) {
-            // XYZ ZZZ TRA
-            String errMsg = "L´objecte commonInfo(FirmaSimpleCommonInfo) definit dins de FirmaSimpleSignDocumentRequest val null";
-            throw new RestException(Status.BAD_REQUEST, errMsg, "FirmaSimpleSignDocumentRequest.commonInfo");
-        }
-
-        String languageUI = simpleSignature.getCommonInfo().getLanguageUI();
-        if (languageUI == null || languageUI.trim().length() == 0) {
-            // XYZ ZZZ TRA
-            String errMsg = "El camp languageUI definit dins de FirmaSimpleSignDocumentRequest.FirmaSimpleCommonInfo està buit o val null";
-            throw new RestException(Status.BAD_REQUEST, errMsg, "FirmaSimpleSignDocumentRequest.commonInfo.languageUI");
-        }
-
-        languageUI = RestUtils.checkLanguage(languageUI);
-
-        log.info("simpleSignaturesSet.getCommonInfo().getSignProfile() ==> "
-                + simpleSignature.getCommonInfo().getSignProfile());
-        log.info("simpleSignaturesSet.getCommonInfo().getLanguageUI() ==> "
-                + simpleSignature.getCommonInfo().getLanguageUI());
-
+        
         String transactionID = null;
-
+        String languageUI = "ca";
         try {
+            log.info(" XYZ ZZZ eNTRA A signDocuments => simpleSignature: " + simpleSignature);
+    
+            // Validar simpleSignature
+            // XYZ ZZZ Canviar per idioma per defecte
+    
+            if (simpleSignature == null) {
+                // XYZ ZZZ TRA
+                String errMsg = "L´objecte FirmaSimpleSignDocumentRequest passat per paràmetre val null";
+                throw new RestException(Status.BAD_REQUEST, errMsg, "FirmaSimpleSignDocumentRequest");
+            }
+    
+            if (simpleSignature.getCommonInfo() == null) {
+                // XYZ ZZZ TRA
+                String errMsg = "L´objecte commonInfo(FirmaSimpleCommonInfo) definit dins de FirmaSimpleSignDocumentRequest val null";
+                throw new RestException(Status.BAD_REQUEST, errMsg, "FirmaSimpleSignDocumentRequest.commonInfo");
+            }
+    
+            languageUI = simpleSignature.getCommonInfo().getLanguageUI();
+            if (languageUI == null || languageUI.trim().length() == 0) {
+                // XYZ ZZZ TRA
+                String errMsg = "El camp languageUI definit dins de FirmaSimpleSignDocumentRequest.FirmaSimpleCommonInfo està buit o val null";
+                throw new RestException(Status.BAD_REQUEST, errMsg, "FirmaSimpleSignDocumentRequest.commonInfo.languageUI");
+            }
+    
+            languageUI = RestUtils.checkLanguage(languageUI);
+    
+            log.info("simpleSignaturesSet.getCommonInfo().getSignProfile() ==> "
+                    + simpleSignature.getCommonInfo().getSignProfile());
+            log.info("simpleSignaturesSet.getCommonInfo().getLanguageUI() ==> " + languageUI);
+    
+           
+
+        
             Long signaturePluginId = null;
             transactionID = internalGetTransacction();
             String username = request.getUserPrincipal().getName();
@@ -599,7 +614,7 @@ public class SignatureOnServerService extends AbstractSignatureService implement
     }
 
     private org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest getFirmaSimpleUpgradeRequestApisib(
-            UpgradeRequest signatureRequest) {
+            UpgradeRequest signatureRequest, String languageUI) {
 
         org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest signatureReuqestApisib = new org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest();
         signatureReuqestApisib.setProfileCode(signatureRequest.getProfileCode());
@@ -612,7 +627,7 @@ public class SignatureOnServerService extends AbstractSignatureService implement
                 signatureRequest.getTargetCertificate());
         signatureReuqestApisib.setTargetCertificate(targetCertificate);
 
-        signatureReuqestApisib.setLanguageUI(signatureRequest.getLanguageUI());
+        signatureReuqestApisib.setLanguageUI(languageUI);
         org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile detachedDocument = getFirmaSimpleFile(
                 signatureRequest.getDetachedDocument());
 
@@ -708,7 +723,7 @@ public class SignatureOnServerService extends AbstractSignatureService implement
         return newFirmaSimpleFile;
     }
 
-    public String getNoAvailablePluginErrorMessage(String language, boolean firma,
+    protected String getNoAvailablePluginErrorMessage(String language, boolean firma,
             NoCompatibleSignaturePluginException ex) {
         // TODO XYZ ZZZ Traduir
         String msg;

@@ -12,9 +12,9 @@ All URIs are relative to */portafibapi/interna*
 | [**getLanguages_0**](DirectSignatureOnWebV1Api.md#getLanguages_0) | **GET** /secure/signatureflowtemplate/v1/getLanguages | Retorna els idiomes disponibles. |
 | [**getProfiles**](DirectSignatureOnWebV1Api.md#getProfiles) | **GET** /secure/directsignatureonweb/v1/getProfiles | Retorna els perfils de firma. |
 | [**getProfiles_0**](DirectSignatureOnWebV1Api.md#getProfiles_0) | **GET** /secure/signatureflowtemplate/v1/getProfiles | Retorna els perfils de firma. |
-| [**getSignatureResult**](DirectSignatureOnWebV1Api.md#getSignatureResult) | **POST** /secure/directsignatureonweb/v1/getSignatureResult | Document signat  i informació d&#39;una firma |
+| [**getSignatureResult**](DirectSignatureOnWebV1Api.md#getSignatureResult) | **GET** /secure/directsignatureonweb/v1/getSignatureResult/{transactionID}/{signID} | Document signat i informació d&#39;una firma |
 | [**getTransactionID**](DirectSignatureOnWebV1Api.md#getTransactionID) | **POST** /secure/directsignatureonweb/v1/getTransactionID | Operacio per obtenir el Id de una transaccio de la API |
-| [**getTransactionStatus**](DirectSignatureOnWebV1Api.md#getTransactionStatus) | **POST** /secure/directsignatureonweb/v1/getTransactionStatus | Retorna estat de la transacció (el procés de firma en general) i resultat del procés de cada firma |
+| [**getTransactionStatus**](DirectSignatureOnWebV1Api.md#getTransactionStatus) | **GET** /secure/directsignatureonweb/v1/getTransactionStatus/{transactionID} | Retorna estat de la transacció (el procés de firma en general) i resultat del procés de cada firma |
 | [**startTransaction**](DirectSignatureOnWebV1Api.md#startTransaction) | **POST** /secure/directsignatureonweb/v1/startTransaction | Envia identificador de la transacció, url de retorn i tipus de vista web (amb o sense iframe) i inicia el procés de firma retornant una URL de redirecció. |
 | [**versio**](DirectSignatureOnWebV1Api.md#versio) | **GET** /secure/directsignatureonweb/v1/versio | Retorna la versió d&#39;aquest Servei |
 | [**versio_0**](DirectSignatureOnWebV1Api.md#versio_0) | **GET** /secure/signatureflowtemplate/v1/versio | Retorna la versió d&#39;aquest Servei |
@@ -615,9 +615,9 @@ public class Example {
 
 ## getSignatureResult
 
-> SignatureResponse getSignatureResult(signatureResultRequest)
+> SignatureResponse getSignatureResult(transactionID, signID)
 
-Document signat  i informació d&#39;una firma
+Document signat i informació d&#39;una firma
 
 ### Example
 
@@ -641,9 +641,10 @@ public class Example {
         BasicAuth.setPassword("YOUR PASSWORD");
 
         DirectSignatureOnWebV1Api apiInstance = new DirectSignatureOnWebV1Api(defaultClient);
-        SignatureResultRequest signatureResultRequest = new SignatureResultRequest(); // SignatureResultRequest | Identificador de transacció i de firma.
+        String transactionID = "transactionID_example"; // String | Identificador de la Transacció que volem recuperar la firma
+        String signID = "signID_example"; // String | Identificador de la Firma que volem recuperar
         try {
-            SignatureResponse result = apiInstance.getSignatureResult(signatureResultRequest);
+            SignatureResponse result = apiInstance.getSignatureResult(transactionID, signID);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DirectSignatureOnWebV1Api#getSignatureResult");
@@ -661,7 +662,8 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **signatureResultRequest** | [**SignatureResultRequest**](SignatureResultRequest.md)| Identificador de transacció i de firma. | [optional] |
+| **transactionID** | **String**| Identificador de la Transacció que volem recuperar la firma | |
+| **signID** | **String**| Identificador de la Firma que volem recuperar | |
 
 ### Return type
 
@@ -673,7 +675,7 @@ public class Example {
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 
@@ -763,7 +765,7 @@ public class Example {
 
 ## getTransactionStatus
 
-> TransactionStatusResponse getTransactionStatus(body)
+> TransactionStatusResponse getTransactionStatus(transactionID)
 
 Retorna estat de la transacció (el procés de firma en general) i resultat del procés de cada firma
 
@@ -789,9 +791,9 @@ public class Example {
         BasicAuth.setPassword("YOUR PASSWORD");
 
         DirectSignatureOnWebV1Api apiInstance = new DirectSignatureOnWebV1Api(defaultClient);
-        String body = "body_example"; // String | Identificador de transacció retornat de la cridada getTransactionID().
+        String transactionID = "transactionID_example"; // String | Identificador de la Transacció que volem finalitzar
         try {
-            TransactionStatusResponse result = apiInstance.getTransactionStatus(body);
+            TransactionStatusResponse result = apiInstance.getTransactionStatus(transactionID);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DirectSignatureOnWebV1Api#getTransactionStatus");
@@ -809,7 +811,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | **String**| Identificador de transacció retornat de la cridada getTransactionID(). | [optional] |
+| **transactionID** | **String**| Identificador de la Transacció que volem finalitzar | |
 
 ### Return type
 
@@ -821,7 +823,7 @@ public class Example {
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 

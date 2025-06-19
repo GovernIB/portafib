@@ -200,11 +200,12 @@ public class SignatureOnServerV1Api {
   /**
    * Operacio de firma simple en servidor d&#39;un document
    * 
+   * @param languageUI Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) (optional, default to ca)
    * @param upgradeRequest Funcio de upgrade se firma digital (optional)
    * @return a {@code UpgradeResponse}
    * @throws ApiException if fails to make API call
    */
-  public UpgradeResponse upgradeSignature(UpgradeRequest upgradeRequest) throws ApiException {
+  public UpgradeResponse upgradeSignature(String languageUI, UpgradeRequest upgradeRequest) throws ApiException {
     Object localVarPostBody = upgradeRequest;
     
     // create path and map variables
@@ -216,6 +217,7 @@ public class SignatureOnServerV1Api {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "languageUI", languageUI));
 
     
     

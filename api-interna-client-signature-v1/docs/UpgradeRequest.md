@@ -11,7 +11,6 @@
 |**signature** | [**Document**](Document.md) |  |  |
 |**detachedDocument** | [**Document**](Document.md) |  |  [optional] |
 |**targetCertificate** | [**Document**](Document.md) |  |  [optional] |
-|**languageUI** | **String** | Idioma dels missatges en cas d&#39;informar o d&#39;errors. |  |
 
 
 

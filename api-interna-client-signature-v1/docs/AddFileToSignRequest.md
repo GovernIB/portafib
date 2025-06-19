@@ -2,6 +2,7 @@
 
 # AddFileToSignRequest
 
+Estructura de dades per afegir un fitxer a signar a una transacció ja existent
 
 ## Properties
 

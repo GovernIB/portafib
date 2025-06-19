@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * AddFileToSignRequest
+ * Estructura de dades per afegir un fitxer a signar a una transacció ja existent
  */
 @JsonPropertyOrder({
   AddFileToSignRequest.JSON_PROPERTY_TRANSACTION_I_D,

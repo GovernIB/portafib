@@ -33,7 +33,6 @@ import es.caib.portafib.apiinterna.client.signature.v1.model.CustodyInfo;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Document;
 import es.caib.portafib.apiinterna.client.signature.v1.model.DocumentaryType;
 import es.caib.portafib.apiinterna.client.signature.v1.model.FileInfoSignature;
-import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureResultRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.StartTransactionRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.StatusConstants;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignModeConstants;
@@ -216,11 +215,9 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
 
                             case STATUS_FINAL_OK: //fss.getSTATUSFINALOK(): // = 2;
 
-                                SignatureResultRequest signatureResultRequest = new SignatureResultRequest();
-                                signatureResultRequest.setTransactionID(transactionID);
-                                signatureResultRequest.setSignID(signID);
 
-                                SignatureResponse fssr = api.getSignatureResult(signatureResultRequest);
+
+                                SignatureResponse fssr = api.getSignatureResult(transactionID, signID);
                                 Document fsf = fssr.getSignedFile();
 
                                 String postFix;

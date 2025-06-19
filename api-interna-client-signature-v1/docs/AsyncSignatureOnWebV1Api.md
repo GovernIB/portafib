@@ -6,14 +6,14 @@ All URIs are relative to */portafibapi/interna*
 |------------- | ------------- | -------------|
 | [**createAndStartSignatureRequestWithFlowTemplateCode**](AsyncSignatureOnWebV1Api.md#createAndStartSignatureRequestWithFlowTemplateCode) | **POST** /secure/asyncsignatureonweb/v1/createAndStartSignatureRequestWithFlowTemplateCode | Crea i posa en marxa una Petició de Firma a partir d&#39;una codi de Plantilla de Flux de Firmes previament creada al servidor |
 | [**createAndStartSignatureRequestWithSignBlockList**](AsyncSignatureOnWebV1Api.md#createAndStartSignatureRequestWithSignBlockList) | **POST** /secure/asyncsignatureonweb/v1/createAndStartSignatureRequestWithSignBlockList | Crea i posa en marxa una Petició de Firma a partir d&#39;una llista de Bloc de Firmes |
-| [**deleteSignatureRequest**](AsyncSignatureOnWebV1Api.md#deleteSignatureRequest) | **POST** /secure/asyncsignatureonweb/v1/deleteSignatureRequest | Retorna el Fitxer original amb el que es va crear la petició de firma. |
+| [**deleteSignatureRequest**](AsyncSignatureOnWebV1Api.md#deleteSignatureRequest) | **POST** /secure/asyncsignatureonweb/v1/deleteSignatureRequest/{signatureRequestID} | Retorna el Fitxer original amb el que es va crear la petició de firma. |
 | [**getDocumentaryTypes**](AsyncSignatureOnWebV1Api.md#getDocumentaryTypes) | **GET** /secure/asyncsignatureonweb/v1/getDocumentaryTypes | Retorna una llista dels Tipus Documentals disponibles en el servidor: tipus documentals base, tipus documentals de l&#39;entitat i tipus documentals de l&#39;usuari aplicació |
 | [**getLanguages**](AsyncSignatureOnWebV1Api.md#getLanguages) | **GET** /secure/asyncsignatureonweb/v1/getLanguages | Retorna els idiomes disponibles. |
-| [**getOriginalFileOfSignatureRequest**](AsyncSignatureOnWebV1Api.md#getOriginalFileOfSignatureRequest) | **POST** /secure/asyncsignatureonweb/v1/getOriginalFileOfSignatureRequest | Retorna el Fitxer original amb el que es va crear la petició de firma. |
+| [**getOriginalFileOfSignatureRequest**](AsyncSignatureOnWebV1Api.md#getOriginalFileOfSignatureRequest) | **GET** /secure/asyncsignatureonweb/v1/getOriginalFileOfSignatureRequest/{signatureRequestID} | Retorna el Fitxer original amb el que es va crear la petició de firma. |
 | [**getProfiles**](AsyncSignatureOnWebV1Api.md#getProfiles) | **GET** /secure/asyncsignatureonweb/v1/getProfiles | Retorna els perfils de firma. |
-| [**getSignatureRequestState**](AsyncSignatureOnWebV1Api.md#getSignatureRequestState) | **POST** /secure/asyncsignatureonweb/v1/getSignatureRequestState | Informació de l&#39;estat d&#39;una Petició de firma |
-| [**getSignedFileOfSignatureRequest**](AsyncSignatureOnWebV1Api.md#getSignedFileOfSignatureRequest) | **POST** /secure/asyncsignatureonweb/v1/getSignedFileOfSignatureRequest | Retorna el Fitxer Signat acompanyats de Informació de la Firma, Signants, custòdia i validacions realitzades. |
-| [**getUrlToViewFlow**](AsyncSignatureOnWebV1Api.md#getUrlToViewFlow) | **POST** /secure/asyncsignatureonweb/v1/getUrlToViewFlow | Obté una URL des de la que es pot visualitzar el diagrama de flux amb l&#39;estat de la petició (per emprar-la per exemple dins un \&quot;&lt;iframe&gt;\&quot;) |
+| [**getSignatureRequestState**](AsyncSignatureOnWebV1Api.md#getSignatureRequestState) | **GET** /secure/asyncsignatureonweb/v1/getSignatureRequestState/{signatureRequestID} | Informació de l&#39;estat d&#39;una Petició de firma |
+| [**getSignedFileOfSignatureRequest**](AsyncSignatureOnWebV1Api.md#getSignedFileOfSignatureRequest) | **GET** /secure/asyncsignatureonweb/v1/getSignedFileOfSignatureRequest/{signatureRequestID} | Retorna el Fitxer Signat acompanyats de Informació de la Firma, Signants, custòdia i validacions realitzades. |
+| [**getUrlToViewFlow**](AsyncSignatureOnWebV1Api.md#getUrlToViewFlow) | **GET** /secure/asyncsignatureonweb/v1/getUrlToViewFlow/{signatureRequestID} | Obté una URL des de la que es pot visualitzar el diagrama de flux amb l&#39;estat de la petició (per emprar-la per exemple dins un \&quot;&lt;iframe&gt;\&quot;) |
 | [**versio**](AsyncSignatureOnWebV1Api.md#versio) | **GET** /secure/asyncsignatureonweb/v1/versio | Retorna la versió d&#39;aquest Servei |
 
 
@@ -168,7 +168,7 @@ public class Example {
 
 ## deleteSignatureRequest
 
-> deleteSignatureRequest(signatureRequestInfo)
+> deleteSignatureRequest(signatureRequestID, languageUI)
 
 Retorna el Fitxer original amb el que es va crear la petició de firma.
 
@@ -194,9 +194,10 @@ public class Example {
         BasicAuth.setPassword("YOUR PASSWORD");
 
         AsyncSignatureOnWebV1Api apiInstance = new AsyncSignatureOnWebV1Api(defaultClient);
-        SignatureRequestInfo signatureRequestInfo = new SignatureRequestInfo(); // SignatureRequestInfo | Identificador de la petició de Firma i idioma en que retornar missatges i errors
+        Long signatureRequestID = 56L; // Long | Identificador de Petició de firma
+        String languageUI = "ca"; // String | Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')
         try {
-            apiInstance.deleteSignatureRequest(signatureRequestInfo);
+            apiInstance.deleteSignatureRequest(signatureRequestID, languageUI);
         } catch (ApiException e) {
             System.err.println("Exception when calling AsyncSignatureOnWebV1Api#deleteSignatureRequest");
             System.err.println("Status code: " + e.getCode());
@@ -213,7 +214,8 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **signatureRequestInfo** | [**SignatureRequestInfo**](SignatureRequestInfo.md)| Identificador de la petició de Firma i idioma en que retornar missatges i errors | [optional] |
+| **signatureRequestID** | **Long**| Identificador de Petició de firma | |
+| **languageUI** | **String**| Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) | [optional] [default to ca] |
 
 ### Return type
 
@@ -225,7 +227,7 @@ null (empty response body)
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 
@@ -389,7 +391,7 @@ public class Example {
 
 ## getOriginalFileOfSignatureRequest
 
-> Document getOriginalFileOfSignatureRequest(signatureRequestInfo)
+> Document getOriginalFileOfSignatureRequest(signatureRequestID, languageUI)
 
 Retorna el Fitxer original amb el que es va crear la petició de firma.
 
@@ -415,9 +417,10 @@ public class Example {
         BasicAuth.setPassword("YOUR PASSWORD");
 
         AsyncSignatureOnWebV1Api apiInstance = new AsyncSignatureOnWebV1Api(defaultClient);
-        SignatureRequestInfo signatureRequestInfo = new SignatureRequestInfo(); // SignatureRequestInfo | Identificador de la petició de Firma i idioma en que retornar missatges i errors
+        Long signatureRequestID = 56L; // Long | Identificador de Petició de firma
+        String languageUI = "ca"; // String | Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')
         try {
-            Document result = apiInstance.getOriginalFileOfSignatureRequest(signatureRequestInfo);
+            Document result = apiInstance.getOriginalFileOfSignatureRequest(signatureRequestID, languageUI);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AsyncSignatureOnWebV1Api#getOriginalFileOfSignatureRequest");
@@ -435,7 +438,8 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **signatureRequestInfo** | [**SignatureRequestInfo**](SignatureRequestInfo.md)| Identificador de la petició de Firma i idioma en que retornar missatges i errors | [optional] |
+| **signatureRequestID** | **Long**| Identificador de Petició de firma | |
+| **languageUI** | **String**| Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) | [optional] [default to ca] |
 
 ### Return type
 
@@ -447,7 +451,7 @@ public class Example {
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 
@@ -537,7 +541,7 @@ public class Example {
 
 ## getSignatureRequestState
 
-> SignatureRequestState getSignatureRequestState(signatureRequestInfo)
+> SignatureRequestState getSignatureRequestState(signatureRequestID, languageUI)
 
 Informació de l&#39;estat d&#39;una Petició de firma
 
@@ -563,9 +567,10 @@ public class Example {
         BasicAuth.setPassword("YOUR PASSWORD");
 
         AsyncSignatureOnWebV1Api apiInstance = new AsyncSignatureOnWebV1Api(defaultClient);
-        SignatureRequestInfo signatureRequestInfo = new SignatureRequestInfo(); // SignatureRequestInfo | Identificador de la petició de Firma i idioma en que retornar missatges i errors
+        Long signatureRequestID = 56L; // Long | Identificador de Petició de firma
+        String languageUI = "ca"; // String | Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')
         try {
-            SignatureRequestState result = apiInstance.getSignatureRequestState(signatureRequestInfo);
+            SignatureRequestState result = apiInstance.getSignatureRequestState(signatureRequestID, languageUI);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AsyncSignatureOnWebV1Api#getSignatureRequestState");
@@ -583,7 +588,8 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **signatureRequestInfo** | [**SignatureRequestInfo**](SignatureRequestInfo.md)| Identificador de la petició de Firma i idioma en que retornar missatges i errors | [optional] |
+| **signatureRequestID** | **Long**| Identificador de Petició de firma | |
+| **languageUI** | **String**| Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) | [optional] [default to ca] |
 
 ### Return type
 
@@ -595,7 +601,7 @@ public class Example {
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 
@@ -611,7 +617,7 @@ public class Example {
 
 ## getSignedFileOfSignatureRequest
 
-> SignedFile getSignedFileOfSignatureRequest(signatureRequestInfo)
+> SignedFile getSignedFileOfSignatureRequest(signatureRequestID, languageUI)
 
 Retorna el Fitxer Signat acompanyats de Informació de la Firma, Signants, custòdia i validacions realitzades.
 
@@ -637,9 +643,10 @@ public class Example {
         BasicAuth.setPassword("YOUR PASSWORD");
 
         AsyncSignatureOnWebV1Api apiInstance = new AsyncSignatureOnWebV1Api(defaultClient);
-        SignatureRequestInfo signatureRequestInfo = new SignatureRequestInfo(); // SignatureRequestInfo | Identificador de la petició de Firma i idioma en que retornar missatges i errors
+        Long signatureRequestID = 56L; // Long | Identificador de Petició de firma
+        String languageUI = "ca"; // String | Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')
         try {
-            SignedFile result = apiInstance.getSignedFileOfSignatureRequest(signatureRequestInfo);
+            SignedFile result = apiInstance.getSignedFileOfSignatureRequest(signatureRequestID, languageUI);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AsyncSignatureOnWebV1Api#getSignedFileOfSignatureRequest");
@@ -657,7 +664,8 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **signatureRequestInfo** | [**SignatureRequestInfo**](SignatureRequestInfo.md)| Identificador de la petició de Firma i idioma en que retornar missatges i errors | [optional] |
+| **signatureRequestID** | **Long**| Identificador de Petició de firma | |
+| **languageUI** | **String**| Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) | [optional] [default to ca] |
 
 ### Return type
 
@@ -669,7 +677,7 @@ public class Example {
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 
@@ -685,7 +693,7 @@ public class Example {
 
 ## getUrlToViewFlow
 
-> String getUrlToViewFlow(signatureRequestInfo)
+> String getUrlToViewFlow(signatureRequestID, languageUI)
 
 Obté una URL des de la que es pot visualitzar el diagrama de flux amb l&#39;estat de la petició (per emprar-la per exemple dins un \&quot;&lt;iframe&gt;\&quot;)
 
@@ -711,9 +719,10 @@ public class Example {
         BasicAuth.setPassword("YOUR PASSWORD");
 
         AsyncSignatureOnWebV1Api apiInstance = new AsyncSignatureOnWebV1Api(defaultClient);
-        SignatureRequestInfo signatureRequestInfo = new SignatureRequestInfo(); // SignatureRequestInfo | Identificador de la petició de Firma i idioma en que retornar missatges i errors
+        Long signatureRequestID = 56L; // Long | Identificador de Petició de firma
+        String languageUI = "ca"; // String | Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')
         try {
-            String result = apiInstance.getUrlToViewFlow(signatureRequestInfo);
+            String result = apiInstance.getUrlToViewFlow(signatureRequestID, languageUI);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AsyncSignatureOnWebV1Api#getUrlToViewFlow");
@@ -731,7 +740,8 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **signatureRequestInfo** | [**SignatureRequestInfo**](SignatureRequestInfo.md)| Identificador de la petició de Firma i idioma en que retornar missatges i errors | [optional] |
+| **signatureRequestID** | **Long**| Identificador de Petició de firma | |
+| **languageUI** | **String**| Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) | [optional] [default to ca] |
 
 ### Return type
 
@@ -743,7 +753,7 @@ public class Example {
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 

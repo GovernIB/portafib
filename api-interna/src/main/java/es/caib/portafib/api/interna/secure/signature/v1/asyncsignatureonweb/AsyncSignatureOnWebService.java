@@ -60,6 +60,7 @@ import es.caib.portafib.utils.ConstantsV2;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -67,6 +68,7 @@ import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -77,9 +79,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -298,6 +303,10 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
 
             return peticioDeFirmaID;
 
+        } catch (RestException re) {
+            log.error(re.getMessage(), re);
+            throw re;
+
         } catch (I18NValidationException ve) {
 
             String msg = I18NLogicUtils.getMessage(ve, new Locale(languageUI));
@@ -477,6 +486,10 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
 
             return createAndStartSignatureRequestWithSignBlockList(request, sr);
 
+        } catch (RestException re) {
+            log.error(re.getMessage(), re);
+            throw re;
+
         } catch (I18NException i18ne) {
 
             String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
@@ -496,23 +509,15 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
 
     }
 
-    @Path(value = "/getSignatureRequestState")
-    @POST
+    @Path(value = "/getSignatureRequestState/{signatureRequestID}")
+    @GET
     @RolesAllowed({ Constants.PFI_WS })
     @SecurityRequirement(name = SECURITY_NAME)
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(
             tags = TAG_NAME,
             operationId = "getSignatureRequestState",
-
-            summary = "Informació de l'estat d'una Petició de firma",
-            requestBody = @RequestBody(
-                    description = "Identificador de la petició de Firma i idioma en que retornar missatges i errors",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(
-                                    requiredMode = RequiredMode.REQUIRED,
-                                    implementation = SignatureRequestInfo.class))))
+            summary = "Informació de l'estat d'una Petició de firma")
     @ApiResponses(
             value = { @ApiResponse(
                     responseCode = "200",
@@ -524,33 +529,37 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
                                     requiredMode = RequiredMode.REQUIRED,
                                     implementation = SignatureRequestState.class))), })
     public SignatureRequestState getSignatureRequestState(@Parameter(hidden = true) @Context
-    HttpServletRequest request, @RequestBody
-    SignatureRequestInfo info) {
-
-        String languageUI = "ca";
+    HttpServletRequest request,
+            @Parameter(
+                    description = "Identificador de Petició de firma",
+                    in = ParameterIn.PATH,
+                    required = true,
+                    schema = @Schema(implementation = Long.class)) @PathParam("signatureRequestID")
+            long signatureRequestID,
+            @Parameter(
+                    description = "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+                    in = ParameterIn.QUERY,
+                    required = false,
+                    examples = { @ExampleObject(name = "Català", value = "ca"),
+                            @ExampleObject(name = "Castellano", value = "es") },
+                    schema = @Schema(defaultValue = "ca", implementation = String.class)) @QueryParam("languageUI")
+            String languageUI) {
 
         try {
 
-            if (info == null) {
-                // XYZ ZZZ TRA
-                throw new RestException("La SignatureRequestInfo no pot valer null.");
-            }
-
             // Check info i info.getlanguage
-            languageUI = checkLanguage(info.getLanguageUI());
-
-            long peticioDeFirmaID = info.getSignatureRequestID();
+            languageUI = checkLanguage(languageUI);
 
             // Check propietari
-            checkIfPeticioDeFirmaIsPropertyOfUsrApp(peticioDeFirmaID, checkUsuariAplicacio(request));
+            checkIfPeticioDeFirmaIsPropertyOfUsrApp(signatureRequestID, checkUsuariAplicacio(request));
 
             Integer estat = peticioDeFirmaLogicaEjb.executeQueryOne(PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID,
-                    PeticioDeFirmaFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
+                    PeticioDeFirmaFields.PETICIODEFIRMAID.equal(signatureRequestID));
 
             if (estat == null) {
                 // XYZ ZZZ TRA
                 throw new I18NException("genapp.comodi",
-                        "La peticio de Firma amb ID " + peticioDeFirmaID + " no existeix.");
+                        "La peticio de Firma amb ID " + signatureRequestID + " no existeix.");
 
             }
 
@@ -558,7 +567,7 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
             if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT) {
 
                 message = peticioDeFirmaLogicaEjb.executeQueryOne(PeticioDeFirmaFields.MOTIUDEREBUIG,
-                        PeticioDeFirmaFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
+                        PeticioDeFirmaFields.PETICIODEFIRMAID.equal(signatureRequestID));
 
             }
 
@@ -566,6 +575,10 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
             state = new SignatureRequestState(estat, message);
 
             return state;
+
+        } catch (RestException re) {
+            log.error(re.getMessage(), re);
+            throw re;
 
         } catch (I18NException i18ne) {
 
@@ -581,24 +594,16 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
         }
     }
 
-    @Path(value = "/getUrlToViewFlow")
-    @POST
+    @Path(value = "/getUrlToViewFlow/{signatureRequestID}")
+    @GET
     @RolesAllowed({ Constants.PFI_WS })
     @SecurityRequirement(name = SECURITY_NAME)
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(
             tags = TAG_NAME,
             operationId = "getUrlToViewFlow",
-
             summary = "Obté una URL des de la que es pot visualitzar el diagrama de flux amb "
-                    + "l'estat de la petició (per emprar-la per exemple dins un \"<iframe>\")",
-            requestBody = @RequestBody(
-                    description = "Identificador de la petició de Firma i idioma en que retornar missatges i errors",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(
-                                    requiredMode = RequiredMode.REQUIRED,
-                                    implementation = SignatureRequestInfo.class))))
+                    + "l'estat de la petició (per emprar-la per exemple dins un \"<iframe>\")")
     @ApiResponses(
             value = { @ApiResponse(
                     responseCode = "200",
@@ -610,34 +615,42 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
                                     requiredMode = RequiredMode.REQUIRED,
                                     implementation = String.class))), })
     public String getUrlToViewFlow(@Parameter(hidden = true) @Context
-    HttpServletRequest request, @RequestBody
-    SignatureRequestInfo info) {
+    HttpServletRequest request,
+            @Parameter(
+                    description = "Identificador de Petició de firma",
+                    in = ParameterIn.PATH,
+                    required = true,
+                    schema = @Schema(implementation = Long.class)) @PathParam("signatureRequestID")
+            Long signatureRequestID,
+            @Parameter(
+                    description = "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+                    in = ParameterIn.QUERY,
+                    required = false,
+                    examples = { @ExampleObject(name = "Català", value = "ca"),
+                            @ExampleObject(name = "Castellano", value = "es") },
+                    schema = @Schema(defaultValue = "ca", implementation = String.class)) @QueryParam("languageUI")
+            String languageUI) {
 
-        // XYZ ZZZ ZZZ
-        // Check info i info.getlanguage
-        String languageUI = "ca";
         try {
-            if (info == null) {
-                // XYZ ZZZ TRA
-                throw new RestException("La SignatureRequestInfo no pot valer null.");
-            }
 
             // Check info i info.getlanguage
-            languageUI = checkLanguage(info.getLanguageUI());
-
-            long peticioDeFirmaID = info.getSignatureRequestID();
+            languageUI = checkLanguage(languageUI);
 
             // Check propietari
-            checkIfPeticioDeFirmaIsPropertyOfUsrApp(peticioDeFirmaID, checkUsuariAplicacio(request));
+            checkIfPeticioDeFirmaIsPropertyOfUsrApp(signatureRequestID, checkUsuariAplicacio(request));
 
             long fluxDeFirmesId = peticioDeFirmaLogicaEjb.executeQueryOne(PeticioDeFirmaFields.FLUXDEFIRMESID,
-                    PeticioDeFirmaFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
+                    PeticioDeFirmaFields.PETICIODEFIRMAID.equal(signatureRequestID));
 
             String result = PropietatGlobalUtil.getUrlBaseForFlowTemplate()
                     + RestApiPlantillaFluxLocal.PlantillaDeFluxDeFirmesRestController_CONTEXT + "/viewonlyflux/"
                     + HibernateFileUtil.getEncrypter().encrypt(String.valueOf(fluxDeFirmesId));
 
             return result;
+
+        } catch (RestException re) {
+            log.error(re.getMessage(), re);
+            throw re;
 
         } catch (I18NException i18ne) {
 
@@ -653,8 +666,8 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
         }
     }
 
-    @Path(value = "/getSignedFileOfSignatureRequest")
-    @POST
+    @Path(value = "/getSignedFileOfSignatureRequest/{signatureRequestID}")
+    @GET
     @RolesAllowed({ Constants.PFI_WS })
     @SecurityRequirement(name = SECURITY_NAME)
     @Produces({ MediaType.APPLICATION_JSON })
@@ -662,14 +675,8 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
             tags = TAG_NAME,
             operationId = "getSignedFileOfSignatureRequest",
 
-            summary = "Retorna el Fitxer Signat acompanyats de Informació de la Firma, Signants, custòdia i validacions realitzades.",
-            requestBody = @RequestBody(
-                    description = "Identificador de la petició de Firma i idioma en que retornar missatges i errors",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(
-                                    requiredMode = RequiredMode.REQUIRED,
-                                    implementation = SignatureRequestInfo.class))))
+            summary = "Retorna el Fitxer Signat acompanyats de Informació de la Firma, Signants, custòdia i validacions realitzades."
+            )
     @ApiResponses(
             value = { @ApiResponse(
                     responseCode = "200",
@@ -682,35 +689,40 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
                                     implementation = SignedFile.class))), })
 
     public SignedFile getSignedFileOfSignatureRequest(@Parameter(hidden = true) @Context
-    HttpServletRequest request, @RequestBody
-    SignatureRequestInfo info) {
+    HttpServletRequest request,
+            @Parameter(
+                    description = "Identificador de Petició de firma",
+                    in = ParameterIn.PATH,
+                    required = true,
+                    schema = @Schema(implementation = Long.class)) @PathParam("signatureRequestID")
+            long signatureRequestID,
+            @Parameter(
+                    description = "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+                    in = ParameterIn.QUERY,
+                    required = false,
+                    examples = { @ExampleObject(name = "Català", value = "ca"),
+                            @ExampleObject(name = "Castellano", value = "es") },
+                    schema = @Schema(defaultValue = "ca", implementation = String.class)) @QueryParam("languageUI")
+            String languageUI) {
 
         // XYZ ZZZ ZZZ
-        // Check info i info.getlanguage
-        String languageUI = "ca";
         try {
-            if (info == null) {
-                // XYZ ZZZ TRA
-                throw new RestException("La SignatureRequestInfo no pot valer null.");
-            }
 
             // Check info i info.getlanguage
-            languageUI = checkLanguage(info.getLanguageUI());
-
-            long peticioDeFirmaID = info.getSignatureRequestID();
+            languageUI = checkLanguage(languageUI);
 
             UsuariAplicacioJPA ua = checkUsuariAplicacioFull(request);
 
             // Check propietari
-            checkIfPeticioDeFirmaIsPropertyOfUsrApp(peticioDeFirmaID, ua.getUsuariAplicacioID());
+            checkIfPeticioDeFirmaIsPropertyOfUsrApp(signatureRequestID, ua.getUsuariAplicacioID());
 
-            FitxerJPA fitxerJPA = peticioDeFirmaLogicaEjb.getLastSignedFileOfPeticioDeFirma(peticioDeFirmaID);
+            FitxerJPA fitxerJPA = peticioDeFirmaLogicaEjb.getLastSignedFileOfPeticioDeFirma(signatureRequestID);
 
             Document signedFile = new Document(fitxerJPA.getNom(), fitxerJPA.getMime(),
                     FileSystemManager.getFileContent(fitxerJPA.getFitxerID()));
 
             PeticioDeFirmaJPA peticioDeFirma = peticioDeFirmaLogicaEjb
-                    .findByPrimaryKeyFullWithUserInfo(peticioDeFirmaID);
+                    .findByPrimaryKeyFullWithUserInfo(signatureRequestID);
 
             int signOperation = peticioDeFirma.getTipusOperacioFirma();
             String signType = SignatureUtils.convertPortafibSignTypeToApiSignType(peticioDeFirma.getTipusFirmaID());
@@ -762,11 +774,11 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
             ValidationInfo validationInfo = null;
             List<SignerInfo> signers;
             String eniPerfilFirma = null;
-            
+
             {
 
                 List<FirmaJPA> firmes = estatDeFirmaLogicaEjb
-                        .getFirmesWithEstatDeFirmaFirmatOfPeticio(peticioDeFirmaID);
+                        .getFirmesWithEstatDeFirmaFirmatOfPeticio(signatureRequestID);
 
                 if (firmes == null || firmes.size() == 0) {
                     signers = null;
@@ -774,20 +786,17 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
                     signers = new ArrayList<SignerInfo>(firmes.size());
 
                     for (FirmaJPA firma : firmes) {
-                        
-                        
+
                         SignPlugin signPlugin = null;
                         Long signaturePluginID = firma.getSignaturePluginId();
 
                         if (signaturePluginID != null) {
                             // Si hi ha un plugin de firma, llavors afegir informació
                             final boolean isSignatureInserver = false;
-                            signPlugin = getSignaturePluginInformation(isSignatureInserver, languageUI, signaturePluginID);
+                            signPlugin = getSignaturePluginInformation(isSignatureInserver, languageUI,
+                                    signaturePluginID);
                         }
-                        
-                        
-                        
-                        
+
                         // XYZ ZZZ ZZZ
                         // FALTA API firma Simple per Signatures Asíncrones #224
                         // eEMGDE17.2 - ROL DE FIRMA: Valida, Refrenda, Testimonia.
@@ -843,8 +852,6 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
                     validationInfo = new ValidationInfo(firma.getCheckAdministrationIdOfSigner(),
                             firma.getCheckDocumentModifications(), firma.getCheckValidationSignature(), null);
 
-                   
-
                 }
             }
 
@@ -878,8 +885,8 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
     /**
      * @return El fitxer original de la petició
      */
-    @Path(value = "/getOriginalFileOfSignatureRequest")
-    @POST
+    @Path(value = "/getOriginalFileOfSignatureRequest/{signatureRequestID}")
+    @GET
     @RolesAllowed({ Constants.PFI_WS })
     @SecurityRequirement(name = SECURITY_NAME)
     @Produces({ MediaType.APPLICATION_JSON })
@@ -887,14 +894,7 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
             tags = TAG_NAME,
             operationId = "getOriginalFileOfSignatureRequest",
 
-            summary = "Retorna el Fitxer original amb el que es va crear la petició de firma.",
-            requestBody = @RequestBody(
-                    description = "Identificador de la petició de Firma i idioma en que retornar missatges i errors",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(
-                                    requiredMode = RequiredMode.REQUIRED,
-                                    implementation = SignatureRequestInfo.class))))
+            summary = "Retorna el Fitxer original amb el que es va crear la petició de firma.")
     @ApiResponses(
             value = { @ApiResponse(
                     responseCode = "200",
@@ -906,31 +906,40 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
                                     requiredMode = RequiredMode.REQUIRED,
                                     implementation = Document.class))), })
     public Document getOriginalFileOfSignatureRequest(@Parameter(hidden = true) @Context
-    HttpServletRequest request, @RequestBody
-    SignatureRequestInfo info) {
+    HttpServletRequest request,
+            @Parameter(
+                    description = "Identificador de Petició de firma",
+                    in = ParameterIn.PATH,
+                    required = true,
+                    schema = @Schema(implementation = Long.class)) @PathParam("signatureRequestID")
+            long signatureRequestID,
+            @Parameter(
+                    description = "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+                    in = ParameterIn.QUERY,
+                    required = false,
+                    examples = { @ExampleObject(name = "Català", value = "ca"),
+                            @ExampleObject(name = "Castellano", value = "es") },
+                    schema = @Schema(defaultValue = "ca", implementation = String.class)) @QueryParam("languageUI")
+            String languageUI) {
 
-        String languageUI = "ca";
         try {
-            if (info == null) {
-                // XYZ ZZZ TRA
-                throw new RestException("La SignatureRequestInfo no pot valer null.");
-            }
 
             // Check info i info.getlanguage
-            languageUI = checkLanguage(info.getLanguageUI());
-
-            long peticioDeFirmaID = info.getSignatureRequestID();
+            languageUI = checkLanguage(languageUI);
 
             // Check propietari
-            checkIfPeticioDeFirmaIsPropertyOfUsrApp(peticioDeFirmaID, checkUsuariAplicacio(request));
+            checkIfPeticioDeFirmaIsPropertyOfUsrApp(signatureRequestID, checkUsuariAplicacio(request));
 
-            PeticioDeFirma peticioDeFirma = peticioDeFirmaLogicaEjb.findByPrimaryKey(peticioDeFirmaID);
+            PeticioDeFirma peticioDeFirma = peticioDeFirmaLogicaEjb.findByPrimaryKey(signatureRequestID);
             FitxerJPA fitxerJPA = peticioDeFirma.getFitxerAFirmar();
 
             Document originalFile = new Document(fitxerJPA.getNom(), fitxerJPA.getMime(),
                     FileSystemManager.getFileContent(fitxerJPA.getFitxerID()));
 
             return originalFile;
+        } catch (RestException re) {
+            log.error(re.getMessage(), re);
+            throw re;
 
         } catch (I18NException i18ne) {
             String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
@@ -938,49 +947,47 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
 
         } catch (Throwable th) {
             // XYZ ZZZ TRA
-            String msg = "Error desconegut cridant a getOriginalFileOfSignatureRequest: " + th.getMessage();
+            String msg = "Error desconegut cridant a getOriginalFileOfSignatureRequest(" + signatureRequestID + "): "
+                    + th.getMessage();
             log.error(msg, th);
             throw new RestException(msg, th);
         }
     }
 
-    @Path(value = "/deleteSignatureRequest")
+    @Path(value = "/deleteSignatureRequest/{signatureRequestID}")
     @POST
     @RolesAllowed({ Constants.PFI_WS })
     @SecurityRequirement(name = SECURITY_NAME)
     @Produces({ MediaType.APPLICATION_JSON })
-    @Operation(
-            tags = TAG_NAME,
-            summary = "Retorna el Fitxer original amb el que es va crear la petició de firma.",
-            requestBody = @RequestBody(
-                    description = "Identificador de la petició de Firma i idioma en que retornar missatges i errors",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(
-                                    requiredMode = RequiredMode.REQUIRED,
-                                    implementation = SignatureRequestInfo.class))))
+    @Operation(tags = TAG_NAME, summary = "Retorna el Fitxer original amb el que es va crear la petició de firma.")
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operació realitzada correctament") })
     public void deleteSignatureRequest(@Parameter(hidden = true) @Context
-    HttpServletRequest request, @RequestBody
-    SignatureRequestInfo info) {
+    HttpServletRequest request,
+            @Parameter(
+                    description = "Identificador de Petició de firma",
+                    in = ParameterIn.PATH,
+                    required = true,
+                    schema = @Schema(implementation = Long.class)) @PathParam("signatureRequestID")
+            long signatureRequestID,
+            @Parameter(
+                    description = "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+                    in = ParameterIn.QUERY,
+                    required = false,
+                    examples = { @ExampleObject(name = "Català", value = "ca"),
+                            @ExampleObject(name = "Castellano", value = "es") },
+                    schema = @Schema(defaultValue = "ca", implementation = String.class)) @QueryParam("languageUI")
+            String languageUI) {
 
-        String languageUI = "ca";
         try {
-            if (info == null) {
-                // XYZ ZZZ TRA
-                throw new RestException("La SignatureRequestInfo no pot valer null.");
-            }
 
             // Check info i info.getlanguage
-            languageUI = checkLanguage(info.getLanguageUI());
-
-            long peticioDeFirmaID = info.getSignatureRequestID();
+            languageUI = checkLanguage(languageUI);
 
             String usuariAplicacioId = checkUsuariAplicacio(request);
 
-            checkIfPeticioDeFirmaIsPropertyOfUsrApp(peticioDeFirmaID, usuariAplicacioId);
+            checkIfPeticioDeFirmaIsPropertyOfUsrApp(signatureRequestID, usuariAplicacioId);
 
-            deletePeticioDeFirma(peticioDeFirmaID, usuariAplicacioId);
+            deletePeticioDeFirma(signatureRequestID, usuariAplicacioId);
 
         } catch (I18NException i18ne) {
 

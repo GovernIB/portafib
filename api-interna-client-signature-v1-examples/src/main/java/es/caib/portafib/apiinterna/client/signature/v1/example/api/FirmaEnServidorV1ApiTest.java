@@ -282,16 +282,16 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
                 perfil = null;
             }
 
-            UpgradeRequest UpgradeRequest = new UpgradeRequest();
+            UpgradeRequest upgradeRequest = new UpgradeRequest();
 
-            UpgradeRequest.setProfileCode(perfil);
-            UpgradeRequest.setDetachedDocument(documentDetached);
-            UpgradeRequest.setSignature(fileToUpgrade);
+            upgradeRequest.setProfileCode(perfil);
+            upgradeRequest.setDetachedDocument(documentDetached);
+            upgradeRequest.setSignature(fileToUpgrade);
 
             String languageUI = prop.getProperty("languageUI", "ca");
-            UpgradeRequest.setLanguageUI(languageUI);
+            
 
-            UpgradeResponse upgradeResponse = api.upgradeSignature(UpgradeRequest);
+            UpgradeResponse upgradeResponse = api.upgradeSignature(languageUI, upgradeRequest);
 
             System.out.println(upgradeResponse.getUpgradedFileInfo().toString());
 

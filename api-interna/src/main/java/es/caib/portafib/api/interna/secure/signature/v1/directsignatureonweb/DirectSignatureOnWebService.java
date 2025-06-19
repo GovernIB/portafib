@@ -13,8 +13,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -25,6 +27,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.pluginsib.utils.rest.RestException;
 import org.fundaciobit.pluginsib.utils.rest.RestExceptionInfo;
+import org.jboss.logging.Logger;
 
 import es.caib.portafib.api.interna.secure.signature.v1.AbstractSignatureService;
 import es.caib.portafib.api.interna.secure.signature.v1.CommonsSwaggerOperations;
@@ -46,6 +49,7 @@ import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
@@ -54,6 +58,7 @@ import es.caib.portafib.utils.ConstantsV2;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -106,33 +111,36 @@ import io.swagger.v3.oas.annotations.tags.Tag;
                 @ApiResponse(
                         responseCode = "403",
                         description = "No autoritzat",
-                        content = { @Content(
-                                mediaType = MediaType.APPLICATION_JSON,
-                                schema = @Schema(implementation = RestExceptionInfo.class)) }),
+                        content = {
+                                @Content(
+                                        mediaType = MediaType.APPLICATION_JSON,
+                                        schema = @Schema(implementation = RestExceptionInfo.class)) }),
                 @ApiResponse(
                         responseCode = "500",
                         description = "Error no controlat",
-                        content = { @Content(
-                                mediaType = MediaType.APPLICATION_JSON,
-                                schema = @Schema(implementation = RestExceptionInfo.class)) }) })
+                        content = {
+                                @Content(
+                                        mediaType = MediaType.APPLICATION_JSON,
+                                        schema = @Schema(implementation = RestExceptionInfo.class)),
+                                @Content(
+                                        mediaType = MediaType.APPLICATION_JSON,
+                                        schema = @Schema(implementation = ViewConstants.class)) }) })
 @RolesAllowed({ Constants.PFI_WS })
 public class DirectSignatureOnWebService extends AbstractSignatureService implements CommonsSwaggerOperations {
 
     private static final boolean ES_FIRMA_EN_SERVIDOR = false;
 
     public static final String PATH = "/secure/directsignatureonweb/v1";
-    
-    
 
     /**
-     * IMPORTANT: Alerta a canviar aquest nom, ja que s'utilitza coma no de servei en el Client Swagger
+     * IMPORTANT: Alerta a canviar aquest nom, ja que s'utilitza com a nom de servei en el Client Swagger
      */
     public static final String TAG_NAME = "DirectSignatureOnWeb v1";
 
     @EJB(mappedName = es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal.JNDI_NAME)
     protected es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal passarelaDeFirmaWebEjb;
 
-    protected static final Map<String, TransactionInfo> currentTransactions = new ConcurrentHashMap<String, TransactionInfo>();
+    protected static final DirectTransactionManager directTransactionManager = new DirectTransactionManager();
 
     @Operation(
             tags = DirectSignatureOnWebService.TAG_NAME,
@@ -198,48 +206,50 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
     HttpServletRequest request, @RequestBody
     CommonInfo commonInfo) {
 
-        String userName = checkUsuariAplicacio(request);
-
-        // Fer neteja de transaccions Obsoletes !!!!
-        cleanExpiredTransactions();
-
-        // Check de commonInfo
-        if (commonInfo == null) {
-            throw new RestException("El parametre d'entrada de tipus FirmaSimpleCommonInfo no pot ser null.");
-        }
-
-        String lang = commonInfo.getLanguageUI();
-        if (lang == null || lang.trim().length() == 0) {
-
-            throw new RestException("El camp LanguageUI del tipus FirmaSimpleCommonInfo no pot ser null o buit.");
-        }
-
+        String languageUI = "ca"; // Per defecte, si no s'indica res
         try {
+
+            String userName = checkUsuariAplicacio(request);
+
+            // Fer neteja de transaccions Obsoletes !!!!
+            cleanExpiredTransactions();
+
+            // Check de commonInfo
+            if (commonInfo == null) {
+                throw new RestException("El parametre d'entrada de tipus CommonInfo no pot ser null.");
+            }
+
+            languageUI = commonInfo.getLanguageUI();
+            if (languageUI == null || languageUI.trim().length() == 0) {
+                throw new RestException("El camp LanguageUI del tipus CommonInfo no pot ser null o buit.");
+            }
+
+            languageUI = checkLanguage(languageUI);
+            commonInfo.setLanguageUI(languageUI);
 
             getPerfilDeFirma(commonInfo, ES_FIRMA_EN_SERVIDOR, userName);
 
+            String transactionID = internalGetTransacction();
+
+            //currentTransactions.put(transactionID,
+            //        new TransactionInfo(transactionID, commonInfo, TransactionInfo.STATUS_RESERVED_ID));
+            directTransactionManager.addTransaction(transactionID, commonInfo, userName);
+
+            return transactionID;
+
+        } catch (RestException re) {
+            log.error(re.getMessage(), re);
+            throw re;
         } catch (I18NException i18ne) {
-
-            String msg = I18NLogicUtils.getMessage(i18ne, new Locale(lang));
-
+            String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
+            log.error(msg, i18ne);
             throw new RestException(msg);
-
         } catch (Throwable th) {
-
             // XYZ ZZZ TRA
-            String msg = "Error desconegut intentant obtenir el transacctionID: " + th.getMessage();
-
+            String msg = "Error desconegut intentant crear un transacctionID: " + th.getMessage();
             log.error(msg, th);
-
             throw new RestException(msg, th);
         }
-
-        String transactionID = internalGetTransacction();
-
-        currentTransactions.put(transactionID,
-                new TransactionInfo(transactionID, commonInfo, TransactionInfo.STATUS_RESERVED_ID));
-
-        return transactionID;
 
     }
 
@@ -305,65 +315,91 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
                             schema = @Schema(implementation = String.class))) })
     public void addFileToSign(@Parameter(hidden = true) @Context
     HttpServletRequest request, @RequestBody
-    AddFileToSignRequest holder) {
+    AddFileToSignRequest holder) throws RestException {
 
-        checkUsuariAplicacio(request);
-
-        if (holder == null) {
-            throw new RestException("Aquest mètode requereix que el parametre no sigui NULL");
-        }
-
-        String transactionID = holder.getTransactionID();
-        FileInfoSignature sfis = holder.getFileInfoSignature();
-
-        log.info(" XYZ ZZZ addFileToSign::transactionID => |" + transactionID + "|");
-        log.info(" XYZ ZZZ addFileToSign::FirmaSimpleFileInfoSignature: " + sfis);
-
-        // TODO XYZ ZZZ CHECKS DE LOGIN
-
-        // CHECKS DE variable
-
-        log.info(" XYZ ZZZ addFileToSign::currentTransactions.size() => " + currentTransactions.size());
-
-        TransactionInfo ti = currentTransactions.get(transactionID);
-
-        if (ti == null) {
-            // TODO XYZ ZZZ Traduir
-            throw new RestException("No existeix cap transacció amb ID " + transactionID);
-        }
-
-        if (ti.getStatus() != TransactionInfo.STATUS_RESERVED_ID) {
-            // TODO XYZ ZZZ Traduir
-            throw new RestException(
-                    "La transacció " + transactionID + " es troba en un estat que no accepta més documents per firmar");
-        }
-
-        Date dataCreacio = ti.getStartTime();
-
-        if (dataCreacio.getTime() + TransactionInfo.MAX_TIME < System.currentTimeMillis()) {
-            // TODO XYZ ZZZ Traduir
-            currentTransactions.remove(transactionID);
-            throw new RestException("La transacció amb ID " + transactionID + " ha expirat");
-        }
-
-        // TODO XYZ ZZZ VALIDAR ESTRUCTURA simpleSignaturesSet
-
+        String languageUI = "ca";
+        String transactionID = null;
         try {
+
+            if (holder == null) {
+                throw new RestException("Aquest mètode requereix que el parametre no sigui NULL");
+            }
+
+            transactionID = holder.getTransactionID();
+            FileInfoSignature sfis = holder.getFileInfoSignature();
+
+            log.info(" XYZ ZZZ addFileToSign::transactionID => |" + transactionID + "|");
+            log.info(" XYZ ZZZ addFileToSign::FirmaSimpleFileInfoSignature: " + sfis);
+
+            // TODO XYZ ZZZ CHECKS DE LOGIN
+
+            // CHECKS DE variable
+
+            //log.info(" XYZ ZZZ addFileToSign::currentTransactions.size() => " + currentTransactions.size());
+
+            //TransactionInfo ti = currentTransactions.get(transactionID);
+            TransactionInfo ti = directTransactionManager.getTransaction(transactionID);
+
+            languageUI = ti.getCommonInfo().getLanguageUI();
+
+            if (ti.getStatus() != TransactionInfo.STATUS_RESERVED_ID) {
+                // TODO XYZ ZZZ Traduir
+                throw new RestException("La transacció " + transactionID
+                        + " es troba en un estat que no accepta més documents per firmar");
+            }
+
+            byte[] data = sfis.getFileToSign().getData();
+
+            if (data == null || data.length == 0) {
+                // TODO XYZ ZZZ TRA
+                String msg = "El contingut del fitxer a signar no pot ser null o buit";
+                log.error(msg);
+                throw new RestException(msg);
+            }
+
+            // Controlar mida de Fitxers
+            Long maxUpload = PropietatGlobalUtil.getMaxUploadSizeInBytes();
+            if (maxUpload == null || maxUpload.longValue() <= 0L) {
+                if (data.length > 15000000L) {
+                    log.warn("La propietat MaxUploadSizeInBytes no està definida en Propietats Globals."
+                            + " S'acaba de pujar un fitxer que ocupa " + data.length
+                            + " bytes cosa pot provocar errors de falta de memòria");
+                }
+            } else {
+
+                if (data.length > maxUpload.longValue()) {
+                    String msg = "El fitxer enviat ocupa " + data.length + " bytes, però el màxim permès es de "
+                            + maxUpload + " bytes.";
+                    log.error(msg);
+                    throw new RestException(msg);
+                }
+            }
+
+            // TODO XYZ ZZZ VALIDAR ESTRUCTURA simpleSignaturesSet
 
             String signID = sfis.getSignID();
             String name = sfis.getName();
 
             ti.getFirmaSimpleFileList().add(sfis);
 
-            // Actualitzar Data expriracio
+            // Actualitzar Data expiracio
             ti.setStartTime(new Date());
             log.info(" XYZ ZZZ addFileToSign::afegida firma [" + signID + " | " + name
                     + " ] a la llista de la transacció |" + transactionID + "|");
 
+        } catch (RestException re) {
+            log.error(re.getMessage(), re);
+            throw re;
+
+        } catch (I18NException i18ne) {
+            String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
+            log.error(msg, i18ne);
+            throw new RestException(msg);
+
         } catch (Throwable th) {
 
-            String msg = "Error desconegut afegint fitxer per Firmar a transacció [" + transactionID + "]: "
-                    + th.getMessage();
+            String msg = "Error desconegut afegint fitxer per Firmar a transacció ["
+                    + (transactionID == null ? "??????" : transactionID) + "]: " + th.getMessage();
 
             log.error(msg, th);
 
@@ -387,7 +423,6 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON,
                             schema = @Schema(
-                                    name = "languageUI",
                                     requiredMode = RequiredMode.REQUIRED,
                                     implementation = StartTransactionRequest.class))),
             summary = "Envia identificador de la transacció, url de retorn i tipus de vista web (amb o sense iframe)"
@@ -406,28 +441,24 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
         UsuariAplicacioJPA usrAppJPA = checkUsuariAplicacioFull(request);
 
         // XYZ ZZZ Canviar per idioma per defecte
-        String languageUI = checkLanguage(startTransactionRequest.getLanguage());
+        String languageUI = "ca";
 
+        String transactionID = null;
         try {
-            log.info(" XYZ ZZZ eNTRA A startTransaction => FirmaWebSimpleStartTransactionRequest: "
-                    + startTransactionRequest);
+            //log.info(" XYZ ZZZ eNTRA A startTransaction => FirmaWebSimpleStartTransactionRequest: "
+            //        + startTransactionRequest);
 
-            final String transactionID = startTransactionRequest.getTransactionID();
+            transactionID = startTransactionRequest.getTransactionID();
 
-            log.info(" XYZ ZZZ startTransaction::transactionID => |" + transactionID + "|");
-            log.info(" XYZ ZZZ startTransaction::currentTransactions.size() => " + currentTransactions.size());
+            //log.info(" XYZ ZZZ startTransaction::transactionID => |" + transactionID + "|");
+            //log.info(" XYZ ZZZ startTransaction::currentTransactions.size() => " + currentTransactions.size());
 
-            TransactionInfo ti = currentTransactions.get(transactionID);
-
-            if (ti == null) {
-                // TODO XYZ ZZZ Traduir
-                throw new RestException("No existeix cap transacció amb ID " + transactionID);
-            }
+            TransactionInfo ti = directTransactionManager.getTransaction(transactionID); // currentTransactions.get(transactionID);
 
             if (ti.getStatus() != TransactionInfo.STATUS_RESERVED_ID) {
                 // TODO XYZ ZZZ Traduir
-                throw new RestException("La transacció " + transactionID
-                        + " es troba en un estat que no accepta més documents per firmar");
+                throw new RestException("La transacció " + transactionID + " es troba en un estat (" + ti.getStatus()
+                        + ") en que no es pot arrancar.");
             }
 
             languageUI = ti.getCommonInfo().getLanguageUI();
@@ -437,28 +468,9 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
             // XYZ ZZZ final String languageUI = ti.getCommonInfo().getLanguageUI();
 
-            Date dataCreacio = ti.getStartTime();
-
-            if (dataCreacio.getTime() + TransactionInfo.MAX_TIME < System.currentTimeMillis()) {
-                // TODO XYZ ZZZ Traduir
-                currentTransactions.remove(transactionID);
-                throw new RestException("La transacció amb ID " + transactionID + " ha expirat");
-            }
-
             // TODO XYZ ZZZ VALIDAR ESTRUCTURA simpleSignaturesSet
 
             // Checks Globals
-
-            // Checks usuari aplicacio
-            /*
-            UsuariAplicacioJPA usuariAplicacio = loginInfo.getUsuariAplicacio();
-            
-            String usuariAplicacioID = usuariAplicacio.getUsuariAplicacioID();
-            
-            EntitatJPA entitatJPA = loginInfo.getEntitat();
-            
-            String entitatID2 = entitatJPA.getEntitatID();
-            */
 
             EntitatJPA entitat = usrAppJPA.getEntitat();
             String usuariAplicacioID = usrAppJPA.getUsuariAplicacioID();
@@ -521,6 +533,10 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
             return redirectUrl;
 
+        } catch (RestException re) {
+            log.error(re.getMessage(), re);
+            throw re;
+
         } catch (I18NValidationException i18nve) {
 
             String msg = I18NLogicUtils.getMessage(i18nve, new Locale(languageUI));
@@ -538,7 +554,8 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
         } catch (Throwable th) {
 
             // XYZ ZZZ TRA
-            String msg = "Error desconegut iniciant el proces de Firma: " + th.getMessage();
+            String msg = "Error desconegut iniciant el proces de Firma de la transacció " + transactionID
+                    + " per part de l'usuari " + usrAppJPA.getUsuariAplicacioID() + ": " + th.getMessage();
 
             log.error(msg, th);
 
@@ -547,22 +564,14 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
     }
 
-    @Path(value = "/getTransactionStatus")
-    @POST
+    @Path(value = "/getTransactionStatus/{transactionID}")
+    @GET
     @RolesAllowed({ Constants.PFI_WS })
     @SecurityRequirement(name = SECURITY_NAME)
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(
             tags = TAG_NAME,
             operationId = "getTransactionStatus",
-            requestBody = @RequestBody(
-                    description = "Identificador de transacció retornat de la cridada getTransactionID().",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(
-                                    name = "languageUI",
-                                    requiredMode = RequiredMode.REQUIRED,
-                                    implementation = String.class))),
             summary = "Retorna estat de la transacció (el procés de firma en general) i resultat del procés de cada firma")
     @ApiResponses(
             value = { @ApiResponse(
@@ -572,27 +581,32 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
                             mediaType = MediaType.APPLICATION_JSON,
                             schema = @Schema(implementation = TransactionStatusResponse.class))) })
     public TransactionStatusResponse getTransactionStatus(@Parameter(hidden = true) @Context
-    HttpServletRequest request, @RequestBody
+    HttpServletRequest request,@Parameter(
+            description = "Identificador de la Transacció que volem finalitzar",
+            in = ParameterIn.PATH,
+            required = true,
+            schema = @Schema(implementation = String.class)) @PathParam("transactionID")
     String transactionID) {
+
+        String languageUI = "ca";
         try {
 
             log.info(" XYZ ZZZ ENTRA A getTransactionStatus => ]" + transactionID + "[");
-            
+
             final PassarelaSignaturesSetWebInternalUse pss;
             pss = passarelaDeFirmaWebEjb.getSignaturesSetFullByTransactionID(transactionID);
-            
-            
+
+            if (pss == null) {
+                // XYZ ZZZ TRA
+                throw new RestException("Transacció amb ID " + transactionID + " no existeix o ha caducat.");
+            }
+
+            languageUI = pss.getSignaturesSet().getCommonInfoSignature().getLanguageUI();
 
             final PassarelaSignatureStatus status = pss;
             //status = passarelaDeFirmaWebEjb.getStatusTransaction(transactionID);
 
-            if (status == null) {
-                // XYZ ZZZ TRA
-                throw new RestException("Transacció amb ID " + transactionID + " no existeix o ha caducat.");
-            }
-            
             log.info("\n\n XYZ ZZZ Estat de la transacció " + transactionID + " es de " + status.getStatus() + "\n\n");
-            
 
             ProcessStatus transactionStatus;
             transactionStatus = new ProcessStatus(status.getStatus(), status.getErrorMessage(),
@@ -603,30 +617,25 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
             List<PassarelaSignatureResult> results;
             results = passarelaDeFirmaWebEjb.getSignatureResults(transactionID, addFiles);
 
-            log.info("\n\n XYZ ZZZ Numero d'arxius enviats a la transacció " + transactionID + " es de "
-                    + results.size() + "\n\n");
+            //log.info("\n\n XYZ ZZZ Numero d'arxius enviats a la transacció " + transactionID + " es de "
+            //        + results.size() + "\n\n");
 
             List<SignatureStatus> signResults = new ArrayList<SignatureStatus>();
             for (PassarelaSignatureResult psr : results) {
-                
-                
-                log.info("\n\n XYZ ZZZ Estat Firma "  + psr.getSignID()+ " de la transacció " + transactionID + " es " + psr.getStatus() + "\n\n");
-                
+
+                //log.info("\n\n XYZ ZZZ Estat Firma "  + psr.getSignID()+ " de la transacció " + transactionID + " es " + psr.getStatus() + "\n\n");
 
                 signResults.add(new SignatureStatus(psr.getSignID(),
                         new ProcessStatus(psr.getStatus(), psr.getErrorMessage(), psr.getErrorStackTrace())));
 
             }
-            
-            
-      
-            
+
             Long signaturePluginId = pss.getSignaturePluginId();
-            
+
             SignPlugin signPlugin;
             if (signaturePluginId != null) {
-               signPlugin = getSignaturePluginInformation(ES_FIRMA_EN_SERVIDOR, 
-                       pss.getSignaturesSet().getCommonInfoSignature().getLanguageUI(),signaturePluginId);
+                signPlugin = getSignaturePluginInformation(ES_FIRMA_EN_SERVIDOR,
+                        pss.getSignaturesSet().getCommonInfoSignature().getLanguageUI(), signaturePluginId);
             } else {
                 signPlugin = null;
             }
@@ -641,6 +650,13 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
             return ssresponse;
 
+        } catch (RestException re) {
+            throw re;
+        } catch (I18NException i18ne) {
+            String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
+            log.error(msg, i18ne);
+            throw new RestException(msg);
+
         } catch (Throwable th) {
             final String msg = "Error desconegut intentant recuperar informació de l'estat de la transacció: "
                     + transactionID + "(USRAPP: " + checkUsuariAplicacio(request) + "): " + th.getMessage();
@@ -652,23 +668,15 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
     }
 
-    @Path(value = "/getSignatureResult")
-    @POST
+    @Path(value = "/getSignatureResult/{transactionID}/{signID}")
+    @GET
     @RolesAllowed({ Constants.PFI_WS })
     @SecurityRequirement(name = SECURITY_NAME)
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(
             tags = TAG_NAME,
             operationId = "getSignatureResult",
-            requestBody = @RequestBody(
-                    description = "Identificador de transacció i de firma.",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(
-                                    name = "languageUI",
-                                    requiredMode = RequiredMode.REQUIRED,
-                                    implementation = SignatureResultRequest.class))),
-            summary = "Document signat  i informació d'una firma")
+            summary = "Document signat i informació d'una firma")
     @ApiResponses(
             value = { @ApiResponse(
                     responseCode = "200",
@@ -677,20 +685,28 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
                             mediaType = MediaType.APPLICATION_JSON,
                             schema = @Schema(implementation = SignatureResponse.class))) })
     public SignatureResponse getSignatureResult(@Parameter(hidden = true) @Context
-    HttpServletRequest request, @RequestBody
-    SignatureResultRequest signatureResultRequest) {
+    HttpServletRequest request,@Parameter(
+            description = "Identificador de la Transacció que volem recuperar la firma",
+            in = ParameterIn.PATH,
+            required = true,
+            schema = @Schema(implementation = String.class)) @PathParam("transactionID")
+    String transactionID, @Parameter(
+            description = "Identificador de la Firma que volem recuperar",
+            in = ParameterIn.PATH,
+            required = true,
+            schema = @Schema(implementation = String.class)) @PathParam("signID") String signID) throws RestException {
 
-        log.info(" XYZ ZZZ getSignaturesResult => ENTRA");
+        //log.info(" XYZ ZZZ getSignaturesResult => ENTRA");
 
-        checkUsuariAplicacio(request);
-
-        // XYZ ZZZ
-        // Revisar que existeix currentTransaccitions
-
-        String signID = signatureResultRequest.getSignID();
-        String transactionID = signatureResultRequest.getTransactionID();
+        String languageUI = "ca";
 
         try {
+
+            
+
+            TransactionInfo ti = directTransactionManager.getTransaction(transactionID);
+
+            languageUI = ti.getCommonInfo().getLanguageUI();
 
             PassarelaSignatureResult result;
             result = passarelaDeFirmaWebEjb.getSignatureResult(transactionID, signID);
@@ -718,20 +734,26 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
                     break;
                 }
             }
-            
-            
 
             // FirmaSimpleFile fsf = convertFitxerBeanToFirmaSimpleFile(result.getSignedFile());
-            
+
             SignatureResponse fssr;
             fssr = convertPassarelaSignatureResult2FirmaSimpleSignatureResult(result,
-                    pss.getSignaturesSet().getCommonInfoSignature(), infoSign, infoValidacio,
-                    ES_FIRMA_EN_SERVIDOR, pss.getSignaturePluginId());
+                    pss.getSignaturesSet().getCommonInfoSignature(), infoSign, infoValidacio, ES_FIRMA_EN_SERVIDOR,
+                    pss.getSignaturePluginId());
 
             //HttpHeaders headers = addAccessControllAllowOrigin();
             //ResponseEntity<?> re = new ResponseEntity<FirmaSimpleSignatureResult>(fssr, headers, HttpStatus.OK);
             log.info(" XYZ ZZZ getSignaturesStatus => FINAL OK");
             return fssr;
+
+        } catch (RestException re) {
+            log.error(re.getMessage(), re);
+            throw re;
+        } catch (I18NException i18ne) {
+            String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
+            log.error(msg, i18ne);
+            throw new RestException(msg);
 
         } catch (Throwable th) {
 
@@ -774,49 +796,137 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
     HttpServletRequest request, @RequestBody
     String transactionID) {
 
-        log.info(" XYZ ZZZ closeTransaction => ENTRA ...");
+        String languageUI = "ca"; // Per defecte, si no s'indica res
+        try {
+            //log.info(" XYZ ZZZ closeTransaction => ENTRA ...");
 
-        checkUsuariAplicacio(request);
+            //checkUsuariAplicacio(request);
 
-        //final String transactionID = transactionID;
+            //final String transactionID = transactionID;
 
-        log.info(" XYZ ZZZ closeTransaction => TransAcciont = ]" + transactionID + "[");
+            //log.info(" XYZ ZZZ closeTransaction => Transaction = ]" + transactionID + "[");
 
-        internalCloseTransaction(transactionID);
+            internalCloseTransaction(transactionID);
 
-        log.info(" XYZ ZZZ closeTransaction => FINAL OK => size = " + currentTransactions.size());
+            //log.info(" XYZ ZZZ closeTransaction => FINAL OK => size = " + currentTransactions.size());
+        } catch (RestException re) {
+            log.error(re.getMessage(), re);
+            throw re;
+        } catch (I18NException i18ne) {
+            String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
+            log.error(msg, i18ne);
+            throw new RestException(msg);
+        } catch (Throwable th) {
+
+            // TRADUIR
+            final String msg = "Error desconegut intentant tancar la transacció: " + transactionID + ": "
+                    + th.getMessage();
+
+            log.error(msg, th);
+
+            throw new RestException(msg, th);
+        }
 
     }
 
-    protected void internalCloseTransaction(String transactionID) {
+    protected void internalCloseTransaction(String transactionID) throws RestException, I18NException {
         passarelaDeFirmaWebEjb.closeTransaction(transactionID);
-        currentTransactions.remove(transactionID);
+        directTransactionManager.removeTransaction(transactionID);
         try {
             File transactionFolder = getTransactionFolder(TIPUS_WEB, transactionID);
             FileUtils.deleteDirectory(transactionFolder);
         } catch (Exception e) {
-            log.error("Error desconegut fent neteja dels fitxers " + "de ApiFirmaWebSimple de la transacció "
-                    + transactionID + ":" + e.getMessage(), e);
+            log.error("Error desconegut fent neteja dels fitxers " + " de la transacció " + transactionID + ":"
+                    + e.getMessage(), e);
         }
     }
 
     /**
      * Fer neteja de transaccions Obsoletes
      */
-    protected void cleanExpiredTransactions() {
-
-        final long now = System.currentTimeMillis();
-        for (TransactionInfo info : new ArrayList<TransactionInfo>(currentTransactions.values())) {
+    protected void cleanExpiredTransactions() throws RestException, I18NException {
+        for (TransactionInfo info : directTransactionManager.getExpiredTransactions()) {
             try {
-                if (info.getStartTime().getTime() + TransactionInfo.MAX_TIME < now) {
-                    internalCloseTransaction(info.getTransactionID());
-                }
+
+                internalCloseTransaction(info.getTransactionID());
+
             } catch (Exception e) {
-                log.error(
-                        "Error desconegut" + " netejant transaccions expirades de l'APIFirmaSimple: " + e.getMessage(),
-                        e);
+                log.error("Error desconegut" + " netejant transaccions expirades: " + e.getMessage(), e);
             }
         }
+    }
+
+    /**
+     * 
+     * @author anadal
+     * 18 jun 2025 12:03:08
+     */
+    public static class DirectTransactionManager {
+
+        protected Logger log = Logger.getLogger(DirectTransactionManager.class);
+
+        protected final Map<String, TransactionInfo> currentTransactions = new ConcurrentHashMap<String, TransactionInfo>();
+
+        public synchronized void addTransaction(String transactionID, CommonInfo commonInfo, String usrApp)
+                throws I18NException {
+            currentTransactions.put(transactionID,
+                    new TransactionInfo(transactionID, commonInfo, usrApp, TransactionInfo.STATUS_RESERVED_ID));
+        }
+
+        public synchronized TransactionInfo getTransaction(String transactionID) throws RestException, I18NException {
+
+            TransactionInfo ti = currentTransactions.get(transactionID);
+
+            if (ti == null) {
+                // TODO XYZ ZZZ Traduir
+                throw new RestException("No existeix cap transacció amb ID " + transactionID);
+            }
+
+            //String languageUI = ti.getCommonInfo().getLanguageUI();
+
+            Date dataCreacio = ti.getStartTime();
+
+            if (dataCreacio.getTime() + TransactionInfo.MAX_TIME < System.currentTimeMillis()) {
+                // TODO XYZ ZZZ Traduir
+                currentTransactions.remove(transactionID);
+                throw new RestException("La transacció amb ID " + transactionID + " ha expirat");
+            }
+
+            return ti;
+        }
+
+        public synchronized void removeTransaction(String transactionID) throws RestException, I18NException {
+            currentTransactions.remove(transactionID);
+        }
+
+        protected synchronized List<TransactionInfo> getExpiredTransactions() throws RestException, I18NException {
+            List<TransactionInfo> expiredTransactions = new ArrayList<TransactionInfo>();
+            try {
+
+                final long now = System.currentTimeMillis();
+                for (String transactionID : currentTransactions.keySet()) {
+                    TransactionInfo ti = currentTransactions.get(transactionID);
+                    if (ti != null) {
+                        Date dataCreacio = ti.getStartTime();
+                        if (dataCreacio.getTime() + TransactionInfo.MAX_TIME < now) {
+                            expiredTransactions.add(ti);
+                        }
+                    }
+                }
+                /*
+                for (TransactionInfo transaction : expiredTransactions) {
+                    log.error("Neteja de Transaccions Expirades: La transacció amb ID "
+                            + transaction.getTransactionID() + " ha expirat (Propietari " + transaction.getUsrApp()+ ") ");
+                    currentTransactions.remove(transaction.getTransactionID());
+                }
+                */
+
+            } catch (Throwable e) {
+                log.error("Error netejant transaccions expirades: " + e.getMessage(), e);
+            }
+            return expiredTransactions;
+        };
+
     }
 
     /**
@@ -835,6 +945,8 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
         final String transactionID;
 
+        final String usrApp;
+
         final CommonInfo commonInfo;
 
         @Deprecated
@@ -846,16 +958,21 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
         int status;
 
-        public TransactionInfo(String transactionID, CommonInfo commonInfo, int status) {
+        public TransactionInfo(String transactionID, CommonInfo commonInfo, String usrApp, int status) {
             super();
             this.transactionID = transactionID;
             this.startTime = new Date();
             this.commonInfo = commonInfo;
+            this.usrApp = usrApp;
             this.status = status;
         }
 
         public int getStatus() {
             return status;
+        }
+
+        public String getUsrApp() {
+            return usrApp;
         }
 
         public void setStatus(int status) {

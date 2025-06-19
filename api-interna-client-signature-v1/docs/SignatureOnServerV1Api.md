@@ -311,7 +311,7 @@ public class Example {
 
 ## upgradeSignature
 
-> UpgradeResponse upgradeSignature(upgradeRequest)
+> UpgradeResponse upgradeSignature(languageUI, upgradeRequest)
 
 Operacio de firma simple en servidor d&#39;un document
 
@@ -337,9 +337,10 @@ public class Example {
         BasicAuth.setPassword("YOUR PASSWORD");
 
         SignatureOnServerV1Api apiInstance = new SignatureOnServerV1Api(defaultClient);
+        String languageUI = "ca"; // String | Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')
         UpgradeRequest upgradeRequest = new UpgradeRequest(); // UpgradeRequest | Funcio de upgrade se firma digital
         try {
-            UpgradeResponse result = apiInstance.upgradeSignature(upgradeRequest);
+            UpgradeResponse result = apiInstance.upgradeSignature(languageUI, upgradeRequest);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling SignatureOnServerV1Api#upgradeSignature");
@@ -357,6 +358,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
+| **languageUI** | **String**| Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) | [optional] [default to ca] |
 | **upgradeRequest** | [**UpgradeRequest**](UpgradeRequest.md)| Funcio de upgrade se firma digital | [optional] |
 
 ### Return type

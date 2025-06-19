@@ -14,7 +14,6 @@ import es.caib.portafib.apiinterna.client.signature.v1.model.MetadataConstants;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Profile;
 import es.caib.portafib.apiinterna.client.signature.v1.model.RestExceptionInfo;
 import java.util.Set;
-import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureRequestInfo;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureRequestState;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureRequestWithFlowTemplateCode;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureRequestWithSignBlockList;
@@ -124,14 +123,21 @@ public class AsyncSignatureOnWebV1Api {
   /**
    * Retorna el Fitxer original amb el que es va crear la petició de firma.
    * 
-   * @param signatureRequestInfo Identificador de la petició de Firma i idioma en que retornar missatges i errors (optional)
+   * @param signatureRequestID Identificador de Petició de firma (required)
+   * @param languageUI Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) (optional, default to ca)
    * @throws ApiException if fails to make API call
    */
-  public void deleteSignatureRequest(SignatureRequestInfo signatureRequestInfo) throws ApiException {
-    Object localVarPostBody = signatureRequestInfo;
+  public void deleteSignatureRequest(Long signatureRequestID, String languageUI) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'signatureRequestID' is set
+    if (signatureRequestID == null) {
+      throw new ApiException(400, "Missing the required parameter 'signatureRequestID' when calling deleteSignatureRequest");
+    }
     
     // create path and map variables
-    String localVarPath = "/secure/asyncsignatureonweb/v1/deleteSignatureRequest".replaceAll("\\{format\\}","json");
+    String localVarPath = "/secure/asyncsignatureonweb/v1/deleteSignatureRequest/{signatureRequestID}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "signatureRequestID" + "\\}", apiClient.escapeString(signatureRequestID.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -139,6 +145,7 @@ public class AsyncSignatureOnWebV1Api {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "languageUI", languageUI));
 
     
     
@@ -149,7 +156,7 @@ public class AsyncSignatureOnWebV1Api {
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      "application/json"
+      
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
@@ -239,15 +246,22 @@ public class AsyncSignatureOnWebV1Api {
   /**
    * Retorna el Fitxer original amb el que es va crear la petició de firma.
    * 
-   * @param signatureRequestInfo Identificador de la petició de Firma i idioma en que retornar missatges i errors (optional)
+   * @param signatureRequestID Identificador de Petició de firma (required)
+   * @param languageUI Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) (optional, default to ca)
    * @return a {@code Document}
    * @throws ApiException if fails to make API call
    */
-  public Document getOriginalFileOfSignatureRequest(SignatureRequestInfo signatureRequestInfo) throws ApiException {
-    Object localVarPostBody = signatureRequestInfo;
+  public Document getOriginalFileOfSignatureRequest(Long signatureRequestID, String languageUI) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'signatureRequestID' is set
+    if (signatureRequestID == null) {
+      throw new ApiException(400, "Missing the required parameter 'signatureRequestID' when calling getOriginalFileOfSignatureRequest");
+    }
     
     // create path and map variables
-    String localVarPath = "/secure/asyncsignatureonweb/v1/getOriginalFileOfSignatureRequest".replaceAll("\\{format\\}","json");
+    String localVarPath = "/secure/asyncsignatureonweb/v1/getOriginalFileOfSignatureRequest/{signatureRequestID}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "signatureRequestID" + "\\}", apiClient.escapeString(signatureRequestID.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -255,6 +269,7 @@ public class AsyncSignatureOnWebV1Api {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "languageUI", languageUI));
 
     
     
@@ -265,14 +280,14 @@ public class AsyncSignatureOnWebV1Api {
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      "application/json"
+      
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
     String[] localVarAuthNames = new String[] { "BasicAuth" };
 
     GenericType<Document> localVarReturnType = new GenericType<Document>() {};
-    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
    * Retorna els perfils de firma.
@@ -316,15 +331,22 @@ public class AsyncSignatureOnWebV1Api {
   /**
    * Informació de l&#39;estat d&#39;una Petició de firma
    * 
-   * @param signatureRequestInfo Identificador de la petició de Firma i idioma en que retornar missatges i errors (optional)
+   * @param signatureRequestID Identificador de Petició de firma (required)
+   * @param languageUI Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) (optional, default to ca)
    * @return a {@code SignatureRequestState}
    * @throws ApiException if fails to make API call
    */
-  public SignatureRequestState getSignatureRequestState(SignatureRequestInfo signatureRequestInfo) throws ApiException {
-    Object localVarPostBody = signatureRequestInfo;
+  public SignatureRequestState getSignatureRequestState(Long signatureRequestID, String languageUI) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'signatureRequestID' is set
+    if (signatureRequestID == null) {
+      throw new ApiException(400, "Missing the required parameter 'signatureRequestID' when calling getSignatureRequestState");
+    }
     
     // create path and map variables
-    String localVarPath = "/secure/asyncsignatureonweb/v1/getSignatureRequestState".replaceAll("\\{format\\}","json");
+    String localVarPath = "/secure/asyncsignatureonweb/v1/getSignatureRequestState/{signatureRequestID}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "signatureRequestID" + "\\}", apiClient.escapeString(signatureRequestID.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -332,6 +354,7 @@ public class AsyncSignatureOnWebV1Api {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "languageUI", languageUI));
 
     
     
@@ -342,27 +365,34 @@ public class AsyncSignatureOnWebV1Api {
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      "application/json"
+      
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
     String[] localVarAuthNames = new String[] { "BasicAuth" };
 
     GenericType<SignatureRequestState> localVarReturnType = new GenericType<SignatureRequestState>() {};
-    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
    * Retorna el Fitxer Signat acompanyats de Informació de la Firma, Signants, custòdia i validacions realitzades.
    * 
-   * @param signatureRequestInfo Identificador de la petició de Firma i idioma en que retornar missatges i errors (optional)
+   * @param signatureRequestID Identificador de Petició de firma (required)
+   * @param languageUI Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) (optional, default to ca)
    * @return a {@code SignedFile}
    * @throws ApiException if fails to make API call
    */
-  public SignedFile getSignedFileOfSignatureRequest(SignatureRequestInfo signatureRequestInfo) throws ApiException {
-    Object localVarPostBody = signatureRequestInfo;
+  public SignedFile getSignedFileOfSignatureRequest(Long signatureRequestID, String languageUI) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'signatureRequestID' is set
+    if (signatureRequestID == null) {
+      throw new ApiException(400, "Missing the required parameter 'signatureRequestID' when calling getSignedFileOfSignatureRequest");
+    }
     
     // create path and map variables
-    String localVarPath = "/secure/asyncsignatureonweb/v1/getSignedFileOfSignatureRequest".replaceAll("\\{format\\}","json");
+    String localVarPath = "/secure/asyncsignatureonweb/v1/getSignedFileOfSignatureRequest/{signatureRequestID}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "signatureRequestID" + "\\}", apiClient.escapeString(signatureRequestID.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -370,6 +400,7 @@ public class AsyncSignatureOnWebV1Api {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "languageUI", languageUI));
 
     
     
@@ -380,27 +411,34 @@ public class AsyncSignatureOnWebV1Api {
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      "application/json"
+      
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
     String[] localVarAuthNames = new String[] { "BasicAuth" };
 
     GenericType<SignedFile> localVarReturnType = new GenericType<SignedFile>() {};
-    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
    * Obté una URL des de la que es pot visualitzar el diagrama de flux amb l&#39;estat de la petició (per emprar-la per exemple dins un \&quot;&lt;iframe&gt;\&quot;)
    * 
-   * @param signatureRequestInfo Identificador de la petició de Firma i idioma en que retornar missatges i errors (optional)
+   * @param signatureRequestID Identificador de Petició de firma (required)
+   * @param languageUI Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) (optional, default to ca)
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String getUrlToViewFlow(SignatureRequestInfo signatureRequestInfo) throws ApiException {
-    Object localVarPostBody = signatureRequestInfo;
+  public String getUrlToViewFlow(Long signatureRequestID, String languageUI) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'signatureRequestID' is set
+    if (signatureRequestID == null) {
+      throw new ApiException(400, "Missing the required parameter 'signatureRequestID' when calling getUrlToViewFlow");
+    }
     
     // create path and map variables
-    String localVarPath = "/secure/asyncsignatureonweb/v1/getUrlToViewFlow".replaceAll("\\{format\\}","json");
+    String localVarPath = "/secure/asyncsignatureonweb/v1/getUrlToViewFlow/{signatureRequestID}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "signatureRequestID" + "\\}", apiClient.escapeString(signatureRequestID.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -408,6 +446,7 @@ public class AsyncSignatureOnWebV1Api {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "languageUI", languageUI));
 
     
     
@@ -418,14 +457,14 @@ public class AsyncSignatureOnWebV1Api {
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      "application/json"
+      
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
     String[] localVarAuthNames = new String[] { "BasicAuth" };
 
     GenericType<String> localVarReturnType = new GenericType<String>() {};
-    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
    * Retorna la versió d&#39;aquest Servei

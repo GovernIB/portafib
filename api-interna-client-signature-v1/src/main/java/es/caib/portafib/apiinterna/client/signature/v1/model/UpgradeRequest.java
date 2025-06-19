@@ -31,8 +31,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   UpgradeRequest.JSON_PROPERTY_PROFILE_CODE,
   UpgradeRequest.JSON_PROPERTY_SIGNATURE,
   UpgradeRequest.JSON_PROPERTY_DETACHED_DOCUMENT,
-  UpgradeRequest.JSON_PROPERTY_TARGET_CERTIFICATE,
-  UpgradeRequest.JSON_PROPERTY_LANGUAGE_U_I
+  UpgradeRequest.JSON_PROPERTY_TARGET_CERTIFICATE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class UpgradeRequest {
@@ -51,10 +50,6 @@ public class UpgradeRequest {
   public static final String JSON_PROPERTY_TARGET_CERTIFICATE = "targetCertificate";
   @javax.annotation.Nullable
   private Document targetCertificate;
-
-  public static final String JSON_PROPERTY_LANGUAGE_U_I = "languageUI";
-  @javax.annotation.Nonnull
-  private String languageUI;
 
   public UpgradeRequest() {
   }
@@ -159,31 +154,6 @@ public class UpgradeRequest {
     this.targetCertificate = targetCertificate;
   }
 
-  public UpgradeRequest languageUI(@javax.annotation.Nonnull String languageUI) {
-    
-    this.languageUI = languageUI;
-    return this;
-  }
-
-  /**
-   * Idioma dels missatges en cas d&#39;informar o d&#39;errors.
-   * @return languageUI
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_LANGUAGE_U_I)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public String getLanguageUI() {
-    return languageUI;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_LANGUAGE_U_I)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setLanguageUI(@javax.annotation.Nonnull String languageUI) {
-    this.languageUI = languageUI;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -196,13 +166,12 @@ public class UpgradeRequest {
     return Objects.equals(this.profileCode, upgradeRequest.profileCode) &&
         Objects.equals(this.signature, upgradeRequest.signature) &&
         Objects.equals(this.detachedDocument, upgradeRequest.detachedDocument) &&
-        Objects.equals(this.targetCertificate, upgradeRequest.targetCertificate) &&
-        Objects.equals(this.languageUI, upgradeRequest.languageUI);
+        Objects.equals(this.targetCertificate, upgradeRequest.targetCertificate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(profileCode, signature, detachedDocument, targetCertificate, languageUI);
+    return Objects.hash(profileCode, signature, detachedDocument, targetCertificate);
   }
 
   @Override
@@ -213,7 +182,6 @@ public class UpgradeRequest {
     sb.append("    signature: ").append(toIndentedString(signature)).append("\n");
     sb.append("    detachedDocument: ").append(toIndentedString(detachedDocument)).append("\n");
     sb.append("    targetCertificate: ").append(toIndentedString(targetCertificate)).append("\n");
-    sb.append("    languageUI: ").append(toIndentedString(languageUI)).append("\n");
     sb.append("}");
     return sb.toString();
   }

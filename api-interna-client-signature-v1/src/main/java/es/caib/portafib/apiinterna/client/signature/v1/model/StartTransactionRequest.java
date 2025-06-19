@@ -24,13 +24,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * StartTransactionRequest
+ * Paràmetres per iniciar una transacció de firma electrònica directa via web.
  */
 @JsonPropertyOrder({
   StartTransactionRequest.JSON_PROPERTY_TRANSACTION_I_D,
   StartTransactionRequest.JSON_PROPERTY_RETURN_URL,
-  StartTransactionRequest.JSON_PROPERTY_VIEW,
-  StartTransactionRequest.JSON_PROPERTY_LANGUAGE
+  StartTransactionRequest.JSON_PROPERTY_VIEW
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class StartTransactionRequest {
@@ -45,10 +44,6 @@ public class StartTransactionRequest {
   public static final String JSON_PROPERTY_VIEW = "view";
   @javax.annotation.Nonnull
   private String view;
-
-  public static final String JSON_PROPERTY_LANGUAGE = "language";
-  @javax.annotation.Nonnull
-  private String language;
 
   public StartTransactionRequest() {
   }
@@ -128,31 +123,6 @@ public class StartTransactionRequest {
     this.view = view;
   }
 
-  public StartTransactionRequest language(@javax.annotation.Nonnull String language) {
-    
-    this.language = language;
-    return this;
-  }
-
-  /**
-   * Idioma seleccionat
-   * @return language
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_LANGUAGE)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public String getLanguage() {
-    return language;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_LANGUAGE)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setLanguage(@javax.annotation.Nonnull String language) {
-    this.language = language;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -164,13 +134,12 @@ public class StartTransactionRequest {
     StartTransactionRequest startTransactionRequest = (StartTransactionRequest) o;
     return Objects.equals(this.transactionID, startTransactionRequest.transactionID) &&
         Objects.equals(this.returnUrl, startTransactionRequest.returnUrl) &&
-        Objects.equals(this.view, startTransactionRequest.view) &&
-        Objects.equals(this.language, startTransactionRequest.language);
+        Objects.equals(this.view, startTransactionRequest.view);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(transactionID, returnUrl, view, language);
+    return Objects.hash(transactionID, returnUrl, view);
   }
 
   @Override
@@ -180,7 +149,6 @@ public class StartTransactionRequest {
     sb.append("    transactionID: ").append(toIndentedString(transactionID)).append("\n");
     sb.append("    returnUrl: ").append(toIndentedString(returnUrl)).append("\n");
     sb.append("    view: ").append(toIndentedString(view)).append("\n");
-    sb.append("    language: ").append(toIndentedString(language)).append("\n");
     sb.append("}");
     return sb.toString();
   }

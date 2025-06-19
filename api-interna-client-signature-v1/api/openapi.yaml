@@ -132,16 +132,36 @@ paths:
       x-content-type: application/json
       x-accepts:
       - application/json
-  /secure/asyncsignatureonweb/v1/deleteSignatureRequest:
+  /secure/asyncsignatureonweb/v1/deleteSignatureRequest/{signatureRequestID}:
     post:
       operationId: deleteSignatureRequest
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SignatureRequestInfo'
-        description: Identificador de la petició de Firma i idioma en que retornar
-          missatges i errors
+      parameters:
+      - description: Identificador de Petició de firma
+        explode: false
+        in: path
+        name: signatureRequestID
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      - description: Idioma en que s'han de retornar les dades i errors(Només suportat
+          'ca' o 'es')
+        examples:
+          Català:
+            description: Català
+            value: ca
+          Castellano:
+            description: Castellano
+            value: es
+        explode: true
+        in: query
+        name: languageUI
+        required: false
+        schema:
+          default: ca
+          type: string
+        style: form
       responses:
         "400":
           content:
@@ -174,7 +194,6 @@ paths:
       summary: Retorna el Fitxer original amb el que es va crear la petició de firma.
       tags:
       - AsyncSignatureOnWeb v1
-      x-content-type: application/json
       x-accepts:
       - application/json
   /secure/asyncsignatureonweb/v1/getDocumentaryTypes:
@@ -303,16 +322,36 @@ paths:
       - AsyncSignatureOnWeb v1
       x-accepts:
       - application/json
-  /secure/asyncsignatureonweb/v1/getOriginalFileOfSignatureRequest:
-    post:
+  /secure/asyncsignatureonweb/v1/getOriginalFileOfSignatureRequest/{signatureRequestID}:
+    get:
       operationId: getOriginalFileOfSignatureRequest
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SignatureRequestInfo'
-        description: Identificador de la petició de Firma i idioma en que retornar
-          missatges i errors
+      parameters:
+      - description: Identificador de Petició de firma
+        explode: false
+        in: path
+        name: signatureRequestID
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      - description: Idioma en que s'han de retornar les dades i errors(Només suportat
+          'ca' o 'es')
+        examples:
+          Català:
+            description: Català
+            value: ca
+          Castellano:
+            description: Castellano
+            value: es
+        explode: true
+        in: query
+        name: languageUI
+        required: false
+        schema:
+          default: ca
+          type: string
+        style: form
       responses:
         "400":
           content:
@@ -349,7 +388,6 @@ paths:
       summary: Retorna el Fitxer original amb el que es va crear la petició de firma.
       tags:
       - AsyncSignatureOnWeb v1
-      x-content-type: application/json
       x-accepts:
       - application/json
   /secure/asyncsignatureonweb/v1/getProfiles:
@@ -414,16 +452,36 @@ paths:
       - AsyncSignatureOnWeb v1
       x-accepts:
       - application/json
-  /secure/asyncsignatureonweb/v1/getSignatureRequestState:
-    post:
+  /secure/asyncsignatureonweb/v1/getSignatureRequestState/{signatureRequestID}:
+    get:
       operationId: getSignatureRequestState
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SignatureRequestInfo'
-        description: Identificador de la petició de Firma i idioma en que retornar
-          missatges i errors
+      parameters:
+      - description: Identificador de Petició de firma
+        explode: false
+        in: path
+        name: signatureRequestID
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      - description: Idioma en que s'han de retornar les dades i errors(Només suportat
+          'ca' o 'es')
+        examples:
+          Català:
+            description: Català
+            value: ca
+          Castellano:
+            description: Castellano
+            value: es
+        explode: true
+        in: query
+        name: languageUI
+        required: false
+        schema:
+          default: ca
+          type: string
+        style: form
       responses:
         "400":
           content:
@@ -460,19 +518,38 @@ paths:
       summary: Informació de l'estat d'una Petició de firma
       tags:
       - AsyncSignatureOnWeb v1
-      x-content-type: application/json
       x-accepts:
       - application/json
-  /secure/asyncsignatureonweb/v1/getSignedFileOfSignatureRequest:
-    post:
+  /secure/asyncsignatureonweb/v1/getSignedFileOfSignatureRequest/{signatureRequestID}:
+    get:
       operationId: getSignedFileOfSignatureRequest
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SignatureRequestInfo'
-        description: Identificador de la petició de Firma i idioma en que retornar
-          missatges i errors
+      parameters:
+      - description: Identificador de Petició de firma
+        explode: false
+        in: path
+        name: signatureRequestID
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      - description: Idioma en que s'han de retornar les dades i errors(Només suportat
+          'ca' o 'es')
+        examples:
+          Català:
+            description: Català
+            value: ca
+          Castellano:
+            description: Castellano
+            value: es
+        explode: true
+        in: query
+        name: languageUI
+        required: false
+        schema:
+          default: ca
+          type: string
+        style: form
       responses:
         "400":
           content:
@@ -510,19 +587,38 @@ paths:
         \ custòdia i validacions realitzades."
       tags:
       - AsyncSignatureOnWeb v1
-      x-content-type: application/json
       x-accepts:
       - application/json
-  /secure/asyncsignatureonweb/v1/getUrlToViewFlow:
-    post:
+  /secure/asyncsignatureonweb/v1/getUrlToViewFlow/{signatureRequestID}:
+    get:
       operationId: getUrlToViewFlow
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SignatureRequestInfo'
-        description: Identificador de la petició de Firma i idioma en que retornar
-          missatges i errors
+      parameters:
+      - description: Identificador de Petició de firma
+        explode: false
+        in: path
+        name: signatureRequestID
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      - description: Idioma en que s'han de retornar les dades i errors(Només suportat
+          'ca' o 'es')
+        examples:
+          Català:
+            description: Català
+            value: ca
+          Castellano:
+            description: Castellano
+            value: es
+        explode: true
+        in: query
+        name: languageUI
+        required: false
+        schema:
+          default: ca
+          type: string
+        style: form
       responses:
         "400":
           content:
@@ -560,7 +656,6 @@ paths:
         l'estat de la petició (per emprar-la per exemple dins un "<iframe>")
       tags:
       - AsyncSignatureOnWeb v1
-      x-content-type: application/json
       x-accepts:
       - application/json
   /secure/asyncsignatureonweb/v1/versio:
@@ -636,7 +731,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RestExceptionInfo'
+                $ref: '#/components/schemas/ViewConstants'
           description: Error no controlat
         "200":
           content:
@@ -685,7 +780,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RestExceptionInfo'
+                $ref: '#/components/schemas/ViewConstants'
           description: Error no controlat
         "200":
           content:
@@ -746,7 +841,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RestExceptionInfo'
+                $ref: '#/components/schemas/ViewConstants'
           description: Error no controlat
         "200":
           content:
@@ -810,7 +905,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RestExceptionInfo'
+                $ref: '#/components/schemas/ViewConstants'
           description: Error no controlat
         "200":
           content:
@@ -872,7 +967,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RestExceptionInfo'
+                $ref: '#/components/schemas/ViewConstants'
           description: Error no controlat
         "200":
           content:
@@ -890,15 +985,26 @@ paths:
       - DirectSignatureOnWeb v1
       x-accepts:
       - application/json
-  /secure/directsignatureonweb/v1/getSignatureResult:
-    post:
+  /secure/directsignatureonweb/v1/getSignatureResult/{transactionID}/{signID}:
+    get:
       operationId: getSignatureResult
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SignatureResultRequest'
-        description: Identificador de transacció i de firma.
+      parameters:
+      - description: Identificador de la Transacció que volem recuperar la firma
+        explode: false
+        in: path
+        name: transactionID
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Identificador de la Firma que volem recuperar
+        explode: false
+        in: path
+        name: signID
+        required: true
+        schema:
+          type: string
+        style: simple
       responses:
         "400":
           content:
@@ -922,7 +1028,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RestExceptionInfo'
+                $ref: '#/components/schemas/ViewConstants'
           description: Error no controlat
         "200":
           content:
@@ -932,10 +1038,9 @@ paths:
           description: Operació realitzada correctament
       security:
       - BasicAuth: []
-      summary: Document signat  i informació d'una firma
+      summary: Document signat i informació d'una firma
       tags:
       - DirectSignatureOnWeb v1
-      x-content-type: application/json
       x-accepts:
       - application/json
   /secure/directsignatureonweb/v1/getTransactionID:
@@ -970,7 +1075,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RestExceptionInfo'
+                $ref: '#/components/schemas/ViewConstants'
           description: Error no controlat
         "200":
           content:
@@ -986,15 +1091,18 @@ paths:
       x-content-type: application/json
       x-accepts:
       - application/json
-  /secure/directsignatureonweb/v1/getTransactionStatus:
-    post:
+  /secure/directsignatureonweb/v1/getTransactionStatus/{transactionID}:
+    get:
       operationId: getTransactionStatus
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: string
-        description: Identificador de transacció retornat de la cridada getTransactionID().
+      parameters:
+      - description: Identificador de la Transacció que volem finalitzar
+        explode: false
+        in: path
+        name: transactionID
+        required: true
+        schema:
+          type: string
+        style: simple
       responses:
         "400":
           content:
@@ -1018,7 +1126,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RestExceptionInfo'
+                $ref: '#/components/schemas/ViewConstants'
           description: Error no controlat
         "200":
           content:
@@ -1032,7 +1140,6 @@ paths:
         del procés de cada firma
       tags:
       - DirectSignatureOnWeb v1
-      x-content-type: application/json
       x-accepts:
       - application/json
   /secure/directsignatureonweb/v1/startTransaction:
@@ -1068,7 +1175,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RestExceptionInfo'
+                $ref: '#/components/schemas/ViewConstants'
           description: Error no controlat
         "200":
           content:
@@ -1112,7 +1219,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RestExceptionInfo'
+                $ref: '#/components/schemas/ViewConstants'
           description: Error no controlat
         "200":
           content:
@@ -2548,6 +2655,24 @@ paths:
   /secure/signatureonserver/v1/upgradeSignature:
     post:
       operationId: upgradeSignature
+      parameters:
+      - description: Idioma en que s'han de retornar les dades i errors(Només suportat
+          'ca' o 'es')
+        examples:
+          Català:
+            description: Català
+            value: ca
+          Castellano:
+            description: Castellano
+            value: es
+        explode: true
+        in: query
+        name: languageUI
+        required: false
+        schema:
+          default: ca
+          type: string
+        style: form
       requestBody:
         content:
           application/json:
@@ -3520,23 +3645,6 @@ components:
         externalSigner:
           $ref: '#/components/schemas/ExternalSigner'
       type: object
-    SignatureRequestInfo:
-      description: Estructura de dades per consultar Peticions de Firma existents
-      example:
-        signatureRequestID: 0
-        languageUI: languageUI
-      properties:
-        signatureRequestID:
-          description: Identificador de Peticio de firma
-          format: int64
-          type: integer
-        languageUI:
-          description: Idioma en que es vol que es retornin els missatges.
-          type: string
-      required:
-      - languageUI
-      - signatureRequestID
-      type: object
     DocumentaryType:
       description: Model de dades d'un tipus documental
       example:
@@ -3997,7 +4105,25 @@ components:
           description: Només s'omple si checkValidationSignature val false
           type: string
       type: object
+    ViewConstants:
+      description: |
+        Valors:
+            • VIEW_FULLSCREEN("fullview"): El proces de firma es realitzarà en pantalla completa
+            • VIEW_IFRAME("iframe"): El proces de firma es realitzarà en un iframe
+      enum:
+      - fullview
+      - iframe
+      format: string
+      type: string
+      x-enum-varnames:
+      - VIEW_FULLSCREEN
+      - VIEW_IFRAME
+      x-enum-descriptions:
+      - El proces de firma es realitzarà en pantalla completa
+      - El proces de firma es realitzarà en un iframe
     AddFileToSignRequest:
+      description: Estructura de dades per afegir un fitxer a signar a una transacció
+        ja existent
       example:
         fileInfoSignature:
           reason: Exemple de firma
@@ -4125,21 +4251,6 @@ components:
       - reason
       - signID
       - signNumber
-      type: object
-    SignatureResultRequest:
-      example:
-        signID: signID
-        transactionID: transactionID
-      properties:
-        transactionID:
-          description: Identificador de la transaccio
-          type: string
-        signID:
-          description: Identificador de la firma
-          type: string
-      required:
-      - signID
-      - transactionID
       type: object
     ProcessStatus:
       description: Estat d'algun procés
@@ -4359,9 +4470,10 @@ components:
       - transactionStatus
       type: object
     StartTransactionRequest:
+      description: Paràmetres per iniciar una transacció de firma electrònica directa
+        via web.
       example:
         view: view
-        language: language
         returnUrl: returnUrl
         transactionID: transactionID
       properties:
@@ -4377,11 +4489,7 @@ components:
             \ o dins d'un iframe:\r\n    • \"fullview\" (Constant VIEW_FULLSCREEN)\r\
             \n    • \"iframe\" (Constant VIEW_IFRAME)"
           type: string
-        language:
-          description: Idioma seleccionat
-          type: string
       required:
-      - language
       - returnUrl
       - transactionID
       - view
@@ -4854,16 +4962,19 @@ components:
       - ' '
       - ' '
     SignModeConstants:
-      description: |-
+      description: |
         Valors:
             • SIGN_MODE_ATTACHED_ENVELOPED(0): El fitxer de dades resultant inclou la firma: PDF, ODT, ...
             • SIGN_MODE_ATTACHED_ENVELOPING(3): El fitxer resultant serà la firma que incloura les dades originals
-            • SIGN_MODE_DETACHED(1): El fitxer de firma no inclourà les dades: per separat trobarem un fitxer de firma i el fitxer original    • SIGN_MODE_INTERNALLY_DETACHED(4): Firma especial XAdES en que la firma i les dades estan al mateix nivell dins de l'XML: ni la firma inclou les dades ni les dades inclouen la firma
+            • SIGN_MODE_DETACHED(1): El fitxer de firma no inclourà les dades: per separat trobarem un fitxer de firma i el fitxer original
+            • SIGN_MODE_INTERNALLY_DETACHED(4): Firma especial XAdES en que la firma i les dades estan al mateix nivell dins de l'XML: ni la firma inclou les dades ni les dades inclouen la firma
+            • SIGN_MODE_EXTERNALLY_DETACHED(5):  Firma especial XAdES en que les dades es substitueixen per un resum del fitxer a signar. Entre les dades del resum hi ha una URL a les dades del fitxer original.
       enum:
       - 0
       - 3
       - 1
       - 4
+      - 5
       format: int32
       type: integer
       x-enum-varnames:
@@ -4871,6 +4982,7 @@ components:
       - SIGN_MODE_ATTACHED_ENVELOPING
       - SIGN_MODE_DETACHED
       - SIGN_MODE_INTERNALLY_DETACHED
+      - SIGN_MODE_EXTERNALLY_DETACHED
       x-enum-descriptions:
       - "El fitxer de dades resultant inclou la firma: PDF, ODT, ..."
       - El fitxer resultant serà la firma que incloura les dades originals
@@ -4878,6 +4990,8 @@ components:
         \ de firma i el fitxer origina"
       - "Firma especial XAdES en que la firma i les dades estan al mateix nivell dins\
         \ de l'XML: ni la firma inclou les dades ni les dades inclouen la firma"
+      - Firma especial XAdES en que les dades es substitueixen per un resum del fitxer
+        a signar. Entre les dades del resum hi ha una URL a les dades del fitxer original
     SignOperationConstants:
       description: "Operació de firma realitzada: Firma (0), Cofirma (1) o Contrafirma\
         \ (2).\r\nLes constants són:\r\n    • SIGN_OPERATION_SIGN = 0;\r\n    • SIGN_OPERATION_COSIGN\
@@ -5232,7 +5346,6 @@ components:
           data: data
           mime: mime
           nom: nom
-        languageUI: ca
         profileCode: profileCode
         targetCertificate:
           data: data
@@ -5249,12 +5362,7 @@ components:
           $ref: '#/components/schemas/Document'
         targetCertificate:
           $ref: '#/components/schemas/Document'
-        languageUI:
-          description: Idioma dels missatges en cas d'informar o d'errors.
-          example: ca
-          type: string
       required:
-      - languageUI
       - signature
       type: object
     UpgradeResponse:
