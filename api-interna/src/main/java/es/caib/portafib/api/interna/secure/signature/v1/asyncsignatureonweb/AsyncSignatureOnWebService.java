@@ -1076,7 +1076,7 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
                     new I18NArgumentCode(PeticioDeFirmaFields.FITXERAFIRMARID.fullName));
         } else {
             Document fileToSign = signatureRequest.getFileToSign();
-            FitxerJPA fitxerAFirmar = new FitxerJPA(fileToSign.getNom(), null, fileToSign.getData().length,
+            FitxerJPA fitxerAFirmar = new FitxerJPA(fileToSign.getName(), null, fileToSign.getData().length,
                     fileToSign.getMime());
             FitxerJPA f = fitxerLogicaEjb.createFitxerField(fitxerAFirmar,
                     new ByteArrayDataSource(fileToSign.getData()), fitxersCreats, PeticioDeFirmaFields.FITXERAFIRMARID);
@@ -1142,7 +1142,7 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
         AnnexJPA jpa = new AnnexJPA(0, 0, annexBean.isAttach(), annexBean.isSign());
 
         Document annexFile = annexBean.getAnnex();
-        FitxerJPA fitxer = new FitxerJPA(annexFile.getNom(), null, annexFile.getData().length, annexFile.getMime());
+        FitxerJPA fitxer = new FitxerJPA(annexFile.getName(), null, annexFile.getData().length, annexFile.getMime());
         FitxerJPA f = fitxerLogicaEjb.createFitxerField(fitxer, new ByteArrayDataSource(annexFile.getData()),
                 fitxersCreats, AnnexFields.FITXERID);
         jpa.setFitxerID(f.getFitxerID());

@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
                 + "  AdES-X1\r\n" + "  AdES-X2\r\n" + "  AdES-XL\r\n" + "  AdES-XL1\r\n" + "  AdES-XL2\r\n"
                 + "  AdES-A\r\n" + "  PAdES-LTV\r\n" + "  PAdES-Basic",
         enumAsRef = true,
+        format = "string",
                 /** Parxe utilitzat per a la generació correcta dels noms dels enums dins de l'openapi.json */
         example = "SIGN_PROFILE_BES|SIGN_PROFILE_EPES|SIGN_PROFILE_T|SIGN_PROFILE_C|SIGN_PROFILE_X"
                 + "|SIGN_PROFILE_X1|SIGN_PROFILE_X2|SIGN_PROFILE_XL|SIGN_PROFILE_XL1"

@@ -133,7 +133,7 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
         Document fileToSign = llegirFitxer(file == null ? "src/main/resources/hola-test.pdf" : file, "application/pdf");
 
         System.out.println(" PERFIL => " + perfil);
-        System.out.println(" FILE NOM => " + fileToSign.getNom());
+        System.out.println(" FILE NOM => " + fileToSign.getName());
         return internalSignDocument(api, perfil, fileToSign, languageUI, testName, expectedError);
     }
 
@@ -144,7 +144,7 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
         System.out.println("============================ " + testName + " ============================");
         try {
             String signID = "1";
-            String name = fileToSign.getNom();
+            String name = fileToSign.getName();
             String reason = "Per aprovar pressuposts";
             String location = "Palma";
 
@@ -223,11 +223,11 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
 
                     System.err.println("  RESULT: OK");
                     Document fsf = fullResults.getSignedFile();
-                    FileOutputStream fos = new FileOutputStream(fsf.getNom());
+                    FileOutputStream fos = new FileOutputStream(fsf.getName());
                     fos.write(fsf.getData());
                     fos.flush();
                     fos.close();
-                    System.out.println("  RESULT: Fitxer signat guardat en '" + fsf.getNom() + "'");
+                    System.out.println("  RESULT: Fitxer signat guardat en '" + fsf.getName() + "'");
 
                     return fullResults;
 

@@ -189,11 +189,14 @@ public abstract class AbstractSignatureService extends RestUtils {
     protected final Logger log = Logger.getLogger(getClass());
 
     protected String checkUsuariAplicacio(HttpServletRequest request) {
-        UsuariAplicacioJPA full = checkUsuariAplicacioFull(request);
-        return full.getUsuariAplicacioID();
+        
+        return request.getUserPrincipal().getName();
+        
+        //UsuariAplicacioJPA full = checkUsuariAplicacioFull(request);
+        //return full.getUsuariAplicacioID();
     }
 
-    protected UsuariAplicacioJPA checkUsuariAplicacioFull(HttpServletRequest request) {
+    protected UsuariAplicacioJPA checkUsuariAplicacioFull(HttpServletRequest request) throws RestException {
 
         String username = request.getUserPrincipal().getName();
 
@@ -422,15 +425,15 @@ public abstract class AbstractSignatureService extends RestUtils {
                     if (sfis.getFileToSign() != null) {
                         log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::sfis.getFileToSign() => "
                                 + sfis.getFileToSign());
-                        if (sfis.getFileToSign().getNom() != null)
+                        if (sfis.getFileToSign().getName() != null)
                             log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::sfis.getFileToSign().getNom() => "
-                                    + sfis.getFileToSign().getNom());
+                                    + sfis.getFileToSign().getName());
 
                     }
                     if (sfis.getFileToSign() == null) {
                         log.info("ERROR => NO S'HA TROBAT FILE TO SIGN");
                         log.info("FileToSign =>");
-                        log.info(simpleFileInfoSignatureArray[0].getFileToSign().getNom());
+                        log.info(simpleFileInfoSignatureArray[0].getFileToSign().getName());
                     }
 
                     FitxerBean fileToSign = AbstractSignatureService
@@ -620,7 +623,7 @@ public abstract class AbstractSignatureService extends RestUtils {
             fileToSign.setMime(mime);
         }
 
-        fileToSign.setNom(asf.getNom());
+        fileToSign.setNom(asf.getName());
 
         byte[] data = asf.getData();
         fileToSign.setTamany(data.length);

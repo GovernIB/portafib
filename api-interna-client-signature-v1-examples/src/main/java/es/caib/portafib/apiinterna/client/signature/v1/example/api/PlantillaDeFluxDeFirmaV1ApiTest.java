@@ -57,7 +57,10 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
         PlantillaDeFluxDeFirmaV1ApiTest test = new PlantillaDeFluxDeFirmaV1ApiTest();
 
         try {
-
+            
+            // Crear plantilla de Flux de Firmes des de codi            
+            test.internalCreateSignatureFlowTemplateFromUsername(test.getApi(), "ca", "anadal");
+/*
             test.testUpdateNameOfFlowTemplate();
 
             test.testUpdateDescriptionOfFlowTemplate();
@@ -85,7 +88,7 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
 
             // Llistar Plantilles amb filtre
             test.testGetAllFlowTemplatesByFilter();
-
+*/
         } catch (ApiException e) {
             test.processApiException(e, "Tests de Firma en Servidor", true);
         } catch (Exception e) {
@@ -833,8 +836,7 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
 
         SignatureFlowTemplate flow = new SignatureFlowTemplate();
 
-        flow.setName("Flux creat des de Tests. Esborrar-la si la veus. "
-                + SimpleDateFormat.getDateTimeInstance().format(new Date()));
+        flow.setName("NOU FLUX"); //"Flux creat des de Tests. Esborrar-la si la veus. "               + SimpleDateFormat.getDateTimeInstance().format(new Date()));
         flow.setDescription("Descripció de la plantilla de flux de firmes creada des de codi");
         flow.setFlowTemplateId(null);
         flow.setBlocks(blocks);

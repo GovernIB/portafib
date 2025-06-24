@@ -167,6 +167,7 @@ Class | Method | HTTP request | Description
 *SignatureOnServerV1Api* | [**signdocument**](docs/SignatureOnServerV1Api.md#signdocument) | **POST** /secure/signatureonserver/v1/signdocument | Operacio de firma simple en servidor d&#39;un document
 *SignatureOnServerV1Api* | [**upgradeSignature**](docs/SignatureOnServerV1Api.md#upgradeSignature) | **POST** /secure/signatureonserver/v1/upgradeSignature | Operacio de firma simple en servidor d&#39;un document
 *SignatureOnServerV1Api* | [**versio**](docs/SignatureOnServerV1Api.md#versio) | **GET** /secure/signatureonserver/v1/versio | Retorna la versió d&#39;aquest Servei
+*SignatureValidationV1Api* | [**validateSignature**](docs/SignatureValidationV1Api.md#validateSignature) | **POST** /secure/signaturevalidation/v1/validateSignature | Operacio de firma simple en servidor d&#39;un document
 
 
 ## Documentation for Models
@@ -174,6 +175,9 @@ Class | Method | HTTP request | Description
  - [AddFileToSignRequest](docs/AddFileToSignRequest.md)
  - [Annex](docs/Annex.md)
  - [BasicUserInfo](docs/BasicUserInfo.md)
+ - [CertificateInformation](docs/CertificateInformation.md)
+ - [CertificateTypeEidasConstants](docs/CertificateTypeEidasConstants.md)
+ - [CertificateTypeMineturConstants](docs/CertificateTypeMineturConstants.md)
  - [CommonInfo](docs/CommonInfo.md)
  - [CustodyInfo](docs/CustodyInfo.md)
  - [Document](docs/Document.md)
@@ -200,6 +204,8 @@ Class | Method | HTTP request | Description
  - [SignTypeConstants](docs/SignTypeConstants.md)
  - [Signature](docs/Signature.md)
  - [SignatureBlock](docs/SignatureBlock.md)
+ - [SignatureCheck](docs/SignatureCheck.md)
+ - [SignatureDetailInfo](docs/SignatureDetailInfo.md)
  - [SignatureFlowTemplate](docs/SignatureFlowTemplate.md)
  - [SignatureFlowTemplateEdit](docs/SignatureFlowTemplateEdit.md)
  - [SignatureFlowTemplateStartTransactionRequest](docs/SignatureFlowTemplateStartTransactionRequest.md)
@@ -210,6 +216,7 @@ Class | Method | HTTP request | Description
  - [SignatureRequestStateConstants](docs/SignatureRequestStateConstants.md)
  - [SignatureRequestWithFlowTemplateCode](docs/SignatureRequestWithFlowTemplateCode.md)
  - [SignatureRequestWithSignBlockList](docs/SignatureRequestWithSignBlockList.md)
+ - [SignatureRequestedInformation](docs/SignatureRequestedInformation.md)
  - [SignatureResponse](docs/SignatureResponse.md)
  - [SignatureStatus](docs/SignatureStatus.md)
  - [SignaturesTableLocationConstants](docs/SignaturesTableLocationConstants.md)
@@ -219,11 +226,16 @@ Class | Method | HTTP request | Description
  - [SignerInfo](docs/SignerInfo.md)
  - [StartTransactionRequest](docs/StartTransactionRequest.md)
  - [StatusConstants](docs/StatusConstants.md)
+ - [TimeStampInfo](docs/TimeStampInfo.md)
  - [TransactionStatusResponse](docs/TransactionStatusResponse.md)
  - [UpgradeRequest](docs/UpgradeRequest.md)
  - [UpgradeResponse](docs/UpgradeResponse.md)
  - [UpgradedFileInfo](docs/UpgradedFileInfo.md)
+ - [ValidateSignatureRequest](docs/ValidateSignatureRequest.md)
+ - [ValidateSignatureResponse](docs/ValidateSignatureResponse.md)
  - [ValidationInfo](docs/ValidationInfo.md)
+ - [ValidationStatus](docs/ValidationStatus.md)
+ - [ValidationStatusConstants](docs/ValidationStatusConstants.md)
  - [ViewConstants](docs/ViewConstants.md)
 
 

@@ -341,7 +341,7 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
                         postFix = "_signed.unknown_extension_for_sign_type_" + signType;
                     }
 
-                    File fitxerFirmat = new File(firma.getNom() + postFix);
+                    File fitxerFirmat = new File(firma.getName() + postFix);
                     FileOutputStream fos = new FileOutputStream(fitxerFirmat);
                     fos.write(data);
                     fos.flush();
@@ -364,7 +364,7 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
                 System.out.println("Tamany del fitxer: " + data.length);
 
                 String prefix = "original_" + peticioDeFirmaID2 + "_";
-                File fitxerOriginal = new File(prefix + originalFile.getNom());
+                File fitxerOriginal = new File(prefix + originalFile.getName());
                 FileOutputStream fos = new FileOutputStream(fitxerOriginal);
                 fos.write(data);
                 fos.flush();
@@ -483,7 +483,7 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
         Document doc = new Document();
         doc.setData(data);
         doc.setMime(mime);
-        doc.setNom(f.getName());
+        doc.setName(f.getName());
 
         return doc;
     }

@@ -233,7 +233,7 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
                                     postFix = "_signed.unknown_extension_for_sign_type_" + signType;
                                 }
 
-                                final String outFile = signID + "_" + fsf.getNom() + postFix;
+                                final String outFile = signID + "_" + fsf.getName() + postFix;
 
                                 FileOutputStream fos = new FileOutputStream(outFile);
                                 fos.write(fsf.getData());
@@ -264,53 +264,6 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
             }
 
         }
-    }
-
-    protected FileInfoSignature[] getFilesToSign(Properties prop, long tipusDocumentalID) throws Exception {
-
-        String files = prop.getProperty("files");
-        String[] parts = files.split(",");
-        FileInfoSignature[] filesToSign = new FileInfoSignature[parts.length];
-
-        for (int i = 0; i < parts.length; i++) {
-
-            String nom = prop.getProperty("file." + parts[i] + ".name");
-            System.out.println("*** FILE[" + parts[i] + "]");
-            System.out.println("    Name = " + nom);
-            String mime = prop.getProperty("file." + parts[i] + ".mime");
-
-            System.out.println("    Mime: ]" + mime + "[");
-
-            Document fileToSign = llegirFitxer(nom, mime);
-            System.out.println("    Mida: " + fileToSign.getData().length + " bytes");
-
-            // "hola_3mb.pdf",
-            // "hola.pdf",
-            // "application/pdf");
-
-            FileInfoSignature fileInfoSignature = new FileInfoSignature();
-
-            fileInfoSignature.setFileToSign(fileToSign);
-            String signID = parts[i];
-            fileInfoSignature.setSignID(signID);
-            String name = fileToSign.getNom();
-            fileInfoSignature.setName(name);
-            String reason = "Per aprovar pressuposts - " + parts[i];
-            fileInfoSignature.setReason(reason);
-            String location = "Palma";
-            fileInfoSignature.setLocation(location);
-
-            int signNumber = 1;
-            fileInfoSignature.setSignNumber(signNumber);
-            String languageSign = getLanguageUI(prop);
-            fileInfoSignature.setLanguageSign(languageSign);
-
-            fileInfoSignature.setDocumentType(tipusDocumentalID);
-
-            filesToSign[i] = fileInfoSignature;
-        }
-
-        return filesToSign;
     }
 
     public static void readFromSocket(int port) throws IOException {
@@ -504,5 +457,54 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
     protected Set<Profile> getProfiles(String lang) throws Exception {
         return getApi().getProfiles(lang);
     }
+    
+
+    protected FileInfoSignature[] getFilesToSign(Properties prop, long tipusDocumentalID) throws Exception {
+
+        String files = prop.getProperty("files");
+        String[] parts = files.split(",");
+        FileInfoSignature[] filesToSign = new FileInfoSignature[parts.length];
+
+        for (int i = 0; i < parts.length; i++) {
+
+            String nom = prop.getProperty("file." + parts[i] + ".name");
+            System.out.println("*** FILE[" + parts[i] + "]");
+            System.out.println("    Name = " + nom);
+            String mime = prop.getProperty("file." + parts[i] + ".mime");
+
+            System.out.println("    Mime: ]" + mime + "[");
+
+            Document fileToSign = llegirFitxer(nom, mime);
+            System.out.println("    Mida: " + fileToSign.getData().length + " bytes");
+
+            // "hola_3mb.pdf",
+            // "hola.pdf",
+            // "application/pdf");
+
+            FileInfoSignature fileInfoSignature = new FileInfoSignature();
+
+            fileInfoSignature.setFileToSign(fileToSign);
+            String signID = parts[i];
+            fileInfoSignature.setSignID(signID);
+            String name = fileToSign.getName();
+            fileInfoSignature.setName(name);
+            String reason = "Per aprovar pressuposts - " + parts[i];
+            fileInfoSignature.setReason(reason);
+            String location = "Palma";
+            fileInfoSignature.setLocation(location);
+
+            int signNumber = 1;
+            fileInfoSignature.setSignNumber(signNumber);
+            String languageSign = getLanguageUI(prop);
+            fileInfoSignature.setLanguageSign(languageSign);
+
+            fileInfoSignature.setDocumentType(tipusDocumentalID);
+
+            filesToSign[i] = fileInfoSignature;
+        }
+
+        return filesToSign;
+    }
+
 
 }

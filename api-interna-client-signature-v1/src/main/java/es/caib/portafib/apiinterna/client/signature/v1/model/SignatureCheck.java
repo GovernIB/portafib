@@ -24,43 +24,38 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * Objecte que representa un Document/Fitxer
+ * SignatureCheck
  */
 @JsonPropertyOrder({
-  Document.JSON_PROPERTY_NAME,
-  Document.JSON_PROPERTY_MIME,
-  Document.JSON_PROPERTY_DATA
+  SignatureCheck.JSON_PROPERTY_NAME,
+  SignatureCheck.JSON_PROPERTY_TYPE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
-public class Document {
+public class SignatureCheck {
   public static final String JSON_PROPERTY_NAME = "name";
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private String name;
 
-  public static final String JSON_PROPERTY_MIME = "mime";
+  public static final String JSON_PROPERTY_TYPE = "type";
   @javax.annotation.Nullable
-  private String mime;
+  private String type;
 
-  public static final String JSON_PROPERTY_DATA = "data";
-  @javax.annotation.Nullable
-  private byte[] data;
-
-  public Document() {
+  public SignatureCheck() {
   }
 
-  public Document name(@javax.annotation.Nonnull String name) {
+  public SignatureCheck name(@javax.annotation.Nullable String name) {
     
     this.name = name;
     return this;
   }
 
   /**
-   * Nom del fitxer.
+   * Get name
    * @return name
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getName() {
     return name;
@@ -68,59 +63,34 @@ public class Document {
 
 
   @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setName(@javax.annotation.Nonnull String name) {
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 
-  public Document mime(@javax.annotation.Nullable String mime) {
+  public SignatureCheck type(@javax.annotation.Nullable String type) {
     
-    this.mime = mime;
+    this.type = type;
     return this;
   }
 
   /**
-   * Tipus mime del fitxer.
-   * @return mime
+   * Get type
+   * @return type
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MIME)
+  @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getMime() {
-    return mime;
+  public String getType() {
+    return type;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MIME)
+  @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMime(@javax.annotation.Nullable String mime) {
-    this.mime = mime;
-  }
-
-  public Document data(@javax.annotation.Nullable byte[] data) {
-    
-    this.data = data;
-    return this;
-  }
-
-  /**
-   * Contingut del fitxer. En llistats aquest camp vendrà buit.
-   * @return data
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DATA)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public byte[] getData() {
-    return data;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_DATA)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setData(@javax.annotation.Nullable byte[] data) {
-    this.data = data;
+  public void setType(@javax.annotation.Nullable String type) {
+    this.type = type;
   }
 
   @Override
@@ -131,24 +101,22 @@ public class Document {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Document document = (Document) o;
-    return Objects.equals(this.name, document.name) &&
-        Objects.equals(this.mime, document.mime) &&
-        Arrays.equals(this.data, document.data);
+    SignatureCheck signatureCheck = (SignatureCheck) o;
+    return Objects.equals(this.name, signatureCheck.name) &&
+        Objects.equals(this.type, signatureCheck.type);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, mime, Arrays.hashCode(data));
+    return Objects.hash(name, type);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Document {\n");
+    sb.append("class SignatureCheck {\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    mime: ").append(toIndentedString(mime)).append("\n");
-    sb.append("    data: ").append(toIndentedString(data)).append("\n");
+    sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("}");
     return sb.toString();
   }

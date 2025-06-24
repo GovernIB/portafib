@@ -1032,8 +1032,8 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
             f.setData(fsf.getData());
         if (fsf.getMime() != null)
             f.setMime(fsf.getMime());
-        if (fsf.getNom() != null)
-            f.setNom(fsf.getNom());
+        if (fsf.getName() != null)
+            f.setNom(fsf.getName());
 
         return f;
     }

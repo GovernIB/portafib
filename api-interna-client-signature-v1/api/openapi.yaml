@@ -31,6 +31,8 @@ tags:
   name: SignatureFlowTemplate v1
 - description: API Interna de PortaFIB que ofereix serveis de firma en servidor.
   name: SignatureOnServer v1
+- description: API Interna de PortaFIB que ofereix serveis de validació de firmes.
+  name: SignatureValidation v1
 paths:
   /secure/asyncsignatureonweb/v1/createAndStartSignatureRequestWithFlowTemplateCode:
     post:
@@ -2759,6 +2761,72 @@ paths:
       - SignatureOnServer v1
       x-accepts:
       - application/json
+  /secure/signaturevalidation/v1/validateSignature:
+    post:
+      operationId: validateSignature
+      parameters:
+      - description: Idioma en que s'han de retornar les dades i errors(Només suportat
+          'ca' o 'es')
+        examples:
+          Català:
+            description: Català
+            value: ca
+          Castellano:
+            description: Castellano
+            value: es
+        explode: true
+        in: query
+        name: languageUI
+        required: false
+        schema:
+          default: ca
+          type: string
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidateSignatureRequest'
+        description: Operacio de firma simple en servidor d'un document
+      responses:
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateTypeMineturConstants'
+          description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidateSignatureResponse'
+          description: Operació realitzada correctament
+      security:
+      - BasicAuth: []
+      summary: Operacio de firma simple en servidor d'un document
+      tags:
+      - SignatureValidation v1
+      x-content-type: application/json
+      x-accepts:
+      - application/json
 components:
   schemas:
     RestExceptionInfo:
@@ -2929,7 +2997,7 @@ components:
         annex:
           data: data
           mime: mime
-          nom: nom
+          name: name
       properties:
         annex:
           $ref: '#/components/schemas/Document'
@@ -2949,9 +3017,9 @@ components:
       example:
         data: data
         mime: mime
-        nom: nom
+        name: name
       properties:
-        nom:
+        name:
           description: Nom del fitxer.
           type: string
         mime:
@@ -2962,7 +3030,7 @@ components:
           format: byte
           type: string
       required:
-      - nom
+      - name
       type: object
     Metadata:
       description: Conté informació i valor d'una Metadada
@@ -3007,7 +3075,7 @@ components:
         originalDetachedSignature:
           data: data
           mime: mime
-          nom: nom
+          name: name
         description: description
         languageDoc: languageDoc
         expedientCode: expedientCode
@@ -3020,7 +3088,7 @@ components:
         fileToSign:
           data: data
           mime: mime
-          nom: nom
+          name: name
         languageUI: languageUI
         procedureName: procedureName
         annexs:
@@ -3029,13 +3097,13 @@ components:
           annex:
             data: data
             mime: mime
-            nom: nom
+            name: name
         - sign: true
           attach: true
           annex:
             data: data
             mime: mime
-            nom: nom
+            name: name
         profileCode: profileCode
         metadadaList:
         - name: name
@@ -3362,7 +3430,7 @@ components:
         originalDetachedSignature:
           data: data
           mime: mime
-          nom: nom
+          name: name
         description: description
         languageDoc: languageDoc
         expedientCode: expedientCode
@@ -3485,7 +3553,7 @@ components:
         fileToSign:
           data: data
           mime: mime
-          nom: nom
+          name: name
         languageUI: languageUI
         procedureName: procedureName
         annexs:
@@ -3494,13 +3562,13 @@ components:
           annex:
             data: data
             mime: mime
-            nom: nom
+            name: name
         - sign: true
           attach: true
           annex:
             data: data
             mime: mime
-            nom: nom
+            name: name
         profileCode: profileCode
         metadadaList:
         - name: name
@@ -3871,7 +3939,7 @@ components:
         signedFile:
           data: data
           mime: mime
-          nom: nom
+          name: name
       properties:
         signedFile:
           $ref: '#/components/schemas/Document'
@@ -4139,13 +4207,13 @@ components:
           fileToSign:
             data: data
             mime: mime
-            nom: nom
+            name: name
           name: test.pdf
           location: Palma
           previusSignatureDetachedFile:
             data: data
             mime: mime
-            nom: nom
+            name: name
           expedientUrl: ca
         transactionID: transactionID
       properties:
@@ -4174,13 +4242,13 @@ components:
         fileToSign:
           data: data
           mime: mime
-          nom: nom
+          name: name
         name: test.pdf
         location: Palma
         previusSignatureDetachedFile:
           data: data
           mime: mime
-          nom: nom
+          name: name
         expedientUrl: ca
       properties:
         fileToSign:
@@ -4338,7 +4406,7 @@ components:
         signedFile:
           data: data
           mime: mime
-          nom: nom
+          name: name
         signID: signID
         status:
           errorStackTrace: errorStackTrace
@@ -5046,6 +5114,7 @@ components:
       - AdES-A
       - PAdES-LTV
       - PAdES-Basic
+      format: string
       type: string
       x-enum-varnames:
       - SIGN_PROFILE_BES
@@ -5211,13 +5280,13 @@ components:
           fileToSign:
             data: data
             mime: mime
-            nom: nom
+            name: name
           name: test.pdf
           location: Palma
           previusSignatureDetachedFile:
             data: data
             mime: mime
-            nom: nom
+            name: name
           expedientUrl: ca
         commonInfo:
           signProfile: PROFILE_PADES
@@ -5312,7 +5381,7 @@ components:
         signedFile:
           data: data
           mime: mime
-          nom: nom
+          name: name
         signID: signID
         status:
           errorStackTrace: errorStackTrace
@@ -5341,16 +5410,16 @@ components:
         signature:
           data: data
           mime: mime
-          nom: nom
+          name: name
         detachedDocument:
           data: data
           mime: mime
-          nom: nom
+          name: name
         profileCode: profileCode
         targetCertificate:
           data: data
           mime: mime
-          nom: nom
+          name: name
       properties:
         profileCode:
           description: "Codi del perfil a utilitzar. Si no es defineix, llavors requerim\
@@ -5364,6 +5433,155 @@ components:
           $ref: '#/components/schemas/Document'
       required:
       - signature
+      type: object
+    SignatureCheck:
+      example:
+        name: name
+        type: type
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+      type: object
+    SignatureDetailInfo:
+      example:
+        indeterminateChecks:
+        - name: name
+          type: type
+        - name: name
+          type: type
+        digestValue: digestValue
+        validChecks:
+        - name: name
+          type: type
+        - name: name
+          type: type
+        policyIdentifier: policyIdentifier
+        timeStampInfo:
+          certificateIssuer: certificateIssuer
+          creationTime: 2000-01-23T04:56:07.000+00:00
+          certificate:
+          - certificate
+          - certificate
+          certificateSubject: certificateSubject
+          algorithm: algorithm
+        certificateChain:
+        - - certificateChain
+          - certificateChain
+        - - certificateChain
+          - certificateChain
+        invalidChecks:
+        - name: name
+          type: type
+        - name: name
+          type: type
+        signDate: 2000-01-23T04:56:07.000+00:00
+        certificateInfo:
+          certificateDescription: certificateDescription
+          administrationID: administrationID
+          policyVersion: policyVersion
+          country: country
+          validSince: 2000-01-23T04:56:07.000+00:00
+          subject: subject
+          companyName: companyName
+          keyUsageCertificateExtension: keyUsageCertificateExtension
+          pseudonym: pseudonym
+          organizationUnitName: organizationUnitName
+          issuerOrganization: issuerOrganization
+          certificateTypeMinetur: 5
+          policyID: policyID
+          entityName: entityName
+          qcCompliance: qcCompliance
+          europeanAdministrationID: europeanAdministrationID
+          secondSurname: secondSurname
+          keyUsageCertificate: keyUsageCertificate
+          surnames: surnames
+          cargo: cargo
+          firstSurname: firstSurname
+          email: email
+          certificateQualified: true
+          europeanOrganizationAdministrationID: europeanOrganizationAdministrationID
+          policy: policy
+          documentRepresentacio: documentRepresentacio
+          positionInTheCompany: positionInTheCompany
+          serialNumber: serialNumber
+          systemOrComponentDescription: systemOrComponentDescription
+          functionaryID: functionaryID
+          fullName: fullName
+          entityAdministrationID: entityAdministrationID
+          birthDate: birthDate
+          idlogOn: idlogOn
+          firstName: firstName
+          issuerID: issuerID
+          domainName: domainName
+          createdWithASecureDevice: true
+          organization: organization
+          validUntil: 2000-01-23T04:56:07.000+00:00
+          organizationUnitID: organizationUnitID
+          certificateTypeEidas: certificateTypeEidas
+          qcSSCD: qcSSCD
+          altresValors:
+            key: altresValors
+        algorithm: algorithm
+      properties:
+        algorithm:
+          type: string
+        digestValue:
+          type: string
+        signDate:
+          format: date-time
+          type: string
+        validChecks:
+          items:
+            $ref: '#/components/schemas/SignatureCheck'
+          type: array
+        invalidChecks:
+          items:
+            $ref: '#/components/schemas/SignatureCheck'
+          type: array
+        indeterminateChecks:
+          items:
+            $ref: '#/components/schemas/SignatureCheck'
+          type: array
+        policyIdentifier:
+          type: string
+        certificateInfo:
+          $ref: '#/components/schemas/CertificateInformation'
+        certificateChain:
+          items:
+            items:
+              format: byte
+              type: string
+            type: array
+          type: array
+        timeStampInfo:
+          $ref: '#/components/schemas/TimeStampInfo'
+      type: object
+    TimeStampInfo:
+      example:
+        certificateIssuer: certificateIssuer
+        creationTime: 2000-01-23T04:56:07.000+00:00
+        certificate:
+        - certificate
+        - certificate
+        certificateSubject: certificateSubject
+        algorithm: algorithm
+      properties:
+        creationTime:
+          format: date-time
+          type: string
+        certificateIssuer:
+          type: string
+        certificateSubject:
+          type: string
+        certificate:
+          items:
+            format: byte
+            type: string
+          type: array
+        algorithm:
+          type: string
       type: object
     UpgradeResponse:
       example:
@@ -5386,12 +5604,207 @@ components:
         upgradedFile:
           data: data
           mime: mime
-          nom: nom
+          name: name
       properties:
         upgradedFile:
           $ref: '#/components/schemas/Document'
         upgradedFileInfo:
           $ref: '#/components/schemas/UpgradedFileInfo'
+      type: object
+    ValidateSignatureResponse:
+      example:
+        signProfile: signProfile
+        signType: signType
+        signMode: 6
+        validationStatus:
+          errorException: errorException
+          status: 1
+          errorMsg: errorMsg
+        signatureDetailInfo:
+        - indeterminateChecks:
+          - name: name
+            type: type
+          - name: name
+            type: type
+          digestValue: digestValue
+          validChecks:
+          - name: name
+            type: type
+          - name: name
+            type: type
+          policyIdentifier: policyIdentifier
+          timeStampInfo:
+            certificateIssuer: certificateIssuer
+            creationTime: 2000-01-23T04:56:07.000+00:00
+            certificate:
+            - certificate
+            - certificate
+            certificateSubject: certificateSubject
+            algorithm: algorithm
+          certificateChain:
+          - - certificateChain
+            - certificateChain
+          - - certificateChain
+            - certificateChain
+          invalidChecks:
+          - name: name
+            type: type
+          - name: name
+            type: type
+          signDate: 2000-01-23T04:56:07.000+00:00
+          certificateInfo:
+            certificateDescription: certificateDescription
+            administrationID: administrationID
+            policyVersion: policyVersion
+            country: country
+            validSince: 2000-01-23T04:56:07.000+00:00
+            subject: subject
+            companyName: companyName
+            keyUsageCertificateExtension: keyUsageCertificateExtension
+            pseudonym: pseudonym
+            organizationUnitName: organizationUnitName
+            issuerOrganization: issuerOrganization
+            certificateTypeMinetur: 5
+            policyID: policyID
+            entityName: entityName
+            qcCompliance: qcCompliance
+            europeanAdministrationID: europeanAdministrationID
+            secondSurname: secondSurname
+            keyUsageCertificate: keyUsageCertificate
+            surnames: surnames
+            cargo: cargo
+            firstSurname: firstSurname
+            email: email
+            certificateQualified: true
+            europeanOrganizationAdministrationID: europeanOrganizationAdministrationID
+            policy: policy
+            documentRepresentacio: documentRepresentacio
+            positionInTheCompany: positionInTheCompany
+            serialNumber: serialNumber
+            systemOrComponentDescription: systemOrComponentDescription
+            functionaryID: functionaryID
+            fullName: fullName
+            entityAdministrationID: entityAdministrationID
+            birthDate: birthDate
+            idlogOn: idlogOn
+            firstName: firstName
+            issuerID: issuerID
+            domainName: domainName
+            createdWithASecureDevice: true
+            organization: organization
+            validUntil: 2000-01-23T04:56:07.000+00:00
+            organizationUnitID: organizationUnitID
+            certificateTypeEidas: certificateTypeEidas
+            qcSSCD: qcSSCD
+            altresValors:
+              key: altresValors
+          algorithm: algorithm
+        - indeterminateChecks:
+          - name: name
+            type: type
+          - name: name
+            type: type
+          digestValue: digestValue
+          validChecks:
+          - name: name
+            type: type
+          - name: name
+            type: type
+          policyIdentifier: policyIdentifier
+          timeStampInfo:
+            certificateIssuer: certificateIssuer
+            creationTime: 2000-01-23T04:56:07.000+00:00
+            certificate:
+            - certificate
+            - certificate
+            certificateSubject: certificateSubject
+            algorithm: algorithm
+          certificateChain:
+          - - certificateChain
+            - certificateChain
+          - - certificateChain
+            - certificateChain
+          invalidChecks:
+          - name: name
+            type: type
+          - name: name
+            type: type
+          signDate: 2000-01-23T04:56:07.000+00:00
+          certificateInfo:
+            certificateDescription: certificateDescription
+            administrationID: administrationID
+            policyVersion: policyVersion
+            country: country
+            validSince: 2000-01-23T04:56:07.000+00:00
+            subject: subject
+            companyName: companyName
+            keyUsageCertificateExtension: keyUsageCertificateExtension
+            pseudonym: pseudonym
+            organizationUnitName: organizationUnitName
+            issuerOrganization: issuerOrganization
+            certificateTypeMinetur: 5
+            policyID: policyID
+            entityName: entityName
+            qcCompliance: qcCompliance
+            europeanAdministrationID: europeanAdministrationID
+            secondSurname: secondSurname
+            keyUsageCertificate: keyUsageCertificate
+            surnames: surnames
+            cargo: cargo
+            firstSurname: firstSurname
+            email: email
+            certificateQualified: true
+            europeanOrganizationAdministrationID: europeanOrganizationAdministrationID
+            policy: policy
+            documentRepresentacio: documentRepresentacio
+            positionInTheCompany: positionInTheCompany
+            serialNumber: serialNumber
+            systemOrComponentDescription: systemOrComponentDescription
+            functionaryID: functionaryID
+            fullName: fullName
+            entityAdministrationID: entityAdministrationID
+            birthDate: birthDate
+            idlogOn: idlogOn
+            firstName: firstName
+            issuerID: issuerID
+            domainName: domainName
+            createdWithASecureDevice: true
+            organization: organization
+            validUntil: 2000-01-23T04:56:07.000+00:00
+            organizationUnitID: organizationUnitID
+            certificateTypeEidas: certificateTypeEidas
+            qcSSCD: qcSSCD
+            altresValors:
+              key: altresValors
+          algorithm: algorithm
+      properties:
+        signType:
+          type: string
+        signMode:
+          format: int32
+          type: integer
+        signProfile:
+          type: string
+        validationStatus:
+          $ref: '#/components/schemas/ValidationStatus'
+        signatureDetailInfo:
+          items:
+            $ref: '#/components/schemas/SignatureDetailInfo'
+          type: array
+      type: object
+    ValidationStatus:
+      example:
+        errorException: errorException
+        status: 1
+        errorMsg: errorMsg
+      properties:
+        status:
+          format: int32
+          type: integer
+        errorMsg:
+          type: string
+        errorException:
+          type: string
       type: object
     UpgradedFileInfo:
       description: Informació de la firma actualitzada
@@ -5446,6 +5859,329 @@ components:
       - signAlgorithm
       - signMode
       - signType
+      type: object
+    ValidationStatusConstants:
+      description: |
+        Estats de la validació d'una firma:
+            • "SIGNATURE_VALID"
+            • "SIGNATURE_ERROR"
+      enum:
+      - 1
+      - -1
+      - -2
+      format: int32
+      type: integer
+      x-enum-varnames:
+      - SIGNATURE_VALID
+      - SIGNATURE_ERROR
+      - SIGNATURE_INVALID
+      x-enum-descriptions:
+      - ' '
+      - ' '
+      - ' '
+    CertificateTypeEidasConstants:
+      description: "* ESEAL: Certificado de sello electrónico. Pertenece a una persona\
+        \ jurídica pero NO incluye un custodio.\n* ESIG: Certificado para firma electró\
+        nica (persona física).\n* WSA: Certificado para autenticación de servidor\
+        \ web.\r\n    public static final String EIDAS_UNKNOWN = \"UNKNOWN\"; // Se\
+        \ desconoce el tipo del certificado\r\n                                  \
+        \                        // (Se considera no cualificado a menos\r\n     \
+        \                                                     // que se indique lo\
+        \ contrario en\r\n                                                       \
+        \   // certQualified)."
+      enum:
+      - ESEAL
+      - ESIG
+      - WSA
+      - UNKNOWN
+      type: string
+      x-enum-varnames:
+      - ESEAL
+      - ESIG
+      - WSA
+      - UNKNOWN
+      x-enum-descriptions:
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+    CertificateTypeMineturConstants:
+      description: "Classificació del tipus de certificats:\r\nCLASSIFICACIO_DESCONEGUDA(-1;\r\
+        \n\r\n                // 0 –Persona física-\r\n                CLASSIFICACIO_PERSONA_FISICA(0;\r\
+        \n                // 1 –Persona jurídica (no cualificado)-\r\n           \
+        \     CLASSIFICACIO_PERSONA_JURIDICA(1;\r\n                // 2 –No cualificados-\r\
+        \n                CLASSIFICACIO_NO_QUALIFICATS(2;\r\n\r\n                //\
+        \ 3 –Sede según la ley 40/2015(no cualificado)-\r\n                CLASSIFICACIO_SEU_ELECTRONICA(3;\r\
+        \n                // 4 –Sello según la ley 40/2015(no cualificado)-\r\n  \
+        \              CLASSIFICACIO_SEGELL(4;\r\n                // 5 –Empleado Pú\
+        blico según la ley 40/2015-\r\n                CLASSIFICACIO_EMPLEAT_PUBLIC(5;\r\
+        \n                // 6 –Entidad sin personalidad jurídica (no cualificado)-\r\
+        \n                CLASSIFICACIO_ENTITAT_SENSE_PERSONALITAT_JURIDICA(6;\r\n\
+        \                // 7 –Empleado público con seudónimo según el RD 1671/2009-\r\
+        \n                CLASSIFICACIO_EMPLEAT_PUBLIC_AMB_PSEUDONIM(7;\r\n      \
+        \          // 8 –Cualificado de sello, según el reglamente UE 910/2014-\r\n\
+        \                CLASSIFICACIO_SEGELL_QUALIFICAT(8;\r\n                //\
+        \ 9 –Cualificado de autenticación, según el reglamente UE 910/2014-\r\n  \
+        \              CLASSIFICACIO_AUTENTIFICACIO_QUALIFICAT(9;\r\n            \
+        \    // 10 –Cualificado de servicio cualificado de sello de tiempo-\r\n  \
+        \              CLASSIFICACIO_SEGELL_DE_TEMPS(10;\r\n                // 11\
+        \ –Persona física representante ante las Administraciones Públicas de persona\
+        \ jurídica-\r\n                CLASSIFICACIO_AUTENTIFICACIO_REPRESENTANT_ADMINISTRACIO_PERSONA_JURIDICA(11;\r\
+        \n                // 12 –Persona física representante ante las Administraciones\
+        \ Públicas de entidad sin persona\r\n                // jurídica\r\n     \
+        \           CLASSIFICACIO_AUTENTIFICACIO_REPRESENTANT_ADMINISTRACIO_ENTITAT(12;"
+      enum:
+      - -1
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      format: int32
+      type: integer
+      x-enum-varnames:
+      - CLASSIFICACIO_DESCONEGUDA
+      - CLASSIFICACIO_PERSONA_FISICA
+      - |
+        CLASSIFICACIO_PERSONA_JURIDICA
+      - CLASSIFICACIO_NO_QUALIFICATS
+      - CLASSIFICACIO_SEU_ELECTRONICA
+      - CLASSIFICACIO_SEGELL
+      - CLASSIFICACIO_EMPLEAT_PUBLIC
+      - CLASSIFICACIO_ENTITAT_SENSE_PERSONALITAT_JURIDICA
+      - CLASSIFICACIO_EMPLEAT_PUBLIC_AMB_PSEUDONIM
+      - CLASSIFICACIO_SEGELL_QUALIFICAT
+      - CLASSIFICACIO_AUTENTIFICACIO_QUALIFICAT
+      - CLASSIFICACIO_SEGELL_DE_TEMPS
+      - CLASSIFICACIO_AUTENTIFICACIO_REPRESENTANT_ADMINISTRACIO_PERSONA_JURIDICA
+      - CLASSIFICACIO_AUTENTIFICACIO_REPRESENTANT_ADMINISTRACIO_ENTITAT
+      x-enum-descriptions:
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+      - ' '
+    SignatureRequestedInformation:
+      example:
+        returnCertificateInfo: true
+        returnSignatureTypeFormatProfile: true
+        validateCertificateRevocation: true
+        returnValidationChecks: true
+        returnCertificates: true
+        returnTimeStampInfo: true
+      properties:
+        returnSignatureTypeFormatProfile:
+          type: boolean
+        validateCertificateRevocation:
+          type: boolean
+        returnCertificateInfo:
+          type: boolean
+        returnValidationChecks:
+          type: boolean
+        returnCertificates:
+          type: boolean
+        returnTimeStampInfo:
+          type: boolean
+      type: object
+    ValidateSignatureRequest:
+      example:
+        detachedDocument:
+          data: data
+          mime: mime
+          name: name
+        signatureRequestedInformation:
+          returnCertificateInfo: true
+          returnSignatureTypeFormatProfile: true
+          validateCertificateRevocation: true
+          returnValidationChecks: true
+          returnCertificates: true
+          returnTimeStampInfo: true
+        signatureDocument:
+          data: data
+          mime: mime
+          name: name
+      properties:
+        detachedDocument:
+          $ref: '#/components/schemas/Document'
+        signatureDocument:
+          $ref: '#/components/schemas/Document'
+        signatureRequestedInformation:
+          $ref: '#/components/schemas/SignatureRequestedInformation'
+      type: object
+    CertificateInformation:
+      example:
+        certificateDescription: certificateDescription
+        administrationID: administrationID
+        policyVersion: policyVersion
+        country: country
+        validSince: 2000-01-23T04:56:07.000+00:00
+        subject: subject
+        companyName: companyName
+        keyUsageCertificateExtension: keyUsageCertificateExtension
+        pseudonym: pseudonym
+        organizationUnitName: organizationUnitName
+        issuerOrganization: issuerOrganization
+        certificateTypeMinetur: 5
+        policyID: policyID
+        entityName: entityName
+        qcCompliance: qcCompliance
+        europeanAdministrationID: europeanAdministrationID
+        secondSurname: secondSurname
+        keyUsageCertificate: keyUsageCertificate
+        surnames: surnames
+        cargo: cargo
+        firstSurname: firstSurname
+        email: email
+        certificateQualified: true
+        europeanOrganizationAdministrationID: europeanOrganizationAdministrationID
+        policy: policy
+        documentRepresentacio: documentRepresentacio
+        positionInTheCompany: positionInTheCompany
+        serialNumber: serialNumber
+        systemOrComponentDescription: systemOrComponentDescription
+        functionaryID: functionaryID
+        fullName: fullName
+        entityAdministrationID: entityAdministrationID
+        birthDate: birthDate
+        idlogOn: idlogOn
+        firstName: firstName
+        issuerID: issuerID
+        domainName: domainName
+        createdWithASecureDevice: true
+        organization: organization
+        validUntil: 2000-01-23T04:56:07.000+00:00
+        organizationUnitID: organizationUnitID
+        certificateTypeEidas: certificateTypeEidas
+        qcSSCD: qcSSCD
+        altresValors:
+          key: altresValors
+      properties:
+        certificateDescription:
+          type: string
+        subject:
+          type: string
+        firstName:
+          type: string
+        firstSurname:
+          type: string
+        secondSurname:
+          type: string
+        surnames:
+          type: string
+        fullName:
+          type: string
+        administrationID:
+          type: string
+        email:
+          type: string
+        birthDate:
+          type: string
+        pseudonym:
+          type: string
+        documentRepresentacio:
+          description: "En certificados de Representación, indica el documento que\
+            \ acredita la representación del titular del certificado"
+          type: string
+        cargo:
+          deprecated: true
+          description: "Campo obsoleto, se recomienda usar positionInTheCompany"
+          type: string
+        positionInTheCompany:
+          type: string
+        domainName:
+          type: string
+        systemOrComponentDescription:
+          type: string
+        europeanAdministrationID:
+          type: string
+        europeanOrganizationAdministrationID:
+          type: string
+        functionaryID:
+          type: string
+        entityName:
+          type: string
+        entityAdministrationID:
+          type: string
+        certificateTypeMinetur:
+          description: "El mapeo es realizado por el Ministerio de Hacienda y Administraciones\r\
+            \nPúblicas e incluye a todos los prestadores de certificación reconocidos.Este\
+            \ campo se devolverá para los certificados españoles, para facilitar el\
+            \ tratamiento a aquellas aplicaciones que necesiten admitir tanto a certificados\
+            \ españoles como europeos, ya que las siguientes clasificaciones son equivalentes:\n\
+            \ * ESEAL => Clasificación = 8.\n * ESIG  => Clasificación = 0, 5, 7,\
+            \ 11, 12.\n * WSA => Clasificación = 9.\n * UNKNOWN => Clasificación =\
+            \ 2, 10.\nConsultar l'enumeració es.caib.portafib.apiinterna.client.signature.v1.model.CertificateTypeMineturConstants\
+            \ per a més detalls."
+          format: int32
+          type: integer
+        certificateTypeEidas:
+          description: 'Consultar l''enumeració es.caib.portafib.apiinterna.client.signature.v1.model.CertificateTypeEidasConstants
+            per a més detalls. '
+          type: string
+        certificateQualified:
+          type: boolean
+        createdWithASecureDevice:
+          type: boolean
+        issuerID:
+          type: string
+        issuerOrganization:
+          type: string
+        companyName:
+          type: string
+        serialNumber:
+          description: serialNumber del certificat
+          type: string
+        keyUsageCertificate:
+          type: string
+        keyUsageCertificateExtension:
+          type: string
+        validSince:
+          format: date-time
+          type: string
+        validUntil:
+          format: date-time
+          type: string
+        policy:
+          type: string
+        policyVersion:
+          type: string
+        policyID:
+          type: string
+        country:
+          type: string
+        organization:
+          type: string
+        organizationUnitName:
+          type: string
+        organizationUnitID:
+          type: string
+        qcCompliance:
+          type: string
+        qcSSCD:
+          type: string
+        idlogOn:
+          type: string
+        altresValors:
+          additionalProperties:
+            type: string
+          type: object
       type: object
   securitySchemes:
     BasicAuth:

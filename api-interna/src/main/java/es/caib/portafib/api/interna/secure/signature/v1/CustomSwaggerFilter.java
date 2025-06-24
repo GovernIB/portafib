@@ -25,12 +25,13 @@ public class CustomSwaggerFilter extends AbstractSpecFilter {
         System.out.println("CustomSwaggerFilter::filterSchema(" + schema.getName() + ")");
 
         if ("ValidacioCompletaResponse".equals(schema.getName()) 
-                || "ValidateSignatureResponse".equals(schema.getName())
-                || "SignatureDetailInfo".equals(schema.getName())
-                || "SignatureCheck".equals(schema.getName())
+           //     || "ValidateSignatureResponse".equals(schema.getName())
+           //     || "SignatureDetailInfo".equals(schema.getName())
+           //     || "SignatureCheck".equals(schema.getName())
                 || "InformacioCertificat".equals(schema.getName())
-                || "TimeStampInfo".equals(schema.getName())
-                || "ValidationStatus".equals(schema.getName()) ) {
+          //      || "TimeStampInfo".equals(schema.getName())
+          //      || "ValidationStatus".equals(schema.getName()) 
+                ) {
             return Optional.empty();
         } else {
 

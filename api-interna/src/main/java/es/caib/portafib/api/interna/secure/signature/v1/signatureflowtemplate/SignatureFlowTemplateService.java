@@ -30,6 +30,7 @@ import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleS
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.crypt.FileIDEncrypter;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.pluginsib.utils.rest.RestException;
@@ -455,8 +456,8 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
             throw new RestException(msg);
         } catch (Throwable th) {
             // TODO XYZ ZZZ TRA
-            final String msg = "Error desconegut intentant recuperar informació "
-                    + "dels Flux de Firmes de l'usuari apicació ]" + usrApp + "[:" + th.getMessage();
+            final String msg = "Error desconegut intentant recuperar tots els flux de firmes de l'usuari aplicació "
+                    + " ]" + usrApp + "[:" + th.getMessage();
             log.error(msg, th);
             throw new RestException(msg, th);
         }
@@ -639,9 +640,8 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
             throw new RestException(msg);
         } catch (Throwable th) {
             // XYZ ZZZ TRA
-            String msg = "Error desconegut intentant obtenir informació d'una Plantilla de Flux de Firmes amb ID ]" 
-                    + encryptedFlowTemplateID +"[: "
-                    + th.getMessage();
+            String msg = "Error desconegut intentant obtenir informació d'una Plantilla de Flux de Firmes amb ID ]"
+                    + encryptedFlowTemplateID + "[: " + th.getMessage();
             log.error(msg, th);
             throw new RestException(msg, th);
         }
@@ -724,8 +724,8 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
             log.error(msg, i18ne);
             throw new RestException(msg);
         } catch (Throwable th) {
-            final String msg = "Error desconegut intentant recuperar informació del Flux de Firmes " + transactionID
-                    + ": " + th.getMessage();
+            final String msg = "Error desconegut intentant recuperar resultat d'una transacció"
+                    + " de Creació d'una plantilla de Flux de Firmes " + transactionID + ": " + th.getMessage();
             log.error(msg, th);
             throw new RestException(msg, th);
         }
@@ -905,8 +905,8 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
             log.error(msg, i18ne);
             throw new RestException(msg);
         } catch (Throwable th) {
-            final String msg = "Error desconegut intentant recuperar informació "
-                    + "dels Flux de Firmes d'un uauari apicació:" + th.getMessage();
+            final String msg = "Error desconegut intentant recuperar  la URL que mostra "
+                    + "la Plantilla de Flux de Firmes amb ID " + encryptedFlowTemplateID + ": " + th.getMessage();
 
             log.error(msg, th);
 
@@ -943,6 +943,7 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
     SignatureFlowTemplateEdit infoToEdit) throws RestException {
 
         String languageUI = "ca"; // XYZ ZZZ Canviar per idioma per defecte
+        String encryptedFlowTemplateID = null;
         try {
 
             // TODO 
@@ -955,7 +956,7 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
                 throw new RestException(Status.BAD_REQUEST, msg);
             }
 
-            String encryptedFlowTemplateID = infoToEdit.getFlowTemplateId();
+            encryptedFlowTemplateID = infoToEdit.getFlowTemplateId();
             if (encryptedFlowTemplateID == null || encryptedFlowTemplateID.trim().length() == 0) {
                 // XYZ ZZZ TRA TODO
                 String msg = "El camp FlowTemplateId del tipus " + SignatureFlowTemplateEdit.class.getName()
@@ -1028,8 +1029,8 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
         } catch (Throwable th) {
 
             // XYZ ZZZ ZZZZ
-            final String msg = "Error desconegut intentant recuperar informació "
-                    + "dels Flux de Firmes d'un uauari apicació:" + th.getMessage();
+            final String msg = "Error desconegut intentant retornar una URL per editar una plantilla de flux de firmes amb ID  "
+                    + encryptedFlowTemplateID + ":" + th.getMessage();
 
             log.error(msg, th);
 
@@ -1357,7 +1358,7 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
 
             return count != 0;
 
-        } catch (RestException re) {            
+        } catch (RestException re) {
             throw re;
         } catch (I18NException i18ne) {
             String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
@@ -1451,18 +1452,20 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
 
         } catch (RestException re) {
             throw re;
+        } catch (I18NValidationException ve) {
+            String msg = I18NLogicUtils.getMessage(ve, new Locale(languageUI));
+            log.error(msg, ve);
+            throw new RestException(msg);
         } catch (I18NException i18ne) {
             String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
             log.error(msg, i18ne);
             throw new RestException(msg);
         } catch (Throwable th) {
-
             // XYZ ZZZ ZZZZ
-            final String msg = "Error desconegut intentant recuperar informació "
-                    + "dels Flux de Firmes d'un uauari apicació:" + th.getMessage();
-
+            final String msg = "Error desconegut intentant crear una plantilla de flux de firmes "
+                    + "a partir d'una definicio de blocs i firmes (app " + request.getUserPrincipal().getName() + "):"
+                    + th.getMessage();
             log.error(msg, th);
-
             throw new RestException(msg, th);
         }
     }

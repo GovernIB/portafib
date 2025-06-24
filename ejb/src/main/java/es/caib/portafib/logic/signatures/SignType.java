@@ -46,15 +46,23 @@ public enum SignType {
     }
 
     public static SignType fromFile(Fitxer fitxer) {
-        if (fitxer.getNom().endsWith(".pdf")
-                || fitxer.getMime().equals("application/pdf")) {
+        if (fitxer == null) {
+            throw new IllegalArgumentException("File cannot be null");
+        }
+        return fromFile(fitxer.getNom(), fitxer.getMime());
+    }
+    
+    
+    public static SignType fromFile(String fileName, String mimeType) {
+        if (fileName.toLowerCase().endsWith(".pdf")
+                || mimeType.equals("application/pdf")) {
             return SignType.PADES;
         }
 
-        if (fitxer.getNom().endsWith(".xsig")
-                || fitxer.getNom().endsWith(".xml")
-                || fitxer.getMime().equals("text/xml")
-                || fitxer.getMime().equals("application/xml")) {
+        if (fileName.toLowerCase().endsWith(".xsig")
+                || fileName.endsWith(".xml")
+                || mimeType.equals("text/xml")
+                || mimeType.equals("application/xml")) {
             return SignType.XADES;
         }
 

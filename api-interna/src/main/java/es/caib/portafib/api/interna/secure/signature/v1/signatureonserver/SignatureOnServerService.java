@@ -718,7 +718,7 @@ public class SignatureOnServerService extends AbstractSignatureService implement
         if (firmaSimpleFile != null && firmaSimpleFile.getData() != null) {
             newFirmaSimpleFile.setData(firmaSimpleFile.getData());
             newFirmaSimpleFile.setMime(firmaSimpleFile.getMime());
-            newFirmaSimpleFile.setNom(firmaSimpleFile.getNom());
+            newFirmaSimpleFile.setNom(firmaSimpleFile.getName());
         }
         return newFirmaSimpleFile;
     }

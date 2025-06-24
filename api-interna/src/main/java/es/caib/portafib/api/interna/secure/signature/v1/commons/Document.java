@@ -12,14 +12,14 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 public class Document {
 
     @Schema(description = "Nom del fitxer.", requiredMode = RequiredMode.REQUIRED)
-    protected java.lang.String nom;
+    protected java.lang.String name;
 
-    @Schema(description = "Tipus mime del fitxer.",  requiredMode = RequiredMode.NOT_REQUIRED, type = "string")
+    @Schema(description = "Tipus mime del fitxer.", requiredMode = RequiredMode.NOT_REQUIRED, type = "string")
     protected java.lang.String mime;
 
     @Schema(
             description = "Contingut del fitxer. En llistats aquest camp vendrà buit.",
-             requiredMode = RequiredMode.NOT_REQUIRED,
+            requiredMode = RequiredMode.NOT_REQUIRED,
             type = "string",
             format = "byte")
     protected byte[] data;
@@ -30,17 +30,17 @@ public class Document {
 
     /** Constructor amb tots els camps */
     public Document(java.lang.String nom, java.lang.String mime, byte[] data) {
-        this.nom = nom;
+        this.name = nom;
         this.mime = mime;
         this.data = data;
     }
 
-    public java.lang.String getNom() {
-        return (nom);
+    public java.lang.String getName() {
+        return (name);
     };
 
-    public void setNom(java.lang.String _nom_) {
-        this.nom = _nom_;
+    public void setName(java.lang.String _nom_) {
+        this.name = _nom_;
     };
 
     public java.lang.String getMime() {
