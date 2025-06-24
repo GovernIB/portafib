@@ -41,7 +41,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   CertificateInformation.JSON_PROPERTY_EMAIL,
   CertificateInformation.JSON_PROPERTY_BIRTH_DATE,
   CertificateInformation.JSON_PROPERTY_PSEUDONYM,
-  CertificateInformation.JSON_PROPERTY_DOCUMENT_REPRESENTACIO,
+  CertificateInformation.JSON_PROPERTY_REPRESENTATION_DOCUMENT,
   CertificateInformation.JSON_PROPERTY_CARGO,
   CertificateInformation.JSON_PROPERTY_POSITION_IN_THE_COMPANY,
   CertificateInformation.JSON_PROPERTY_DOMAIN_NAME,
@@ -121,9 +121,9 @@ public class CertificateInformation {
   @javax.annotation.Nullable
   private String pseudonym;
 
-  public static final String JSON_PROPERTY_DOCUMENT_REPRESENTACIO = "documentRepresentacio";
+  public static final String JSON_PROPERTY_REPRESENTATION_DOCUMENT = "representationDocument";
   @javax.annotation.Nullable
-  private String documentRepresentacio;
+  private String representationDocument;
 
   public static final String JSON_PROPERTY_CARGO = "cargo";
   @javax.annotation.Nullable
@@ -438,7 +438,7 @@ public class CertificateInformation {
   }
 
   /**
-   * Get administrationID
+   * DNI del responsable del certificat
    * @return administrationID
    */
   @javax.annotation.Nullable
@@ -463,7 +463,7 @@ public class CertificateInformation {
   }
 
   /**
-   * Get email
+   * Email del responsable del certificat
    * @return email
    */
   @javax.annotation.Nullable
@@ -488,7 +488,7 @@ public class CertificateInformation {
   }
 
   /**
-   * Get birthDate
+   * Data de naixement del responsable del certificat
    * @return birthDate
    */
   @javax.annotation.Nullable
@@ -513,7 +513,7 @@ public class CertificateInformation {
   }
 
   /**
-   * Get pseudonym
+   * Pseudónimo del titular del certificat, si aplica. En certificats de tipus 7 (Empleat Públic amb pseudònim) és obligatori
    * @return pseudonym
    */
   @javax.annotation.Nullable
@@ -531,29 +531,29 @@ public class CertificateInformation {
     this.pseudonym = pseudonym;
   }
 
-  public CertificateInformation documentRepresentacio(@javax.annotation.Nullable String documentRepresentacio) {
+  public CertificateInformation representationDocument(@javax.annotation.Nullable String representationDocument) {
     
-    this.documentRepresentacio = documentRepresentacio;
+    this.representationDocument = representationDocument;
     return this;
   }
 
   /**
-   * En certificados de Representación, indica el documento que acredita la representación del titular del certificado
-   * @return documentRepresentacio
+   * En certificats de Representació, indica el document que acredita la representació del titular del certificat
+   * @return representationDocument
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DOCUMENT_REPRESENTACIO)
+  @JsonProperty(JSON_PROPERTY_REPRESENTATION_DOCUMENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getDocumentRepresentacio() {
-    return documentRepresentacio;
+  public String getRepresentationDocument() {
+    return representationDocument;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DOCUMENT_REPRESENTACIO)
+  @JsonProperty(JSON_PROPERTY_REPRESENTATION_DOCUMENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDocumentRepresentacio(@javax.annotation.Nullable String documentRepresentacio) {
-    this.documentRepresentacio = documentRepresentacio;
+  public void setRepresentationDocument(@javax.annotation.Nullable String representationDocument) {
+    this.representationDocument = representationDocument;
   }
 
   public CertificateInformation cargo(@javax.annotation.Nullable String cargo) {
@@ -563,7 +563,7 @@ public class CertificateInformation {
   }
 
   /**
-   * Campo obsoleto, se recomienda usar positionInTheCompany
+   * Camp obsolet, es recomana usar positionInTheCompany
    * @return cargo
    * @deprecated
    */
@@ -615,7 +615,7 @@ public class CertificateInformation {
   }
 
   /**
-   * Get domainName
+   * Domini del lloc web, tal y como figura en el Subject Alternative Names
    * @return domainName
    */
   @javax.annotation.Nullable
@@ -665,7 +665,7 @@ public class CertificateInformation {
   }
 
   /**
-   * Get europeanAdministrationID
+   * DNI o identificador europeu del responsable del certificat, amb codificació estàndard segons ETSI EN 319 412
    * @return europeanAdministrationID
    */
   @javax.annotation.Nullable
@@ -690,7 +690,7 @@ public class CertificateInformation {
   }
 
   /**
-   * Get europeanOrganizationAdministrationID
+   * NIF o identificador de l&#39;organització europeu del responsable del certificat, amb codificació estàndard segons ETSI EN 319 412
    * @return europeanOrganizationAdministrationID
    */
   @javax.annotation.Nullable
@@ -890,7 +890,7 @@ public class CertificateInformation {
   }
 
   /**
-   * Get issuerID
+   * Nom de qui ha emès el certificat
    * @return issuerID
    */
   @javax.annotation.Nullable
@@ -915,7 +915,7 @@ public class CertificateInformation {
   }
 
   /**
-   * Get issuerOrganization
+   * Nom de l&#39;organització emissora del certificat
    * @return issuerOrganization
    */
   @javax.annotation.Nullable
@@ -965,7 +965,7 @@ public class CertificateInformation {
   }
 
   /**
-   * serialNumber del certificat
+   * SerialNumber del certificat
    * @return serialNumber
    */
   @javax.annotation.Nullable
@@ -1386,7 +1386,7 @@ public class CertificateInformation {
         Objects.equals(this.email, certificateInformation.email) &&
         Objects.equals(this.birthDate, certificateInformation.birthDate) &&
         Objects.equals(this.pseudonym, certificateInformation.pseudonym) &&
-        Objects.equals(this.documentRepresentacio, certificateInformation.documentRepresentacio) &&
+        Objects.equals(this.representationDocument, certificateInformation.representationDocument) &&
         Objects.equals(this.cargo, certificateInformation.cargo) &&
         Objects.equals(this.positionInTheCompany, certificateInformation.positionInTheCompany) &&
         Objects.equals(this.domainName, certificateInformation.domainName) &&
@@ -1423,7 +1423,7 @@ public class CertificateInformation {
 
   @Override
   public int hashCode() {
-    return Objects.hash(certificateDescription, subject, firstName, firstSurname, secondSurname, surnames, fullName, administrationID, email, birthDate, pseudonym, documentRepresentacio, cargo, positionInTheCompany, domainName, systemOrComponentDescription, europeanAdministrationID, europeanOrganizationAdministrationID, functionaryID, entityName, entityAdministrationID, certificateTypeMinetur, certificateTypeEidas, certificateQualified, createdWithASecureDevice, issuerID, issuerOrganization, companyName, serialNumber, keyUsageCertificate, keyUsageCertificateExtension, validSince, validUntil, policy, policyVersion, policyID, country, organization, organizationUnitName, organizationUnitID, qcCompliance, qcSSCD, idlogOn, altresValors);
+    return Objects.hash(certificateDescription, subject, firstName, firstSurname, secondSurname, surnames, fullName, administrationID, email, birthDate, pseudonym, representationDocument, cargo, positionInTheCompany, domainName, systemOrComponentDescription, europeanAdministrationID, europeanOrganizationAdministrationID, functionaryID, entityName, entityAdministrationID, certificateTypeMinetur, certificateTypeEidas, certificateQualified, createdWithASecureDevice, issuerID, issuerOrganization, companyName, serialNumber, keyUsageCertificate, keyUsageCertificateExtension, validSince, validUntil, policy, policyVersion, policyID, country, organization, organizationUnitName, organizationUnitID, qcCompliance, qcSSCD, idlogOn, altresValors);
   }
 
   @Override
@@ -1441,7 +1441,7 @@ public class CertificateInformation {
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    birthDate: ").append(toIndentedString(birthDate)).append("\n");
     sb.append("    pseudonym: ").append(toIndentedString(pseudonym)).append("\n");
-    sb.append("    documentRepresentacio: ").append(toIndentedString(documentRepresentacio)).append("\n");
+    sb.append("    representationDocument: ").append(toIndentedString(representationDocument)).append("\n");
     sb.append("    cargo: ").append(toIndentedString(cargo)).append("\n");
     sb.append("    positionInTheCompany: ").append(toIndentedString(positionInTheCompany)).append("\n");
     sb.append("    domainName: ").append(toIndentedString(domainName)).append("\n");

@@ -14,17 +14,17 @@
 |**secondSurname** | **String** |  |  [optional] |
 |**surnames** | **String** |  |  [optional] |
 |**fullName** | **String** |  |  [optional] |
-|**administrationID** | **String** |  |  [optional] |
-|**email** | **String** |  |  [optional] |
-|**birthDate** | **String** |  |  [optional] |
-|**pseudonym** | **String** |  |  [optional] |
-|**documentRepresentacio** | **String** | En certificados de Representación, indica el documento que acredita la representación del titular del certificado |  [optional] |
-|**cargo** | **String** | Campo obsoleto, se recomienda usar positionInTheCompany |  [optional] |
+|**administrationID** | **String** | DNI del responsable del certificat |  [optional] |
+|**email** | **String** | Email del responsable del certificat |  [optional] |
+|**birthDate** | **String** | Data de naixement del responsable del certificat |  [optional] |
+|**pseudonym** | **String** | Pseudónimo del titular del certificat, si aplica. En certificats de tipus 7 (Empleat Públic amb pseudònim) és obligatori |  [optional] |
+|**representationDocument** | **String** | En certificats de Representació, indica el document que acredita la representació del titular del certificat |  [optional] |
+|**cargo** | **String** | Camp obsolet, es recomana usar positionInTheCompany |  [optional] |
 |**positionInTheCompany** | **String** |  |  [optional] |
-|**domainName** | **String** |  |  [optional] |
+|**domainName** | **String** | Domini del lloc web, tal y como figura en el Subject Alternative Names |  [optional] |
 |**systemOrComponentDescription** | **String** |  |  [optional] |
-|**europeanAdministrationID** | **String** |  |  [optional] |
-|**europeanOrganizationAdministrationID** | **String** |  |  [optional] |
+|**europeanAdministrationID** | **String** | DNI o identificador europeu del responsable del certificat, amb codificació estàndard segons ETSI EN 319 412 |  [optional] |
+|**europeanOrganizationAdministrationID** | **String** | NIF o identificador de l&#39;organització europeu del responsable del certificat, amb codificació estàndard segons ETSI EN 319 412 |  [optional] |
 |**functionaryID** | **String** |  |  [optional] |
 |**entityName** | **String** |  |  [optional] |
 |**entityAdministrationID** | **String** |  |  [optional] |
@@ -32,10 +32,10 @@
 |**certificateTypeEidas** | **String** | Consultar l&#39;enumeració es.caib.portafib.apiinterna.client.signature.v1.model.CertificateTypeEidasConstants per a més detalls.  |  [optional] |
 |**certificateQualified** | **Boolean** |  |  [optional] |
 |**createdWithASecureDevice** | **Boolean** |  |  [optional] |
-|**issuerID** | **String** |  |  [optional] |
-|**issuerOrganization** | **String** |  |  [optional] |
+|**issuerID** | **String** | Nom de qui ha emès el certificat |  [optional] |
+|**issuerOrganization** | **String** | Nom de l&#39;organització emissora del certificat |  [optional] |
 |**companyName** | **String** |  |  [optional] |
-|**serialNumber** | **String** | serialNumber del certificat |  [optional] |
+|**serialNumber** | **String** | SerialNumber del certificat |  [optional] |
 |**keyUsageCertificate** | **String** |  |  [optional] |
 |**keyUsageCertificateExtension** | **String** |  |  [optional] |
 |**validSince** | **OffsetDateTime** |  |  [optional] |

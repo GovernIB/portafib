@@ -47,24 +47,32 @@ public class CertificateInformation {
     /**
      * nifResponsable: DNI del responsable)
      */
+    @Schema(description = "DNI del responsable del certificat")
     private String administrationID;
 
+    @Schema(description = "Email del responsable del certificat")
     private String email;
 
     // dataNaixement
+    @Schema(description = "Data de naixement del responsable del certificat")
     private String birthDate;
 
+    @Schema(
+            description = "Pseudónimo del titular del certificat, si aplica. "
+                    + "En certificats de tipus 7 (Empleat Públic amb pseudònim) és obligatori")
     private String pseudonym;
 
-    @Schema(description = "En certificados de Representación, indica el documento que acredita la representación del titular del certificado")
-    private String documentRepresentacio;
+    @Schema(
+            description = "En certificats de Representació,"
+                    + " indica el document que acredita la representació del titular del certificat")
+    private String representationDocument;
 
     /**
      * carrec o Cargo
      * 
      * NOTA: NO trobo diferencia amb positionInTheCompany (puesto o lloc de feina) 
      */
-    @Schema(deprecated = true, description = "Campo obsoleto, se recomienda usar positionInTheCompany")
+    @Schema(deprecated = true, description = "Camp obsolet, es recomana usar positionInTheCompany")
     @Deprecated
     private String cargo;
 
@@ -83,6 +91,7 @@ public class CertificateInformation {
     o Relativos al subject:
      NombreDominioIP (dominio al que pertenece la sede)
      */
+    @Schema(description= "Domini del lloc web, tal y como figura en el Subject Alternative Names")
     private String domainName;
 
     /** En certificados de Sello: DenominaciónSistemaComponente (breve descripción del sistema o componente)
@@ -96,6 +105,7 @@ public class CertificateInformation {
      * 
      * idEuropeu
      */
+    @Schema(description= "DNI o identificador europeu del responsable del certificat, amb codificació estàndard segons ETSI EN 319 412")
     private String europeanAdministrationID;
 
     /** OI_Europeo (NIF o identificador de la organización europeo, con codificación estándar según ETSI EN 319 412 ) 
@@ -104,6 +114,7 @@ public class CertificateInformation {
      * 
      * */
 
+    @Schema(description = "NIF o identificador de l'organització europeu del responsable del certificat, amb codificació estàndard segons ETSI EN 319 412")
     private String europeanOrganizationAdministrationID;
 
     /** Solo en certificadoes de tipo 5: Empleado Público (se corresponde con el NRP o NIP) 
@@ -156,16 +167,18 @@ public class CertificateInformation {
     // qualified signature creation device (QSCD).
     private Boolean createdWithASecureDevice;
 
+    @Schema(description = "Nom de qui ha emès el certificat")
     private String issuerID;
     /**
      * emissorOrganitzacio: Nom de l'organització emissora del certificat
      */
+    @Schema(description = "Nom de l'organització emissora del certificat")
     private String issuerOrganization;
 
     // razon social raoSocial
     private String companyName;
 
-    @Schema(description = "serialNumber del certificat")
+    @Schema(description = "SerialNumber del certificat")
     private String serialNumber;
 
     /**
@@ -308,12 +321,12 @@ public class CertificateInformation {
         this.administrationID = nifResponsable;
     }
 
-    public String getDocumentRepresentacio() {
-        return documentRepresentacio;
+    public String getRepresentationDocument() {
+        return representationDocument;
     }
 
-    public void setDocumentRepresentacio(String documentRepresentacio) {
-        this.documentRepresentacio = documentRepresentacio;
+    public void setRepresentationDocument(String documentRepresentacio) {
+        this.representationDocument = documentRepresentacio;
     }
 
     public String getIssuerID() {
@@ -788,7 +801,7 @@ public class CertificateInformation {
         comparaCamp(errors, systemOrComponentDescription, obj.systemOrComponentDescription,
                 "denominacioSistemaComponent");
 
-        comparaCamp(errors, documentRepresentacio, obj.documentRepresentacio, "documentRepresentacio");
+        comparaCamp(errors, representationDocument, obj.representationDocument, "documentRepresentacio");
         comparaCamp(errors, email, obj.email, "email");
 
         comparaCamp(errors, issuerID, obj.issuerID, "emissorID");

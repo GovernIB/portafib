@@ -79,6 +79,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -955,11 +956,11 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
     }
 
     @Path(value = "/deleteSignatureRequest/{signatureRequestID}")
-    @POST
+    @DELETE
     @RolesAllowed({ Constants.PFI_WS })
     @SecurityRequirement(name = SECURITY_NAME)
     @Produces({ MediaType.APPLICATION_JSON })
-    @Operation(tags = TAG_NAME, summary = "Retorna el Fitxer original amb el que es va crear la petició de firma.")
+    @Operation(tags = TAG_NAME, summary = "Elimina una petició de firma.")
     @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operació realitzada correctament") })
     public void deleteSignatureRequest(@Parameter(hidden = true) @Context
     HttpServletRequest request,

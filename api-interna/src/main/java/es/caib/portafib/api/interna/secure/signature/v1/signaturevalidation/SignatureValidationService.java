@@ -305,7 +305,7 @@ public class SignatureValidationService extends RestUtils {
         info.setFullName(certInfo.getNomCompletResponsable());
         info.setAdministrationID(certInfo.getNifResponsable());
         info.setPseudonym(certInfo.getPseudonim());
-        info.setDocumentRepresentacio(certInfo.getDocumentRepresentacio());
+        info.setRepresentationDocument(certInfo.getDocumentRepresentacio());
         info.setCargo(certInfo.getCarrec());
         info.setPositionInTheCompany(certInfo.getLlocDeFeina());
         info.setDomainName(certInfo.getNomDomini());

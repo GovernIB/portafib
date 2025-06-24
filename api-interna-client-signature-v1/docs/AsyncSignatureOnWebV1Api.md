@@ -6,7 +6,7 @@ All URIs are relative to */portafibapi/interna*
 |------------- | ------------- | -------------|
 | [**createAndStartSignatureRequestWithFlowTemplateCode**](AsyncSignatureOnWebV1Api.md#createAndStartSignatureRequestWithFlowTemplateCode) | **POST** /secure/asyncsignatureonweb/v1/createAndStartSignatureRequestWithFlowTemplateCode | Crea i posa en marxa una Petició de Firma a partir d&#39;una codi de Plantilla de Flux de Firmes previament creada al servidor |
 | [**createAndStartSignatureRequestWithSignBlockList**](AsyncSignatureOnWebV1Api.md#createAndStartSignatureRequestWithSignBlockList) | **POST** /secure/asyncsignatureonweb/v1/createAndStartSignatureRequestWithSignBlockList | Crea i posa en marxa una Petició de Firma a partir d&#39;una llista de Bloc de Firmes |
-| [**deleteSignatureRequest**](AsyncSignatureOnWebV1Api.md#deleteSignatureRequest) | **POST** /secure/asyncsignatureonweb/v1/deleteSignatureRequest/{signatureRequestID} | Retorna el Fitxer original amb el que es va crear la petició de firma. |
+| [**deleteSignatureRequest**](AsyncSignatureOnWebV1Api.md#deleteSignatureRequest) | **DELETE** /secure/asyncsignatureonweb/v1/deleteSignatureRequest/{signatureRequestID} | Elimina una petició de firma. |
 | [**getDocumentaryTypes**](AsyncSignatureOnWebV1Api.md#getDocumentaryTypes) | **GET** /secure/asyncsignatureonweb/v1/getDocumentaryTypes | Retorna una llista dels Tipus Documentals disponibles en el servidor: tipus documentals base, tipus documentals de l&#39;entitat i tipus documentals de l&#39;usuari aplicació |
 | [**getLanguages**](AsyncSignatureOnWebV1Api.md#getLanguages) | **GET** /secure/asyncsignatureonweb/v1/getLanguages | Retorna els idiomes disponibles. |
 | [**getOriginalFileOfSignatureRequest**](AsyncSignatureOnWebV1Api.md#getOriginalFileOfSignatureRequest) | **GET** /secure/asyncsignatureonweb/v1/getOriginalFileOfSignatureRequest/{signatureRequestID} | Retorna el Fitxer original amb el que es va crear la petició de firma. |
@@ -170,7 +170,7 @@ public class Example {
 
 > deleteSignatureRequest(signatureRequestID, languageUI)
 
-Retorna el Fitxer original amb el que es va crear la petició de firma.
+Elimina una petició de firma.
 
 ### Example
 

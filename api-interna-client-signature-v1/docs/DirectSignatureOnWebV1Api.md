@@ -5,7 +5,7 @@ All URIs are relative to */portafibapi/interna*
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
 | [**addFileToSign**](DirectSignatureOnWebV1Api.md#addFileToSign) | **POST** /secure/directsignatureonweb/v1/addFileToSign | Afegeix un document  al conjunt de Peticions de Firma a realitzar per l&#39;usuari. |
-| [**closeTransaction**](DirectSignatureOnWebV1Api.md#closeTransaction) | **POST** /secure/directsignatureonweb/v1/closeTransaction | Indica al component de firma que la informació s’ha recuperat correctament i que pot fer neteja en el servidor. |
+| [**closeTransaction**](DirectSignatureOnWebV1Api.md#closeTransaction) | **GET** /secure/directsignatureonweb/v1/closeTransaction/{transactionID} | Tanca la transacció de la firma Web Directe |
 | [**getDocumentaryTypes**](DirectSignatureOnWebV1Api.md#getDocumentaryTypes) | **GET** /secure/directsignatureonweb/v1/getDocumentaryTypes | Retorna una llista dels Tipus Documentals disponibles en el servidor: tipus documentals base, tipus documentals de l&#39;entitat i tipus documentals de l&#39;usuari aplicació |
 | [**getDocumentaryTypes_0**](DirectSignatureOnWebV1Api.md#getDocumentaryTypes_0) | **GET** /secure/signatureflowtemplate/v1/getDocumentaryTypes | Retorna una llista dels Tipus Documentals disponibles en el servidor: tipus documentals base, tipus documentals de l&#39;entitat i tipus documentals de l&#39;usuari aplicació |
 | [**getLanguages**](DirectSignatureOnWebV1Api.md#getLanguages) | **GET** /secure/directsignatureonweb/v1/getLanguages | Retorna els idiomes disponibles. |
@@ -97,9 +97,9 @@ public class Example {
 
 ## closeTransaction
 
-> String closeTransaction(body)
+> String closeTransaction(transactionID)
 
-Indica al component de firma que la informació s’ha recuperat correctament i que pot fer neteja en el servidor.
+Tanca la transacció de la firma Web Directe
 
 ### Example
 
@@ -123,9 +123,9 @@ public class Example {
         BasicAuth.setPassword("YOUR PASSWORD");
 
         DirectSignatureOnWebV1Api apiInstance = new DirectSignatureOnWebV1Api(defaultClient);
-        String body = "body_example"; // String | Identificador de la transacció.
+        String transactionID = "transactionID_example"; // String | Identificador de la Transacció que volem tancar
         try {
-            String result = apiInstance.closeTransaction(body);
+            String result = apiInstance.closeTransaction(transactionID);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DirectSignatureOnWebV1Api#closeTransaction");
@@ -143,7 +143,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | **String**| Identificador de la transacció. | [optional] |
+| **transactionID** | **String**| Identificador de la Transacció que volem tancar | |
 
 ### Return type
 
@@ -155,7 +155,7 @@ public class Example {
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 

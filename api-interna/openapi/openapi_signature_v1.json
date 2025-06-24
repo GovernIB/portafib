@@ -195,9 +195,9 @@
       }
     },
     "/secure/asyncsignatureonweb/v1/deleteSignatureRequest/{signatureRequestID}" : {
-      "post" : {
+      "delete" : {
         "tags" : [ "AsyncSignatureOnWeb v1" ],
-        "summary" : "Retorna el Fitxer original amb el que es va crear la petició de firma.",
+        "summary" : "Elimina una petició de firma.",
         "operationId" : "deleteSignatureRequest",
         "parameters" : [ {
           "name" : "signatureRequestID",
@@ -1026,21 +1026,20 @@
         } ]
       }
     },
-    "/secure/directsignatureonweb/v1/closeTransaction" : {
-      "post" : {
+    "/secure/directsignatureonweb/v1/closeTransaction/{transactionID}" : {
+      "get" : {
         "tags" : [ "DirectSignatureOnWeb v1" ],
-        "summary" : "Indica al component de firma que la informació s’ha recuperat correctament i que pot fer neteja en el servidor.",
+        "summary" : "Tanca la transacció de la firma Web Directe",
         "operationId" : "closeTransaction",
-        "requestBody" : {
-          "description" : "Identificador de la transacció.",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "type" : "string"
-              }
-            }
+        "parameters" : [ {
+          "name" : "transactionID",
+          "in" : "path",
+          "description" : "Identificador de la Transacció que volem tancar",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
           }
-        },
+        } ],
         "responses" : {
           "400" : {
             "description" : "Paràmetres incorrectes",
@@ -5388,40 +5387,47 @@
             "type" : "string"
           },
           "administrationID" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "DNI del responsable del certificat"
           },
           "email" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Email del responsable del certificat"
           },
           "birthDate" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Data de naixement del responsable del certificat"
           },
           "pseudonym" : {
-            "type" : "string"
-          },
-          "documentRepresentacio" : {
             "type" : "string",
-            "description" : "En certificados de Representación, indica el documento que acredita la representación del titular del certificado"
+            "description" : "Pseudónimo del titular del certificat, si aplica. En certificats de tipus 7 (Empleat Públic amb pseudònim) és obligatori"
+          },
+          "representationDocument" : {
+            "type" : "string",
+            "description" : "En certificats de Representació, indica el document que acredita la representació del titular del certificat"
           },
           "cargo" : {
             "type" : "string",
-            "description" : "Campo obsoleto, se recomienda usar positionInTheCompany",
+            "description" : "Camp obsolet, es recomana usar positionInTheCompany",
             "deprecated" : true
           },
           "positionInTheCompany" : {
             "type" : "string"
           },
           "domainName" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Domini del lloc web, tal y como figura en el Subject Alternative Names"
           },
           "systemOrComponentDescription" : {
             "type" : "string"
           },
           "europeanAdministrationID" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "DNI o identificador europeu del responsable del certificat, amb codificació estàndard segons ETSI EN 319 412"
           },
           "europeanOrganizationAdministrationID" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "NIF o identificador de l'organització europeu del responsable del certificat, amb codificació estàndard segons ETSI EN 319 412"
           },
           "functionaryID" : {
             "type" : "string"
@@ -5448,17 +5454,19 @@
             "type" : "boolean"
           },
           "issuerID" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Nom de qui ha emès el certificat"
           },
           "issuerOrganization" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "Nom de l'organització emissora del certificat"
           },
           "companyName" : {
             "type" : "string"
           },
           "serialNumber" : {
             "type" : "string",
-            "description" : "serialNumber del certificat"
+            "description" : "SerialNumber del certificat"
           },
           "keyUsageCertificate" : {
             "type" : "string"

@@ -135,7 +135,7 @@ paths:
       x-accepts:
       - application/json
   /secure/asyncsignatureonweb/v1/deleteSignatureRequest/{signatureRequestID}:
-    post:
+    delete:
       operationId: deleteSignatureRequest
       parameters:
       - description: Identificador de Petició de firma
@@ -193,7 +193,7 @@ paths:
           description: Operació realitzada correctament
       security:
       - BasicAuth: []
-      summary: Retorna el Fitxer original amb el que es va crear la petició de firma.
+      summary: Elimina una petició de firma.
       tags:
       - AsyncSignatureOnWeb v1
       x-accepts:
@@ -750,15 +750,18 @@ paths:
       x-content-type: application/json
       x-accepts:
       - application/json
-  /secure/directsignatureonweb/v1/closeTransaction:
-    post:
+  /secure/directsignatureonweb/v1/closeTransaction/{transactionID}:
+    get:
       operationId: closeTransaction
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: string
-        description: Identificador de la transacció.
+      parameters:
+      - description: Identificador de la Transacció que volem tancar
+        explode: false
+        in: path
+        name: transactionID
+        required: true
+        schema:
+          type: string
+        style: simple
       responses:
         "400":
           content:
@@ -792,11 +795,9 @@ paths:
           description: Operació realitzada correctament
       security:
       - BasicAuth: []
-      summary: Indica al component de firma que la informació s’ha recuperat correctament
-        i que pot fer neteja en el servidor.
+      summary: Tanca la transacció de la firma Web Directe
       tags:
       - DirectSignatureOnWeb v1
-      x-content-type: application/json
       x-accepts:
       - application/json
   /secure/directsignatureonweb/v1/getDocumentaryTypes:
@@ -5503,9 +5504,9 @@ components:
           certificateQualified: true
           europeanOrganizationAdministrationID: europeanOrganizationAdministrationID
           policy: policy
-          documentRepresentacio: documentRepresentacio
           positionInTheCompany: positionInTheCompany
           serialNumber: serialNumber
+          representationDocument: representationDocument
           systemOrComponentDescription: systemOrComponentDescription
           functionaryID: functionaryID
           fullName: fullName
@@ -5678,9 +5679,9 @@ components:
             certificateQualified: true
             europeanOrganizationAdministrationID: europeanOrganizationAdministrationID
             policy: policy
-            documentRepresentacio: documentRepresentacio
             positionInTheCompany: positionInTheCompany
             serialNumber: serialNumber
+            representationDocument: representationDocument
             systemOrComponentDescription: systemOrComponentDescription
             functionaryID: functionaryID
             fullName: fullName
@@ -5756,9 +5757,9 @@ components:
             certificateQualified: true
             europeanOrganizationAdministrationID: europeanOrganizationAdministrationID
             policy: policy
-            documentRepresentacio: documentRepresentacio
             positionInTheCompany: positionInTheCompany
             serialNumber: serialNumber
+            representationDocument: representationDocument
             systemOrComponentDescription: systemOrComponentDescription
             functionaryID: functionaryID
             fullName: fullName
@@ -6052,9 +6053,9 @@ components:
         certificateQualified: true
         europeanOrganizationAdministrationID: europeanOrganizationAdministrationID
         policy: policy
-        documentRepresentacio: documentRepresentacio
         positionInTheCompany: positionInTheCompany
         serialNumber: serialNumber
+        representationDocument: representationDocument
         systemOrComponentDescription: systemOrComponentDescription
         functionaryID: functionaryID
         fullName: fullName
@@ -6088,30 +6089,41 @@ components:
         fullName:
           type: string
         administrationID:
+          description: DNI del responsable del certificat
           type: string
         email:
+          description: Email del responsable del certificat
           type: string
         birthDate:
+          description: Data de naixement del responsable del certificat
           type: string
         pseudonym:
+          description: "Pseudónimo del titular del certificat, si aplica. En certificats\
+            \ de tipus 7 (Empleat Públic amb pseudònim) és obligatori"
           type: string
-        documentRepresentacio:
-          description: "En certificados de Representación, indica el documento que\
-            \ acredita la representación del titular del certificado"
+        representationDocument:
+          description: "En certificats de Representació, indica el document que acredita\
+            \ la representació del titular del certificat"
           type: string
         cargo:
           deprecated: true
-          description: "Campo obsoleto, se recomienda usar positionInTheCompany"
+          description: "Camp obsolet, es recomana usar positionInTheCompany"
           type: string
         positionInTheCompany:
           type: string
         domainName:
+          description: "Domini del lloc web, tal y como figura en el Subject Alternative\
+            \ Names"
           type: string
         systemOrComponentDescription:
           type: string
         europeanAdministrationID:
+          description: "DNI o identificador europeu del responsable del certificat,\
+            \ amb codificació estàndard segons ETSI EN 319 412"
           type: string
         europeanOrganizationAdministrationID:
+          description: "NIF o identificador de l'organització europeu del responsable\
+            \ del certificat, amb codificació estàndard segons ETSI EN 319 412"
           type: string
         functionaryID:
           type: string
@@ -6140,13 +6152,15 @@ components:
         createdWithASecureDevice:
           type: boolean
         issuerID:
+          description: Nom de qui ha emès el certificat
           type: string
         issuerOrganization:
+          description: Nom de l'organització emissora del certificat
           type: string
         companyName:
           type: string
         serialNumber:
-          description: serialNumber del certificat
+          description: SerialNumber del certificat
           type: string
         keyUsageCertificate:
           type: string

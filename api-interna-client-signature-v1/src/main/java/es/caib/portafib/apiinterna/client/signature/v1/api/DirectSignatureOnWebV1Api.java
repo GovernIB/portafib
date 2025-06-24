@@ -83,17 +83,23 @@ public class DirectSignatureOnWebV1Api {
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
-   * Indica al component de firma que la informació s’ha recuperat correctament i que pot fer neteja en el servidor.
+   * Tanca la transacció de la firma Web Directe
    * 
-   * @param body Identificador de la transacció. (optional)
+   * @param transactionID Identificador de la Transacció que volem tancar (required)
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String closeTransaction(String body) throws ApiException {
-    Object localVarPostBody = body;
+  public String closeTransaction(String transactionID) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'transactionID' is set
+    if (transactionID == null) {
+      throw new ApiException(400, "Missing the required parameter 'transactionID' when calling closeTransaction");
+    }
     
     // create path and map variables
-    String localVarPath = "/secure/directsignatureonweb/v1/closeTransaction".replaceAll("\\{format\\}","json");
+    String localVarPath = "/secure/directsignatureonweb/v1/closeTransaction/{transactionID}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "transactionID" + "\\}", apiClient.escapeString(transactionID.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -111,14 +117,14 @@ public class DirectSignatureOnWebV1Api {
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      "application/json"
+      
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
     String[] localVarAuthNames = new String[] { "BasicAuth" };
 
     GenericType<String> localVarReturnType = new GenericType<String>() {};
-    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
    * Retorna una llista dels Tipus Documentals disponibles en el servidor: tipus documentals base, tipus documentals de l&#39;entitat i tipus documentals de l&#39;usuari aplicació

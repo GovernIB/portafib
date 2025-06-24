@@ -581,12 +581,13 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
                             mediaType = MediaType.APPLICATION_JSON,
                             schema = @Schema(implementation = TransactionStatusResponse.class))) })
     public TransactionStatusResponse getTransactionStatus(@Parameter(hidden = true) @Context
-    HttpServletRequest request,@Parameter(
-            description = "Identificador de la Transacció que volem finalitzar",
-            in = ParameterIn.PATH,
-            required = true,
-            schema = @Schema(implementation = String.class)) @PathParam("transactionID")
-    String transactionID) {
+    HttpServletRequest request,
+            @Parameter(
+                    description = "Identificador de la Transacció que volem finalitzar",
+                    in = ParameterIn.PATH,
+                    required = true,
+                    schema = @Schema(implementation = String.class)) @PathParam("transactionID")
+            String transactionID) {
 
         String languageUI = "ca";
         try {
@@ -685,24 +686,25 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
                             mediaType = MediaType.APPLICATION_JSON,
                             schema = @Schema(implementation = SignatureResponse.class))) })
     public SignatureResponse getSignatureResult(@Parameter(hidden = true) @Context
-    HttpServletRequest request,@Parameter(
-            description = "Identificador de la Transacció que volem recuperar la firma",
-            in = ParameterIn.PATH,
-            required = true,
-            schema = @Schema(implementation = String.class)) @PathParam("transactionID")
-    String transactionID, @Parameter(
-            description = "Identificador de la Firma que volem recuperar",
-            in = ParameterIn.PATH,
-            required = true,
-            schema = @Schema(implementation = String.class)) @PathParam("signID") String signID) throws RestException {
+    HttpServletRequest request,
+            @Parameter(
+                    description = "Identificador de la Transacció que volem recuperar la firma",
+                    in = ParameterIn.PATH,
+                    required = true,
+                    schema = @Schema(implementation = String.class)) @PathParam("transactionID")
+            String transactionID,
+            @Parameter(
+                    description = "Identificador de la Firma que volem recuperar",
+                    in = ParameterIn.PATH,
+                    required = true,
+                    schema = @Schema(implementation = String.class)) @PathParam("signID")
+            String signID) throws RestException {
 
         //log.info(" XYZ ZZZ getSignaturesResult => ENTRA");
 
         String languageUI = "ca";
 
         try {
-
-            
 
             TransactionInfo ti = directTransactionManager.getTransaction(transactionID);
 
@@ -768,23 +770,16 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
     }
 
-    @Path(value = "/closeTransaction")
-    @POST
+    @Path(value = "/closeTransaction/{transactionID}")
+    @GET
     @RolesAllowed({ Constants.PFI_WS })
     @SecurityRequirement(name = SECURITY_NAME)
     @Produces({ MediaType.APPLICATION_JSON })
     @Operation(
             tags = TAG_NAME,
             operationId = "closeTransaction",
-            requestBody = @RequestBody(
-                    description = "Identificador de la transacció.",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(
-                                    name = "transactionID",
-                                    requiredMode = RequiredMode.REQUIRED,
-                                    implementation = String.class))),
-            summary = "Indica al component de firma que la informació s’ha recuperat correctament i que pot fer neteja en el servidor.")
+
+            summary = "Tanca la transacció de la firma Web Directe")
     @ApiResponses(
             value = { @ApiResponse(
                     responseCode = "200",
@@ -793,8 +788,13 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
                             mediaType = MediaType.APPLICATION_JSON,
                             schema = @Schema(implementation = String.class))) })
     public void closeTransaction(@Parameter(hidden = true) @Context
-    HttpServletRequest request, @RequestBody
-    String transactionID) {
+    HttpServletRequest request,
+            @Parameter(
+                    description = "Identificador de la Transacció que volem tancar",
+                    in = ParameterIn.PATH,
+                    required = true,
+                    schema = @Schema(implementation = String.class)) @PathParam("transactionID")
+            String transactionID) {
 
         String languageUI = "ca"; // Per defecte, si no s'indica res
         try {
@@ -817,13 +817,10 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
             log.error(msg, i18ne);
             throw new RestException(msg);
         } catch (Throwable th) {
-
             // TRADUIR
             final String msg = "Error desconegut intentant tancar la transacció: " + transactionID + ": "
                     + th.getMessage();
-
             log.error(msg, th);
-
             throw new RestException(msg, th);
         }
 
