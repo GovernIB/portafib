@@ -22,22 +22,23 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
  * 
  */
 @Component
-public class RoleUsuariEntitatRefList extends RefListBase
-    implements RoleUsuariEntitatFields {
+public class RoleUsuariEntitatRefList extends RefListBase implements RoleUsuariEntitatFields {
 
-  @EJB(mappedName = RoleUsuariEntitatService.JNDI_NAME)
-  private RoleUsuariEntitatService roleUsuariEntitatEjb;
+    @EJB(mappedName = RoleUsuariEntitatService.JNDI_NAME)
+    private RoleUsuariEntitatService roleUsuariEntitatEjb;
 
-  public RoleUsuariEntitatRefList(RoleUsuariEntitatRefList __clone) {
-    super(__clone);
-    this.roleUsuariEntitatEjb = __clone.roleUsuariEntitatEjb;
-  }
-  public RoleUsuariEntitatRefList() {
-    setSelects(new Select<?>[] { ROLEID.select, USUARIENTITATID.select });
-  }
-  public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
-    Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
-    List<StringKeyValue> list = roleUsuariEntitatEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
+    public RoleUsuariEntitatRefList(RoleUsuariEntitatRefList __clone) {
+        super(__clone);
+        this.roleUsuariEntitatEjb = __clone.roleUsuariEntitatEjb;
+    }
+
+    public RoleUsuariEntitatRefList() {
+        setSelects(new Select<?>[] { ROLEID.select, USUARIENTITATID.select });
+    }
+
+    public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
+        Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
+        List<StringKeyValue> list = roleUsuariEntitatEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
     return list;
-  }
+    }
 }

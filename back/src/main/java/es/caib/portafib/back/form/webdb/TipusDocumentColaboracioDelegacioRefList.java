@@ -22,22 +22,23 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
  * 
  */
 @Component
-public class TipusDocumentColaboracioDelegacioRefList extends RefListBase
-    implements TipusDocumentColaboracioDelegacioFields {
+public class TipusDocumentColaboracioDelegacioRefList extends RefListBase implements TipusDocumentColaboracioDelegacioFields {
 
-  @EJB(mappedName = TipusDocumentColaboracioDelegacioService.JNDI_NAME)
-  private TipusDocumentColaboracioDelegacioService tipusDocumentColaboracioDelegacioEjb;
+    @EJB(mappedName = TipusDocumentColaboracioDelegacioService.JNDI_NAME)
+    private TipusDocumentColaboracioDelegacioService tipusDocumentColaboracioDelegacioEjb;
 
-  public TipusDocumentColaboracioDelegacioRefList(TipusDocumentColaboracioDelegacioRefList __clone) {
-    super(__clone);
-    this.tipusDocumentColaboracioDelegacioEjb = __clone.tipusDocumentColaboracioDelegacioEjb;
-  }
-  public TipusDocumentColaboracioDelegacioRefList() {
-    setSelects(new Select<?>[] { COLABORACIODELEGACIOID.select, TIPUSDOCUMENTID.select });
-  }
-  public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
-    Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
-    List<StringKeyValue> list = tipusDocumentColaboracioDelegacioEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
+    public TipusDocumentColaboracioDelegacioRefList(TipusDocumentColaboracioDelegacioRefList __clone) {
+        super(__clone);
+        this.tipusDocumentColaboracioDelegacioEjb = __clone.tipusDocumentColaboracioDelegacioEjb;
+    }
+
+    public TipusDocumentColaboracioDelegacioRefList() {
+        setSelects(new Select<?>[] { COLABORACIODELEGACIOID.select, TIPUSDOCUMENTID.select });
+    }
+
+    public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
+        Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
+        List<StringKeyValue> list = tipusDocumentColaboracioDelegacioEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
     return list;
-  }
+    }
 }

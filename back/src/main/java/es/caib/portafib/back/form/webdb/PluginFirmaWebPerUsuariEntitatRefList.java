@@ -22,22 +22,23 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
  * 
  */
 @Component
-public class PluginFirmaWebPerUsuariEntitatRefList extends RefListBase
-    implements PluginFirmaWebPerUsuariEntitatFields {
+public class PluginFirmaWebPerUsuariEntitatRefList extends RefListBase implements PluginFirmaWebPerUsuariEntitatFields {
 
-  @EJB(mappedName = PluginFirmaWebPerUsuariEntitatService.JNDI_NAME)
-  private PluginFirmaWebPerUsuariEntitatService pluginFirmaWebPerUsuariEntitatEjb;
+    @EJB(mappedName = PluginFirmaWebPerUsuariEntitatService.JNDI_NAME)
+    private PluginFirmaWebPerUsuariEntitatService pluginFirmaWebPerUsuariEntitatEjb;
 
-  public PluginFirmaWebPerUsuariEntitatRefList(PluginFirmaWebPerUsuariEntitatRefList __clone) {
-    super(__clone);
-    this.pluginFirmaWebPerUsuariEntitatEjb = __clone.pluginFirmaWebPerUsuariEntitatEjb;
-  }
-  public PluginFirmaWebPerUsuariEntitatRefList() {
-    setSelects(new Select<?>[] { USUARIENTITATID.select, PLUGINFIRMAWEBID.select });
-  }
-  public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
-    Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
-    List<StringKeyValue> list = pluginFirmaWebPerUsuariEntitatEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
+    public PluginFirmaWebPerUsuariEntitatRefList(PluginFirmaWebPerUsuariEntitatRefList __clone) {
+        super(__clone);
+        this.pluginFirmaWebPerUsuariEntitatEjb = __clone.pluginFirmaWebPerUsuariEntitatEjb;
+    }
+
+    public PluginFirmaWebPerUsuariEntitatRefList() {
+        setSelects(new Select<?>[] { USUARIENTITATID.select, PLUGINFIRMAWEBID.select });
+    }
+
+    public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
+        Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
+        List<StringKeyValue> list = pluginFirmaWebPerUsuariEntitatEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
     return list;
-  }
+    }
 }

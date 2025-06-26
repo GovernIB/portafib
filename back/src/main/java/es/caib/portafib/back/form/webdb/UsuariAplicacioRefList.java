@@ -22,22 +22,23 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
  * 
  */
 @Component
-public class UsuariAplicacioRefList extends RefListBase
-    implements UsuariAplicacioFields {
+public class UsuariAplicacioRefList extends RefListBase implements UsuariAplicacioFields {
 
-  @EJB(mappedName = UsuariAplicacioService.JNDI_NAME)
-  private UsuariAplicacioService usuariAplicacioEjb;
+    @EJB(mappedName = UsuariAplicacioService.JNDI_NAME)
+    private UsuariAplicacioService usuariAplicacioEjb;
 
-  public UsuariAplicacioRefList(UsuariAplicacioRefList __clone) {
-    super(__clone);
-    this.usuariAplicacioEjb = __clone.usuariAplicacioEjb;
-  }
-  public UsuariAplicacioRefList() {
-    setSelects(new Select<?>[] { USUARIAPLICACIOID.select, ENTITATID.select });
-  }
-  public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
-    Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
-    List<StringKeyValue> list = usuariAplicacioEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
+    public UsuariAplicacioRefList(UsuariAplicacioRefList __clone) {
+        super(__clone);
+        this.usuariAplicacioEjb = __clone.usuariAplicacioEjb;
+    }
+
+    public UsuariAplicacioRefList() {
+        setSelects(new Select<?>[] { USUARIAPLICACIOID.select, ENTITATID.select });
+    }
+
+    public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
+        Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
+        List<StringKeyValue> list = usuariAplicacioEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
     return list;
-  }
+    }
 }

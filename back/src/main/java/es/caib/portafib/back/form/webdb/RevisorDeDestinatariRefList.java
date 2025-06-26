@@ -22,22 +22,23 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
  * 
  */
 @Component
-public class RevisorDeDestinatariRefList extends RefListBase
-    implements RevisorDeDestinatariFields {
+public class RevisorDeDestinatariRefList extends RefListBase implements RevisorDeDestinatariFields {
 
-  @EJB(mappedName = RevisorDeDestinatariService.JNDI_NAME)
-  private RevisorDeDestinatariService revisorDeDestinatariEjb;
+    @EJB(mappedName = RevisorDeDestinatariService.JNDI_NAME)
+    private RevisorDeDestinatariService revisorDeDestinatariEjb;
 
-  public RevisorDeDestinatariRefList(RevisorDeDestinatariRefList __clone) {
-    super(__clone);
-    this.revisorDeDestinatariEjb = __clone.revisorDeDestinatariEjb;
-  }
-  public RevisorDeDestinatariRefList() {
-    setSelects(new Select<?>[] { DESTINATARIID.select, REVISORID.select });
-  }
-  public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
-    Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
-    List<StringKeyValue> list = revisorDeDestinatariEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
+    public RevisorDeDestinatariRefList(RevisorDeDestinatariRefList __clone) {
+        super(__clone);
+        this.revisorDeDestinatariEjb = __clone.revisorDeDestinatariEjb;
+    }
+
+    public RevisorDeDestinatariRefList() {
+        setSelects(new Select<?>[] { DESTINATARIID.select, REVISORID.select });
+    }
+
+    public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
+        Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
+        List<StringKeyValue> list = revisorDeDestinatariEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
     return list;
-  }
+    }
 }

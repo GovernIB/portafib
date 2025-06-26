@@ -22,22 +22,23 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
  * 
  */
 @Component
-public class BitacolaRefList extends RefListBase
-    implements BitacolaFields {
+public class BitacolaRefList extends RefListBase implements BitacolaFields {
 
-  @EJB(mappedName = BitacolaService.JNDI_NAME)
-  private BitacolaService bitacolaEjb;
+    @EJB(mappedName = BitacolaService.JNDI_NAME)
+    private BitacolaService bitacolaEjb;
 
-  public BitacolaRefList(BitacolaRefList __clone) {
-    super(__clone);
-    this.bitacolaEjb = __clone.bitacolaEjb;
-  }
-  public BitacolaRefList() {
-    setSelects(new Select<?>[] { DATA.select });
-  }
-  public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
-    Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
-    List<StringKeyValue> list = bitacolaEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
+    public BitacolaRefList(BitacolaRefList __clone) {
+        super(__clone);
+        this.bitacolaEjb = __clone.bitacolaEjb;
+    }
+
+    public BitacolaRefList() {
+        setSelects(new Select<?>[] { DATA.select });
+    }
+
+    public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
+        Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
+        List<StringKeyValue> list = bitacolaEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
     return list;
-  }
+    }
 }

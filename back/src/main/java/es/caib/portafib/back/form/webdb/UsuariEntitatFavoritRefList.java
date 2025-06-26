@@ -22,22 +22,23 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
  * 
  */
 @Component
-public class UsuariEntitatFavoritRefList extends RefListBase
-    implements UsuariEntitatFavoritFields {
+public class UsuariEntitatFavoritRefList extends RefListBase implements UsuariEntitatFavoritFields {
 
-  @EJB(mappedName = UsuariEntitatFavoritService.JNDI_NAME)
-  private UsuariEntitatFavoritService usuariEntitatFavoritEjb;
+    @EJB(mappedName = UsuariEntitatFavoritService.JNDI_NAME)
+    private UsuariEntitatFavoritService usuariEntitatFavoritEjb;
 
-  public UsuariEntitatFavoritRefList(UsuariEntitatFavoritRefList __clone) {
-    super(__clone);
-    this.usuariEntitatFavoritEjb = __clone.usuariEntitatFavoritEjb;
-  }
-  public UsuariEntitatFavoritRefList() {
-    setSelects(new Select<?>[] { ORIGENID.select, FAVORITID.select });
-  }
-  public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
-    Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
-    List<StringKeyValue> list = usuariEntitatFavoritEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
+    public UsuariEntitatFavoritRefList(UsuariEntitatFavoritRefList __clone) {
+        super(__clone);
+        this.usuariEntitatFavoritEjb = __clone.usuariEntitatFavoritEjb;
+    }
+
+    public UsuariEntitatFavoritRefList() {
+        setSelects(new Select<?>[] { ORIGENID.select, FAVORITID.select });
+    }
+
+    public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
+        Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
+        List<StringKeyValue> list = usuariEntitatFavoritEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
     return list;
-  }
+    }
 }

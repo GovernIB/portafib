@@ -22,22 +22,23 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
  * 
  */
 @Component
-public class PlantillaFluxDeFirmesRefList extends RefListBase
-    implements PlantillaFluxDeFirmesFields {
+public class PlantillaFluxDeFirmesRefList extends RefListBase implements PlantillaFluxDeFirmesFields {
 
-  @EJB(mappedName = PlantillaFluxDeFirmesService.JNDI_NAME)
-  private PlantillaFluxDeFirmesService plantillaFluxDeFirmesEjb;
+    @EJB(mappedName = PlantillaFluxDeFirmesService.JNDI_NAME)
+    private PlantillaFluxDeFirmesService plantillaFluxDeFirmesEjb;
 
-  public PlantillaFluxDeFirmesRefList(PlantillaFluxDeFirmesRefList __clone) {
-    super(__clone);
-    this.plantillaFluxDeFirmesEjb = __clone.plantillaFluxDeFirmesEjb;
-  }
-  public PlantillaFluxDeFirmesRefList() {
-    setSelects(new Select<?>[] { FLUXDEFIRMESID.select, DESCRIPCIO.select });
-  }
-  public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
-    Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
-    List<StringKeyValue> list = plantillaFluxDeFirmesEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
+    public PlantillaFluxDeFirmesRefList(PlantillaFluxDeFirmesRefList __clone) {
+        super(__clone);
+        this.plantillaFluxDeFirmesEjb = __clone.plantillaFluxDeFirmesEjb;
+    }
+
+    public PlantillaFluxDeFirmesRefList() {
+        setSelects(new Select<?>[] { FLUXDEFIRMESID.select, DESCRIPCIO.select });
+    }
+
+    public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
+        Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
+        List<StringKeyValue> list = plantillaFluxDeFirmesEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
     return list;
-  }
+    }
 }

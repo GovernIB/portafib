@@ -22,22 +22,23 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
  * 
  */
 @Component
-public class AnnexFirmatRefList extends RefListBase
-    implements AnnexFirmatFields {
+public class AnnexFirmatRefList extends RefListBase implements AnnexFirmatFields {
 
-  @EJB(mappedName = AnnexFirmatService.JNDI_NAME)
-  private AnnexFirmatService annexFirmatEjb;
+    @EJB(mappedName = AnnexFirmatService.JNDI_NAME)
+    private AnnexFirmatService annexFirmatEjb;
 
-  public AnnexFirmatRefList(AnnexFirmatRefList __clone) {
-    super(__clone);
-    this.annexFirmatEjb = __clone.annexFirmatEjb;
-  }
-  public AnnexFirmatRefList() {
-    setSelects(new Select<?>[] { FIRMAID.select });
-  }
-  public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
-    Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
-    List<StringKeyValue> list = annexFirmatEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
+    public AnnexFirmatRefList(AnnexFirmatRefList __clone) {
+        super(__clone);
+        this.annexFirmatEjb = __clone.annexFirmatEjb;
+    }
+
+    public AnnexFirmatRefList() {
+        setSelects(new Select<?>[] { FIRMAID.select });
+    }
+
+    public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
+        Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
+        List<StringKeyValue> list = annexFirmatEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
     return list;
-  }
+    }
 }

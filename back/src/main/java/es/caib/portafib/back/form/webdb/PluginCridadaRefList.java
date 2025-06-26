@@ -22,22 +22,23 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
  * 
  */
 @Component
-public class PluginCridadaRefList extends RefListBase
-    implements PluginCridadaFields {
+public class PluginCridadaRefList extends RefListBase implements PluginCridadaFields {
 
-  @EJB(mappedName = PluginCridadaService.JNDI_NAME)
-  private PluginCridadaService pluginCridadaEjb;
+    @EJB(mappedName = PluginCridadaService.JNDI_NAME)
+    private PluginCridadaService pluginCridadaEjb;
 
-  public PluginCridadaRefList(PluginCridadaRefList __clone) {
-    super(__clone);
-    this.pluginCridadaEjb = __clone.pluginCridadaEjb;
-  }
-  public PluginCridadaRefList() {
-    setSelects(new Select<?>[] { METODEPLUGIN.select });
-  }
-  public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
-    Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
-    List<StringKeyValue> list = pluginCridadaEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
+    public PluginCridadaRefList(PluginCridadaRefList __clone) {
+        super(__clone);
+        this.pluginCridadaEjb = __clone.pluginCridadaEjb;
+    }
+
+    public PluginCridadaRefList() {
+        setSelects(new Select<?>[] { METODEPLUGIN.select });
+    }
+
+    public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
+        Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
+        List<StringKeyValue> list = pluginCridadaEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
     return list;
-  }
+    }
 }

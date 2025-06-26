@@ -22,22 +22,23 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
  * 
  */
 @Component
-public class BlocDeFirmesRefList extends RefListBase
-    implements BlocDeFirmesFields {
+public class BlocDeFirmesRefList extends RefListBase implements BlocDeFirmesFields {
 
-  @EJB(mappedName = BlocDeFirmesService.JNDI_NAME)
-  private BlocDeFirmesService blocDeFirmesEjb;
+    @EJB(mappedName = BlocDeFirmesService.JNDI_NAME)
+    private BlocDeFirmesService blocDeFirmesEjb;
 
-  public BlocDeFirmesRefList(BlocDeFirmesRefList __clone) {
-    super(__clone);
-    this.blocDeFirmesEjb = __clone.blocDeFirmesEjb;
-  }
-  public BlocDeFirmesRefList() {
-    setSelects(new Select<?>[] { BLOCDEFIRMESID.select, ORDRE.select });
-  }
-  public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
-    Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
-    List<StringKeyValue> list = blocDeFirmesEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
+    public BlocDeFirmesRefList(BlocDeFirmesRefList __clone) {
+        super(__clone);
+        this.blocDeFirmesEjb = __clone.blocDeFirmesEjb;
+    }
+
+    public BlocDeFirmesRefList() {
+        setSelects(new Select<?>[] { BLOCDEFIRMESID.select, ORDRE.select });
+    }
+
+    public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
+        Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
+        List<StringKeyValue> list = blocDeFirmesEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
     return list;
-  }
+    }
 }

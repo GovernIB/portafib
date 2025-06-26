@@ -22,22 +22,23 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
  * 
  */
 @Component
-public class PropietatGlobalRefList extends RefListBase
-    implements PropietatGlobalFields {
+public class PropietatGlobalRefList extends RefListBase implements PropietatGlobalFields {
 
-  @EJB(mappedName = PropietatGlobalService.JNDI_NAME)
-  private PropietatGlobalService propietatGlobalEjb;
+    @EJB(mappedName = PropietatGlobalService.JNDI_NAME)
+    private PropietatGlobalService propietatGlobalEjb;
 
-  public PropietatGlobalRefList(PropietatGlobalRefList __clone) {
-    super(__clone);
-    this.propietatGlobalEjb = __clone.propietatGlobalEjb;
-  }
-  public PropietatGlobalRefList() {
-    setSelects(new Select<?>[] { CLAU.select });
-  }
-  public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
-    Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
-    List<StringKeyValue> list = propietatGlobalEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
+    public PropietatGlobalRefList(PropietatGlobalRefList __clone) {
+        super(__clone);
+        this.propietatGlobalEjb = __clone.propietatGlobalEjb;
+    }
+
+    public PropietatGlobalRefList() {
+        setSelects(new Select<?>[] { CLAU.select });
+    }
+
+    public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
+        Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
+        List<StringKeyValue> list = propietatGlobalEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
     return list;
-  }
+    }
 }

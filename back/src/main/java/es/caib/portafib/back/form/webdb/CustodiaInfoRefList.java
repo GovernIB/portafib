@@ -22,22 +22,23 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
  * 
  */
 @Component
-public class CustodiaInfoRefList extends RefListBase
-    implements CustodiaInfoFields {
+public class CustodiaInfoRefList extends RefListBase implements CustodiaInfoFields {
 
-  @EJB(mappedName = CustodiaInfoService.JNDI_NAME)
-  private CustodiaInfoService custodiaInfoEjb;
+    @EJB(mappedName = CustodiaInfoService.JNDI_NAME)
+    private CustodiaInfoService custodiaInfoEjb;
 
-  public CustodiaInfoRefList(CustodiaInfoRefList __clone) {
-    super(__clone);
-    this.custodiaInfoEjb = __clone.custodiaInfoEjb;
-  }
-  public CustodiaInfoRefList() {
-    setSelects(new Select<?>[] { CUSTODIAINFOID.select, NOMPLANTILLA.select, CUSTODIADOCUMENTID.select });
-  }
-  public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
-    Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
-    List<StringKeyValue> list = custodiaInfoEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
+    public CustodiaInfoRefList(CustodiaInfoRefList __clone) {
+        super(__clone);
+        this.custodiaInfoEjb = __clone.custodiaInfoEjb;
+    }
+
+    public CustodiaInfoRefList() {
+        setSelects(new Select<?>[] { CUSTODIAINFOID.select, NOMPLANTILLA.select, CUSTODIADOCUMENTID.select });
+    }
+
+    public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
+        Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
+        List<StringKeyValue> list = custodiaInfoEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
     return list;
-  }
+    }
 }

@@ -22,22 +22,23 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
  * 
  */
 @Component
-public class FirmaRefList extends RefListBase
-    implements FirmaFields {
+public class FirmaRefList extends RefListBase implements FirmaFields {
 
-  @EJB(mappedName = FirmaService.JNDI_NAME)
-  private FirmaService firmaEjb;
+    @EJB(mappedName = FirmaService.JNDI_NAME)
+    private FirmaService firmaEjb;
 
-  public FirmaRefList(FirmaRefList __clone) {
-    super(__clone);
-    this.firmaEjb = __clone.firmaEjb;
-  }
-  public FirmaRefList() {
-    setSelects(new Select<?>[] { DESTINATARIID.select, BLOCDEFIRMAID.select });
-  }
-  public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
-    Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
-    List<StringKeyValue> list = firmaEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
+    public FirmaRefList(FirmaRefList __clone) {
+        super(__clone);
+        this.firmaEjb = __clone.firmaEjb;
+    }
+
+    public FirmaRefList() {
+        setSelects(new Select<?>[] { DESTINATARIID.select, BLOCDEFIRMAID.select });
+    }
+
+    public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
+        Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
+        List<StringKeyValue> list = firmaEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
     return list;
-  }
+    }
 }

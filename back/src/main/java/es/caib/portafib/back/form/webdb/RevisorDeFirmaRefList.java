@@ -22,22 +22,23 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
  * 
  */
 @Component
-public class RevisorDeFirmaRefList extends RefListBase
-    implements RevisorDeFirmaFields {
+public class RevisorDeFirmaRefList extends RefListBase implements RevisorDeFirmaFields {
 
-  @EJB(mappedName = RevisorDeFirmaService.JNDI_NAME)
-  private RevisorDeFirmaService revisorDeFirmaEjb;
+    @EJB(mappedName = RevisorDeFirmaService.JNDI_NAME)
+    private RevisorDeFirmaService revisorDeFirmaEjb;
 
-  public RevisorDeFirmaRefList(RevisorDeFirmaRefList __clone) {
-    super(__clone);
-    this.revisorDeFirmaEjb = __clone.revisorDeFirmaEjb;
-  }
-  public RevisorDeFirmaRefList() {
-    setSelects(new Select<?>[] { USUARIENTITATID.select, FIRMAID.select });
-  }
-  public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
-    Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
-    List<StringKeyValue> list = revisorDeFirmaEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
+    public RevisorDeFirmaRefList(RevisorDeFirmaRefList __clone) {
+        super(__clone);
+        this.revisorDeFirmaEjb = __clone.revisorDeFirmaEjb;
+    }
+
+    public RevisorDeFirmaRefList() {
+        setSelects(new Select<?>[] { USUARIENTITATID.select, FIRMAID.select });
+    }
+
+    public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
+        Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
+        List<StringKeyValue> list = revisorDeFirmaEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
     return list;
-  }
+    }
 }

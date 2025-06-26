@@ -22,22 +22,23 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
  * 
  */
 @Component
-public class PermisGrupPlantillaRefList extends RefListBase
-    implements PermisGrupPlantillaFields {
+public class PermisGrupPlantillaRefList extends RefListBase implements PermisGrupPlantillaFields {
 
-  @EJB(mappedName = PermisGrupPlantillaService.JNDI_NAME)
-  private PermisGrupPlantillaService permisGrupPlantillaEjb;
+    @EJB(mappedName = PermisGrupPlantillaService.JNDI_NAME)
+    private PermisGrupPlantillaService permisGrupPlantillaEjb;
 
-  public PermisGrupPlantillaRefList(PermisGrupPlantillaRefList __clone) {
-    super(__clone);
-    this.permisGrupPlantillaEjb = __clone.permisGrupPlantillaEjb;
-  }
-  public PermisGrupPlantillaRefList() {
-    setSelects(new Select<?>[] { GRUPENTITATID.select, PLANTILLAFLUXDEFIRMESID.select });
-  }
-  public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
-    Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
-    List<StringKeyValue> list = permisGrupPlantillaEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
+    public PermisGrupPlantillaRefList(PermisGrupPlantillaRefList __clone) {
+        super(__clone);
+        this.permisGrupPlantillaEjb = __clone.permisGrupPlantillaEjb;
+    }
+
+    public PermisGrupPlantillaRefList() {
+        setSelects(new Select<?>[] { GRUPENTITATID.select, PLANTILLAFLUXDEFIRMESID.select });
+    }
+
+    public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
+        Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
+        List<StringKeyValue> list = permisGrupPlantillaEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
     return list;
-  }
+    }
 }

@@ -22,25 +22,26 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
  * 
  */
 @Component
-public class TipusNotificacioRefList extends RefListBase
-    implements TipusNotificacioFields {
+public class TipusNotificacioRefList extends RefListBase implements TipusNotificacioFields {
 
-  @EJB(mappedName = TipusNotificacioService.JNDI_NAME)
-  private TipusNotificacioService tipusNotificacioEjb;
+    @EJB(mappedName = TipusNotificacioService.JNDI_NAME)
+    private TipusNotificacioService tipusNotificacioEjb;
 
-  public TipusNotificacioRefList(TipusNotificacioRefList __clone) {
-    super(__clone);
-    this.tipusNotificacioEjb = __clone.tipusNotificacioEjb;
-  }
-  public TipusNotificacioRefList() {
-    setSelects(new Select<?>[] { NOM.select });
-  }
-  public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
-    Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
-    List<StringKeyValue> list = tipusNotificacioEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
-    for (StringKeyValue skv : list) {
-      skv.setValue(org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(skv.getValue()));
+    public TipusNotificacioRefList(TipusNotificacioRefList __clone) {
+        super(__clone);
+        this.tipusNotificacioEjb = __clone.tipusNotificacioEjb;
     }
+
+    public TipusNotificacioRefList() {
+        setSelects(new Select<?>[] { NOM.select });
+    }
+
+    public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
+        Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
+        List<StringKeyValue> list = tipusNotificacioEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
+        for (StringKeyValue skv : list) {
+            skv.setValue(org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(skv.getValue()));
+        }
     return list;
-  }
+    }
 }

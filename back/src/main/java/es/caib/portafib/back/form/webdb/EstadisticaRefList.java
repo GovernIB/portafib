@@ -22,22 +22,23 @@ import org.fundaciobit.genapp.common.web.controller.RefListBase;
  * 
  */
 @Component
-public class EstadisticaRefList extends RefListBase
-    implements EstadisticaFields {
+public class EstadisticaRefList extends RefListBase implements EstadisticaFields {
 
-  @EJB(mappedName = EstadisticaService.JNDI_NAME)
-  private EstadisticaService estadisticaEjb;
+    @EJB(mappedName = EstadisticaService.JNDI_NAME)
+    private EstadisticaService estadisticaEjb;
 
-  public EstadisticaRefList(EstadisticaRefList __clone) {
-    super(__clone);
-    this.estadisticaEjb = __clone.estadisticaEjb;
-  }
-  public EstadisticaRefList() {
-    setSelects(new Select<?>[] { ESTADISTICAID.select, DATA.select });
-  }
-  public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
-    Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
-    List<StringKeyValue> list = estadisticaEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
+    public EstadisticaRefList(EstadisticaRefList __clone) {
+        super(__clone);
+        this.estadisticaEjb = __clone.estadisticaEjb;
+    }
+
+    public EstadisticaRefList() {
+        setSelects(new Select<?>[] { ESTADISTICAID.select, DATA.select });
+    }
+
+    public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
+        Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());
+        List<StringKeyValue> list = estadisticaEjb.executeQuery(select, where, (orderBy==null || orderBy.length == 0) ? getOrderBy() : orderBy);
     return list;
-  }
+    }
 }
