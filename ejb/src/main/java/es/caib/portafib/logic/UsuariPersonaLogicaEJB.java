@@ -314,6 +314,7 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements UsuariPe
 
         try {
 
+            // Cas especial per ENVIAFIB
             List<PlantillaFluxDeFirmes> plantillesEnviaFIB = plantillaFluxDeFirmesLogicaEjb
                     .select(PlantillaFluxDeFirmesFields.DESCRIPCIO.like("%{owner=" + currentUsername + "}%"));
 
@@ -347,6 +348,10 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements UsuariPe
                 newPersona.setUsuariPersonaID(newUsername);
                 // Posam un NIF temporal ja que el NIF es unike.
                 newPersona.setNif("00000000X");
+                
+                if (currentPersona.getEmail() != null && currentPersona.getEmail().indexOf(currentUsername) != -1) {
+                    newPersona.setEmail(currentPersona.getEmail().replaceAll(currentUsername, newUsername));
+                }
 
                 newPersona = (UsuariPersonaJPA) create(newPersona);
 
