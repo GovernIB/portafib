@@ -175,13 +175,13 @@
           <td id="notificacioWS_bloquejada_columnvalueid">
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.BLOQUEJADA)}" >
               <form:select cssClass="form-control col-md-6" onchange="if(typeof onChangeBloquejada == 'function') {  onChangeBloquejada(this); };"  path="notificacioWS.bloquejada">
-                <form:option value=""><fmt:message key="genapp.checkbox." /></form:option>
-                <form:option value="true" ><fmt:message key="genapp.checkbox.true" /></form:option>
-                <form:option value="false" ><fmt:message key="genapp.checkbox.false" /></form:option>
+                <form:option value=""><fmt:message key="notificaciobloquejada." /></form:option>
+                <form:option value="true" ><fmt:message key="notificaciobloquejada.true" /></form:option>
+                <form:option value="false" ><fmt:message key="notificaciobloquejada.false" /></form:option>
               </form:select>
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.BLOQUEJADA)}" >
-                <fmt:message key="genapp.checkbox.${__theForm.notificacioWS.bloquejada}" />
+                <fmt:message key="notificaciobloquejada.${__theForm.notificacioWS.bloquejada}" />
           </c:if>
            </td>
         </tr>

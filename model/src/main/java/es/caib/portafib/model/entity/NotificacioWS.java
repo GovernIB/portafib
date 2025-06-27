@@ -20,8 +20,8 @@ public interface NotificacioWS extends org.fundaciobit.genapp.common.IGenAppEnti
 	public java.lang.String getDescripcio();
 	public void setDescripcio(java.lang.String _descripcio_);
 
-	public boolean isBloquejada();
-	public void setBloquejada(boolean _bloquejada_);
+	public java.lang.Boolean getBloquejada();
+	public void setBloquejada(java.lang.Boolean _bloquejada_);
 
 	public java.lang.String getError();
 	public void setError(java.lang.String _error_);

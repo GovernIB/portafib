@@ -14,7 +14,7 @@ public class NotificacioWSBean implements NotificacioWS {
 	java.sql.Timestamp dataCreacio;
 	java.sql.Timestamp dataEnviament;
 	java.lang.String descripcio;
-	boolean bloquejada;
+	java.lang.Boolean bloquejada;
 	java.lang.String error;
 	java.sql.Timestamp dataError;
 	int reintents;
@@ -26,7 +26,7 @@ public class NotificacioWSBean implements NotificacioWS {
   }
 
   /** Constructor amb tots els camps  */
-  public NotificacioWSBean(long notificacioID , long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , java.sql.Timestamp dataEnviament , java.lang.String descripcio , boolean bloquejada , java.lang.String error , java.sql.Timestamp dataError , int reintents , java.lang.String usuariAplicacioID) {
+  public NotificacioWSBean(long notificacioID , long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , java.sql.Timestamp dataEnviament , java.lang.String descripcio , java.lang.Boolean bloquejada , java.lang.String error , java.sql.Timestamp dataError , int reintents , java.lang.String usuariAplicacioID) {
     this.notificacioID=notificacioID;
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.tipusNotificacioID=tipusNotificacioID;
@@ -40,7 +40,7 @@ public class NotificacioWSBean implements NotificacioWS {
     this.usuariAplicacioID=usuariAplicacioID;
 }
   /** Constructor sense valors autoincrementals */
-  public NotificacioWSBean(long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , java.sql.Timestamp dataEnviament , java.lang.String descripcio , boolean bloquejada , java.lang.String error , java.sql.Timestamp dataError , int reintents , java.lang.String usuariAplicacioID) {
+  public NotificacioWSBean(long peticioDeFirmaID , long tipusNotificacioID , java.sql.Timestamp dataCreacio , java.sql.Timestamp dataEnviament , java.lang.String descripcio , java.lang.Boolean bloquejada , java.lang.String error , java.sql.Timestamp dataError , int reintents , java.lang.String usuariAplicacioID) {
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.tipusNotificacioID=tipusNotificacioID;
     this.dataCreacio=dataCreacio;
@@ -68,7 +68,7 @@ public class NotificacioWSBean implements NotificacioWS {
     this.setDataCreacio(__bean.getDataCreacio());
     this.setDataEnviament(__bean.getDataEnviament());
     this.setDescripcio(__bean.getDescripcio());
-    this.setBloquejada(__bean.isBloquejada());
+    this.setBloquejada(__bean.getBloquejada());
     this.setError(__bean.getError());
     this.setDataError(__bean.getDataError());
     this.setReintents(__bean.getReintents());
@@ -117,10 +117,10 @@ public class NotificacioWSBean implements NotificacioWS {
 		this.descripcio = _descripcio_;
 	};
 
-	public boolean isBloquejada() {
+	public java.lang.Boolean getBloquejada() {
 		return(bloquejada);
 	};
-	public void setBloquejada(boolean _bloquejada_) {
+	public void setBloquejada(java.lang.Boolean _bloquejada_) {
 		this.bloquejada = _bloquejada_;
 	};
 
@@ -165,7 +165,7 @@ public class NotificacioWSBean implements NotificacioWS {
     __tmp.setDataCreacio(__bean.getDataCreacio());
     __tmp.setDataEnviament(__bean.getDataEnviament());
     __tmp.setDescripcio(__bean.getDescripcio());
-    __tmp.setBloquejada(__bean.isBloquejada());
+    __tmp.setBloquejada(__bean.getBloquejada());
     __tmp.setError(__bean.getError());
     __tmp.setDataError(__bean.getDataError());
     __tmp.setReintents(__bean.getReintents());

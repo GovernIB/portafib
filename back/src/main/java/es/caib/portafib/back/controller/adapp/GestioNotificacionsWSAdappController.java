@@ -269,7 +269,7 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
             break;
 
             case SHOW_ACTION_ESBORRAR:
-                filterForm.addAdditionalButton(new AdditionalButton("fas fa-trash", "genapp.delete",
+                filterForm.addAdditionalButton(new AdditionalButton("fas fa-trash", "notificaciows.esborrar.seleccionats",
                         "javascript:openModalSubmit('" + context + "/deleteSelected','show', 'notificacioWS')",
                         AdditionalButtonStyle.DANGER));
             break;
@@ -338,7 +338,7 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
         // Mostrar boto bloqueja/desbloquejar si dataenviament==null
         // i com a minim ho ha intentat una vegada
         if (notificacio.getDataEnviament() == null && notificacio.getReintents() >= 0) {
-            if (notificacio.isBloquejada()) {
+            if (Boolean.TRUE.equals(notificacio.getBloquejada())) {
                 return SHOW_ACTION_DESBLOQUEJAR;
             } else {
                 return SHOW_ACTION_BLOQUEJAR;
@@ -346,7 +346,7 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
 
         } else {
 
-            if (notificacio.getDataEnviament() != null && notificacio.isBloquejada()) {
+            if (notificacio.getDataEnviament() != null && Boolean.TRUE.equals(notificacio.getBloquejada())) {
                 // Aturada, llavors l'usuari la pot esborrar si ho desitja
                 return SHOW_ACTION_ESBORRAR;
             }

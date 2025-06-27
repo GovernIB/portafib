@@ -84,7 +84,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
     @EJB(mappedName = BitacolaLogicaLocal.JNDI_NAME)
     private BitacolaLogicaLocal bitacolaLogicaEjb;
 
-    private final Logger log = Logger.getLogger(getClass());
+    private static final Logger log = Logger.getLogger(NotificacionsCallBackTimerEJB.class);
 
     /* Per controlar cridades concurrents que no s'haurien de produir però per mala implementació del JBOSS es produeixen */
     private static final Semaphore semaphore = new Semaphore(1);
@@ -211,18 +211,20 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
             // XYZ ZZZ
             Timestamp datanowX = null;
 
-            Where whereDataError = NotificacioWSFields.DATAERROR.isNull();
+            final Where whereDataError;
             if (wakeUp && ((lastFullExecution + notificacionsTimeLapse) > now)) {
                 if (isDebug) {
                     log.debug("executeTask: Només executam les Notificacions amb dataError==null");
                 }
+                whereDataError = NotificacioWSFields.DATAERROR.isNull();
             } else {
                 Timestamp nowX = new Timestamp(now - notificacionsTimeLapse);
                 datanowX = nowX;
-                whereDataError = Where.OR(whereDataError, NotificacioWSFields.DATAERROR.lessThan(nowX));
+                whereDataError = Where.OR(NotificacioWSFields.DATAERROR.isNull(), NotificacioWSFields.DATAERROR.lessThan(nowX));
                 if (isDebug) {
                     log.debug("executeTask: Execució completa");
-                }
+                } 
+                lastFullExecution = now; // Actualitzam la darrera execució completa
             }
             lastExecution = now;
 
@@ -281,6 +283,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
                 }
             }
 
+
             if (count > 0) {
                 log.info("executeTask: Processades " + count + "  de " + notificacionsSeleccionades + " selecionades");
             }
@@ -290,8 +293,15 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
         }
 
     }
-
+    
+    
     private void processNotificacio(NotificacioWSJPA notificacioJPA) {
+        processNotificacio(notificacioJPA, usuariAplicacioEjb, bitacolaLogicaEjb, notificacioEjb);
+    }
+    
+
+    public static void processNotificacio(NotificacioWSJPA notificacioJPA, UsuariAplicacioService usuariAplicacioEjb,
+           BitacolaLogicaLocal bitacolaLogicaEjb, NotificacioWSService notificacioEjb) {
 
         UsuariAplicacio usuariAplicacio = null;
         try {

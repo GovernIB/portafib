@@ -6294,11 +6294,12 @@
             "es": "Bloqueada"
           },
           "javaName": "bloquejada",
-          "javaType": "boolean",
+          "javaType": "java.lang.Boolean",
           "traduible": false,
           "showInWebList": true,
           "showInReferenceList": false,
           "transientField": false,
+          "minAllowedValue": "notificaciobloquejada",
           "filter": false,
           "orderBy": 0,
           "groupBy": true,

@@ -62,7 +62,7 @@ public class NotificacioWSLogicaEJB extends NotificacioWSEJB
       return null;
     }
 
-    if (notificacio.isBloquejada()) {
+    if (Boolean.TRUE.equals(notificacio.getBloquejada())) {
 
       notificacio.setBloquejada(false);
       
@@ -94,7 +94,7 @@ public class NotificacioWSLogicaEJB extends NotificacioWSEJB
       return null;
     }
 
-    if (!notificacio.isBloquejada()) {
+    if (Boolean.FALSE.equals(notificacio.getBloquejada())) {
       notificacio.setBloquejada(true);
       notificacio = (NotificacioWSJPA)this.update(notificacio);
     }
@@ -148,7 +148,7 @@ public class NotificacioWSLogicaEJB extends NotificacioWSEJB
   
   /**
    * Retorna un array de informació de les execucions:
-   *     [1] => darrra execució completa
+   *     [1] => darrera execució completa
    *     [2] => darrera execució
    *     [3] => propera execució
    */

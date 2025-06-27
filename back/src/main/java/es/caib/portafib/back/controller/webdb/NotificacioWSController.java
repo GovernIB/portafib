@@ -203,7 +203,7 @@ public class NotificacioWSController
     }
 
 
-      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, BLOQUEJADA);
+      fillValuesToGroupByItemsBoolean("notificaciobloquejada", groupByItemsMap, BLOQUEJADA);
 
 
     return groupByItemsMap;

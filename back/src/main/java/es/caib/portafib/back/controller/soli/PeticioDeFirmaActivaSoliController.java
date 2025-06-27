@@ -45,6 +45,12 @@ import es.caib.portafib.utils.ConstantsV2;
         baseLink = ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/selectflux",
         relativeLink = "",
         order = 10)
+@MenuOption(
+        group = Constants.ROLE_SOLI,
+        labelCode = "peticiodefirma.crear",
+        baseLink = ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA,
+        relativeLink = "/list",
+        order = 30)
 public class PeticioDeFirmaActivaSoliController extends PeticioDeFirmaSoliController {
 
     public static final String FILTER_BY_TITOL_KEY = "filterbytitol";
