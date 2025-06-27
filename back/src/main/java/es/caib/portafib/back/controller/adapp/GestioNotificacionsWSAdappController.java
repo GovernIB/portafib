@@ -103,6 +103,7 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
             notificacioFilterForm.addFilterByField(DATACREACIO);
             notificacioFilterForm.addFilterByField(USUARIAPLICACIOID);
             notificacioFilterForm.addFilterByField(PETICIODEFIRMAID);
+            notificacioFilterForm.addFilterByField(BLOQUEJADA);
 
             notificacioFilterForm.addHiddenField(DATAENVIAMENT);
             notificacioFilterForm.addHiddenField(DESCRIPCIO);
@@ -206,6 +207,7 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
                     filterForm.addAdditionalButtonByPK(notificacio.getNotificacioID(),
                             new AdditionalButton("fas fa-stop", "notificaciows.aturar", getContextWeb() + "/aturar/{0}",
                                     AdditionalButtonStyle.WARNING));
+                    notificacio.setBloquejada(null);
                 break;
 
                 case SHOW_ACTION_BLOQUEJAR:
@@ -215,6 +217,7 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
                     filterForm.addAdditionalButtonByPK(notificacio.getNotificacioID(),
                             new AdditionalButton("fas fa-stop", "notificaciows.aturar", getContextWeb() + "/aturar/{0}",
                                     AdditionalButtonStyle.WARNING));
+                    
                 break;
 
                 case SHOW_ACTION_ESBORRAR:

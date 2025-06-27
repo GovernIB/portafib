@@ -98,7 +98,7 @@
                             <c:set var="counterG" value="${counterG + 1}" />
                             {
                                 "id": '${groupby_item.value}_${fn:replace(groupbyvalue_item.value,"'","_")}_${counterG}',
-                                "text": '<span style="${groupbyvalue_item.selected? "font-weight: bold;" : ""}" ><c:out value = "${ (empty groupbyvalue_item.codeLabel) ? buit : groupbyvalue_item.codeLabel}" /> (${groupbyvalue_item.count})</span>',
+                                "text": '<span style="${groupbyvalue_item.selected? "font-weight: bold;" : ""}" >${ (empty groupbyvalue_item.codeLabel) ? buit : groupbyvalue_item.codeLabel} (${groupbyvalue_item.count})</span>',
                                 "field": '${groupby_item.value}',
                                 "value" : '${fn:replace(groupbyvalue_item.value,'\'','\\\'')}',
                                 "hasChildren": false,
