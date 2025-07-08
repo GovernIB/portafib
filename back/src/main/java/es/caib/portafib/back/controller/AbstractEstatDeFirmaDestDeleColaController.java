@@ -1298,6 +1298,23 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                             if (isDebug) {
                                 log.debug("firmat.getAbsolutePath(): " + firmat.getAbsolutePath());
                             }
+                            
+                            
+                            if (!firmat.exists()) {
+                                String msg = "El plugin amb ID "  + ss.getSelectedPluginID() 
+                                + " ha retornat un status OK per la petició " + ss.getSignaturesSetID() 
+                                + " però el fitxer Signat no existeix: " + firmat.getAbsolutePath();
+                                log.error(msg, new Exception());
+                                throw new Exception(msg);
+                            }
+                            
+                            if (firmat.length() == 0) {
+                                String msg = "El plugin amb ID "  + ss.getSelectedPluginID() 
+                                + " ha retornat un status OK per la petició " + ss.getSignaturesSetID() 
+                                + " però el fitxer Signat està buit: " + firmat.getAbsolutePath();
+                                log.error(msg, new Exception());
+                                throw new Exception(msg);
+                            }
 
                             peticioDeFirmaLogicaEjb.nouFitxerFirmat(firmat, estatDeFirmaID, peticioDeFirmaID, token,
                                     signedFile.getSignNumber(), originalNumberOfSignsArray[i],

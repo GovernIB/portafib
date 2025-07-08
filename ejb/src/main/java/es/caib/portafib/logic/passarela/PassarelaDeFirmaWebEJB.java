@@ -602,10 +602,27 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
                             CustodiaInfoJPA custInfo = custodiaBySignID.get(signID);
                             try {
+                                File original = status.getSignedData();
+                                if (!original.exists()) {
+                                    String msg = "El plugin amb ID "  + ssf.getSignaturePluginId() 
+                                    + " ha retornat un status OK per la petició de passarela " + ss.getSignaturesSetID() 
+                                    + " però el fitxer Signat no existeix: " + original.getAbsolutePath();
+                                    log.error(msg, new Exception());
+                                    throw new I18NException("genapp.comodi", msg);
+                                }
+                                
+                                if (original.length() == 0) {
+                                    String msg = "El plugin amb ID "  + ssf.getSignaturePluginId() 
+                                    + " ha retornat un status OK per la petició de passarela " + ss.getSignaturesSetID() 
+                                    + " però el fitxer Signat està buit: " + original.getAbsolutePath();
+                                    log.error(msg, new Exception());
+                                    throw new I18NException("genapp.comodi", msg);
+                                }
+
                                 // Copiar fitxers de Plugin a Ruta PortaFIB-Passarela
                                 File firmat = getFitxerFirmatPath(transactionID, signID);
                                 try {
-                                    FileUtils.moveFile(status.getSignedData(), firmat);
+                                    FileUtils.moveFile(original, firmat);
                                 } catch (IOException e) {
                                     // XYZ ZZZ TRA
                                     String msg = "Error movent fitxer de " + status.getSignedData() + " a "
