@@ -47,9 +47,9 @@ import es.caib.portafib.utils.ConstantsV2;
         order = 10)
 @MenuOption(
         group = Constants.ROLE_SOLI,
-        labelCode = "peticiodefirma.crear",
-        baseLink = ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA,
-        relativeLink = "/list",
+        labelCode = "peticiodefirma.activa.plural",
+        baseLink = ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/list",
+        relativeLink = "",
         order = 30)
 public class PeticioDeFirmaActivaSoliController extends PeticioDeFirmaSoliController {
 
