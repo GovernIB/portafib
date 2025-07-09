@@ -77,7 +77,8 @@ public abstract class BasicAbstractV1ApiTest<A> {
     protected boolean processApiException(ApiException e, final String testName, boolean printLogs) {
 
         if (printLogs) {
-            log.error("Stack trace:", e);
+            //log.error("Stack trace:", e);
+            log.error(" -------------------------------------------------------");
             log.error("Error durant la realització del test: " + testName);
             log.error("    - Code: " + e.getCode() + " (" + Status.fromStatusCode(e.getCode()).name() + ")");
         }
@@ -148,31 +149,30 @@ public abstract class BasicAbstractV1ApiTest<A> {
         return properties;
     }
 
-    protected String getConfigPropertiesFile() {
-        return "./signature.properties";
-    }
+
 
     public static Document llegirFitxer(String fileName, String mime) throws IOException {
 
         byte[] data = readDataFromFile(fileName);
 
         Document asf = new Document();
-        asf.setName(fileName);
+        asf.setName(new File(fileName).getName());
         asf.setMime(mime);
         asf.setData(data);
 
         return asf;
     }
 
-    protected void guardarFitxer(byte[] data, String fileName) throws FileNotFoundException, IOException {
+    protected void guardarFitxer(byte[] data, File file) throws FileNotFoundException, IOException {
 
-        File f = new File(fileName);
-        FileOutputStream fos = new FileOutputStream(f);
+        file.getParentFile().mkdirs(); // Assegurar que el directori existeix
+
+        FileOutputStream fos = new FileOutputStream(file);
         fos.write(data);
         fos.flush();
         fos.close();
 
-        System.out.println("Guardat " + fileName);
+        System.out.println("Guardat " + file.getAbsolutePath());
     }
 
     public static byte[] readDataFromFile(String fileName) throws FileNotFoundException, IOException {
@@ -194,5 +194,7 @@ public abstract class BasicAbstractV1ApiTest<A> {
     protected abstract A getApi() throws Exception;
 
     protected abstract A getApi(ApiClient apiClient) throws Exception;
+    
+    protected abstract String getConfigPropertiesFile(); // {  return "./signature.properties";  }
 
 }

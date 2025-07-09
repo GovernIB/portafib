@@ -1,8 +1,13 @@
 package es.caib.portafib.apiinterna.client.signature.v1.example.api;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.Set;
 
+import es.caib.portafib.apiinterna.client.signature.v1.model.Document;
 import es.caib.portafib.apiinterna.client.signature.v1.model.DocumentaryType;
+import es.caib.portafib.apiinterna.client.signature.v1.model.FileInfoSignature;
 import es.caib.portafib.apiinterna.client.signature.v1.model.KeyValue;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Profile;
 import es.caib.portafib.apiinterna.client.signature.v1.services.ApiClient;
@@ -129,6 +134,68 @@ public abstract class AbstractV1ApiTest<A> extends BasicAbstractV1ApiTest<A> {
             return null;
         }
 
+    }
+    
+    
+    protected File getResultsDirectory() {
+        File res = new File("results");
+        res.mkdirs();
+        return res;
+    }
+    
+
+    protected FileInfoSignature[] getFilesToSign(Properties prop, long tipusDocumentalID) throws Exception {
+
+        Document[] documentsToSign = getDocumentsToSign(prop);
+        FileInfoSignature[] filesToSign = new FileInfoSignature[documentsToSign.length];
+        int count = 0;
+        for(Document fileToSign: documentsToSign) {
+            FileInfoSignature fileInfoSignature = new FileInfoSignature();
+
+            fileInfoSignature.setFileToSign(fileToSign);
+            String signID = "Firma_" + count;
+            
+            fileInfoSignature.setSignID(signID);
+            String name = fileToSign.getName();
+            fileInfoSignature.setName(name);
+            String reason = "Per aprovar pressuposts - " + fileToSign.getName();
+            fileInfoSignature.setReason(reason);
+            String location = "Palma";
+            fileInfoSignature.setLocation(location);
+
+            int signNumber = 1;
+            fileInfoSignature.setSignNumber(signNumber);
+            String languageSign = getLanguageUI(prop);
+            fileInfoSignature.setLanguageSign(languageSign);
+
+            fileInfoSignature.setDocumentType(tipusDocumentalID);
+
+            filesToSign[count] = fileInfoSignature;
+            count++;
+        }
+
+        return filesToSign;
+    }
+
+    protected Document[] getDocumentsToSign(Properties prop) throws IOException {
+        Document[] documentsToSign;
+        String files = prop.getProperty("files");
+        String[] parts = files.split(",");
+         documentsToSign = new Document[parts.length];
+
+        for (int i = 0; i < parts.length; i++) {
+
+            String nom = prop.getProperty("file." + parts[i] + ".name");
+            System.out.println("*** FILE[" + parts[i] + "]");
+            System.out.println("    Name = " + nom);
+            String mime = prop.getProperty("file." + parts[i] + ".mime");
+
+            System.out.println("    Mime: ]" + mime + "[");
+
+            documentsToSign[i] = llegirFitxer(nom, mime);
+            System.out.println("    Mida: " + documentsToSign[i].getData().length + " bytes");
+        }
+        return documentsToSign;
     }
 
     protected abstract Set<KeyValue> getLanguages(String lang) throws Exception;

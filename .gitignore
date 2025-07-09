@@ -297,3 +297,6 @@ api-interna-client-signature-v1-examples/apifirmawebsimple.properties
 /api-interna-client-signature-v1-examples/apiflowtemplatesimple.properties
 /api-interna-client-signature-v1-examples/testfiles_validation
 /api-interna-client-signature-v1-examples/signaturevalidation.properties
+/api-interna-client-signature-v1-examples/directsignatureonweb.properties
+/api-interna-client-signature-v1-examples/signatureonserver.properties
+/api-interna-client-signature-v1-examples/results

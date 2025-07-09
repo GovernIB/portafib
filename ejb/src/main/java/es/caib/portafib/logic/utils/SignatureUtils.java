@@ -155,8 +155,6 @@ public class SignatureUtils {
 
         PdfVisibleSignature pdfInfoSignature = null;
 
-        
-
         final String signType = convertPortafibSignTypeToApiSignType(signTypeID);
         if (signType == null) {
             throw new I18NException("error.unknown", "Tipus de firma no suportada: " + signTypeID);
@@ -203,7 +201,7 @@ public class SignatureUtils {
 
             }
         }
-        
+
         final int signMode = signModeBool; //convertPortafibSignMode2ApiSignMode(signModeBool, (int)signTypeID);
 
         String signAlgorithm = convertSignAlgorithmID(signAlgorithmID);
@@ -252,44 +250,35 @@ public class SignatureUtils {
     */
 
     public static int convertApiSignMode2PortafibSignMode(int signModeBool) throws I18NException {
-        
+
         /* , int signType pot ser:
          *  ConstantsV2.TIPUSFIRMA_PADES;
          * ConstantsV2.TIPUSFIRMA_CADES;
          *  ConstantsV2.TIPUSFIRMA_XADES;
          */
-        
+
         switch (signModeBool) {
             case FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED:
-            //case FileInfoSignature.SIGN_MODE_IMPLICIT:
+                //case FileInfoSignature.SIGN_MODE_IMPLICIT:
                 return SignatureConstants.SIGN_MODE_ATTACHED_ENVELOPED; //ConstantsV2.SIGN_MODE_IMPLICIT;
             case FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING:
                 return SignatureConstants.SIGN_MODE_ATTACHED_ENVELOPING; //ConstantsV2.SIGN_MODE_IMPLICIT;
             case FileInfoSignature.SIGN_MODE_DETACHED:
-            //  case FileInfoSignature.SIGN_MODE_EXPLICIT:
+                //  case FileInfoSignature.SIGN_MODE_EXPLICIT:
                 return SignatureConstants.SIGN_MODE_DETACHED; // ConstantsV2.SIGN_MODE_EXPLICIT;
             case FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED:
-                return  SignatureConstants.SIGN_MODE_INTERNALLY_DETACHED; //ConstantsV2.SIGN_MODE_IMPLICIT;
+                return SignatureConstants.SIGN_MODE_INTERNALLY_DETACHED; //ConstantsV2.SIGN_MODE_IMPLICIT;
             //case FileInfoSignature.SIGN_MODE_EXTERNALLY_DETACHED:
             //    return  SignatureConstants.SIGN_MODE_EXTERNALLY_DETACHED; //ConstantsV2.SIGN_MODE_IMPLICIT;
             default:
                 throw new I18NException("error.unknown", "Tipus de mode de firma no suportat " + signModeBool);
         }
-        
+
         /*
         return (signModeBool == FileInfoSignature.SIGN_MODE_IMPLICIT) ? ConstantsV2.SIGN_MODE_IMPLICIT
                 : ConstantsV2.SIGN_MODE_EXPLICIT;
                 */
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
     public static String convertPortafibSignTypeToApiSignType(long signTypeID) throws I18NException {
         final String signType;
@@ -488,24 +477,23 @@ public class SignatureUtils {
         }
     }
 
-    
     /**
      *  El fitxer de dades resultant inclou la firma: PDF, ODT, ... 
     *  SIGN_MODE_ATTACHED_ENVELOPED = 0;
-  *
+    *
     ** El fitxer resultant serà la firma que incloura les dades originals 
     SIGN_MODE_ATTACHED_ENVELOPING = 3;
-
+    
     * El fitxer de firma no inclourà les dades: per separat trobarem un fitxer de firma i el fitxer original 
     SIGN_MODE_DETACHED = 1;
-
+    
     Firma especial XAdES en que la firma i les dades estan al mateix nivell dins de l'XML: ni la firma inclou les dades ni les dades inclouen la firma 
     SIGN_MODE_INTERNALLY_DETACHED = 4;
-
+    
     
     @Deprecated
     SIGN_MODE_IMPLICIT == SIGN_MODE_ATTACHED_ENVELOPED; // 0;
-
+    
     
     @Deprecated
      SIGN_MODE_EXPLICIT = SIGN_MODE_DETACHED; // 1;
@@ -592,7 +580,8 @@ public class SignatureUtils {
      *
      * @return
      */
-    public static void convertirDocumentAPDF(Fitxer fileToConvertInfo, File fileToConvert, File dst) throws I18NException {
+    public static void convertirDocumentAPDF(Fitxer fileToConvertInfo, File fileToConvert, File dst)
+            throws I18NException {
 
         try {
             Fitxer fitxerConvertit = PdfUtils.convertToPDF(fileToConvert, fileToConvertInfo);
@@ -611,7 +600,7 @@ public class SignatureUtils {
             // OK
         } catch (Exception e) {
             log.error("Error desconegut convertint document a pdf: " + e.getMessage(), e);
-            throw new I18NException(e,"formatfitxer.conversio.error", new I18NArgumentString(e.getMessage()));
+            throw new I18NException(e, "formatfitxer.conversio.error", new I18NArgumentString(e.getMessage()));
         }
 
     }
@@ -821,6 +810,7 @@ public class SignatureUtils {
     public static String getEniTipoFirma(final String signType, final Integer signMode) {
 
         if (signType == null || signType.trim().length() == 0) {
+            log.warn("SignatureUtils::getEniTipoFirma(): S'ha enviat un signType null o buit");
             return null;
         }
 
@@ -829,6 +819,8 @@ public class SignatureUtils {
         }
 
         if (signMode == null) {
+            log.warn("SignatureUtils::getEniTipoFirma(): S'ha enviat un signType " + signType
+                    + "[ però signMode es null");
             return null;
         }
 
@@ -837,20 +829,24 @@ public class SignatureUtils {
             if (signMode == FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING) {
                 return "TF05"; // (CAdES attached/implicit signature),
             }
-         
+
             if (signMode == FileInfoSignature.SIGN_MODE_DETACHED) {
                 return "TF04"; // (CAdES detached/explicit
             }
         } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
-           
+
             if (signMode == FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED) {
                 return "TF03"; // (XAdES enveloped signature)
             }
-            
-            if (signMode == FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED ){
+
+            if (signMode == FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED) {
                 return "TF02"; // (XAdES internally detached signature), ,
             }
         }
+
+        log.warn("SignatureUtils::getEniTipoFirma(): No s'ha trobat ENI Tipo Firma per signType=]" + signType
+                + "[ i signMode=]" + signMode + "[");
+
         return null;
     }
 

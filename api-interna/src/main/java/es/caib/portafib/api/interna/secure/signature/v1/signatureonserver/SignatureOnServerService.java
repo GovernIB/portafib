@@ -22,10 +22,12 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
 import org.fundaciobit.pluginsib.signature.api.StatusSignature;
+import org.fundaciobit.pluginsib.signature.api.constants.SignatureFormForUpgrade;
 import org.fundaciobit.pluginsib.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 import org.fundaciobit.pluginsib.utils.rest.RestException;
 import org.fundaciobit.pluginsib.utils.rest.RestExceptionInfo;
 import org.fundaciobit.pluginsib.utils.rest.RestUtils;
+import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureResponse;
 
 import es.caib.portafib.api.interna.secure.signature.v1.AbstractSignatureService;
 import es.caib.portafib.api.interna.secure.signature.v1.CommonsSwaggerOperations;
@@ -45,6 +47,7 @@ import es.caib.portafib.api.interna.secure.signature.v1.commons.SignTypeConstant
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignaturesTableLocationConstants;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignedFileInfo;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.StatusConstants;
+import es.caib.portafib.api.interna.secure.signature.v1.commons.ValidationInfo;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.UsuariPersonaService;
 import es.caib.portafib.logic.EntitatLogicaLocal;
@@ -60,6 +63,7 @@ import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.PerfilConfiguracionsDeFirma;
+import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
@@ -153,7 +157,73 @@ public class SignatureOnServerService extends AbstractSignatureService implement
     public static final String TAG_NAME = "SignatureOnServer v1"; // => FirmaEnServidorV1Api
 
     public static final Map<SignatureTypeFormEnumForUpgrade, String> upgradeTypesToSimpleTypes = new HashMap<SignatureTypeFormEnumForUpgrade, String>();
+    
+    //  SignatureFormForUpgrade to EniPerfilDeFirma
+    public static final Map<String, String> upgradeTypesToSignatureFormForUpgrade = new HashMap<String, String>();
 
+    static {
+
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.XAdES_T, FileInfoSignature.SIGN_TYPE_XADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.XAdES_C, FileInfoSignature.SIGN_TYPE_XADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.XAdES_X, FileInfoSignature.SIGN_TYPE_XADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.XAdES_X1, FileInfoSignature.SIGN_TYPE_XADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.XAdES_X2, FileInfoSignature.SIGN_TYPE_XADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.XAdES_XL, FileInfoSignature.SIGN_TYPE_XADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.XAdES_XL1, FileInfoSignature.SIGN_TYPE_XADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.XAdES_XL2, FileInfoSignature.SIGN_TYPE_XADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.XAdES_A, FileInfoSignature.SIGN_TYPE_XADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.XAdES_T_LEVEL, FileInfoSignature.SIGN_TYPE_XADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.XAdES_LT_LEVEL,
+                FileInfoSignature.SIGN_TYPE_XADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.XAdES_LTA_LEVEL,
+                FileInfoSignature.SIGN_TYPE_XADES);
+
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.CAdES_T, FileInfoSignature.SIGN_TYPE_CADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.CAdES_X, FileInfoSignature.SIGN_TYPE_CADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.CAdES_X1, FileInfoSignature.SIGN_TYPE_CADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.CAdES_X2, FileInfoSignature.SIGN_TYPE_CADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.CAdES_XL, FileInfoSignature.SIGN_TYPE_CADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.CAdES_XL1, FileInfoSignature.SIGN_TYPE_CADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.CAdES_XL2, FileInfoSignature.SIGN_TYPE_CADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.CAdES_A, FileInfoSignature.SIGN_TYPE_CADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.CAdES_T_LEVEL, FileInfoSignature.SIGN_TYPE_CADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.CAdES_LT_LEVEL,
+                FileInfoSignature.SIGN_TYPE_CADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.CAdES_LTA_LEVEL,
+                FileInfoSignature.SIGN_TYPE_CADES);
+
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.PAdES_LTV, FileInfoSignature.SIGN_TYPE_PADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.PAdES_T_LEVEL, FileInfoSignature.SIGN_TYPE_PADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.PAdES_LT_LEVEL,
+                FileInfoSignature.SIGN_TYPE_PADES);
+        upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.PAdES_LTA_LEVEL,
+                FileInfoSignature.SIGN_TYPE_PADES);
+        
+        // -----------------------------------
+        
+        upgradeTypesToSignatureFormForUpgrade.put(SignatureFormForUpgrade.T, "T");
+        upgradeTypesToSignatureFormForUpgrade.put(SignatureFormForUpgrade.C, "C");
+        upgradeTypesToSignatureFormForUpgrade.put(SignatureFormForUpgrade.X, "X");
+        upgradeTypesToSignatureFormForUpgrade.put(SignatureFormForUpgrade.X_1, "X");
+        upgradeTypesToSignatureFormForUpgrade.put(SignatureFormForUpgrade.X_2, "X");
+        upgradeTypesToSignatureFormForUpgrade.put(SignatureFormForUpgrade.X_L, "XL");
+        upgradeTypesToSignatureFormForUpgrade.put(SignatureFormForUpgrade.X_L_1, "XL");
+        upgradeTypesToSignatureFormForUpgrade.put( SignatureFormForUpgrade.X_L_2, "XL");
+        upgradeTypesToSignatureFormForUpgrade.put( SignatureFormForUpgrade.A, "A");
+        upgradeTypesToSignatureFormForUpgrade.put( SignatureFormForUpgrade.T_LEVEL, "BASELINE T-Level");
+        upgradeTypesToSignatureFormForUpgrade.put( SignatureFormForUpgrade.LT_LEVEL, "BASELINE LT-Level");
+        upgradeTypesToSignatureFormForUpgrade.put(SignatureFormForUpgrade.LTA_LEVEL, "BASELINE LTA-Level 2");
+
+        
+        // EPES,   BASELINE B-Level,
+
+
+        upgradeTypesToSignatureFormForUpgrade.put(SignatureFormForUpgrade.PADES_LTV, "LTV");
+
+        
+
+    }
+    
     @EJB(mappedName = es.caib.portafib.logic.passarela.PassarelaDeFirmaEnServidorLocal.JNDI_NAME)
     protected es.caib.portafib.logic.passarela.PassarelaDeFirmaEnServidorLocal passarelaDeFirmaEnServidorEjb;
 
@@ -323,7 +393,7 @@ public class SignatureOnServerService extends AbstractSignatureService implement
             }
 
             UpgradedFileInfo upgradedFileInfo = constructFirmaSimpleUpgradedFileInfo(upgradeResponse, signatureType,
-                    singTypeForm.getName());
+                    singTypeForm);
 
             Document signedFile = new Document(null, mime, upgradeResponse.getUpgradedSignature());
 
@@ -740,98 +810,80 @@ public class SignatureOnServerService extends AbstractSignatureService implement
         return msg;
     }
 
-    /*
-    private SignDocumentsResponse processPassarelaResults(PassarelaSignatureInServerResults completeResults,
-            PassarelaSignaturesSet pss, boolean isSignatureInServer, Long signaturePluginID) throws Exception {
-    
-        PassarelaFullResults fullResults = completeResults.getPassarelaFullResults();
-    
-        PassarelaSignatureStatus passarelaSS = fullResults.getSignaturesSetStatus();
-    
-        es.caib.portafib.api.interna.secure.signature.v1.commons.ProcessStatus statusSignatureProcess;
-        statusSignatureProcess = new es.caib.portafib.api.interna.secure.signature.v1.commons.ProcessStatus(
-                passarelaSS.getStatus(), passarelaSS.getErrorMessage(), passarelaSS.getErrorStackTrace());
-    
-        List<SignatureResponse> results;
-    
-        if (passarelaSS.getStatus() == StatusSignature.STATUS_FINAL_OK) {
-    
-            List<PassarelaSignatureResult> passarelaSR = fullResults.getSignResults();
-    
-            results = new ArrayList<SignatureResponse>();
-    
-            Map<String, PassarelaFileInfoSignature> infoBySignID = new HashMap<String, PassarelaFileInfoSignature>();
-            for (PassarelaFileInfoSignature pfis : pss.getFileInfoSignatureArray()) {
-    
-                infoBySignID.put(pfis.getSignID(), pfis);
-    
+
+
+    protected UpgradedFileInfo constructFirmaSimpleUpgradedFileInfo(UpgradeResponse upgradeResponse,
+            String signatureType,  SignatureTypeFormEnumForUpgrade singTypeForm) throws I18NException {
+        
+
+        
+        String profileSignType = singTypeForm.getName();
+        
+        log.info("Cridant a constructFirmaSimpleUpgradedFileInfo:: signatureType => " + signatureType
+                + " profileSignType => " + profileSignType);
+
+        ValidateSignatureResponse vsr = upgradeResponse.getValidacioResponse().getValidateSignatureResponse();
+
+        UpgradedFileInfo upgradedFileInfo;
+
+        if (vsr == null || vsr.getValidationStatus() == null) {
+            // No s'ha fet validacio
+            upgradedFileInfo = new UpgradedFileInfo();
+
+            upgradedFileInfo.setSignType(signatureType);
+            upgradedFileInfo.setValidationInfo(new ValidationInfo());
+
+            upgradedFileInfo.setEniPerfilFirma(profileSignType);
+            
+            //singTypeForm.getFormat()
+
+            // SI es PADES llavors el signMode es attached
+            if (FileInfoSignature.SIGN_TYPE_PADES.equals(signatureType)) {
+                int signMode = Constants.SIGN_MODE_ATTACHED_ENVELOPED;
+                upgradedFileInfo.setSignMode(signMode);
+                
+                String eniTipoFirma = SignatureUtils.getEniTipoFirma(signatureType, signMode);
+                upgradedFileInfo.setEniTipoFirma(eniTipoFirma);
+                
+               
+                
             }
-    
-            es.caib.portafib.logic.utils.ValidacioCompletaResponse validacioInfo;
-            for (PassarelaSignatureResult psr : passarelaSR) {
-    
-                validacioInfo = completeResults.getValidacioResponseBySignID().get(psr.getSignID());
-    
-                results.add(convertPassarelaSignatureResult2FirmaSimpleSignatureResult(psr,
-                        pss.getCommonInfoSignature(), infoBySignID.get(psr.getSignID()), validacioInfo,
-                        isSignatureInServer, signaturePluginID));
-            }
+
         } else {
-            results = null;
+
+            final String signType = vsr.getSignType();
+            final String signAlgorithm = null;
+
+            int signFormat = vsr.getSignMode();
+
+            int signMode = signFormat;
+
+            // XYZ ZZZ
+            String eniTipoFirma = SignatureUtils.getEniTipoFirma(signType, signMode);
+
+            final String eniPerfilFirma = null; // vsr.getSignProfile();
+
+            ValidationInfo validationInfo = new ValidationInfo();
+
+            es.caib.portafib.logic.utils.ValidacioCompletaResponse vcr;
+            vcr = upgradeResponse.getValidacioResponse();
+            validationInfo.setCheckValidationSignature(vcr.getCheckValidationSignature());
+            validationInfo.setCheckDocumentModifications(vcr.getCheckDocumentModifications());
+            validationInfo.setCheckAdministrationIDOfSigner(vcr.getCheckAdministrationIDOfSigner());
+
+            final List<KeyValue> additionInformation = null;
+
+            upgradedFileInfo = new UpgradedFileInfo(signType, signAlgorithm, signMode, eniTipoFirma, eniPerfilFirma,
+                    validationInfo, additionInformation);
+
         }
-    
-        SignDocumentsResponse fssfr;
-        fssfr = new SignDocumentsResponse(statusSignatureProcess, results);
-        return fssfr;
-    }
-    
-    
-    
-    public class SignDocumentsResponse {
-    
-        @Schema(
-                description = "Estat general del procés de firma. En Firma web, pot passar que aquest estat digui que tot ha anat bé, però que l'estat "
-                        + "intern d'alguna de les firmes no hagi anat bé (Veure FirmaSimpleSignatureResult)",
-                example = "",
-                requiredMode = RequiredMode.REQUIRED)
-        protected ProcessStatus statusSignatureProcess;
         
-        
-        @Schema(
-                description = "Resposta de la petició de firma en servidor",
-                example = "",
-                requiredMode = RequiredMode.REQUIRED)
-        protected List<SignatureResponse> results;
-    
-    
-        public SignDocumentsResponse() {
-            super();
-        }
-    
-      
-        public SignDocumentsResponse(ProcessStatus statusSignatureProcess,
-                List<SignatureResponse> results) {
-            super();
-            this.statusSignatureProcess = statusSignatureProcess;
-            this.results = results;
-        }
-    
-        public List<SignatureResponse> getResults() {
-            return results;
-        }
-    
-        public void setResults(List<SignatureResponse> results) {
-            this.results = results;
-        }
-    
-        public ProcessStatus getStatusSignatureProcess() {
-            return statusSignatureProcess;
-        }
-    
-        public void setStatusSignatureProcess(ProcessStatus statusSignatureProcess) {
-            this.statusSignatureProcess = statusSignatureProcess;
-        }
-    
+        /**
+         *  Para las firmas XADES y CADES: EPES, T, C, X, XL, A, BASELINE B-Level, BASELINE T-Level,
+         *                                        BASELINE LT-Level, BASELINE LTA-Level 2.
+         *  Para las firmas PADES: EPES, LTV, BASELINE B-Level, BASELINE T.
+         */
+        upgradedFileInfo.setEniPerfilFirma(upgradeTypesToSignatureFormForUpgrade.get(singTypeForm.getFormat()));
+        return upgradedFileInfo;
     }
-    */
 }

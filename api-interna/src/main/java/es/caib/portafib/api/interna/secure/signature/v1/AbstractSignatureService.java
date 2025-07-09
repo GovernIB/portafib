@@ -65,7 +65,6 @@ import es.caib.portafib.api.interna.secure.signature.v1.commons.SignerInfo;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.ValidationInfo;
 import es.caib.portafib.api.interna.secure.signature.v1.signatureonserver.SignDocumentRequest;
 import es.caib.portafib.api.interna.secure.signature.v1.signatureonserver.SignatureResponse;
-import es.caib.portafib.api.interna.secure.signature.v1.signatureonserver.UpgradedFileInfo;
 import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
@@ -78,7 +77,6 @@ import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.generator.IdGeneratorFactory;
 import es.caib.portafib.logic.passarela.PassarelaKeyValue;
-import es.caib.portafib.logic.passarela.UpgradeResponse;
 import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaCustodyInfo;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
@@ -1257,69 +1255,6 @@ public abstract class AbstractSignatureService extends RestUtils {
         }
     }
 
-    protected UpgradedFileInfo constructFirmaSimpleUpgradedFileInfo(UpgradeResponse upgradeResponse,
-            String signatureType, String profileSignType) throws I18NException {
-
-        ValidateSignatureResponse vsr = upgradeResponse.getValidacioResponse().getValidateSignatureResponse();
-
-        UpgradedFileInfo upgradedFileInfo;
-
-        if (vsr == null || vsr.getValidationStatus() == null) {
-            // No s'ha fet validacio
-            upgradedFileInfo = new UpgradedFileInfo();
-
-            upgradedFileInfo.setSignType(signatureType);
-            upgradedFileInfo.setValidationInfo(new ValidationInfo());
-
-            upgradedFileInfo.setEniPerfilFirma(profileSignType);
-
-            // SI es PADES llavors el signMode es attached
-            if (FileInfoSignature.SIGN_TYPE_PADES.equals(signatureType)) {
-                upgradedFileInfo.setSignMode(Constants.SIGN_MODE_ATTACHED_ENVELOPED);
-            }
-
-        } else {
-
-            final String signType = vsr.getSignType();
-            final String signAlgorithm = null;
-
-            int signFormat = vsr.getSignMode();
-
-            int signMode = signFormat;
-            /*
-            if (signFormat == null) {
-                signMode = null;
-            } else if (ValidateSignatureResponse.SIGN_MODE_ATTACHED_ENVELOPED.equals(signFormat)
-                    || ValidateSignatureResponse.SIGNFORMAT_IMPLICIT_ENVELOPING_ATTACHED.equals(signFormat)) {
-                signMode = FirmaSimpleSignedFileInfo.SIGN_MODE_IMPLICIT_ATTACHED;
-            } else if (ValidateSignatureResponse.SIGNFORMAT_EXPLICIT_DETACHED.equals(signFormat)
-                    || ValidateSignatureResponse.SIGNFORMAT_EXPLICIT_EXTERNALLY_DETACHED.equals(signFormat)) {
-                signMode = FirmaSimpleSignedFileInfo.SIGN_MODE_EXPLICIT_DETACHED;
-            } else {
-                signMode = null;
-            }
-            */
-            // XYZ ZZZ
-            String eniTipoFirma = SignatureUtils.getEniTipoFirma(signType, signMode);
-
-            final String eniPerfilFirma = vsr.getSignProfile();
-
-            ValidationInfo validationInfo = new ValidationInfo();
-
-            es.caib.portafib.logic.utils.ValidacioCompletaResponse vcr;
-            vcr = upgradeResponse.getValidacioResponse();
-            validationInfo.setCheckValidationSignature(vcr.getCheckValidationSignature());
-            validationInfo.setCheckDocumentModifications(vcr.getCheckDocumentModifications());
-            validationInfo.setCheckAdministrationIDOfSigner(vcr.getCheckAdministrationIDOfSigner());
-
-            final List<KeyValue> additionInformation = null;
-
-            upgradedFileInfo = new UpgradedFileInfo(signType, signAlgorithm, signMode, eniTipoFirma, eniPerfilFirma,
-                    validationInfo, additionInformation);
-
-        }
-        return upgradedFileInfo;
-    }
 
     protected SignedFileInfo constructFirmaSimpleSignedFileInfo(UsuariAplicacioConfiguracio config,
             PassarelaFileInfoSignature fileInfo,

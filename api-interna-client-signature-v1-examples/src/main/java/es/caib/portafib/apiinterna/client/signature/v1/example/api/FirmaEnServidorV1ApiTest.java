@@ -17,6 +17,7 @@ import es.caib.portafib.apiinterna.client.signature.v1.model.FileInfoSignature;
 import es.caib.portafib.apiinterna.client.signature.v1.model.KeyValue;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignDocumentRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignDocumentResponse;
+import es.caib.portafib.apiinterna.client.signature.v1.model.SignModeConstants;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignedFileInfo;
 import es.caib.portafib.apiinterna.client.signature.v1.model.StatusConstants;
 import es.caib.portafib.apiinterna.client.signature.v1.model.ProcessStatus;
@@ -26,6 +27,7 @@ import es.caib.portafib.apiinterna.client.signature.v1.model.UpgradeResponse;
 import es.caib.portafib.apiinterna.client.signature.v1.services.ApiClient;
 import es.caib.portafib.apiinterna.client.signature.v1.services.ApiException;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Properties;
 import java.util.Set;
@@ -43,16 +45,16 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
         FirmaEnServidorV1ApiTest test = new FirmaEnServidorV1ApiTest();
         try {
 
-         //   test.callCommonTests();
+            //test.callCommonTests();
+
+            //test.testSignatureServerPAdES();
+                  
+            //test.testSignatureServerPAdESStatus401_Unathorized();
             
-            test.testSignatureServerPAdES();
-     /*       
-            test.testSignatureServerPAdESStatus401_Unathorized();
-            
-            test.testSignatureServerPAdESErrorFirmant();
+            //test.testSignatureServerPAdESErrorFirmant();
             
             test.testUpgradePAdESSignature();
-            */
+            
         } catch (ApiException e) {
             test.processApiException(e, "Tests de Firma en Servidor", true);
         } catch (Exception e) {
@@ -69,7 +71,8 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
         apiClient.setPassword("badpassword");
         SignatureOnServerV1Api apiError = new SignatureOnServerV1Api(apiClient);
 
-        internalTestSignatureServerPAdES(testName, expectedError, apiError);
+        Document fileToSign = llegirFitxer("./testfiles/hola.pdf", "application/pdf");
+        internalTestSignatureServerPAdES(testName, expectedError, apiError, fileToSign);
 
         System.out.println("Test OK");
 
@@ -83,7 +86,8 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
         SignatureOnServerV1Api api = getApi();
 
         try {
-            internalTestSignatureServerPAdES(testName, expectedError, api, "./src/main/resources/sample.xml");
+            Document fileToSign = llegirFitxer("./src/main/resources/sample.xml", "application/xml");
+            internalTestSignatureServerPAdES(testName, expectedError, api, fileToSign);
             throw new Exception("S'ha enviat un fitxer XML per firma en format PAdES i s'esperava un error.");
         } catch (EstatFinalNoOK e) {
 
@@ -109,17 +113,16 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
 
         SignatureOnServerV1Api api = getApi();
 
-        internalTestSignatureServerPAdES(testName, expectedError, api);
+        Document[] documents = getDocumentsToSign(getConfigProperties());
+        for (Document document : documents) {
+            internalTestSignatureServerPAdES(testName, expectedError, api, document);
+        }
 
     }
 
-    protected SignDocumentResponse internalTestSignatureServerPAdES(final String testName, final Integer expectedError,
-            SignatureOnServerV1Api api) throws Exception, ApiException {
-        return internalTestSignatureServerPAdES(testName, expectedError, api, null);
-    }
 
     protected SignDocumentResponse internalTestSignatureServerPAdES(final String testName, final Integer expectedError,
-            SignatureOnServerV1Api api, String file) throws Exception, ApiException {
+            SignatureOnServerV1Api api, Document fileToSign) throws Exception, ApiException {
         Properties prop = getConfigProperties();
 
         String languageUI = prop.getProperty("languageUI", "ca");
@@ -130,7 +133,7 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
             perfil = null;
         }
 
-        Document fileToSign = llegirFitxer(file == null ? "src/main/resources/hola-test.pdf" : file, "application/pdf");
+        // Document fileToSign = llegirFitxer(file == null ? "src/main/resources/hola-test.pdf" : file, "application/pdf");
 
         System.out.println(" PERFIL => " + perfil);
         System.out.println(" FILE NOM => " + fileToSign.getName());
@@ -185,7 +188,7 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
             signature.setFileInfoSignature(fileInfoSignature);
 
             SignDocumentResponse fullResults = api.signdocument(signature);
-            
+
             System.out.println(fullResults.getSignPlugin());
 
             ProcessStatus transactionStatus = fullResults.getStatus();
@@ -210,24 +213,23 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
 
                 System.out.println(" ========= RESULTAT  =========");
 
-                {   
-                    
+                {
+
                     SignedFileInfo signedFileInfo = fullResults.getSignedFileInfo();
                     if (signedFileInfo != null) {
                         System.out.println(fullResults.getSignedFileInfo());
                     } else {
                         System.out.println("  Signed File Info: NULL");
                     }
-                    
-                    
 
                     System.err.println("  RESULT: OK");
                     Document fsf = fullResults.getSignedFile();
-                    FileOutputStream fos = new FileOutputStream(fsf.getName());
+                    File result = new File(getResultsDirectory(), fsf.getName());
+                    FileOutputStream fos = new FileOutputStream(result);
                     fos.write(fsf.getData());
                     fos.flush();
                     fos.close();
-                    System.out.println("  RESULT: Fitxer signat guardat en '" + fsf.getName() + "'");
+                    System.out.println("  RESULT: Fitxer signat guardat en '" + result.getAbsolutePath() + "'");
 
                     return fullResults;
 
@@ -257,15 +259,16 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
         final String testName = "testUpgradePAdESSignature";
         final Integer expectedError = null;
 
-        Document fileToUpgrade = llegirFitxer("src/main/resources/hola-signed.pdf", "application/pdf");
+        Document fileToUpgrade = llegirFitxer("testfiles/hola_signed.pdf", "application/pdf");
 
-        internalTestUpgrade(PROFILE_PADES_PROPERTY, fileToUpgrade, null, "hola-signed-upgraded.pdf", testName,
-                expectedError);
+        File upgradedFileName = new File("results/hola_signed-upgraded.pdf");
+
+        internalTestUpgrade(PROFILE_PADES_PROPERTY, fileToUpgrade, null, upgradedFileName, testName, expectedError);
 
     }
 
     protected UpgradeResponse internalTestUpgrade(final String perfilProperty, Document fileToUpgrade,
-            Document documentDetached, String upgradedFileName, String testName, Integer expectedError)
+            Document documentDetached, File upgradedFileName, String testName, Integer expectedError)
             throws Exception, ApiException {
 
         System.out.println("============================ " + testName + " ============================");
@@ -289,9 +292,16 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
             upgradeRequest.setSignature(fileToUpgrade);
 
             String languageUI = prop.getProperty("languageUI", "ca");
-            
 
             UpgradeResponse upgradeResponse = api.upgradeSignature(languageUI, upgradeRequest);
+            
+            System.out.println("============ SIGN MODE VALUES ============");
+            for (SignModeConstants mode : SignModeConstants.values()) {
+                System.out.println(mode.getValue() + " => " + mode.name());
+            }
+            
+            System.out.println("==========================================");
+            
 
             System.out.println(upgradeResponse.getUpgradedFileInfo().toString());
 
@@ -357,6 +367,11 @@ public class FirmaEnServidorV1ApiTest extends AbstractV1ApiTest<SignatureOnServe
     @Override
     protected Set<Profile> getProfiles(String lang) throws Exception {
         return getApi().getProfiles(lang);
+    }
+
+    @Override
+    protected String getConfigPropertiesFile() {
+        return "signatureonserver.properties";
     }
 
 }

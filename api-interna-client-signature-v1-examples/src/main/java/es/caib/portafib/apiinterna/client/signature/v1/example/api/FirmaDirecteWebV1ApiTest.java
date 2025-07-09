@@ -3,6 +3,7 @@ package es.caib.portafib.apiinterna.client.signature.v1.example.api;
 import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -147,7 +148,7 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
             // Comprovacio de resultats
             TransactionStatusResponse fullTransactionStatus;
             fullTransactionStatus = api.getTransactionStatus(transactionID);
-            
+
             System.out.println(fullTransactionStatus.getSignPlugin());
 
             ProcessStatus processStatus = fullTransactionStatus.getTransactionStatus();
@@ -155,12 +156,14 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
             switch (StatusConstants.fromValue(processStatus.getStatus())) {
                 case STATUS_INITIALIZING: //fss.getSTATUSINITIALIZING(): // = 0;
                     System.err.println("  STATUS TRANSACCIO = " + processStatus.getStatus() + " (STATUS_INITIALIZING)");
-                    System.err.println("  RESULT: Incoherent Status (Indica que hi ha hagut una mala gestió en el procés de firma)");
+                    System.err.println(
+                            "  RESULT: Incoherent Status (Indica que hi ha hagut una mala gestió en el procés de firma)");
                 break;
 
                 case STATUS_IN_PROGRESS: //fss.getSTATUSINPROGRESS(): // = 1;
                     System.err.println("  STATUS TRANSACCIO= " + processStatus.getStatus() + " (STATUS_IN_PROGRESS)");
-                    System.err.println("  RESULT: Incoherent Status (Indica que hi ha hagut una mala gestió en el procés de firma)");
+                    System.err.println(
+                            "  RESULT: Incoherent Status (Indica que hi ha hagut una mala gestió en el procés de firma)");
                 break;
 
                 case STATUS_FINAL_ERROR: //fss.getSTATUSFINALERROR(): // = -1;
@@ -215,8 +218,6 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
 
                             case STATUS_FINAL_OK: //fss.getSTATUSFINALOK(): // = 2;
 
-
-
                                 SignatureResponse fssr = api.getSignatureResult(transactionID, signID);
                                 Document fsf = fssr.getSignedFile();
 
@@ -233,7 +234,7 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
                                     postFix = "_signed.unknown_extension_for_sign_type_" + signType;
                                 }
 
-                                final String outFile = signID + "_" + fsf.getName() + postFix;
+                                final File outFile = new File(getResultsDirectory(), signID + "_" + fsf.getName() + postFix);
 
                                 FileOutputStream fos = new FileOutputStream(outFile);
                                 fos.write(fsf.getData());
@@ -247,8 +248,6 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
                         }
 
                     } // Final for de fitxers firmats
-
-                    
 
                 } // FINAL CASE ESTAT TRANSACCIO
 
@@ -457,53 +456,10 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
     protected Set<Profile> getProfiles(String lang) throws Exception {
         return getApi().getProfiles(lang);
     }
-    
 
-    protected FileInfoSignature[] getFilesToSign(Properties prop, long tipusDocumentalID) throws Exception {
-
-        String files = prop.getProperty("files");
-        String[] parts = files.split(",");
-        FileInfoSignature[] filesToSign = new FileInfoSignature[parts.length];
-
-        for (int i = 0; i < parts.length; i++) {
-
-            String nom = prop.getProperty("file." + parts[i] + ".name");
-            System.out.println("*** FILE[" + parts[i] + "]");
-            System.out.println("    Name = " + nom);
-            String mime = prop.getProperty("file." + parts[i] + ".mime");
-
-            System.out.println("    Mime: ]" + mime + "[");
-
-            Document fileToSign = llegirFitxer(nom, mime);
-            System.out.println("    Mida: " + fileToSign.getData().length + " bytes");
-
-            // "hola_3mb.pdf",
-            // "hola.pdf",
-            // "application/pdf");
-
-            FileInfoSignature fileInfoSignature = new FileInfoSignature();
-
-            fileInfoSignature.setFileToSign(fileToSign);
-            String signID = parts[i];
-            fileInfoSignature.setSignID(signID);
-            String name = fileToSign.getName();
-            fileInfoSignature.setName(name);
-            String reason = "Per aprovar pressuposts - " + parts[i];
-            fileInfoSignature.setReason(reason);
-            String location = "Palma";
-            fileInfoSignature.setLocation(location);
-
-            int signNumber = 1;
-            fileInfoSignature.setSignNumber(signNumber);
-            String languageSign = getLanguageUI(prop);
-            fileInfoSignature.setLanguageSign(languageSign);
-
-            fileInfoSignature.setDocumentType(tipusDocumentalID);
-
-            filesToSign[i] = fileInfoSignature;
-        }
-
-        return filesToSign;
+    @Override
+    protected String getConfigPropertiesFile() {
+        return "directsignatureonweb.properties";
     }
 
 

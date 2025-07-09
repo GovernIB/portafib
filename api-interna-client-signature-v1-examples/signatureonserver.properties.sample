@@ -1,0 +1,30 @@
+#======================================
+# Propietats de Comunicació
+#======================================
+
+basePath=http://HOST:PORT/portafibapi/interna
+username=usrapp
+password=mypassword
+
+# Idioma dels errors no controlats per l'API
+languageUI=ca
+
+# Alias opcional si està definit al servidor, en cas contrari obligatori.
+alias_onserver=afirmades-firma
+
+PROFILE_PADES=PROFILE_PADES
+PROFILE_XADES=PROFILE_XADES
+PROFILE_CADES=PROFILE_CADES
+
+#======================================
+# Propietats Test
+#======================================
+
+
+files=1
+
+#file.1.name=BIG_72Mb.pdf
+#file.1.mime=application/pdf
+
+file.1.name=./testfiles/hola.pdf
+file.1.mime=application/pdf

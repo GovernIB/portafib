@@ -1,0 +1,39 @@
+#======================================
+# Propietats de Comunicació
+#======================================
+
+basePath=http://HOST:PORT/portafibapi/interna
+username=usrapp
+password=pwd
+
+# Idioma dels errors no controlats per l'API
+languageUI=ca
+
+
+PROFILE_PADES=PROFILE_PADES
+PROFILE_XADES=PROFILE_XADES
+PROFILE_CADES=PROFILE_CADES
+
+#======================================
+# Propietats de Firma Web
+#======================================
+
+
+files=1
+
+#file.1.name=testfiles/BIG_72Mb.pdf
+#file.1.mime=application/pdf
+
+file.1.name=testfiles/hola.pdf
+file.1.mime=application/pdf
+
+file.2.name=testfiles/hola.pdf
+file.2.mime=application/pdf
+
+
+
+
+signer.username=sign_username
+# NIF
+signer.administrationid=00000000Z
+signer.email=sign_email@ibit.org
