@@ -1,0 +1,9 @@
+
+basePath=http://HOST:PORT/portafibapi/interna
+username=userapp
+password=pwd
+
+# NIF
+administrationID=66666666X
+languageUI=ca
+

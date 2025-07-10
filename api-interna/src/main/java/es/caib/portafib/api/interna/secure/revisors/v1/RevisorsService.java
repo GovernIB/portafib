@@ -232,8 +232,8 @@ public class RevisorsService extends RestUtils {
         }
 
         Map<String,BasicUserInfo> list = new HashMap<String, BasicUserInfo>();
-
-        if (destinatariUsuariEntitatID != null) {
+        
+        {
 
             List<UsuariPersonaBean> persones = revisorDeDestinatariEjb.getRevisorsDeDestinatariUsingUsuariEntitatID(
                     destinatariUsuariEntitatID);
