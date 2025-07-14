@@ -1235,11 +1235,13 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             // Genera un token únic
             extern_token = firmaLogicaEjb.getUniqueTokenForFirma();
         }
+        
+        final Long pluginFirmaID = null;
 
         FirmaJPA jpa = new FirmaJPA(firmaID, destinatariID, blocDeFirmaID, obligatori, fitxerFirmatID, numFirmaDocument,
                 caixaPagina, caixaX, caixaY, caixaAmple, caixaAlt, numeroSerieCertificat, emissorCertificat,
                 nomCertificat, tipusEstatDeFirmaFinalID, mostrarRubrica, motiu, minimDeRevisors, null, null, null, null,
-                extern_nom, extern_llinatges, extern_email, extern_idioma, extern_token, extern_nivellseguretat);
+                extern_nom, extern_llinatges, extern_email, extern_idioma, extern_token, extern_nivellseguretat, pluginFirmaID);
 
         List<FirmaAsyncSimpleReviser> revisors = firmaBean.getRevisers();
 
