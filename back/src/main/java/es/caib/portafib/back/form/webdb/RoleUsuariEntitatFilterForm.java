@@ -82,12 +82,12 @@ public class RoleUsuariEntitatFilterForm extends PortaFIBBaseFilterForm implemen
 
   @Override
   public List<Field<?>> getDefaultFilterByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] {  }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { USUARIENTITATID }));
   }
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { ROLEID ,USUARIENTITATID }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { ROLEID }));
   }
 
 

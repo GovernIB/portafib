@@ -10797,9 +10797,9 @@
           "showInWebList": true,
           "showInReferenceList": true,
           "transientField": false,
-          "filter": false,
+          "filter": true,
           "orderBy": 0,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 3,
             "foreignKey": {
@@ -13341,9 +13341,9 @@
           "showInWebList": true,
           "showInReferenceList": true,
           "transientField": false,
-          "filter": false,
+          "filter": true,
           "orderBy": 0,
-          "groupBy": true,
+          "groupBy": false,
           "webFieldInfo": {
             "webtype": 3,
             "foreignKey": {

@@ -145,12 +145,12 @@ public class UsuariEntitatFilterForm extends PortaFIBBaseFilterForm implements U
 
   @Override
   public List<Field<?>> getDefaultFilterByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { USUARIENTITATID ,CARREC ,EMAIL }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { USUARIENTITATID ,CARREC ,USUARIPERSONAID ,EMAIL }));
   }
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { USUARIPERSONAID ,ENTITATID ,PREDETERMINAT ,REBRETOTSELSAVISOS }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { ENTITATID ,PREDETERMINAT ,REBRETOTSELSAVISOS }));
   }
 
 
