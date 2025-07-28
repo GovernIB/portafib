@@ -363,7 +363,7 @@ public class AuthenticationSuccessListener implements ApplicationListener<Intera
                     }
                 }
 
-                // El permis de REVISOR actualment esta repartir entre l ataula de ROLES per usuarientitatid
+                // El permis de REVISOR actualment esta repartit entre la taula de ROLES per usuarientitatid
                 // i la taula de Revisors de Destinatari.
                 if (!rolesPortaFIB.contains(new SimpleGrantedAuthority(Constants.ROLE_REVI))) {
 
