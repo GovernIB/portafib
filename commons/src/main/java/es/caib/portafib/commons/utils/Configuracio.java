@@ -289,10 +289,10 @@ public class Configuracio implements Constants {
         if (pme == null || pme.trim().isEmpty()) {
             return true;
         } else {
-            if ("false".equalsIgnoreCase(pme)) {
-                return true;
-            } else {
+            if ("false".equalsIgnoreCase(pme.trim())) {
                 return false;
+            } else {
+                return true;
             }
         }
     }
