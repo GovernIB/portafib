@@ -40,6 +40,7 @@ import es.caib.portafib.back.controller.webdb.UsuariEntitatController;
 import es.caib.portafib.back.form.webdb.UsuariEntitatFilterForm;
 import es.caib.portafib.back.form.webdb.UsuariEntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.FirmaService;
 import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
@@ -69,7 +70,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @Controller
 @RequestMapping(value = "/aden/usuarientitatsenserols")
 @SessionAttributes(types = { UsuariEntitatForm.class, UsuariEntitatFilterForm.class })
-@MenuOption(labelCode = "usuarientitat.senserols.plural", order = 260, group = Constants.ROLE_ADEN)
+@MenuOption(labelCode = "usuarientitat.senserols.plural", order = 260, group = Tab.MENU_ADEN)
 public class UsuariEntitatSenseRolsAdenController extends UsuariEntitatController {
 
     @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)

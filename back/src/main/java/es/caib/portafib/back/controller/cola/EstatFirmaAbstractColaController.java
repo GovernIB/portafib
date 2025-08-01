@@ -10,14 +10,14 @@ import es.caib.portafib.commons.utils.Constants;
  */
 public abstract class EstatFirmaAbstractColaController extends AbstractEstatDeFirmaDestDeleColaController {
 
-  @Override
-  public final String getBaseEntityNameCode() {
-    return "colaboracio";
-  }
-  
-  @Override
-  public final String getRole() {
-    return Constants.ROLE_COLA;
-  }
-  
+    @Override
+    public final String getBaseEntityNameCode() {
+        return "colaboracio";
+    }
+
+    @Override
+    public final String getRole() {
+        return Constants.ROLE_COLA;
+    }
+
 }

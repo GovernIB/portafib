@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -28,7 +29,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @RequestMapping(value = "/aden/peticionscaducades")
 @SessionAttributes(types = { PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_ADEN,
+        group = Tab.MENU_ADEN,
         labelCode = "peticionscaducades.llistat",
         addSeparatorBefore = true,
         order = 200)

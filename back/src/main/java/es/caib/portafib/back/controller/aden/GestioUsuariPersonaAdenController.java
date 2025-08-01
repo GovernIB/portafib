@@ -1,7 +1,7 @@
 package es.caib.portafib.back.controller.aden;
 
 import es.caib.portafib.back.controller.admin.GestioUsuariPersonaController;
-import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.back.utils.Tab;
 
 import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(value = "/aden/usuariPersona")
 @MenuOption(
-        group = ConstantsV2.ROLE_ADEN,
+        group = Tab.MENU_ADEN,
         labelCode = "usuaripersona.alta",
         baseLink = "/aden/usuariPersona/alta",
         relativeLink = "",

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
@@ -17,7 +18,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @RequestMapping(value = ConstantsV2.CONTEXT_DEST_ESTATFIRMA_REBUTJAT )
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_DEST,
+        group = Tab.MENU_DEST,
         labelCode = "solicituddefirma.llistat.noacceptada.plural",
         
         order = 40)

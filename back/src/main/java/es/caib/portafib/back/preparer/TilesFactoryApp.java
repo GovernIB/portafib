@@ -158,7 +158,7 @@ public class TilesFactoryApp implements DefinitionsFactory {
 
         /*{name=common, template=/WEB-INF/jsp/layout/layout.jsp, role=null, preparerInstance=es.caib.portafib.back.preparer.BasePreparer, attributes={menu_i_contingut=base.menu_i_contingut, peu=base.peu, contingut=/WEB-INF/jsp/principal.jsp, cap=base.cap, menu=/WEB-INF/jsp/moduls/menu_inici.jsp}}*/
         Definition def_common = new Definition(def_base_definition);
-        def_common.setName(Tab.MENU_PUBLIC_AND_COMMON);
+        def_common.setName(Tab.MENU_INICI);
         def_common.putAttribute("menu", new Attribute("/WEB-INF/jsp/moduls/menu_inici.jsp"));
         def_common.putAttribute("contingut", new Attribute("/WEB-INF/jsp/principal.jsp"));
         map.put(def_common.getName(), def_common);

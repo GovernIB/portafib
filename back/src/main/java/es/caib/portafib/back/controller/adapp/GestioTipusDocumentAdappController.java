@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import es.caib.portafib.back.controller.admin.GestioTipusDocumentAdminController;
 import es.caib.portafib.back.form.webdb.TipusDocumentFilterForm;
 import es.caib.portafib.back.form.webdb.TipusDocumentForm;
-import es.caib.portafib.commons.utils.Constants;
+import es.caib.portafib.back.utils.Tab;
 
 import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
@@ -19,7 +19,7 @@ import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 @RequestMapping(value = "/adapp/gestiotipusdocapp")
 @SessionAttributes(types = { TipusDocumentForm.class, TipusDocumentFilterForm.class })
 @MenuOption(
-        group = Constants.ROLE_ADAPP,
+        group = Tab.MENU_ADAPP,
         order = 60,
         labelCode = "tipusdocument.adapp.plural",
         addSeparatorBefore = true)

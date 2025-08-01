@@ -3,9 +3,9 @@ package es.caib.portafib.back.controller.aden;
 import javax.ejb.EJB;
 
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.persistence.ColaboracioDelegacioJPA;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
-import es.caib.portafib.utils.ConstantsV2;
 
 import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
@@ -29,7 +29,7 @@ import es.caib.portafib.back.form.SeleccioUsuariForm;
 @SessionAttributes(types = { ColaboracioDelegacioDestForm.class, SeleccioUsuariForm.class,
     ColaboracioDelegacioForm.class, ColaboracioDelegacioFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_ADEN,
+        group = Tab.MENU_ADEN,
         labelCode = "colaboradordecarrec.plural",
         order = 80)
 public class ColaboracioDeCarrecAdenController extends DelegacioDestController {

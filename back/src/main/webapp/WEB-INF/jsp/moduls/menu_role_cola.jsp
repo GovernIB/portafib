@@ -1,3 +1,4 @@
+<%@page import="es.caib.portafib.back.utils.Tab"%>
 <%@page import="es.caib.portafib.commons.utils.Configuracio"%>
 <%@page import="org.fundaciobit.genapp.common.web.menuoptions.MenuOptionManager"%>
 <%@page import="java.util.List"%>
@@ -26,13 +27,13 @@
         MenuItem menumeneame = new MenuItem("=MENU Meneame", "", "http://www.meneame.net", 1000);
 */      
         List<MenuItem> menu1 = new ArrayList<MenuItem>();
-        if (Configuracio.isDesenvolupament()){
+        if (Configuracio.isDesenvolupament()) {
             menu1.add(retallaDarrerPath("colaboracio.totes.plural", ConstantsV2.CONTEXT_COLA_ESTATFIRMA  + "/list", 10));
             menu1.add(null);
-          }
+        }
 
 
-        List<MenuItem> discoveredMenus = MenuOptionManager.getMenuItems(ConstantsV2.ROLE_COLA, menu1.toArray(new MenuItem [menu1.size()]));
+        List<MenuItem> discoveredMenus = MenuOptionManager.getMenuItems(Tab.MENU_COLA, menu1.toArray(new MenuItem [menu1.size()]));
         menus.add(discoveredMenus);
         %>
         

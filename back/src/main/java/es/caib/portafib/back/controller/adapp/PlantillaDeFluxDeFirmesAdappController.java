@@ -10,7 +10,7 @@ import es.caib.portafib.back.form.PlantillaDeFluxDeFirmesForm;
 import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.FluxDeFirmesFilterForm;
 import es.caib.portafib.back.form.webdb.FluxDeFirmesForm;
-import es.caib.portafib.commons.utils.Constants;
+import es.caib.portafib.back.utils.Tab;
 
 import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 
@@ -25,7 +25,7 @@ import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
         types = { PlantillaDeFluxDeFirmesFilterForm.class, SeleccioUsuariForm.class, PlantillaDeFluxDeFirmesForm.class,
                 FluxDeFirmesForm.class, FluxDeFirmesFilterForm.class })
 @MenuOption(
-        group = Constants.ROLE_ADAPP,
+        group = Tab.MENU_ADAPP,
         labelCode = "plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural",
         addSeparatorBefore = true,
         order = 160)

@@ -8,6 +8,7 @@ import es.caib.portafib.back.form.webdb.UsuariEntitatFilterForm;
 import es.caib.portafib.back.form.webdb.UsuariEntitatForm;
 import es.caib.portafib.back.form.webdb.UsuariPersonaRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
 import es.caib.portafib.back.validator.SelectCarrecValidator;
@@ -70,7 +71,7 @@ import java.util.Set;
         types = { UsuariEntitatForm.class, UsuariEntitatFilterForm.class, SeleccioCarrecForm.class,
                 SeleccioUsuariForm.class })
 @MenuOption(
-        group = Constants.ROLE_ADEN,
+        group = Tab.MENU_ADEN,
         labelCode = "carrec.gestio",
         addSeparatorBefore = true,
         order = 70)

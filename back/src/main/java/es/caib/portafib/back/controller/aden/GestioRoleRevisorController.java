@@ -24,6 +24,7 @@ import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.RoleUsuariEntitatFilterForm;
 import es.caib.portafib.back.form.webdb.RoleUsuariEntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
@@ -40,7 +41,7 @@ import es.caib.portafib.model.entity.UsuariPersona;
 @RequestMapping(value = "/aden/revisor")
 @SessionAttributes(types = { RoleUsuariEntitatForm.class, RoleUsuariEntitatFilterForm.class, SeleccioUsuariForm.class })
 @MenuOption(
-        group = Constants.ROLE_ADEN,
+        group = Tab.MENU_ADEN,
         labelCode = "revisor.gestio",
         baseLink = "/aden/revisor/selecciousuari",
         relativeLink = "",

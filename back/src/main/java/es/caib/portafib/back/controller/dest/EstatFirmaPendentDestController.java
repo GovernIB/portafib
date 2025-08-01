@@ -4,6 +4,7 @@ import es.caib.portafib.back.controller.dest.proces.Carret;
 import es.caib.portafib.back.controller.dest.proces.CarretHolder;
 import es.caib.portafib.back.controller.dest.proces.ProcessarEstatsCheckoutController;
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.fields.EstatDeFirmaFields;
@@ -40,7 +41,7 @@ import java.util.Set;
 @RequestMapping(value = ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT)
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_DEST,
+        group = Tab.MENU_DEST,
         labelCode = "solicituddefirma.llistat.pendent.plural",
         order = 20)
 public class EstatFirmaPendentDestController extends EstatFirmaAbstractDestController {

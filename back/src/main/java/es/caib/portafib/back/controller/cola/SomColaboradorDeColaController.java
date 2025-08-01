@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import es.caib.portafib.back.controller.dele.SomDelegatDeDeleController;
 import es.caib.portafib.back.form.webdb.ColaboracioDelegacioFilterForm;
 import es.caib.portafib.back.form.webdb.ColaboracioDelegacioForm;
-import es.caib.portafib.commons.utils.Constants;
+import es.caib.portafib.back.utils.Tab;
 
 /**
  * 
@@ -17,7 +17,7 @@ import es.caib.portafib.commons.utils.Constants;
 @Controller
 @RequestMapping(value = "/cola/colaboradorde")
 @SessionAttributes(types = { ColaboracioDelegacioForm.class, ColaboracioDelegacioFilterForm.class })
-@MenuOption(group = Constants.ROLE_COLA, labelCode = "colaboradorde.menu", addSeparatorBefore = true, order = 50)
+@MenuOption(group = Tab.MENU_COLA, labelCode = "colaboradorde.menu", addSeparatorBefore = true, order = 50)
 public class SomColaboradorDeColaController extends SomDelegatDeDeleController {
 
     @Override

@@ -24,9 +24,9 @@ import es.caib.portafib.model.fields.PerfilDeFirmaFields;
 import es.caib.portafib.model.fields.PerfilsPerUsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.commons.utils.Configuracio;
-import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.utils.ConstantsPortaFIB.POLITICA_CUSTODIA;
 import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.back.utils.Tab;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.fundaciobit.genapp.common.StringKeyValue;
@@ -72,7 +72,7 @@ import java.util.Set;
 @Controller
 @RequestMapping(value = GestioUsuariAplicacioAdappController.CONTEXTWEB)
 @SessionAttributes(types = { UsuariAplicacioForm.class, UsuariAplicacioFilterForm.class })
-@MenuOption(group = Constants.ROLE_ADAPP, labelCode = "usuariaplicacio.gestio" , order = 10)
+@MenuOption(group = Tab.MENU_ADAPP, labelCode = "usuariaplicacio.gestio" , order = 10)
 public class GestioUsuariAplicacioAdappController extends UsuariAplicacioController {
 
     public static final String CONTEXTWEB = "/adapp/usuariAplicacio";

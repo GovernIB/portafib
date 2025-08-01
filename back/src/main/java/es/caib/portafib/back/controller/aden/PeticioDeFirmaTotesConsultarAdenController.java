@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
     PeticioDeFirmaFilterForm.class})
 /* Unificar Consulta i Gestionar les Peticions de Firma de l'administrador d'entitat #991
 @MenuOption(
-        group = ConstantsV2.ROLE_ADEN,
+        group = Tab.MENU_ADEN,
         labelCode = "peticiodefirma.totes.consultar.llistar",
         addSeparatorBefore = true,
         order = 180)

@@ -4,7 +4,7 @@ import es.caib.portafib.back.controller.webdb.NotificacioWSController;
 import es.caib.portafib.back.form.webdb.NotificacioWSFilterForm;
 import es.caib.portafib.back.form.webdb.NotificacioWSForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.commons.utils.Constants;
+import es.caib.portafib.back.utils.Tab;
 
 import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import es.caib.portafib.ejb.PeticioDeFirmaService;
@@ -47,7 +47,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/aden/notificaciows")
 @SessionAttributes(types = { NotificacioWSForm.class, NotificacioWSFilterForm.class })
-@MenuOption(labelCode = "notificaciows.llistat", group = Constants.ROLE_ADAPP, order=180)
+@MenuOption(labelCode = "notificaciows.llistat", group = Tab.MENU_ADAPP, order=180)
 public class GestioNotificacionsWSAdappController extends NotificacioWSController {
 
     private static final String USUARIAPLICACIOID_REQUEST_ATTRIBUTE = "GestioNotificacionsWSController.usuariAplicacioID";

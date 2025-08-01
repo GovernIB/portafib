@@ -24,6 +24,7 @@ import es.caib.portafib.back.form.webdb.ColaboracioDelegacioFilterForm;
 import es.caib.portafib.back.form.webdb.ColaboracioDelegacioForm;
 import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.persistence.ColaboracioDelegacioJPA;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
@@ -40,7 +41,7 @@ import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
         types = { ColaboracioDelegacioDestForm.class, ColaboracioDelegacioForm.class,
                 ColaboracioDelegacioFilterForm.class })
 @MenuOption(
-        group = Constants.ROLE_DELE,
+        group = Tab.MENU_DELE,
         labelCode = "delegatde.menu",
         addSeparatorBefore = true,
         order = 50)

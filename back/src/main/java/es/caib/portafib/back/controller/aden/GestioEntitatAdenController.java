@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import es.caib.portafib.back.controller.admin.GestioEntitatAdminController;
 import es.caib.portafib.back.form.webdb.EntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.persistence.EntitatJPA;
 
@@ -26,7 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value = "/aden/entitat")
 @MenuOption(
-        group = Constants.ROLE_ADEN,
+        group = Tab.MENU_ADEN,
         labelCode = "entitat.modificar",
         baseLink = "/aden/entitat/current",
         relativeLink = "",

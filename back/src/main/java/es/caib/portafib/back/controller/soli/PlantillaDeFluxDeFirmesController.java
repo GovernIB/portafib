@@ -70,6 +70,7 @@ import es.caib.portafib.back.form.webdb.FluxDeFirmesForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.MappingOrder;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.webdb.FluxDeFirmesWebValidator;
 import es.caib.portafib.commons.utils.Constants;
@@ -121,7 +122,7 @@ import es.caib.portafib.utils.ConstantsV2;
         types = { PlantillaDeFluxDeFirmesFilterForm.class, PlantillaDeFluxDeFirmesForm.class, FluxDeFirmesForm.class,
                 FluxDeFirmesFilterForm.class, SeleccioUsuariForm.class })
 @MenuOption(
-        group = Constants.ROLE_SOLI,
+        group = Tab.MENU_SOLI,
         labelCode = "plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural",
         addSeparatorBefore = true,
         order = 70)

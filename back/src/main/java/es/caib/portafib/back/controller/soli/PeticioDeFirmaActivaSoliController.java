@@ -22,7 +22,8 @@ import es.caib.portafib.back.form.webdb.AnnexFilterForm;
 import es.caib.portafib.back.form.webdb.AnnexForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
-import es.caib.portafib.commons.utils.Constants;
+import es.caib.portafib.back.utils.Tab;
+
 import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
@@ -40,13 +41,13 @@ import es.caib.portafib.utils.ConstantsV2;
         types = { SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class,
                 AnnexFilterForm.class, AnnexForm.class })
 @MenuOption(
-        group = Constants.ROLE_SOLI,
+        group = Tab.MENU_SOLI,
         labelCode = "peticiodefirma.crear",
         baseLink = ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/selectflux",
         relativeLink = "",
         order = 10)
 @MenuOption(
-        group = Constants.ROLE_SOLI,
+        group = Tab.MENU_SOLI,
         labelCode = "peticiodefirma.activa.plural",
         baseLink = ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/list",
         relativeLink = "",

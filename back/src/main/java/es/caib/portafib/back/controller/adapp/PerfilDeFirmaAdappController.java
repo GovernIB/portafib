@@ -25,8 +25,7 @@ import es.caib.portafib.back.controller.webdb.PerfilDeFirmaController;
 import es.caib.portafib.back.form.webdb.PerfilDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PerfilDeFirmaForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.commons.utils.Constants;
-
+import es.caib.portafib.back.utils.Tab;
 import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import es.caib.portafib.persistence.PerfilDeFirmaJPA;
 import es.caib.portafib.model.fields.PerfilDeFirmaFields;
@@ -40,7 +39,7 @@ import es.caib.portafib.model.fields.PerfilDeFirmaQueryPath;
 @Controller
 @RequestMapping(value = PerfilDeFirmaAdappController.CONTEXT_WEB)
 @SessionAttributes(types = { PerfilDeFirmaForm.class, PerfilDeFirmaFilterForm.class })
-@MenuOption(group = Constants.ROLE_ADAPP, labelCode = PerfilDeFirmaFields._TABLE_MODEL + "." + PerfilDeFirmaFields._TABLE_MODEL
+@MenuOption(group = Tab.MENU_ADAPP, labelCode = PerfilDeFirmaFields._TABLE_MODEL + "." + PerfilDeFirmaFields._TABLE_MODEL
 + ".plural", order = 20)
 public class PerfilDeFirmaAdappController extends PerfilDeFirmaController {
 

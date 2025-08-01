@@ -19,6 +19,7 @@ import es.caib.portafib.back.controller.webdb.ModulDeFirmaPerTipusDeDocumentCont
 import es.caib.portafib.back.form.webdb.ModulDeFirmaPerTipusDeDocumentFilterForm;
 import es.caib.portafib.back.form.webdb.ModulDeFirmaPerTipusDeDocumentForm;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.persistence.ModulDeFirmaPerTipusDeDocumentJPA;
 import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
@@ -33,7 +34,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @RequestMapping(value = "/aden/modulfirmatipusdoc")
 @SessionAttributes(types = { ModulDeFirmaPerTipusDeDocumentForm.class, ModulDeFirmaPerTipusDeDocumentFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_ADEN,
+        group = Tab.MENU_ADEN,
         labelCode = "modulDeFirmaPerTipusDeDocument.short",
         order = 140)
 public class ModulFirmaWebTipusDocAdenController extends ModulDeFirmaPerTipusDeDocumentController {

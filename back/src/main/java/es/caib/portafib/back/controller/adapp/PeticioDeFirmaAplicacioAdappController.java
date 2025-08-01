@@ -11,10 +11,10 @@ import es.caib.portafib.back.controller.aden.FluxDeFirmes2AdenController;
 import es.caib.portafib.back.form.SeleccioFluxDeFirmesForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
-import es.caib.portafib.commons.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
-import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.back.utils.Tab;
 
 /**
  * Gestiona les peticions de firma dels Usuaris Aplicació (API PortaFIB WS v1, API Indra i API
@@ -26,7 +26,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @RequestMapping(value = ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_USRAPP)
 @SessionAttributes(types = { SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
 @MenuOption(
-        group = Constants.ROLE_ADAPP,
+        group = Tab.MENU_ADAPP,
         labelCode = "peticiodefirma.usrapp.llistar",
         order = 110,
         addSeparatorBefore = true)

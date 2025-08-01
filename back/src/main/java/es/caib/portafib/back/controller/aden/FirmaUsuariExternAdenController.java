@@ -38,6 +38,7 @@ import es.caib.portafib.back.form.webdb.FirmaFilterForm;
 import es.caib.portafib.back.form.webdb.FirmaForm;
 import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.persistence.FirmaJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.model.entity.Firma;
@@ -58,7 +59,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @RequestMapping(value = "/aden/firmausuariextern")
 @SessionAttributes(types = { FirmaForm.class, FirmaFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_ADEN,
+        group = Tab.MENU_ADEN,
         labelCode = "firmausuariextern.plural",
         order = 230)
 public class FirmaUsuariExternAdenController extends FirmaController {

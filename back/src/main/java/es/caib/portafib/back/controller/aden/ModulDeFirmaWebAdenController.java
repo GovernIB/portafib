@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import es.caib.portafib.back.controller.AbstractPluginAdenController;
 import es.caib.portafib.back.form.webdb.PluginFilterForm;
 import es.caib.portafib.back.form.webdb.PluginForm;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.logic.AbstractPluginIBLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.utils.ConstantsV2;
@@ -27,7 +28,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @RequestMapping(value = "/aden/modulDeFirma")
 @SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_ADEN,
+        group = Tab.MENU_ADEN,
         labelCode = "moduldefirma.gestio",
         baseLink = "/aden/modulDeFirma/list",
         relativeLink = "",

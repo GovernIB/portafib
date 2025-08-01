@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import es.caib.portafib.back.controller.AbstractPropietatsController;
 import es.caib.portafib.back.form.webdb.PropietatGlobalFilterForm;
 import es.caib.portafib.back.form.webdb.PropietatGlobalForm;
-import es.caib.portafib.commons.utils.Constants;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.logic.utils.PropietatsConstants;
 
 /**
@@ -19,7 +19,7 @@ import es.caib.portafib.logic.utils.PropietatsConstants;
 @Controller
 @RequestMapping(value = "/aden/propietatglobal")
 @SessionAttributes(types = { PropietatGlobalForm.class, PropietatGlobalFilterForm.class })
-@MenuOption(group = Constants.ROLE_ADEN, labelCode = "propietat.0.menu", order = 20)
+@MenuOption(group = Tab.MENU_ADEN, labelCode = "propietat.0.menu", order = 20)
 public class PropietatGlobalAdenController extends AbstractPropietatsController {
 
     @Override

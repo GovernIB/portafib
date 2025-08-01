@@ -28,6 +28,7 @@ import es.caib.portafib.back.controller.webdb.CustodiaInfoController;
 import es.caib.portafib.back.form.webdb.CustodiaInfoFilterForm;
 import es.caib.portafib.back.form.webdb.CustodiaInfoForm;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.persistence.CustodiaInfoJPA;
 import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.model.entity.CustodiaInfo;
@@ -45,7 +46,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @RequestMapping(value = "/aden/plantillacustodia")
 @SessionAttributes(types = { CustodiaInfoForm.class, CustodiaInfoFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_ADEN,
+        group = Tab.MENU_ADEN,
         labelCode = "plantillacustodia.gestio",
         order = 150)
 public class PlantillaCustodiaAdenController extends CustodiaInfoController {

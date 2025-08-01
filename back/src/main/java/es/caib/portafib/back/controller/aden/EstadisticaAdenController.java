@@ -6,6 +6,7 @@ import es.caib.portafib.back.form.webdb.EstadisticaFilterForm;
 import es.caib.portafib.back.form.webdb.EstadisticaForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBDataExporter;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.model.entity.Estadistica;
 import es.caib.portafib.model.fields.EstadisticaFields;
 import es.caib.portafib.commons.utils.Configuracio;
@@ -54,7 +55,7 @@ import java.util.TreeSet;
 @RequestMapping(value = "/aden/estadistica")
 @SessionAttributes(types = { EstadisticaForm.class, EstadisticaAdenFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_ADEN,
+        group = Tab.MENU_ADEN,
         labelCode = "estadistica.estadistica.plural",
         baseLink = "/aden/estadistica/search",
         relativeLink = "",

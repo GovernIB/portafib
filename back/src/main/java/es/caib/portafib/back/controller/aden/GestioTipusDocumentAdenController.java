@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import es.caib.portafib.back.controller.admin.GestioTipusDocumentAdminController;
-import es.caib.portafib.commons.utils.Constants;
+import es.caib.portafib.back.utils.Tab;
 
 /**
  * 
@@ -15,7 +15,7 @@ import es.caib.portafib.commons.utils.Constants;
 @Controller
 @RequestMapping(value = "/aden/gestiotipusdocentitat")
 @MenuOption(
-        group = Constants.ROLE_ADEN,
+        group = Tab.MENU_ADEN,
         labelCode = "tipusdocument.aden.plural",
         order = 30)
 public class GestioTipusDocumentAdenController extends GestioTipusDocumentAdminController {

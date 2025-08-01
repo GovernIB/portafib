@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.caib.portafib.back.form.SeleccioFluxDeFirmesForm;
-import es.caib.portafib.back.form.webdb.*;
-import es.caib.portafib.commons.utils.Constants;
+import es.caib.portafib.back.form.webdb.AnnexFilterForm;
+import es.caib.portafib.back.form.webdb.AnnexForm;
+import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
+import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
@@ -27,7 +30,7 @@ import es.caib.portafib.utils.ConstantsV2;
         types = { SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class,
                 AnnexFilterForm.class, AnnexForm.class })
 @MenuOption(
-        group = Constants.ROLE_SOLI,
+        group = Tab.MENU_SOLI,
         labelCode = "peticiodefirma.firmada.plural",
         addSeparatorBefore = true,
         order = 40)

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -29,7 +30,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @RequestMapping(value = ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "DeRevisors")
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_DEST,
+        group = Tab.MENU_DEST,
         labelCode = "solicituddefirma.llistat.pendentderevisors.plural",
         baseLink = ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "DeRevisors/list",
         relativeLink = "",

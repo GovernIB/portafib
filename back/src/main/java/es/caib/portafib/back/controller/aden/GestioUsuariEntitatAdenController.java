@@ -9,6 +9,7 @@ import es.caib.portafib.back.form.webdb.UsuariEntitatFilterForm;
 import es.caib.portafib.back.form.webdb.UsuariEntitatForm;
 import es.caib.portafib.back.form.webdb.UsuariPersonaRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.EntitatService;
@@ -68,7 +69,7 @@ import java.util.Set;
 @RequestMapping(value = GestioUsuariEntitatAdenController.CONTEXTWEB)
 @SessionAttributes(types = { UsuariEntitatForm.class, UsuariEntitatFilterForm.class, SeleccioUsuariForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_ADEN,
+        group = Tab.MENU_ADEN,
         labelCode = "usuarientitat.gestio",
         baseLink = "/aden/usuariEntitat/selecciousuari",
         relativeLink = "",

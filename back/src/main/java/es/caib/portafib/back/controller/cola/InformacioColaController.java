@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import es.caib.portafib.commons.utils.Constants;
+import es.caib.portafib.back.utils.Tab;
 
 /**
  * 
@@ -18,7 +18,7 @@ import es.caib.portafib.commons.utils.Constants;
  */
 @Controller
 @MenuOption(
-        group = Constants.ROLE_COLA,
+        group = Tab.MENU_COLA,
         baseLink = "/cola/informacio",
         relativeLink = "",
         labelCode = "colaboracio.quees",

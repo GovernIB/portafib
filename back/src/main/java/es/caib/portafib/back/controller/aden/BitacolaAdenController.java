@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import es.caib.portafib.back.form.webdb.BitacolaFilterForm;
 import es.caib.portafib.back.form.webdb.BitacolaForm;
-import es.caib.portafib.commons.utils.Constants;
+import es.caib.portafib.back.utils.Tab;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/aden/bitacola")
 @SessionAttributes(types = { BitacolaForm.class, BitacolaFilterForm.class })
-@MenuOption(group = Constants.ROLE_ADEN, labelCode = "bitacola.menu", order = 250)
+@MenuOption(group = Tab.MENU_ADEN, labelCode = "bitacola.menu", order = 250)
 public class BitacolaAdenController extends AbstractBitacolaAdenController {
 
     private static final String OBJECTEID_REQUEST_ATTRIBUTE = "BitacolaAdenController.objecteid";

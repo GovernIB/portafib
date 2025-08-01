@@ -3,6 +3,7 @@ package es.caib.portafib.back.controller.aden;
 import es.caib.portafib.back.form.SeleccioFluxDeFirmesForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.utils.ConstantsV2;
 
 
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @Controller
 @RequestMapping(value = ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_TOTES_GESTIONAR)
 @SessionAttributes(types = { SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
-@MenuOption(group = ConstantsV2.ROLE_ADEN, labelCode = "peticiodefirma.totes.gestionar.llistar", order = 190)
+@MenuOption(group = Tab.MENU_ADEN, labelCode = "peticiodefirma.totes.gestionar.llistar", order = 190)
 public class PeticioDeFirmaTotesGestionarAdenController extends AbstractPeticioDeFirmaAdenController {
 
     @Override

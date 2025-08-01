@@ -1,3 +1,4 @@
+<%@page import="es.caib.portafib.back.utils.Tab"%>
 <%@page import="org.fundaciobit.genapp.common.web.menuoptions.MenuOptionManager"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
@@ -17,7 +18,7 @@
         
         MenuItem menumeneame = new MenuItem("=MENU Meneame", "", "http://www.meneame.net", 1000);
 */
-        List<MenuItem> discoveredMenus = MenuOptionManager.getMenuItems(ConstantsV2.ROLE_REVI); //, menuGoogle, menumeneame);
+        List<MenuItem> discoveredMenus = MenuOptionManager.getMenuItems(Tab.MENU_REVI); //, menuGoogle, menumeneame);
         menus.add(discoveredMenus);
         %>
         

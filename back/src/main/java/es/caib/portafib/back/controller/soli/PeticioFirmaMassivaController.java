@@ -2,7 +2,7 @@ package es.caib.portafib.back.controller.soli;
 
 import es.caib.portafib.back.form.soli.PeticioFirmaMassivaForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.commons.utils.Constants;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.FitxerJPA;
 import es.caib.portafib.persistence.PeticioDeFirmaJPA;
@@ -47,7 +47,7 @@ import java.util.List;
 @SessionAttributes(types = { PeticioFirmaMassivaForm.class })
 @RequestMapping(value = PeticioFirmaMassivaController.CONTEXTWEB)
 @MenuOption(
-        group = Constants.ROLE_SOLI,
+        group = Tab.MENU_SOLI,
         labelCode = "peticioFirmaMassiva.titol",
         baseLink = PeticioFirmaMassivaController.CONTEXTWEB,
         relativeLink = "",

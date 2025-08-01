@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
@@ -17,7 +18,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @RequestMapping(value = ConstantsV2.CONTEXT_DELE_ESTATFIRMA_FIRMAT)
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
 @MenuOption(
-        group = ConstantsV2.ROLE_DELE,
+        group = Tab.MENU_DELE,
         labelCode = "delegacio.acceptada.plural",
         order = 30)
 public class EstatFirmaFirmatDeleController extends EstatFirmaAbstractDeleController {

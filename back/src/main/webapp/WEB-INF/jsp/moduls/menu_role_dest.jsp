@@ -1,3 +1,4 @@
+<%@page import="es.caib.portafib.back.utils.Tab"%>
 <%@page import="es.caib.portafib.commons.utils.Constants"%>
 <%@page import="es.caib.portafib.back.utils.Utils"%>
 <%@page import="es.caib.portafib.back.security.LoginInfo"%>
@@ -15,9 +16,7 @@
             <fmt:message key="ROLE_DEST.menu" />
         </h5>
         <%
-        
-        
-        
+
         List<List<MenuItem>> menus = new ArrayList<List<MenuItem>>();
 
         List<MenuItem> menu1 = new ArrayList<MenuItem>();
@@ -36,7 +35,7 @@
             menu1.add(Utils.retallaDarrerPath("revisor.gestio", "/dest/revisordedestinatari/list",80));
         }
 
-        List<MenuItem> discoveredMenus = MenuOptionManager.getMenuItems(ConstantsV2.ROLE_DEST, menu1.toArray(new MenuItem [menu1.size()])); //(menuGoogle, menumeneame );
+        List<MenuItem> discoveredMenus = MenuOptionManager.getMenuItems(Tab.MENU_DEST, menu1.toArray(new MenuItem [menu1.size()])); //(menuGoogle, menumeneame );
 
 
         menus.add(discoveredMenus);

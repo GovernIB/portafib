@@ -6,6 +6,7 @@ import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
 import es.caib.portafib.commons.utils.Constants;
@@ -38,7 +39,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(value = "/aden/peticionsdedestinatari")
 @SessionAttributes(types = { PeticionsDeFirmaDeDestinatariFilterForm.class, PeticioDeFirmaForm.class })
 @MenuOption(
-        group = Constants.ROLE_ADEN,
+        group = Tab.MENU_ADEN,
         labelCode = "peticionsdefirma.destinatari",
         baseLink = "/aden/peticionsdedestinatari/selecciousuari",
         relativeLink = "",

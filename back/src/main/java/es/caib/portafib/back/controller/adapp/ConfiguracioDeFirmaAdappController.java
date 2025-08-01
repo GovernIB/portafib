@@ -6,6 +6,7 @@ import es.caib.portafib.back.controller.webdb.UsuariAplicacioConfiguracioControl
 import es.caib.portafib.back.form.webdb.UsuariAplicacioConfiguracioFilterForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioConfiguracioForm;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.logic.UsuariAplicacioConfiguracioLogicaLocal;
@@ -48,7 +49,7 @@ import java.util.Set;
 @RequestMapping(value = ConfiguracioDeFirmaAdappController.CONTEXT_WEB)
 @SessionAttributes(types = { UsuariAplicacioConfiguracioForm.class, UsuariAplicacioConfiguracioFilterForm.class })
 @MenuOption(
-        group = Constants.ROLE_ADAPP,
+        group = Tab.MENU_ADAPP,
         labelCode = UsuariAplicacioConfiguracioFields._TABLE_MODEL + "."
                 + UsuariAplicacioConfiguracioFields._TABLE_MODEL + ".plural",
         order = 30)
