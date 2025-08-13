@@ -46,6 +46,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -75,7 +76,7 @@ public class SignatureModuleController extends HttpServlet {
         PortaFIBSignaturesSet signaturesSet = getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
 
         if (signaturesSet == null) {
-            final String msg = "No s'ha trobat transacció de firma amb ID " + signaturesSetID 
+            final String msg = "No s'ha trobat transacció de firma amb ID " + signaturesSetID
                     + " a l'hora de seleccionar plugin de firma.";
             return generateErrorMAV(request, signaturesSetID, msg, null);
         }
@@ -303,9 +304,42 @@ public class SignatureModuleController extends HttpServlet {
 
         ModelAndView mav = new ModelAndView("PluginFirmaFinal");
         mav.addObject("URL_FINAL", urlFinal);
-        mav.addObject("window", "window");
+        mav.addObject("window", "window.top");
 
         return mav;
+    }
+
+    @RequestMapping(value = "/cancelSignatureSelection/{signaturesSetID}")
+    public ModelAndView cancelSignatureSelection(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable("signaturesSetID")
+            String signaturesSetID) throws Exception {
+
+        PortaFIBSignaturesSet pss = getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
+
+        // Check pss is null
+        if (pss == null) {
+            String msg = I18NUtils.tradueix("moduldefirma.caducat", signaturesSetID);
+            return generateErrorMAV(request, pss, msg, null);
+        }
+
+        Locale locale = new Locale(pss.getCommonInfoSignature().getLanguageUI());
+
+        // "L'usuari ha cancel·lat el procés de firma en la fase de selecció del mòdul de firma.";
+        final String msg = I18NUtils.tradueix(locale, "plugindefirma.seleccio.cancel");
+        StatusSignaturesSet sss = pss.getStatusSignaturesSet();
+        sss.setErrorMsg(msg);
+        sss.setErrorException(null);
+        sss.setStatus(StatusSignaturesSet.STATUS_CANCELLED);
+
+        log.warn("(signaturesSetID = " + signaturesSetID + " )" + msg);
+
+        ModelAndView mav = new ModelAndView("PluginFirmaFinal");
+        // 
+        mav.addObject("URL_FINAL", pss.getUrlFinalOriginal()); // request.getContextPath() + getContextWeb() + "/final/" + URLEncoder.encode(signaturesSetID, "UTF-8"));
+        mav.addObject("window", (pss == null || pss.isRedirectToParentWindow()) ? "window.top" : "window");
+
+        return mav;
+
     }
 
     @RequestMapping(value = "/showsignaturemodule/{pluginID}/{signaturesSetID}")
@@ -331,7 +365,7 @@ public class SignatureModuleController extends HttpServlet {
         // EL portaFIBSignaturesSet existeix?
         PortaFIBSignaturesSet signaturesSet;
         signaturesSet = getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
-        
+
         if (signaturesSet == null) {
             final String msg = "No es troba l'objecte PortaFIBSignaturesSet associat al ID = " + signaturesSetID
                     + " a l'hora de mostrar el mòdul de firma. Caducat?";
@@ -608,7 +642,7 @@ public class SignatureModuleController extends HttpServlet {
         ModelAndView mav = new ModelAndView("PluginFirmaFinal");
         //request.getSession().setAttribute("URL_FINAL", urlError);
         mav.addObject("URL_FINAL", urlFinal);
-        mav.addObject("window", ( pss == null || pss.isRedirectToParentWindow()) ? "window.top" : "window");
+        mav.addObject("window", (pss == null || pss.isRedirectToParentWindow()) ? "window.top" : "window");
 
         return mav;
     }

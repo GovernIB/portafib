@@ -173,7 +173,11 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
 
                 case STATUS_CANCELLED: //fss.getSTATUSCANCELLED(): // = -2;
                     System.err.println("  STATUS TRANSACCIO= " + processStatus.getStatus() + " (STATUS_CANCELLED)");
-                    System.err.println("  RESULT: L'usuari ha cancel.lat el procés de firma.");
+                    if (processStatus.getErrorMessage() != null) {
+                        System.err.println("  RESULT: " +  processStatus.getErrorMessage());
+                    } else {
+                        System.err.println("  RESULT: L'usuari ha cancel.lat el procés de firma.");
+                    }
                 break;
 
                 case STATUS_FINAL_OK:

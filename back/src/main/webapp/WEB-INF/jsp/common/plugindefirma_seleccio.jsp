@@ -58,10 +58,8 @@
 
         <tr>
             <td style="height: 40%; width: 50%;">&nbsp;</td>
-
             <td style="width: 50%;">&nbsp;</td>
         </tr>
-
 
         <tr>
             <td style="height: 10%; width: 50%:">&nbsp;</td>
@@ -74,9 +72,8 @@
 
 <div class="lead" style="margin-bottom: 10px; text-align: center;">
 
-    <fmt:message key="plugindefirma.seleccio.title" />
-    <br />
-    <h5 style="line-height: 10px; margin-top: 0px; margin-bottom: 0px;">
+    <h3><fmt:message key="plugindefirma.seleccio.title" /></h3>
+    <h5 style="line-height:10px; margin-top: 5px; margin-bottom: 0px;font-weight: 300;">
         <fmt:message key="plugindefirma.seleccio.subtitle" />
     </h5>
 
@@ -90,6 +87,12 @@
                 </small>
             </button>
         </c:forEach>
+        
+        <%-- Boto de Cancel·lar en gris --%>
+        <br/>
+        <button type="button" class="btn btn-block btn-secondary" style="white-space: normal;"
+            onclick="location.href='<c:url value="${thecontext}/cancelSignatureSelection/${signaturesSetID}"/>'">
+            <b><fmt:message key="genapp.cancel" /></b>
     </div>
 
     <br />

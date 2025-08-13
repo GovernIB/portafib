@@ -223,13 +223,13 @@ public class PassarelaDeFirmaController {
 
         SignaturesSetWeb ss;
         boolean administrationIdCanBeValidatedFromPlugin;
-        long signaturePluginID;
+        Long signaturePluginID;
         {
             PortaFIBSignaturesSet pss = SignatureModuleController.getPortaFIBSignaturesSet(request, transactionID,
                     modulDeFirmaPublicEjb);
             signaturePluginID = pss.getSelectedPluginID();
             administrationIdCanBeValidatedFromPlugin = modulDeFirmaPublicEjb
-                    .administrationIdCanBeValidatedFromPlugin(pss.getSelectedPluginID());
+                    .administrationIdCanBeValidatedFromPlugin(signaturePluginID);
             ss = pss;
         }
 
