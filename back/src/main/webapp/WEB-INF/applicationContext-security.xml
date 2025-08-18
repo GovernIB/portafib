@@ -6,10 +6,8 @@
         http://www.springframework.org/schema/security/spring-security.xsd">
 	<sec:http create-session="never" use-expressions="true" auto-config="false" entry-point-ref="preAuthenticatedProcessingFilterEntryPoint">
 
-
         <sec:headers>
-            <sec:frame-options policy="SAMEORIGIN"/>
-            <sec:content-security-policy policy-directives="frame-ancestors ${es.caib.portafib.frame.ancestors:'self'}"/>
+            <sec:frame-options disabled="true"/>
         </sec:headers>
 
 		<!-- <sec:logout logout-success-url="/index.jsp" />  -->

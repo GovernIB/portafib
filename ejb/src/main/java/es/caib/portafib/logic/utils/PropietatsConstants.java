@@ -121,7 +121,11 @@ public class PropietatsConstants {
                 new Propietat(true, "es.caib.portafib.rebuigpeticionscaducades.cron",
                         "Opcional. Cron Expression per definir quan executar-se el procés de Rebuig de Peticion Caducades. Si val null o buit, llavors no s´executa el procés de neteja. Despres de modificar aquest valor, es necessari reiniciar el servidor. Veure cronmaker.com.Exemple: 0 0/10 1 * * * * (Durant la 1 de la matinada executa cada 10 minuts)"),
                 new Propietat(true, "es.caib.portafib.rebuigpeticionscaducades.dies",
-                        "Opcional. Indica els dies després d´aquest valor en que el procés de Rebuig de peticions Caducades actuarà. Despres de modificar aquest valor, es necessari reiniciar el servidor. Valor per defecte 4 anys (1460).") };
+                        "Opcional. Indica els dies després d´aquest valor en que el procés de Rebuig de peticions Caducades actuarà. Despres de modificar aquest valor, es necessari reiniciar el servidor. Valor per defecte 4 anys (1460)."),
+                new Propietat(true, "es.caib.portafib.csp-frame-ancestors",
+                        "Opcional. Content Security Policy X-Frame-Options. Llistat de dominis separats per espai als que es permetra obrir iframes. Exemple http://10.215.216.175:1901"),
+
+        };
 
         for (Propietat p : propietats_bbdd_per_entitat) {
             PROPIETATS_BBDD_PER_ENTITAT.put(p.clau, p);

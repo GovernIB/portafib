@@ -544,20 +544,25 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
         StatusSignaturesSet sss = ss.getStatusSignaturesSet();
 
+        //final String languageUI = ssf.getSignaturesSet().getCommonInfoSignature().getLanguageUI();
+        final String languageUI = ss.getCommonInfoSignature().getLanguageUI();
+        
         PassarelaSignaturesSetWebInternalUse ssf;
         ssf = getSignaturesSetFullByTransactionID(transactionID);
         if (ssf == null) {
             // "Ha tardat massa temps en firmar. Torni a intentar-ho."
             throw new I18NException("firmar.tempsexcedit");
         }
-
-        final String languageUI = ssf.getSignaturesSet().getCommonInfoSignature().getLanguageUI();
-
         Map<String, PassarelaSignatureStatusWebInternalUse> statusBySignID = ssf.getStatusBySignatureID();
 
+
+       
         switch (sss.getStatus()) {
 
             case StatusSignaturesSet.STATUS_FINAL_OK: {
+                
+                
+                
                 // Revisam les firma
 
                 final UsuariAplicacio usuariAplicacio;
@@ -973,6 +978,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     protected void storeSignaturesSet(PassarelaSignaturesSetWebInternalUse signaturesSet) {
         checkExpiredSignaturesSet(null);
         synchronized (passarelaSignaturesSets) {
+            log.info("storeSignaturesSet():: Guardar signaturesSet amb ID = "
+                    + signaturesSet.getSignaturesSet().getSignaturesSetID() + " a la passarela de firma web");
             passarelaSignaturesSets.put(signaturesSet.getSignaturesSet().getSignaturesSetID(), signaturesSet);
         }
     }
@@ -1077,6 +1084,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
             }
 
             for (PassarelaSignaturesSetWebInternalUse ssf : setsToDelete) {
+                log.info("XYZ ZZZ DELETING SignaturesSet caducat: " + ssf.getSignaturesSet().getSignaturesSetID());
                 deleteSignaturesSet(ssf);
                 bitacolaLogicaEjb.createBitacola(ssf.getEntitatID(), ssf.getSignaturesSet().getSignaturesSetID(),
                         ConstantsV2.BITACOLA_TIPUS_FIRMASINCRONA, ConstantsV2.BITACOLA_OP_ESBORRAR, "Petició caducada");

@@ -334,8 +334,12 @@ public class SignatureModuleController extends HttpServlet {
         log.warn("(signaturesSetID = " + signaturesSetID + " )" + msg);
 
         ModelAndView mav = new ModelAndView("PluginFirmaFinal");
-        // 
-        mav.addObject("URL_FINAL", pss.getUrlFinalOriginal()); // request.getContextPath() + getContextWeb() + "/final/" + URLEncoder.encode(signaturesSetID, "UTF-8"));
+        // Redireccio
+        
+        //String redireccio = request.getContextPath() + getContextWeb() + "/final/" + URLEncoder.encode(signaturesSetID, "UTF-8");
+        String redireccio = pss.getUrlFinalOriginal();
+        
+        mav.addObject("URL_FINAL", redireccio); // 
         mav.addObject("window", (pss == null || pss.isRedirectToParentWindow()) ? "window.top" : "window");
 
         return mav;

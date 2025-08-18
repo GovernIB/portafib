@@ -538,6 +538,18 @@ public class PropietatGlobalUtil implements ConstantsV2 {
         return val;
     }
 
+    public static String getContentSecurityPolicyFrameAncestors() {
+        final String partialPropertyName = "csp-frame-ancestors";
+        String val = getString(partialPropertyName);
+        if (val == null) {
+            val = "";
+        }
+        if (log.isDebugEnabled()) {
+            log.debug("getContentSecurityPolicyFrameAncestors() = " + val);
+        }
+        return val;
+    }
+
     // ----------------------------------------------------------------------------------
     // ----------------------------------------------------------------------------------
 

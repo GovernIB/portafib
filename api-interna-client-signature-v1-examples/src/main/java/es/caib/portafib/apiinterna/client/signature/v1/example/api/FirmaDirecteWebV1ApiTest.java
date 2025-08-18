@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URI;
@@ -27,7 +28,7 @@ import es.caib.portafib.apiinterna.client.signature.v1.model.SignerInfo;
 import es.caib.portafib.apiinterna.client.signature.v1.model.ProcessStatus;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Profile;
 import es.caib.portafib.apiinterna.client.signature.v1.model.ValidationInfo;
-
+import es.caib.portafib.apiinterna.client.signature.v1.model.ViewConstants;
 import es.caib.portafib.apiinterna.client.signature.v1.model.AddFileToSignRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.CommonInfo;
 import es.caib.portafib.apiinterna.client.signature.v1.model.CustodyInfo;
@@ -70,21 +71,25 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
 
     public void signPdfUsingPadesWithSyncWebExample() throws ApiException, Exception {
         String transactionID = null;
-        Properties prop = getConfigProperties();
+        Properties props = getConfigProperties();
         DirectSignatureOnWebV1Api api = null;
         try {
-            //Es deifneix el port en el que s'enviara la peticio de firma
+            
+            String useiframe = props.getProperty("useiframe");
+            final boolean showInIframe = "true".equalsIgnoreCase(useiframe); 
+            
+            //Es defineix el port en el que s'enviara la peticio de firma
             api = getApi();
-            String languageUI = getLanguageUI(prop);
+            String languageUI = getLanguageUI(props);
 
             //CommonInfo de la firma
             {
                 //Perfil de firma definit al properties
-                final String perfil = prop.getProperty(PROFILE_PADES_PROPERTY);
+                final String perfil = props.getProperty(PROFILE_PADES_PROPERTY);
 
-                String username = prop.getProperty("signer.username");
-                String administrationID = prop.getProperty("signer.administrationid");
-                String signerEmail = prop.getProperty("signer.email");
+                String username = props.getProperty("signer.username");
+                String administrationID = props.getProperty("signer.administrationid");
+                String signerEmail = props.getProperty("signer.email");
 
                 System.out.println("Signer.Username = |" + username + "|");
                 System.out.println("Signer.administrationid = |" + administrationID + "|");
@@ -110,7 +115,7 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
             }
 
             //Fitxers a firmar
-            FileInfoSignature[] filesToSign = getFilesToSign(prop, tipusDocumentalID);
+            FileInfoSignature[] filesToSign = getFilesToSign(props, tipusDocumentalID);
 
             ArrayList<String> addFileToSignResponseList = new ArrayList<String>();
             for (int i = 0; i < filesToSign.length; i++) {
@@ -124,10 +129,13 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
 
             }
 
-            // Funcio de firma 
-            final int port = 1989 + (int) (Math.random() * 100.0);
-            final String returnUrl = "http://localhost:" + port + "/returnurl/" + transactionID;
-            final String view = "fullview";
+            // Funcio de firma
+            
+            // Servidor TEMPORAL
+            String host = Inet4Address.getLocalHost().getHostAddress();            
+            final int port = 1900; // 1989 + (int) (Math.random() * 100.0);
+            final String returnUrl = "http://" + host + ":" + port + "/returnurl/" + transactionID;
+            final String view = ViewConstants.VIEW_FULLSCREEN.getValue();
 
             StartTransactionRequest startTransactionInfo = new StartTransactionRequest();
             startTransactionInfo.setTransactionID(transactionID);
@@ -136,14 +144,42 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
 
             String redirectUrl = api.startTransaction(startTransactionInfo);
 
-            if (Desktop.isDesktopSupported()) {
-                Desktop.getDesktop().browse(new URI(redirectUrl));
+            if (showInIframe) {
+                final String iframeUrl = "http://" + host + ":" + (port+1) + "/iframe/";
+                if (Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().browse(new URI(iframeUrl));
+                } else {
+                    System.out.println("Per favor obri un Navegador i copia-li la URL " + iframeUrl);
+                }
+                String htmlIframe = "<div style=\"\n"
+                        + "        background-color: red;\n"
+                        + "        width: 100%;\n"
+                        + "        height: 100%;\n"
+                        + "        display: flex;\n"
+                        + "        justify-content: center;\n"
+                        + "        align-items: center;\n"
+                        + "    \">\n"
+                        + "        <div style=\"width: calc(100% - 100px); height: calc(100% - 100px);\">\n"
+                        + "            Iframe atacant URL: " + iframeUrl + "...<br/>\n"
+                        + "            <iframe \n"
+                        + "                src=\"" + redirectUrl + "\" \n"
+                        + "                style=\"width: 100%; height: 100%; border: none;\"\n"
+                        + "            ></iframe>\n"
+                        + "        </div>\n"
+                        + "    </div>";
+                
+                readFromSocket(port + 1, htmlIframe);
+                System.out.println("Algun navegador ha llegit html amb iframe ...");
             } else {
-                System.out.println("Per favor obri un Navegador i copia-li la URL anterior ...");
+                if (Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().browse(new URI(redirectUrl));
+                } else {
+                    System.out.println("Per favor obri un Navegador i copia-li la URL " + redirectUrl);
+                }
             }
 
             // Esperam a que POrtaFIB ens cridi a la URL de retorn 
-            readFromSocket(port);
+            readFromSocket(port, "OK (Revisi consola per saber l'estat final del proc&eacute;s de Firma)" );
 
             // Comprovacio de resultats
             TransactionStatusResponse fullTransactionStatus;
@@ -269,7 +305,7 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
         }
     }
 
-    public static void readFromSocket(int port) throws IOException {
+    public static void readFromSocket(int port, String html) throws IOException {
 
         ServerSocket serverSocket;
         serverSocket = new ServerSocket(port);
@@ -301,8 +337,7 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
             out.println("HTTP/1.0 200 OK");
             out.println("Content-Type: text/html");
             out.println();
-            out.println("<html><body>" + "OK (Revisi consola per saber l'estat final del proc&eacute;s de Firma)"
-                    + "</body></html>");
+            out.println("<html><body>" + html + "</body></html>");
 
             System.out.println("Connexio amb el client finalitzada.");
             out.flush();

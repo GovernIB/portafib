@@ -1,3 +1,14 @@
+
+#======================================
+# Propietats de Configuració
+#======================================
+
+# Idioma dels errors no controlats per l'API
+languageUI=ca
+
+useiframe=false
+
+
 #======================================
 # Propietats de Comunicació
 #======================================
@@ -6,17 +17,14 @@ basePath=http://HOST:PORT/portafibapi/interna
 username=usrapp
 password=pwd
 
-# Idioma dels errors no controlats per l'API
-languageUI=ca
-
-
-PROFILE_PADES=PROFILE_PADES
-PROFILE_XADES=PROFILE_XADES
-PROFILE_CADES=PROFILE_CADES
 
 #======================================
 # Propietats de Firma Web
 #======================================
+
+PROFILE_PADES=PROFILE_PADES
+PROFILE_XADES=PROFILE_XADES
+PROFILE_CADES=PROFILE_CADES
 
 
 files=1
