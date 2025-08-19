@@ -8,6 +8,8 @@ import es.caib.portafib.back.controller.AbstractAnnexController;
 import es.caib.portafib.back.form.webdb.AnnexFilterForm;
 import es.caib.portafib.back.form.webdb.AnnexForm;
 
+import es.caib.portafib.utils.ConstantsV2;
+
 /**
  * 
  * @author anadal(u80067)
