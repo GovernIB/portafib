@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import es.caib.portafib.back.controller.AbstractAnnexController;
 import es.caib.portafib.back.form.webdb.AnnexFilterForm;
 import es.caib.portafib.back.form.webdb.AnnexForm;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -14,13 +15,15 @@ import es.caib.portafib.back.form.webdb.AnnexForm;
  *
  */
 @Controller
-@RequestMapping(value = "/soli/gestioannexes")
+@RequestMapping(
+        value = { ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/gestioannexes",
+                ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_FIRMADA + "/gestioannexes",
+                ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_REBUTJADA + "/gestioannexes" })
 @SessionAttributes(types = { AnnexForm.class, AnnexFilterForm.class })
 public class AnnexSoliController extends AbstractAnnexController {
 
-  @Override
-  public int getType() {
-    return TYPE_SOLI;
-  }
-
+    @Override
+    public int getType() {
+        return TYPE_SOLI;
+    }
 }

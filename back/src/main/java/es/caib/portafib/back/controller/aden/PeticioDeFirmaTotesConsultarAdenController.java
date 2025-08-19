@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
  */
 @Controller
 @RequestMapping(value = ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_TOTES_CONSULTAR)
-@SessionAttributes(types = { SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class,
-    PeticioDeFirmaFilterForm.class})
+@SessionAttributes(types = { SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
 /* Unificar Consulta i Gestionar les Peticions de Firma de l'administrador d'entitat #991
 @MenuOption(
         group = Tab.MENU_ADEN,
@@ -27,39 +26,46 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 */
 public class PeticioDeFirmaTotesConsultarAdenController extends AbstractPeticioDeFirmaAdenController {
 
-  @Override
-  public String getTileList() {
-    return "peticionsDeFirmaTotesList";
-  }
+    /**
+     * AnnexAdenController conté aquesta ruta, si es vol canviar, cal canviar-la també allà
+     */
+    public String getAnnexPath() {
+        return ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_TOTES_CONSULTAR + "/gestioannexes" + "/list";
+    }
 
-  @Override
-  public String getTileForm() {
-    return "peticioDeFirmaTotesForm";
-  }
+    @Override
+    public String getTileList() {
+        return "peticionsDeFirmaTotesList";
+    }
 
-  @Override
-  public String getSessionAttributeFilterForm() {
-    return super.getSessionAttributeFilterForm() + "_totes_peticions_consultar";
-  }
+    @Override
+    public String getTileForm() {
+        return "peticioDeFirmaTotesForm";
+    }
 
-  @Override
-  public String getEntityNameCode() {
-    return "peticiodefirma.totes.consultar";
-  }
+    @Override
+    public String getSessionAttributeFilterForm() {
+        return super.getSessionAttributeFilterForm() + "_totes_peticions_consultar";
+    }
 
-  @Override
-  public TipusSolicitant getTipusSolicitant() {
-    return TipusSolicitant.SOLICITANT_TOTS;
-  }
-  
-  @Override
-  public boolean isNomesConsulta() {
-    return true;
-  }
+    @Override
+    public String getEntityNameCode() {
+        return "peticiodefirma.totes.consultar";
+    }
 
-  @Override
-  public boolean addCreateButton() {
-    return false;
-  }
+    @Override
+    public TipusSolicitant getTipusSolicitant() {
+        return TipusSolicitant.SOLICITANT_TOTS;
+    }
+
+    @Override
+    public boolean isNomesConsulta() {
+        return true;
+    }
+
+    @Override
+    public boolean addCreateButton() {
+        return false;
+    }
 
 }

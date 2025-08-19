@@ -32,6 +32,14 @@ import es.caib.portafib.utils.ConstantsV2;
 @MenuOption(group = Tab.MENU_SOLI, labelCode = "peticiodefirma.rebutjada.plural", order = 50)
 public class PeticioDeFirmaRebutjadaSoliController extends PeticioDeFirmaSoliController {
 
+    /**
+     * AnnexSoliController conté aquesta ruta, si es vol canviar, cal canviar-la també allà
+     */
+    @Override
+    public String getAnnexPath() {
+      return ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_REBUTJADA + "/gestioannexes/list";
+    }
+    
     @Override
     public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
         Where pare = super.getAdditionalCondition(request);

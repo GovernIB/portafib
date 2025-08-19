@@ -42,7 +42,7 @@ public abstract class AbstractAnnexController extends AnnexController {
 
     public static final int TYPE_ADEN = 1;
 
-    public static final int TYPE_ADEN2 = 2;
+    public static final int TYPE_ADAPP = 2;
 
     @Override
     public String getTileForm() {

@@ -23,6 +23,14 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @MenuOption(group = Tab.MENU_ADEN, labelCode = "peticiodefirma.totes.gestionar.llistar", order = 190)
 public class PeticioDeFirmaTotesGestionarAdenController extends AbstractPeticioDeFirmaAdenController {
 
+    
+    /**
+     * AnnexAdenController conté aquesta ruta, si es vol canviar, cal canviar-la també allà
+     */
+    public String getAnnexPath() {
+        return ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_TOTES_GESTIONAR + "/gestioannexes" + "/list";
+    }
+    
     @Override
     public String getTileList() {
         return "peticionsDeFirmaTotesList";

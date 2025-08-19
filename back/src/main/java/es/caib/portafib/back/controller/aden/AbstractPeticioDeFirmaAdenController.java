@@ -36,10 +36,7 @@ public abstract class AbstractPeticioDeFirmaAdenController extends AbstractPetic
 
     private int COLUMN_REMITENT = 1;
 
-    @Override
-    public String getAnnexPath() {
-        return AnnexAdenController.CONTEXT_WEB + "/list";
-    }
+    public abstract String getAnnexPath();
 
     @Override
     public String getFluxPath() {
@@ -63,11 +60,6 @@ public abstract class AbstractPeticioDeFirmaAdenController extends AbstractPetic
     @Override
     public String getTileList() {
         return "peticioDeFirmaAplicacioList";
-    }
-
-    @Override
-    public String getTileSeleccioFlux() {
-        return "seleccionaFluxDeFirmaPerAplicacioForm";
     }
 
     @RequestMapping(value = "/fitxerspeticio/{peticioDeFirmaID}", method = RequestMethod.GET)
@@ -153,9 +145,9 @@ public abstract class AbstractPeticioDeFirmaAdenController extends AbstractPetic
 
     protected static void configureGroupByFieldsPeticioDeFirma(PeticioDeFirmaFilterForm peticioDeFirmaFilterForm,
             boolean showUsuariEntitat, boolean showUsuariAplicacio) {
-        
-     // Revisar el rendiment de la secció de gestió de peticions de firma #1020 
-        
+
+        // Revisar el rendiment de la secció de gestió de peticions de firma #1020 
+
         List<Field<?>> groupByFields = peticioDeFirmaFilterForm.getGroupByFields();
 
         groupByFields.remove(PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE);
@@ -163,21 +155,21 @@ public abstract class AbstractPeticioDeFirmaAdenController extends AbstractPetic
         groupByFields.remove(PeticioDeFirmaFields.PROCEDIMENTCODI);
         /*
         if (peticioDeFirmaFilterForm.isNou() && Configuracio.isCAIB()) {
-
+        
             List<Field<?>> campsGroupBy = new ArrayList<Field<?>>();
-
+        
             //campsGroupBy.add(TIPUSDOCUMENTID);
             campsGroupBy.add(TIPUSESTATPETICIODEFIRMAID);
             //campsGroupBy.add(PRIORITATID);
-
+        
             if (showUsuariAplicacio) {
                 campsGroupBy.add(PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID);
             }
-
+        
             if (showUsuariEntitat) {
                 campsGroupBy.add(PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID);
             }
-
+        
             peticioDeFirmaFilterForm.setGroupByFields(campsGroupBy);
         }
         */

@@ -11,6 +11,7 @@ import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.FirmaService;
+import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.model.fields.FirmaQueryPath;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
@@ -36,20 +37,25 @@ import javax.servlet.http.HttpServletRequest;
  * @author areus
  */
 @Controller
-@RequestMapping(value = "/aden/peticionsdedestinatari")
+@RequestMapping(value = PeticioDeFirmaDeDestinatariAdenController.CONTEXT_WEB)
 @SessionAttributes(types = { PeticionsDeFirmaDeDestinatariFilterForm.class, PeticioDeFirmaForm.class })
 @MenuOption(
         group = Tab.MENU_ADEN,
         labelCode = "peticionsdefirma.destinatari",
-        baseLink = "/aden/peticionsdedestinatari/selecciousuari",
-        relativeLink = "",
+        baseLink = "/aden/peticionsdedestinatari",
+        relativeLink = "/selecciousuari",
         order = 220)
 public class PeticioDeFirmaDeDestinatariAdenController extends AbstractPeticioDeFirmaAdenController {
+    
+    public static final String CONTEXT_WEB = "/aden/peticionsdedestinatari";
 
     public static final String USUARI_ENTITAT_ID_HOLDER = "PeticionsDeFirmaDeDestinatariAdenController_USUARI_ENTITAT_ID_HOLDER";
 
     @EJB(mappedName = FirmaService.JNDI_NAME)
     protected FirmaService firmaEjb;
+    
+    @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
+    protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
     @Autowired
     protected SeleccioUsuariValidator seleccioUsuariValidator;
@@ -106,6 +112,13 @@ public class PeticioDeFirmaDeDestinatariAdenController extends AbstractPeticioDe
     }
 
     // --------------------------------------------------------
+    
+    /**
+     * AnnexAdenController conté aquesta ruta, si es vol canviar, cal canviar-la també allà
+     */
+    public String getAnnexPath() {
+        return CONTEXT_WEB + "/gestioannexes" + "/list";
+    }
 
     @Override
     public String getTileList() {

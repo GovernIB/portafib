@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import es.caib.portafib.back.controller.aden.AbstractPeticioDeFirmaAdenController;
-import es.caib.portafib.back.controller.aden.Annex2AdenController;
 import es.caib.portafib.back.controller.aden.BitacolaPeticio2AdenController;
 import es.caib.portafib.back.controller.aden.FluxDeFirmes2AdenController;
 import es.caib.portafib.back.form.SeleccioFluxDeFirmesForm;
@@ -25,11 +24,7 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_USRAPP)
 @SessionAttributes(types = { SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
-@MenuOption(
-        group = Tab.MENU_ADAPP,
-        labelCode = "peticiodefirma.usrapp.llistar",
-        order = 110,
-        addSeparatorBefore = true)
+@MenuOption(group = Tab.MENU_ADAPP, labelCode = "peticiodefirma.usrapp.llistar", order = 110)
 public final class PeticioDeFirmaAplicacioAdappController extends AbstractPeticioDeFirmaAdenController {
 
     @Override
@@ -63,23 +58,23 @@ public final class PeticioDeFirmaAplicacioAdappController extends AbstractPetici
     }
 
     @Override
-    public String getTileSeleccioFlux() {
-        return "seleccionaFluxDeFirmaPerAplicacioForm2";
-    }
-
-    @Override
     public String getFluxPath() {
         return FluxDeFirmes2AdenController.CONTEXT_WEB;
     }
 
     @Override
     public String getAnnexPath() {
-        return Annex2AdenController.CONTEXT_WEB + "/list";
+        return ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_USRAPP + "/gestioannexes/list";
     }
 
     @Override
     public String getBitacolaContextWeb() {
         return BitacolaPeticio2AdenController.CONTEXT_WEB;
+    }
+
+    @Override
+    protected String getRedirectUrlToSelectFlux() {
+        return PeticioDeFirmaCrearAdappController.CONTEXT_ADAPP_CREAR_PETICIOFIRMA + "/selectflux";
     }
 
 }

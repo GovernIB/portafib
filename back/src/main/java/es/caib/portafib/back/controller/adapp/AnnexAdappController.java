@@ -1,4 +1,4 @@
-package es.caib.portafib.back.controller.aden;
+package es.caib.portafib.back.controller.adapp;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,16 +14,13 @@ import es.caib.portafib.back.form.webdb.AnnexForm;
  *
  */
 @Controller
-@RequestMapping(value = Annex2AdenController.CONTEXT_WEB)
+@RequestMapping(value = ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_USRAPP + "/gestioannexes")
 @SessionAttributes(types = { AnnexForm.class, AnnexFilterForm.class })
-public class Annex2AdenController extends AbstractAnnexController {
+public class AnnexAdappController extends AbstractAnnexController {
 
-  public static final String CONTEXT_WEB = "/aden/gestioannexes2";
-  
-
-  @Override
-  public int getType() {
-    return TYPE_ADEN2;
-  }
+    @Override
+    public int getType() {
+        return TYPE_ADAPP;
+    }
 
 }

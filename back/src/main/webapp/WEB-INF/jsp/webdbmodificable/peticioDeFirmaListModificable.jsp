@@ -1,3 +1,4 @@
+<%@page import="es.caib.portafib.back.controller.adapp.PeticioDeFirmaCrearAdappController"%>
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
 <input type="hidden" id="motiuRebuig" name="motiuRebuig" value=""/>
@@ -7,7 +8,7 @@
 
 
 
-<%--  ======  AQUI COMENǇA MODAL DE SELECCIӓ D'USUARI ============ --%>
+<%--  ======  AQUI COMENÇA MODAL DE SELECCIÓ D'USUARI APLICACIÓ ============ --%>
 
 <style type="text/css">
 .modal-body{overflow-y: inherit;}
@@ -16,9 +17,62 @@
   z-index: 2050;
 }
 </style>
+<div>
+    <form action="<%=request.getContextPath() + PeticioDeFirmaCrearAdappController.CONTEXT_ADAPP_CREAR_PETICIOFIRMA%>/selectflux"
+        method="get" name="seleccioUsuariAppForm">
 
+        <div id="selectUserAppModal" class="modal hide fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h4>
+                            <fmt:message key="selectflux.elegirusuariapp"></fmt:message>
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <table>
+                            <tr>
+                                <td><fmt:message key="usuariAplicacio.usuariAplicacio"></fmt:message></td>
+                                <td><select class="input-xlarge" id="usuariAplicacioID" name="usuariAplicacioID">
+                                        <c:forEach items="${listOfUsuariAplicacio}" var="tmp">
+                                            <option value="${tmp}">${tmp}</option>
+                                        </c:forEach>
+                                </select></td>
+                            </tr>
+                            <tr>
+                                <td><fmt:message key="peticioDeFirma.origenPeticioDeFirma"></fmt:message></td>
+                                <td><select class="input-xlarge" id="origenPeticioDeFirma" name="origenPeticioDeFirma">
+                                        <c:forEach items="${listOfOrigenPeticioDeFirma}" var="tmp">
+                                            <option value="${tmp.key}">${tmp.value}</option>
+                                        </c:forEach>
+                                </select></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <div align="center">
+                            <button id="continuar" type="submit" class="btn btn-primary" title="<fmt:message key="continuar" />">
+                                <%--  <i class="fas fa-plus-circle icon-white"></i> --%>
+                                <fmt:message key="continuar" />
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+     </form>
+</div>
+
+<%-- 
 <div id="selectUserAppModal" class="modal hide fade">
-  <form action="<%=request.getContextPath()%>/${contexte}/selectflux" method="get" name="seleccioUsuariAppForm">
+
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       <h3><fmt:message key="selectflux.elegirusuariapp"></fmt:message></h3>
@@ -51,14 +105,16 @@
        <br/>
        <div align="center">
        <button id="continuar" type="submit" class="btn btn-primary" title="<fmt:message key="continuar" />" >
-          <%--  <i class="fas fa-plus-circle icon-white"></i> --%>
+         
           <fmt:message key="continuar"/>
       </button>
       </div>
 
     </div>
+   </div>
+   --%>
   </form>
-</div>
+  </div>
 <script type="text/javascript">
 
   function openSelectUserAppDialog() {

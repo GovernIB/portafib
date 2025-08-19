@@ -42,15 +42,9 @@ import es.caib.portafib.utils.ConstantsV2;
                 AnnexFilterForm.class, AnnexForm.class })
 @MenuOption(
         group = Tab.MENU_SOLI,
-        labelCode = "peticiodefirma.crear",
-        baseLink = ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/selectflux",
-        relativeLink = "",
-        order = 10)
-@MenuOption(
-        group = Tab.MENU_SOLI,
         labelCode = "peticiodefirma.activa.plural",
-        baseLink = ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/list",
-        relativeLink = "",
+        baseLink = ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA,
+        addSeparatorBefore = true,
         order = 30)
 public class PeticioDeFirmaActivaSoliController extends PeticioDeFirmaSoliController {
 
@@ -58,6 +52,15 @@ public class PeticioDeFirmaActivaSoliController extends PeticioDeFirmaSoliContro
 
     @EJB(mappedName = PropietatGlobalLogicaLocal.JNDI_NAME)
     protected PropietatGlobalLogicaLocal propietatEjb;
+    
+    /**
+     * AnnexSoliController conté aquesta ruta, si es vol canviar, cal canviar-la també allà
+     */
+    @Override
+    public String getAnnexPath() {
+      return ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/gestioannexes/list";
+    }
+    
 
     @Override
     public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {

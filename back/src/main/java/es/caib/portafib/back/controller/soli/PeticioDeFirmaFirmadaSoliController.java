@@ -36,6 +36,14 @@ import es.caib.portafib.utils.ConstantsV2;
         order = 40)
 public class PeticioDeFirmaFirmadaSoliController extends PeticioDeFirmaSoliController {
 
+    /**
+     * AnnexSoliController conté aquesta ruta, si es vol canviar, cal canviar-la també allà
+     */
+    @Override
+    public String getAnnexPath() {
+      return ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_FIRMADA + "/gestioannexes/list";
+    }
+    
     @Override
     public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
         Where pare = super.getAdditionalCondition(request);

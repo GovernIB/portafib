@@ -13,7 +13,7 @@
             </a>
             </c:if>
             <c:if test="${__theFilterForm.viewButtonVisible}">
-            <a class="btn btn-info" href="<c:url value="${contexte}/view/${idioma.idiomaID}"/>" role="button"  title="<fmt:message key="genapp.viewtitle"/>">
+            <a class="btn btn-info" href="<c:url value="${contexte}/view/${idioma.idiomaID}"/>" role="button"  title="<fmt:message key="genapp.view"/>">
                <i class="fas fa-eye"></i>
             </a>
             </c:if>
@@ -80,7 +80,7 @@
             <li>
             <a class="btn btn-info btn-sm a_item" style="margin-bottom:5px;color: white;" href="<c:url value="${contexte}/view/${idioma.idiomaID}"/>" onclick="null">
             <i class="fas fa-eye"></i>
-             <fmt:message key="genapp.viewtitle"/>
+             <fmt:message key="genapp.view"/>
             </a>
             </li>
             </c:if>
