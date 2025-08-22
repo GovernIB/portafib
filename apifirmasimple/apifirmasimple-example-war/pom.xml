@@ -1,119 +1,121 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>apifirmasimple-example-war</artifactId>
-  <packaging>war</packaging>
+    <artifactId>apifirmasimple-example-war</artifactId>
+    <packaging>war</packaging>
 
-  <name>FundacioBit - ApisIB - API Firma Simple - Exemple WebApp</name>
+    <name>FundacioBit - ApisIB - API Firma Simple - Exemple WebApp</name>
 
-  <parent>
-    <artifactId>apifirmasimple</artifactId>
-    <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
-    <version>1.0.3</version>
-  </parent>
+    <parent>
+        <artifactId>apifirmasimple</artifactId>
+        <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
+        <version>1.0.3</version>
+    </parent>
 
-  <properties>
-    <org.springframework.version>3.2.18.RELEASE</org.springframework.version>
-  </properties>
+    <properties>
+        <org.springframework.version>3.2.18.RELEASE</org.springframework.version>
+    </properties>
 
-  <dependencies>
+    <dependencies>
 
-    <!-- ================  API implementation JERSEY ======================== -->
+        <!-- ================ API implementation JERSEY ======================== -->
 
-    <dependency>
-      <artifactId>apifirmasimple-jersey</artifactId>
-      <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
-      <version>1.0.3</version>
-    </dependency>
+        <dependency>
+            <artifactId>apifirmasimple-jersey</artifactId>
+            <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
+            <version>1.0.3</version>
+        </dependency>
 
-    <!-- ================  WEB ======================== -->
+        <!-- ================ WEB ======================== -->
 
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>2.5</version>
-      <scope>provided</scope>
-    </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
 
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-core</artifactId>
-      <version>${org.springframework.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-webmvc</artifactId>
-      <version>${org.springframework.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-tx</artifactId>
-      <version>${org.springframework.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-beans</artifactId>
-      <version>${org.springframework.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>jstl</groupId>
-      <artifactId>jstl</artifactId>
-      <version>1.2</version>
-    </dependency>
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
 
-    <dependency>
-      <groupId>taglibs</groupId>
-      <artifactId>standard</artifactId>
-      <version>1.1.2</version>
-    </dependency>
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>1.1.2</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.7.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>1.7.2</version>
-    </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.2</version>
+        </dependency>
 
-    <dependency>
-      <groupId>commons-fileupload</groupId>
-      <artifactId>commons-fileupload</artifactId>
-      <version>1.2.1</version>
-    </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.2.1</version>
+        </dependency>
 
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>1.4</version>
-    </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.4</version>
+        </dependency>
 
-  </dependencies>
+    </dependencies>
 
-  <build>
+    <build>
 
-    <finalName>firmasimple</finalName>
+        <finalName>firmasimple</finalName>
 
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>3.2.3</version>
-        <configuration>
-          <packagingExcludes>
-                  WEB-INF/lib/xml-apis-*.jar,
-                  WEB-INF/lib/slf4j*.jar
-          </packagingExcludes>
-        </configuration>
-      </plugin>
-    </plugins>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.3</version>
+                <configuration>
+                    <packagingExcludes>
+                        WEB-INF/lib/xml-apis-*.jar,
+                        WEB-INF/lib/slf4j*.jar
+                    </packagingExcludes>
+                </configuration>
+            </plugin>
+        </plugins>
 
-  </build>
+    </build>
 
 </project>
