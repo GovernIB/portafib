@@ -340,6 +340,8 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
         try {
             //log.info("eNTRA A startTransaction => FirmaWebSimpleStartTransactionRequest: "
             //        + startTransactionRequest);
+            
+            
 
             // TODO XYZ ZZZ CHECKS DE LOGIN
             LoginInfo loginInfo = commonChecks();
@@ -347,8 +349,10 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
             //log.info("LOGININFO => " + loginInfo);
 
             final String transactionID = startTransactionRequest.getTransactionID();
+            
+            
 
-            //log.info("startTransaction::transactionID => |" + transactionID + "|");
+            log.info("startTransaction(" + transactionID + ") => app=" + loginInfo.getUsuariAplicacio());
             //log.info("startTransaction::currentTransactions.size() => " + currentTransactions.size());
 
             TransactionInfo ti = currentTransactions.get(transactionID);

@@ -28,7 +28,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @Controller
 @RequestMapping(value = PeticioDeFirmaCaducadaAdenController.CONTEXT_WEB)
 @SessionAttributes(types = { PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
-@MenuOption(group = Tab.MENU_ADEN, labelCode = "peticionscaducades.llistat", addSeparatorBefore = true, order = 200)
+@MenuOption(group = Tab.MENU_ADEN, labelCode = "peticionscaducades.llistat", order = 200)
 public class PeticioDeFirmaCaducadaAdenController extends AbstractPeticioDeFirmaAdenController {
 
     public static final String CONTEXT_WEB = "/aden/peticionscaducades";

@@ -196,6 +196,7 @@ public class SignatureModuleController extends HttpServlet {
         if (modulsFiltered.size() == 1) {
             PluginJPA modul = modulsFiltered.get(0);
             long pluginID = modul.getPluginID();
+            signaturesSet.setSelectedPluginID(pluginID);
             String url = getContextWeb() + "/showsignaturemodule/" + pluginID + "/" + signaturesSetID;
             return new ModelAndView(new RedirectView(url, true));
         }
@@ -769,7 +770,7 @@ public class SignatureModuleController extends HttpServlet {
         final String signaturesSetID = signaturesSet.getSignaturesSetID();
         synchronized (portaFIBSignaturesSets) {
             if (portaFIBSignaturesSets.containsKey(signaturesSetID)) {
-                log.info("startSignatureProcess(" + signaturesSetID + "): " + signaturesSet);
+                log.info("startSignatureProcess(" + signaturesSetID + "): " + signaturesSet.getUrlFinalOriginal());
                 log.warn("startSignatureProcess(" + signaturesSetID + "): ALREADY CONTAINS KEY !!!!");
             }
             //log.info("SignatureModuleController::startSignatureProcess() " + "=> Afegint signaturesSetID=" + signaturesSetID);

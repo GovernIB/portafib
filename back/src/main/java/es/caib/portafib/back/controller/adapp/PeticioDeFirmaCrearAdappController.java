@@ -42,11 +42,11 @@ public class PeticioDeFirmaCrearAdappController extends PeticioDeFirmaCrearSoliC
 
     @Override
     public String getContextWebToNewRequestMapping() {
-        return PeticioDeFirmaCrearAdappController.CONTEXT_ADEN_PETICIOFIRMA_USRAPP + "/new";
+        return PeticioDeFirmaAplicacioAdappController.CONTEXT_ADAPP_PETICIOFIRMA_USRAPP + "/new";
     }
     
     public String getContextWebToListRequestMapping() {
-        return PeticioDeFirmaCrearAdappController.CONTEXT_ADEN_PETICIOFIRMA_USRAPP + "/list";
+        return PeticioDeFirmaAplicacioAdappController.CONTEXT_ADAPP_PETICIOFIRMA_USRAPP + "/list";
     }
 
     @Override

@@ -59,7 +59,7 @@ public class RestUtilsErrorManager extends RestUtils {
         return loginInfo;
     }
 
-    protected String internalGetTransacction() {
+    protected synchronized String internalGetTransacction() {
         String transactionID = IdGeneratorFactory.getGenerator().generate();
         if (log.isDebugEnabled()) {
             log.debug("Creada transacció amb ID = [" + transactionID + "]");

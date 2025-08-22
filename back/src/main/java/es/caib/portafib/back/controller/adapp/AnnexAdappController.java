@@ -8,7 +8,6 @@ import es.caib.portafib.back.controller.AbstractAnnexController;
 import es.caib.portafib.back.form.webdb.AnnexFilterForm;
 import es.caib.portafib.back.form.webdb.AnnexForm;
 
-import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -16,7 +15,7 @@ import es.caib.portafib.utils.ConstantsV2;
  *
  */
 @Controller
-@RequestMapping(value = ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_USRAPP + "/gestioannexes")
+@RequestMapping(value = PeticioDeFirmaAplicacioAdappController.CONTEXT_ADAPP_PETICIOFIRMA_USRAPP + "/gestioannexes")
 @SessionAttributes(types = { AnnexForm.class, AnnexFilterForm.class })
 public class AnnexAdappController extends AbstractAnnexController {
 

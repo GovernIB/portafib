@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import es.caib.portafib.back.controller.AbstractAnnexController;
 import es.caib.portafib.back.form.webdb.AnnexFilterForm;
 import es.caib.portafib.back.form.webdb.AnnexForm;
-import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -19,8 +18,8 @@ import es.caib.portafib.utils.ConstantsV2;
         value = { PeticioDeFirmaCaducadaAdenController.CONTEXT_WEB + "/gestioannexes",
                 PeticioDeFirmaDeDestinatariAdenController.CONTEXT_WEB + "/gestioannexes",
                 PeticioDeFirmaNetejarEsborrarAdenController.CONTEXT_WEB + "/gestioannexes",
-                ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_TOTES_CONSULTAR + "/gestioannexes",
-                ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_TOTES_GESTIONAR + "/gestioannexes" })
+                PeticioDeFirmaTotesConsultarAdenController.CONTEXT_ADEN_PETICIOFIRMA_TOTES_CONSULTAR + "/gestioannexes",
+                PeticioDeFirmaTotesGestionarAdenController.CONTEXT_ADEN_PETICIOFIRMA_TOTES_GESTIONAR + "/gestioannexes" })
 @SessionAttributes(types = { AnnexForm.class, AnnexFilterForm.class })
 public class AnnexAdenController extends AbstractAnnexController {
 

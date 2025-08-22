@@ -10,7 +10,6 @@ import es.caib.portafib.back.controller.aden.FluxDeFirmes2AdenController;
 import es.caib.portafib.back.form.SeleccioFluxDeFirmesForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
-import es.caib.portafib.utils.ConstantsV2;
 
 import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import es.caib.portafib.back.utils.Tab;
@@ -22,11 +21,13 @@ import es.caib.portafib.back.utils.Tab;
  * @author anadal (u80067)
  */
 @Controller
-@RequestMapping(value = ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_USRAPP)
+@RequestMapping(value = PeticioDeFirmaAplicacioAdappController.CONTEXT_ADAPP_PETICIOFIRMA_USRAPP)
 @SessionAttributes(types = { SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
 @MenuOption(group = Tab.MENU_ADAPP, labelCode = "peticiodefirma.usrapp.llistar", order = 110)
 public final class PeticioDeFirmaAplicacioAdappController extends AbstractPeticioDeFirmaAdenController {
 
+    public static final String CONTEXT_ADAPP_PETICIOFIRMA_USRAPP = "/aden/peticiofirmaaplicacio";
+    
     @Override
     public String getEntityNameCode() {
         return "peticiodefirma.usrapp";
@@ -64,7 +65,7 @@ public final class PeticioDeFirmaAplicacioAdappController extends AbstractPetici
 
     @Override
     public String getAnnexPath() {
-        return ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_USRAPP + "/gestioannexes/list";
+        return PeticioDeFirmaAplicacioAdappController.CONTEXT_ADAPP_PETICIOFIRMA_USRAPP + "/gestioannexes/list";
     }
 
     @Override
