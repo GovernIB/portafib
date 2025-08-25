@@ -36,11 +36,12 @@ public class InfoVersioV1Api {
   }
 
   /**
-   * Revisa l&#39;estat del servidor: valida CPU, valida BBDD i valida sistema de fitxers.
+   * Revisa l&#39;estat del servidor: valida memòria, CPU, BBDD i sistema de fitxers.
    * 
+   * @return a {@code Double}
    * @throws ApiException if fails to make API call
    */
-  public void checkstatus() throws ApiException {
+  public Double checkstatus() throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -68,9 +69,9 @@ public class InfoVersioV1Api {
 
     String[] localVarAuthNames = new String[] {  };
 
-
-    apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
-  }
+    GenericType<Double> localVarReturnType = new GenericType<Double>() {};
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+      }
   /**
    * Retorna la versió de PortaFIB REST
    * 

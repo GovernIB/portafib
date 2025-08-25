@@ -1,6 +1,6 @@
 /*
  * API Interna de PortaFIB de consulta de informació de versions de PortaFIB
- * Conjunt de Serveis REST de PortaFIB per atendre consultes informació de versions.
+ * Conjunt de Serveis REST de PortaFIB per atendre verons de l'API i App així com saber l'estat del servidor
  *
  * The version of the OpenAPI document: 1.0-SNAPSHOT
  * Contact: otae@fundaciobit.org

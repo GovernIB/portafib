@@ -99,7 +99,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @OpenAPIDefinition(
         tags = @Tag(
                 name = SignatureFlowTemplateService.TAG_NAME,
-                description = "API Interna de PortaFIB que ofereix operacions CRUD sobre Plantilles de Flux de Firmes."))
+                description = "Plantilla de Flux de Firma Swagger v1. API Interna de PortaFIB que ofereix "
+                        + "operacions CRUD (web i no web) sobre Plantilles de Flux de Firmes."))
 @SecurityScheme(type = SecuritySchemeType.HTTP, name = SignatureFlowTemplateService.SECURITY_NAME, scheme = "basic")
 @ApiResponses(
         value = {

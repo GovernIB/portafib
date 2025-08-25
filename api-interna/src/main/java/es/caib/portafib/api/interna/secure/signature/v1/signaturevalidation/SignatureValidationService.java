@@ -62,7 +62,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @OpenAPIDefinition(
         tags = @Tag(
                 name = SignatureValidationService.TAG_NAME,
-                description = "API Interna de PortaFIB que ofereix serveis de validació de firmes."))
+                description = "Firma Validació Swagger v1.API Interna de PortaFIB que ofereix serveis de validació de firmes."))
 @SecurityScheme(type = SecuritySchemeType.HTTP, name = CommonsSwaggerOperations.SECURITY_NAME, scheme = "basic")
 @ApiResponses(
         value = {

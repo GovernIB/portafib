@@ -67,7 +67,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 @Path(RevisorsService.PATH)
 @OpenAPIDefinition(
         info = @Info(
-                title = "API Interna de PortaFIB de consulta de Revisors d'un destinatari",
+                title = "DEPRECATED !!!! API Interna de PortaFIB de consulta de Revisors d'un destinatari",
                 description = "Conjunt de Serveis REST de PortaFIB per atendre consultes sobre REVISORS d'un destinatari.",
                 version = "1.0-SNAPSHOT",
                 license = @License(

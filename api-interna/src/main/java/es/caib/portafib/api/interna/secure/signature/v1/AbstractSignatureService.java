@@ -126,19 +126,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author anadal(u80067)
  *
  */
-@OpenAPIDefinition(
-        info = @Info(
-                title = "API Interna de PortaFIB que ofereix serveis associats amb la firma digital",
-                description = "Conjunt de Serveis REST de PortaFIB per atendre peticions de firma en servidor,"
-                        + " firma web, firma asincrona, utilitats de firma i plantilla de flux de firma.",
-                version = "1.0-SNAPSHOT",
-                license = @License(
-                        name = "European Union Public Licence (EUPL v1.2)",
-                        url = "https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf"),
-                contact = @Contact(
-                        name = "Departament de Govern Digital a la Fundació Bit",
-                        email = "firma@fundaciobit.org",
-                        url = "https://governdigital.fundaciobit.org")))
 public abstract class AbstractSignatureService extends RestUtils {
 
     public static final String TIPUS_WEB = "WEB";

@@ -1,12 +1,12 @@
 {
   "openapi" : "3.0.1",
   "info" : {
-    "title" : "API Interna de PortaFIB que ofereix serveis de firma web immediada.",
-    "description" : "Conjunt de Serveis REST de PortaFIB per atendre peticions de firma a través de web de forma immediata.",
+    "title" : "API Interna de PortaFIB que ofereix serveis associats amb la firma digital",
+    "description" : "Conjunt de Serveis REST de PortaFIB per atendre peticions de firma en servidor, firma web síncrona, firma web asíncrona, validació de firma i plantilla de flux de firma.",
     "contact" : {
       "name" : "Departament de Govern Digital a la Fundació Bit",
-      "url" : "http://governdigital.fundaciobit.org",
-      "email" : "otae@fundaciobit.org"
+      "url" : "https://governdigital.fundaciobit.org",
+      "email" : "firma@fundaciobit.org"
     },
     "license" : {
       "name" : "European Union Public Licence (EUPL v1.2)",
@@ -15,8 +15,8 @@
     "version" : "1.0-SNAPSHOT"
   },
   "externalDocs" : {
-    "description" : "Java API Interna Client (Github Source Code)",
-    "url" : "https://github.com/GovernIB/portafib/tree/portafib-3.0/"
+    "description" : "Manual d'usuari Signature v1 (Ús i Guia de Migració des d'APIsIB)",
+    "url" : "https://github.com/GovernIB/portafib/blob/portafib-3.0/doc/Manual_de_Migraci%C3%B3_de_APIsIB_a_Api_Interna.odt"
   },
   "servers" : [ {
     "url" : "/portafibapi/interna"
@@ -33,19 +33,19 @@
   } ],
   "tags" : [ {
     "name" : "AsyncSignatureOnWeb v1",
-    "description" : "Firma Web Asincrona Swagger v1"
+    "description" : "Firma Web Asincrona Swagger v1. API Interna de PortaFIB que ofereix serveis de firma web de forma asíncrona (també anomenada diferida)  incloent múltiples firmants, annexes, fluxos, revisors, ..."
   }, {
     "name" : "DirectSignatureOnWeb v1",
-    "description" : "Firma Web Directa Swagger v1"
+    "description" : "Firma Web Síncrona Swagger v1. Conjunt d'operacions REST de PortaFIB per gestionar peticions de firma a través de web de forma síncrona (també anomenada immediata o directa)."
   }, {
     "name" : "SignatureFlowTemplate v1",
-    "description" : "API Interna de PortaFIB que ofereix operacions CRUD sobre Plantilles de Flux de Firmes."
+    "description" : "Plantilla de Flux de Firma Swagger v1. API Interna de PortaFIB que ofereix operacions CRUD (web i no web) sobre Plantilles de Flux de Firmes."
   }, {
     "name" : "SignatureOnServer v1",
-    "description" : "API Interna de PortaFIB que ofereix serveis de firma en servidor."
+    "description" : "Firma Server Swagger v1. API Interna de PortaFIB que ofereix serveis de firma en servidor."
   }, {
     "name" : "SignatureValidation v1",
-    "description" : "API Interna de PortaFIB que ofereix serveis de validació de firmes."
+    "description" : "Firma Validació Swagger v1.API Interna de PortaFIB que ofereix serveis de validació de firmes."
   } ],
   "paths" : {
     "/secure/asyncsignatureonweb/v1/createAndStartSignatureRequestWithFlowTemplateCode" : {

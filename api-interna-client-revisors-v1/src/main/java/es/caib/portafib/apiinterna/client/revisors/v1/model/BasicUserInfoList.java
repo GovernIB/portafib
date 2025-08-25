@@ -1,5 +1,5 @@
 /*
- * API Interna de PortaFIB de consulta de Revisors d'un destinatari
+ * DEPRECATED !!!! API Interna de PortaFIB de consulta de Revisors d'un destinatari
  * Conjunt de Serveis REST de PortaFIB per atendre consultes sobre REVISORS d'un destinatari.
  *
  * The version of the OpenAPI document: 1.0-SNAPSHOT

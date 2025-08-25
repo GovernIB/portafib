@@ -27,6 +27,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -41,7 +42,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 @OpenAPIDefinition(
         info = @Info(
                 title = "API Interna de PortaFIB de consulta de informació de versions de PortaFIB",
-                description = "Conjunt de Serveis REST de PortaFIB per atendre consultes informació de versions.",
+                description = "Conjunt de Serveis REST de PortaFIB per atendre verons de l'API i App així com saber l'estat del servidor",
                 version = "1.0-SNAPSHOT",
                 license = @License(
                         name = "European Union Public Licence (EUPL v1.2)",
@@ -50,6 +51,9 @@ import io.swagger.v3.oas.annotations.media.Content;
                         name = "Departament de Govern Digital a la Fundació Bit",
                         email = "otae@fundaciobit.org",
                         url = "https://governdigital.fundaciobit.org")),
+        externalDocs = @ExternalDocumentation(
+                description = "Client Java per API Info Versió Swagger (Codi font i exemples)",
+                url = "https://github.com/GovernIB/portafib/tree/portafib-3.0/api-interna-client-infoversio-v1"),
         tags = @Tag(
                 name = InfoVersioService.TAG_NAME,
                 description = "Informació basica del servidor: versió producte, versió API, ..."))
@@ -175,30 +179,30 @@ public class InfoVersioService extends RestUtils {
     @Operation(
             tags = TAG_NAME,
             operationId = "checkstatus",
-            summary = "Revisa l'estat del servidor: valida CPU, valida BBDD i valida sistema de fitxers.")
+            summary = "Revisa l'estat del servidor: valida memòria, CPU, BBDD i sistema de fitxers.")
     @ApiResponses(
             value = { @ApiResponse(
                     responseCode = "200",
-                    description = "Operació realitzada correctament",
+                    description = "Retorna el % d'espai lliure del Disc Dur",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON,
-                            schema = @Schema(implementation = Void.class))) })
-    public void checkStatus(@Parameter(hidden = true) @Context
+                            schema = @Schema(implementation = Double.class))) })
+    public Double checkStatus(@Parameter(hidden = true) @Context
     HttpServletRequest request) throws RestException {
 
-        if (inqueue > 3) {
+        if (inqueue > 0) {
             String msg = "El servidor té massa peticions pendents, espereu uns segons i torneu-ho a provar: "
                     + request.getRemoteHost();
             log.error(msg, new Exception());
             throw new RestException(msg);
         }
-        
+
         long start = System.currentTimeMillis();
 
         try {
             inqueue++;
 
-            if ((lastAccess + 4* 1000) < System.currentTimeMillis()) {
+            if ((lastAccess + 4 * 1000) < System.currentTimeMillis()) {
                 // Fa molt poc que s'ha cridat. Esperam 4 segons
                 try {
                     Thread.sleep(inqueue * 4000);
@@ -219,8 +223,8 @@ public class InfoVersioService extends RestUtils {
             }
 
             // Test file System
+            File path = FileSystemManager.getFilesPath();
             {
-                File path = FileSystemManager.getFilesPath();
                 if (path == null || !path.exists()) {
                     String msg = "No s'ha pogut accedir al sistema de fitxers: " + path;
                     throw new RestException(msg);
@@ -250,6 +254,14 @@ public class InfoVersioService extends RestUtils {
                 entitatLogicaEjb.findByPrimaryKeyPublic("hola");
             }
 
+            try {
+                return getDetailedDiskInfo(path);
+            } catch (Exception e) {
+                // TODO: handle exception
+                log.error("Error calculant dades d'espai lliure del disk dur: " + e.getMessage(), e);
+                return null;
+            }
+
         } catch (RestException re) {
             throw re;
         } catch (Throwable th) {
@@ -258,8 +270,66 @@ public class InfoVersioService extends RestUtils {
             throw new RestException(msg, th);
         } finally {
             inqueue--;
-            log.info("Temps per revisar l'estat del servidor: " + (System.currentTimeMillis() - start) + " ms [" + inqueue + "]");
+            log.info("Temps per revisar l'estat del servidor: " + (System.currentTimeMillis() - start) + " ms ["
+                    + inqueue + "]");
         }
 
     }
+
+    /**
+     * Método sobrecargado que devuelve información más detallada
+     */
+    public static double getDetailedDiskInfo(File file) throws Exception {
+
+        if (!file.exists()) {
+            throw new Exception("La ruta no existe: " + file.getAbsolutePath());
+        }
+
+        long totalSpace = file.getTotalSpace();
+        long freeSpace = file.getFreeSpace();
+        long usableSpace = file.getUsableSpace();
+
+        if (totalSpace <= 0) {
+            throw new Exception("No se puede obtener información del espacio");
+        }
+
+        double freePercentage = (usableSpace * 100.0) / totalSpace;
+        double usedPercentage = 100.0 - freePercentage;
+
+        // Convertir bytes a GB para mejor legibilidad
+        double totalGB = totalSpace / (1024.0 * 1024.0 * 1024.0);
+        double freeGB = freeSpace / (1024.0 * 1024.0 * 1024.0);
+        double usableGB = usableSpace / (1024.0 * 1024.0 * 1024.0);
+
+        System.out.println(String.format(
+                "Información del disco:%n" + "Ruta: %s%n" + "Espacio total: %.2f GB%n" + "Espacio libre: %.2f GB%n"
+                        + "Espacio usable: %.2f GB%n" + "Porcentaje libre: %.2f%%%n" + "Porcentaje usado: %.2f%%",
+                file.getAbsoluteFile(), totalGB, freeGB, usableGB, freePercentage, usedPercentage));
+
+        return ((int) (freePercentage * 100)) / 100.0; // Redondear a 2 decimales;
+
+    }
+
+    // Ejemplo de uso
+    public static void main(String[] args) {
+        try {
+
+            // Ejemplos de rutas (ajusta según tu sistema)
+            String[] paths = { "C:", // Windows                
+                    "D:\\", // Windows - otra unidad
+            };
+
+            for (String path : paths) {
+                //double freePercentage = getFreeDiskSpacePercentage(path);
+                double freePercentage = getDetailedDiskInfo(new File(path));
+                if (freePercentage >= 0) {
+                    System.out.println("----------------------");
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

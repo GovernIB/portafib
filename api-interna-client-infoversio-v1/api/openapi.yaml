@@ -4,16 +4,16 @@ info:
     email: otae@fundaciobit.org
     name: Departament de Govern Digital a la Fundació Bit
     url: https://governdigital.fundaciobit.org
-  description: Conjunt de Serveis REST de PortaFIB per atendre consultes informació
-    de versions.
+  description: Conjunt de Serveis REST de PortaFIB per atendre verons de l'API i App
+    així com saber l'estat del servidor
   license:
     name: European Union Public Licence (EUPL v1.2)
     url: https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf
   title: API Interna de PortaFIB de consulta de informació de versions de PortaFIB
   version: 1.0-SNAPSHOT
 externalDocs:
-  description: Java API Interna Client (Github Source Code)
-  url: https://github.com/GovernIB/portafib/tree/portafib-3.0/
+  description: Client Java per API Info Versió Swagger (Codi font i exemples)
+  url: https://github.com/GovernIB/portafib/tree/portafib-3.0/api-interna-client-infoversio-v1
 servers:
 - url: /portafibapi/interna
 - url: http://localhost:8080/portafibapi/interna
@@ -55,10 +55,13 @@ paths:
           description: Error no controlat
         "200":
           content:
-            application/json: {}
-          description: Operació realitzada correctament
-      summary: "Revisa l'estat del servidor: valida CPU, valida BBDD i valida sistema\
-        \ de fitxers."
+            application/json:
+              schema:
+                format: double
+                type: number
+          description: Retorna el % d'espai lliure del Disc Dur
+      summary: "Revisa l'estat del servidor: valida memòria, CPU, BBDD i sistema de\
+        \ fitxers."
       tags:
       - InfoVersio v1
       x-accepts:

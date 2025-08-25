@@ -95,7 +95,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @OpenAPIDefinition(
         tags = @Tag(
                 name = SignatureOnServerService.TAG_NAME,
-                description = "API Interna de PortaFIB que ofereix serveis de firma en servidor."))
+                description = "Firma Server Swagger v1. API Interna de PortaFIB que ofereix serveis de firma en servidor."))
 @SecurityScheme(type = SecuritySchemeType.HTTP, name = SignatureOnServerService.SECURITY_NAME, scheme = "basic")
 @ApiResponses(
         value = {

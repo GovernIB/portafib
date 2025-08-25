@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.1",
   "info" : {
-    "title" : "API Interna de PortaFIB de consulta de Revisors d'un destinatari",
+    "title" : "DEPRECATED !!!! API Interna de PortaFIB de consulta de Revisors d'un destinatari",
     "description" : "Conjunt de Serveis REST de PortaFIB per atendre consultes sobre REVISORS d'un destinatari.",
     "contact" : {
       "name" : "Departament de Govern Digital a la Fundació Bit",
@@ -13,10 +13,6 @@
       "url" : "https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf"
     },
     "version" : "1.0-SNAPSHOT"
-  },
-  "externalDocs" : {
-    "description" : "Java API Interna Client (Github Source Code)",
-    "url" : "https://github.com/GovernIB/portafib/tree/portafib-3.0/"
   },
   "servers" : [ {
     "url" : "/portafibapi/interna"

@@ -4,7 +4,7 @@ All URIs are relative to */portafibapi/interna*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**checkstatus**](InfoVersioV1Api.md#checkstatus) | **GET** /public/infoversio/v1/checkstatus | Revisa l&#39;estat del servidor: valida CPU, valida BBDD i valida sistema de fitxers. |
+| [**checkstatus**](InfoVersioV1Api.md#checkstatus) | **GET** /public/infoversio/v1/checkstatus | Revisa l&#39;estat del servidor: valida memòria, CPU, BBDD i sistema de fitxers. |
 | [**versioApi**](InfoVersioV1Api.md#versioApi) | **GET** /public/infoversio/v1/versioapi | Retorna la versió de PortaFIB REST |
 | [**versioApp**](InfoVersioV1Api.md#versioApp) | **GET** /public/infoversio/v1/versioapp | Retorna la versió de PortaFIB |
 
@@ -12,9 +12,9 @@ All URIs are relative to */portafibapi/interna*
 
 ## checkstatus
 
-> checkstatus()
+> Double checkstatus()
 
-Revisa l&#39;estat del servidor: valida CPU, valida BBDD i valida sistema de fitxers.
+Revisa l&#39;estat del servidor: valida memòria, CPU, BBDD i sistema de fitxers.
 
 ### Example
 
@@ -33,7 +33,8 @@ public class Example {
 
         InfoVersioV1Api apiInstance = new InfoVersioV1Api(defaultClient);
         try {
-            apiInstance.checkstatus();
+            Double result = apiInstance.checkstatus();
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling InfoVersioV1Api#checkstatus");
             System.err.println("Status code: " + e.getCode());
@@ -51,7 +52,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-null (empty response body)
+**Double**
 
 ### Authorization
 
@@ -70,7 +71,7 @@ No authorization required
 | **401** | No Autenticat |  -  |
 | **403** | No autoritzat |  -  |
 | **500** | Error no controlat |  -  |
-| **200** | Operació realitzada correctament |  -  |
+| **200** | Retorna el % d&#39;espai lliure del Disc Dur |  -  |
 
 
 ## versioApi

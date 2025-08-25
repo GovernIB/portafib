@@ -2,7 +2,7 @@
   "openapi" : "3.0.1",
   "info" : {
     "title" : "API Interna de PortaFIB de consulta de informació de versions de PortaFIB",
-    "description" : "Conjunt de Serveis REST de PortaFIB per atendre consultes informació de versions.",
+    "description" : "Conjunt de Serveis REST de PortaFIB per atendre verons de l'API i App així com saber l'estat del servidor",
     "contact" : {
       "name" : "Departament de Govern Digital a la Fundació Bit",
       "url" : "https://governdigital.fundaciobit.org",
@@ -15,8 +15,8 @@
     "version" : "1.0-SNAPSHOT"
   },
   "externalDocs" : {
-    "description" : "Java API Interna Client (Github Source Code)",
-    "url" : "https://github.com/GovernIB/portafib/tree/portafib-3.0/"
+    "description" : "Client Java per API Info Versió Swagger (Codi font i exemples)",
+    "url" : "https://github.com/GovernIB/portafib/tree/portafib-3.0/api-interna-client-infoversio-v1"
   },
   "servers" : [ {
     "url" : "/portafibapi/interna"
@@ -39,7 +39,7 @@
     "/public/infoversio/v1/checkstatus" : {
       "get" : {
         "tags" : [ "InfoVersio v1" ],
-        "summary" : "Revisa l'estat del servidor: valida CPU, valida BBDD i valida sistema de fitxers.",
+        "summary" : "Revisa l'estat del servidor: valida memòria, CPU, BBDD i sistema de fitxers.",
         "operationId" : "checkstatus",
         "responses" : {
           "400" : {
@@ -83,9 +83,14 @@
             }
           },
           "200" : {
-            "description" : "Operació realitzada correctament",
+            "description" : "Retorna el % d'espai lliure del Disc Dur",
             "content" : {
-              "application/json" : { }
+              "application/json" : {
+                "schema" : {
+                  "type" : "number",
+                  "format" : "double"
+                }
+              }
             }
           }
         }

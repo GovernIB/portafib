@@ -1,6 +1,6 @@
 # portafib-api-interna-client-revisors-v1
 
-API Interna de PortaFIB de consulta de Revisors d&#39;un destinatari
+DEPRECATED !!!! API Interna de PortaFIB de consulta de Revisors d&#39;un destinatari
 
 - API version: 1.0-SNAPSHOT
 

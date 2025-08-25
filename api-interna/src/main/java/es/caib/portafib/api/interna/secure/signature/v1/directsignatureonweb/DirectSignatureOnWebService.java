@@ -60,9 +60,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
-import io.swagger.v3.oas.annotations.info.Contact;
-import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
@@ -81,18 +78,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  */
 @Path(DirectSignatureOnWebService.PATH)
 @OpenAPIDefinition(
-        info = @Info(
-                title = "API Interna de PortaFIB que ofereix serveis de firma web immediada.",
-                description = "Conjunt de Serveis REST de PortaFIB per atendre peticions de firma a través de web de forma immediata.",
-                version = "1.0-SNAPSHOT",
-                license = @License(
-                        name = "European Union Public Licence (EUPL v1.2)",
-                        url = "https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf"),
-                contact = @Contact(
-                        name = "Departament de Govern Digital a la Fundació Bit",
-                        email = "otae@fundaciobit.org",
-                        url = "http://governdigital.fundaciobit.org")),
-        tags = @Tag(name = DirectSignatureOnWebService.TAG_NAME, description = "Firma Web Directa Swagger v1"))
+        tags = @Tag(
+                name = DirectSignatureOnWebService.TAG_NAME,
+                description = "Firma Web Síncrona Swagger v1. "
+                        + "Conjunt d'operacions REST de PortaFIB per gestionar peticions de firma "
+                        + "a través de web de forma síncrona (també anomenada immediata o directa)."))
 @SecurityScheme(type = SecuritySchemeType.HTTP, name = DirectSignatureOnWebService.SECURITY_NAME, scheme = "basic")
 @ApiResponses(
         value = {

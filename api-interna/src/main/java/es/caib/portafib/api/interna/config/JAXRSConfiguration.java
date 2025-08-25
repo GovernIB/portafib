@@ -21,10 +21,8 @@ import org.jboss.logging.Logger;
                 @Server(url = "https://dev.caib.es/portafibapi/interna"),
                 @Server(url = "https://proves.caib.es/portafibapi/interna"),
                 @Server(url = "https://se.caib.es/portafibapi/interna"),
-                @Server(url = "https://www.caib.es/portafibapi/interna") },
-        externalDocs = @ExternalDocumentation(
-                description = "Java API Interna Client (Github Source Code)",
-                url = "https://github.com/GovernIB/portafib/tree/portafib-3.0/"))
+                @Server(url = "https://www.caib.es/portafibapi/interna") }
+        )
 @ApplicationPath("/")
 public class JAXRSConfiguration extends Application {
 

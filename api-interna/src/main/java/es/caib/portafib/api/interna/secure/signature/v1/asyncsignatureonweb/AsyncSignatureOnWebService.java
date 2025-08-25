@@ -57,6 +57,7 @@ import es.caib.portafib.api.interna.secure.signature.v1.commons.SignedFile;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.hibernate.HibernateFileUtil;
 import es.caib.portafib.utils.ConstantsV2;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -107,18 +108,28 @@ import java.util.TreeSet;
  */
 @Path(AsyncSignatureOnWebService.PATH)
 @OpenAPIDefinition(
+        /** ======   @INFO s'ha de definir NOMES a un lloc i es aquí ==== **/
         info = @Info(
-                title = "API Interna de PortaFIB que ofereix serveis de firma web a traves de PortaFirmes de forma asíncrona o diferida.",
-                description = "Conjunt de Serveis REST de PortaFIB per atendre peticions de firma a través de web de PortaFIB, incloent multiples firmants, fluxos i revisors",
+                title = "API Interna de PortaFIB que ofereix serveis associats amb la firma digital",
+                description = "Conjunt de Serveis REST de PortaFIB per atendre peticions de firma en servidor,"
+                        + " firma web síncrona, firma web asíncrona, validació de firma i plantilla de flux de firma.",
+                        summary = "API Interna de PortaFIB XXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
                 version = "1.0-SNAPSHOT",
                 license = @License(
                         name = "European Union Public Licence (EUPL v1.2)",
                         url = "https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf"),
                 contact = @Contact(
                         name = "Departament de Govern Digital a la Fundació Bit",
-                        email = "otae@fundaciobit.org",
-                        url = "http://governdigital.fundaciobit.org")),
-        tags = @Tag(name = AsyncSignatureOnWebService.TAG_NAME, description = "Firma Web Asincrona Swagger v1"))
+                        email = "firma@fundaciobit.org",
+                        url = "https://governdigital.fundaciobit.org") 
+                ),
+        externalDocs = @ExternalDocumentation(
+                        description = "Manual d'usuari Signature v1 (Ús i Guia de Migració des d'APIsIB)",
+                        url = "https://github.com/GovernIB/portafib/blob/portafib-3.0/doc/Manual_de_Migraci%C3%B3_de_APIsIB_a_Api_Interna.odt"),
+        /** ======   @INFO Final de INFO  ==== **/
+        tags = @Tag(name = AsyncSignatureOnWebService.TAG_NAME, description = "Firma Web Asincrona Swagger v1. "
+                + "API Interna de PortaFIB que ofereix serveis de firma web de forma asíncrona (també anomenada diferida) "
+                + " incloent múltiples firmants, annexes, fluxos, revisors, ..."))
 @SecurityScheme(type = SecuritySchemeType.HTTP, name = AsyncSignatureOnWebService.SECURITY_NAME, scheme = "basic")
 @ApiResponses(
         value = {
