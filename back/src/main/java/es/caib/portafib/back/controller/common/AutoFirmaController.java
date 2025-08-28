@@ -301,7 +301,7 @@ public class AutoFirmaController extends FitxerController implements PeticioDeFi
 
             PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat.getTime(),
                     commonInfoSignature, new FileInfoSignature[] { fis }, new int[] { originalNumberOfSigns },
-                    loginInfo.getEntitat(), urlFinal, true, baseUrl);
+                    loginInfo.getUsuariEntitatID(), loginInfo.getEntitat(), urlFinal, true, baseUrl);
 
             signaturesSet.setPluginsFirmaBySignatureID(null);
             // Afegir usuariAplicació per #173

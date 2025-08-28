@@ -3,6 +3,7 @@ package es.caib.portafib.back.controller.common;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBSessionLocaleResolver;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
+import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
@@ -32,6 +33,7 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.StringWriter;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -72,7 +74,8 @@ public class PassarelaDeFirmaController {
 
     @RequestMapping(value = "/start/{transactionID}", method = RequestMethod.GET)
     public ModelAndView passarelaGet(HttpServletRequest request, HttpServletResponse response,
-            @PathVariable("transactionID") String signaturesSetID) throws Exception, I18NException {
+            @PathVariable("transactionID")
+            String signaturesSetID) throws Exception, I18NException {
 
         PassarelaSignaturesSetWebInternalUse ssf = passarelaDeFirmaEjb
                 .getSignaturesSetFullByTransactionID(signaturesSetID);
@@ -80,7 +83,24 @@ public class PassarelaDeFirmaController {
         if (ssf == null) {
             // XYZ ZZZ Enviar a pàgina que digui que algua cosa ha passat
             // XYZ ZZZ TODO Traduir
-            throw new Exception("La transacció amb ID " + signaturesSetID + " no existeix o ja ha caducat.");
+            final String msg = "La transacció amb ID " + signaturesSetID + " no existeix o ja ha caducat.";
+            log.error(msg, new Exception());
+
+            throw new Exception(msg);
+        }
+
+        // Problema de Fitxer Buit retornat per plugin i warning "ALREADY CONTAINS KEY !!!!"   #1081
+        {
+            if (ssf.getStartDate() != null) {
+                //Utils.printRequestInfo(request);
+                String msg = "Algú ja ha accedit a aquesta url amb transacció ID igual " + signaturesSetID
+                        + ". Revisi de no obrir més d'una vegada aquesta url " + request.getRequestURL() + " (usrapp = "
+                        + ssf.getApplicationID() + ")";
+                log.error(msg);
+                throw new Exception(msg);
+            }
+
+            ssf.setStartDate(new Date());
         }
 
         // Passarela només pot tenir una sola Configuracio
@@ -107,7 +127,7 @@ public class PassarelaDeFirmaController {
 
             PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat,
                     ss.getCommonInfoSignature(), ss.getFileInfoSignatureArray(), ssf.getOriginalNumberOfSignsArray(),
-                    entitat, urlFinal, !ssf.isFullView(), ssf.getBaseUrl());
+                    ssf.getApplicationID(), entitat, urlFinal, !ssf.isFullView(), ssf.getBaseUrl());
 
             // Filtres definits en l'Aplicació CLient
             List<Long> filterByPluginsID = pss.getCommonInfoSignature().getAcceptedPlugins();
@@ -198,7 +218,8 @@ public class PassarelaDeFirmaController {
      */
     @RequestMapping(value = PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH_FINAL + "/{transactionID}")
     public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
-            @PathVariable("transactionID") String transactionID) throws Exception {
+            @PathVariable("transactionID")
+            String transactionID) throws Exception {
 
         log.debug("PASSA PER PassarelaDeFirmaController::finalProcesDeFirma[" + transactionID + "]");
 
@@ -213,7 +234,8 @@ public class PassarelaDeFirmaController {
 
     @RequestMapping(value = PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH_FINAL + "Real" + "/{transactionID}")
     public ModelAndView finalProcesDeFirmaReal(HttpServletRequest request, HttpServletResponse response,
-            @PathVariable("transactionID") String transactionID) throws Exception, I18NException {
+            @PathVariable("transactionID")
+            String transactionID) throws Exception, I18NException {
 
         final boolean debug = log.isDebugEnabled();
 

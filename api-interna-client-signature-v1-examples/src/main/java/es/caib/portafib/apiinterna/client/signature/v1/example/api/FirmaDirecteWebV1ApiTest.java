@@ -63,6 +63,7 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
 
         } catch (ApiException ae) {
             test.processApiException(ae, "Tests de Firma Web Sincrona", true);
+            ae.printStackTrace(System.err);
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
@@ -143,6 +144,7 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
             startTransactionInfo.setView(view);
 
             String redirectUrl = api.startTransaction(startTransactionInfo);
+            api.startTransaction(startTransactionInfo);
 
             if (showInIframe) {
                 final String iframeUrl = "http://" + host + ":" + (port+1) + "/iframe/";

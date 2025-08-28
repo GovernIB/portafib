@@ -447,8 +447,12 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
             if (ti.getStatus() != TransactionInfo.STATUS_RESERVED_ID) {
                 // TODO XYZ ZZZ Traduir
+                final Map<Integer, String> ESTATS = Map.of(TransactionInfo.STATUS_RESERVED_ID, "STATUS_RESERVED_ID",
+                        TransactionInfo.STATUS_IN_PROGRESS, "STATUS_IN_PROGRESS");
+                
                 throw new RestException("La transacció " + transactionID + " es troba en un estat (" + ti.getStatus()
-                        + ") en que no es pot arrancar.");
+                        + " => " + ESTATS.get(ti.getStatus()) 
+                        + " ). Només es permet arrancar una transacció si aquesta es troba en estat Reservat");
             }
 
             languageUI = ti.getCommonInfo().getLanguageUI();

@@ -1130,8 +1130,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         String baseUrl = Utils.getUrlBaseFromFullUrl(request, baseUrlFull);
 
         PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat.getTime(),
-                commonInfoSignature, fileInfoSignatureArray, originalNumberOfSignsArray, entitat, urlFirmaFinal, true,
-                baseUrl);
+                commonInfoSignature, fileInfoSignatureArray, originalNumberOfSignsArray, loginInfo.getUsuariEntitatID(),
+                entitat, urlFirmaFinal, true, baseUrl);
 
         signaturesSet.setPluginsFirmaBySignatureID(null);
 

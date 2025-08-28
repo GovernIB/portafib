@@ -17,7 +17,9 @@ import es.caib.portafib.commons.utils.Configuracio;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
+import org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.pluginsib.signature.api.CommonInfoSignature;
 import org.fundaciobit.pluginsib.signature.api.StatusSignaturesSet;
 import org.fundaciobit.pluginsib.signatureweb.api.ISignatureWebPlugin;
 import org.fundaciobit.pluginsib.signatureweb.api.SignaturesSetWeb;
@@ -336,10 +338,10 @@ public class SignatureModuleController extends HttpServlet {
 
         ModelAndView mav = new ModelAndView("PluginFirmaFinal");
         // Redireccio
-        
+
         //String redireccio = request.getContextPath() + getContextWeb() + "/final/" + URLEncoder.encode(signaturesSetID, "UTF-8");
         String redireccio = pss.getUrlFinalOriginal();
-        
+
         mav.addObject("URL_FINAL", redireccio); // 
         mav.addObject("window", (pss == null || pss.isRedirectToParentWindow()) ? "window.top" : "window");
 
@@ -376,10 +378,26 @@ public class SignatureModuleController extends HttpServlet {
                     + " a l'hora de mostrar el mòdul de firma. Caducat?";
             return generateErrorMAV(request, signaturesSetID, msg, null);
         }
+        
+        
+        // Problema de Fitxer Buit retornat per plugin i warning "ALREADY CONTAINS KEY !!!!"   #1081
+        {
+            if (signaturesSet.getStartDate() != null) {
+                //Utils.printRequestInfo(request);
+                String msg = "Algú ja ha accedit a aquesta url amb transacció ID igual " + signaturesSetID
+                        + ". Revisi de no obrir més d'una vegada aquesta url " + request.getRequestURL() + " (Usuari = "
+                        + signaturesSet.getUsr() + ")";
+                log.error(msg);
+                return generateErrorMAV(request, signaturesSetID, msg, null);
+            }
+
+            signaturesSet.setStartDate(new Date());
+        }
+        
 
         if (log.isDebugEnabled()) {
             log.debug("PortaFIBSignaturesSet signaturesSet = " + signaturesSet);
-            log.debug("signaturesSet[" + signaturesSetID + "].setPluginID(" + pluginID + ") ");
+            log.debug("signaturesSet[" + signaturesSetID + "].setSelectedPluginID(" + pluginID + ") ");
             log.debug("getContextWeb: " + getContextWeb());
         }
         signaturesSet.setSelectedPluginID(pluginID);
@@ -770,10 +788,27 @@ public class SignatureModuleController extends HttpServlet {
         final String signaturesSetID = signaturesSet.getSignaturesSetID();
         synchronized (portaFIBSignaturesSets) {
             if (portaFIBSignaturesSets.containsKey(signaturesSetID)) {
-                log.info("startSignatureProcess(" + signaturesSetID + "): " + signaturesSet.getUrlFinalOriginal());
-                log.warn("startSignatureProcess(" + signaturesSetID + "): ALREADY CONTAINS KEY !!!!");
+
+                log.warn("startSignatureProcess(" + signaturesSetID + "): ALREADY CONTAINS KEY !!!!  ");
+                log.warn("startSignatureProcess(" + signaturesSetID + "): Algún procés anterior amb SignatureID="
+                        + signaturesSetID + " ja ha iniciat el procés de firma");
+
+                log.info("startSignatureProcess(" + signaturesSetID + "): Aplicació actual " + request.getRemoteUser());
+
+                log.info("======  SIGNATURESet ANTIC ======");
+                log.info(toString(portaFIBSignaturesSets.get(signaturesSetID)));
+
+                log.info("======  SIGNATURESet NOU ======");
+                log.info(toString(signaturesSet));
+
+                // Problema de Fitxer Buit retornat per plugin i warning "ALREADY CONTAINS KEY !!!!" #1081
+                // Sembla que s'intenta iniciar dues vegades el procés de firma amb el mateix ID {0}. Data: {1}
+                throw new I18NException("moduldefirma.alreadyexistsignaturesset", signaturesSetID,
+                        new I18NDateTimeFormat().format(new Date()));
+
             }
-            //log.info("SignatureModuleController::startSignatureProcess() " + "=> Afegint signaturesSetID=" + signaturesSetID);
+            log.info("SignatureModuleController::startSignatureProcess(" + request.getRemoteUser() + ") "
+                    + "=> Afegint signaturesSetID=" + signaturesSetID);
             portaFIBSignaturesSets.put(signaturesSetID, signaturesSet);
         }
 
@@ -793,6 +828,37 @@ public class SignatureModuleController extends HttpServlet {
         mav.addObject("urlToSelectPluginPage", urlToSelectPluginPagePage);
 
         return mav;
+    }
+
+    public static String toString(PortaFIBSignaturesSet pss) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("getUsr => ").append(pss.getUsr()).append("\n");
+        sb.append("getUrlBase => ").append(pss.getUrlBase()).append("\n");
+        sb.append("getUrlFinal => ").append(pss.getUrlFinal()).append("\n");
+        sb.append("getUrlFinalOriginal => ").append(pss.getUrlFinalOriginal()).append("\n");
+        sb.append("getExpiryDate => ").append(pss.getExpiryDate()).append("\n");
+
+        StatusSignaturesSet sss = pss.getStatusSignaturesSet();
+        if (sss == null) {
+            sb.append("getStatusSignaturesSet => NULL\n");
+        } else {
+            sb.append("getStatusSignaturesSet.getStatus => ").append(sss.getStatus()).append("\n");
+            sb.append("getStatusSignaturesSet.getErrorMsg => ").append(sss.getErrorMsg()).append("\n");
+            sb.append("getStatusSignaturesSet.getErrorException => ").append(sss.getErrorException()).append("\n");
+        }
+
+        if (pss.getCommonInfoSignature() == null) {
+            sb.append("commonInfoSignature = NULL\n");
+
+        } else {
+            CommonInfoSignature cis = pss.getCommonInfoSignature();
+            sb.append("commonInfoSignature.getAdministrationID => ").append(cis.getAdministrationID()).append("\n");
+            sb.append("commonInfoSignature.getUsername => ").append(cis.getUsername()).append("\n");
+        }
+        sb.append("\n\n");
+
+        return sb.toString();
+
     }
 
     public static String getRelativePortaFIBBase(HttpServletRequest request) {

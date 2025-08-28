@@ -25,14 +25,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.lang.reflect.Method;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URI;
 import java.util.List;
 import java.util.Properties;
-
-import com.sun.jersey.api.client.filter.LoggingFilter;
 
 /**
  *
@@ -255,14 +252,16 @@ public class ApiFirmaWebSimpleTester {
                         postFix = "_signed.unknown_extension_for_sign_type_" + signType;
                     }
 
-                    final String outFile = signID + "_" + fsf.getNom() + postFix;
+                    final File results = new File("./results");
+                    results.mkdirs();
+                    final File outFile = new File(results, signID + "_" + fsf.getNom() + postFix);
 
                     FileOutputStream fos = new FileOutputStream(outFile);
                     fos.write(fsf.getData());
                     fos.flush();
                     fos.close();
 
-                    System.out.println("  RESULT: Fitxer signat guardat en '" + outFile + "'");
+                    System.out.println("  RESULT: Fitxer signat guardat en '" + outFile.getAbsolutePath() + "'");
                     //System.gc();
 
                     ApiFirmaEnServidorSimpleTester.printSignatureInfo(fssr);
@@ -315,12 +314,14 @@ public class ApiFirmaWebSimpleTester {
                 prop.getProperty("password"));
         
         
-        // AIXÔ ES PER DEPURAR CRIDADA HTTP I RESPOSTA HTTP
+        // AIXÒ ES PER DEPURAR CRIDADA HTTP I RESPOSTA HTTP
+        /*
         Method method = org.fundaciobit.apisib.jerseycore.AbstractApisIBConnectionManagerJersey.class.getDeclaredMethod("getClient");
         method.setAccessible(true);
         Object resultado = method.invoke(api);
         com.sun.jersey.client.apache4.ApacheHttpClient4 client = (com.sun.jersey.client.apache4.ApacheHttpClient4)resultado;
         client.addFilter(new LoggingFilter(System.out));
+        */
         
         return api;
     }

@@ -36,20 +36,31 @@ public class PortaFIBSignaturesSet extends SignaturesSetWeb {
     protected final String urlBase;
 
     /**
+     * Usuari Aplicacio o UsuariEntitat que inicia el procés de signatura
+     */
+    protected final String usr;
+
+    /**
+     * Data d'inici del procés web de signatura (accés a la pàgina del Plugin de Firma WEB)
+     */
+    protected Date startDate = null;
+
+    /**
      * @param signaturesSetID
      * @param expiryDate
      * @param commonInfoSignature
      * @param fileInfoSignatureArray
      */
     public PortaFIBSignaturesSet(String signaturesSetID, Date expiryDate, CommonInfoSignature commonInfoSignature,
-            FileInfoSignature[] fileInfoSignatureArray, int[] originalNumberOfSignsArray, EntitatJPA entitat,
-            String urlFinal, boolean redirectToParentWindow, String urlBase) {
+            FileInfoSignature[] fileInfoSignatureArray, int[] originalNumberOfSignsArray, String usr,
+            EntitatJPA entitat, String urlFinal, boolean redirectToParentWindow, String urlBase) {
         super(signaturesSetID, expiryDate, commonInfoSignature, fileInfoSignatureArray, urlFinal);
         this.urlFinalOriginal = this.getUrlFinal();
         this.entitat = entitat;
         this.redirectToParentWindow = redirectToParentWindow;
         this.originalNumberOfSignsArray = originalNumberOfSignsArray;
         this.urlBase = urlBase;
+        this.usr = usr;
     }
 
     public Map<String, List<Long>> getPluginsFirmaBySignatureID() {
@@ -106,6 +117,18 @@ public class PortaFIBSignaturesSet extends SignaturesSetWeb {
 
     public String getUrlBase() {
         return urlBase;
+    }
+
+    public String getUsr() {
+        return usr;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
 }

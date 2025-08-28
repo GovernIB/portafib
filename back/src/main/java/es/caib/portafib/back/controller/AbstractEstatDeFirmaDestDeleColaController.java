@@ -827,8 +827,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         }
 
         PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat.getTime(),
-                commonInfoSignature, fileInfoSignatureArray, originalNumberOfSignsArray, loginInfo.getEntitat(),
-                urlFinal, true, baseUrl);
+                commonInfoSignature, fileInfoSignatureArray, originalNumberOfSignsArray,
+                loginInfo.getUsuariEntitatID(), loginInfo.getEntitat(), urlFinal, true, baseUrl);
 
         signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 
@@ -1126,7 +1126,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
         PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat.getTime(),
                 commonInfoSignature, new FileInfoSignature[] { fif.fileInfoSignature },
-                new int[] { fif.originalNumberOfSigns }, entitat, urlFinal, true, baseUrl);
+                new int[] { fif.originalNumberOfSigns }, loginInfo.getUsuariEntitatID(),
+                entitat, urlFinal, true, baseUrl);
 
         signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 

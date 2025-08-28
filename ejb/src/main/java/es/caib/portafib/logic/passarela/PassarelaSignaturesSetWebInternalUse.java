@@ -1,5 +1,6 @@
 package es.caib.portafib.logic.passarela;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,6 +42,11 @@ public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStat
     protected final Map<String, PassarelaSignatureStatusWebInternalUse> statusBySignatureID = new HashMap<String, PassarelaSignatureStatusWebInternalUse>();
 
     protected Long signaturePluginId = null;
+    
+    /**
+     * Data d'inici del procés web de signatura (accés a /public/passarela/start/)
+     */
+    protected Date startDate = null;
 
     /**
      * @param signaturesSet
@@ -126,6 +132,14 @@ public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStat
 
     public void setSignaturePluginId(Long signaturePluginId) {
         this.signaturePluginId = signaturePluginId;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
 }
