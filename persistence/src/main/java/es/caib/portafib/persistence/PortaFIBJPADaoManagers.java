@@ -12,6 +12,7 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
    private final BlocDeFirmesJPAManager pfi_blocdefirmes;
    private final CodiBarresJPAManager pfi_codibarres;
    private final ColaboracioDelegacioJPAManager pfi_colaboraciodelegacio;
+   private final CorreuAgrupatJPAManager pfi_correuagrupat;
    private final CustodiaInfoJPAManager pfi_custodiainfo;
    private final EntitatJPAManager pfi_entitat;
    private final EstadisticaJPAManager pfi_estadistica;
@@ -58,6 +59,7 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
     this.pfi_blocdefirmes = new BlocDeFirmesJPAManager(__em);
     this.pfi_codibarres = new CodiBarresJPAManager(__em);
     this.pfi_colaboraciodelegacio = new ColaboracioDelegacioJPAManager(__em);
+    this.pfi_correuagrupat = new CorreuAgrupatJPAManager(__em);
     this.pfi_custodiainfo = new CustodiaInfoJPAManager(__em);
     this.pfi_entitat = new EntitatJPAManager(__em);
     this.pfi_estadistica = new EstadisticaJPAManager(__em);
@@ -120,6 +122,10 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
 
     public IColaboracioDelegacioManager getColaboracioDelegacioManager() {
         return this.pfi_colaboraciodelegacio;
+    };
+
+    public ICorreuAgrupatManager getCorreuAgrupatManager() {
+        return this.pfi_correuagrupat;
     };
 
     public ICustodiaInfoManager getCustodiaInfoManager() {

@@ -243,6 +243,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
     @EJB(mappedName = RebreAvisLogicaLocal.JNDI_NAME)
     private RebreAvisLogicaLocal rebreAvisLogicaEjb;
+    
+    @EJB(mappedName = es.caib.portafib.ejb.CorreuAgrupatService.JNDI_NAME)
+    protected es.caib.portafib.ejb.CorreuAgrupatService correuAgrupatEjb;
 
     @Resource
     private SessionContext context;
@@ -4063,7 +4066,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
             // Enviar mails
             try {
-                EmailUtil.enviarMails(emailsEntitat, rebreAvisLogicaEjb);
+                EmailUtil.enviarMails(emailsEntitat, rebreAvisLogicaEjb, correuAgrupatEjb);
             } catch (I18NException e) {
                 log.error("Error enviant correus de l'entitat " + entitatID + ": "
                         + I18NLogicUtils.getMessage(e, new Locale("ca")), e);

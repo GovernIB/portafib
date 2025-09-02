@@ -51,7 +51,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="permisGrupPlantilla.permisGrupPlantilla.plural", order=210, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="permisGrupPlantilla.permisGrupPlantilla.plural", order=220, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/permisGrupPlantilla")
 @SessionAttributes(types = { PermisGrupPlantillaForm.class, PermisGrupPlantillaFilterForm.class })

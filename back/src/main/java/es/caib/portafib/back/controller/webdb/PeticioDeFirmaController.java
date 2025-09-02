@@ -54,7 +54,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="peticioDeFirma.peticioDeFirma.plural", order=230, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="peticioDeFirma.peticioDeFirma.plural", order=240, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/peticioDeFirma")
 @SessionAttributes(types = { PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })

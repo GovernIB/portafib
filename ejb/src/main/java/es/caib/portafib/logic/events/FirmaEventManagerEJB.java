@@ -78,6 +78,9 @@ public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2
 
     @EJB(mappedName = NotificacioWSLogicaLocal.JNDI_NAME)
     protected NotificacioWSLogicaLocal notificacioLogicaEjb;
+    
+    @EJB(mappedName = es.caib.portafib.ejb.CorreuAgrupatService.JNDI_NAME)
+    protected es.caib.portafib.ejb.CorreuAgrupatService correuAgrupatEjb;
 
     protected final Logger log = Logger.getLogger(getClass());
 
@@ -359,7 +362,7 @@ public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2
             }
         }
 
-        EmailUtil.enviarMails(avisos, rebreAvisLogicaEjb);
+        EmailUtil.enviarMails(avisos, rebreAvisLogicaEjb,  correuAgrupatEjb);
 
         if (wakeUpTimer) {
             notifCallback.wakeUp();

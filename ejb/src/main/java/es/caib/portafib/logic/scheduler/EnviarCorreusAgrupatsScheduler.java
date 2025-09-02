@@ -2,20 +2,26 @@ package es.caib.portafib.logic.scheduler;
 
 import java.util.Map;
 
+import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
+import es.caib.portafib.logic.CorreuAgrupatLogicaLocal;
 import es.caib.portafib.logic.misc.EnviarCorreusAgrupatsUtils;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 
 /**
  * 
  * @author anadal
- * 8 abr 2025 11:25:28
+ * 08/04/2025 11:25:28
+ * 29/08/2025  Agrupacio de Fitxers via BBDD 
  */
 @Singleton
 @Startup
 public class EnviarCorreusAgrupatsScheduler extends AbstractScheduler {
+
+    @EJB(mappedName = CorreuAgrupatLogicaLocal.JNDI_NAME)
+    protected CorreuAgrupatLogicaLocal correuAgrupatLogicaEjb;
 
     @Override
     public String getSchedulerName() {
@@ -33,7 +39,7 @@ public class EnviarCorreusAgrupatsScheduler extends AbstractScheduler {
         //return "0 52 13 * * ? *"; //;
         String cron = PropietatGlobalUtil.getEmailsGroupedSenderCronExpression();
         if (cron == null || cron.trim().length() == 0) {
-            cron =  "0 0/10 6 * * ? *";
+            cron = "0 0/10 6 * * ? *";
         }
         return cron;
     }
@@ -41,18 +47,40 @@ public class EnviarCorreusAgrupatsScheduler extends AbstractScheduler {
     @Override
     public void executeTask(ControlOfExecution coe) {
         try {
-            Map<String, Integer> enviats;
+            // 1.- Correus Agrupats guardats en Fitxers
+            {
+                Map<String, Integer> enviats;
 
-            enviats = EnviarCorreusAgrupatsUtils.enviarAvisosAgrupats(coe);
+                enviats = EnviarCorreusAgrupatsUtils.enviarAvisosAgrupats(coe);
 
-            StringBuilder sb = new StringBuilder();
-            enviats.forEach((key, value) -> sb.append(key).append("(").append(value).append(") |"));
+                if (enviats != null && !enviats.isEmpty()) {
+                    StringBuilder sb = new StringBuilder();
+                    enviats.forEach((key, value) -> sb.append(key).append("(").append(value).append(") |"));
 
-            log.info(" -- executeTask() de " + getSchedulerName() + ": S'han enviat " + enviats.size()
-                    + " Avisos Agrupats: " + sb.toString());
+                    log.info(" -- executeTask() de " + getSchedulerName() + ": S'han enviat " + enviats.size()
+                            + " Avisos Agrupats de tipus Fitxer: " + sb.toString());
+                }
+            }
+
+            // 2.- Correus Agrupats guardats en Base de Dades 
+            {
+
+                Map<String, Integer> enviats;
+
+                enviats = correuAgrupatLogicaEjb.enviarCorreusAgrupatsDeBBDD(coe);
+
+                if (enviats != null && !enviats.isEmpty()) {
+                    StringBuilder sb = new StringBuilder();
+                    enviats.forEach((key, value) -> sb.append(key).append("(").append(value).append(") |"));
+
+                    log.info(" -- executeTask() de " + getSchedulerName() + ": S'han enviat " + enviats.size()
+                            + " Avisos Agrupats de tipus BBDD: " + sb.toString());
+                }
+
+            }
 
         } catch (Throwable e) {
-            log.error("Error enviant Avisos Agrupats: " + e.getMessage(), e);
+            log.error("Error enviant Avisos Agrupats (fitxer & bbdd): " + e.getMessage(), e);
         }
     }
 

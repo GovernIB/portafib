@@ -250,6 +250,19 @@ public class UsuariEntitatJPA implements UsuariEntitat {
     }
 
 
+// EXP  Field:usuarientitatid | Table: pfi_correuagrupat | Type: 0  
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuariEntitat")
+    private Set<CorreuAgrupatJPA> correuAgrupats = new HashSet<CorreuAgrupatJPA>(0);
+    public  Set<CorreuAgrupatJPA> getCorreuAgrupats() {
+    return this.correuAgrupats;
+  }
+
+    public void setCorreuAgrupats(Set<CorreuAgrupatJPA> correuAgrupats) {
+      this.correuAgrupats = correuAgrupats;
+    }
+
+
 // EXP  Field:usuarientitatid | Table: pfi_custodiainfo | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuariEntitat")
@@ -646,6 +659,10 @@ public class UsuariEntitatJPA implements UsuariEntitat {
     if(!"RevisorDeDestinatariJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.revisorDeDestinatari_revisorids) || org.hibernate.Hibernate.isInitialized(__jpa.getRevisorDeDestinatari_revisorids())) ) {
       __tmp.setRevisorDeDestinatari_revisorids(RevisorDeDestinatariJPA.copyJPA(__jpa.getRevisorDeDestinatari_revisorids(), __alreadyCopied,"UsuariEntitatJPA"));
+    }
+    if(!"CorreuAgrupatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.correuAgrupats) || org.hibernate.Hibernate.isInitialized(__jpa.getCorreuAgrupats())) ) {
+      __tmp.setCorreuAgrupats(CorreuAgrupatJPA.copyJPA(__jpa.getCorreuAgrupats(), __alreadyCopied,"UsuariEntitatJPA"));
     }
     if(!"PeticioDeFirmaJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirma_solicitantpersona3ids) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirma_solicitantpersona3ids())) ) {

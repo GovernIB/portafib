@@ -45,7 +45,7 @@ public class EnviarCorreusAgrupatsUtils {
 
     public static final String BASE_PATH_AGRUPAR_CORREUS = "CORREUSAGRUPATS";
 
-    public static File getFile(final String usuariEntitatId, final long eventID, final String basePath) {
+    private static File getFile(final String usuariEntitatId, final long eventID, final String basePath) {
 
         File rebreAvisDir = new File(FileSystemManager.getFilesPath(), basePath);
         rebreAvisDir.mkdirs();
@@ -58,6 +58,7 @@ public class EnviarCorreusAgrupatsUtils {
         }
     }
 
+    /*
     public static File saveAvisAgrupat(final String usuariEntitatId, final long eventID, EmailInfo emailInfo)
             throws Exception {
 
@@ -87,6 +88,7 @@ public class EnviarCorreusAgrupatsUtils {
         }
 
     }
+    */
 
     public static Map<String, Integer> enviarAvisosAgrupats(ControlOfExecution coe) throws Exception {
 

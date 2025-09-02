@@ -16,8 +16,9 @@ import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
 import es.caib.portafib.commons.utils.Configuracio;
+import es.caib.portafib.ejb.CorreuAgrupatService;
 import es.caib.portafib.logic.RebreAvisLogicaLocal;
-import es.caib.portafib.logic.misc.EnviarCorreusAgrupatsUtils;
+import es.caib.portafib.persistence.CorreuAgrupatJPA;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
@@ -52,7 +53,7 @@ public class EmailUtil {
         try {
             Context ctx = new InitialContext();
             Session session = (javax.mail.Session) ctx.lookup(ConstantsV2.MAIL_SERVICE);
-            
+
             //session.setDebug(true);
 
             // Creamos el mensaje
@@ -89,7 +90,7 @@ public class EmailUtil {
 
             // Mandamos el mail
             Transport.send(msg);
-            
+
             return true;
         } catch (Exception e) {
 
@@ -108,8 +109,8 @@ public class EmailUtil {
      * @param rebreAvisLogicaEjb
      * @throws I18NException
      */
-    public static void enviarMails(List<EmailInfo> emailInfos, RebreAvisLogicaLocal rebreAvisLogicaEjb)
-            throws I18NException {
+    public static void enviarMails(List<EmailInfo> emailInfos, RebreAvisLogicaLocal rebreAvisLogicaEjb,
+            CorreuAgrupatService correuAgrupatEjb) throws I18NException {
 
         if (emailInfos == null || emailInfos.size() == 0) {
             return;
@@ -125,7 +126,16 @@ public class EmailUtil {
 
                 if (usuariEntitatId != null && rebreAgrupat) {
                     // Guardar per enviar més endavant
-                    EnviarCorreusAgrupatsUtils.saveAvisAgrupat(usuariEntitatId, eventID, emailInfo);
+                    //EnviarCorreusAgrupatsUtils.saveAvisAgrupat(usuariEntitatId, eventID, emailInfo);
+
+                    java.lang.String email = emailInfo.getEmail();
+                    java.lang.String subject = emailInfo.getSubject();
+                    java.lang.String message = emailInfo.getMessage();
+                    boolean html = emailInfo.isHtml();
+
+                    CorreuAgrupatJPA ca = new CorreuAgrupatJPA(email, subject, message, html, usuariEntitatId,
+                            new java.sql.Timestamp(System.currentTimeMillis()), null);
+                    correuAgrupatEjb.create(ca);
 
                 } else {
                     // Enviar a l'instant

@@ -155,6 +155,9 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
     @EJB(mappedName = RebreAvisLogicaLocal.JNDI_NAME)
     private RebreAvisLogicaLocal rebreAvisLogicaEjb;
+    
+    @EJB(mappedName = es.caib.portafib.ejb.CorreuAgrupatService.JNDI_NAME)
+    protected es.caib.portafib.ejb.CorreuAgrupatService correuAgrupatEjb;
 
     @Autowired
     protected TipusDocumentRefList tipusDocumentRefList;
@@ -883,7 +886,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             email.setEmail(email_coladele);
 
             try {
-                EmailUtil.enviarMails(Collections.singletonList(email), rebreAvisLogicaEjb);
+                EmailUtil.enviarMails(Collections.singletonList(email), rebreAvisLogicaEjb, correuAgrupatEjb);
             } catch (I18NException e) {
                 String missatge = I18NUtils.getMessage(e);
                 HtmlUtils.saveMessageError(request, missatge);

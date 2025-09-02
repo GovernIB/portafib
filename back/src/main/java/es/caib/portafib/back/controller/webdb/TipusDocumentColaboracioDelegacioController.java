@@ -51,7 +51,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="tipusDocumentColaboracioDelegacio.tipusDocumentColaboracioDelegacio.plural", order=360, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="tipusDocumentColaboracioDelegacio.tipusDocumentColaboracioDelegacio.plural", order=370, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/tipusDocumentColaboracioDelegacio")
 @SessionAttributes(types = { TipusDocumentColaboracioDelegacioForm.class, TipusDocumentColaboracioDelegacioFilterForm.class })

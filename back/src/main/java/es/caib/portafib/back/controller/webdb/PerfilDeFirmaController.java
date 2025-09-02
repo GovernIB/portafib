@@ -51,7 +51,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="perfilDeFirma.perfilDeFirma.plural", order=190, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="perfilDeFirma.perfilDeFirma.plural", order=200, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/perfilDeFirma")
 @SessionAttributes(types = { PerfilDeFirmaForm.class, PerfilDeFirmaFilterForm.class })

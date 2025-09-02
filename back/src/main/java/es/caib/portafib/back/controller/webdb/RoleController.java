@@ -49,7 +49,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="role.role.plural", order=330, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="role.role.plural", order=340, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/role")
 @SessionAttributes(types = { RoleForm.class, RoleFilterForm.class })

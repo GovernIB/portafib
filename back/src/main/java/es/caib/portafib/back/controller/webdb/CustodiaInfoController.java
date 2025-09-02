@@ -51,7 +51,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="custodiaInfo.custodiaInfo.plural", order=60, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="custodiaInfo.custodiaInfo.plural", order=70, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/custodiaInfo")
 @SessionAttributes(types = { CustodiaInfoForm.class, CustodiaInfoFilterForm.class })

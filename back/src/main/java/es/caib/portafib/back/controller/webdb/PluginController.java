@@ -51,7 +51,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="plugin.plugin.plural", order=250, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="plugin.plugin.plural", order=260, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/plugin")
 @SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })

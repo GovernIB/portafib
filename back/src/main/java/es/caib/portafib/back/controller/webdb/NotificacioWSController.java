@@ -51,7 +51,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="notificacioWS.notificacioWS.plural", order=180, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="notificacioWS.notificacioWS.plural", order=190, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/notificacioWS")
 @SessionAttributes(types = { NotificacioWSForm.class, NotificacioWSFilterForm.class })

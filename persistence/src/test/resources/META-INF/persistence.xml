@@ -13,6 +13,7 @@
 		<class>es.caib.portafib.persistence.BlocDeFirmesJPA</class>
 		<class>es.caib.portafib.persistence.CodiBarresJPA</class>
 		<class>es.caib.portafib.persistence.ColaboracioDelegacioJPA</class>
+		<class>es.caib.portafib.persistence.CorreuAgrupatJPA</class>
 		<class>es.caib.portafib.persistence.CustodiaInfoJPA</class>
 		<class>es.caib.portafib.persistence.EntitatJPA</class>
 		<class>es.caib.portafib.persistence.EstadisticaJPA</class>

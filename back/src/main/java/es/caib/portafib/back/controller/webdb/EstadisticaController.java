@@ -51,7 +51,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="estadistica.estadistica.plural", order=80, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="estadistica.estadistica.plural", order=90, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/estadistica")
 @SessionAttributes(types = { EstadisticaForm.class, EstadisticaFilterForm.class })

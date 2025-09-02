@@ -49,7 +49,7 @@ import es.caib.portafib.model.fields.UsuariPersonaFields;
 @MenuOption(
         group = Tab.MENU_ADMIN,
         labelCode = "fitxers.orfes",
-        order = 155)
+        order = 155, addSeparatorBefore = true)
 public class FitxersOrfesController extends FitxerController {
   
   @EJB(mappedName = AnnexService .JNDI_NAME)

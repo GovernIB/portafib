@@ -51,7 +51,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="metadada.metadada.plural", order=160, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="metadada.metadada.plural", order=170, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/metadada")
 @SessionAttributes(types = { MetadadaForm.class, MetadadaFilterForm.class })

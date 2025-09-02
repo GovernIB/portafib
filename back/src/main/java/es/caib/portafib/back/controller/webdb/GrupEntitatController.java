@@ -51,7 +51,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="grupEntitat.grupEntitat.plural", order=130, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="grupEntitat.grupEntitat.plural", order=140, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/grupEntitat")
 @SessionAttributes(types = { GrupEntitatForm.class, GrupEntitatFilterForm.class })

@@ -51,7 +51,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="modulDeFirmaPerTipusDeDocument.modulDeFirmaPerTipusDeDocument.plural", order=170, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="modulDeFirmaPerTipusDeDocument.modulDeFirmaPerTipusDeDocument.plural", order=180, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/modulDeFirmaPerTipusDeDocument")
 @SessionAttributes(types = { ModulDeFirmaPerTipusDeDocumentForm.class, ModulDeFirmaPerTipusDeDocumentFilterForm.class })

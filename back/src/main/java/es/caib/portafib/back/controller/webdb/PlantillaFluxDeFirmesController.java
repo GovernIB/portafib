@@ -51,7 +51,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural", order=240, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural", order=250, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/plantillaFluxDeFirmes")
 @SessionAttributes(types = { PlantillaFluxDeFirmesForm.class, PlantillaFluxDeFirmesFilterForm.class })

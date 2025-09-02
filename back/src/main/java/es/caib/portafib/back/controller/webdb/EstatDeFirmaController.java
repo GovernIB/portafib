@@ -51,7 +51,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="estatDeFirma.estatDeFirma.plural", order=90, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="estatDeFirma.estatDeFirma.plural", order=100, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/estatDeFirma")
 @SessionAttributes(types = { EstatDeFirmaForm.class, EstatDeFirmaFilterForm.class })

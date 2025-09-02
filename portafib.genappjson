@@ -1328,6 +1328,253 @@
       ]
     },
     {
+      "name": "pfi_correuagrupat",
+      "nameJava": "CorreuAgrupat",
+      "shortName": "correagrup",
+      "labels": {
+        "en": "Grouped Email",
+        "ca": "Correu Agrupat",
+        "es": "Correo Agrupado"
+      },
+      "labelsPlural": {
+        "en": "Grouped Email",
+        "ca": "Correus Agrupats",
+        "es": "Correos Agrupados"
+      },
+      "generate": true,
+      "fileMappingEntity": false,
+      "languageMappingEntity": false,
+      "translationEntity": false,
+      "translationMapEntity": false,
+      "fields": [
+        {
+          "PK": "pfi_correuagrupat_pk",
+          "index": "pfi_correuagrupat_pk_i",
+          "isAutoIncrement": true,
+          "sqlName": "correuagrupatid",
+          "sqlType": -5,
+          "size": 19,
+          "digits": 0,
+          "isNotNullable": true,
+          "labels": {
+            "en": "ID",
+            "ca": "ID",
+            "es": "ID"
+          },
+          "javaName": "correuAgrupatID",
+          "javaType": "long",
+          "traduible": false,
+          "showInWebList": true,
+          "showInReferenceList": false,
+          "transientField": false,
+          "defaultValue": "nextval(\u0027pfi_correuagrupat_seq\u0027::regclass)",
+          "filter": false,
+          "orderBy": 0,
+          "groupBy": false,
+          "webFieldInfo": {
+            "webtype": 0
+          },
+          "foreignKeys": []
+        },
+        {
+          "isAutoIncrement": false,
+          "sqlName": "email",
+          "sqlType": 12,
+          "size": 255,
+          "digits": 0,
+          "isNotNullable": true,
+          "labels": {
+            "en": "Email",
+            "ca": "Email",
+            "es": "Email"
+          },
+          "javaName": "email",
+          "javaType": "java.lang.String",
+          "traduible": false,
+          "showInWebList": true,
+          "showInReferenceList": false,
+          "transientField": false,
+          "filter": true,
+          "orderBy": 0,
+          "groupBy": false,
+          "webFieldInfo": {
+            "webtype": 1
+          },
+          "foreignKeys": []
+        },
+        {
+          "isAutoIncrement": false,
+          "sqlName": "subject",
+          "sqlType": 12,
+          "size": 255,
+          "digits": 0,
+          "isNotNullable": true,
+          "labels": {
+            "en": "Subject",
+            "ca": "Assumpte",
+            "es": "Asunto"
+          },
+          "javaName": "subject",
+          "javaType": "java.lang.String",
+          "traduible": false,
+          "showInWebList": true,
+          "showInReferenceList": true,
+          "transientField": false,
+          "filter": true,
+          "orderBy": 0,
+          "groupBy": false,
+          "webFieldInfo": {
+            "webtype": 1
+          },
+          "foreignKeys": []
+        },
+        {
+          "isAutoIncrement": false,
+          "sqlName": "message",
+          "sqlType": 12,
+          "size": 2147483647,
+          "digits": 0,
+          "isNotNullable": true,
+          "labels": {
+            "en": "Message",
+            "ca": "Missatge",
+            "es": "Mensaje"
+          },
+          "javaName": "message",
+          "javaType": "java.lang.String",
+          "traduible": false,
+          "showInWebList": true,
+          "showInReferenceList": false,
+          "transientField": false,
+          "filter": true,
+          "orderBy": 0,
+          "groupBy": false,
+          "webFieldInfo": {
+            "webtype": 2
+          },
+          "foreignKeys": []
+        },
+        {
+          "isAutoIncrement": false,
+          "sqlName": "html",
+          "sqlType": -7,
+          "size": 1,
+          "digits": 0,
+          "isNotNullable": true,
+          "labels": {
+            "en": "Message contains HTML",
+            "ca": "Missatge conté HTML",
+            "es": "Mensaje contiene HTML"
+          },
+          "javaName": "html",
+          "javaType": "boolean",
+          "traduible": false,
+          "showInWebList": true,
+          "showInReferenceList": false,
+          "transientField": false,
+          "filter": false,
+          "orderBy": 0,
+          "groupBy": false,
+          "webFieldInfo": {
+            "webtype": 4
+          },
+          "foreignKeys": []
+        },
+        {
+          "index": "pfi_correagrup_usrentitat_fk_i",
+          "isAutoIncrement": false,
+          "sqlName": "usuarientitatid",
+          "sqlType": 12,
+          "size": 101,
+          "digits": 0,
+          "isNotNullable": true,
+          "labels": {
+            "en": "Entity User",
+            "ca": "Usuari Entitat",
+            "es": "Usuario Entidad"
+          },
+          "javaName": "usuariEntitatID",
+          "javaType": "java.lang.String",
+          "traduible": false,
+          "showInWebList": true,
+          "showInReferenceList": false,
+          "transientField": false,
+          "filter": false,
+          "orderBy": 0,
+          "groupBy": false,
+          "webFieldInfo": {
+            "webtype": 3,
+            "foreignKey": {
+              "name": "pfi_correagrup_usrentitat_fk",
+              "table": "pfi_usuarientitat",
+              "field": "usuarientitatid",
+              "type": 1
+            }
+          },
+          "foreignKeys": [
+            {
+              "name": "pfi_correagrup_usrentitat_fk",
+              "table": "pfi_usuarientitat",
+              "field": "usuarientitatid",
+              "type": 1
+            }
+          ]
+        },
+        {
+          "isAutoIncrement": false,
+          "sqlName": "datacreacio",
+          "sqlType": 93,
+          "size": 29,
+          "digits": 6,
+          "isNotNullable": true,
+          "labels": {
+            "en": "Creation Date",
+            "ca": "Data Creació",
+            "es": "Fecha Creació"
+          },
+          "javaName": "dataCreacio",
+          "javaType": "java.sql.Timestamp",
+          "traduible": false,
+          "showInWebList": true,
+          "showInReferenceList": false,
+          "transientField": false,
+          "filter": false,
+          "orderBy": -1,
+          "groupBy": false,
+          "webFieldInfo": {
+            "webtype": 7
+          },
+          "foreignKeys": []
+        },
+        {
+          "isAutoIncrement": false,
+          "sqlName": "error",
+          "sqlType": 12,
+          "size": 2147483647,
+          "digits": 0,
+          "isNotNullable": false,
+          "labels": {
+            "en": "Error",
+            "ca": "Error",
+            "es": "Error"
+          },
+          "javaName": "error",
+          "javaType": "java.lang.String",
+          "traduible": false,
+          "showInWebList": true,
+          "showInReferenceList": false,
+          "transientField": false,
+          "filter": true,
+          "orderBy": 0,
+          "groupBy": false,
+          "webFieldInfo": {
+            "webtype": 2
+          },
+          "foreignKeys": []
+        }
+      ]
+    },
+    {
       "name": "pfi_custodiainfo",
       "nameJava": "CustodiaInfo",
       "shortName": "custodia",
@@ -13189,6 +13436,12 @@
               "name": "pfi_colabdeleg_usrentitat_d_fk",
               "table": "pfi_colaboraciodelegacio",
               "field": "destinatariid",
+              "type": 0
+            },
+            {
+              "name": "pfi_correagrup_usrentitat_fk",
+              "table": "pfi_correuagrupat",
+              "field": "usuarientitatid",
               "type": 0
             },
             {

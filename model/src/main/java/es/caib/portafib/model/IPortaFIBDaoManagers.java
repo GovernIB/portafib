@@ -9,6 +9,7 @@ public interface IPortaFIBDaoManagers {
 	public IBlocDeFirmesManager getBlocDeFirmesManager();
 	public ICodiBarresManager getCodiBarresManager();
 	public IColaboracioDelegacioManager getColaboracioDelegacioManager();
+	public ICorreuAgrupatManager getCorreuAgrupatManager();
 	public ICustodiaInfoManager getCustodiaInfoManager();
 	public IEntitatManager getEntitatManager();
 	public IEstadisticaManager getEstadisticaManager();

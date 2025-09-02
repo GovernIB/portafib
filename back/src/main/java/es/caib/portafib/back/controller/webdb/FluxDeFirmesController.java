@@ -49,7 +49,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="fluxDeFirmes.fluxDeFirmes.plural", order=120, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="fluxDeFirmes.fluxDeFirmes.plural", order=130, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/fluxDeFirmes")
 @SessionAttributes(types = { FluxDeFirmesForm.class, FluxDeFirmesFilterForm.class })

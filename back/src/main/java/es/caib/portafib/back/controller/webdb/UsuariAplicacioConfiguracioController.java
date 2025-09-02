@@ -51,7 +51,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="usuariAplicacioConfiguracio.usuariAplicacioConfiguracio.plural", order=410, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="usuariAplicacioConfiguracio.usuariAplicacioConfiguracio.plural", order=420, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/usuariAplicacioConfiguracio")
 @SessionAttributes(types = { UsuariAplicacioConfiguracioForm.class, UsuariAplicacioConfiguracioFilterForm.class })

@@ -51,7 +51,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="pluginFirmaWebPerUsuariAplicacio.pluginFirmaWebPerUsuariAplicacio.plural", order=270, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="pluginFirmaWebPerUsuariAplicacio.pluginFirmaWebPerUsuariAplicacio.plural", order=280, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/pluginFirmaWebPerUsuariAplicacio")
 @SessionAttributes(types = { PluginFirmaWebPerUsuariAplicacioForm.class, PluginFirmaWebPerUsuariAplicacioFilterForm.class })

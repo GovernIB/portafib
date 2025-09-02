@@ -49,7 +49,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="idioma.idioma.plural", order=150, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="idioma.idioma.plural", order=160, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/idioma")
 @SessionAttributes(types = { IdiomaForm.class, IdiomaFilterForm.class })

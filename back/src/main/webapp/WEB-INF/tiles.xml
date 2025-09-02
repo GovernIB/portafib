@@ -697,7 +697,17 @@
     <definition name="keyvalueAdmin" extends="role_admin">
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/keyvalue.jsp" />
     </definition>
-
+    
+  
+    <definition name="correuAgrupatFormAdmin" extends="role_admin">
+        <put-attribute name="titol" value="correuAgrupat.correuAgrupat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/correuAgrupatForm.jsp" />
+    </definition>
+    
+    <definition name="correuAgrupatListAdmin" extends="role_admin">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/correuAgrupatList.jsp" />
+    </definition>
+ 
     <!--  ===========  COL·LABORADOR ================== -->
     
     
@@ -959,6 +969,16 @@
     
     <definition name="colaboracioDelegacioListWebDB" extends="webdb">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/colaboracioDelegacioList.jsp" />
+    </definition>
+
+
+    <definition name="correuAgrupatFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="correuAgrupat.correuAgrupat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/correuAgrupatForm.jsp" />
+    </definition>
+    
+    <definition name="correuAgrupatListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/correuAgrupatList.jsp" />
     </definition>
 
 

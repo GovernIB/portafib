@@ -54,7 +54,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="pluginCridada.pluginCridada.plural", order=260, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="pluginCridada.pluginCridada.plural", order=270, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/pluginCridada")
 @SessionAttributes(types = { PluginCridadaForm.class, PluginCridadaFilterForm.class })

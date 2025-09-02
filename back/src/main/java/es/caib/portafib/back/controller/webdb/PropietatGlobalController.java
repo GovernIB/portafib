@@ -51,7 +51,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="propietatGlobal.propietatGlobal.plural", order=290, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="propietatGlobal.propietatGlobal.plural", order=300, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/propietatGlobal")
 @SessionAttributes(types = { PropietatGlobalForm.class, PropietatGlobalFilterForm.class })
