@@ -38,7 +38,7 @@ public class CorreuAgrupatLogicaEJB extends CorreuAgrupatEJB implements CorreuAg
     @EJB(mappedName = CorreuAgrupatLogicaLocal.JNDI_NAME)
     protected CorreuAgrupatLogicaLocal used_to_avoid_self_invocation_problem;;
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    
     @Override
     public Map<String, Integer> enviarCorreusAgrupatsDeBBDD(ControlOfExecution coe) throws I18NException {
 
