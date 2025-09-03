@@ -78,7 +78,7 @@ public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2
 
     @EJB(mappedName = NotificacioWSLogicaLocal.JNDI_NAME)
     protected NotificacioWSLogicaLocal notificacioLogicaEjb;
-    
+
     @EJB(mappedName = es.caib.portafib.ejb.CorreuAgrupatService.JNDI_NAME)
     protected es.caib.portafib.ejb.CorreuAgrupatService correuAgrupatEjb;
 
@@ -362,7 +362,7 @@ public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2
             }
         }
 
-        EmailUtil.enviarMails(avisos, rebreAvisLogicaEjb,  correuAgrupatEjb);
+        EmailUtil.enviarMails(avisos, rebreAvisLogicaEjb, correuAgrupatEjb);
 
         if (wakeUpTimer) {
             notifCallback.wakeUp();
@@ -405,10 +405,7 @@ public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2
         //      (3) Descripció del rebuig o invalidacio
         final String titol = event.getPeticioDeFirmaTitol();
 
-        String actorID = event.getActorUsuariEntitatID();
-        log.info("ACTORID: getActorUsuariEntitatID: " + actorID);
-
-        actorID = event.getEstatDeFirmaUsuariEntitatID();
+        String actorID = event.getEstatDeFirmaUsuariEntitatID();
         log.info("ACTORID: getEstatDeFirmaUsuariEntitatID: " + actorID);
 
         String nomActor;
@@ -453,9 +450,9 @@ public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2
         //EstatDeFirma estatDeFirma = firmaEvent.getEstatDeFirma();
         Where where = Where.AND(USUARIENTITATID.equal(firmaEvent.getEstatDeFirmaUsuariEntitatID()),
                 getWhereDeRebreAvis(firmaEvent.getEventID()));
-        if (log.isDebugEnabled()) {
-            log.debug("getUsuariEntitat() [ SQL] = " + where.toSQL());
-        }
+        //        if (log.isDebugEnabled()) {
+        //            log.debug("getUsuariEntitat() [ SQL] = " + where.toSQL());
+        //        }
 
         return selectOneFull(where);
     }

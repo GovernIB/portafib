@@ -46,11 +46,6 @@ public class NotificacioSenderApiPortafibRESTv1 extends NotificacioSenderApiPort
     private final ObjectMapper mapper;
 
     public NotificacioSenderApiPortafibRESTv1() {
-        /* XXX
-        client = Client.create();
-        client.setConnectTimeout(CONNECTION_TIMEOUT);
-        client.setReadTimeout(RECEIVE_TIMEOUT);
-        */
         ClientBuilder configuration = ClientBuilder.newBuilder();
         configuration.connectTimeout(CONNECTION_TIMEOUT_MS, TimeUnit.MILLISECONDS);
         configuration.readTimeout(RECEIVE_TIMEOUT_MS, TimeUnit.MILLISECONDS);
@@ -86,13 +81,11 @@ public class NotificacioSenderApiPortafibRESTv1 extends NotificacioSenderApiPort
         final FirmaEvent fe = notificacioInfo.getFirmaEvent();
 
         // ENVIAR A SERVEI REST
-        if (log.isDebugEnabled()) {
-            log.info("--------------------");
-            log.info("Enviant notificacio amb id " + notificacioInfo.getIdObjectSent() + " a l'usuari-aplicacio "
+
+        log.info("Enviant notificacio amb id " + notificacioInfo.getIdObjectSent() + " a l'usuari-aplicacio "
                     + ua.getUsuariAplicacioID() + " al servei REST ] " + ua.getCallbackURL() + " (Versio "
                     + ua.getCallbackVersio() + ")");
-            log.info("--------------------");
-        }
+
 
         String endPoint = ua.getCallbackURL();
 
@@ -102,7 +95,6 @@ public class NotificacioSenderApiPortafibRESTv1 extends NotificacioSenderApiPort
 
        
         try {
-            
 
             // XXX WebResource webResource = client.resource(endPoint);
             WebTarget webResource = client.target(endPoint);
@@ -113,9 +105,8 @@ public class NotificacioSenderApiPortafibRESTv1 extends NotificacioSenderApiPort
             Entity<String> jsonEntity = Entity.json(json);
 
             // TODO
-            //if (log.isDebugEnabled()) 
-            {
-                log.info("JSON EVENT:\n" + json);
+            if (log.isDebugEnabled()) {
+                log.debug("JSON EVENT:\n" + json);
             }
 
             //ClientResponse response = webResource.type("application/json").post(ClientResponse.class, json);
@@ -135,7 +126,7 @@ public class NotificacioSenderApiPortafibRESTv1 extends NotificacioSenderApiPort
             }
 
             if (log.isDebugEnabled()) {
-                log.info("Resposta cridada REST a métode event(): ]" + output + "[ \n");
+                log.debug("Resposta cridada REST a métode event(): ]" + output + "[");
             }
 
         } catch (Exception e) {

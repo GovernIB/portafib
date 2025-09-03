@@ -215,10 +215,10 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
                     }
 
                     if (isDebug) {
-                        log.info("PassarelaDeFirmaEnServidorEJB: ENTRADES CONFIGURACIO => \n"
-                                + "+ validarFitxerFirma => " + validarFitxerFirma + "\n" + "+ comprovarNifFirma => "
-                                + comprovarNifFirma + "\n" + "+ checkCanviatDocFirmat => " + checkCanviatDocFirmat
-                                + "\n");
+                        log.debug("PassarelaDeFirmaEnServidorEJB: ENTRADES CONFIGURACIO => "
+                                + "+ validarFitxerFirma => " + validarFitxerFirma + "   |   " + "+ comprovarNifFirma => "
+                                + comprovarNifFirma + "  |   " + "+ checkCanviatDocFirmat => " + checkCanviatDocFirmat
+                                );
                     }
 
                     // (A) Validar la Firma

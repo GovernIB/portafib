@@ -134,7 +134,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
             }
 
             if (log.isDebugEnabled()) {
-                log.info("validateCompletaFirma :: getDocumentDetachedData() => " + documentDetached);
+                log.debug("validateCompletaFirma :: getDocumentDetachedData() => " + documentDetached);
             }
 
             validateSignatureResponse = validacioFirmesEjb.validateSignature(validacioRequest.getEntitatID(), signType,

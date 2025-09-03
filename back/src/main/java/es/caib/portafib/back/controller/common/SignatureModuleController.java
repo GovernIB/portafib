@@ -490,7 +490,7 @@ public class SignatureModuleController extends HttpServlet {
         //  idAndQuery = 1466408733012148444/-1/index.html
         String idAndQuery = uri.substring(index + BASE.length() + 1);
         if (debug) {
-            log.info(" idAndQuery = " + idAndQuery);
+            log.debug(" idAndQuery = " + idAndQuery);
         }
 
         index = idAndQuery.indexOf('/');
@@ -501,9 +501,9 @@ public class SignatureModuleController extends HttpServlet {
         String query = idAndQuery.substring(index2 + 1, idAndQuery.length());
 
         if (debug) {
-            log.info(" idStr = " + idStr);
-            log.info(" indexStr = " + indexStr);
-            log.info(" query = " + query);
+            log.debug(" idStr = " + idStr);
+            log.debug(" indexStr = " + indexStr);
+            log.debug(" query = " + query);
         }
 
         int signatureIndex = Integer.parseInt(indexStr);
@@ -565,13 +565,12 @@ public class SignatureModuleController extends HttpServlet {
             return;
         }
 
-        if (log.isDebugEnabled()) {
-            if (debug) {
-                log.debug("RestOfTheUrlVar = " + request.getSession().getAttribute("restOfTheUrlVar"));
-                log.debug("Original RelativePath = " + query);
-                log.debug("Method = " + request.getMethod());
-            }
-            Utils.printRequestInfo(request);
+        
+        if (debug) {
+            log.debug("RestOfTheUrlVar = " + request.getSession().getAttribute("restOfTheUrlVar"));
+            log.debug("Original RelativePath = " + query);
+            log.debug("Method = " + request.getMethod());
+            log.debug(Utils.requestInfoToString(request));
         }
 
         String absoluteRequestPluginBasePath = getAbsoluteRequestPluginBasePath(ss.getUrlBase(), getContextWeb(),

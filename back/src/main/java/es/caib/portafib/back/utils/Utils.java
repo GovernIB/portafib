@@ -55,8 +55,7 @@ public class Utils {
         }
         return getSortIcons(baseFilter, theField, code);
     }
-    
-    
+
     public static String getLabel(BaseFilterForm baseFilter, Field<?> theField) throws Exception {
         String code = theField.getFullName();
         String newCode = baseFilter.getLabels().get(theField);
@@ -225,24 +224,34 @@ public class Utils {
     }
 
     public static void printRequestInfo(HttpServletRequest request) {
-        log.info(" +++++++++++++++++ PRINT REQUEST INFO ++++++++++++++++++++++");
-        log.info(" ++++ Scheme: " + request.getScheme());
-        log.info(" ++++ ServerName: " + request.getServerName());
-        log.info(" ++++ ServerPort: " + request.getServerPort());
+        log.info(requestInfoToString(request));
+    }
 
-        log.info(" ++++ PathInfo: " + request.getPathInfo());
-        log.info(" ++++ PathTrans: " + request.getPathTranslated());
-        log.info(" ++++ ContextPath: " + request.getContextPath());
-        log.info(" ++++ ServletPath: " + request.getServletPath());
+    public static String requestInfoToString(HttpServletRequest request) {
+        StringBuilder sb = new StringBuilder();
 
-        log.info(" ++++ getRequestURI: " + request.getRequestURI());
-        log.info(" ++++ getRequestURL: " + request.getRequestURL());
-        log.info(" ++++ getQueryString: " + request.getQueryString());
+        sb.append('\n').append(" +++++++++++++++++ PRINT REQUEST INFO ++++++++++++++++++++++");
+        sb.append('\n').append(" ++++ Scheme: " + request.getScheme());
+        sb.append('\n').append(" ++++ ServerName: " + request.getServerName());
+        sb.append('\n').append(" ++++ ServerPort: " + request.getServerPort());
 
-        log.info(" ++++ javax.servlet.forward.request_uri: "
+        sb.append('\n').append(" ++++ PathInfo: " + request.getPathInfo());
+        sb.append('\n').append(" ++++ PathTrans: " + request.getPathTranslated());
+        sb.append('\n').append(" ++++ ContextPath: " + request.getContextPath());
+        sb.append('\n').append(" ++++ ServletPath: " + request.getServletPath());
+
+        sb.append('\n').append(" ++++ getRequestURI: " + request.getRequestURI());
+        sb.append('\n').append(" ++++ getRequestURL: " + request.getRequestURL());
+        sb.append('\n').append(" ++++ getQueryString: " + request.getQueryString());
+
+        sb.append('\n').append(" ++++ javax.servlet.forward.request_uri: "
                 + (String) request.getAttribute("javax.servlet.forward.request_uri"));
 
-        log.info(" ===============================================================");
+        sb.append('\n').append(" ===============================================================");
+        sb.append('\n');
+
+        return sb.toString();
+
     }
 
     public static String getUrlBaseFromFullUrl(HttpServletRequest request, String baseUrlFull) {
@@ -331,7 +340,7 @@ public class Utils {
                 ofuscat = ofuscarDNI(usr);
             } else {
                 if (Configuracio.obfuscateUsernames()) {
-                
+
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < usr.length(); i++) {
                         if (i % 3 == 0) {
@@ -348,7 +357,7 @@ public class Utils {
         }
         return ofuscat;
     }
-    
+
     public static MenuItem retallaDarrerPath(String label, String url, int order) {
         int i = url.lastIndexOf('/');
         return new MenuItem(label, url.substring(i), url.substring(0, i), order);

@@ -733,7 +733,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         for (Map.Entry<Long, Long> estatPeticio : estatsPeticioMap.entrySet()) {
 
             if (debug) {
-                log.info(
+                log.debug(
                         "firmarSeleccionats::SELECCIONAT = " + estatPeticio.getKey() + " / " + estatPeticio.getValue());
             }
 

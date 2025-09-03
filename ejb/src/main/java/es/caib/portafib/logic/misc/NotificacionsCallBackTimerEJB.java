@@ -246,8 +246,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
             int maximSeleccionats = Math.min((int) (maxTempsNotificant / estimatedProcessTime), 1000);
 
             if (isDebug) {
-                log.info("\n\n " + "\nNumero de reintents = " + retryToPause + "\nDATA " + new Date(datanowX.getTime())
-                        + "\nLIMIT: + " + maximSeleccionats);
+                log.debug("DATA " + new Date(datanowX.getTime()) + "    |   LIMIT: + " + maximSeleccionats);
             }
 
             List<NotificacioWS> notificacions = notificacioEjb.select(where, 0, maximSeleccionats,

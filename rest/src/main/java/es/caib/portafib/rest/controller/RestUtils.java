@@ -120,7 +120,7 @@ public class RestUtils {
                         // and set the authentication of the current Session context
                         SecurityContextHolder.getContext().setAuthentication(loginInfo.generateToken());
                 */
-                log.info("Inicialitzada Informació de UsuariAplicacio "  + username + " dins de LoginInfo");
+                log.info("Loguejat Usuari App "  + username + ": " + obtenerMetodoLlamadorDesdeConstructor());
 
                 return null; // OK
 
@@ -138,6 +138,28 @@ public class RestUtils {
         }
 
     }
+    
+    
+    
+    
+    private String obtenerMetodoLlamadorDesdeConstructor() {
+        try {
+            StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+            String claseActual = this.getClass().getName();
+
+            for (int i = 2; i < stackTrace.length; i++) {
+                StackTraceElement element = stackTrace[i];
+                if (!element.getClassName().equals(claseActual)) {
+                    return element.getMethodName() + "()";
+                }
+            }
+        } catch (Throwable th) {
+            log.error("Error desconegut crecant des d'on es crida ...", th);
+        }
+        return "Metode Desconegut";
+    }
+    
     /*
       public static boolean authenticateUsernamePassword(HttpServletRequest request, String username,
       String password, Set<String> roles, Logger log) {

@@ -182,9 +182,9 @@ public abstract class AbstractSignatureService extends RestUtils {
         String username = request.getUserPrincipal().getName();
 
         try {
-
+/*
             log.debug(" XYZ ZZZ autenticate::  LOGIN OK OK  OK  OK  OK OK ");
-            /*
+            
             UsuariAplicacioLogicaLocal usuariAplicacioEjb;
             try {
                 usuariAplicacioEjb = EjbManager.getUsuariAplicacioLogicaEJB();

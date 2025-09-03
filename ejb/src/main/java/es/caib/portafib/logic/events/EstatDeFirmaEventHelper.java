@@ -107,7 +107,7 @@ public class EstatDeFirmaEventHelper {
         }
 
         if (log.isDebugEnabled()) {
-            log.debug("   == Nou estat per Destinatari " + firmaJPA.getDestinatariID());
+            log.debug("requeritPerSignar::Destinatari => " + firmaJPA.getDestinatariID());
         }
 
     }

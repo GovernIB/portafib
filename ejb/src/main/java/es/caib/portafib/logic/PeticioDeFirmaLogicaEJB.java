@@ -243,7 +243,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
     @EJB(mappedName = RebreAvisLogicaLocal.JNDI_NAME)
     private RebreAvisLogicaLocal rebreAvisLogicaEjb;
-    
+
     @EJB(mappedName = es.caib.portafib.ejb.CorreuAgrupatService.JNDI_NAME)
     protected es.caib.portafib.ejb.CorreuAgrupatService correuAgrupatEjb;
 
@@ -427,10 +427,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             CustodiaInfo ci = custodiaInfoLogicaEjb.getCustodyInfoOnCreatePeticio(peticioDeFirma, entitatJPA,
                     usuariEntitat, usuariAplicacio);
 
-            log.info("getCustodyInfoOnCreatePeticio ci=" + ci);
+            if (log.isDebugEnabled()) {
+                log.debug("getCustodyInfoOnCreatePeticio ci=" + ci);
+            }
 
             if (ci == null) {
-
                 peticioDeFirma.setCustodiaInfo(null);
                 peticioDeFirma.setCustodiaInfoID(null);
             } else {
@@ -446,7 +447,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             }
         }
 
-        if (log.isDebugEnabled()) {
+        if (log.isDebugEnabled() && peticioDeFirma.getCustodiaInfoID() != null) {
             log.debug("CUSTODIA ID => " + peticioDeFirma.getCustodiaInfoID());
             log.debug("CUSTODIA OBJ => " + peticioDeFirma.getCustodiaInfo());
             if (peticioDeFirma.getCustodiaInfo() != null) {
@@ -510,8 +511,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                 BITACOLA_OP_CREAR, PeticioDeFirmaBean.toBean(pf));
 
         if (log.isDebugEnabled()) {
-            log.debug("PF[" + pf.getPeticioDeFirmaID() + "] = " + pf);
-            log.debug("PeticioDeFirma[" + peticioDeFirma.getPeticioDeFirmaID() + "] = " + peticioDeFirma);
+            log.debug("Iniciada petició de firma amb ID " + pf.getPeticioDeFirmaID() + " = " + pf.getTitol());
         }
 
         // Afegir annexos
@@ -925,11 +925,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
         String entitatID;
         if (peticioDeFirma.getSolicitantUsuariEntitat1() != null) {
             // usuari entitat
-            log.debug(" Idioma Usuari Entitat: ");
+            //log.debug(" Idioma Usuari Entitat: ");
             entitatID = peticioDeFirma.getSolicitantUsuariEntitat1().getEntitatID();
         } else {
             // usuari aplicacio
-            log.debug(" Idioma Usuari Aplicació: ");
+            //log.debug(" Idioma Usuari Aplicació: ");
             entitatID = peticioDeFirma.getUsuariAplicacio().getEntitatID();
         }
 
@@ -996,8 +996,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                 File fileToConvert = file; // peticioDeFirmaForm.isNou() ? file : fileTmp;
 
                 if (log.isDebugEnabled()) {
-                    log.debug(" FILE ORIG = " + file.getAbsolutePath() + "\t" + file.exists() + "\t" + file.length() + "\t"
-                        + new Date(file.lastModified()));
+                    log.debug(" FILE ORIG = " + file.getAbsolutePath() + "\t" + file.exists() + "\t" + file.length()
+                            + "\t" + new Date(file.lastModified()));
                 }
 
                 Fitxer fileToConvertInfo = new FitxerBean();
@@ -1038,7 +1038,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
                         if (log.isDebugEnabled()) {
                             log.info(" FILE CONV = " + fileToConvert.getAbsolutePath() + "\t" + fileToConvert.exists()
-                                + "\t" + fileToConvert.length() + "\t" + new Date(fileToConvert.lastModified()));
+                                    + "\t" + fileToConvert.length() + "\t" + new Date(fileToConvert.lastModified()));
                         }
                     }
                 } catch (I18NException e) {
@@ -1536,7 +1536,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
         TreeSet<BlocDeFirmesJPA> blocsOrdenats = new TreeSet<BlocDeFirmesJPA>(new BlocDeFirmesComparator());
         blocsOrdenats.addAll(blocs);
 
-        log.debug(" ========== startNextSign");
+        log.debug(" ========== startNextSign (" + peticioDeFirma.getPeticioDeFirmaID() + ") =======");
         Timestamp now = new Timestamp(System.currentTimeMillis());
 
         for (BlocDeFirmesJPA blocDeFirmesJPA : blocsOrdenats) {
@@ -1749,16 +1749,15 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                         }
 
                         if (log.isDebugEnabled()) {
-                          log.debug("\n\n ======  INICI d'UN BLOC VERGE  ========\n"
-                                + "Revisors pendents: " + numeroDeRevisorsPendents + "\n"
-                                + "Col·laboradors-Revisors pendents: " + numeroDeColaboradorsRevisorsPendents + "\n"
-                                + "enviarNotificacioADestinatari: " + enviarNotificacioADestinatari + "\n" + "\n\n");
+                            log.debug("======  INICI d'UN BLOC VERGE: Revisors pendents: "
+                                    + numeroDeRevisorsPendents + "  |  Col·laboradors-Revisors pendents: "
+                                    + numeroDeColaboradorsRevisorsPendents + "  | " + "enviarNotificacioADestinatari: "
+                                    + enviarNotificacioADestinatari);
                         }
 
                         // No s'ha d'enviar correu a Destinatari de firma pendent si abans hi ha revisor/s #946
-                        estatDeFirmaEventHelper.requeritPerSignar(peticioDeFirma, firmaJPA, events,
-                                    destinatariReal, enviarNotificacioADestinatari);
-                        
+                        estatDeFirmaEventHelper.requeritPerSignar(peticioDeFirma, firmaJPA, events, destinatariReal,
+                                enviarNotificacioADestinatari);
 
                     }
 
@@ -2099,7 +2098,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
     @Override
     public void nouFitxerFirmat(File signatureFile2, Long estatDeFirmaID, Long peticioDeFirmaID, String token,
             int numFirmaPortaFIB, int numFirmesOriginals, String usernameLoguejat,
-            boolean administrationIdCanBeValidatedFromPlugin, 
+            boolean administrationIdCanBeValidatedFromPlugin,
             // Afegir informació del PLugin que ha realitzat la Firmes en totes les Apis #1043
             Long signaturePluginID) throws I18NException {
 
@@ -2318,10 +2317,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             firma.setNumFirmaDocument(numFirmaPortaFIB);
             firma.setFitxerFirmatID(fitxer.getFitxerID());
             firma.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT);
-            
+
             // Afegir informació del PLugin que ha realitzat la Firmes en totes les Apis  #1043
             firma.setSignaturePluginId(signaturePluginID);
-            
+
             firmaLogicaEjb.updateUnauthorized(firma);
 
             // 4.- Descartar tots els EstatDeFirma associats a la firma
@@ -2487,8 +2486,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             }
 
         } catch (Throwable error) {
-            
-            
 
             if (fileID != null) {
                 try {
@@ -2501,11 +2498,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             context.setRollbackOnly();
 
             if (error instanceof I18NException) {
-                log.error("ERROR GREU AL REBRE UN NOU FITXER FIRMAT(I18NException): " 
-                   + I18NCommonUtils.getMessage((I18NException)error, new Locale("ca")), error);
-                throw (I18NException) error;                
+                log.error("ERROR GREU AL REBRE UN NOU FITXER FIRMAT(I18NException): "
+                        + I18NCommonUtils.getMessage((I18NException) error, new Locale("ca")), error);
+                throw (I18NException) error;
             } else {
-                log.error("ERROR GREU AL REBRE UN NOU FITXER FIRMAT: " +  error.getMessage(), error);
+                log.error("ERROR GREU AL REBRE UN NOU FITXER FIRMAT: " + error.getMessage(), error);
                 throw new I18NException(error, "error.unknown", new I18NArgumentString(error.getMessage()));
             }
         } finally {
@@ -2892,13 +2889,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
         // (2) -------- Cercam els Col·laboradors-Revisors Pendents
         // No s'ha d'enviar correu a Destinatari de firma pendent si abans hi ha revisor/s #946
         int numeroDeColaboradorsRevisorsPendents = estatDeFirmaDeColaboradorsRevisors.size();
-        
+
         // TODO llevar
-        log.info("\n\n ======  PASSAM PER ACCEPTAR REVISIO ========\n"
-                + "Revisors pendents: " + numeroDeRevisorsPendents + "\n"
-                + "Col·laboradors-Revisors pendents: " + numeroDeColaboradorsRevisorsPendents + "\n\n\n");
-        
-        
+        log.info("\n\n ======  PASSAM PER ACCEPTAR REVISIO ========\n" + "Revisors pendents: "
+                + numeroDeRevisorsPendents + "\n" + "Col·laboradors-Revisors pendents: "
+                + numeroDeColaboradorsRevisorsPendents + "\n\n\n");
 
         return numeroDeRevisorsPendents + numeroDeColaboradorsRevisorsPendents;
     }
