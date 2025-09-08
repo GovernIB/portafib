@@ -1,10 +1,6 @@
 package es.caib.portafib.logic;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,7 +10,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import es.caib.portafib.ejb.EstatDeFirmaService;
-import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
 import org.hibernate.Hibernate;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
@@ -26,21 +21,11 @@ import es.caib.portafib.ejb.FitxerService;
 import es.caib.portafib.ejb.RoleUsuariEntitatService;
 import es.caib.portafib.ejb.TipusDocumentColaboracioDelegacioService;
 import es.caib.portafib.persistence.ColaboracioDelegacioJPA;
-import es.caib.portafib.persistence.EntitatJPA;
-import es.caib.portafib.persistence.FitxerJPA;
 import es.caib.portafib.persistence.TipusDocumentColaboracioDelegacioJPA;
-import es.caib.portafib.persistence.UsuariEntitatJPA;
-import es.caib.portafib.logic.utils.LogicUtils;
-import es.caib.portafib.logic.utils.SignatureUtils;
-import es.caib.portafib.logic.utils.ValidacioCompletaRequest;
-import es.caib.portafib.logic.utils.datasource.FileDataSource;
-import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
-import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.entity.TipusDocumentColaboracioDelegacio;
 import es.caib.portafib.model.fields.EstatDeFirmaFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.TipusDocumentColaboracioDelegacioFields;
-import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * @author dboerner
@@ -183,67 +168,68 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB imple
 
     }
 
+    /*  // Eliminar la Firma del Document en una Delegació #841
     @Override
     public void assignarAutoritzacioADelegacio(Long delegacioID, FileInfoSignature signFileInfo, File firmat,
             String nom) throws I18NException {
-
+    
         // Cercar colaboracio delegacio
         ColaboracioDelegacioJPA jpa = findByPrimaryKey(delegacioID);
-
+    
         if (jpa.getFitxerAutoritzacioID() != null) {
             log.warn("Algu està intentant sobreescriure l'autorització d'una delagació !!!!!");
             return;
         }
-
+    
         // Revisar la data d'inici
         long now = System.currentTimeMillis();
         if (jpa.getDataInici().getTime() < now) {
             jpa.setDataInici(new Timestamp(now));
         }
-
+    
         // Una vegada firmat s'activarà
         jpa.setActiva(true);
-
+    
         // TODO i si no existeix
-
+    
         List<UsuariEntitatJPA> usuarisEntitat = usuariEntitatLogicaEjb
                 .findByPrimaryKeyFullWithEntitat(Collections.singletonList(jpa.getDestinatariID()));
-
+    
         UsuariEntitatJPA destinatari = usuarisEntitat.get(0);
-
+    
         EntitatJPA entitat = entitatEjb.findByPrimaryKey(destinatari.getEntitatID());
-
+    
         IPortaFIBDataSource originalData = new FileDataSource(signFileInfo.getFileToSign());
         IPortaFIBDataSource signatureData = new FileDataSource(firmat);
         IPortaFIBDataSource documentDetachedData = null;
-
+    
         final int numFirmaPortaFIB = 1; // Només duu 1 firma
         final int numFirmesOriginals = 0; // Sabem que l'original no contenia cap altre firma
-
+    
         String nifEsperat = destinatari.getUsuariPersona().getNif();
-
+    
         final boolean validarFitxerFirma = entitat.isValidarfirma();
         final boolean checkCanviatDocFirmat = entitat.isCheckCanviatDocFirmat();
         final boolean comprovarNifFirma = true; // Forçam a que sigui true
-
+    
         int signType = SignatureUtils.convertApiSignTypeToPortafibSignType(signFileInfo.getSignType());
-
+    
         int signMode = SignatureUtils.convertApiSignMode2PortafibSignMode(signFileInfo.getSignMode());
-
+    
         String entitatID = entitat.getEntitatID();
-
+    
         ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID, validarFitxerFirma,
                 checkCanviatDocFirmat, comprovarNifFirma, originalData, originalData, signatureData,
                 documentDetachedData, signType, signMode, signFileInfo.getLanguageSign(), numFirmaPortaFIB,
                 numFirmesOriginals, nifEsperat, ConstantsV2.TAULADEFIRMES_SENSETAULA);
-
+    
         try {
             final boolean validateChangesInAttachedFiles = true;
             validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest, validateChangesInAttachedFiles);
         } catch (ValidacioException e) {
             throw new I18NException("genapp.comodi", e.getMessage());
         }
-
+    
         // Crear fitxer en BBDD
         Fitxer fitxer = new FitxerJPA();
         fitxer.setDescripcio("");
@@ -251,11 +237,11 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB imple
         fitxer.setNom(nom);
         fitxer.setTamany(firmat.length());
         fitxer = fitxerEjb.create(fitxer);
-
+    
         jpa.setFitxerAutoritzacioID(fitxer.getFitxerID());
-
+    
         update(jpa);
-
+    
         // Això ha de ser lo darrer per si hi hagues algun error en les passes
         // anteriors
         try {
@@ -264,4 +250,5 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB imple
             throw new I18NException("genapp.comodi", e.getMessage());
         }
     }
+    */
 }

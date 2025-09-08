@@ -1211,9 +1211,9 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
         String usuariEntitatID = request.getParameter("usuariEntitatID");
         String firmaIDStr = request.getParameter("paramRevi1");
 
-        log.info("\n\n  --------- XYZ ZZZ afegirRevisorDesDeModal ----------");
-        log.info("    usuariEntitatID = |" + usuariEntitatID + "|");
-        log.info("    firmaIDStr = |" + firmaIDStr + "|");
+        if (log.isDebugEnabled()) {
+            log.debug("afegirRevisorDesDeModal()::  usuariEntitatID = " + usuariEntitatID + "   |   firmaIDStr = " + firmaIDStr);
+        }
 
         try {
             long firmaID = Integer.parseInt(firmaIDStr);

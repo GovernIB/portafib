@@ -324,7 +324,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
             } else {
                 log.info("Notificant: \tUSRAPP: " + usuariAplicacio.getUsuariAplicacioID() + "\tSERVER: "
                         + usuariAplicacio.getCallbackURL() + "\tVERSIO: " + usuariAplicacio.getCallbackVersio()
-                        + "\n\tPETICIO: " + notificacioJPA.getPeticioDeFirmaID() + "\tEVENT: "
+                        + "\tPETICIO: " + notificacioJPA.getPeticioDeFirmaID() + "\tEVENT: "
                         + notificacioInfo.getFirmaEvent().getEventID());
 
                 NotificacioSender sender = NotificacioSenderFactory.getSender(usuariAplicacio);

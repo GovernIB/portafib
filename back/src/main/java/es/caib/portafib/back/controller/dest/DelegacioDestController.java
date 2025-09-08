@@ -1,55 +1,34 @@
 package es.caib.portafib.back.controller.dest;
 
-import com.itextpdf.text.pdf.AcroFields;
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfStamper;
-import es.caib.portafib.back.controller.common.SearchJSONController;
-import es.caib.portafib.back.controller.common.SignatureModuleController;
-import es.caib.portafib.back.controller.webdb.ColaboracioDelegacioController;
-import es.caib.portafib.back.form.SeleccioUsuariForm;
-import es.caib.portafib.back.form.dest.ColaboracioDelegacioDestForm;
-import es.caib.portafib.back.form.webdb.ColaboracioDelegacioFilterForm;
-import es.caib.portafib.back.form.webdb.ColaboracioDelegacioForm;
-import es.caib.portafib.back.form.webdb.TipusDocumentRefList;
-import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
-import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
-import es.caib.portafib.back.utils.Utils;
-import es.caib.portafib.back.validator.SeleccioUsuariValidator;
-import es.caib.portafib.ejb.EstatDeFirmaService;
-import es.caib.portafib.ejb.UsuariAplicacioService;
-import es.caib.portafib.persistence.ColaboracioDelegacioJPA;
-import es.caib.portafib.persistence.EntitatJPA;
-import es.caib.portafib.persistence.FitxerJPA;
-import es.caib.portafib.persistence.TipusDocumentColaboracioDelegacioJPA;
-import es.caib.portafib.persistence.UsuariEntitatJPA;
-import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
-import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
-import es.caib.portafib.logic.RebreAvisLogicaLocal;
-import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
-import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
-import es.caib.portafib.logic.utils.EmailInfo;
-import es.caib.portafib.logic.utils.EmailUtil;
-import es.caib.portafib.logic.utils.PropietatGlobalUtil;
-import es.caib.portafib.logic.utils.SignatureUtils;
-import es.caib.portafib.model.entity.ColaboracioDelegacio;
-import es.caib.portafib.model.entity.UsuariAplicacio;
-import es.caib.portafib.model.fields.ColaboracioDelegacioFields;
-import es.caib.portafib.model.fields.ColaboracioDelegacioQueryPath;
-import es.caib.portafib.model.fields.EstatDeFirmaFields;
-import es.caib.portafib.model.fields.TipusDocumentFields;
-import es.caib.portafib.model.fields.UsuariAplicacioFields;
-import es.caib.portafib.model.fields.UsuariEntitatFields;
-import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
-import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
-import es.caib.portafib.commons.utils.Configuracio;
-import es.caib.portafib.commons.utils.Constants;
-import es.caib.portafib.utils.ConstantsPortaFIB;
-import es.caib.portafib.utils.ConstantsV2;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.OrderBy;
+import org.fundaciobit.genapp.common.query.OrderType;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.SelectConstant;
 import org.fundaciobit.genapp.common.query.SubQuery;
@@ -59,14 +38,6 @@ import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
-import org.fundaciobit.pluginsib.signature.api.CommonInfoSignature;
-import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
-import org.fundaciobit.pluginsib.signature.api.ITimeStampGenerator;
-import org.fundaciobit.pluginsib.signature.api.PolicyInfoSignature;
-import org.fundaciobit.pluginsib.signature.api.StatusSignature;
-import org.fundaciobit.pluginsib.signature.api.StatusSignaturesSet;
-import org.fundaciobit.pluginsib.signatureweb.api.SignaturesSetWeb;
-import org.fundaciobit.pluginsib.utils.signature.SignatureConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -78,31 +49,42 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import es.caib.portafib.back.controller.common.SearchJSONController;
+import es.caib.portafib.back.controller.common.SignatureModuleController;
+import es.caib.portafib.back.controller.webdb.ColaboracioDelegacioController;
+import es.caib.portafib.back.form.SeleccioUsuariForm;
+import es.caib.portafib.back.form.dest.ColaboracioDelegacioDestForm;
+import es.caib.portafib.back.form.webdb.ColaboracioDelegacioFilterForm;
+import es.caib.portafib.back.form.webdb.ColaboracioDelegacioForm;
+import es.caib.portafib.back.form.webdb.TipusDocumentRefList;
+import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
+import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.validator.SeleccioUsuariValidator;
+import es.caib.portafib.commons.utils.Configuracio;
+import es.caib.portafib.commons.utils.Constants;
+import es.caib.portafib.ejb.EstatDeFirmaService;
+import es.caib.portafib.ejb.UsuariAplicacioService;
+import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
+import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
+import es.caib.portafib.logic.RebreAvisLogicaLocal;
+import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
+import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
+import es.caib.portafib.logic.utils.EmailInfo;
+import es.caib.portafib.logic.utils.EmailUtil;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
+import es.caib.portafib.model.entity.ColaboracioDelegacio;
+import es.caib.portafib.model.entity.UsuariAplicacio;
+import es.caib.portafib.model.fields.ColaboracioDelegacioFields;
+import es.caib.portafib.model.fields.ColaboracioDelegacioQueryPath;
+import es.caib.portafib.model.fields.EstatDeFirmaFields;
+import es.caib.portafib.model.fields.TipusDocumentFields;
+import es.caib.portafib.model.fields.UsuariAplicacioFields;
+import es.caib.portafib.model.fields.UsuariEntitatFields;
+import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
+import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
+import es.caib.portafib.persistence.ColaboracioDelegacioJPA;
+import es.caib.portafib.persistence.TipusDocumentColaboracioDelegacioJPA;
+import es.caib.portafib.persistence.UsuariEntitatJPA;
 
 /**
  * @author anadal
@@ -155,7 +137,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
     @EJB(mappedName = RebreAvisLogicaLocal.JNDI_NAME)
     private RebreAvisLogicaLocal rebreAvisLogicaEjb;
-    
+
     @EJB(mappedName = es.caib.portafib.ejb.CorreuAgrupatService.JNDI_NAME)
     protected es.caib.portafib.ejb.CorreuAgrupatService correuAgrupatEjb;
 
@@ -217,8 +199,6 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     public boolean esDeCarrec() {
         return false;
     }
-
-
 
     public String getTileSeleccioUsuari() {
         return "seleccioUsuariForm" + (esDeCarrec() ? "_ADEN" : "_DEST");
@@ -350,10 +330,22 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             // Agrupació
             colaboracioDelegacioFilterForm.setGroupByFields(groupByFields);
 
+            // Filtre
+            // Eliminar la Firma del Document en una Delegació #841
+            if (colaboracioDelegacioFilterForm.getFilterByFields() == null) {
+                colaboracioDelegacioFilterForm.setFilterByFields(
+                        new ArrayList<Field<?>>(colaboracioDelegacioFilterForm.getDefaultFilterByFields()));
+            }
+            
+            colaboracioDelegacioFilterForm.getFilterByFields().remove(ColaboracioDelegacioFields.DESTINATARIID);
+
             colaboracioDelegacioFilterForm.setDeleteSelectedButtonVisible(false);
 
+            colaboracioDelegacioFilterForm.setDefaultOrderBy(
+                    new OrderBy[] { new OrderBy(ACTIVA, OrderType.DESC), new OrderBy(DATAINICI, OrderType.DESC) });
+
         }
-        
+
         if (!esDelegat()) {
             HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("colaboracio.ajuda"));
         }
@@ -407,6 +399,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
         // Ocultam camps
         colaboracioDelegacioForm.addHiddenField(ESDELEGAT);
+        colaboracioDelegacioForm.addHiddenField(FITXERAUTORITZACIOID);
         colaboracioDelegacioForm.addHiddenField(MOTIUDESHABILITADA);
 
         // Tiquet #113
@@ -463,7 +456,9 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
             boolean esEditable;
             if (colaboracioDelegacioJPA.isEsDelegat()) {
-                esEditable = (colaboracioDelegacioJPA.getFitxerAutoritzacioID() == null);
+                //  Eliminar la Firma del Document en una Delegació #841
+                //esEditable = (colaboracioDelegacioJPA.getFitxerAutoritzacioID() == null);
+                esEditable =  false;
             } else {
                 esEditable = (colaboracioDelegacioJPA.getMotiuDeshabilitada() == null)
                         && !colaboracioDelegacioJPA.isActiva();
@@ -485,11 +480,16 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             switch (estat) {
                 case ESTAT_EDITABLE:
                     if (colaboracioDelegacioJPA.isEsDelegat()) {
+
+                        //  Eliminar la Firma del Document en una Delegació #841
+                        /*
+                        
                         // Encara no ha firmat l'autoritzacio, per la qual cosa no es pot
                         // utilitzar
                         colaboracioDelegacioJPA.setActiva(false);
                         colaboracioDelegacioForm.addHiddenField(FITXERAUTORITZACIOID);
                         // Afegim boto per firmar
+                        
                         colaboracioDelegacioForm
                                 .addAdditionalButton(new AdditionalButton("fas fa-file-signature", "firmar",
                                         "javascript:firmar('" + request.getContextPath() + getContextWeb()
@@ -500,6 +500,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                                         AdditionalButtonStyle.WARNING));
                         // Missatge informatiu
                         HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("delegacio.avisnofirmadaautoritzacio"));
+                        */
                     } else {
                         colaboracioDelegacioForm.addAdditionalButton(new AdditionalButton("fas fa-play", "activar",
                                 getContextWeb() + "/activar/{0}", AdditionalButtonStyle.SUCCESS));
@@ -981,28 +982,31 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             @PathVariable("delegacioID")
             Long delegacioID, @RequestParam("url_user")
             String baseUrlFull) throws I18NException {
-
+        // Eliminar la Firma del Document en una Delegació #841
+        /*
         ColaboracioDelegacioJPA delegacio = findByPrimaryKey(request, delegacioID);
-
+        
+        
+        
         if (delegacio == null || !delegacio.isEsDelegat() || delegacio.getFitxerAutoritzacioID() != null) {
             createMessageError(request, "error.notfound", delegacioID);
             return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
         }
-
+        
         // Llistar documents
         Set<TipusDocumentColaboracioDelegacioJPA> tipusDocPerDelegacio = delegacio
                 .getTipusDocumentColaboracioDelegacios();
-
+        
         List<Long> llistaTipusDocID = new ArrayList<Long>(tipusDocPerDelegacio.size());
         for (TipusDocumentColaboracioDelegacioJPA t : tipusDocPerDelegacio) {
             llistaTipusDocID.add(t.getTipusDocumentID());
         }
-
+        
         Where where = TipusDocumentFields.TIPUSDOCUMENTID.in(llistaTipusDocID);
-
+        
         List<StringKeyValue> allTipusDocumentList;
         allTipusDocumentList = tipusDocumentRefList.getReferenceList(TipusDocumentFields.TIPUSDOCUMENTID, where);
-
+        
         String documents;
         if (allTipusDocumentList.size() == 0) {
             documents = I18NUtils.tradueix("tots");
@@ -1016,44 +1020,44 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             }
             documents = docs.toString();
         }
-
+        
         UsuariEntitatJPA destinatari = usuariEntitatLogicaEjb.findByPrimaryKeyFull(delegacio.getDestinatariID());
         UsuariEntitatJPA delegat = usuariEntitatLogicaEjb.findByPrimaryKeyFull(delegacio.getColaboradorDelegatID());
-
+        
         // TODO Check destinatari i delegat
-
+        
         // Llegim plantilla i la guardam amb reemplaç
         FitxerJPA plantilla = LoginInfo.getInstance().getEntitat().getPdfAutoritzacioDelegacio();
-
+        
         File plantillaPdf = FileSystemManager.getFile(plantilla.getFitxerID());
-
+        
         // TODO Check Plantilla
-
+        
         File dstPDF = getFitxerPlantilla(delegacioID);
         cleanUpFile(dstPDF);
-
+        
         try {
             PdfReader reader = new PdfReader(new FileInputStream(plantillaPdf));
             PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(dstPDF), '\0', false);
             AcroFields fields = stamper.getAcroFields();
-
+        
             String nomDest = Utils.getOnlyNom(destinatari.getUsuariPersona());
-
+        
             fields.setField("DESTINATARI.NOM", nomDest);
             fields.setField("DESTINATARI.NIF", destinatari.getUsuariPersona().getNif());
             fields.setField("DELEGAT.NOM", Utils.getOnlyNom(delegat.getUsuariPersona()));
             fields.setField("DELEGAT.NIF", delegat.getUsuariPersona().getNif());
-
+        
             SimpleDateFormat sdf = new SimpleDateFormat(I18NUtils.getDateTimePattern());
             fields.setField("DATA_INICI", sdf.format(new Date(delegacio.getDataInici().getTime())));
             fields.setField("DATA_FI", delegacio.getDataFi() == null ? I18NUtils.tradueix("genapp.notdefined")
                     : sdf.format(new Date(delegacio.getDataFi().getTime())));
-
+        
             fields.setField("MOTIU", delegacio.getMotiu());
             fields.setField("DOCUMENTS", documents);
             fields.setField("DEST", nomDest);
             fields.setField("DATA", sdf.format(new Date()));
-
+        
             stamper.setFormFlattening(true);
             stamper.close();
         } catch (Exception e) {
@@ -1061,46 +1065,46 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             // TODO traduir
             throw new I18NException("error.unknown", "Error omplint formulari d´autorització:" + e.getMessage());
         }
-
+        
         LoginInfo loginInfo = LoginInfo.getInstance();
-
+        
         final String idname = plantilla.getNom();
-
+        
         final String reason = I18NUtils.tradueix("delegacio.autoritzar");
         // XYZ TODO FALTA
         final String location = null;
-
+        
         final String signerEmail = loginInfo.getUsuariPersona().getEmail();
-
+        
         final int sign_number = 1;
         final String langUI = loginInfo.getUsuariPersona().getIdiomaID();
-
+        
         final String signaturesSetID = SignatureModuleController.generateUniqueSignaturesSetID();
-
+        
         // Posam l'ID de la delegacio
         final String signatureID = String.valueOf(delegacioID);
-
+        
         // Per les delegacions si es posible empram TimeStamp
         EntitatJPA entitat = loginInfo.getEntitat();
-
+        
         // S'ha d'emprar timestamp si és obligatori o si es l'opció per defecte
         boolean userRequiresTimeStamp = (entitat
                 .getPoliticaSegellatDeTemps() == ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_US_OBLIGATORI)
                 || (entitat
                         .getPoliticaSegellatDeTemps() == ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI);
-
+        
         ITimeStampGenerator timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForWeb(entitat,
                 userRequiresTimeStamp);
-
+        
         PolicyInfoSignature policyInfoSignature = SignatureUtils.getPolicyInfoSignature(entitat, null);
-
+        
         //  #174 TODO XYZ ZZZ
         final String expedientCode = null;
         final String expedientName = null;
         final String expedientUrl = null;
         final String procedureCode = null;
         final String procedureName = null;
-
+        
         FileInfoSignature fis = SignatureUtils.getFileInfoSignature(signatureID, dstPDF,
                 FileInfoSignature.PDF_MIME_TYPE, idname, ConstantsV2.TAULADEFIRMES_SENSETAULA, reason, location,
                 signerEmail, sign_number, langUI, ConstantsV2.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
@@ -1108,9 +1112,9 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                 SignatureConstants.SIGN_MODE_ATTACHED_ENVELOPED,
                 SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), null, langUI), timeStampGenerator,
                 policyInfoSignature, expedientCode, expedientName, expedientUrl, procedureCode, procedureName);
-
+        
         FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[] { fis };
-
+        
         CommonInfoSignature commonInfoSignature;
         {
             final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
@@ -1118,73 +1122,80 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             commonInfoSignature = SignatureUtils.getCommonInfoSignature(entitat, null, langUI, username,
                     administrationID);
         }
-
+        
         // Vuls suposar que abans de 10 minuts haurà firmat
         Calendar caducitat = Calendar.getInstance();
         caducitat.add(Calendar.MINUTE, 10);
-
+        
         // {0} ==> es substituirà per l'ID del plugin de firma seleccionat per firmar
         String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, getContextWeb());
         final String urlFirmaFinal = response.encodeURL(relativeControllerBase + "/finalFirma/" + signaturesSetID);
-
+        
         // Sabem que no té cap firma
         final int[] originalNumberOfSignsArray = new int[] { 0 };
-
+        
         String baseUrl = Utils.getUrlBaseFromFullUrl(request, baseUrlFull);
-
+        
         PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat.getTime(),
                 commonInfoSignature, fileInfoSignatureArray, originalNumberOfSignsArray, loginInfo.getUsuariEntitatID(),
                 entitat, urlFirmaFinal, true, baseUrl);
-
+        
         signaturesSet.setPluginsFirmaBySignatureID(null);
-
+        
         // Afegir usuariAplicació per #173
         // És una única firma, la de delegació. L'aplicació és la de l'entitat.
         signaturesSet.getApplicationBySignatureID().put(fis.getSignID(), entitat.getUsuariAplicacioID());
-
+        
         HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("firmardelegacio.titol"));
-
+        
         final String view = "PluginDeFirmaContenidor_ROLE_DEST";
-
+        
         return SignatureModuleController.startPrivateSignatureProcess(request, response, view, signaturesSet);
+        */
+        String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, getContextWeb());
+        final String urlFirmaFinal = response.encodeURL(relativeControllerBase + "/finalFirma/" + delegacioID);
+
+        return new ModelAndView(new RedirectView(urlFirmaFinal, false));
     }
 
     @RequestMapping(value = "/finalFirma/{signaturesSetID}")
     public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
             @PathVariable("signaturesSetID")
-            String signaturesSetID) {
+            String signaturesSetID) throws I18NException {
 
+        // Eliminar la Firma del Document en una Delegació #841
+        /*
         SignaturesSetWeb ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
         StatusSignaturesSet sss = ss.getStatusSignaturesSet();
-
+        
         // Primera i unica firma
         StatusSignature status = ss.getFileInfoSignatureArray()[0].getStatusSignature();
         FileInfoSignature signFileInfo = ss.getFileInfoSignatureArray()[0];
         Long delegacioID = Long.valueOf(signFileInfo.getSignID());
-
+        
         try {
             StatusSignaturesSet statusError = null;
             switch (sss.getStatus()) {
-
+        
                 case StatusSignaturesSet.STATUS_FINAL_OK: {
-
+        
                     // TODO check null
                     if (status.getStatus() == StatusSignature.STATUS_FINAL_OK) {
-
+        
                         try {
                             File firmat = status.getSignedData();
-
+        
                             if (log.isDebugEnabled()) {
                                 log.debug("Ruta Fitxer Firmat: " + firmat.getAbsolutePath());
                             }
-
+        
                             colaboracioDelegacioLogicaEjb.assignarAutoritzacioADelegacio(delegacioID, signFileInfo,
                                     firmat, DelegacioDestController.FITXER_AUTORITZACIO_PREFIX + delegacioID + ".pdf");
-
+        
                             // Enviar mail a delegat o col·laborador
                             enviarNotificacioMailColaDele(request,
                                     colaboracioDelegacioEjb.findByPrimaryKey(delegacioID));
-
+        
                         } catch (Throwable e) {
                             log.error(" CLASS = " + e.getClass());
                             String msg;
@@ -1196,11 +1207,11 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                                 msg = e.getMessage();
                                 log.error("Error processant fitxer firmat (Throwable): " + msg, e);
                             }
-
+        
                             //  TODO Traduir
                             String fullMsg = "S´ha produit un error processant el fitxer firmat ´"
                                     + signFileInfo.getName() + "´: " + msg;
-
+        
                             HtmlUtils.saveMessageError(request, fullMsg);
                         }
                         status.setProcessed(true);
@@ -1209,18 +1220,18 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                     }
                 }
                 break;
-
+        
                 case StatusSignaturesSet.STATUS_FINAL_ERROR:
                     statusError = sss;
                 break;
-
+        
                 case StatusSignaturesSet.STATUS_CANCELLED:
                     if (sss.getErrorMsg() == null) {
                         sss.setErrorMsg(I18NUtils.tradueix("plugindefirma.cancelat"));
                     }
                     statusError = sss;
                 break;
-
+        
                 default:
                     String inconsistentState = "El mòdul de firma ha finalitzat inesperadament "
                             + "(no ha establit l'estat final del procés de firma)";
@@ -1228,7 +1239,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                     statusError = sss;
                     log.error(inconsistentState, new Exception());
             }
-
+        
             if (statusError != null) {
                 // TODO Mostrar excepció per log
                 if (statusError.getErrorMsg() == null) {
@@ -1236,12 +1247,18 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
                 }
                 HtmlUtils.saveMessageError(request, statusError.getErrorMsg());
             }
-
+        
             SignatureModuleController.closeSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
-
+        
         } finally {
             cleanUpFitxerPlantilla(delegacioID);
         }
+        */
+
+        long delegacioID = Long.valueOf(signaturesSetID);
+
+        colaboracioDelegacioLogicaEjb.update(ColaboracioDelegacioFields.ACTIVA, true,
+                ColaboracioDelegacioFields.COLABORACIODELEGACIOID.equal(delegacioID));
 
         return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
     }
