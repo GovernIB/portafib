@@ -20,6 +20,9 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -69,7 +72,15 @@ public class XadesSignatureExtractor implements SignatureExtractor {
 
                     if (stNodeList.getLength() > 0) {
                         String value = stNodeList.item(0).getTextContent();
-                        signingTime = dateFormat.parse(value);
+                                               
+
+                        // Opción 2: Con ZonedDateTime y formateador
+                        try {
+                            ZonedDateTime zdt = ZonedDateTime.parse(value, DateTimeFormatter.ISO_DATE_TIME);
+                            signingTime = Date.from(zdt.toInstant());
+                        } catch(Throwable th) {
+                            signingTime = dateFormat.parse(value);
+                        }
                     }
                 }
 
