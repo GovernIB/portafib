@@ -450,8 +450,8 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
                 final Map<Integer, String> ESTATS = Map.of(TransactionInfo.STATUS_RESERVED_ID, "STATUS_RESERVED_ID",
                         TransactionInfo.STATUS_IN_PROGRESS, "STATUS_IN_PROGRESS");
                 
-                throw new RestException("La transacció " + transactionID + " es troba en un estat (" + ti.getStatus()
-                        + " => " + ESTATS.get(ti.getStatus()) 
+                throw new RestException("La transacció " + transactionID + " es troba en un estat "  
+                        + ESTATS.get(ti.getStatus()) + " (" + ti.getStatus() + "
                         + " ). Només es permet arrancar una transacció si aquesta es troba en estat Reservat");
             }
 

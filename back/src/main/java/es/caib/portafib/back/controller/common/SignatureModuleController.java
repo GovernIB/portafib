@@ -10,6 +10,7 @@ import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebPublicLogicaLocal;
 import es.caib.portafib.logic.generator.IdGeneratorFactory;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.Plugin;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.model.fields.PluginFields;
@@ -220,15 +221,49 @@ public class SignatureModuleController extends HttpServlet {
         mav.addObject("lang", lang);
         mav.addObject("thecontext", getContextWeb());
 
-        String backgroundColor = Configuracio.getHeaderBackgroundColor();
-        if (backgroundColor != null) {
+        mav.addObject("headerEnabled", false);
 
-            if (signaturesSet.getEntitat() != null) {
+        // log.info("\n\n" + "Entitat => " + signaturesSet.getEntitat());
+
+        if (signaturesSet.getEntitat() != null) {
+
+            String entitatID = signaturesSet.getEntitat().getEntitatID();
+            // log.info("\n\n" + "XYZ ZZZ EntitatID => " + entitatID);
+
+            boolean headerEnabled = PropietatGlobalUtil.isSignatureHeaderEnabled(entitatID);
+
+            // log.info("\n\n" + "XYZ ZZZ headerEnabled => " + headerEnabled);
+
+            if (headerEnabled) {
 
                 final String url = signaturesSet.getUrlFinal();
 
+                // log.info("\n\n" + "XYZ ZZZ url => " + url);
+
+                /** No ho mostram dins de POrtaFIB, només quan ens criden des de l'API */
                 if (url.indexOf(ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT) == -1
                         && url.indexOf(ConstantsV2.CONTEXT_DELE_ESTATFIRMA_PENDENT) == -1) {
+
+                    String backgroundColor = PropietatGlobalUtil.getSignatureHeaderBackgroundColor(entitatID);
+
+                    if (backgroundColor == null || backgroundColor.trim().length() == 0) {
+                        backgroundColor = "#2E8B57"; // Color per defecte
+                    }
+
+                    String logoUrl = PropietatGlobalUtil.getSignatureHeaderLogoUrl(entitatID);
+                    if (logoUrl == null || logoUrl.trim().length() == 0) {
+                        logoUrl = FileDownloadController.fileUrl(signaturesSet.getEntitat().getLogoWeb());
+                    }
+
+                    String text = PropietatGlobalUtil.getSignatureHeaderText(entitatID);
+                    if (text == null || text.trim().length() == 0) {
+                        text = signaturesSet.getEntitat().getNom();
+                    } else {
+                        if (text.trim().equals("-")) {
+                            text = null;
+                        }
+                    }
+
                     /*
                     log.info("\n\n URL BASE => " + signaturesSet.getUrlBase() + "\n"
                         + " URL FINAL => " + signaturesSet.getUrlFinal() + "\n"
@@ -236,17 +271,18 @@ public class SignatureModuleController extends HttpServlet {
                         );
                         */
 
-                    final String logoUrl = FileDownloadController.fileUrl(signaturesSet.getEntitat().getLogoWeb());
-                    final String entitatNom = signaturesSet.getEntitat().getNom();
+                    /** log.info("\n\n" + "EntitatID => " + entitatID + "\n" + " Header Enabled => " + headerEnabled + "\n"
+                            + " Background Color => " + backgroundColor + "\n" + " Logo URL => " + logoUrl + "\n"
+                            + " Text => " + text + "\n\n"); */
 
+                    mav.addObject("headerEnabled", true);
                     mav.addObject("backgroundColor", backgroundColor);
                     mav.addObject("logoUrl", logoUrl);
-                    mav.addObject("entitatNom", entitatNom);
+                    mav.addObject("text", text);
                 }
-            } else {
-                log.warn("\n La petició no inclou l'ENTITAT !!!! " + signaturesSet.urlFinal + "\n");
             }
-
+        } else {
+            log.warn("\n La petició no inclou l'ENTITAT !!!! " + signaturesSet.urlFinal + "\n");
         }
 
         return mav;
@@ -378,8 +414,7 @@ public class SignatureModuleController extends HttpServlet {
                     + " a l'hora de mostrar el mòdul de firma. Caducat?";
             return generateErrorMAV(request, signaturesSetID, msg, null);
         }
-        
-        
+
         // Problema de Fitxer Buit retornat per plugin i warning "ALREADY CONTAINS KEY !!!!"   #1081
         {
             if (signaturesSet.getStartDate() != null) {
@@ -393,7 +428,6 @@ public class SignatureModuleController extends HttpServlet {
 
             signaturesSet.setStartDate(new Date());
         }
-        
 
         if (log.isDebugEnabled()) {
             log.debug("PortaFIBSignaturesSet signaturesSet = " + signaturesSet);
@@ -565,7 +599,6 @@ public class SignatureModuleController extends HttpServlet {
             return;
         }
 
-        
         if (debug) {
             log.debug("RestOfTheUrlVar = " + request.getSession().getAttribute("restOfTheUrlVar"));
             log.debug("Original RelativePath = " + query);
@@ -681,10 +714,10 @@ public class SignatureModuleController extends HttpServlet {
 
             response.sendRedirect(r);
         } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
+            // TODO 
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            // TODO 
             e.printStackTrace();
         }
 

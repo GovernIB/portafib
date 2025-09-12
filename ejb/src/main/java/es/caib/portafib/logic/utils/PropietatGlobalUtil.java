@@ -22,7 +22,6 @@ public class PropietatGlobalUtil implements ConstantsV2 {
     public static final String PROPERTY_BYENTITY_AVISOS_FIRMES_PENDENTS_DIESABANS = PORTAFIB_PROPERTY_BASE
             + "avisosfirmespendents.diesabans";
 
-
     /**
      * Nou a 2.0.21. Opcional.
      * Llista de expressions regulars, separades per bots de línia que s'empraran per extreure el NIF/NIE de dins el serialNumber
@@ -83,11 +82,11 @@ public class PropietatGlobalUtil implements ConstantsV2 {
     public static String getAvisosFirmesPendentsCronExpression() {
         return getString("avisosfirmespendents.cron");
     }
-    
+
     public static String getRebuigPeticionsCaducadesCronExpression() {
         return getString("rebuigpeticionscaducades.cron");
     }
-    
+
     public static Long getRebuigPeticionsCaducadesDies() {
         return getLong("rebuigpeticionscaducades.dies");
     }
@@ -550,6 +549,53 @@ public class PropietatGlobalUtil implements ConstantsV2 {
         return val;
     }
 
+    /**
+     * Isue: Capçaleres d'entitat durant la signatura WEB #1058
+     * Opcional. Nou a la versió 3.0.9. Valor per defecte defecte és #2E8B57. En la pantalla de selecció del mòdul de firma posa una capçalera amb color de fons definit per aquesta propietat. Només es mostrarà la capçalera si la propietat es.caib.portafib.signatureheader.enabled val true
+     * @param entitatID
+     * @return
+     */
+    public static String getSignatureHeaderBackgroundColor(String entitatID) {
+        return getStringByEntitat(entitatID, "signatureheader.backgroundcolor");
+    }
+
+    /**
+     * Isue: Capçaleres d'entitat durant la signatura WEB #1058
+     * Opcional. Nou a la versió 3.0.9. Valor per defect el logo de l´entitat a la capçalera.
+     *  En la pantalla de selecció del mòdul de firma posa una capçalera amb un logo 
+     *  definit per aquesta propietat. Només es mostrarà la capçalera 
+     *  si la propietat es.caib.portafib.signatureheader.enabled val true
+     * @param entitatID
+     * @return
+     */
+    public static String getSignatureHeaderLogoUrl(String entitatID) {
+        return getStringByEntitat(entitatID, "signatureheader.logourl");
+    }
+
+    /**
+     * Isue: Capçaleres d'entitat durant la signatura WEB #1058
+     * Opcional. Nou a la versió 3.0.9. Per defecte és el nom de l´entitat. En la pantalla de selecció del mòdul de
+     *  firma posa una capçalera amb un text definit per aquesta propietat. Si no esta definida el valor per
+     *   defecte és el logo de la capçalera de PortaFIB. Només es mostrarà la capçalera 
+     *   si la propietat es.caib.portafib.signatureheader.enabled val true
+     * @param entitatID
+     * @return
+     */
+    public static String getSignatureHeaderText(String entitatID) {
+        return getStringByEntitat(entitatID, "signatureheader.text");
+    }
+
+    /**
+     * Isue: Capçaleres d'entitat durant la signatura WEB #1058
+     * Opcional. Valor per defecte false. Nou a la versió 3.0.9. En la pantalla de selecció del mòdul de
+     * firma posa una capçalera si aquesta propietat val true.
+     * @param entitatID
+     * @return
+     */
+    public static boolean isSignatureHeaderEnabled(String entitatID) {
+        return "true".equalsIgnoreCase(getStringByEntitat(entitatID, "signatureheader.enabled"));
+    }
+
     // ----------------------------------------------------------------------------------
     // ----------------------------------------------------------------------------------
 
@@ -568,7 +614,7 @@ public class PropietatGlobalUtil implements ConstantsV2 {
     protected static String getStringByEntitat(String entitatID, final String partialPropertyName) {
         try {
             PropietatGlobalLogicaLocal propietatEjb = EjbManager.getPropietatLogicaEJB();
-            return propietatEjb.getProperty(entitatID, PORTAFIB_PROPERTY_BASE + partialPropertyName);
+            return propietatEjb.getPropertyByEntitat(entitatID, PORTAFIB_PROPERTY_BASE + partialPropertyName);
         } catch (I18NException e) {
             String msg = I18NLogicUtils.getMessage(e, new Locale(Configuracio.getDefaultLanguage()));
             log.error("Unknown error getting String Property per l'entitat " + entitatID + " ]" + PORTAFIB_PROPERTY_BASE

@@ -144,7 +144,7 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
             startTransactionInfo.setView(view);
 
             String redirectUrl = api.startTransaction(startTransactionInfo);
-            api.startTransaction(startTransactionInfo);
+            
 
             if (showInIframe) {
                 final String iframeUrl = "http://" + host + ":" + (port+1) + "/iframe/";

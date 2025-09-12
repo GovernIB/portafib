@@ -250,9 +250,13 @@ public class Configuracio implements Constants {
         return new Locale(getDefaultLanguage());
     }
 
+    // Capçaleres d'entitat durant la signatura WEB  #1058
+    // TODO Eliminar
+    @Deprecated
     public static String getHeaderBackgroundColor() {
         return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "headerbackgroundcolor");
     }
+
 
     /**
      * Permet indicar si volem mostrar als usuaris un enllaç cap a una APK de Android.

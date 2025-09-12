@@ -64,7 +64,21 @@ public class PropietatsConstants {
                 new Propietat(false, "es.caib.portafib.revisordedestinatari.restretornarrevisorsglobals",
                         "Eliminat a la versió 3.0.1. Creat a la versió 3.0.0 Opcional. Valor per defecte false. Si val true en la consulta al servei rest de RevisorDeDestinatari també retorna els Revisors Globals."),
                 new Propietat(true, "es.caib.portafib.addnotificationstonewuser",
-                        "Afegida a la versió 3.0.2. Valor per defecte false. Si val true, als nous usuaris se´ls donarà d'alta en les notificacions de tipus ´Requerit per firmar´. ´Requerit per revisar´ i ´Requerit per validar´") };
+                        "Afegida a la versió 3.0.2. Valor per defecte false. Si val true, als nous usuaris se´ls donarà d'alta en les notificacions de tipus ´Requerit per firmar´. ´Requerit per revisar´ i ´Requerit per validar´"),
+
+                new Propietat(true, "es.caib.portafib.signatureheader.backgroundcolor",
+                        "Opcional. Nou a la versió 3.0.9. Valor per defecte defecte és #2E8B57. En la pantalla de selecció del mòdul de firma posa una capçalera amb color de fons definit per aquesta propietat. Només es mostrarà la capçalera si la propietat es.caib.portafib.signatureheader.enabled val true"),
+                new Propietat(true, "es.caib.portafib.signatureheader.logourl",
+                        "Opcional. Nou a la versió 3.0.9. Valor per defect el logo de l´entitat a la capçalera. En la pantalla de selecció del mòdul de firma posa una capçalera amb un logo definit per aquesta propietat. Només es mostrarà la capçalera si la propietat es.caib.portafib.signatureheader.enabled val true"),
+
+                new Propietat(true, "es.caib.portafib.signatureheader.text",
+                        "Opcional. Nou a la versió 3.0.9. Per defecte és el nom de l´entitat. En la pantalla de selecció del mòdul de firma posa una capçalera amb un text definit per aquesta propietat. Si no esta definida el valor per defecte és el nom de l´entitat de PortaFIB. Si val \"-\" llavors significa que no es vol mostrar cap text. Només es mostrarà la capçalera si la propietat es.caib.portafib.signatureheader.enabled val true"),
+                
+                
+                new Propietat(true, "es.caib.portafib.signatureheader.enabled",
+                        "Opcional. Nou a la versió 3.0.9. Opcional. Valor per defecte false. Nou a la versió 3.0.9. En la pantalla de selecció del mòdul de firma posa una capçalera si aquesta propietat val true.")
+
+        };
 
         final Propietat[] propietats_bbdd_globals = {
 

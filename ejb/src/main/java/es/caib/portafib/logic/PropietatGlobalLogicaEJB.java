@@ -52,7 +52,7 @@ public class PropietatGlobalLogicaEJB extends PropietatGlobalEJB implements Prop
 
     @Override
     public String getPropertyByEntitat(String entitatID, String key, String defaultValue) throws I18NException {
-        String value = getProperty(entitatID, key);
+        String value = getPropertyByEntitat(entitatID, key);
         return (value == null) ? defaultValue : value;
     }
 
