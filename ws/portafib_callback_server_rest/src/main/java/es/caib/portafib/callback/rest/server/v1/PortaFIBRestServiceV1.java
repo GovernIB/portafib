@@ -1,6 +1,7 @@
 package es.caib.portafib.callback.rest.server.v1;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
@@ -26,6 +27,20 @@ public class PortaFIBRestServiceV1 {
   public String getVersio() {
     return "1";
   }
+  
+  
+  
+  
+  @GET
+  @Path("/event")
+  @Consumes(MediaType.APPLICATION_JSON)
+  public Response eventGet(PortaFIBEvent event) {
+      String msg = "Aquest mètode REST només accepta peticions POST";
+      return Response.status(500).entity(msg).build();
+  }
+  
+  
+  
 
   @POST
   @Path("/event")

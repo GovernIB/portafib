@@ -11,16 +11,24 @@ import es.caib.portafib.ejb.PeticioDeFirmaService;
 import es.caib.portafib.ejb.UsuariAplicacioService;
 import es.caib.portafib.persistence.NotificacioWSJPA;
 import es.caib.portafib.logic.NotificacioWSLogicaLocal;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.NotificacioWS;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
+
+import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.GroupByItem;
+import org.fundaciobit.genapp.common.query.IntegerField;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.OrderType;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
+import org.fundaciobit.genapp.common.web.form.AdditionalField;
+import org.fundaciobit.genapp.common.web.form.LogicForBaseFilterForm;
+import org.fundaciobit.genapp.common.web.html.IconUtils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -37,7 +45,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * 
@@ -47,10 +58,24 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/aden/notificaciows")
 @SessionAttributes(types = { NotificacioWSForm.class, NotificacioWSFilterForm.class })
-@MenuOption(labelCode = "notificaciows.llistat", group = Tab.MENU_ADAPP, order=180)
+@MenuOption(labelCode = "notificaciows.llistat", group = Tab.MENU_ADAPP, order = 180)
 public class GestioNotificacionsWSAdappController extends NotificacioWSController {
 
     private static final String USUARIAPLICACIOID_REQUEST_ATTRIBUTE = "GestioNotificacionsWSController.usuariAplicacioID";
+
+    protected static final int COLUMN_ESTAT = 1;
+
+    protected static final int COLUMN_REINTENTS = 2;
+
+    public static final IntegerField VIRTUAL_ESTAT_FIELD = new IntegerField(null, "notificaciows.estat", "estat");
+
+    public static final Where WHEREPAUSADES = Where.AND(DATAENVIAMENT.isNull(), REINTENTS.greaterThanOrEqual(0),
+            BLOQUEJADA.equal(true));
+
+    public static final Where WHEREREINTENTAR = Where.AND(DATAENVIAMENT.isNull(), REINTENTS.greaterThanOrEqual(0),
+            BLOQUEJADA.equal(false));
+
+    public static final Where WHEREFINALITZADA = Where.AND(DATAENVIAMENT.isNotNull(), BLOQUEJADA.equal(true));
 
     @EJB(mappedName = NotificacioWSLogicaLocal.JNDI_NAME)
     protected NotificacioWSLogicaLocal notificacioLogicaEjb;
@@ -83,6 +108,7 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
             HttpServletRequest request) throws I18NException {
         NotificacioWSFilterForm notificacioFilterForm;
         notificacioFilterForm = super.getNotificacioWSFilterForm(pagina, mav, request);
+
         if (notificacioFilterForm.isNou()) {
 
             notificacioFilterForm.setTitleCode("notificaciows.llistat");
@@ -92,38 +118,59 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
             notificacioFilterForm.setDefaultOrderBy(new OrderBy[] { new OrderBy(DATACREACIO, OrderType.DESC) });
 
             notificacioFilterForm.setGroupByFields(new ArrayList<Field<?>>());
-            notificacioFilterForm.addGroupByField(BLOQUEJADA);
             notificacioFilterForm.addGroupByField(USUARIAPLICACIOID);
-            /*
-            notificacioFilterForm.addGroupByField(DATACREACIO);
-             */
+            notificacioFilterForm.addGroupByField(VIRTUAL_ESTAT_FIELD);
 
-            //notificacioFilterForm.addFilterByField(DESCRIPCIO);
             notificacioFilterForm.addFilterByField(ERROR);
             notificacioFilterForm.addFilterByField(DATACREACIO);
             notificacioFilterForm.addFilterByField(USUARIAPLICACIOID);
             notificacioFilterForm.addFilterByField(PETICIODEFIRMAID);
-            notificacioFilterForm.addFilterByField(BLOQUEJADA);
 
             notificacioFilterForm.addHiddenField(DATAENVIAMENT);
             notificacioFilterForm.addHiddenField(DESCRIPCIO);
             notificacioFilterForm.addHiddenField(DATAERROR);
             notificacioFilterForm.addHiddenField(ERROR);
+            notificacioFilterForm.addHiddenField(BLOQUEJADA);
+            notificacioFilterForm.addHiddenField(REINTENTS);
 
             // Noves etiquetes
-            notificacioFilterForm.addLabel(BLOQUEJADA,
-                    "=<i class=\"fas fa-lock\" title=\"" + I18NUtils.tradueix(BLOQUEJADA.fullName) + "\"></i>");
-            notificacioFilterForm.addLabel(REINTENTS,
-                    "=<i class=\"fas fa-redo\" title=\"" + I18NUtils.tradueix(REINTENTS.fullName) + "\"></i>");
+            //notificacioFilterForm.addLabel(BLOQUEJADA,
+            //        "=<i class=\"fas fa-lock\" title=\"" + I18NUtils.tradueix(BLOQUEJADA.fullName) + "\"></i>");
+            //notificacioFilterForm.addLabel(REINTENTS,
+            //        "=<i class=\"fas fa-redo\" title=\"" + I18NUtils.tradueix(REINTENTS.fullName) + "\"></i>");
 
-            notificacioFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("fas fa-eye", "veuredetalls",
-                    getContextWeb() + "/view/{0}", AdditionalButtonStyle.SECONDARY));
+            notificacioFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(IconUtils.ICON_EYE,
+                    "veuredetalls", getContextWeb() + "/view/{0}", AdditionalButtonStyle.SECONDARY));
 
             notificacioFilterForm.setAddButtonVisible(false);
             notificacioFilterForm.setEditButtonVisible(false);
             notificacioFilterForm.setDeleteButtonVisible(false);
             notificacioFilterForm.setDeleteSelectedButtonVisible(false);
             notificacioFilterForm.setVisibleMultipleSelection(false);
+
+            {
+                AdditionalField<Long, String> additionalFieldEstat = new AdditionalField<Long, String>();
+                additionalFieldEstat.setCodeName("notificaciows.estat");
+                additionalFieldEstat.setPosition(COLUMN_ESTAT);
+                additionalFieldEstat.setEscapeXml(false);
+                // Els valors s'ompliran al mètode postList()
+                additionalFieldEstat.setValueMap(new HashMap<Long, String>());
+
+                notificacioFilterForm.addAdditionalField(additionalFieldEstat);
+            }
+
+            {
+                AdditionalField<Long, String> additionalFieldReintents = new AdditionalField<Long, String>();
+                additionalFieldReintents.setCodeName(
+                        "=<i class=\"fas fa-redo\" title=\"" + I18NUtils.tradueix(REINTENTS.fullName) + "\"></i>");
+                additionalFieldReintents.setPosition(COLUMN_REINTENTS);
+                additionalFieldReintents.setEscapeXml(false);
+                // Els valors s'ompliran al mètode postList()
+                additionalFieldReintents.setValueMap(new HashMap<Long, String>());
+
+                notificacioFilterForm.addAdditionalField(additionalFieldReintents);
+            }
+
         }
 
         notificacioFilterForm.getAdditionalButtons().clear();
@@ -178,6 +225,13 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
             filterForm.setUsuariAplicacioID(usuariAplicacioID);
         }
 
+        Map<Long, String> mapEstat = (Map<Long, String>) filterForm.getAdditionalField(COLUMN_ESTAT).getValueMap();
+        mapEstat.clear();
+
+        Map<Long, String> mapReintents = (Map<Long, String>) filterForm.getAdditionalField(COLUMN_REINTENTS)
+                .getValueMap();
+        mapEstat.clear();
+
         // Valors inicials, pendents del que es digui més endavant
         //filterForm.getAdditionalButtons().clear();
         filterForm.getAdditionalButtonsByPK().clear();
@@ -193,11 +247,21 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
 
         int action = 0;
         boolean mostrarBotonsGlobals = true;
+
+        Long retryToPause = PropietatGlobalUtil.getNumberOfErrorsToPauseNotification();
+
+        final String retryToPauseStr = (retryToPause == null) ? "∞" : retryToPause.toString();
+
         for (NotificacioWS notificacio : list) {
             count++;
 
+            mapReintents.put(notificacio.getNotificacioID(), notificacio.getReintents() + "/" + retryToPauseStr);
+
             action = getStatus(notificacio);
 
+            String actionLabel;
+            String actionColor;
+            String actionLogo;
             switch (action) {
 
                 case SHOW_ACTION_DESBLOQUEJAR:
@@ -208,6 +272,9 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
                             new AdditionalButton("fas fa-stop", "notificaciows.aturar", getContextWeb() + "/aturar/{0}",
                                     AdditionalButtonStyle.WARNING));
                     notificacio.setBloquejada(null);
+                    actionLabel = I18NUtils.tradueix("notificaciows.estat.pausat");
+                    actionColor = "warning";
+                    actionLogo = "⏸️";
                 break;
 
                 case SHOW_ACTION_BLOQUEJAR:
@@ -216,21 +283,37 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
                                     getContextWeb() + "/bloquejar/{0}", AdditionalButtonStyle.WARNING));
                     filterForm.addAdditionalButtonByPK(notificacio.getNotificacioID(),
                             new AdditionalButton("fas fa-stop", "notificaciows.aturar", getContextWeb() + "/aturar/{0}",
-                                    AdditionalButtonStyle.WARNING));
-                    
+                                    AdditionalButtonStyle.DANGER));
+                    actionLabel = I18NUtils.tradueix("notificaciows.estat.reintentant");
+                    actionColor = "success";
+                    actionLogo = "<i class=\"fas fa-sync-alt fa-spin\"></i>";
+
                 break;
 
                 case SHOW_ACTION_ESBORRAR:
                     filterForm.addAdditionalButtonByPK(notificacio.getNotificacioID(),
                             new AdditionalButton("fas fa-trash", "genapp.delete", getContextWeb() + "/{0}/delete",
                                     AdditionalButtonStyle.DANGER));
+                    actionLabel = I18NUtils.tradueix("notificaciows.estat.finalitzat");
+                    actionColor = "danger";
+                    actionLogo = "🛑";
                 break;
 
                 case SHOW_ACTION_NONE:
                     mostrarBotonsGlobals = false;
+                    mapEstat.put(notificacio.getNotificacioID(), "NONE???");
                     continue;
 
+                default:
+                    actionLabel = "--DESCONEGUT--";
+                    actionColor = "dark";
+                    actionLogo = "❓";
+
             }
+
+            mapEstat.put(notificacio.getNotificacioID(),
+                    "<div class=\"alert alert-" + actionColor + "\" style=\"padding: 0; marging: 0;\" role=\"alert\">"
+                            + actionLogo + " " + actionLabel + "</div>");
 
             if (mostrarBotonsGlobals == true) {
 
@@ -272,9 +355,10 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
             break;
 
             case SHOW_ACTION_ESBORRAR:
-                filterForm.addAdditionalButton(new AdditionalButton("fas fa-trash", "notificaciows.esborrar.seleccionats",
-                        "javascript:openModalSubmit('" + context + "/deleteSelected','show', 'notificacioWS')",
-                        AdditionalButtonStyle.DANGER));
+                filterForm
+                        .addAdditionalButton(new AdditionalButton("fas fa-trash", "notificaciows.esborrar.seleccionats",
+                                "javascript:openModalSubmit('" + context + "/deleteSelected','show', 'notificacioWS')",
+                                AdditionalButtonStyle.DANGER));
             break;
 
         }
@@ -360,6 +444,42 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
 
     @Override
     public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
+
+        NotificacioWSFilterForm filterForm;
+        filterForm = (NotificacioWSFilterForm) request.getSession().getAttribute(getSessionAttributeFilterForm());
+
+        Where base = getAdditionalConditionBase(request);
+
+        if (VIRTUAL_ESTAT_FIELD.javaName.equals(filterForm.getGroupBy())) {
+            int action = Integer.parseInt(filterForm.getGroupValue());
+            Where whereEstat = null;
+            switch (action) {
+
+                case SHOW_ACTION_DESBLOQUEJAR:
+                    whereEstat = WHEREPAUSADES;
+                break;
+
+                case SHOW_ACTION_BLOQUEJAR:
+                    whereEstat = WHEREREINTENTAR;
+                break;
+
+                case SHOW_ACTION_ESBORRAR:
+                    whereEstat = WHEREFINALITZADA;
+                break;
+
+            }
+
+            if (whereEstat != null) {
+                return Where.AND(base, whereEstat);
+            }
+
+        }
+
+        return base;
+
+    }
+
+    protected Where getAdditionalConditionBase(HttpServletRequest request) throws I18NException {
         // Seleccionar notificacions dels usuari aplicació de l'entitat del ADEN
         Where where = USUARIAPLICACIOID.in(usuariAplicacioEjb.getSubQuery(UsuariAplicacioFields.USUARIAPLICACIOID,
                 UsuariAplicacioFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID())));
@@ -389,8 +509,8 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
     }
 
     @RequestMapping(value = "/aturar/{notificacioID}", method = RequestMethod.GET)
-    public String aturarNotificacio(@PathVariable("notificacioID") java.lang.Long notificacioID,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String aturarNotificacio(@PathVariable("notificacioID")
+    java.lang.Long notificacioID, HttpServletRequest request, HttpServletResponse response) throws Exception {
         try {
             NotificacioWSJPA notificacio = notificacioLogicaEjb.aturarNotificacio(notificacioID);
 
@@ -408,8 +528,8 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
     }
 
     @RequestMapping(value = "/aturarSelected", method = RequestMethod.POST)
-    public String aturarSelected(HttpServletRequest request, HttpServletResponse response,
-            @ModelAttribute NotificacioWSFilterForm filterForm) throws Exception {
+    public String aturarSelected(HttpServletRequest request, HttpServletResponse response, @ModelAttribute
+    NotificacioWSFilterForm filterForm) throws Exception {
 
         String[] seleccionats = filterForm.getSelectedItems();
 
@@ -423,8 +543,8 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
     }
 
     @RequestMapping(value = "/bloquejar/{notificacioID}", method = RequestMethod.GET)
-    public String bloquejarNotificacio(@PathVariable("notificacioID") java.lang.Long notificacioID,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String bloquejarNotificacio(@PathVariable("notificacioID")
+    java.lang.Long notificacioID, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         try {
             NotificacioWSJPA notificacio = notificacioLogicaEjb.bloquejarNotificacio(notificacioID);
@@ -442,8 +562,8 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
     }
 
     @RequestMapping(value = "/bloquejarSelected", method = RequestMethod.POST)
-    public String bloquejarSelected(HttpServletRequest request, HttpServletResponse response,
-            @ModelAttribute NotificacioWSFilterForm filterForm) throws Exception {
+    public String bloquejarSelected(HttpServletRequest request, HttpServletResponse response, @ModelAttribute
+    NotificacioWSFilterForm filterForm) throws Exception {
 
         String[] seleccionats = filterForm.getSelectedItems();
 
@@ -457,8 +577,8 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
     }
 
     @RequestMapping(value = "/desbloquejar/{notificacioID}", method = RequestMethod.GET)
-    public String desbloquejarNotificacio(@PathVariable("notificacioID") java.lang.Long notificacioID,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String desbloquejarNotificacio(@PathVariable("notificacioID")
+    java.lang.Long notificacioID, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         try {
 
@@ -478,8 +598,8 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
     }
 
     @RequestMapping(value = "/desbloquejarSelected", method = RequestMethod.POST)
-    public String desbloquejarSelected(HttpServletRequest request, HttpServletResponse response,
-            @ModelAttribute NotificacioWSFilterForm filterForm) throws Exception {
+    public String desbloquejarSelected(HttpServletRequest request, HttpServletResponse response, @ModelAttribute
+    NotificacioWSFilterForm filterForm) throws Exception {
 
         String[] seleccionats = filterForm.getSelectedItems();
 
@@ -518,4 +638,75 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
 
         return "redirect:" + getContextWeb() + "/list/";
     }
+
+    @Override
+    public Map<Field<?>, GroupByItem> fillReferencesForList(NotificacioWSFilterForm filterForm,
+            HttpServletRequest request, ModelAndView mav, List<NotificacioWS> list, List<GroupByItem> groupItems)
+            throws I18NException {
+
+        Map<Field<?>, GroupByItem> groupByItemsMap = super.fillReferencesForList(filterForm, request, mav, list,
+                groupItems);
+
+        if (filterForm.getGroupByFields().contains(VIRTUAL_ESTAT_FIELD)) {
+
+            //            log.info("\n\n ------------    PASSA PER fillReferencesForList VIRTUAL_ESTAT_FIELD  ---------------"
+            //                    + "\n       filterForm.getGroupBy() => " + filterForm.getGroupBy()
+            //                    + "\n       filterForm.getGroupValue()" + filterForm.getGroupValue() + "\n\n\n");
+
+            //fillValuesToGroupByItems(_tmp, groupByItemsMap, VIRTUAL_ESTAT_FIELD, false);
+            Map<StringKeyValue, Long> _listSKV;
+            _listSKV = new TreeMap<StringKeyValue, Long>();
+
+            Where additionalCondition = getAdditionalConditionBase(request);
+
+            long pausades = this.notificacioLogicaEjb.count(Where.AND(additionalCondition, WHEREPAUSADES));
+
+            long reintentar = this.notificacioLogicaEjb.count(Where.AND(additionalCondition, WHEREREINTENTAR));
+
+            long finalitzada = this.notificacioLogicaEjb.count(Where.AND(additionalCondition, WHEREFINALITZADA));
+
+            _listSKV.put(
+                    new StringKeyValue("" + SHOW_ACTION_DESBLOQUEJAR, I18NUtils.tradueix("notificaciows.estat.pausat")),
+                    Long.valueOf(pausades));
+            _listSKV.put(new StringKeyValue("" + SHOW_ACTION_BLOQUEJAR,
+                    I18NUtils.tradueix("notificaciows.estat.reintentant")), Long.valueOf(reintentar));
+            _listSKV.put(
+                    new StringKeyValue("" + SHOW_ACTION_ESBORRAR, I18NUtils.tradueix("notificaciows.estat.finalitzat")),
+                    Long.valueOf(finalitzada));
+
+            Field<?> field = VIRTUAL_ESTAT_FIELD;
+
+            LogicForBaseFilterForm.addGroupByValuesToVirtualField(filterForm, mav, groupByItemsMap, _listSKV, field);
+
+        }
+
+        return groupByItemsMap;
+    }
+
+    // XYZ ZZZ TODO llevar només per debug
+    /*
+    @Override
+    protected List<NotificacioWS> llistat(ModelAndView mav, HttpServletRequest request,
+            NotificacioWSFilterForm filterForm) throws I18NException {
+    
+        log.info("\n\n ------------    PRE LLISTAT  ---------------" + "\n       filterForm.getGroupBy() => "
+                + filterForm.getGroupBy() + "\n       filterForm.getGroupValue()" + filterForm.getGroupValue()
+                + "\n       filterForm.isVisibleGroupBy()" + filterForm.isVisibleGroupBy() + "\n\n\n");
+    
+        List<NotificacioWS> l = super.llistat(mav, request, filterForm);
+    
+        //        List<Field<?>> groups = filterForm.getGroupByFields();
+        //
+        //        for (Field<?> group : groups) {
+        //            log.info("  >>>>>  Agrupament per camp: " + group.getCodeLabel());
+        //        }
+    
+        log.info("\n\n ------------    POST LLISTAT  ---------------" + "\n       filterForm.getGroupBy() => "
+                + filterForm.getGroupBy() + "\n       filterForm.getGroupValue()" + filterForm.getGroupValue()
+                + "\n       filterForm.isVisibleGroupBy()" + filterForm.isVisibleGroupBy() + "\n\n\n");
+    
+        return l;
+    }
+    */
+
 }

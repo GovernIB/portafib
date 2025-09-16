@@ -129,7 +129,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
             }
 
             if (log.isDebugEnabled()) {
-              log.debug("wakeUp: Reprogamam els timers");
+                log.debug("wakeUp: Reprogamam els timers");
             }
             startScheduler();
             Timer timer = timerService.createSingleActionTimer(2000, new TimerConfig("wakeUp", false));
@@ -220,10 +220,11 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
             } else {
                 Timestamp nowX = new Timestamp(now - notificacionsTimeLapse);
                 datanowX = nowX;
-                whereDataError = Where.OR(NotificacioWSFields.DATAERROR.isNull(), NotificacioWSFields.DATAERROR.lessThan(nowX));
+                whereDataError = Where.OR(NotificacioWSFields.DATAERROR.isNull(),
+                        NotificacioWSFields.DATAERROR.lessThan(nowX));
                 if (isDebug) {
                     log.debug("executeTask: Execució completa");
-                } 
+                }
                 lastFullExecution = now; // Actualitzam la darrera execució completa
             }
             lastExecution = now;
@@ -282,7 +283,6 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
                 }
             }
 
-
             if (count > 0) {
                 log.info("executeTask: Processades " + count + "  de " + notificacionsSeleccionades + " selecionades");
             }
@@ -292,15 +292,13 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
         }
 
     }
-    
-    
+
     private void processNotificacio(NotificacioWSJPA notificacioJPA) {
         processNotificacio(notificacioJPA, usuariAplicacioEjb, bitacolaLogicaEjb, notificacioEjb);
     }
-    
 
     public static void processNotificacio(NotificacioWSJPA notificacioJPA, UsuariAplicacioService usuariAplicacioEjb,
-           BitacolaLogicaLocal bitacolaLogicaEjb, NotificacioWSService notificacioEjb) {
+            BitacolaLogicaLocal bitacolaLogicaEjb, NotificacioWSService notificacioEjb) {
 
         UsuariAplicacio usuariAplicacio = null;
         try {

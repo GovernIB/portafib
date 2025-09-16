@@ -451,7 +451,7 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
                         TransactionInfo.STATUS_IN_PROGRESS, "STATUS_IN_PROGRESS");
                 
                 throw new RestException("La transacció " + transactionID + " es troba en un estat "  
-                        + ESTATS.get(ti.getStatus()) + " (" + ti.getStatus() + "
+                        + ESTATS.get(ti.getStatus()) + " (" + ti.getStatus() 
                         + " ). Només es permet arrancar una transacció si aquesta es troba en estat Reservat");
             }
 

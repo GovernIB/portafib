@@ -34,7 +34,7 @@ import java.util.Map;
  */
 public abstract class AbstractPeticioDeFirmaAdenController extends AbstractPeticioDeFirmaByTipusSolicitant {
 
-    private int COLUMN_REMITENT = 1;
+    protected static final int COLUMN_REMITENT = 1;
 
     public abstract String getAnnexPath();
 

@@ -6391,9 +6391,9 @@
           "digits": 0,
           "isNotNullable": true,
           "labels": {
-            "en": "Petition for Signature",
-            "ca": "Petició de Firma",
-            "es": "Petición de Firma"
+            "en": "Request ID",
+            "ca": "Petició ID",
+            "es": "Petición ID"
           },
           "javaName": "peticioDeFirmaID",
           "javaType": "long",
@@ -6644,9 +6644,9 @@
           "digits": 0,
           "isNotNullable": true,
           "labels": {
-            "en": "User Application",
-            "ca": "Usuari Aplicació",
-            "es": "Usuario Aplicación"
+            "en": "Usr. App.",
+            "ca": "Usr. App.",
+            "es": "Usr. App."
           },
           "javaName": "usuariAplicacioID",
           "javaType": "java.lang.String",

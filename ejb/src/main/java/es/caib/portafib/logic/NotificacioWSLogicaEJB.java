@@ -10,11 +10,9 @@ import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.NotificacioWS;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
-
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import java.sql.Timestamp;
-
 
 /**
  * 
@@ -22,140 +20,129 @@ import java.sql.Timestamp;
  *
  */
 @Stateless(name = "NotificacioWSLogicaEJB")
-public class NotificacioWSLogicaEJB extends NotificacioWSEJB 
-  implements NotificacioWSLogicaLocal {
+public class NotificacioWSLogicaEJB extends NotificacioWSEJB implements NotificacioWSLogicaLocal {
 
-  private NotificacionsCallBackTimerLocal notifCallback;
+    private NotificacionsCallBackTimerLocal notifCallback;
 
-  @PostConstruct
-  protected void init() {
-    try {
-      notifCallback = EjbManager.getNotificacioTimerEjb();
-    } catch (I18NException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  @Override
-  public NotificacioInfo createFullFromFirmaEvent(FirmaEvent firmaEvent) throws I18NException {
-    
-    NotificacioWS notificacio = new NotificacioWSJPA();
-    notificacio.setBloquejada(false);
-    notificacio.setDataCreacio(new Timestamp(System.currentTimeMillis()));
-    notificacio.setPeticioDeFirmaID(firmaEvent.getPeticioDeFirmaID());
-    notificacio.setTipusNotificacioID(firmaEvent.getEventID());
-    notificacio.setUsuariAplicacioID(firmaEvent.getDestinatariUsuariAplicacioID());
-    notificacio = create(notificacio);
-    
-    NotificacioInfo notifInfo = new NotificacioInfo(System.nanoTime(), firmaEvent, notificacio.getNotificacioID());
-    notificacio.setDescripcio(notifInfo.writeNotificacioInfo());
-    update(notificacio);
-    
-    return notifInfo;
-  }
-
-  @Override
-  public NotificacioWSJPA desbloquejarNotificacio(java.lang.Long notificacioID) throws I18NException {
-    
-    NotificacioWSJPA notificacio = findByPrimaryKey(notificacioID);
-    if (notificacio == null) {
-      return null;
+    @PostConstruct
+    protected void init() {
+        try {
+            notifCallback = EjbManager.getNotificacioTimerEjb();
+        } catch (I18NException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    if (Boolean.TRUE.equals(notificacio.getBloquejada())) {
+    @Override
+    public NotificacioInfo createFullFromFirmaEvent(FirmaEvent firmaEvent) throws I18NException {
 
-      notificacio.setBloquejada(false);
-      
-      // Forçam a que s'executi la primera
-      notificacio.setDataError(null);
-      
-      
-      Long pause = PropietatGlobalUtil.getNumberOfErrorsToPauseNotification();
-      if (pause != null && notificacio.getReintents() >= pause) {
+        NotificacioWS notificacio = new NotificacioWSJPA();
+        notificacio.setBloquejada(false);
+        notificacio.setDataCreacio(new Timestamp(System.currentTimeMillis()));
+        notificacio.setPeticioDeFirmaID(firmaEvent.getPeticioDeFirmaID());
+        notificacio.setTipusNotificacioID(firmaEvent.getEventID());
+        notificacio.setUsuariAplicacioID(firmaEvent.getDestinatariUsuariAplicacioID());
+        notificacio = create(notificacio);
 
-        log.info("La notificacio " + notificacio.getNotificacioID() 
-            + "esta en el numero màxim de reintents (Actual: " + notificacio.getReintents() 
-            + "| Màxim permes: " + pause + "). Resetejam comptador de reintents a 0." );
-        notificacio.setReintents(0);
-      }
+        NotificacioInfo notifInfo = new NotificacioInfo(System.nanoTime(), firmaEvent, notificacio.getNotificacioID());
+        notificacio.setDescripcio(notifInfo.writeNotificacioInfo());
+        update(notificacio);
 
-      
-      notificacio = (NotificacioWSJPA)this.update(notificacio);
-    }
-    return notificacio;
-  }
-  
-  
-  @Override
-  public NotificacioWSJPA bloquejarNotificacio(java.lang.Long notificacioID) throws I18NException {
-
-    NotificacioWSJPA notificacio = findByPrimaryKey(notificacioID);
-    if (notificacio == null) {
-      return null;
+        return notifInfo;
     }
 
-    if (Boolean.FALSE.equals(notificacio.getBloquejada())) {
-      notificacio.setBloquejada(true);
-      notificacio = (NotificacioWSJPA)this.update(notificacio);
+    @Override
+    public NotificacioWSJPA desbloquejarNotificacio(java.lang.Long notificacioID) throws I18NException {
+
+        NotificacioWSJPA notificacio = findByPrimaryKey(notificacioID);
+        if (notificacio == null) {
+            return null;
+        }
+
+        if (Boolean.TRUE.equals(notificacio.getBloquejada())) {
+
+            notificacio.setBloquejada(false);
+
+            // Forçam a que s'executi la primera
+            notificacio.setDataError(null);
+
+            Long pause = PropietatGlobalUtil.getNumberOfErrorsToPauseNotification();
+            if (pause != null && notificacio.getReintents() >= pause) {
+
+                log.info("La notificacio " + notificacio.getNotificacioID()
+                        + "esta en el numero màxim de reintents (Actual: " + notificacio.getReintents()
+                        + "| Màxim permes: " + pause + "). Resetejam comptador de reintents a 0.");
+                notificacio.setReintents(0);
+            }
+
+            notificacio = (NotificacioWSJPA) this.update(notificacio);
+        }
+        return notificacio;
     }
-    
-    return notificacio;
-    
-  }
-  
-  
-  @Override
-  public NotificacioWSJPA aturarNotificacio(java.lang.Long notificacioID) throws I18NException {
-    
-    NotificacioWSJPA notificacio = findByPrimaryKey(notificacioID);
-    if (notificacio == null) {
-      return null;
+
+    @Override
+    public NotificacioWSJPA bloquejarNotificacio(java.lang.Long notificacioID) throws I18NException {
+
+        NotificacioWSJPA notificacio = findByPrimaryKey(notificacioID);
+        if (notificacio == null) {
+            return null;
+        }
+
+        if (Boolean.FALSE.equals(notificacio.getBloquejada())) {
+            notificacio.setBloquejada(true);
+            notificacio = (NotificacioWSJPA) this.update(notificacio);
+        }
+
+        return notificacio;
+
     }
 
-    
-    notificacio.setBloquejada(true);
-    notificacio.setDataEnviament(new Timestamp(System.currentTimeMillis()));
+    @Override
+    public NotificacioWSJPA aturarNotificacio(java.lang.Long notificacioID) throws I18NException {
 
-    notificacio = (NotificacioWSJPA)this.update(notificacio);
+        NotificacioWSJPA notificacio = findByPrimaryKey(notificacioID);
+        if (notificacio == null) {
+            return null;
+        }
 
-    return notificacio;
+        notificacio.setBloquejada(true);
+        notificacio.setDataEnviament(new Timestamp(System.currentTimeMillis()));
 
-  }
+        notificacio = (NotificacioWSJPA) this.update(notificacio);
 
-  
-  @Override
-  public boolean isTimerRunning() {
-    return notifCallback.isTimerRunning();
-  }
+        return notificacio;
 
-  @Override
-  public void startTimer() {
-    notifCallback.startScheduler();
-  }
+    }
 
-  @Override
-  public void stopTimer() {
-    notifCallback.stopScheduler();
-  }
-  
-  
-  @Override
-  public void wakeupTimer() {
-    notifCallback.wakeUp();
-  }
-  
-  
-  
-  /**
-   * Retorna un array de informació de les execucions:
-   *     [1] => darrera execució completa
-   *     [2] => darrera execució
-   *     [3] => propera execució
-   */
-  @Override
-  public long[] getExecutionsInfo() {
-    return notifCallback.getExecutionsInfo();
-  }
+    @Override
+    public boolean isTimerRunning() {
+        return notifCallback.isTimerRunning();
+    }
 
+    @Override
+    public void startTimer() {
+        notifCallback.startScheduler();
+    }
+
+    @Override
+    public void stopTimer() {
+        notifCallback.stopScheduler();
+    }
+
+    @Override
+    public void wakeupTimer() {
+        notifCallback.wakeUp();
+    }
+
+    /**
+     * Retorna un array de informació de les execucions:
+     *     [1] => darrera execució completa
+     *     [2] => darrera execució
+     *     [3] => propera execució
+     */
+    @Override
+    public long[] getExecutionsInfo() {
+        return notifCallback.getExecutionsInfo();
+    }
 
 }
