@@ -93,7 +93,7 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
 
     @Override
     public boolean isActiveFormEdit() {
-        return false;
+        return true;
     }
 
     @Override
@@ -268,9 +268,11 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
                     filterForm.addAdditionalButtonByPK(notificacio.getNotificacioID(),
                             new AdditionalButton("fas fa-play", "notificaciows.desbloquejar",
                                     getContextWeb() + "/desbloquejar/{0}", AdditionalButtonStyle.SUCCESS));
+                    /*
                     filterForm.addAdditionalButtonByPK(notificacio.getNotificacioID(),
                             new AdditionalButton("fas fa-stop", "notificaciows.aturar", getContextWeb() + "/aturar/{0}",
-                                    AdditionalButtonStyle.WARNING));
+                                    AdditionalButtonStyle.DANGER));
+                                    */
                     notificacio.setBloquejada(null);
                     actionLabel = I18NUtils.tradueix("notificaciows.estat.pausat");
                     actionColor = "warning";
@@ -281,9 +283,11 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
                     filterForm.addAdditionalButtonByPK(notificacio.getNotificacioID(),
                             new AdditionalButton("fas fa-pause", "notificaciows.bloquejar",
                                     getContextWeb() + "/bloquejar/{0}", AdditionalButtonStyle.WARNING));
+                    /*
                     filterForm.addAdditionalButtonByPK(notificacio.getNotificacioID(),
                             new AdditionalButton("fas fa-stop", "notificaciows.aturar", getContextWeb() + "/aturar/{0}",
                                     AdditionalButtonStyle.DANGER));
+                                    */
                     actionLabel = I18NUtils.tradueix("notificaciows.estat.reintentant");
                     actionColor = "success";
                     actionLogo = "<i class=\"fas fa-sync-alt fa-spin\"></i>";
@@ -291,9 +295,11 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
                 break;
 
                 case SHOW_ACTION_ESBORRAR:
+
                     filterForm.addAdditionalButtonByPK(notificacio.getNotificacioID(),
-                            new AdditionalButton("fas fa-trash", "genapp.delete", getContextWeb() + "/{0}/delete",
-                                    AdditionalButtonStyle.DANGER));
+                            new AdditionalButton("fas fa-play", "notificaciows.desbloquejar",
+                                    getContextWeb() + "/desbloquejar/{0}", AdditionalButtonStyle.SUCCESS));
+
                     actionLabel = I18NUtils.tradueix("notificaciows.estat.finalitzat");
                     actionColor = "danger";
                     actionLogo = "🛑";
@@ -310,6 +316,9 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
                     actionLogo = "❓";
 
             }
+
+            filterForm.addAdditionalButtonByPK(notificacio.getNotificacioID(), new AdditionalButton("fas fa-trash",
+                    "genapp.delete", getContextWeb() + "/{0}/delete", AdditionalButtonStyle.DANGER));
 
             mapEstat.put(notificacio.getNotificacioID(),
                     "<div class=\"alert alert-" + actionColor + "\" style=\"padding: 0; marging: 0;\" role=\"alert\">"
@@ -336,32 +345,36 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
 
         switch (action) {
 
+            // Finalitzat i Pausat
+            case SHOW_ACTION_ESBORRAR:
             case SHOW_ACTION_DESBLOQUEJAR:
                 filterForm.addAdditionalButton(new AdditionalButton("fas fa-play", "notificaciows.desbloquejar",
                         "javascript:submitTo('notificacioWSFilterForm', '" + context + "/desbloquejarSelected');",
                         AdditionalButtonStyle.SUCCESS));
-                filterForm.addAdditionalButton(new AdditionalButton("fas fa-stop", "notificaciows.aturar",
-                        "javascript:submitTo('notificacioWSFilterForm', '" + context + "/aturarSelected');",
-                        AdditionalButtonStyle.WARNING));
+            /*
+            filterForm.addAdditionalButton(new AdditionalButton("fas fa-stop", "notificaciows.aturar",
+                    "javascript:submitTo('notificacioWSFilterForm', '" + context + "/aturarSelected');",
+                    AdditionalButtonStyle.WARNING));
+                    */
             break;
 
             case SHOW_ACTION_BLOQUEJAR:
                 filterForm.addAdditionalButton(new AdditionalButton("fas fa-pause", "notificaciows.bloquejar",
                         "javascript:submitTo('notificacioWSFilterForm', '" + context + "/bloquejarSelected');",
                         AdditionalButtonStyle.WARNING));
-                filterForm.addAdditionalButton(new AdditionalButton("fas fa-stop", "notificaciows.aturar",
-                        "javascript:submitTo('notificacioWSFilterForm', '" + context + "/aturarSelected');",
-                        AdditionalButtonStyle.WARNING));
+            /*
+            filterForm.addAdditionalButton(new AdditionalButton("fas fa-stop", "notificaciows.aturar",
+                    "javascript:submitTo('notificacioWSFilterForm', '" + context + "/aturarSelected');",
+                    AdditionalButtonStyle.WARNING));
+                    */
             break;
 
-            case SHOW_ACTION_ESBORRAR:
-                filterForm
-                        .addAdditionalButton(new AdditionalButton("fas fa-trash", "notificaciows.esborrar.seleccionats",
-                                "javascript:openModalSubmit('" + context + "/deleteSelected','show', 'notificacioWS')",
-                                AdditionalButtonStyle.DANGER));
-            break;
 
         }
+
+        filterForm.addAdditionalButton(new AdditionalButton("fas fa-trash", "notificaciows.esborrar.seleccionats",
+                "javascript:openModalSubmit('" + context + "/deleteSelected','show', 'notificacioWS')",
+                AdditionalButtonStyle.DANGER));
 
     }
 
@@ -527,20 +540,22 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
         return "redirect:" + getContextWeb() + "/list/";
     }
 
+    /*
     @RequestMapping(value = "/aturarSelected", method = RequestMethod.POST)
     public String aturarSelected(HttpServletRequest request, HttpServletResponse response, @ModelAttribute
     NotificacioWSFilterForm filterForm) throws Exception {
-
+    
         String[] seleccionats = filterForm.getSelectedItems();
-
+    
         if (seleccionats != null && seleccionats.length != 0) {
             for (int i = 0; i < seleccionats.length; i++) {
                 aturarNotificacio(Long.parseLong(seleccionats[i]), request, response);
             }
         }
-
+    
         return "redirect:" + getContextWeb() + "/list/";
     }
+    */
 
     @RequestMapping(value = "/bloquejar/{notificacioID}", method = RequestMethod.GET)
     public String bloquejarNotificacio(@PathVariable("notificacioID")

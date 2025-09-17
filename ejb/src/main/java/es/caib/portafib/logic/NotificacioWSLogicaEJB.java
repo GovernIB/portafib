@@ -62,6 +62,8 @@ public class NotificacioWSLogicaEJB extends NotificacioWSEJB implements Notifica
         if (Boolean.TRUE.equals(notificacio.getBloquejada())) {
 
             notificacio.setBloquejada(false);
+            // Per si es una finalitzada i es vol tornar a enviar
+            notificacio.setDataEnviament(null);
 
             // Forçam a que s'executi la primera
             notificacio.setDataError(null);

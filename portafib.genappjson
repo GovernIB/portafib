@@ -6546,7 +6546,6 @@
           "showInWebList": true,
           "showInReferenceList": false,
           "transientField": false,
-          "minAllowedValue": "notificaciobloquejada",
           "filter": false,
           "orderBy": 0,
           "groupBy": true,
