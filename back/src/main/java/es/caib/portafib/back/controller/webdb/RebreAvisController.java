@@ -51,7 +51,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="rebreAvis.rebreAvis.plural", order=310, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="rebreAvis.rebreAvis.plural", order=320, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/rebreAvis")
 @SessionAttributes(types = { RebreAvisForm.class, RebreAvisFilterForm.class })

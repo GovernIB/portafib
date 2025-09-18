@@ -2256,8 +2256,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             ValidacioCompletaResponse validacioResponse = null;
             try {
                 final boolean validateChangesInAttachedFiles = administrationIdCanBeValidatedFromPlugin;
-                validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest,
-                        validateChangesInAttachedFiles);
+                validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(String.valueOf(peticioDeFirma),
+                        validacioRequest, validateChangesInAttachedFiles);
             } catch (ValidacioException e) {
                 throw new I18NException("genapp.comodi", e.getMessage());
             }

@@ -37,7 +37,7 @@ import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 
 /**
- * 
+ *
  * @author dboerner
  * @author anadal
  */

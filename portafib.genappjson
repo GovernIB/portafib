@@ -10361,6 +10361,109 @@
       ]
     },
     {
+      "name": "pfi_pseudonim",
+      "nameJava": "Pseudonim",
+      "shortName": "pseudonim",
+      "labels": {
+        "en": "Pseudonym",
+        "ca": "Pseudònim",
+        "es": "Seudónimo"
+      },
+      "labelsPlural": {
+        "en": "Pseudonyms",
+        "ca": "Pseudònims",
+        "es": "Seudónimos"
+      },
+      "generate": true,
+      "fileMappingEntity": false,
+      "languageMappingEntity": false,
+      "translationEntity": false,
+      "translationMapEntity": false,
+      "fields": [
+        {
+          "PK": "pfi_pseudonim_pk",
+          "index": "pfi_pseudonim_pk_i",
+          "isAutoIncrement": true,
+          "sqlName": "pseudonimid",
+          "sqlType": -5,
+          "size": 19,
+          "digits": 0,
+          "isNotNullable": true,
+          "labels": {
+            "en": "ID",
+            "ca": "ID",
+            "es": "ID"
+          },
+          "javaName": "pseudonimid",
+          "javaType": "long",
+          "traduible": false,
+          "showInWebList": true,
+          "showInReferenceList": false,
+          "transientField": false,
+          "defaultValue": "nextval(\u0027pfi_pseudonim_seq\u0027::regclass)",
+          "filter": false,
+          "orderBy": 0,
+          "groupBy": false,
+          "webFieldInfo": {
+            "webtype": 0
+          },
+          "foreignKeys": []
+        },
+        {
+          "isAutoIncrement": false,
+          "sqlName": "pseudonim",
+          "sqlType": 12,
+          "size": 255,
+          "digits": 0,
+          "isNotNullable": true,
+          "labels": {
+            "en": "Pseudonym",
+            "ca": "Pseudònim",
+            "es": "Seudónimo"
+          },
+          "javaName": "pseudonim",
+          "javaType": "java.lang.String",
+          "traduible": false,
+          "showInWebList": true,
+          "showInReferenceList": true,
+          "transientField": false,
+          "filter": true,
+          "orderBy": 0,
+          "groupBy": false,
+          "webFieldInfo": {
+            "webtype": 1
+          },
+          "foreignKeys": []
+        },
+        {
+          "isAutoIncrement": false,
+          "sqlName": "nif",
+          "sqlType": 12,
+          "size": 255,
+          "digits": 0,
+          "isNotNullable": true,
+          "labels": {
+            "en": "NIF",
+            "ca": "NIF",
+            "es": "NIF"
+          },
+          "javaName": "nif",
+          "javaType": "java.lang.String",
+          "traduible": false,
+          "showInWebList": true,
+          "showInReferenceList": true,
+          "transientField": false,
+          "filter": true,
+          "orderBy": 0,
+          "groupBy": false,
+          "webFieldInfo": {
+            "webtype": 1
+          },
+          "foreignKeys": []
+        }
+      ]
+    },
+    {
       "name": "pfi_rebreavis",
       "nameJava": "RebreAvis",
       "shortName": "rebreavis",

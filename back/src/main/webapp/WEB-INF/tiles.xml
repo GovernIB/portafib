@@ -707,6 +707,15 @@
     <definition name="correuAgrupatListAdmin" extends="role_admin">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/correuAgrupatList.jsp" />
     </definition>
+    
+    <definition name="pseudonimFormAdmin" extends="role_admin">
+        <put-attribute name="titol" value="pseudonim.pseudonim" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pseudonimForm.jsp" />
+    </definition>
+    
+    <definition name="pseudonimListAdmin" extends="role_admin">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pseudonimList.jsp" />
+    </definition>
  
     <!--  ===========  COL·LABORADOR ================== -->
     
@@ -1219,6 +1228,16 @@
     
     <definition name="propietatGlobalListWebDB" extends="webdb">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/propietatGlobalList.jsp" />
+    </definition>
+
+
+    <definition name="pseudonimFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="pseudonim.pseudonim" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pseudonimForm.jsp" />
+    </definition>
+    
+    <definition name="pseudonimListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pseudonimList.jsp" />
     </definition>
 
 

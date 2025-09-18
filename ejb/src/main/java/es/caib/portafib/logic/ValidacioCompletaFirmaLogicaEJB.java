@@ -15,6 +15,7 @@ import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
 import es.caib.portafib.logic.utils.ValidationsCAdES;
 import es.caib.portafib.logic.utils.ValidationsXAdES;
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
+import es.caib.portafib.model.fields.PseudonimFields;
 import es.caib.portafib.utils.ConstantsV2;
 
 import org.apache.commons.io.IOUtils;
@@ -43,6 +44,7 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -58,20 +60,25 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
     @EJB(mappedName = PluginValidacioFirmesLogicaLocal.JNDI_NAME)
     protected PluginValidacioFirmesLogicaLocal validacioFirmesEjb;
 
+    @EJB(mappedName = es.caib.portafib.ejb.PseudonimService.JNDI_NAME)
+    protected es.caib.portafib.ejb.PseudonimService pseudonimEjb;
+
     @Override
-    public ValidacioCompletaResponse validateCompletaFirma(ValidacioCompletaRequest validacioRequest,
-            boolean validateChangesInAttachedFiles) throws ValidacioException {
+    public ValidacioCompletaResponse validateCompletaFirma(String transaccioID,
+            ValidacioCompletaRequest validacioRequest, boolean validateChangesInAttachedFiles)
+            throws ValidacioException {
         try {
-            return internalValidateCompletaFirma(validacioRequest, validateChangesInAttachedFiles);
+            return internalValidateCompletaFirma(transaccioID, validacioRequest, validateChangesInAttachedFiles);
         } catch (I18NException e) {
             String message = I18NLogicUtils.getMessage(e, new Locale(validacioRequest.getLanguageUI()));
-            log.error("Rebut error de validació de firma: " + message);
+            log.error("Transaccio[" + transaccioID + "]: Rebut error de validació de firma: " + message);
             throw new ValidacioException(message, e);
         }
     }
 
-    private ValidacioCompletaResponse internalValidateCompletaFirma(ValidacioCompletaRequest validacioRequest,
-            boolean validateChangesInAttachedFiles) throws I18NException, ValidacioException {
+    private ValidacioCompletaResponse internalValidateCompletaFirma(String transaccioID,
+            ValidacioCompletaRequest validacioRequest, boolean validateChangesInAttachedFiles)
+            throws I18NException, ValidacioException {
 
         String signType;
         String mime;
@@ -99,8 +106,9 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
             default:
                 // XYZ ZZZ TRA
                 throw new I18NException("genapp.comodi",
-                        "No esta implementada la validacio completa de fitxers firmats" + " amb tipus de firma "
-                                + validacioRequest.getSignTypeID()
+                        "Transaccio[" + transaccioID
+                                + "]: No esta implementada la validacio completa de fitxers firmats"
+                                + " amb tipus de firma " + validacioRequest.getSignTypeID()
                                 + " (TIPUSFIRMA_PADES=0, TIPUSFIRMA_XADES=1, TIPUSFIRMA_CADES=2, TIPUSFIRMA_SMIME=3)");
         }
 
@@ -142,13 +150,17 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
             if (validateSignatureResponse == null) {
                 // XYZ ZZZ TRA
-                throw new I18NException("genapp.comodi", "Per aquesta transacció es requereix validació de la firma "
-                        + "però no s'ha definit cap Plugin de Validació.");
+
+                String msg = "Per aquesta transacció es requereix validació de la firma "
+                        + "però no s'ha definit cap Plugin de Validació.";
+                log.error("Transaccio[" + transaccioID + "]: " + msg);
+                throw new I18NException("genapp.comodi", msg);
 
             } else if (validateSignatureResponse.getValidationStatus()
                     .getStatus() != ValidationStatus.SIGNATURE_VALID) {
                 String msg = "La firma no és vàlida. Raó: "
                         + validateSignatureResponse.getValidationStatus().getErrorMsg();
+                log.error("Transaccio[" + transaccioID + "]: " + msg);
                 throw new I18NException("genapp.comodi", msg);
             }
 
@@ -178,12 +190,15 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                 }
 
                 if (info == null) {
-                    log.warn("No ha definit alguna de les dates de la firma cosa que "
+                    log.warn("Transaccio[" + transaccioID + "]: "
+                            + "No ha definit alguna de les dates de la firma cosa que "
                             + "implica que la informació de la validació pot ser inconsistent."
                             + " Omitim la cerca en aquest punt.");
                 } else {
-                    log.debug("NIF DE LA DARRERA FIRMA => " + info.getNifResponsable());
-                    log.debug("CIF DE LA DARRERA FIRMA => " + info.getUnitatOrganitzativaNifCif());
+                    if (log.isDebugEnabled()) {
+                        log.debug("NIF DE LA DARRERA FIRMA => " + info.getNifResponsable());
+                        log.debug("CIF DE LA DARRERA FIRMA => " + info.getUnitatOrganitzativaNifCif());
+                    }
                     nifFirmant = info.getNifResponsable();
                     cifFirmant = info.getUnitatOrganitzativaNifCif();
                     numeroSerieCertificat = info.getNumeroSerie();
@@ -191,7 +206,10 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                     subjectCertificat = info.getSubject();
                 }
             } else {
-                log.warn("El validador de signatures no ha retornat informació del certificat !!!!", new Exception());
+                log.warn(
+                        "Transaccio[" + transaccioID + "]: "
+                                + "El validador de signatures no ha retornat informació del certificat !!!!",
+                        new Exception());
             }
 
             checkValidationSignature = true;
@@ -250,13 +268,14 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                             } else {
                                 // XYZ ZZZ TRA
                                 throw new I18NException("genapp.comodi",
-                                        "Pareix ser que el document adjunt en la firna XAdES Attached NO es"
+                                        "Transaccio[" + transaccioID + "]: "
+                                                + "Pareix ser que el document adjunt en la firna XAdES Attached NO es"
                                                 + " igual al document original enviat");
                             }
                         } catch (Exception e) {
-                            throw new I18NException("genapp.comodi",
-                                    "Error llegint el document adjunt en la firna XAdES Attached o el document "
-                                            + "original enviat");
+                            throw new I18NException("genapp.comodi", "Transaccio[" + transaccioID + "]: "
+                                    + "Error llegint el document adjunt en la firna XAdES Attached o el document "
+                                    + "original enviat");
                         }
                     } else {
                         checkDocumentModifications = true;
@@ -286,19 +305,20 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                             } catch (IOException ignored) {
                             }
                             if (isEquals) {
-                                log.debug(
-                                        "Pareix ser que el document adjunt en la firna CAdES Attached es igual al document original enviat");
+                                log.debug("Transaccio[" + transaccioID + "]: "
+                                        + "Pareix ser que el document adjunt en la firna CAdES Attached es igual al document original enviat");
                                 checkDocumentModifications = true;
                             } else {
                                 // XYZ ZZZ TRA
                                 throw new I18NException("genapp.comodi",
-                                        "Pareix ser que el document adjunt en la firna CAdES Attached NO es"
+                                        "Transaccio[" + transaccioID + "]: "
+                                                + "Pareix ser que el document adjunt en la firna CAdES Attached NO es"
                                                 + " igual al document original enviat");
                             }
                         } catch (IOException e) {
-                            throw new I18NException("genapp.comodi",
-                                    "Error llegint el document adjunt en la firna CAdES Attached o el document "
-                                            + "original enviat");
+                            throw new I18NException("genapp.comodi", "Transaccio[" + transaccioID + "]: "
+                                    + "Error llegint el document adjunt en la firna CAdES Attached o el document "
+                                    + "original enviat");
                         }
                     } else {
                         checkDocumentModifications = true;
@@ -306,8 +326,9 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                 break;
 
                 default: {
-                    String msg = "No esta implementat el xequeig de modificacio de fitxer signat"
-                            + " amb tipus de firma " + validacioRequest.getSignTypeID()
+                    String msg = "Transaccio[" + transaccioID + "]"
+                            + "No esta implementat el xequeig de modificacio de fitxer signat" + " amb tipus de firma "
+                            + validacioRequest.getSignTypeID()
                             + "(TIPUSFIRMA_PADES=0, TIPUSFIRMA_XADES=1, TIPUSFIRMA_CADES=2, TIPUSFIRMA_SMIME=3)."
                             + " Consulti amb l'administrador de PortaFIB el valor de la propietat es.caib.portafib.strictvalidation";
                     if (PropietatGlobalUtil.isStrictValidation()) {
@@ -333,7 +354,8 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
             if (validacioRequest.getNifEsperat() == null) {
                 // XYZ ZZZ TRA
-                String msg = "La configuració de firma exigeix que es comprovi que el NIF"
+                String msg = "Transaccio[" + transaccioID + "]: "
+                        + "La configuració de firma exigeix que es comprovi que el NIF"
                         + " que ha signat és igual a l'esperat, però en la petició no s'ha"
                         + " enviat cap NIF. Consulti amb l'administrador de PortaFIB el valor"
                         + " de la propietat es.caib.portafib.strictvalidation";
@@ -396,7 +418,8 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                         break;
 
                         default: {
-                            String msg = "No esta implementat la comprovació de que qui ha signat és el mateix que l'esperat"
+                            String msg = "Transaccio[" + transaccioID + "]: "
+                                    + "No esta implementat la comprovació de que qui ha signat és el mateix que l'esperat"
                                     + " pel tipus de firma " + validacioRequest.getSignTypeID()
                                     + "(TIPUSFIRMA_XADES=1, TIPUSFIRMA_CADES=2, TIPUSFIRMA_SMIME=3). "
                                     + " Consulti amb l'administrador de PortaFIB el valor de la propietat es.caib.portafib.strictvalidation";
@@ -450,15 +473,78 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                     try {
                         isPseudonymCertificate = CertificateUtils.isPseudonymCert(certificateLastSign);
                     } catch (Exception e) {
-                        log.error("Error intentant descobrir si el certificat és de PSEUDONIM: " + e.getMessage(), e);
+                        log.error("Transaccio[" + transaccioID + "]: "
+                                + "Error intentant descobrir si el certificat és de PSEUDONIM: " + e.getMessage(), e);
                         log.error(certificateLastSign.toString());
                         isPseudonymCertificate = false;
                     }
 
                     if (isPseudonymCertificate) {
                         // Acceptam "barco" ja que no tenim els Pseudonim amb que comparar
-                        checkAdministrationIDOfSigner = null;
-                        doChecks = false;
+
+                        // Cercar solució al problema d'ignorar validació de NIf en Certificats de Pseudònim #1035
+
+                        String pseudonim = CertificateUtils.getPseudonymValue(certificateLastSign);
+
+                        if (pseudonim == null) {
+                            String msg = "Transaccio[" + transaccioID + "]: El certificat ("
+                                    + CertificateUtils.getCN(certificateLastSign)
+                                    + ") és de Pseudonim però no s'ha pogut extreure el valor del Pseudònim";
+                            log.error(msg, new Exception());
+
+                            throw new I18NException("error.pseudonim.sensevalor",
+                                    CertificateUtils.getCN(certificateLastSign));
+                        }
+
+                        List<String> nifs = pseudonimEjb.executeQuery(PseudonimFields.NIF,
+                                PseudonimFields.PSEUDONIM.equal(pseudonim));
+
+                        final String nifEsperat = validacioRequest.getNifEsperat();
+
+                        if (nifs == null || nifs.size() == 0) {
+
+                            final String msg = "Transaccio[" + transaccioID + "]: El certificat és de Pseudonim ("
+                                    + pseudonim + ") però no s'ha trobat cap NIF associat en PortaFIB."
+                                    + " Ha de contactar amb suport i indicar que associin aquest Pseudonim ("
+                                    + pseudonim + ") amb el seu NIF (" + nifEsperat + ")";
+                            log.error(msg, new Exception());
+
+                            // El certificat és de Pseudònim ({0}) però no s´ha trobat cap NIF associat en PortaFIB.
+                            // Ha de contactar amb suport i indicar que associïn aquest pseudònim ({1}) amb el seu NIF ({2})
+
+                            throw new I18NException("error.pseudonim.sensenif",
+                                    CertificateUtils.getCN(certificateLastSign), pseudonim, nifEsperat);
+                        }
+
+                        for (String nif : nifs) {
+                            if (nifEsperat.trim().equalsIgnoreCase(nif.trim())) {
+                                if (log.isDebugEnabled()) {
+                                    log.debug("Transaccio[" + transaccioID + "]: " + "El certificat és de Pseudonim ("
+                                            + pseudonim + ") i s'ha trobat el NIF associat en PortaFIB: " + nif);
+                                }
+                                nifFirmant = nif;
+                                break;
+                            }
+                        }
+
+                        if (nifFirmant == null) {
+
+                            log.error(
+                                    "Transaccio[" + transaccioID + "]: " + "El pseudònim " + pseudonim
+                                            + " té els NIFs associats " + nifs.toString()
+                                            + ", però cap d´ells coincideix amb el NIF esperat: " + nifEsperat,
+                                    new Exception());
+
+                            // El pseudònim {0} té els NIFs associats {1}, però cap d´ells coincideix amb el NIF esperat {2}
+                            throw new I18NException("error.pseudonim.nifincorrecte", pseudonim, nifs.toString(),
+                                    nifEsperat);
+
+                        }
+                        doChecks = true;
+
+                        // Si volem ometre checks posteriors llavors ...
+                        //checkAdministrationIDOfSigner = null;
+                        //doChecks = false;
                     } else {
 
                         // Com a darrer recurs,miram si el Certificat té CIF i convertim el CIF en NIF
@@ -512,19 +598,20 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
         return resposta;
     }
-/*
+
+    /*
     public static boolean isPseudonymCertificate(X509Certificate certificate) throws Exception {
         String politica = getCertificatePolicyId(certificate);
         return politica != null && politica.startsWith("2.16.724.1.3.5.4.");
     }
-
+    
     public static String getCertificatePolicyId(X509Certificate cert) throws Exception {
-
+    
         byte[] extvalue = cert.getExtensionValue("2.5.29.32");
-
+    
         int pos = 0;
         if (extvalue != null) {
-
+    
             ASN1InputStream extAsn1InputStream = new ASN1InputStream(new ByteArrayInputStream(extvalue));
             try {
                 DEROctetString oct = (DEROctetString) (extAsn1InputStream.readObject());
@@ -544,10 +631,10 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                 extAsn1InputStream.close();
             }
         }
-
+    
         return null;
     }
-*/
+    */
     public static X509Certificate getLastCertificateOfSignedPdf(IPortaFIBDataSource signedPDFData, int numFirmaPortaFIB,
             int numFirmesOriginals) throws I18NException {
 

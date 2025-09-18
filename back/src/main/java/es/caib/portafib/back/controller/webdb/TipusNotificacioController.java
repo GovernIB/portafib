@@ -49,7 +49,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="tipusNotificacio.tipusNotificacio.plural", order=380, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="tipusNotificacio.tipusNotificacio.plural", order=390, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/tipusNotificacio")
 @SessionAttributes(types = { TipusNotificacioForm.class, TipusNotificacioFilterForm.class })

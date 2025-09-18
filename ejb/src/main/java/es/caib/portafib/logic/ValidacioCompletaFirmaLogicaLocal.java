@@ -13,9 +13,10 @@ import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
 @Local
 public interface ValidacioCompletaFirmaLogicaLocal {
 
-  String JNDI_NAME = "java:app/portafib-ejb/ValidacioCompletaFirmaLogicaEJB";
+    String JNDI_NAME = "java:app/portafib-ejb/ValidacioCompletaFirmaLogicaEJB";
 
-  public ValidacioCompletaResponse validateCompletaFirma(
-      ValidacioCompletaRequest validacioRequest, boolean validateChangesInAttachedFiles) throws ValidacioException;
+    public ValidacioCompletaResponse validateCompletaFirma(String transaccioID,
+            ValidacioCompletaRequest validacioRequest, boolean validateChangesInAttachedFiles)
+            throws ValidacioException;
 
 }

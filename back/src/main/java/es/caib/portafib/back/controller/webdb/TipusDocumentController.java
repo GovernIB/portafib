@@ -51,7 +51,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="tipusDocument.tipusDocument.plural", order=360, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="tipusDocument.tipusDocument.plural", order=370, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/tipusDocument")
 @SessionAttributes(types = { TipusDocumentForm.class, TipusDocumentFilterForm.class })

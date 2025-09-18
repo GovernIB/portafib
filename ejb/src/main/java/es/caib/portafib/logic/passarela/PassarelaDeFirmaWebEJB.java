@@ -896,7 +896,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
         ValidacioCompletaResponse validacioResponse;
         try {
             final boolean validateChangesInAttachedFiles = administrationIdCanBeValidatedFromPlugin;
-            validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest, validateChangesInAttachedFiles);
+            validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(
+                    ssf.getSignaturesSet().getSignaturesSetID() ,validacioRequest, validateChangesInAttachedFiles);
         } catch (ValidacioException e) {
             throw new I18NException("genapp.comodi", e.getMessage());
         }

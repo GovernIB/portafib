@@ -51,7 +51,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="revisorDeDestinatari.revisorDeDestinatari.plural", order=320, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="revisorDeDestinatari.revisorDeDestinatari.plural", order=330, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/revisorDeDestinatari")
 @SessionAttributes(types = { RevisorDeDestinatariForm.class, RevisorDeDestinatariFilterForm.class })

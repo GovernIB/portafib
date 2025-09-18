@@ -215,10 +215,10 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
                     }
 
                     if (isDebug) {
-                        log.debug("PassarelaDeFirmaEnServidorEJB: ENTRADES CONFIGURACIO => "
-                                + "+ validarFitxerFirma => " + validarFitxerFirma + "   |   " + "+ comprovarNifFirma => "
-                                + comprovarNifFirma + "  |   " + "+ checkCanviatDocFirmat => " + checkCanviatDocFirmat
-                                );
+                        log.debug(
+                                "PassarelaDeFirmaEnServidorEJB: ENTRADES CONFIGURACIO => " + "+ validarFitxerFirma => "
+                                        + validarFitxerFirma + "   |   " + "+ comprovarNifFirma => " + comprovarNifFirma
+                                        + "  |   " + "+ checkCanviatDocFirmat => " + checkCanviatDocFirmat);
                     }
 
                     // (A) Validar la Firma
@@ -254,8 +254,8 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
                     ValidacioCompletaResponse validacioResponse;
                     try {
                         final boolean validateChangesInAttachedFiles = true;
-                        validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest,
-                                validateChangesInAttachedFiles);
+                        validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(signaturesSetID,
+                                validacioRequest, validateChangesInAttachedFiles);
 
                         if (isDebug) {
                             log.info("n\n validacioResponse[" + pfis.getSignID() + "] => " + validacioResponse);
@@ -515,7 +515,7 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
         ValidacioCompletaResponse validacioResponse;
         try {
             final boolean validateChangesInAttachedFiles = true;
-            validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest,
+            validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma("upgradeSignature", validacioRequest,
                     validateChangesInAttachedFiles);
         } catch (ValidacioException e) {
             throw new I18NException("genapp.comodi", e.getMessage());

@@ -71,4 +71,26 @@ SELECT nextval('pfi_propietatglobal_seq') as propietaglobalid ,'es.caib.portafib
         FROM pfi_entitat;
 
 
+--######################################################################
+--##### 17/09/2025 Cercar solució al problema d'ignorar validació de NIf en Certificats de Pseudònim #1035
+--######################################################################
 
+
+CREATE SEQUENCE pfi_pseudonim_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1000
+  CACHE 1;
+  
+  
+CREATE TABLE pfi_pseudonim
+(
+   pseudonimid bigint NOT NULL DEFAULT nextval('pfi_pseudonim_seq'), 
+   pseudonim character varying(255) NOT NULL, 
+   nif character varying(255) NOT NULL, 
+   CONSTRAINT pfi_pseudonim_pk PRIMARY KEY (pseudonimid)
+);
+
+create index pfi_pseudonim_pk_i on pfi_pseudonim (pseudonimid);
+  

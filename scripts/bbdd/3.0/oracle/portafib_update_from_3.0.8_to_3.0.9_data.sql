@@ -33,7 +33,6 @@ alter table pfi_correuagrupat add CONSTRAINT pfi_correuagrupat_pk PRIMARY KEY (c
 
 alter table pfi_correuagrupat add CONSTRAINT pfi_correagrup_usrentitat_fk FOREIGN KEY (usuarientitatid) REFERENCES pfi_usuarientitat (usuarientitatid);
 
-
 create index pfi_correagrup_usrentitat_fk_i on pfi_correuagrupat (usuarientitatid);
 
 grant select,insert,delete,update on pfi_correuagrupat to www_portafib;
@@ -71,3 +70,20 @@ SELECT pfi_propietatglobal_seq.nextval as propietaglobalid ,'es.caib.portafib.si
         entitatid
         FROM pfi_entitat;
 
+
+--######################################################################
+--##### 17/09/2025 Cercar solució al problema d'ignorar validació de NIf en Certificats de Pseudònim #1035
+--######################################################################
+
+CREATE SEQUENCE pfi_pseudonim_seq START WITH 1000 increment by 1;
+
+CREATE TABLE pfi_pseudonim
+(
+   pseudonimid number(19,0) DEFAULT pfi_pseudonim_seq.nextval, 
+   pseudonim varchar2(255 char) NOT NULL, 
+   nif varchar2(255 char) NOT NULL
+);
+
+alter table pfi_pseudonim add CONSTRAINT pfi_pseudonim_pk PRIMARY KEY (pseudonimid);
+
+grant select,insert,delete,update on pfi_pseudonim to www_portafib;

@@ -51,7 +51,7 @@ import es.caib.portafib.back.utils.Tab;
  * 
  * @author GenApp
  */
-@MenuOption(labelCode="usuariEntitatFavorit.usuariEntitatFavorit.plural", order=440, group=Tab.MENU_WEBDB)
+@MenuOption(labelCode="usuariEntitatFavorit.usuariEntitatFavorit.plural", order=450, group=Tab.MENU_WEBDB)
 @Controller
 @RequestMapping(value = "/webdb/usuariEntitatFavorit")
 @SessionAttributes(types = { UsuariEntitatFavoritForm.class, UsuariEntitatFavoritFilterForm.class })
