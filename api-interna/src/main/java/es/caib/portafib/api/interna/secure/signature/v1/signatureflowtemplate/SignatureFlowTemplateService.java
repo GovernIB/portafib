@@ -27,12 +27,12 @@ import javax.ws.rs.core.Response.Status;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleGetTransactionIdRequest;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleStartTransactionRequest;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleStatus;
-import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.crypt.FileIDEncrypter;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
-import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
 import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.query.selectcolumn.Select3Columns;
+import org.fundaciobit.genapp.common.query.selectcolumn.Select3Values;
 import org.fundaciobit.pluginsib.utils.rest.RestException;
 import org.fundaciobit.pluginsib.utils.rest.RestExceptionInfo;
 import org.fundaciobit.pluginsib.utils.rest.RestUtils;
@@ -412,6 +412,15 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
         }
     }
 
+    /**
+     * 
+     * @param request
+     * @param languageUI
+     * @return
+     * @throws RestException
+     * 
+     * @deprecated Use {@link #getAllFlowTemplateInfo(HttpServletRequest, String)}
+     */
     @Path("/getAllFlowTemplates")
     @GET
     @RolesAllowed({ Constants.PFI_WS })
@@ -420,7 +429,8 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
     @Operation(
             tags = TAG_NAME,
             operationId = "getAllFlowTemplates",
-            summary = "Retorna una llista de totes les plantilles de flux de firmes associades a l'usuari aplicació amb el que s'autentica.")
+            summary = "Retorna una llista de totes les plantilles de flux de firmes associades a l'usuari aplicació amb el que s'autentica. Deprecat: Usar getAllFlowTemplateInfo(String)",
+            deprecated = true)
     @ApiResponses(
             value = { @ApiResponse(
                     responseCode = "200",
@@ -430,6 +440,7 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
                             array = @ArraySchema(
                                     uniqueItems = true,
                                     schema = @Schema(implementation = KeyValue.class)))) })
+    @Deprecated
     public Set<KeyValue> getAllFlowTemplates(@Parameter(hidden = true) @Context
     HttpServletRequest request,
             @Parameter(
@@ -447,7 +458,7 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
         String usrApp = checkUsuariAplicacio(request);
 
         try {
-            Set<KeyValue> result = internalGetAll(null, null, usrApp);
+            Set<KeyValue> result = internalGetAllToKeyValue(null, null, usrApp);
             return result;
         } catch (RestException re) {
             throw re;
@@ -464,6 +475,75 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
         }
     }
 
+    protected Set<KeyValue> internalGetAllToKeyValue(String name, String description, String usuariAplicacioID)
+            throws I18NException, Exception {
+
+        Set<SignatureFlowTemplateInfo> set = internalGetAll(name, description, usuariAplicacioID);
+
+        Set<KeyValue> result = new HashSet<KeyValue>();
+        for (SignatureFlowTemplateInfo info : set) {
+            result.add(new KeyValue(info.getFlowTemplateId(), info.getName()));
+        }
+
+        return result;
+    }
+    
+    
+    @Path("/getAllFlowTemplateInfo")
+    @GET
+    @RolesAllowed({ Constants.PFI_WS })
+    @SecurityRequirement(name = SECURITY_NAME)
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Operation(
+            tags = TAG_NAME,
+            operationId = "getAllFlowTemplateInfo",
+            summary = "Retorna una llista de totes les plantilles de flux de firmes associades a l'usuari aplicació"
+                    + " amb el que s'autentica." + "Requereix com a mínim PortaFIB 3.0.9")
+    @ApiResponses(
+            value = { @ApiResponse(
+                    responseCode = "200",
+                    description = "Operació realitzada correctament",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON,
+                            array = @ArraySchema(
+                                    uniqueItems = true,
+                                    schema = @Schema(implementation = SignatureFlowTemplateInfo.class)))) })
+    public Set<SignatureFlowTemplateInfo> getAllFlowTemplateInfo(@Parameter(hidden = true) @Context
+    HttpServletRequest request,
+            @Parameter(
+                    description = "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+                    in = ParameterIn.QUERY,
+                    required = false,
+                    examples = { @ExampleObject(name = "Català", value = "ca"),
+                            @ExampleObject(name = "Castellano", value = "es") },
+                    schema = @Schema(defaultValue = "ca", implementation = String.class)) @QueryParam("languageUI")
+
+            String languageUI) throws RestException {
+
+        //final String languageUI = languageUITextNode.asText();
+
+        String usrApp = checkUsuariAplicacio(request);
+
+        try {
+            Set<SignatureFlowTemplateInfo> result = internalGetAll(null, null, usrApp);
+            return result;
+        } catch (RestException re) {
+            throw re;
+        } catch (I18NException i18ne) {
+            String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
+            log.error(msg, i18ne);
+            throw new RestException(msg);
+        } catch (Throwable th) {
+            // TODO XYZ ZZZ TRA
+            final String msg = "Error desconegut intentant recuperar tots els flux de firmes de l'usuari aplicació "
+                    + " ]" + usrApp + "[:" + th.getMessage();
+            log.error(msg, th);
+            throw new RestException(msg, th);
+        }
+    }
+    
+    
+
     /**
      * 
      * @param name
@@ -473,12 +553,17 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
      * @throws I18NException
      * @throws Exception
      */
-    protected Set<KeyValue> internalGetAll(String name, String description, String usuariAplicacioID)
+    protected Set<SignatureFlowTemplateInfo> internalGetAll(String name, String description, String usuariAplicacioID)
             throws I18NException, Exception {
 
+        Select3Columns<Long, String, String> select = new Select3Columns<Long, String, String>(
+                PlantillaFluxDeFirmesFields.FLUXDEFIRMESID.select,
+                new PlantillaFluxDeFirmesQueryPath().FLUXDEFIRMES().NOM().select,
+                PlantillaFluxDeFirmesFields.DESCRIPCIO.select);
+        /*
         SelectMultipleStringKeyValue select = new SelectMultipleStringKeyValue(
                 PlantillaFluxDeFirmesFields.FLUXDEFIRMESID.select,
-                new PlantillaFluxDeFirmesQueryPath().FLUXDEFIRMES().NOM().select);
+                new PlantillaFluxDeFirmesQueryPath().FLUXDEFIRMES().NOM().select);*/
 
         Where where = PlantillaFluxDeFirmesFields.USUARIAPLICACIOID.equal(usuariAplicacioID);
 
@@ -490,19 +575,31 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
             where = Where.AND(where, PlantillaFluxDeFirmesFields.DESCRIPCIO.like("%" + description + "%"));
         }
 
-        List<StringKeyValue> listKV = plantillaFluxDeFirmesEjb.executeQuery(select, where);
+        //List<StringKeyValue> listKV = plantillaFluxDeFirmesEjb.executeQuery(select, where);
+        List<Select3Values<Long, String, String>> listKV = plantillaFluxDeFirmesEjb.executeQuery(select, where);
 
-        Set<KeyValue> result = new HashSet<KeyValue>();
+        Set<SignatureFlowTemplateInfo> result = new HashSet<SignatureFlowTemplateInfo>();
 
         FileIDEncrypter encrypter = HibernateFileUtil.getEncrypter();
 
-        for (StringKeyValue skv : listKV) {
-            result.add(new KeyValue(encrypter.encrypt(skv.getKey()), skv.getValue()));
+        for (Select3Values<Long, String, String> skv : listKV) {
+            result.add(new SignatureFlowTemplateInfo(encrypter.encrypt(String.valueOf(skv.getValue1())),
+                    skv.getValue2(), skv.getValue3()));
         }
 
         return result;
     }
 
+    /**
+     * 
+     * @param request
+     * @param languageUI
+     * @param nameFilter
+     * @param descriptionFilter
+     * @return
+     * @throws RestException
+     * @deprecated Use {@link #getAllFlowTemplateInfoByFilter(HttpServletRequest, String, String, String)}
+     */
     @Path("/getAllFlowTemplatesByFilter")
     @GET
     @RolesAllowed({ Constants.PFI_WS })
@@ -511,7 +608,8 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
     @Operation(
             tags = TAG_NAME,
             operationId = "getAllFlowTemplatesByFilter",
-            summary = "Retorna una llista de totes les plantilles de flux de firmes associades a l'usuari aplicació amb el que s'autentica.")
+            summary = "Retorna una llista de totes les plantilles de flux de firmes associades a l'usuari aplicació amb el que s'autentica."
+              + "Deprecat: usar getAllFlowTemplateInfoByFilter(String, String, String)")
     @ApiResponses(
             value = { @ApiResponse(
                     responseCode = "200",
@@ -521,6 +619,7 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
                             array = @ArraySchema(
                                     uniqueItems = true,
                                     schema = @Schema(implementation = KeyValue.class)))) })
+    @Deprecated
     public Set<KeyValue> getAllFlowTemplatesByFilter(@Parameter(hidden = true) @Context
     HttpServletRequest request,
             @Parameter(
@@ -556,7 +655,83 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
             // Validar simpleSignature
             restApiPlantillaFluxLocal.cleanExpiredTransactions();
 
-            Set<KeyValue> results = internalGetAll(nameFilter, descriptionFilter, checkUsuariAplicacio(request));
+            Set<KeyValue> results = internalGetAllToKeyValue(nameFilter, descriptionFilter, checkUsuariAplicacio(request));
+
+            //log.info("SURT DE getAllFlowTemplatesByFilter => FINAL OK");
+
+            return results;
+
+        } catch (RestException re) {
+            throw re;
+        } catch (I18NException i18ne) {
+            String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
+            log.error(msg, i18ne);
+            throw new RestException(msg);
+        } catch (Throwable th) {
+            // XYZ ZZZ TRA
+            String msg = "Error desconegut recuperant Plantilles de Flux de Firmes per Filtre: " + th.getMessage();
+            log.error(msg, th);
+            throw new RestException(msg, th);
+        }
+    }
+    
+    
+    
+    @Path("/getAllFlowTemplateInfoByFilter")
+    @GET
+    @RolesAllowed({ Constants.PFI_WS })
+    @SecurityRequirement(name = SECURITY_NAME)
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Operation(
+            tags = TAG_NAME,
+            operationId = "getAllFlowTemplatesInfoByFilter",
+            summary = "Retorna una llista de totes les plantilles de flux de firmes associades a l'usuari "
+                    + "aplicació amb el que s'autentica. Requereix com a mínim PortaFIB 3.0.9")
+    @ApiResponses(
+            value = { @ApiResponse(
+                    responseCode = "200",
+                    description = "Operació realitzada correctament",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON,
+                            array = @ArraySchema(
+                                    uniqueItems = true,
+                                    schema = @Schema(implementation = SignatureFlowTemplateInfo.class)))) })
+    public Set<SignatureFlowTemplateInfo> getAllFlowTemplateInfoByFilter(@Parameter(hidden = true) @Context
+    HttpServletRequest request,
+            @Parameter(
+                    description = "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+                    in = ParameterIn.QUERY,
+                    required = false,
+                    examples = { @ExampleObject(name = "Català", value = "ca"),
+                            @ExampleObject(name = "Castellano", value = "es") },
+                    schema = @Schema(defaultValue = "ca", implementation = String.class)) @QueryParam("languageUI")
+            String languageUI,
+
+            @Parameter(
+                    description = "Patró per filtrar a partir del Nom",
+                    in = ParameterIn.QUERY,
+                    required = false,
+                    schema = @Schema(implementation = String.class)) @QueryParam("nameFilter")
+            String nameFilter,
+
+            @Parameter(
+                    description = "Patró per filtrar a partir de la Descripció",
+                    in = ParameterIn.QUERY,
+                    required = false,
+                    schema = @Schema(implementation = String.class)) @QueryParam("descriptionFilter")
+            String descriptionFilter) throws RestException {
+
+        try {
+            //log.info("ENTRA A getAllFlowTemplatesByFilter => filterBy: " + filterBy);
+
+            languageUI = checkLanguage(languageUI);
+
+            //log.info("LOGININFO => " + loginInfo);
+
+            // Validar simpleSignature
+            restApiPlantillaFluxLocal.cleanExpiredTransactions();
+
+            Set<SignatureFlowTemplateInfo> results = internalGetAll(nameFilter, descriptionFilter, checkUsuariAplicacio(request));
 
             //log.info("SURT DE getAllFlowTemplatesByFilter => FINAL OK");
 

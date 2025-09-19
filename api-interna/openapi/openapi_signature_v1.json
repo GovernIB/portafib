@@ -1956,10 +1956,194 @@
         } ]
       }
     },
+    "/secure/signatureflowtemplate/v1/getAllFlowTemplateInfo" : {
+      "get" : {
+        "tags" : [ "SignatureFlowTemplate v1" ],
+        "summary" : "Retorna una llista de totes les plantilles de flux de firmes associades a l'usuari aplicació amb el que s'autentica.Requereix com a mínim PortaFIB 3.0.9",
+        "operationId" : "getAllFlowTemplateInfo",
+        "parameters" : [ {
+          "name" : "languageUI",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "uniqueItems" : true,
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/SignatureFlowTemplateInfo"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/secure/signatureflowtemplate/v1/getAllFlowTemplateInfoByFilter" : {
+      "get" : {
+        "tags" : [ "SignatureFlowTemplate v1" ],
+        "summary" : "Retorna una llista de totes les plantilles de flux de firmes associades a l'usuari aplicació amb el que s'autentica. Requereix com a mínim PortaFIB 3.0.9",
+        "operationId" : "getAllFlowTemplatesInfoByFilter",
+        "parameters" : [ {
+          "name" : "languageUI",
+          "in" : "query",
+          "description" : "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
+          "schema" : {
+            "type" : "string",
+            "default" : "ca"
+          },
+          "examples" : {
+            "Català" : {
+              "description" : "Català",
+              "value" : "ca"
+            },
+            "Castellano" : {
+              "description" : "Castellano",
+              "value" : "es"
+            }
+          }
+        }, {
+          "name" : "nameFilter",
+          "in" : "query",
+          "description" : "Patró per filtrar a partir del Nom",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "descriptionFilter",
+          "in" : "query",
+          "description" : "Patró per filtrar a partir de la Descripció",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Paràmetres incorrectes",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "No Autenticat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "No autoritzat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Error no controlat",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestExceptionInfo"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Operació realitzada correctament",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "uniqueItems" : true,
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/SignatureFlowTemplateInfo"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
     "/secure/signatureflowtemplate/v1/getAllFlowTemplates" : {
       "get" : {
         "tags" : [ "SignatureFlowTemplate v1" ],
-        "summary" : "Retorna una llista de totes les plantilles de flux de firmes associades a l'usuari aplicació amb el que s'autentica.",
+        "summary" : "Retorna una llista de totes les plantilles de flux de firmes associades a l'usuari aplicació amb el que s'autentica. Deprecat: Usar getAllFlowTemplateInfo(String)",
         "operationId" : "getAllFlowTemplates",
         "parameters" : [ {
           "name" : "languageUI",
@@ -2036,6 +2220,7 @@
             }
           }
         },
+        "deprecated" : true,
         "security" : [ {
           "BasicAuth" : [ ]
         } ]
@@ -2044,7 +2229,7 @@
     "/secure/signatureflowtemplate/v1/getAllFlowTemplatesByFilter" : {
       "get" : {
         "tags" : [ "SignatureFlowTemplate v1" ],
-        "summary" : "Retorna una llista de totes les plantilles de flux de firmes associades a l'usuari aplicació amb el que s'autentica.",
+        "summary" : "Retorna una llista de totes les plantilles de flux de firmes associades a l'usuari aplicació amb el que s'autentica.Deprecat: usar getAllFlowTemplateInfoByFilter(String, String, String)",
         "operationId" : "getAllFlowTemplatesByFilter",
         "parameters" : [ {
           "name" : "languageUI",
@@ -2135,6 +2320,7 @@
             }
           }
         },
+        "deprecated" : true,
         "security" : [ {
           "BasicAuth" : [ ]
         } ]
@@ -4903,7 +5089,26 @@
             }
           }
         },
-        "description" : "Informació d'una Plantilla de flux de firmes."
+        "description" : "Informació Completa d'una Plantilla de flux de firmes."
+      },
+      "SignatureFlowTemplateInfo" : {
+        "required" : [ "name" ],
+        "type" : "object",
+        "properties" : {
+          "flowTemplateId" : {
+            "type" : "string",
+            "description" : "Identificador de la plantilla flux de firmes.Ha de quedar buit durant l'operació de creació. Durant la creació via web només s'omplirà si es una plantilla a guardar en servidor."
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "Nom de la plantilla flux de firmes."
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "Descripció de la plantilla flux de firmes."
+          }
+        },
+        "description" : "Informació Bàsica d'una Plantilla de flux de firmes. Requereix com a mínim PortaFIB 3.0.9"
       },
       "BasicUserInfo" : {
         "type" : "object",

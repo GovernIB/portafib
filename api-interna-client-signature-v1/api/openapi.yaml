@@ -1428,8 +1428,153 @@ paths:
       - SignatureFlowTemplate v1
       x-accepts:
       - application/json
+  /secure/signatureflowtemplate/v1/getAllFlowTemplateInfo:
+    get:
+      operationId: getAllFlowTemplateInfo
+      parameters:
+      - description: Idioma en que s'han de retornar les dades i errors(Només suportat
+          'ca' o 'es')
+        examples:
+          Català:
+            description: Català
+            value: ca
+          Castellano:
+            description: Castellano
+            value: es
+        explode: true
+        in: query
+        name: languageUI
+        required: false
+        schema:
+          default: ca
+          type: string
+        style: form
+      responses:
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/SignatureFlowTemplateInfo'
+                type: array
+                uniqueItems: true
+          description: Operació realitzada correctament
+      security:
+      - BasicAuth: []
+      summary: Retorna una llista de totes les plantilles de flux de firmes associades
+        a l'usuari aplicació amb el que s'autentica.Requereix com a mínim PortaFIB
+        3.0.9
+      tags:
+      - SignatureFlowTemplate v1
+      x-accepts:
+      - application/json
+  /secure/signatureflowtemplate/v1/getAllFlowTemplateInfoByFilter:
+    get:
+      operationId: getAllFlowTemplatesInfoByFilter
+      parameters:
+      - description: Idioma en que s'han de retornar les dades i errors(Només suportat
+          'ca' o 'es')
+        examples:
+          Català:
+            description: Català
+            value: ca
+          Castellano:
+            description: Castellano
+            value: es
+        explode: true
+        in: query
+        name: languageUI
+        required: false
+        schema:
+          default: ca
+          type: string
+        style: form
+      - description: Patró per filtrar a partir del Nom
+        explode: true
+        in: query
+        name: nameFilter
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Patró per filtrar a partir de la Descripció
+        explode: true
+        in: query
+        name: descriptionFilter
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Paràmetres incorrectes
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No Autenticat
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: No autoritzat
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestExceptionInfo'
+          description: Error no controlat
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/SignatureFlowTemplateInfo'
+                type: array
+                uniqueItems: true
+          description: Operació realitzada correctament
+      security:
+      - BasicAuth: []
+      summary: Retorna una llista de totes les plantilles de flux de firmes associades
+        a l'usuari aplicació amb el que s'autentica. Requereix com a mínim PortaFIB
+        3.0.9
+      tags:
+      - SignatureFlowTemplate v1
+      x-accepts:
+      - application/json
   /secure/signatureflowtemplate/v1/getAllFlowTemplates:
     get:
+      deprecated: true
       operationId: getAllFlowTemplates
       parameters:
       - description: Idioma en que s'han de retornar les dades i errors(Només suportat
@@ -1485,14 +1630,15 @@ paths:
           description: Operació realitzada correctament
       security:
       - BasicAuth: []
-      summary: Retorna una llista de totes les plantilles de flux de firmes associades
-        a l'usuari aplicació amb el que s'autentica.
+      summary: "Retorna una llista de totes les plantilles de flux de firmes associades\
+        \ a l'usuari aplicació amb el que s'autentica. Deprecat: Usar getAllFlowTemplateInfo(String)"
       tags:
       - SignatureFlowTemplate v1
       x-accepts:
       - application/json
   /secure/signatureflowtemplate/v1/getAllFlowTemplatesByFilter:
     get:
+      deprecated: true
       operationId: getAllFlowTemplatesByFilter
       parameters:
       - description: Idioma en que s'han de retornar les dades i errors(Només suportat
@@ -1564,8 +1710,9 @@ paths:
           description: Operació realitzada correctament
       security:
       - BasicAuth: []
-      summary: Retorna una llista de totes les plantilles de flux de firmes associades
-        a l'usuari aplicació amb el que s'autentica.
+      summary: "Retorna una llista de totes les plantilles de flux de firmes associades\
+        \ a l'usuari aplicació amb el que s'autentica.Deprecat: usar getAllFlowTemplateInfoByFilter(String,\
+        \ String, String)"
       tags:
       - SignatureFlowTemplate v1
       x-accepts:
@@ -4603,7 +4750,7 @@ components:
         amb errors
       - Codi d'estat de la creació d'un flux de firmes que indica que ha sigut cancelada
     SignatureFlowTemplate:
-      description: Informació d'una Plantilla de flux de firmes.
+      description: Informació Completa d'una Plantilla de flux de firmes.
       example:
         flowTemplateId: flowTemplateId
         blocks:
@@ -4739,6 +4886,28 @@ components:
           type: array
       required:
       - blocks
+      - name
+      type: object
+    SignatureFlowTemplateInfo:
+      description: Informació Bàsica d'una Plantilla de flux de firmes. Requereix
+        com a mínim PortaFIB 3.0.9
+      example:
+        flowTemplateId: flowTemplateId
+        name: name
+        description: description
+      properties:
+        flowTemplateId:
+          description: Identificador de la plantilla flux de firmes.Ha de quedar buit
+            durant l'operació de creació. Durant la creació via web només s'omplirà
+            si es una plantilla a guardar en servidor.
+          type: string
+        name:
+          description: Nom de la plantilla flux de firmes.
+          type: string
+        description:
+          description: Descripció de la plantilla flux de firmes.
+          type: string
+      required:
       - name
       type: object
     BasicUserInfo:

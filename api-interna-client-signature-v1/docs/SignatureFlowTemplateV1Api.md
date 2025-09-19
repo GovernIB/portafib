@@ -7,8 +7,10 @@ All URIs are relative to */portafibapi/interna*
 | [**closeTransaction**](SignatureFlowTemplateV1Api.md#closeTransaction) | **GET** /secure/signatureflowtemplate/v1/closeTransaction/{transactionID} | Tanca una transacció de creació de flux de firmes |
 | [**createSignatureFlowTemplate**](SignatureFlowTemplateV1Api.md#createSignatureFlowTemplate) | **POST** /secure/signatureflowtemplate/v1/createSignatureFlowTemplate | Crea una Plantilla de Flux de Firmes a partir de la informació d&#39;un Flux De Firmes |
 | [**deleteFlowTemplate**](SignatureFlowTemplateV1Api.md#deleteFlowTemplate) | **DELETE** /secure/signatureflowtemplate/v1/deleteFlowTemplate/{flowTemplateID} | Esborra una Plantilla de Flux de Firmes a partir del seu ID |
-| [**getAllFlowTemplates**](SignatureFlowTemplateV1Api.md#getAllFlowTemplates) | **GET** /secure/signatureflowtemplate/v1/getAllFlowTemplates | Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica. |
-| [**getAllFlowTemplatesByFilter**](SignatureFlowTemplateV1Api.md#getAllFlowTemplatesByFilter) | **GET** /secure/signatureflowtemplate/v1/getAllFlowTemplatesByFilter | Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica. |
+| [**getAllFlowTemplateInfo**](SignatureFlowTemplateV1Api.md#getAllFlowTemplateInfo) | **GET** /secure/signatureflowtemplate/v1/getAllFlowTemplateInfo | Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica.Requereix com a mínim PortaFIB 3.0.9 |
+| [**getAllFlowTemplates**](SignatureFlowTemplateV1Api.md#getAllFlowTemplates) | **GET** /secure/signatureflowtemplate/v1/getAllFlowTemplates | Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica. Deprecat: Usar getAllFlowTemplateInfo(String) |
+| [**getAllFlowTemplatesByFilter**](SignatureFlowTemplateV1Api.md#getAllFlowTemplatesByFilter) | **GET** /secure/signatureflowtemplate/v1/getAllFlowTemplatesByFilter | Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica.Deprecat: usar getAllFlowTemplateInfoByFilter(String, String, String) |
+| [**getAllFlowTemplatesInfoByFilter**](SignatureFlowTemplateV1Api.md#getAllFlowTemplatesInfoByFilter) | **GET** /secure/signatureflowtemplate/v1/getAllFlowTemplateInfoByFilter | Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica. Requereix com a mínim PortaFIB 3.0.9 |
 | [**getFlowInfoByFlowTemplateID**](SignatureFlowTemplateV1Api.md#getFlowInfoByFlowTemplateID) | **GET** /secure/signatureflowtemplate/v1/getFlowInfoByFlowTemplateID/{encryptedFlowTemplateID} | Serveix per obtenir Informació completa d&#39;una Plantilla de Flux de Firmes a partir del seu ID |
 | [**getInternalFlowIDByFlowTemplateID**](SignatureFlowTemplateV1Api.md#getInternalFlowIDByFlowTemplateID) | **GET** /secure/signatureflowtemplate/v1/getInternalFlowIDByFlowTemplateID/{flowTemplateID} | Serveix per obtenir l&#39;ID intern del flux a partir de l&#39;ID públic de la Plantilla de Flux de Firmes |
 | [**getReviseursByDestinationAdministrationID**](SignatureFlowTemplateV1Api.md#getReviseursByDestinationAdministrationID) | **GET** /secure/signatureflowtemplate/v1/getReviseursByDestinationAdministrationID/{administrationID} | Retorna una llista dels Revisors globals i els associats al NIF d&#39;un Destinatari |
@@ -247,11 +249,85 @@ public class Example {
 | **200** | Operació realitzada correctament |  -  |
 
 
+## getAllFlowTemplateInfo
+
+> Set&lt;SignatureFlowTemplateInfo&gt; getAllFlowTemplateInfo(languageUI)
+
+Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica.Requereix com a mínim PortaFIB 3.0.9
+
+### Example
+
+```java
+// Import classes:
+import es.caib.portafib.apiinterna.client.signature.v1.services.ApiClient;
+import es.caib.portafib.apiinterna.client.signature.v1.services.ApiException;
+import es.caib.portafib.apiinterna.client.signature.v1.services.Configuration;
+import es.caib.portafib.apiinterna.client.signature.v1.services.auth.*;
+import es.caib.portafib.apiinterna.client.signature.v1.services.models.*;
+import es.caib.portafib.apiinterna.client.signature.v1.api.SignatureFlowTemplateV1Api;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("/portafibapi/interna");
+        
+        // Configure HTTP basic authorization: BasicAuth
+        HttpBasicAuth BasicAuth = (HttpBasicAuth) defaultClient.getAuthentication("BasicAuth");
+        BasicAuth.setUsername("YOUR USERNAME");
+        BasicAuth.setPassword("YOUR PASSWORD");
+
+        SignatureFlowTemplateV1Api apiInstance = new SignatureFlowTemplateV1Api(defaultClient);
+        String languageUI = "ca"; // String | Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')
+        try {
+            Set<SignatureFlowTemplateInfo> result = apiInstance.getAllFlowTemplateInfo(languageUI);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling SignatureFlowTemplateV1Api#getAllFlowTemplateInfo");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **languageUI** | **String**| Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) | [optional] [default to ca] |
+
+### Return type
+
+[**Set&lt;SignatureFlowTemplateInfo&gt;**](SignatureFlowTemplateInfo.md)
+
+### Authorization
+
+[BasicAuth](../README.md#BasicAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Paràmetres incorrectes |  -  |
+| **401** | No Autenticat |  -  |
+| **403** | No autoritzat |  -  |
+| **500** | Error no controlat |  -  |
+| **200** | Operació realitzada correctament |  -  |
+
+
 ## getAllFlowTemplates
 
 > Set&lt;KeyValue&gt; getAllFlowTemplates(languageUI)
 
-Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica.
+Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica. Deprecat: Usar getAllFlowTemplateInfo(String)
 
 ### Example
 
@@ -325,7 +401,7 @@ public class Example {
 
 > Set&lt;KeyValue&gt; getAllFlowTemplatesByFilter(languageUI, nameFilter, descriptionFilter)
 
-Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica.
+Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica.Deprecat: usar getAllFlowTemplateInfoByFilter(String, String, String)
 
 ### Example
 
@@ -378,6 +454,84 @@ public class Example {
 ### Return type
 
 [**Set&lt;KeyValue&gt;**](KeyValue.md)
+
+### Authorization
+
+[BasicAuth](../README.md#BasicAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Paràmetres incorrectes |  -  |
+| **401** | No Autenticat |  -  |
+| **403** | No autoritzat |  -  |
+| **500** | Error no controlat |  -  |
+| **200** | Operació realitzada correctament |  -  |
+
+
+## getAllFlowTemplatesInfoByFilter
+
+> Set&lt;SignatureFlowTemplateInfo&gt; getAllFlowTemplatesInfoByFilter(languageUI, nameFilter, descriptionFilter)
+
+Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica. Requereix com a mínim PortaFIB 3.0.9
+
+### Example
+
+```java
+// Import classes:
+import es.caib.portafib.apiinterna.client.signature.v1.services.ApiClient;
+import es.caib.portafib.apiinterna.client.signature.v1.services.ApiException;
+import es.caib.portafib.apiinterna.client.signature.v1.services.Configuration;
+import es.caib.portafib.apiinterna.client.signature.v1.services.auth.*;
+import es.caib.portafib.apiinterna.client.signature.v1.services.models.*;
+import es.caib.portafib.apiinterna.client.signature.v1.api.SignatureFlowTemplateV1Api;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("/portafibapi/interna");
+        
+        // Configure HTTP basic authorization: BasicAuth
+        HttpBasicAuth BasicAuth = (HttpBasicAuth) defaultClient.getAuthentication("BasicAuth");
+        BasicAuth.setUsername("YOUR USERNAME");
+        BasicAuth.setPassword("YOUR PASSWORD");
+
+        SignatureFlowTemplateV1Api apiInstance = new SignatureFlowTemplateV1Api(defaultClient);
+        String languageUI = "ca"; // String | Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')
+        String nameFilter = "nameFilter_example"; // String | Patró per filtrar a partir del Nom
+        String descriptionFilter = "descriptionFilter_example"; // String | Patró per filtrar a partir de la Descripció
+        try {
+            Set<SignatureFlowTemplateInfo> result = apiInstance.getAllFlowTemplatesInfoByFilter(languageUI, nameFilter, descriptionFilter);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling SignatureFlowTemplateV1Api#getAllFlowTemplatesInfoByFilter");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **languageUI** | **String**| Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) | [optional] [default to ca] |
+| **nameFilter** | **String**| Patró per filtrar a partir del Nom | [optional] |
+| **descriptionFilter** | **String**| Patró per filtrar a partir de la Descripció | [optional] |
+
+### Return type
+
+[**Set&lt;SignatureFlowTemplateInfo&gt;**](SignatureFlowTemplateInfo.md)
 
 ### Authorization
 

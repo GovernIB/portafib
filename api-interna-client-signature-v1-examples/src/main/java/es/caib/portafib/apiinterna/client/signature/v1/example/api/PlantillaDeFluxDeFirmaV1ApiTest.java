@@ -31,6 +31,7 @@ import es.caib.portafib.apiinterna.client.signature.v1.model.Signature;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureBlock;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureFlowTemplate;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureFlowTemplateEdit;
+import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureFlowTemplateInfo;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureFlowTemplateStartTransactionRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureFlowTemplateTransactionIdRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureFlowTemplateTransactionResult;
@@ -57,10 +58,7 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
         PlantillaDeFluxDeFirmaV1ApiTest test = new PlantillaDeFluxDeFirmaV1ApiTest();
 
         try {
-            
-            // Crear plantilla de Flux de Firmes des de codi            
-            test.internalCreateSignatureFlowTemplateFromUsername(test.getApi(), "ca", "anadal");
-/*
+
             test.testUpdateNameOfFlowTemplate();
 
             test.testUpdateDescriptionOfFlowTemplate();
@@ -68,8 +66,11 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
             // Crear plantilla de Flux de Firmes des de codi            
             test.testCreateSignatureFlowTemplateFromCode();
 
-            // Llistat plantilles de Flux
+            // Llistat plantilles de Flux - Deprecat
             test.testGetAllSignatureFlowTemplates();
+
+            // Llistat plantilles de Flux - Nou
+            test.testGetAllSignatureFlowTemplateInfo();
 
             // Crear Flux via Web (sense guardar a servidor)
             test.testCrearFluxDeFirmesDesdeNavegadorSenseGuardarFlux();
@@ -86,9 +87,12 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
             // Mostrar ID real flux de firmes
             test.testGetInternalFlowIDByFlowTemplateID();
 
-            // Llistar Plantilles amb filtre
+            // Llistar Plantilles amb filtre - Deprecat
             test.testGetAllFlowTemplatesByFilter();
-*/
+
+            // Llistar Plantilles amb filtre - Nou
+            test.testGetAllFlowTemplateInfoByFilter();
+
         } catch (ApiException e) {
             test.processApiException(e, "Tests de Firma en Servidor", true);
         } catch (Exception e) {
@@ -161,10 +165,10 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
             @Override
             public void doTest(String createdSignatureFlowTemplateId) throws Exception {
 
-                Set<KeyValue> fluxos = this.api.getAllFlowTemplates(languageUI);
+                Set<SignatureFlowTemplateInfo> fluxos = this.api.getAllFlowTemplateInfo(languageUI);
 
-                for (KeyValue flowTemplateSimpleKeyValue : fluxos) {
-                    if (flowTemplateSimpleKeyValue.getKey().equals(createdSignatureFlowTemplateId)) {
+                for (SignatureFlowTemplateInfo flowTemplateSimpleKeyValue : fluxos) {
+                    if (flowTemplateSimpleKeyValue.getFlowTemplateId().equals(createdSignatureFlowTemplateId)) {
                         return;
                     }
                 }
@@ -384,6 +388,26 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
 
     }
 
+    public Set<SignatureFlowTemplateInfo> testGetAllSignatureFlowTemplateInfo() throws ApiException, Exception {
+
+        System.out.println(" -------------  testGetAllSignatureFlowTemplateInfo ------------- ");
+
+        Set<SignatureFlowTemplateInfo> list = getApi().getAllFlowTemplateInfo(getLanguageUI());
+
+        if (list == null || list.isEmpty()) {
+            System.out.println("No hi ha cap plantilla de flux !!!!");
+        } else {
+            for (SignatureFlowTemplateInfo flowTemplateSimpleKeyValue : list) {
+                System.out.println("   " + flowTemplateSimpleKeyValue.getFlowTemplateId() + " => "
+                        + flowTemplateSimpleKeyValue.getName() + " [ " + flowTemplateSimpleKeyValue.getDescription()
+                        + " ]");
+            }
+        }
+
+        return list;
+    }
+
+    @Deprecated
     public Set<KeyValue> testGetAllSignatureFlowTemplates() throws ApiException, Exception {
 
         System.out.println(" -------------  testGetAllSignatureFlowTemplates ------------- ");
@@ -460,6 +484,7 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
 
     }
 
+    @Deprecated
     public void testGetAllFlowTemplatesByFilter() throws ApiException, Exception {
 
         new InternalTest() {
@@ -514,6 +539,78 @@ public class PlantillaDeFluxDeFirmaV1ApiTest extends AbstractV1ApiTest<Signature
                     Map<String, String> foundMap = new HashMap<String, String>();
                     for (KeyValue flowTemplateSimpleKeyValue : list) {
                         foundMap.put(flowTemplateSimpleKeyValue.getKey(), flowTemplateSimpleKeyValue.getValue());
+                    }
+
+                    for (String expectedFlow : expectedFlows) {
+                        if (!foundMap.containsKey(expectedFlow)) {
+                            System.err.append("Plantilles Trobades: " + Arrays.toString(list.toArray()));
+                            throw new Exception("S'esperava trobar la plantilla de flux amb ID: " + expectedFlow
+                                    + " però no s'ha trobat.");
+                        }
+                    }
+                }
+            }
+
+        }.runTest();
+
+    }
+
+    public void testGetAllFlowTemplateInfoByFilter() throws ApiException, Exception {
+
+        new InternalTest() {
+
+            @Override
+            public void doTest(String createdSignatureFlowTemplateId) throws Exception, ApiException {
+
+                String partDescr = UUID.randomUUID().toString();
+
+                String randomDescrUnike = " Descripio unica " + partDescr;
+
+                String partName = UUID.randomUUID().toString();
+                String randomNameUnike = " Nom unic " + partName;
+
+                api.updateNameOfSignatureFlowTemplate(createdSignatureFlowTemplateId, randomNameUnike, this.languageUI);
+                api.updateDescriptionOfSignatureFlowTemplate(createdSignatureFlowTemplateId, randomDescrUnike,
+                        this.languageUI);
+
+                //String filtername = null; // No filtrar per nom
+                //String filterdesc = partDescr; // Filtrar per part de la descripció
+                String[] expectedFlows = new String[] { createdSignatureFlowTemplateId }; // S'espera que trobi la plantilla de flux
+
+                internalTestFilter(null, partDescr, expectedFlows);
+
+                internalTestFilter(partName, null, expectedFlows);
+
+                internalTestFilter(partName, partDescr, expectedFlows);
+
+                internalTestFilter(partDescr, partName, null);
+
+            }
+
+            private void internalTestFilter(String filtername, String filterdesc, String[] expectedFlows)
+                    throws ApiException, Exception {
+
+                System.out.println("Filtrant per nom ]" + filtername + "[ i descripció: ]" + filterdesc + "[ ...");
+
+                Set<SignatureFlowTemplateInfo> list = api.getAllFlowTemplatesInfoByFilter(languageUI, filtername,
+                        filterdesc);
+
+                if (expectedFlows == null || expectedFlows.length == 0) {
+
+                    if (list != null && list.size() > 0) {
+
+                        System.err.append("Plantilles Trobades: " + Arrays.toString(list.toArray()));
+
+                        throw new Exception("S'han trobat plantilles de flux amb filtre de nom ]" + filtername
+                                + "[ i filtre de descripció: ]" + filterdesc + "[ però no n'hauria d'haver trobat");
+                    }
+
+                } else {
+
+                    Map<String, String> foundMap = new HashMap<String, String>();
+                    for (SignatureFlowTemplateInfo flowTemplateSimpleKeyValue : list) {
+                        foundMap.put(flowTemplateSimpleKeyValue.getFlowTemplateId(),
+                                flowTemplateSimpleKeyValue.getName());
                     }
 
                     for (String expectedFlow : expectedFlows) {

@@ -374,7 +374,6 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
 
             if (!isUsuariEntitat()) {
                 fluxDeFirmesFilterForm.addGroupByField(USUARIAPLICACIOID);
-
             }
 
         } else {

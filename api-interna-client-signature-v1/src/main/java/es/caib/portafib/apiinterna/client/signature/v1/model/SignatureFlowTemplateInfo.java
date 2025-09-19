@@ -20,24 +20,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureBlock;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * Informació Completa d&#39;una Plantilla de flux de firmes.
+ * Informació Bàsica d&#39;una Plantilla de flux de firmes. Requereix com a mínim PortaFIB 3.0.9
  */
 @JsonPropertyOrder({
-  SignatureFlowTemplate.JSON_PROPERTY_FLOW_TEMPLATE_ID,
-  SignatureFlowTemplate.JSON_PROPERTY_NAME,
-  SignatureFlowTemplate.JSON_PROPERTY_DESCRIPTION,
-  SignatureFlowTemplate.JSON_PROPERTY_BLOCKS
+  SignatureFlowTemplateInfo.JSON_PROPERTY_FLOW_TEMPLATE_ID,
+  SignatureFlowTemplateInfo.JSON_PROPERTY_NAME,
+  SignatureFlowTemplateInfo.JSON_PROPERTY_DESCRIPTION
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
-public class SignatureFlowTemplate {
+public class SignatureFlowTemplateInfo {
   public static final String JSON_PROPERTY_FLOW_TEMPLATE_ID = "flowTemplateId";
   @javax.annotation.Nullable
   private String flowTemplateId;
@@ -50,14 +45,10 @@ public class SignatureFlowTemplate {
   @javax.annotation.Nullable
   private String description;
 
-  public static final String JSON_PROPERTY_BLOCKS = "blocks";
-  @javax.annotation.Nonnull
-  private List<SignatureBlock> blocks = new ArrayList<>();
-
-  public SignatureFlowTemplate() {
+  public SignatureFlowTemplateInfo() {
   }
 
-  public SignatureFlowTemplate flowTemplateId(@javax.annotation.Nullable String flowTemplateId) {
+  public SignatureFlowTemplateInfo flowTemplateId(@javax.annotation.Nullable String flowTemplateId) {
     
     this.flowTemplateId = flowTemplateId;
     return this;
@@ -82,7 +73,7 @@ public class SignatureFlowTemplate {
     this.flowTemplateId = flowTemplateId;
   }
 
-  public SignatureFlowTemplate name(@javax.annotation.Nonnull String name) {
+  public SignatureFlowTemplateInfo name(@javax.annotation.Nonnull String name) {
     
     this.name = name;
     return this;
@@ -107,7 +98,7 @@ public class SignatureFlowTemplate {
     this.name = name;
   }
 
-  public SignatureFlowTemplate description(@javax.annotation.Nullable String description) {
+  public SignatureFlowTemplateInfo description(@javax.annotation.Nullable String description) {
     
     this.description = description;
     return this;
@@ -132,39 +123,6 @@ public class SignatureFlowTemplate {
     this.description = description;
   }
 
-  public SignatureFlowTemplate blocks(@javax.annotation.Nonnull List<SignatureBlock> blocks) {
-    
-    this.blocks = blocks;
-    return this;
-  }
-
-  public SignatureFlowTemplate addBlocksItem(SignatureBlock blocksItem) {
-    if (this.blocks == null) {
-      this.blocks = new ArrayList<>();
-    }
-    this.blocks.add(blocksItem);
-    return this;
-  }
-
-  /**
-   * Llista de blocs de signatura que composen el flux de firmes de la plantilla.
-   * @return blocks
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_BLOCKS)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public List<SignatureBlock> getBlocks() {
-    return blocks;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_BLOCKS)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setBlocks(@javax.annotation.Nonnull List<SignatureBlock> blocks) {
-    this.blocks = blocks;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -173,26 +131,24 @@ public class SignatureFlowTemplate {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SignatureFlowTemplate signatureFlowTemplate = (SignatureFlowTemplate) o;
-    return Objects.equals(this.flowTemplateId, signatureFlowTemplate.flowTemplateId) &&
-        Objects.equals(this.name, signatureFlowTemplate.name) &&
-        Objects.equals(this.description, signatureFlowTemplate.description) &&
-        Objects.equals(this.blocks, signatureFlowTemplate.blocks);
+    SignatureFlowTemplateInfo signatureFlowTemplateInfo = (SignatureFlowTemplateInfo) o;
+    return Objects.equals(this.flowTemplateId, signatureFlowTemplateInfo.flowTemplateId) &&
+        Objects.equals(this.name, signatureFlowTemplateInfo.name) &&
+        Objects.equals(this.description, signatureFlowTemplateInfo.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(flowTemplateId, name, description, blocks);
+    return Objects.hash(flowTemplateId, name, description);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SignatureFlowTemplate {\n");
+    sb.append("class SignatureFlowTemplateInfo {\n");
     sb.append("    flowTemplateId: ").append(toIndentedString(flowTemplateId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
-    sb.append("    blocks: ").append(toIndentedString(blocks)).append("\n");
     sb.append("}");
     return sb.toString();
   }

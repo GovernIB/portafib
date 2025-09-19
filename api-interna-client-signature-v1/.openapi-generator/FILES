@@ -42,6 +42,7 @@ docs/SignatureCheck.md
 docs/SignatureDetailInfo.md
 docs/SignatureFlowTemplate.md
 docs/SignatureFlowTemplateEdit.md
+docs/SignatureFlowTemplateInfo.md
 docs/SignatureFlowTemplateStartTransactionRequest.md
 docs/SignatureFlowTemplateTransactionIdRequest.md
 docs/SignatureFlowTemplateTransactionResult.md
@@ -123,6 +124,7 @@ src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureChe
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureDetailInfo.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureFlowTemplate.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureFlowTemplateEdit.java
+src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureFlowTemplateInfo.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureFlowTemplateStartTransactionRequest.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureFlowTemplateTransactionIdRequest.java
 src/main/java/es/caib/portafib/apiinterna/client/signature/v1/model/SignatureFlowTemplateTransactionResult.java

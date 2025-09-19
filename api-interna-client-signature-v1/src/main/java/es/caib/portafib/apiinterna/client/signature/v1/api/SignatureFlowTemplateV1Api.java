@@ -13,6 +13,7 @@ import es.caib.portafib.apiinterna.client.signature.v1.model.RestExceptionInfo;
 import java.util.Set;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureFlowTemplate;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureFlowTemplateEdit;
+import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureFlowTemplateInfo;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureFlowTemplateStartTransactionRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureFlowTemplateTransactionIdRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureFlowTemplateTransactionResult;
@@ -177,12 +178,53 @@ public class SignatureFlowTemplateV1Api {
     return apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
-   * Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica.
+   * Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica.Requereix com a mínim PortaFIB 3.0.9
+   * 
+   * @param languageUI Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) (optional, default to ca)
+   * @return a {@code Set<SignatureFlowTemplateInfo>}
+   * @throws ApiException if fails to make API call
+   */
+  public Set<SignatureFlowTemplateInfo> getAllFlowTemplateInfo(String languageUI) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // create path and map variables
+    String localVarPath = "/secure/signatureflowtemplate/v1/getAllFlowTemplateInfo".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "languageUI", languageUI));
+
+    
+    
+    
+    final String[] localVarAccepts = {
+      "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] { "BasicAuth" };
+
+    GenericType<Set<SignatureFlowTemplateInfo>> localVarReturnType = new GenericType<Set<SignatureFlowTemplateInfo>>() {};
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+      }
+  /**
+   * Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica. Deprecat: Usar getAllFlowTemplateInfo(String)
    * 
    * @param languageUI Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) (optional, default to ca)
    * @return a {@code Set<KeyValue>}
    * @throws ApiException if fails to make API call
+   * @deprecated
    */
+  @Deprecated
   public Set<KeyValue> getAllFlowTemplates(String languageUI) throws ApiException {
     Object localVarPostBody = null;
     
@@ -216,14 +258,16 @@ public class SignatureFlowTemplateV1Api {
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
-   * Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica.
+   * Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica.Deprecat: usar getAllFlowTemplateInfoByFilter(String, String, String)
    * 
    * @param languageUI Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) (optional, default to ca)
    * @param nameFilter Patró per filtrar a partir del Nom (optional)
    * @param descriptionFilter Patró per filtrar a partir de la Descripció (optional)
    * @return a {@code Set<KeyValue>}
    * @throws ApiException if fails to make API call
+   * @deprecated
    */
+  @Deprecated
   public Set<KeyValue> getAllFlowTemplatesByFilter(String languageUI, String nameFilter, String descriptionFilter) throws ApiException {
     Object localVarPostBody = null;
     
@@ -256,6 +300,49 @@ public class SignatureFlowTemplateV1Api {
     String[] localVarAuthNames = new String[] { "BasicAuth" };
 
     GenericType<Set<KeyValue>> localVarReturnType = new GenericType<Set<KeyValue>>() {};
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+      }
+  /**
+   * Retorna una llista de totes les plantilles de flux de firmes associades a l&#39;usuari aplicació amb el que s&#39;autentica. Requereix com a mínim PortaFIB 3.0.9
+   * 
+   * @param languageUI Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) (optional, default to ca)
+   * @param nameFilter Patró per filtrar a partir del Nom (optional)
+   * @param descriptionFilter Patró per filtrar a partir de la Descripció (optional)
+   * @return a {@code Set<SignatureFlowTemplateInfo>}
+   * @throws ApiException if fails to make API call
+   */
+  public Set<SignatureFlowTemplateInfo> getAllFlowTemplatesInfoByFilter(String languageUI, String nameFilter, String descriptionFilter) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // create path and map variables
+    String localVarPath = "/secure/signatureflowtemplate/v1/getAllFlowTemplateInfoByFilter".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "languageUI", languageUI));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "nameFilter", nameFilter));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "descriptionFilter", descriptionFilter));
+
+    
+    
+    
+    final String[] localVarAccepts = {
+      "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] { "BasicAuth" };
+
+    GenericType<Set<SignatureFlowTemplateInfo>> localVarReturnType = new GenericType<Set<SignatureFlowTemplateInfo>>() {};
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
