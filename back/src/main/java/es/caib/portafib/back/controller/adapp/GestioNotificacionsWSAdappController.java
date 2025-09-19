@@ -17,9 +17,9 @@ import es.caib.portafib.model.fields.UsuariAplicacioFields;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.query.CustomField;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.GroupByItem;
-import org.fundaciobit.genapp.common.query.IntegerField;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.OrderType;
 import org.fundaciobit.genapp.common.query.Where;
@@ -67,7 +67,7 @@ public class GestioNotificacionsWSAdappController extends NotificacioWSControlle
 
     protected static final int COLUMN_REINTENTS = 2;
 
-    public static final IntegerField VIRTUAL_ESTAT_FIELD = new IntegerField(null, "notificaciows.estat", "estat");
+    public static final CustomField VIRTUAL_ESTAT_FIELD = new CustomField("notificaciows.estat");
 
     public static final Where WHEREPAUSADES = Where.AND(DATAENVIAMENT.isNull(), REINTENTS.greaterThanOrEqual(0),
             BLOQUEJADA.equal(true));
