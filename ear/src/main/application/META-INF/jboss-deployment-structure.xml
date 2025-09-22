@@ -78,14 +78,14 @@
             <module name="org.opensaml" export="TRUE"/>
             <module name="org.reactivestreams" export="TRUE"/>
             <module name="org.slf4j" export="TRUE"/>
-
+            <module name="org.apache.commons.cli" export="TRUE"/>
         </dependencies>
         <!-- Per evitar problemes amb els Bindings de les APIs RestEasy -->
         <!-- Així suporten tipus especials com byte[], timestamp, ...   -->
         <exclusions>
                 <module name="org.jboss.resteasy.resteasy-json-binding-provider"/>
         </exclusions>
-        </deployment>
+    </deployment>
     <sub-deployment name="portafib-back.war">
         <exclusions>
             <!-- Per evitar problemes amb els Bindings de les APIs RestEasy -->
@@ -104,6 +104,14 @@
     </sub-deployment>
 
     <sub-deployment name="portafib-api-interna.war">
+        <exclusions>
+            <!-- Per evitar problemes amb els Bindings de les APIs RestEasy -->
+            <!-- Així suporten tipus especials com byte[], timestamp, ...   -->
+            <module name="org.jboss.resteasy.resteasy-json-binding-provider"/>
+        </exclusions>
+    </sub-deployment>
+    
+    <sub-deployment name="portafib-ejb.jar">
         <exclusions>
             <!-- Per evitar problemes amb els Bindings de les APIs RestEasy -->
             <!-- Així suporten tipus especials com byte[], timestamp, ...   -->

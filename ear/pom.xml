@@ -743,10 +743,13 @@
                         **/opensaml-soap-api*redhat*.jar, **/opensaml-xacml-api*redhat*.jar, **/opensaml-xacml-impl*redhat*.jar,
                         **/opensaml-xacml-saml-api*redhat*.jar, **/opensaml-xacml-saml-impl*redhat*.jar, **/opensaml-xmlsec-api*redhat*.jar,
                         **/opensaml-xmlsec-impl*redhat*.jar, **/cryptacular*redhat*.jar, **/java-support*redhat*.jar, <!-- Requereix afegir mòdul 'org.reactivestreams' a jboss-deployment-structure.xml -->
-                        **/reactive-streams*redhat*.jar, <!-- Requereix afegir mòdul 'org.slf4j' a jboss-deployment-structure.xml -->
+                        **/reactive-streams*redhat*.jar, 
+                        <!-- Requereix afegir mòdul 'org.slf4j' a jboss-deployment-structure.xml -->
                         **/slf4j-api*redhat*.jar, 
                         **/commons-cli*redhat*.jar,
                         **/jboss-ejb3-ext-api*redhat*.jar,
+                        <!-- Requereix afegir mòdul 'org.apache.commons.cli' a jboss-deployment-structure.xml -->
+                        **/commons-cli*redhat*.jar,
                         
                         </packagingExcludes>
                     <modules>

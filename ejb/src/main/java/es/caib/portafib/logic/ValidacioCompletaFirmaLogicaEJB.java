@@ -9,6 +9,7 @@ import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfComparator;
 import es.caib.portafib.logic.utils.PdfUtils;
+import es.caib.portafib.logic.utils.PortaFIBPluginsManager;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.ValidacioCompletaRequest;
 import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
@@ -26,6 +27,8 @@ import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.pluginsib.validatecertificate.InformacioCertificat;
 import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
+import org.fundaciobit.pluginsib.userinformation.IUserInformationPlugin;
+import org.fundaciobit.pluginsib.userinformation.UserInfo;
 import org.fundaciobit.pluginsib.utils.signature.SignatureConstants;
 import org.fundaciobit.pluginsib.validatesignature.api.SignatureDetailInfo;
 import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureResponse;
@@ -46,6 +49,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 /**
  * 
@@ -496,50 +500,94 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                                     CertificateUtils.getCN(certificateLastSign));
                         }
 
-                        List<String> nifs = pseudonimEjb.executeQuery(PseudonimFields.NIF,
-                                PseudonimFields.PSEUDONIM.equal(pseudonim));
-
                         final String nifEsperat = validacioRequest.getNifEsperat();
 
-                        if (nifs == null || nifs.size() == 0) {
+                        // Cercam en el UserInformation si l'usuari amb NIF nifEsperat té el mateix pseudonim
 
-                            final String msg = "Transaccio[" + transaccioID + "]: El certificat és de Pseudonim ("
-                                    + pseudonim + ") però no s'ha trobat cap NIF associat en PortaFIB."
-                                    + " Ha de contactar amb suport i indicar que associin aquest Pseudonim ("
-                                    + pseudonim + ") amb el seu NIF (" + nifEsperat + ")";
-                            log.error(msg, new Exception());
+                        IUserInformationPlugin plugin = PortaFIBPluginsManager.getUserInformationPluginInstance();
+                        if (plugin.isImplementedUserInfoByAdministrationID()) {
+                            try {
+                                UserInfo info = plugin.getUserInfoByAdministrationID(nifEsperat);
+                                if (info != null) {
+                                    if (nifEsperat.equalsIgnoreCase(info.getAdministrationID())) {
+                                        Set<String> pseudonimsUsuari = info.getPseudonyms();
+                                        if (pseudonimsUsuari != null && pseudonimsUsuari.contains(pseudonim)) {
+                                            nifFirmant = nifEsperat;
+                                            if (log.isDebugEnabled()) {
+                                                log.debug("\n\n\nTransaccio[" + transaccioID + "]: "
+                                                        + "[USERINFORMATION] El certificat és de Pseudonim ("
+                                                        + pseudonim + ") i USERINFO l'ha trobat dins del user "
+                                                        + info.getUsername() + "\n\n\n");
+                                            }
+                                        }
+                                    }
+                                }
 
-                            // El certificat és de Pseudònim ({0}) però no s´ha trobat cap NIF associat en PortaFIB.
-                            // Ha de contactar amb suport i indicar que associïn aquest pseudònim ({1}) amb el seu NIF ({2})
+                            } catch (Throwable t) {
+                                String msg = "Error consultant UserInformationPlugin del nif " + nifEsperat
+                                        + " per obtenir pseudonims:" + t.getMessage();
 
-                            throw new I18NException("error.pseudonim.sensenif",
-                                    CertificateUtils.getCN(certificateLastSign), pseudonim, nifEsperat);
+                                log.error("Transaccio[" + transaccioID + "]: " + msg, t);
+
+                                if (t instanceof I18NException) {
+                                    throw (I18NException) t;
+                                } else {
+                                    throw new I18NException(t, "genapp.comodi", msg);
+                                }
+
+                            }
+
                         }
 
-                        for (String nif : nifs) {
-                            if (nifEsperat.trim().equalsIgnoreCase(nif.trim())) {
-                                if (log.isDebugEnabled()) {
-                                    log.debug("Transaccio[" + transaccioID + "]: " + "El certificat és de Pseudonim ("
-                                            + pseudonim + ") i s'ha trobat el NIF associat en PortaFIB: " + nif);
+                        // Si no ha anat bé, cercam en la taula de Pseudonims
+                        if (nifFirmant == null) {
+
+                            List<String> nifs = pseudonimEjb.executeQuery(PseudonimFields.NIF,
+                                    PseudonimFields.PSEUDONIM.equal(pseudonim));
+
+                            if (nifs == null || nifs.size() == 0) {
+
+                                final String msg = "Transaccio[" + transaccioID + "]: El certificat és de Pseudònim ("
+                                        + pseudonim + ") però no s'ha trobat cap NIF associat."
+                                        + " Ha de contactar amb suport i indicar que associin aquest Pseudònim ("
+                                        + pseudonim + ") amb el seu NIF (" + nifEsperat + ") dins de PortaFIB "
+                                        + "o en el Identity Provider que utilitzi.";
+                                log.error(msg, new Exception());
+
+                                // El certificat és de Pseudònim ({0}) però no s´ha trobat cap NIF associat.
+                                // Ha de contactar amb suport i indicar que associïn aquest pseudònim ({1})
+                                // amb el seu NIF ({2}) dins de PortaFIB o en el Identity Provider de la seva organització.
+                                throw new I18NException("error.pseudonim.sensenif",
+                                        CertificateUtils.getCN(certificateLastSign), pseudonim, nifEsperat);
+                            }
+
+                            for (String nif : nifs) {
+                                if (nifEsperat.trim().equalsIgnoreCase(nif.trim())) {
+                                    if (log.isDebugEnabled()) {
+                                        log.debug("Transaccio[" + transaccioID + "]: "
+                                                + "El certificat és de Pseudonim (" + pseudonim
+                                                + ") i s'ha trobat el NIF associat en PortaFIB: " + nif);
+                                    }
+                                    nifFirmant = nif;
+                                    break;
                                 }
-                                nifFirmant = nif;
-                                break;
+                            }
+
+                            if (nifFirmant == null) {
+
+                                log.error(
+                                        "Transaccio[" + transaccioID + "]: " + "El pseudònim " + pseudonim
+                                                + " té els NIFs associats " + nifs.toString()
+                                                + ", però cap d´ells coincideix amb el NIF esperat: " + nifEsperat,
+                                        new Exception());
+
+                                // El pseudònim {0} té els NIFs associats {1}, però cap d´ells coincideix amb el NIF esperat {2}
+                                throw new I18NException("error.pseudonim.nifincorrecte", pseudonim, nifs.toString(),
+                                        nifEsperat);
+
                             }
                         }
 
-                        if (nifFirmant == null) {
-
-                            log.error(
-                                    "Transaccio[" + transaccioID + "]: " + "El pseudònim " + pseudonim
-                                            + " té els NIFs associats " + nifs.toString()
-                                            + ", però cap d´ells coincideix amb el NIF esperat: " + nifEsperat,
-                                    new Exception());
-
-                            // El pseudònim {0} té els NIFs associats {1}, però cap d´ells coincideix amb el NIF esperat {2}
-                            throw new I18NException("error.pseudonim.nifincorrecte", pseudonim, nifs.toString(),
-                                    nifEsperat);
-
-                        }
                         doChecks = true;
 
                         // Si volem ometre checks posteriors llavors ...
