@@ -102,8 +102,8 @@ public class EntitatJPA implements Entitat {
     java.lang.Integer maxFilesToSignAtSameTime;
 
   /** -1=> usar politica de firma de l'entitat, 0 => no usar politica de firma,  1=> usar politica d'aquesta configuracio, 2 => L'usuari web o usuari-app elegeixen la politica de firma */
-    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="uspoliticadefirma",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("0")
     int usPoliticaDeFirma = 0;
 
   /** Identificador de la política de firma. Si es defineix aquest valors llavorses generaran 
@@ -137,26 +137,26 @@ opcional incluso cuando se genera una firma EPES. */
     @Column(name="firmatperformatid",length = 19)
     java.lang.Long firmatPerFormatID;
 
-    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="algorismedefirmaid",nullable = false,length = 19)
+    @org.hibernate.annotations.ColumnDefault("0")
     int algorismeDeFirmaID = 0;
 
   /** 0: No permetre, 1:Només Plantilles de l'Entitat (No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat (Per defecte Actiu), 4: Opcional plantilla Entitat (Per defecte NO Actiu), 5: Llibertat Total (selecció, edició i us) */
-    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="politicacustodia",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("0")
     int politicaCustodia = 0;
 
     @Column(name="custodiainfoid",length = 19)
     java.lang.Long custodiaInfoID;
 
   /** 0 no es permet taules de firmes, 1 definit en l'entitat, 2 opcional per defecte el definit a l'entitat, 3 opcional per defecte sense taula de firmes */
-    @org.hibernate.annotations.ColumnDefault("2")
     @Column(name="politicataulafirmes",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("2")
     int politicaTaulaFirmes = 2;
 
   /** SENSETAULA = 0; PRIMERAPAGINA = 1; DARRERAPAGINA = -1;DEFINIT_EN_FIRMA(RUBRICA)=2 */
-    @org.hibernate.annotations.ColumnDefault("1")
     @Column(name="posiciotaulafirmes",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("1")
     int posicioTaulaFirmes = 1;
 
     @Column(name="propietatstaulafirmes",length = 2147483647)
@@ -164,8 +164,8 @@ opcional incluso cuando se genera una firma EPES. */
     @Type(type = "org.hibernate.type.TextType")
     java.lang.String propietatsTaulaFirmes;
 
-    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="segelldetempsviaweb",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("0")
     int politicaSegellatDeTemps = 0;
 
   /** Plugin de segellat de temps */

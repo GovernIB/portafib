@@ -39,6 +39,7 @@ import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.pluginsib.utils.signature.SignatureConstants;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -1126,7 +1127,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
             cal.add(Calendar.MONTH, 1);
             peticioDeFirma.setDataCaducitat(new Timestamp(cal.getTimeInMillis()));
 
-            peticioDeFirma.setIdiomaID(loginInfo.getUsuariPersona().getIdiomaID());
+            peticioDeFirma.setIdiomaID(LocaleContextHolder.getLocale().getLanguage()); //loginInfo.getUsuariPersona().getIdiomaID());
 
             // LoginInfo li = LoginInfo.getInstance();
 

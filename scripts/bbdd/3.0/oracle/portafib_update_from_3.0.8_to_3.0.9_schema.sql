@@ -8,6 +8,8 @@
 
 CREATE SEQUENCE pfi_correuagrupat_seq  START WITH 1000 increment by 1;
 
+grant select,alter on pfi_correuagrupat_seq to www_portafib;
+
 CREATE TABLE pfi_correuagrupat
 (
    correuagrupatid number(19,0) DEFAULT pfi_correuagrupat_seq.nextval, 
@@ -26,7 +28,7 @@ alter table pfi_correuagrupat add CONSTRAINT pfi_correagrup_usrentitat_fk FOREIG
 
 create index pfi_correagrup_usrentitat_fk_i on pfi_correuagrupat (usuarientitatid);
 
-grant select,insert,delete,update on pfi_correuagrupat to www_portafib;
+grant select,alter on pfi_correuagrupat to www_portafib;
 
 
 
@@ -36,6 +38,8 @@ grant select,insert,delete,update on pfi_correuagrupat to www_portafib;
 --######################################################################
 
 CREATE SEQUENCE pfi_pseudonim_seq START WITH 1000 increment by 1;
+
+grant select,insert,delete,update on pfi_pseudonim_seq to www_portafib;
 
 CREATE TABLE pfi_pseudonim
 (

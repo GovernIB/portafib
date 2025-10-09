@@ -49,6 +49,7 @@ import org.fundaciobit.pluginsib.signature.api.StatusSignaturesSet;
 import org.fundaciobit.pluginsib.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.pluginsib.utils.signature.SignatureConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -128,7 +129,7 @@ public class AutoFirmaController extends FitxerController implements PeticioDeFi
         form.setMotiu(txt);
         EntitatJPA entitat = loginInfo.getEntitat();
         form.setLogoSegell(entitat.getLogoSegell());
-        form.setIdioma(loginInfo.getUsuariPersona().getIdiomaID());
+        form.setIdioma(LocaleContextHolder.getLocale().getLanguage());//loginInfo.getUsuariPersona().getIdiomaID());
 
         // #166 XYZ ZZZ S'ha de veure si deixam llibertat o limitam segons el que digui l'entitat
         form.setListOfPosicioTaulaFirmes(GestioEntitatAdminController.staticGetReferenceListForPosicioTaulaFirmes());
@@ -226,7 +227,7 @@ public class AutoFirmaController extends FitxerController implements PeticioDeFi
 
             form.setAttachments(attachments);
 
-            final String langUI = loginInfo.getUsuariPersona().getIdiomaID();
+            final String langUI = LocaleContextHolder.getLocale().getLanguage(); //loginInfo.getUsuariPersona().getIdiomaID();
             final String langSign = form.getIdioma();
 
             EntitatJPA entitat = loginInfo.getEntitat();

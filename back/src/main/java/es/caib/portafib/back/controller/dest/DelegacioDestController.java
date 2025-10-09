@@ -12,7 +12,6 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -39,6 +38,7 @@ import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -876,7 +876,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
             SimpleDateFormat sdf;
             sdf = new I18NDateTimeFormat()
-                    .getSimpleDateFormat(new Locale(coladeleUser.getUsuariPersona().getIdiomaID()));
+                    .getSimpleDateFormat(LocaleContextHolder.getLocale()); //new Locale(coladeleUser.getUsuariPersona().getIdiomaID()));
 
             String dia = sdf.format(coladele.getDataInici());
 

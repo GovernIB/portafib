@@ -40,8 +40,8 @@ public class UsuariAplicacioJPA implements UsuariAplicacio {
     java.lang.String emailAdmin;
 
   /** La versió 0 és la compatible amb INDRA i la versió 1 és l'especifica del nou Portafirmes */
-    @org.hibernate.annotations.ColumnDefault("2")
     @Column(name="callbackversio",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("2")
     int callbackVersio = 2;
 
   /** Adreça on esta implementat el servei de recepció de notificacions associades a les peticions de firma realitzades per aquest usuari-màquina */
@@ -61,13 +61,13 @@ public class UsuariAplicacioJPA implements UsuariAplicacio {
     java.lang.Long logoSegellID;
 
   /** 0 - Només plugins de l'entitat, 1 - Plugins de l'entitat més plugins addicionals (afegir o llevar), 2 - Només plugins addicionals (Només els que tenguin marcat afegir) */
-    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="politicadepluginfirmaweb",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("0")
     int politicaDePluginFirmaWeb = 0;
 
   /** -1: el que digui l'entitat, 0: No permetre, 1:Només Plantilles de l''Entitat (No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat (Per defecte Actiu), 4: Opcional plantilla Entitat (Per defecte NO Actiu), 5: Llibertat Totalselecció, edició i us), 6: La plantilla definida en l''usuari-aplicació */
-    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="politicacustodia",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("0")
     int politicaCustodia = 0;
 
     @Column(name="custodiainfoid",length = 19)

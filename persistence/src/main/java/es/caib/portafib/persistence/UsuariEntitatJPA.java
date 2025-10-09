@@ -59,8 +59,8 @@ public class UsuariEntitatJPA implements UsuariEntitat {
     boolean rebreTotsElsAvisos = false;
 
   /**  0 - Només plugins de l''entitat, 1 - Plugins de l''entitat més plugins addicionals (afegir o llevar), 2 - Només plugins addicionals (Només els que tenguin marcat afegir)' */
-    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="politicadepluginfirmaweb",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("0")
     int politicaDePluginFirmaWeb = 0;
 
   /** -1: el que digui l'entitat, 0: No permetre, 1:Només Plantilles de l''Entitat (No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat (Per defecte Actiu), 4: Opcional plantilla Entitat (Per defecte NO Actiu), 5: Llibertat Total (selecció, edició i us) */

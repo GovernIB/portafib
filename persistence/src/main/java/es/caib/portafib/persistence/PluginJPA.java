@@ -66,8 +66,8 @@ public class PluginJPA implements Plugin {
   /** 0 Plantilla
 1 Només entitat
 2 Ho pot usar tothom */
-    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="politicadeus",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("0")
     int politicaDeUs = 0;
 
   /** Si val null indica que és de l'Administrador. En cas conytrari ja és una instanciació d'una Entitat */
@@ -79,8 +79,8 @@ public class PluginJPA implements Plugin {
 
   /** 0 => No mostrar ni propietats administrador ni propietats entitat, 1 => Permetre editar propietats entitat però no mostrar propietats administrador,  2 => Permetre editar propietats entitat i mostrar propietats administrador, 3 => Permetre editar propietats entitat i editar propietats administrador
  */
-    @org.hibernate.annotations.ColumnDefault("2")
     @Column(name="politicamostrarpropietats",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("2")
     int politicaMostrarPropietats = 2;
 
 

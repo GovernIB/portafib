@@ -2,7 +2,6 @@ package es.caib.portafib.back.controller.dest.proces;
 
 import es.caib.portafib.back.controller.webdb.EstatDeFirmaController;
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
-import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.persistence.PeticioDeFirmaJPA;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
 import es.caib.portafib.model.entity.EstatDeFirma;
@@ -16,6 +15,7 @@ import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -158,7 +158,7 @@ public class ProcessarEstatsCheckoutController extends EstatDeFirmaController {
             List<EstatDeFirma> list) throws I18NException {
         super.postList(request, mav, filterForm, list);
 
-        String language = LoginInfo.getInstance().getUsuariPersona().getIdiomaID();
+        String language = LocaleContextHolder.getLocale().getLanguage(); // LoginInfo.getInstance().getUsuariPersona().getIdiomaID();
         Carret carret = CarretHolder.getCarret(request);
 
         List<Long> estatDeFirmaIDList = new ArrayList<Long>(list.size());

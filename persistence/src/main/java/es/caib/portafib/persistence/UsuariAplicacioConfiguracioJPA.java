@@ -72,8 +72,8 @@ public class UsuariAplicacioConfiguracioJPA implements UsuariAplicacioConfigurac
     java.lang.String filtreCertificats;
 
   /** 0 firma, 1 contrafirma 2, cofirma */
-    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="tipusoperaciofirma",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("0")
     int tipusOperacioFirma = 0;
 
     @Column(name="tipusfirmaid",nullable = false,length = 10)
@@ -86,8 +86,8 @@ public class UsuariAplicacioConfiguracioJPA implements UsuariAplicacioConfigurac
     int modeDeFirma;
 
   /** -1=> usar politica de firma de l'entitat, 0 => no usar politica de firma,  1=> usar politica d'aquesta configuracio, 2 => L'usuari web o usuari-app elegeixen la politica de firma */
-    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="uspoliticadefirma",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("0")
     int usPoliticaDeFirma = 0;
 
   /** Identificador de la política de firma. Si es defineix aquest valors llavorses generaran 
@@ -115,13 +115,13 @@ opcional incluso cuando se genera una firma EPES. */
     java.lang.Long motiuDelegacioID;
 
   /** -1 definit en l'entitat, 0 no es permet taules de firmes, 1  obligatori politica definida en la configuració d'usuari aplicació o entitat, 2 opcional, per defecte el definit a l'entitat */
-    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="politicataulafirmes",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("0")
     int politicaTaulaFirmes = 0;
 
   /** Si val null s'utilitza la info de l'entitat. Valors: SENSETAULA = 0; PRIMERAPAGINA = 1; DARRERAPAGINA = -1;DEFINIT_EN_FIRMA(RUBRICA)=2 */
-    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="posiciotaulafirmesid",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("0")
     int posicioTaulaFirmesID = 0;
 
     @Column(name="firmatperformatid",length = 19)
@@ -133,8 +133,8 @@ opcional incluso cuando se genera una firma EPES. */
     java.lang.String propietatsTaulaFirmes;
 
   /** DEFINIT_EN_ENTITAT=-1;NOUSAR=0;US_OBLIGATORI=1;USUARI_ELEGEIX_PER_DEFECTE_SI=2;USUARI_ELEGEIX_PER_DEFECTE_NO=3; */
-    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="politicasegellatdetemps",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("0")
     int politicaSegellatDeTemps = 0;
 
     @Column(name="pluginsegellatid",length = 19)

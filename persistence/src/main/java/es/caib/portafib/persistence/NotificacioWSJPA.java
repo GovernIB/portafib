@@ -63,8 +63,8 @@ public class NotificacioWSJPA implements NotificacioWS {
     @Column(name="dataerror",length = 35,precision = 6)
     java.sql.Timestamp dataError;
 
-    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="reintents",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("0")
     int reintents = 0;
 
     @Column(name="usuariaplicacioid",nullable = false,length = 101)

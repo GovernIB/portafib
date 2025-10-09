@@ -39,8 +39,8 @@ public class PluginFirmaWebPerUsuariAplicacioJPA implements PluginFirmaWebPerUsu
     long pluginFirmaWebID;
 
   /** Valors:  -1 eliminar, 1 afegir */
-    @org.hibernate.annotations.ColumnDefault("1")
     @Column(name="accio",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("1")
     int accio = 1;
 
 

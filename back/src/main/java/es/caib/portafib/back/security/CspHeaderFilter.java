@@ -27,7 +27,7 @@ public class CspHeaderFilter implements Filter {
 
         HttpServletResponse httpResp = (HttpServletResponse) response;
 
-        //System.out.println("Setting Content-Security-Policy header !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        //log.info("Setting Content-Security-Policy header !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
         // TODO es una prova. S'ha de substituir per una consulta a una propietat.
         httpResp.setHeader("Content-Security-Policy",

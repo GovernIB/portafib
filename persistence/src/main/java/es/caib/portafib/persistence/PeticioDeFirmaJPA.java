@@ -87,8 +87,8 @@ public class PeticioDeFirmaJPA implements PeticioDeFirma {
   /** 0: firma,
 1: cofirma 
 2: contrafirma. */
-    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="tipusoperaciofirma",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("0")
     int tipusOperacioFirma = 0;
 
     @Column(name="tipusfirmaid",nullable = false,length = 19)
@@ -113,8 +113,8 @@ public class PeticioDeFirmaJPA implements PeticioDeFirma {
     @Column(name="idiomaid",nullable = false,length = 5)
     java.lang.String idiomaID;
 
-    @org.hibernate.annotations.ColumnDefault("5")
     @Column(name="prioritatid",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("5")
     int prioritatID = 5;
 
     @Column(name="fluxdefirmesid",nullable = false,unique = true,length = 19)
@@ -175,8 +175,8 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     @Column(name="segellatdetemps",nullable = false,length = 1)
     boolean segellatDeTemps = false;
 
-    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="origenpeticiodefirma",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("0")
     int origenPeticioDeFirma = 0;
 
     @Column(name="configuraciodefirmaid",length = 19)

@@ -86,8 +86,8 @@ public class FirmaJPA implements Firma {
     @Column(name="motiu",length = 255)
     java.lang.String motiu;
 
-    @org.hibernate.annotations.ColumnDefault("0")
     @Column(name="minimderevisors",nullable = false,length = 10)
+    @org.hibernate.annotations.ColumnDefault("0")
     int minimDeRevisors = 0;
 
     @Column(name="checkadministrationidofsigner",length = 1)

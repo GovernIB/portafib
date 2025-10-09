@@ -95,6 +95,7 @@ import org.fundaciobit.pluginsib.signature.api.PolicyInfoSignature;
 import org.fundaciobit.pluginsib.signature.api.StatusSignature;
 import org.fundaciobit.pluginsib.signature.api.StatusSignaturesSet;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mobile.device.Device;
 import org.springframework.mobile.device.DeviceUtils;
 import org.springframework.stereotype.Controller;
@@ -717,7 +718,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         List<FileInfoFull> fileInfoFullArray = new ArrayList<FileInfoFull>();
 
         LoginInfo loginInfo = LoginInfo.getInstance();
-        String langUI = loginInfo.getUsuariPersona().getIdiomaID();
+        String langUI = LocaleContextHolder.getLocale().getLanguage();
 
         Set<Long> peticionsDeFirmaID = new HashSet<Long>();
         Map<String, List<Long>> pluginsFirmaBySignatureID = new HashMap<String, List<Long>>();
@@ -1093,7 +1094,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
         LoginInfo loginInfo = LoginInfo.getInstance();
 
-        final String langUI = loginInfo.getUsuariPersona().getIdiomaID();
+        final String langUI = LocaleContextHolder.getLocale().getLanguage(); //loginInfo.getUsuariPersona().getIdiomaID();
 
         Map<String, List<Long>> pluginsFirmaBySignatureID = new HashMap<String, List<Long>>();
         FileInfoFull fif = prepareFirmaItem(request, estatDeFirmaID, peticioDeFirmaID, langUI,
@@ -3214,7 +3215,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
     private Map<Long, SignatureValidationHelper> processSignaturesValidation(List<FitxerJPA> fitxers,
             Map<Long, List<Signature>> signatures) throws I18NException {
-        String lang = LoginInfo.getInstance().getUsuariPersona().getIdiomaID();
+        String lang = LocaleContextHolder.getLocale().getLanguage(); //LoginInfo.getInstance().getUsuariPersona().getIdiomaID();
         String entitat = LoginInfo.getInstance().getEntitatID();
 
         Map<Long, SignatureValidationHelper> signaturesValidation = new HashMap<Long, SignatureValidationHelper>();

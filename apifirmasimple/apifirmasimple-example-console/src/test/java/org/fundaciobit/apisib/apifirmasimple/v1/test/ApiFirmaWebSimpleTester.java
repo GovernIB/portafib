@@ -92,7 +92,7 @@ public class ApiFirmaWebSimpleTester {
                 filesToSign[i] = fileInfoSignature;
             }
 
-            final String languageUI = "ca";
+            final String languageUI = prop.getProperty("languageui","ca");
             final String username = prop.getProperty("signer.username");
             final String administrationID = prop.getProperty("signer.administrationid");
             String signerEmail = prop.getProperty("signer.email");

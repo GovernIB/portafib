@@ -33,8 +33,8 @@ public class TipusDocumentJPA implements TipusDocument {
     long nomID;
 
   /** Correspon només al tipus estandard (1 al 99) definits a les NTI */
-    @org.hibernate.annotations.ColumnDefault("99")
     @Column(name="tipusdocumentbaseid",nullable = false,length = 19)
+    @org.hibernate.annotations.ColumnDefault("99")
     long tipusDocumentBaseID = 99;
 
     @Column(name="descripcio",length = 1000)
