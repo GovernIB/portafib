@@ -313,25 +313,33 @@
                     <artifactId>xercesImpl</artifactId>
                 </exclusion>
 
-                <!-- Utilitzarem el bcprov de JBoss 7.2 -->
+                <!-- Utilitzarem el bcprov de JBoss 7.x -->
                 <exclusion>
                     <groupId>org.bouncycastle</groupId>
                     <artifactId>bcprov-jdk16</artifactId>
                 </exclusion>
-                <!-- Utilitzarem el bcmail de JBoss 7.2 -->
+                <!-- Utilitzarem el bcmail de JBoss 7.x -->
                 <exclusion>
                     <groupId>org.bouncycastle</groupId>
                     <artifactId>bcmail-jdk16</artifactId>
                 </exclusion>
 
+                <!--  Problemes amb JBoss 7.4 -->                
+                <exclusion>
+                    <groupId>jakarta.activation</groupId>
+                    <artifactId>jakarta.activation-api</artifactId>
+                </exclusion>
+
             </exclusions>
         </dependency>
 
+        <!--  Dependecies correctes de Integra-commons-xml -->
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15on</artifactId>
         </dependency>
 
+        <!--  Dependecies correctes de Integra-commons-xml -->
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcmail-jdk15on</artifactId>
@@ -445,4 +453,57 @@
             -->
         </plugins>
     </build>
+    
+    
+    <profiles>
+    
+        <!-- Profile jboss72: actiu per defecte -->
+        <profile>
+            <id>jboss72_def</id>
+            <activation>
+                <property>
+                    <name>!jboss</name>
+                </property>
+            </activation>
+            <dependencies>
+                <!-- Dependències específiques per a JBoss 7.2 -->
+            </dependencies>
+        </profile>
+    
+    
+        <!-- Profile jboss72: actiu per propietat -->
+        <profile>
+            <id>jboss72_explicit</id>
+            <activation>
+                <property>
+                    <name>jboss</name>
+                    <value>7.2</value>
+                </property>
+            </activation>
+            <dependencies>
+                <!-- Dependències específiques per a JBoss 7.2 -->
+
+            </dependencies>
+        </profile>
+
+        <!-- Profile jboss74: actiu per propietat -->
+        <profile>
+            <id>jboss74_explicit</id>
+            <activation>
+                <property>
+                    <name>jboss</name>
+                    <value>7.4</value>
+                </property>
+            </activation>
+            <dependencies>
+                <!-- Dependències específiques per a JBoss 7.4 -->
+                <!-- Dependecies correctes de Integra-commons-xml -->
+                <dependency>
+                    <groupId>jakarta.activation</groupId>
+                    <artifactId>jakarta.activation-api</artifactId>
+                    <version>1.2.2.redhat-00001</version>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>
