@@ -28,6 +28,7 @@
         <artifactId>caib-artifacts-jdk11-jboss72or74-with-github-governib-distribution</artifactId>
         <groupId>es.caib.maven</groupId>
         <version>1.0.1-SNAPSHOT</version>
+        <relativePath></relativePath>
     </parent>
 
     <licenses>
@@ -235,17 +236,13 @@
             <groupId>org.jboss.logging</groupId>
             <artifactId>commons-logging-jboss-logging</artifactId>
         </dependency>
-        <!-- NOU 
-        <dependency>
-            <groupId>com.sun.mail</groupId>
-            <artifactId>javax.mail</artifactId>
-        </dependency>-->
-        <!-- @Nullable annotation 
-        <dependency>
+
+        <!-- @Nullable annotation -->
+        <!-- NOU <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
-        </dependency>-->
+        </dependency> -->
         <!-- HTTP client: jersey-client -->
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
@@ -349,7 +346,7 @@
         <assertj-version>3.23.1</assertj-version>
         <junit-version>5.10.2</junit-version>
     </properties>
-        <profiles>
+    <profiles>
         <!-- Profile jboss72: actiu per defecte -->
         <profile>
             <id>jboss72_def</id>
@@ -359,7 +356,7 @@
                 </property>
             </activation>
             <dependencies>
-                <!-- DependÃ¨ncies especÃ­fiques per a JBoss 7.2 -->
+                <!-- Dependències específiques per a JBoss 7.2 -->
                 <dependency>
                     <groupId>com.sun.mail</groupId>
                     <artifactId>javax.mail</artifactId>
@@ -376,7 +373,7 @@
                 </property>
             </activation>
             <dependencies>
-                <!-- DependÃ¨ncies especÃ­fiques per a JBoss 7.2 -->
+                <!-- Dependències específiques per a JBoss 7.2 -->
                 <dependency>
                     <groupId>com.sun.mail</groupId>
                     <artifactId>javax.mail</artifactId>
@@ -393,7 +390,7 @@
                 </property>
             </activation>
             <dependencies>
-                <!-- DependÃ¨ncies especÃ­fiques per a JBoss 7.4 -->
+                <!-- Dependències específiques per a JBoss 7.4 -->
                 <dependency>
                     <groupId>com.google.code.findbugs</groupId>
                     <artifactId>jsr305</artifactId>

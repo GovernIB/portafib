@@ -54,7 +54,7 @@
         <dependency>
             <artifactId>pluginsib-utils-rest</artifactId>
             <groupId>org.fundaciobit.pluginsib.utils</groupId>
-            <version>3.0.1-SNAPSHOT</version>
+            <version>${pluginsib.utils.rest.version}</version>
             <exclusions>
                 <exclusion>
                     <!-- Esta en LIB de l'EAR -->
@@ -400,7 +400,7 @@
                     <dependency>
                         <artifactId>pluginsib-utils-rest</artifactId>
                         <groupId>org.fundaciobit.pluginsib.utils</groupId>
-                        <version>3.0.1-SNAPSHOT</version>
+                        <version>${pluginsib.utils.rest.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>

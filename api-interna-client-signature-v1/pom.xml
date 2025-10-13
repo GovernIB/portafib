@@ -28,6 +28,7 @@
         <artifactId>caib-artifacts-jdk11-jboss72or74-with-github-governib-distribution</artifactId>
         <groupId>es.caib.maven</groupId>
         <version>1.0.1-SNAPSHOT</version>
+        <relativePath></relativePath>
     </parent>
 
     <licenses>
@@ -235,46 +236,42 @@
             <groupId>org.jboss.logging</groupId>
             <artifactId>commons-logging-jboss-logging</artifactId>
         </dependency>
-        <!-- NOU 
-        <dependency>
-            <groupId>com.sun.mail</groupId>
-            <artifactId>javax.mail</artifactId>
-        </dependency>-->
+
         <!-- @Nullable annotation -->
-        <!-- <dependency>
+        <!-- NOU <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
-            <version>3.0.2</version> 
-            </dependency>-->
+            <version>3.0.2</version>
+        </dependency> -->
         <!-- HTTP client: jersey-client -->
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-client</artifactId>
             <!-- NOU <version>${resteasy-version}</version> -->
             <exclusions>
-                <exclusion>
-                    <groupId>org.jboss.resteasy</groupId>
-                    <artifactId>resteasy-jaxrs-services</artifactId>
+              <exclusion>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-jaxrs-services</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>net.jcip</groupId>
+                <artifactId>jcip-annotations</artifactId>
                 </exclusion>
-                <exclusion>
-                    <groupId>net.jcip</groupId>
-                    <artifactId>jcip-annotations</artifactId>
-                </exclusion>
-            </exclusions>
+              </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-multipart-provider</artifactId>
             <!-- NOU <version>${resteasy-version}</version> -->
             <exclusions>
-                <exclusion>
-                    <groupId>com.sun.xml.bind</groupId>
-                    <artifactId>jaxb-impl</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.sun.mail</groupId>
-                    <artifactId>javax.mail</artifactId>
-                </exclusion>
+              <exclusion>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-impl</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>javax.mail</artifactId>
+              </exclusion>
             </exclusions>
         </dependency>
         <!-- JSON processing: jackson -->
@@ -349,8 +346,6 @@
         <assertj-version>3.23.1</assertj-version>
         <junit-version>5.10.2</junit-version>
     </properties>
-
-
     <profiles>
         <!-- Profile jboss72: actiu per defecte -->
         <profile>
@@ -361,7 +356,7 @@
                 </property>
             </activation>
             <dependencies>
-                <!-- DependÃ¨ncies especÃ­fiques per a JBoss 7.2 -->
+                <!-- Dependències específiques per a JBoss 7.2 -->
                 <dependency>
                     <groupId>com.sun.mail</groupId>
                     <artifactId>javax.mail</artifactId>
@@ -378,7 +373,7 @@
                 </property>
             </activation>
             <dependencies>
-                <!-- DependÃ¨ncies especÃ­fiques per a JBoss 7.2 -->
+                <!-- Dependències específiques per a JBoss 7.2 -->
                 <dependency>
                     <groupId>com.sun.mail</groupId>
                     <artifactId>javax.mail</artifactId>
@@ -395,7 +390,7 @@
                 </property>
             </activation>
             <dependencies>
-                <!-- DependÃ¨ncies especÃ­fiques per a JBoss 7.4 -->
+                <!-- Dependències específiques per a JBoss 7.4 -->
                 <dependency>
                     <groupId>com.google.code.findbugs</groupId>
                     <artifactId>jsr305</artifactId>
@@ -404,5 +399,4 @@
             </dependencies>
         </profile>
     </profiles>
-
 </project>
