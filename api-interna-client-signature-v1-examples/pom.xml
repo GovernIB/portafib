@@ -11,6 +11,7 @@
         <artifactId>caib-artifacts-jdk11-jboss72or74-with-github-governib-distribution</artifactId>
         <groupId>es.caib.maven</groupId>
         <version>1.0.1-SNAPSHOT</version>
+        <relativePath></relativePath>
     </parent>
 
     <licenses>
