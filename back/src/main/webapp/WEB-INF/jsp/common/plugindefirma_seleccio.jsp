@@ -81,8 +81,8 @@
 
     <div class="well" style="max-width:400px; margin: 0 auto 10px;">
         <c:forEach items="${moduls}" var="modul">
-            <button type="button" id="plugin_${modul.codi}" class="btn btn-large btn-block btn-primary" style="white-space: normal;"
-                onclick="location.href='<c:url value="${thecontext}/showsignaturemodule/${modul.pluginID}/${signaturesSetID}"/>'">
+            <button type="button" id="plugin_${modul.codi}" class="btn btn-large btn-block btn-primary plugin-btn" style="white-space: normal;"
+                data-url="<c:url value="${thecontext}/showsignaturemodule/${modul.pluginID}/${signaturesSetID}"/>">
                 <b>${modul.nom.traduccions[lang].valor}</b><br> <small style="color: white;"> <i>${modul.descripcioCurta.traduccions[lang].valor}</i>
                 </small>
             </button>
@@ -93,9 +93,43 @@
         <button type="button" class="btn btn-block btn-secondary" style="white-space: normal;"
             onclick="location.href='<c:url value="${thecontext}/cancelSignatureSelection/${signaturesSetID}"/>'">
             <b><fmt:message key="genapp.cancel" /></b>
+        </button>
     </div>
 
     <br />
 
 </div>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const buttons = document.querySelectorAll('.plugin-btn');
+    let isProcessing = false;
+    
+    buttons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            if (isProcessing) {
+                e.preventDefault();
+                return;
+            }
+            
+            isProcessing = true;
+            
+            // Deshabilitar visualmente todos los botones
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                btn.classList.add('disabled');
+                btn.style.opacity = '0.6';
+                btn.style.cursor = 'not-allowed';
+            });
+            
+            // Obtener la URL del data attribute
+            const url = button.getAttribute('data-url');
+            
+            // Redirigir
+            setTimeout(() => {
+                window.location.href = '<c:url value="' + url + '"/>';
+            }, 150);
+        });
+    });
+});
+</script>
