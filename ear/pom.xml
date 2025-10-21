@@ -10,7 +10,7 @@
     <parent>
         <groupId>es.caib.portafib</groupId>
         <artifactId>portafib</artifactId>
-        <version>3.0.9</version>
+        <version>3.0.10</version>
     </parent>
     <properties>
         <timestamp>${maven.build.timestamp}</timestamp>
