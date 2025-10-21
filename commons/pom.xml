@@ -58,14 +58,83 @@
             <artifactId>jboss-logging</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
+
+        
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
+    
+    
+    
+    <profiles>
+        <!-- Profile jboss72: actiu per defecte -->
+        <profile>
+            <id>jboss72_def</id>
+            <activation>
+                <property>
+                    <name>!jboss</name>
+                </property>
+            </activation>
+            <dependencies>
+                <!-- Dependències específiques per a JBoss 7.2 -->
+                <dependency>
+                    <groupId>javax</groupId>
+                    <artifactId>javaee-api</artifactId>
+                </dependency>
+                
+            </dependencies>
+        </profile>
+    
+    
+        <!-- Profile jboss72: actiu per propietat -->
+        <profile>
+            <id>jboss72_explicit</id>
+            <activation>
+                <property>
+                    <name>jboss</name>
+                    <value>7.2</value>
+                </property>
+            </activation>
+            <dependencies>
+                <!-- Dependències específiques per a JBoss 7.2 -->
+                <dependency>
+                    <groupId>javax</groupId>
+                    <artifactId>javaee-api</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <!-- Profile jboss74: se activa manualmente -->
+        <profile>
+            <id>jboss74_explicit</id>
+            <activation>
+                <property>
+                    <name>jboss</name>
+                    <value>7.4</value>
+                </property>
+            </activation>
+            <dependencies>
+                <!-- Dependències específiques per a JBoss 7.4 -->
+                <dependency>
+                    <groupId>jakarta.inject</groupId>
+                    <artifactId>jakarta.inject-api</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>jakarta.enterprise</groupId>
+                    <artifactId>jakarta.enterprise.cdi-api</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                  <groupId>org.jboss.spec.javax.annotation</groupId>
+                  <artifactId>jboss-annotations-api_1.3_spec</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+    
+    
 </project>

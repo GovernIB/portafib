@@ -21,9 +21,19 @@
             <module name="com.fasterxml.jackson.core.jackson-databind" export="TRUE"/>
             <module name="com.fasterxml.jackson.datatype.jackson-datatype-jsr310" export="TRUE"/>
             <module name="com.fasterxml.jackson.jaxrs.jackson-jaxrs-json-provider" export="TRUE"/>
+
             <module name="com.github.fge.jackson-coreutils" export="TRUE"/>
             <module name="com.github.fge.json-patch" export="TRUE"/>
+            
+            <!--  JBoss 7.4 les inclou com a mòdul però JBoss 7.2 no !!!!! --> 
+            <!--
+            <module name="com.github.fge.btf" export="TRUE"/>
+            <module name="com.github.fge.msg-simple" export="TRUE"/>
+            -->
             <module name="com.google.guava" export="TRUE"/>
+            
+            <!--  JBoss 7.4 les inclou com a mòdul però JBoss 7.2 no !!!!! --> 
+            <!-- <module name="com.google.guava.failureaccess" export="TRUE"/> -->
             <module name="com.squareup.okhttp3" export="TRUE"/>
             <module name="com.sun.istack" export="TRUE"/>
             <module name="com.sun.xml.bind" export="TRUE"/>
@@ -32,10 +42,15 @@
             <module name="com.sun.xml.txw2" export="TRUE"/>
             <module name="javax.activation.api" export="TRUE"/>
             <module name="javax.annotation.api" export="TRUE"/>
-            <module name="javax.json.bind.api" export="TRUE"/>
+            <module name="javax.ejb.api" export="TRUE"/>
+            <module name="javax.enterprise.api" export="TRUE"/>
+            <module name="javax.inject.api" export="TRUE"/>
+            <module name="javax.interceptor.api" export="TRUE"/>
+            <module name="javax.json.bind.api" export="TRUE"/>            
             <module name="javax.jws.api" export="TRUE"/>
             <module name="javax.mail.api" export="TRUE"/>
             <module name="javax.persistence.api" export="TRUE"/>
+            <module name="javax.transaction.api" export="TRUE"/>
             <module name="javax.validation.api" export="TRUE"/>
             <module name="javax.ws.rs.api" export="TRUE"/>
             <module name="javax.wsdl4j.api" export="TRUE"/>

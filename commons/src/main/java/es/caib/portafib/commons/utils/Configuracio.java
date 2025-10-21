@@ -1,8 +1,5 @@
 package es.caib.portafib.commons.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -11,6 +8,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
+import org.jboss.logging.Logger;
+
 /**
  * 
  * @author anadal
@@ -18,7 +17,7 @@ import java.util.Properties;
  */
 public class Configuracio implements Constants {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Configuracio.class);
+    private static final Logger LOG = Logger.getLogger(Configuracio.class);
 
     public static final Map<String, Propietat> PROPIETATS_FITXER_PORTAFIB_PROPERTIES = new HashMap<String, Propietat>();
     

@@ -17,11 +17,20 @@
 
     <dependencies>
         <!-- Especificacions i llibreries proporcionades per JBoss -->
+        <!-- 
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <scope>provided</scope>
         </dependency>
+         -->
+        <!-- Servlet API -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_4.0_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -412,7 +421,12 @@
                 <configuration>
                     <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
                     
-                    <packagingExcludes>**/snakeyaml*redhat*.jar</packagingExcludes>
+                    <packagingExcludes>
+                        **/snakeyaml*redhat*.jar,
+                        <!--  Requereix el mòdul "javax.xml.bind.api" a jboss-deployment-structure.xml de l'ear -->
+                        **/jakarta.xml.bind-api-2.3.3.jar
+
+                    </packagingExcludes>
                     
                     <webResources>
                         <resource>
