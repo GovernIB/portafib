@@ -419,11 +419,13 @@ public class SignatureModuleController extends HttpServlet {
         {
             if (signaturesSet.getStartDate() != null) {
                 //Utils.printRequestInfo(request);
-                String msg = "Algú ja ha accedit a aquesta url amb transacció ID igual " + signaturesSetID
-                        + ". Revisi de no obrir més d'una vegada aquesta url " + request.getRequestURL() + " (Usuari = "
-                        + signaturesSet.getUsr() + ")";
-                log.error(msg);
-                return generateErrorMAV(request, signaturesSetID, msg, null);
+                String msgBase = "Algú ja ha accedit a aquesta url amb transacció ID igual " + signaturesSetID;
+                String msgLog = "SIGNATUREMODULECONTROLLER:: " + msgBase + ". Revisi de no obrir més d'una vegada aquesta url " + request.getRequestURL() 
+                        + " (usrapp = " + signaturesSet.getUsr() + " | NIF = "
+                        + signaturesSet.getCommonInfoSignature().getAdministrationID() + ")";
+                log.error(msgLog);
+                String msgError = msgBase + ". Si us plau torni a intentar la signatura.";
+                return generateErrorMAV(request, signaturesSetID, msgError, null);
             }
 
             signaturesSet.setStartDate(new Date());

@@ -92,11 +92,13 @@ public class PassarelaDeFirmaController {
         {
             if (ssf.getStartDate() != null) {
                 //Utils.printRequestInfo(request);
-                String msg = "Algú ja ha accedit a aquesta url amb transacció ID igual " + signaturesSetID
-                        + ". Revisi de no obrir més d'una vegada aquesta url " + request.getRequestURL() + " (usrapp = "
-                        + ssf.getApplicationID() + ")";
-                log.error(msg);
-                throw new Exception(msg);
+                String msgBase = "Algú ja ha accedit a aquesta url amb transacció ID igual " + signaturesSetID;
+                String msgLog = "PASSARELA:: " + msgBase + ". Revisi de no obrir més d'una vegada aquesta url " + request.getRequestURL() 
+                        + " (usrapp = " + ssf.getApplicationID() + " | NIF = "
+                        + ssf.getSignaturesSet().getCommonInfoSignature().getAdministrationID() + ")";
+                log.error(msgLog);
+                String msgError = msgBase + ". Si us plau torni a intentar la signatura.";
+                throw new Exception(msgError);
             }
 
             ssf.setStartDate(new Date());
