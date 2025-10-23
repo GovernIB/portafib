@@ -301,22 +301,30 @@
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
-            <version>3.0.1</version>
+            <version>3.0.3</version>
             <exclusions>
                <exclusion>
                    <groupId>org.junit.jupiter</groupId>
                    <artifactId>junit-jupiter</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>commons-logging</groupId>
+                   <artifactId>commons-logging</artifactId>
                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox-tools</artifactId>
-            <version>3.0.1</version>
+            <version>3.0.3</version>
             <exclusions>
                <exclusion>
                    <groupId>org.junit.jupiter</groupId>
                    <artifactId>junit-jupiter</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>commons-logging</groupId>
+                   <artifactId>commons-logging</artifactId>
                </exclusion>
             </exclusions>
         </dependency>
@@ -324,7 +332,7 @@
         <dependency>
             <groupId>de.redsix</groupId>
             <artifactId>pdfcompare</artifactId>
-            <version>1.2.2</version>
+            <version>1.2.5</version>
         </dependency>
 
         <!-- Validació CAdES i XAdES -->

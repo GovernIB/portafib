@@ -443,6 +443,12 @@
             <groupId>org.fundaciobit.pluginsib.validatesignature</groupId>
             <artifactId>pluginsib-validatesignature-afirmacxf</artifactId>
             <version>${plugins.validatesignature.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.pdfbox</groupId>
+                    <artifactId>pdfbox</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 

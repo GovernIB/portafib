@@ -235,7 +235,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                     int posTaulaDeFirmes = validacioRequest.getPosTaulaDeFirmes();
 
                     PdfComparator.compare(validacioRequest.getAdaptedData(), validacioRequest.getSignatureData(),
-                            tmpDir, posTaulaDeFirmes, validateChangesInAttachedFiles);
+                            tmpDir, posTaulaDeFirmes, validateChangesInAttachedFiles, false);
 
                     checkDocumentModifications = true;
                 }

@@ -302,3 +302,4 @@ api-interna-client-signature-v1-examples/apifirmawebsimple.properties
 /api-interna-client-signature-v1-examples/results
 /doc/info/ExplicacioDelegatsCol.laboradorsRevisors.pdf
 /api-interna-client-signature-v1-examples/src/main/java/es/caib/portafib/apiinterna/client/signature/v1/example/api/MyPlantillaDeFluxDeFirmaV1ApiTest.java
+/ejb/testComparePdfs

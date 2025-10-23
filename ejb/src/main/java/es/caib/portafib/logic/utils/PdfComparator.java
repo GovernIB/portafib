@@ -2,8 +2,9 @@ package es.caib.portafib.logic.utils;
 
 import com.itextpdf.text.pdf.PdfReader;
 
-import de.redsix.pdfcompare.CompareResult;
-import de.redsix.pdfcompare.CompareResultWithExpectedAndActual;
+import de.redsix.pdfcompare.AbstractCompareResultWithSwap;
+import de.redsix.pdfcompare.ImageWithDimension;
+import de.redsix.pdfcompare.PageDiffCalculator;
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.commons.io.FileUtils;
@@ -21,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +36,85 @@ public class PdfComparator implements ConstantsV2 {
 
     protected static Logger log = Logger.getLogger(PdfComparator.class);
 
+
+    /**
+     * 
+     * @author anadal
+     * 23 oct 2025 11:33:42
+     */
+    public static class CompareResultImplDisk extends AbstractCompareResultWithSwap {
+        //CompareResultWithMemoryOverflow   CompareResultWithPageOverflow
+        /* AbstractCompareResultWithSwap */
+
+        protected final int maxDiffPages;
+
+        protected final boolean debug;
+
+        private boolean stop = false;
+
+        protected int count = 0;
+
+        public CompareResultImplDisk(int maxDiffPages, boolean debug) {
+            super();
+            this.maxDiffPages = maxDiffPages;
+            this.debug = debug;
+        }
+
+        @Override
+        public synchronized void addPage(final PageDiffCalculator diffCalculator, final int pageIndex,
+                final ImageWithDimension expectedImage, final ImageWithDimension actualImage,
+                final ImageWithDimension diffImage) {
+
+            if (!stop) {
+                super.addPage(diffCalculator, pageIndex, expectedImage, actualImage, diffImage);
+            }
+
+        }
+
+        @Override
+        protected boolean needToSwap() {
+
+            /*
+            count++;
+            
+            if (count % 10 == 0) {
+                System.out.println(" - " + count + " - ");
+            }
+            return super.needToSwap();
+            */
+
+            diffImages.clear();
+
+            count++;
+
+            if (debug) {
+
+                if (count % 5 == 0) {
+                    log.info(" - " + count + " - ");
+                }
+            }
+
+            if (getDifferences().size() > maxDiffPages) {
+                if (debug) {
+                    String msg = "Ja hi ha massa diferències. Indicam que hem d'aturar";
+                    log.info(msg);
+
+                }
+                this.stop = true;
+                //this.noPagesFound();
+                //throw new CompareException("Massa diferències");
+                return true;
+            }
+
+            if (count % 5 == 0) {
+                System.gc();
+            }
+            return true;
+
+        }
+
+    }
+
     /**
      * 
      * @param adaptat
@@ -43,106 +124,54 @@ public class PdfComparator implements ConstantsV2 {
      * @throws I18NException
      */
     public static void compare(IPortaFIBDataSource adaptat, IPortaFIBDataSource signed, File tmpDir,
-            int posTaulaDeFirmes, boolean validateChangesInAttachedFiles) throws I18NException {
+            int posTaulaDeFirmes, boolean validateChangesInAttachedFiles, boolean debug) throws I18NException {
 
-        int esborrar = -1; // -1 significa esborrar les imatges generades
-
-        int start;
-        int end;
-
-        switch (posTaulaDeFirmes) {
-
-            case TAULADEFIRMES_SENSETAULA:
-                start = 0;
-                end = 0;
-            break;
-            case TAULADEFIRMES_PRIMERAPAGINA:
-                start = 1;
-                end = 0;
-            break;
-            case TAULADEFIRMES_DARRERAPAGINA:
-                start = 0;
-                end = 1;
-            break;
-
-            default:
-                // XYZ ZZZ TRA
-                throw new I18NException("Posició de Taula de Firmes Desconeguda: " + posTaulaDeFirmes);
+        int maxDiffPages;
+        if (posTaulaDeFirmes == TAULADEFIRMES_SENSETAULA) {
+            maxDiffPages = 0;
+        } else if (posTaulaDeFirmes == TAULADEFIRMES_PRIMERAPAGINA || posTaulaDeFirmes == TAULADEFIRMES_DARRERAPAGINA) {
+            maxDiffPages = 1;
+        } else {
+            // XYZ ZZZ TRA
+            throw new I18NException("genapp.comodi", "Posició de Taula de Firmes Desconeguda: " + posTaulaDeFirmes);
         }
 
-        if (start == 0 && end == 0) {
+        {
 
-            de.redsix.pdfcompare.PdfComparator<CompareResultWithExpectedAndActual> pc;
+            if (debug) {
+                printMemory("(A) Abans de PdfComparator: ");
+            }
 
-            pc = new de.redsix.pdfcompare.PdfComparator<CompareResultWithExpectedAndActual>(adaptat.getInputStream(),
-                    signed.getInputStream());
-            CompareResult comp;
+            de.redsix.pdfcompare.PdfComparator<CompareResultImplDisk> pc;
+
+            CompareResultImplDisk comp = new CompareResultImplDisk(maxDiffPages, debug);
+            pc = new de.redsix.pdfcompare.PdfComparator<>(adaptat.getInputStream(), signed.getInputStream(), comp);
+
             try {
                 comp = pc.compare();
             } catch (Exception e) {
                 throw new I18NException("genapp.comodi",
                         "Error intentant comparar el document adaptat i del document signat: " + e.getMessage());
             }
-            if (!comp.isEqual()) {
+
+            Collection<Integer> pages = comp.getPagesWithDifferences();
+            // Sempre hi haurà una pàgina diferent que serà la primera o la darrera,
+            // En el cas de que n'hi hagi més d'una, significa que hi ha més diferències
+            if (pages.size() > maxDiffPages) {
                 throw new I18NException("genapp.comodi",
                         "Hi ha diferències entre el document adaptat i del document signat: "
                                 + comp.getDifferencesJson());
             }
 
-        } else {
-
-            String prefix = System.currentTimeMillis() + "_" + System.nanoTime();
-
-            File[] adaptades = null;
-
-            File[] signats = null;
-            // 1 Compara les Imatges
-            try {
-
-                //log.info(" PdfComparator():: generateImagesOfPDF => ORIG");
-                adaptades = generateImagesOfPDF(prefix + "_orig", adaptat, tmpDir, start, end);
-
-                //log.info(" PdfComparator():: generateImagesOfPDF => SIGN");
-                signats = generateImagesOfPDF(prefix + "_sign", signed, tmpDir, start, end);
-
-                if (adaptades.length != signats.length) {
-                    // XYZ ZZZ TRA
-                    throw new I18NException("genapp.comodi",
-                            "El numero de pàgines del fitxer adaptat" + " i del firmat son diferents: orig["
-                                    + adaptades.length + "] i signat[" + signats.length + "] ");
-                }
-
-                for (int i = 0; i < signats.length; i++) {
-
-                    try {
-                        //log.info("PdfComparator():: contentEquals[" + i + "]");
-                        if (!FileUtils.contentEquals(adaptades[i], signats[i])) {
-                            // XYZ ZZZ TRA
-                            esborrar = i; // ignorar l'esborrat d'aquesta pàgina
-                            throw new I18NException("genapp.comodi",
-                                    "La pàgina " + (start + i + 1)
-                                            + " del document adaptat i del document signat són diferents: "
-                                            + adaptades[i].getAbsolutePath() + " != " + signats[i].getAbsolutePath());
-                        }
-                    } catch (IOException e) {
-                        // XYZ ZZZ TRA
-                        throw new I18NException("genapp.comodi",
-                                "No es poden llegir algunes de les imatges de la pàgina " + (start + i + 1)
-                                        + " del PDF: " + e.getMessage());
-                    }
-                }
-
-            } finally {
-                //log.info("PdfComparator():: cleanFiles");
-                clean(adaptades, esborrar);
-                clean(signats, esborrar);
-                // System.gc();
-                adaptades = null;
-                signats = null;
+            if (debug) {
+                printMemory("(A) Despres de PdfComparator: ");
             }
+
         }
 
-        log.info("validateChangesInAttachedFiles = " + validateChangesInAttachedFiles);
+        if (debug) {
+            log.info("validateChangesInAttachedFiles = " + validateChangesInAttachedFiles);
+        }
 
         if (validateChangesInAttachedFiles) {
             // XYZ ZZZ Falta revisar Annexos que s'hagin mantingut
@@ -226,6 +255,13 @@ public class PdfComparator implements ConstantsV2 {
                 clean(firmatsAdjunts);
             }
         }
+
+    }
+
+    protected static void printMemory(String titol) {
+        Runtime runtime = Runtime.getRuntime();
+        log.info(titol + "Memòria  " + runtime.freeMemory() / (1024 * 1024) + "/"
+                + runtime.totalMemory() / (1024 * 1024));
 
     }
 

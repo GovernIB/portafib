@@ -22,40 +22,87 @@ public class ComparePdfTester implements ConstantsV2 {
         tmpDir.mkdirs();
 
         String[][] testFiles = new String[][] {
-                { "Edictes-PDF-A-1a amb annexos.pdf", "Edictes-PDF-A-1a amb annexos-signed.pdf",
+
+            
+                { "testComparePdfs/PLAN IGUALDAD APB 2025-2029 (Versión final)-signat.pdf",
+                        "testComparePdfs/PLAN IGUALDAD APB 2025-2029 (Versión final)-signat.pdf",
+                        "" + TAULADEFIRMES_SENSETAULA },
+
+                /*
+                { "testComparePdfs/BIG_10MB.pdf", "testComparePdfs/BIG_10MB_signed.pdf",
+                        "" + TAULADEFIRMES_SENSETAULA },
+                { "testComparePdfs/BIG_10MB.pdf", "testComparePdfs/BIG_10MB_signed.pdf",
+                            "" + TAULADEFIRMES_SENSETAULA },
+                */
+                /*
+                { "testComparePdfs/BIG_33MB.pdf", "testComparePdfs/BIG_33MB_signed.pdf",
+                "" + TAULADEFIRMES_SENSETAULA },
+                */
+                /*
+                { "testComparePdfs/BIG_33MB.pdf", "testComparePdfs/BIG_33MB_signed.pdf",
+                    "" + TAULADEFIRMES_SENSETAULA },
+                */
+
+                /*
+                { "testComparePdfs/BIG_10MB_TAULA_PRIMERA_PAGINA.pdf", "testComparePdfs/BIG_10MB_TAULA_PRIMERA_PAGINA_signed.pdf",
+                "" + TAULADEFIRMES_PRIMERAPAGINA },
+                
+                
+                { "testComparePdfs/BIG_10MB_TAULA_PRIMERA_PAGINA.pdf", "testComparePdfs/BIG_10MB_TAULA_PRIMERA_PAGINA_signed.pdf",
+                    "" + TAULADEFIRMES_PRIMERAPAGINA }, 
+                    */
+            
+            
+            // ERROR
+                /*
+            {
+                
+                        "testComparePdfs/BIG_10MB.pdf",
+                        "testComparePdfs/BIG_19MB.pdf", "" + TAULADEFIRMES_PRIMERAPAGINA },
+
+                */
+            
+            
+            
+                
+
+                /*    { "Edictes-PDF-A-1a amb annexos.pdf", "Edictes-PDF-A-1a amb annexos-signed.pdf",
                         "" + TAULADEFIRMES_SENSETAULA },
                 { "Test_5_Adobe_PDF_simple.pdf", "Test_5-BIS_RESULT_OK.pdf", "" + TAULADEFIRMES_SENSETAULA },
                 { "A4 Portrait PDF-A-1a.pdf", "Test_5-BIS_RESULT_OK.pdf", "" + TAULADEFIRMES_SENSETAULA },
                 { "A4 Portrait PDF-A-1a.pdf", "A4 Portrait PDF-A-1a-signed.pdf", "" + TAULADEFIRMES_SENSETAULA },
-
+                
                 { "Test_3_Qoopa_Sense_revisio_1a_firma.pdf", "Test_3_RESULT_OK.pdf", "" + TAULADEFIRMES_SENSETAULA },
-                /* { "Error_Dictionary_OutOfBounds_P.O.16.19_ADAP_TAULA_FIRST_PAGE.pdf",
+                 { "Error_Dictionary_OutOfBounds_P.O.16.19_ADAP_TAULA_FIRST_PAGE.pdf",
                   "Error_Dictionary_OutOfBounds_P.O.16.19_SIGNED.pdf" , "" +
                   TAULADEFIRMES_PRIMERAPAGINA },*/
-
+                /*
                 { "RV1_nov-18_FIRMADO.pdf", "RV1_nov-18_FIRMADO_AMB_PORTAFIB_2_firmes.pdf",
                         "" + TAULADEFIRMES_SENSETAULA },
-
+                
                 { "E18-0142.Acta.de.replanteo.signed.pdf", "E18-0142.Acta.de.replanteo.signed_FIRMAT_AMB _PORTAFIB.pdf",
                         "" + TAULADEFIRMES_SENSETAULA },
-
+                
                 { "TD110_QG_151023.pdf", "TD110_QG_151023_firmado.pdf", "" + TAULADEFIRMES_PRIMERAPAGINA },
-
+                
                 { "TONI_REUS_ORIGINAL.pdf", "TONI_REUS_3_FIRMES.pdf", "" + TAULADEFIRMES_SENSETAULA },
+                */
                 /*
                          { "Fitxer_5Mb_Adapt_Amb_ATTACHED.pdf", "Fitxer_5Mb_Adapt_Amb_ATTACHED_SIGNED.pdf",
                          "" + TAULADEFIRMES_SENSETAULA },*/
-
+                /*
                 { "Fitxer_5Mb_Adapt_Amb_ATTACHED.pdf", "Fitxer_5Mb_Adapt_Amb_ATTACHED_FALTA_1_ADJUNT_SIGNED.pdf",
                         "" + TAULADEFIRMES_SENSETAULA },
-
+                
                 { "Fitxer_5Mb_Adapt_Amb_ATTACHED.pdf", "Fitxer_5Mb_Adapt_Amb_ATTACHED_DIFERENTS_ADJUNTS_SIGNED.pdf",
                         "" + TAULADEFIRMES_SENSETAULA }
+                        */
 
         };
 
-        final File testDir = new File(
-                "D:\\dades\\dades\\CarpetesPersonals\\OTAE\\productes\\PortaFIB\\PORTAFIB_MISC\\FIRMATS_NO_PORTAFIB_MULTIPLES_FIRMES");
+        final File testDir = new File("./"
+        // "D:\\dades\\dades\\CarpetesPersonals\\OTAE\\productes\\PortaFIB\\PORTAFIB_MISC\\FIRMATS_NO_PORTAFIB_MULTIPLES_FIRMES"
+        );
 
         long totaltime = 0;
         long totalsizes = 0;
@@ -70,7 +117,7 @@ public class ComparePdfTester implements ConstantsV2 {
             String error = null;
             try {
                 PdfComparator.compare(new FileDataSource(adap), new FileDataSource(sign), tmpDir,
-                        Integer.parseInt(testFiles[i][2]), administrationIdCanBeValidatedFromPlugin);
+                        Integer.parseInt(testFiles[i][2]), administrationIdCanBeValidatedFromPlugin, false);
             } catch (I18NException e) {
 
                 error = e.getTraduccio().getArgs()[0].getValue();
@@ -78,25 +125,27 @@ public class ComparePdfTester implements ConstantsV2 {
 
             long end = System.currentTimeMillis();
 
+            long time = (end - start);
+         // Estadistiques 
+
+            try {
+                PDDocument doc = Loader.loadPDF(sign);
+                totalpages = totalpages + doc.getNumberOfPages();
+                totalsizes = totalsizes + sign.length();
+                totaltime = totaltime + time;
+
+                doc.close();
+
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             if (error == null) {
-                long time = (end - start);
+               
                 System.out.println(
                         " Test[" + i + "]:{OK}\t" + adap.length() + "\t" + sign.length() + "\t" + time + " ms");
 
-                // Estadistiques 
-
-                try {
-                    PDDocument doc = Loader.loadPDF(sign);
-                    totalpages = totalpages + doc.getNumberOfPages();
-                    totalsizes = totalsizes + sign.length();
-                    totaltime = totaltime + time;
-
-                    doc.close();
-
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                
 
             } else {
                 System.err.println(" Test[" + i + "]:{ERR}\t" + adap.length() + "\t" + sign.length() + "\t"
@@ -112,7 +161,10 @@ public class ComparePdfTester implements ConstantsV2 {
         System.out.println("---------- ESTADISTIQUES -------------");
 
         System.out.println(" Temps per MEGA = " + (totalsizes / (1024.0)) / (totaltime / 1000) + " KB/s");
-        System.out.println(" Temps per PAGINES = " + (totalpages) / (totaltime / 1000) + " Pag/s");
+        System.out.println(" Temps per PAGINES = " + (float) totalpages / ((float) totaltime / 1000.0) + " Pag/s");
+        System.out.println(" Temps TOTAL = " + totaltime + " ms");
+
+        PdfComparator.printMemory("final");
 
         System.err.println("Final!");
     }
