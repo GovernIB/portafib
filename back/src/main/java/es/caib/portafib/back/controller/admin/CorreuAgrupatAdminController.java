@@ -20,6 +20,7 @@ import es.caib.portafib.back.form.webdb.CorreuAgrupatFilterForm;
 import es.caib.portafib.back.form.webdb.CorreuAgrupatForm;
 import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.logic.CorreuAgrupatLogicaLocal;
+import es.caib.portafib.logic.scheduler.AbstractScheduler.ControlOfExecution;
 
 /**
  * 
@@ -70,9 +71,23 @@ public class CorreuAgrupatAdminController extends CorreuAgrupatController {
             correuAgrupatFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(IconUtils.ICON_ENVELOPE,
                     "agruparcorreus.enviar", getContextWeb() + "/enviar/{0}", AdditionalButtonStyle.WARNING));
 
+            correuAgrupatFilterForm.addAdditionalButton(
+                    new AdditionalButton(IconUtils.ICON_ENVELOPE, "agruparcorreus.enviartotscorreus",
+                            getContextWeb() + "/enviarcorreusagrupats", AdditionalButtonStyle.WARNING));
         }
 
         return correuAgrupatFilterForm;
+    }
+
+    @RequestMapping(value = "/enviarcorreusagrupats")
+    public ModelAndView enviarCorreusAgrupats(HttpServletRequest request) throws I18NException {
+        ModelAndView mav = new ModelAndView("redirect:" + getContextWeb() + "/list");
+
+        ControlOfExecution coe = new ControlOfExecution(3 * 60 * 1000); // 3 minuts
+
+        correuAgrupatLogicaEjb.enviarCorreusAgrupatsDeBBDD(coe);
+
+        return mav;
     }
 
     /**

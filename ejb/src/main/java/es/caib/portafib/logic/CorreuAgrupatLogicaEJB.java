@@ -4,8 +4,10 @@ import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.ejb.CorreuAgrupatEJB;
 import es.caib.portafib.logic.scheduler.AbstractScheduler.ControlOfExecution;
 import es.caib.portafib.logic.utils.EmailUtil;
+import es.caib.portafib.model.bean.CorreuAgrupatBean;
 import es.caib.portafib.model.entity.CorreuAgrupat;
 import es.caib.portafib.model.fields.CorreuAgrupatFields;
+import es.caib.portafib.model.fields.CorreuAgrupatQueryPath;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,6 +25,10 @@ import org.fundaciobit.genapp.common.i18n.I18NCommonUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.OrderType;
+import org.fundaciobit.genapp.common.query.SelectDistinct;
+import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.query.selectcolumn.Select2Columns;
+import org.fundaciobit.genapp.common.query.selectcolumn.Select2Values;
 
 /**
  * 
@@ -38,7 +44,6 @@ public class CorreuAgrupatLogicaEJB extends CorreuAgrupatEJB implements CorreuAg
     @EJB(mappedName = CorreuAgrupatLogicaLocal.JNDI_NAME)
     protected CorreuAgrupatLogicaLocal used_to_avoid_self_invocation_problem;;
 
-    
     @Override
     public Map<String, Integer> enviarCorreusAgrupatsDeBBDD(ControlOfExecution coe) throws I18NException {
 
@@ -55,15 +60,63 @@ public class CorreuAgrupatLogicaEJB extends CorreuAgrupatEJB implements CorreuAg
             log.debug("Iniciant enviament de correus agrupats de bbdd ...");
         }
 
-        List<CorreuAgrupat> emailsAgrupats = this.select(new OrderBy(CorreuAgrupatFields.DATACREACIO, OrderType.ASC));
+        List<String> usuariEntitatsIDs = this
+                .executeQuery(new SelectDistinct<String>(CorreuAgrupatFields.USUARIENTITATID), (OrderBy[]) null);
 
-        for (CorreuAgrupat email : emailsAgrupats) {
+        Map<String, String> idiomaPerUsuariMap = new HashMap<>();
+        {
+
+            Select2Columns<String, String> select = new Select2Columns<String, String>(
+                    CorreuAgrupatFields.USUARIENTITATID.select,
+                    new CorreuAgrupatQueryPath().USUARIENTITAT().USUARIPERSONA().IDIOMAID().select);
+            Where w = CorreuAgrupatFields.USUARIENTITATID.in(usuariEntitatsIDs);
+            List<Select2Values<String, String>> idiomaPerUsuari = this.executeQuery(select, w);
+
+            for (Select2Values<String, String> sv : idiomaPerUsuari) {
+                idiomaPerUsuariMap.put(sv.getValue1(), sv.getValue2());
+            }
+        }
+
+        for (String usrEntID : usuariEntitatsIDs) {
+
+            List<CorreuAgrupat> emailsAgrupats = this.select(CorreuAgrupatFields.USUARIENTITATID.equal(usrEntID),
+                    new OrderBy(CorreuAgrupatFields.DATACREACIO, OrderType.ASC));
 
             if (isDebug) {
-                log.info("Enviat correu agrupat de bbdd a " + email.getSubject());
+                log.info("S'han trobat " + emailsAgrupats.size() + " correus agrupats de bbdd per enviar a l´usuari"
+                        + usrEntID);
             }
 
-            enviarCorreuAgrupat(result, email);
+            StringBuffer html = new StringBuffer();
+            long[] ids = new long[emailsAgrupats.size()];
+            int count = 0;
+            for (CorreuAgrupat ca : emailsAgrupats) {
+                if (html.length() != 0) {
+                    html.append("<br/><br/><hr/><br/><br/>");
+                }
+                html.append(ca.getMessage());
+                ids[count] = ca.getCorreuAgrupatID();
+                count++;
+            }
+
+            CorreuAgrupat correuAgrupatUnic = CorreuAgrupatBean.toBean(emailsAgrupats.get(0));
+
+            String lang = idiomaPerUsuariMap.get(correuAgrupatUnic.getUsuariEntitatID());
+
+            if (lang == null || lang.trim().isEmpty()) {
+                lang = "ca";
+            }
+
+            correuAgrupatUnic.setMessage(html.toString());
+
+            String subject = I18NCommonUtils.tradueix(new Locale(lang), "agruparcorreus.subject");
+
+            enviarCorreuAgrupat(result, correuAgrupatUnic.getEmail(), subject, html.toString(), ids);
+
+            if (coe.mustExitOfMethod()) {
+                log.warn("S'ha superat el timeout d'enviament de correus agrupats de bbdd, s'aturen els enviaments");
+                break;
+            }
 
             // Per no saturar (1) el servidor, (2) ni l'enviament de correus (3) ni la firma de sol·licituds 
             try {
@@ -72,10 +125,6 @@ public class CorreuAgrupatLogicaEJB extends CorreuAgrupatEJB implements CorreuAg
                 e.printStackTrace();
             }
 
-            if (coe.mustExitOfMethod()) {
-                log.warn("S'ha superat el timeout d'enviament de correus agrupats de bbdd, s'aturen els enviaments");
-                break;
-            }
         }
 
         if (isDebug) {
@@ -93,7 +142,8 @@ public class CorreuAgrupatLogicaEJB extends CorreuAgrupatEJB implements CorreuAg
             log.warn("No s'ha trobat el correu agrupat amb id " + correuAgrupatId + ", no s'ha enviat res");
             return null;
         }
-        return enviarCorreuAgrupat(result, email);
+        return enviarCorreuAgrupat(result, email.getEmail(), email.getSubject(), email.getMessage(),
+                Long.valueOf(email.getCorreuAgrupatID()));
     }
 
     /**
@@ -102,43 +152,47 @@ public class CorreuAgrupatLogicaEJB extends CorreuAgrupatEJB implements CorreuAg
      * @param email
      * @return
      */
-    protected String enviarCorreuAgrupat(Map<String, Integer> result, CorreuAgrupat email) {
+    protected String enviarCorreuAgrupat(Map<String, Integer> result, String email, String subject, String message,
+            long... ids) {
         String error = null;
         try {
-            EmailUtil.postMail(email.getSubject(), email.getMessage(), email.isHtml(), Configuracio.getAppEmail(),
-                    email.getEmail());
+            final boolean isHtml = true;
+            EmailUtil.postMail(subject, message, isHtml, Configuracio.getAppEmail(), email);
 
-            Integer missatges = result.get(email.getEmail());
+            Integer missatges = result.get(email);
 
             if (missatges == null) {
                 missatges = 0;
             }
             missatges++;
 
-            result.put(email.getEmail(), missatges);
+            result.put(email, missatges);
 
-            this.delete(email);
+            if (ids != null && ids.length > 0) {
+                for (long id : ids) {
+                    this.delete(id);
+                }
+            }
 
         } catch (I18NException e) {
             // XYZ ZZZ TRA TODO 
-            error = SDF.format(new Date()) + "Error I18NException enviant correu de bbdd a " + email.getEmail() + " - "
-                    + email.getUsuariEntitatID() + "(" + email.getSubject() + "):\n"
+            error = SDF.format(new Date()) + "Error I18NException enviant correu de bbdd a " + email + ": "
                     + I18NCommonUtils.getMessage(e, new Locale("ca"));
             log.error(error, e);
 
             // 5. PERO: la transacción sigue activa hasta el fin del método
             // Podemos hacer operaciones de BD que se ejecutarán
-            used_to_avoid_self_invocation_problem.guardarError(email, error);
+            used_to_avoid_self_invocation_problem.guardarError(error, ids);
 
         } catch (Throwable e) {
             // XYZ ZZZ TRA TODO 
-            error = SDF.format(new Date()) + "Error NO CONTROLAT enviant correu de bbdd a " + email.getEmail() + " - "
-                    + email.getUsuariEntitatID() + "(" + email.getSubject() + "):\n" + e.getMessage();
+            error = SDF.format(new Date()) + "Error NO CONTROLAT enviant correu de bbdd a " + email + ": "
+                    + e.getMessage();
             log.error(error, e);
 
             // 5. PERO: la transacción sigue activa hasta el fin del método
             // Podemos hacer operaciones de BD que se ejecutarán
-            used_to_avoid_self_invocation_problem.guardarError(email, error);
+            used_to_avoid_self_invocation_problem.guardarError(error, ids);
         }
 
         return error;
@@ -146,16 +200,20 @@ public class CorreuAgrupatLogicaEJB extends CorreuAgrupatEJB implements CorreuAg
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     @Override
-    public void guardarError(CorreuAgrupat email, String error) {
-        try {
-            //log.info("\n\n\n\n PRE UPDATE 4444!!!!!! \n\n\n\n");
-            email.setError(error);
-            this.update(email);
-            //log.info("\n\n\n\n POST UPDATE  4444!!!!!! \n\n\n\n");
-        } catch (Throwable e) {
-            log.error("Error guardant EmailAgrupat després d'un error (ID =  '" + email.getCorreuAgrupatID() + "'): "
-                    + e.getMessage(), e);
+    public void guardarError(String error, long... ids) {
+
+        for (long id : ids) {
+            try {
+                CorreuAgrupat email = this.findByPrimaryKey(id);
+                //log.info("\n\n\n\n PRE UPDATE 4444!!!!!! \n\n\n\n");
+                email.setError(error);
+                this.update(email);
+                //log.info("\n\n\n\n POST UPDATE  4444!!!!!! \n\n\n\n");
+            } catch (Throwable e) {
+                log.error("Error guardant EmailAgrupat després d'un error (ID =  '" + id + "'): " + e.getMessage(), e);
+            }
         }
+
     }
 
 }

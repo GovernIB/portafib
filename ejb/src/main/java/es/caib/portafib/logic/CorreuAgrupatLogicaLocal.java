@@ -41,6 +41,6 @@ public interface CorreuAgrupatLogicaLocal extends CorreuAgrupatService {
      * @param email
      * @param error
      */
-    public void guardarError(CorreuAgrupat email, String error);
+    public void guardarError(String error, long ... ids);
     
 }
