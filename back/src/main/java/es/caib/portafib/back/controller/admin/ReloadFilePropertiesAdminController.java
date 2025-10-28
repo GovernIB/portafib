@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.commons.utils.Configuracio;
+import es.caib.portafib.logic.utils.PortaFIBPluginsManager;
 /**
  * 
  * @author anadal
@@ -54,6 +55,8 @@ public class ReloadFilePropertiesAdminController {
             throws Exception {
 
         Configuracio.reloadProperties();
+        
+        PortaFIBPluginsManager.clearPlugins();
         
         HtmlUtils.saveMessageSuccess(request, I18NUtils.tradueix("propietat.reload.ok"));
 

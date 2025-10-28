@@ -23,9 +23,11 @@ public class PortaFIBPluginsManager implements ConstantsV2 {
 
     public static final String DOCUMENTCONVERTER_PLUGIN_KEY = PORTAFIB_PROPERTY_BASE + "documentconverterplugin";
 
-    public static IUserInformationPlugin loginPlugin = null;
+    protected static IUserInformationPlugin loginPlugin = null;
 
-    public static IDocumentConverterPlugin documentConverterPlugin = null;
+    protected static IDocumentConverterPlugin documentConverterPlugin = null;
+
+    private static final Object lock = new Object();
 
     /**
      * 
@@ -33,28 +35,39 @@ public class PortaFIBPluginsManager implements ConstantsV2 {
      * @throws Exception
      */
     public static IDocumentConverterPlugin getDocumentConverterPluginInstance() {
+        synchronized (lock) {
 
-        if (documentConverterPlugin == null) {
-            final String propertyPlugin = DOCUMENTCONVERTER_PLUGIN_KEY;
-            Object pluginInstance = PluginsManager.instancePluginByProperty(propertyPlugin,
-                    ConstantsV2.PORTAFIB_PROPERTY_BASE, Configuracio.getPortaFIBProperties());
-            documentConverterPlugin = (IDocumentConverterPlugin) pluginInstance;
+            if (documentConverterPlugin == null) {
+                final String propertyPlugin = DOCUMENTCONVERTER_PLUGIN_KEY;
+                Object pluginInstance = PluginsManager.instancePluginByProperty(propertyPlugin,
+                        ConstantsV2.PORTAFIB_PROPERTY_BASE, Configuracio.getPortaFIBProperties());
+                documentConverterPlugin = (IDocumentConverterPlugin) pluginInstance;
+            }
+            return documentConverterPlugin;
         }
-        return documentConverterPlugin;
     }
 
     public static IUserInformationPlugin getUserInformationPluginInstance() throws I18NException {
-        if (loginPlugin == null) {
-            final String propertyPlugin = LOGIN_PLUGIN_KEY;
+        synchronized (lock) {
+            if (loginPlugin == null) {
+                final String propertyPlugin = LOGIN_PLUGIN_KEY;
 
-            Object pluginInstance = PluginsManager.instancePluginByProperty(
-                    propertyPlugin, ConstantsV2.PORTAFIB_PROPERTY_BASE, Configuracio.getPortaFIBSystemProperties());
-            if (pluginInstance == null) {
-                throw new I18NException("plugin.donotinstantiateplugin", new I18NArgumentCode("plugin.userinfo"));
+                Object pluginInstance = PluginsManager.instancePluginByProperty(propertyPlugin,
+                        ConstantsV2.PORTAFIB_PROPERTY_BASE, Configuracio.getPortaFIBSystemProperties());
+                if (pluginInstance == null) {
+                    throw new I18NException("plugin.donotinstantiateplugin", new I18NArgumentCode("plugin.userinfo"));
+                }
+                loginPlugin = (IUserInformationPlugin) pluginInstance;
             }
-            loginPlugin = (IUserInformationPlugin) pluginInstance;
+            return loginPlugin;
         }
-        return loginPlugin;
+    }
+
+    public static void clearPlugins() {
+        synchronized (lock) {
+            loginPlugin = null;
+            documentConverterPlugin = null;
+        }
     }
 
 }
