@@ -538,12 +538,12 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/custodiaInfoList.jsp" />
     </definition>
 
-    <definition name="PlantillaDeFluxDeFirmes2FormAden" extends="role_adapp">
+    <definition name="PlantillaDeFluxDeFirmesFormAdapp" extends="role_adapp">
         <put-attribute name="titol" value="plantillaFluxDeFirmes.plantillaFluxDeFirmes" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/flux/plantillaDeFluxDeFirmesForm.jsp" />
     </definition>
 
-    <definition name="PlantillaDeFluxDeFirmes2ListAden" extends="role_adapp">
+    <definition name="PlantillaDeFluxDeFirmesListAdapp" extends="role_adapp">
         <put-attribute name="contingut" value="/WEB-INF/jsp/flux/plantillaDeFluxDeFirmesList.jsp" />
     </definition>
 
@@ -560,7 +560,7 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/annexList.jsp" />
     </definition>
 
-    <definition name="bitacolaPeticio2ListAden" extends="role_adapp">
+    <definition name="bitacolaPeticioListAdapp" extends="role_adapp">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/bitacolaList.jsp" />
     </definition>
 

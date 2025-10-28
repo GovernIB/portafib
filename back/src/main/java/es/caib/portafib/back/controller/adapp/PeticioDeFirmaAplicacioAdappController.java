@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import es.caib.portafib.back.controller.aden.AbstractPeticioDeFirmaAdenController;
-import es.caib.portafib.back.controller.aden.BitacolaPeticio2AdenController;
-import es.caib.portafib.back.controller.aden.FluxDeFirmes2AdenController;
 import es.caib.portafib.back.form.SeleccioFluxDeFirmesForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
@@ -60,7 +58,7 @@ public final class PeticioDeFirmaAplicacioAdappController extends AbstractPetici
 
     @Override
     public String getFluxPath() {
-        return FluxDeFirmes2AdenController.CONTEXT_WEB;
+        return FluxDeFirmesAdappController.CONTEXT_WEB;
     }
 
     @Override
@@ -70,7 +68,7 @@ public final class PeticioDeFirmaAplicacioAdappController extends AbstractPetici
 
     @Override
     public String getBitacolaContextWeb() {
-        return BitacolaPeticio2AdenController.CONTEXT_WEB;
+        return BitacolaPeticioAdappController.CONTEXT_WEB;
     }
 
     @Override

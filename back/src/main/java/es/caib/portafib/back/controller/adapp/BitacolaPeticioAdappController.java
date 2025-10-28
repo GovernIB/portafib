@@ -1,9 +1,10 @@
-package es.caib.portafib.back.controller.aden;
+package es.caib.portafib.back.controller.adapp;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import es.caib.portafib.back.controller.aden.BitacolaPeticioAdenController;
 import es.caib.portafib.back.form.webdb.BitacolaFilterForm;
 import es.caib.portafib.back.form.webdb.BitacolaForm;
 
@@ -14,20 +15,20 @@ import es.caib.portafib.back.form.webdb.BitacolaForm;
  * @author anadal
  */
 @Controller
-@RequestMapping(value = BitacolaPeticio2AdenController.CONTEXT_WEB)
+@RequestMapping(value = BitacolaPeticioAdappController.CONTEXT_WEB)
 @SessionAttributes(types = {BitacolaForm.class, BitacolaFilterForm.class })
-public class BitacolaPeticio2AdenController extends BitacolaPeticioAdenController {
+public class BitacolaPeticioAdappController extends BitacolaPeticioAdenController {
 
-    public static final String CONTEXT_WEB = "/aden/bitacolapeticio2";
+    public static final String CONTEXT_WEB = "/adapp/bitacolapeticio";
 
     @Override
     public String getTileList() {
-        return "bitacolaPeticio2ListAden";
+        return "bitacolaPeticioListAdapp";
     }
 
     @Override
     public String getSessionAttributeFilterForm() {
-        return "BitacolaPeticioAden2_FilterForm";
+        return "BitacolaPeticioAdappController_FilterForm";
     }
     
 }

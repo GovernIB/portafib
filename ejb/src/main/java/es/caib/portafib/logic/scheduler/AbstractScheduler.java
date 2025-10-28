@@ -102,6 +102,13 @@ public abstract class AbstractScheduler {
             log.error("SCHEDULER[" + getSchedulerName() + "]: FINAL ERROR  " + (System.currentTimeMillis() - start)
                     + "ms: " + e.getMessage(), e);
         }
+        
+        try {
+            init();
+        } catch (Throwable t) {
+            log.error("SCHEDULER[" + getSchedulerName() + "]: ERROR re-inicialitzant el timer: " + t.getMessage(), t);
+        }
+        
     }
 
     /**

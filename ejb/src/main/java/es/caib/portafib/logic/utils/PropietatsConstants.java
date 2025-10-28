@@ -138,7 +138,10 @@ public class PropietatsConstants {
                         "Opcional. Indica els dies després d´aquest valor en que el procés de Rebuig de peticions Caducades actuarà. Despres de modificar aquest valor, es necessari reiniciar el servidor. Valor per defecte 4 anys (1460)."),
                 new Propietat(true, "es.caib.portafib.csp-frame-ancestors",
                         "Opcional. Content Security Policy X-Frame-Options. Llistat de dominis separats per espai als que es permetra obrir iframes. Exemple http://10.215.216.175:1901"),
-
+                new Propietat(true, "es.caib.portafib.bitacolacleanercronexpression",
+                        "Opcional. Expressió cron que indica cada quan s´ha d´executar el netejador de Bitacoles antigues. Per defecte s´executa cada dia a les 5:00 (0 0 5 1/1 * ? *). Exemples: - L´executa cada dos minuts: 0 0/2 * 1/1 * ? *  - L´executa cada dia a les 6:00: 0 0 6 1/1 * ? Veure www.cronmaker.com per altres valors. Requereix una execució del cron o reiniciar el servidor per actualitzar el valor."),
+                new Propietat(true, "es.caib.portafib.bitacolacleanerdaysold", "Opcional. Valor a utilitzat per esborrar les Bitacoles amb més de X dies d´antiguitat.\r\n"
+                        + " Per defecte val null el que indica que no es netejarà cap bitàcola")
         };
 
         for (Propietat p : propietats_bbdd_per_entitat) {

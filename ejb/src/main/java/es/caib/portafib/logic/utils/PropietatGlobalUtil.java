@@ -352,6 +352,58 @@ public class PropietatGlobalUtil implements ConstantsV2 {
     }
 
     /**
+     * Opcional. Expressió cron que indica cada quan s'ha d'executar el netejador de Bitacoles antigues.
+     * Per defecte s'executa cada dia a les 5:00 (0 0 5 1/1 * ? *). Exemples:
+     *  - L'executa cada dos minuts: 0 0/2 * 1/1 * ? * 
+     *  - L'executa cada dia a les 6:00: 0 0 6 1/1 * ? *
+     *  Veure www.cronmaker.com per altres valors.
+     * 
+     * @return
+     */
+    public static String getBitacolaCleanerCronExpression() {
+        final String partialPropertyName = "bitacolacleanercronexpression";
+        String val = getString(partialPropertyName);
+        if (val == null) {
+            val = "0 0 5 1/1 * ? *";
+        }
+        if (log.isDebugEnabled()) {
+            log.debug(" getBitacolaCleanerCronExpression() = " + val);
+        }
+        return val;
+    }
+
+    /**
+     * Opcional. Valor a utilitzat per esborrar les Bitacoles amb més de X dies d'antiguitat
+     * Per defecte val null el que indica que no es netegen cap bitàcola
+     * 
+     * @return
+     */
+    public static Integer getBitacolaCleanerDaysOld() {
+        final String partialPropertyName = "bitacolacleanerdaysold";
+        String val = getString(partialPropertyName);
+        Integer val_i;
+        if (val == null || val.trim().length() == 0) {
+            val_i = null;
+        } else {
+
+            try {
+                val_i = Integer.valueOf(val);
+            } catch (Throwable e) {
+                log.error("Error obtenint es.caib.portafib.bitacolacleanerdaysold: " + e.getMessage(), e);
+                val_i = null;
+            }
+        }
+
+        if (log.isDebugEnabled()) {
+            log.debug(" getBitacolaCleanerDaysOld() = " + val_i);
+        }
+        return val_i;
+    }
+    
+    
+    
+
+    /**
      * Opcional. Expressió cron que indica cada quan s'ha d'executar l'enviador de correus quan
      * s'han definit enviament d'avisos agrupats. Per defecte s'executa cada dia a les 6:00 (0 0
      * 6 1/1 * ? *).Exemples: - L'executa cada dos minuts: 0 0/2 * 1/1 * ? * - L'executa cada dia
