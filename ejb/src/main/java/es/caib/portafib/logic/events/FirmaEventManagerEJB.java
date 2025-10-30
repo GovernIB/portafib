@@ -388,25 +388,27 @@ public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2
             if (mail == null) {
                 log.error(
                         "L'usuari entitat " + ue.getUsuariEntitatID()
-                                + " no té definit email ni en l'usuari-entitat ni en l'usuari -persona",
+                                + " no té definit email ni en l'usuari-entitat ni en l'usuari-persona",
                         new Exception());
                 // TODO avisar a l'admin        
             }
         }
 
-        String msgCode = subjectCode + ".message";
+        
 
         Locale loc = new Locale(up.getIdiomaID());
-        final String subject = "PortaFIB :: " + I18NLogicUtils.tradueix(loc, subjectCode);
-        final String nom = up.getNom() + " " + up.getLlinatges();
+        
         // Els primers arguments sempre són
         //      (1) Titol de la peticio
         //      (2) Nom de l'actor (persona que ha firmat, rebutjat, ...)
         //      (3) Descripció del rebuig o invalidacio
         final String titol = event.getPeticioDeFirmaTitol();
+        
+        final String nom = up.getNom() + " " + up.getLlinatges();
 
         String actorID = event.getEstatDeFirmaUsuariEntitatID();
         log.info("ACTORID: getEstatDeFirmaUsuariEntitatID: " + actorID);
+
 
         String nomActor;
         //String usernameActor;
@@ -420,7 +422,8 @@ public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2
             //usernameActor = upActor.getUsuariPersonaID();
         }
 
-        final String avis = I18NLogicUtils.tradueix(loc, msgCode, titol, nomActor, argDesc);
+
+        final String avis = I18NLogicUtils.tradueix(loc, subjectCode + ".message", titol, nomActor, argDesc);
         //    final String avis = I18NLogicUtils.tradueix(loc, msgCode,  nomActor, usernameActor , argDesc);
         String href = event.getHref();
         if (href == null || href.trim().length() == 0) {
@@ -433,6 +436,10 @@ public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2
         // <br/>Pot accedir a la petició de firma pitjant <a href="{2}">aqu&iacute;</a>...
         final String msg = I18NLogicUtils.tradueix(loc, "notificacioavis_email_message", nom, avis, href);
         //    final String msg = I18NLogicUtils.tradueix(loc, "notificacioavis_email_message_nou", nom, titol, avis, href);
+        
+        
+
+        final String subject = "PortaFIB :: " + I18NLogicUtils.tradueix(loc, subjectCode + ".subject", titol);
 
         EmailInfo info = new EmailInfo();
         info.setEmail(mail);
