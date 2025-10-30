@@ -140,7 +140,7 @@ public class EmailUtil {
                 } else {
                     // Enviar a l'instant
                     postMail(emailInfo.getSubject(), emailInfo.getMessage(), emailInfo.isHtml(),
-                            Configuracio.getAppEmail(), emailInfo.getEmail());
+                            PropietatGlobalUtil.getAppEmail(), emailInfo.getEmail());
                 }
             }
 

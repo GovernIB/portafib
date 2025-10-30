@@ -304,10 +304,6 @@ public class Configuracio implements Constants {
         return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "url");
     }
 
-    public static String getAppEmail() {
-        return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "email.from");
-    }
-
     public static String getAppName() {
         return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "name", "PortaFIB");
     }

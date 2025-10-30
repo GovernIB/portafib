@@ -32,6 +32,7 @@ import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.logic.scheduler.AbstractScheduler.ControlOfExecution;
 import es.caib.portafib.logic.utils.EmailInfo;
 import es.caib.portafib.logic.utils.EmailUtil;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 
 // 
 /**
@@ -150,7 +151,7 @@ public class EnviarCorreusAgrupatsUtils {
                 email.setHtml(true);
                 try {
                     EmailUtil.postMail(email.getSubject(), email.getMessage(), email.isHtml(),
-                            Configuracio.getAppEmail(), email.getEmail());
+                            PropietatGlobalUtil.getAppEmail(), email.getEmail());
 
                     if (isDebug) {
                         log.debug("Enviat correu agrupat a " + email.getSubject());
