@@ -2,6 +2,7 @@ package es.caib.portafib.back.controller.admin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import es.caib.portafib.ejb.UsuariAplicacioService;
 import org.fundaciobit.genapp.common.StringKeyValue;
@@ -10,18 +11,25 @@ import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.LongConstantField;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
+import org.fundaciobit.genapp.common.query.SelectMax;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
+import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import es.caib.portafib.back.controller.webdb.TipusDocumentController;
 import es.caib.portafib.back.form.webdb.TipusDocumentFilterForm;
@@ -30,9 +38,12 @@ import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.persistence.TipusDocumentJPA;
+import es.caib.portafib.logic.EntitatLogicaLocal;
 import es.caib.portafib.logic.TipusDocumentLogicaLocal;
+import es.caib.portafib.model.entity.Entitat;
 import es.caib.portafib.model.entity.TipusDocument;
 import es.caib.portafib.model.entity.UsuariAplicacio;
+import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 
@@ -42,20 +53,23 @@ import es.caib.portafib.model.fields.UsuariAplicacioFields;
  * @author anadal
  */
 @Controller
-@RequestMapping(value = "/admin/gestiotipusdoc")
+@RequestMapping(value = GestioTipusDocumentAdminController.CONTEXTWEB)
 @SessionAttributes(types = { TipusDocumentForm.class, TipusDocumentFilterForm.class })
-@MenuOption(
-        group = Tab.MENU_ADMIN,
-        labelCode = "tipusdocument.admin.plural",
-        addSeparatorBefore = true,
-        order = 50)
+@MenuOption(group = Tab.MENU_ADMIN, labelCode = "tipusdocument.admin.plural", addSeparatorBefore = true, order = 50)
 public class GestioTipusDocumentAdminController extends TipusDocumentController {
+
+    public static final String CONTEXTWEB = "/admin/gestiotipusdoc";
+
+    public static final String CONTEXTWEB_MOURE_TIPUS_DOC = "/mouretipus";
 
     @EJB(mappedName = UsuariAplicacioService.JNDI_NAME)
     protected UsuariAplicacioService usuariAplicacioEjb;
 
     @EJB(mappedName = TipusDocumentLogicaLocal.JNDI_NAME)
     protected TipusDocumentLogicaLocal tipusDocumentLogicaEjb;
+
+    @EJB(mappedName = EntitatLogicaLocal.JNDI_NAME)
+    protected EntitatLogicaLocal entitatLogicaEjb;
 
     @PostConstruct
     public void init() {
@@ -129,12 +143,20 @@ public class GestioTipusDocumentAdminController extends TipusDocumentController 
         if (tipusDocumentFilterForm.isNou()) {
 
             switch (getTipusUsuari()) {
-                case ADMIN:
+                case ADMIN: {
                     // Ocultam columnes
                     tipusDocumentFilterForm.addHiddenField(USUARIAPLICACIOID);
                     tipusDocumentFilterForm.addHiddenField(TIPUSDOCUMENTBASEID);
                     // No volem cap agrupacio
                     tipusDocumentFilterForm.setGroupByFields(new ArrayList<Field<?>>());
+                    // Afegim codi especific JSP
+                    tipusDocumentFilterForm.setAttachedAdditionalJspCode(true);
+
+                    tipusDocumentFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("fas fa-file-export",
+                            "tipusdocument.canviarid", "javascript:changeType({0});", AdditionalButtonStyle.WARNING));
+
+                    tipusDocumentFilterForm.setSubTitleCode("tipusdocument.admin.subtitle");
+                }
                 break;
                 case ADEN:
                     String idApp = LoginInfo.getInstance().getEntitat().getUsuariAplicacioID();
@@ -162,7 +184,50 @@ public class GestioTipusDocumentAdminController extends TipusDocumentController 
             tipusDocumentFilterForm.setItemsPerPage(30);
 
         }
+
         return tipusDocumentFilterForm;
+    }
+
+    @ModelAttribute("nouTipusID")
+    public long getNouTipusID() throws Exception {
+        Long tipusDocID = this.tipusDocumentEjb.executeQueryOne(new SelectMax<Long>(TIPUSDOCUMENTID), null);
+        if (tipusDocID == null) {
+            tipusDocID = 1L;
+        } else {
+            tipusDocID = tipusDocID + 1;
+        }
+        return tipusDocID;
+    }
+
+    @ModelAttribute("aplicacions")
+    public Map<String, String> getAplicacions() throws Exception {
+
+        List<Entitat> entitats = entitatLogicaEjb.select(EntitatFields.ACTIVA.equal(true));
+        Map<String, String> aplicacionsPerEntitat = new java.util.HashMap<>();
+        for (Entitat entitat : entitats) {
+            if (entitat.getUsuariAplicacioID() != null) {
+                aplicacionsPerEntitat.put(entitat.getUsuariAplicacioID(), entitat.getNom());
+            }
+        }
+
+        List<String> usrAplicacions = usuariAplicacioEjb.executeQuery(UsuariAplicacioFields.USUARIAPLICACIOID,
+                UsuariAplicacioFields.ACTIU.equal(true), new OrderBy(UsuariAplicacioFields.USUARIAPLICACIOID));
+
+        Map<String, String> mapAplicacions = new java.util.TreeMap<>();
+
+        for (String uaID : usrAplicacions) {
+
+            String entitat = aplicacionsPerEntitat.get(uaID);
+
+            if (entitat == null) {
+                mapAplicacions.put(uaID, uaID);
+            } else {
+                mapAplicacions.put(uaID, uaID + " (Entitat " + entitat + ")");
+            }
+        }
+
+        return mapAplicacions;
+
     }
 
     @Override
@@ -309,7 +374,7 @@ public class GestioTipusDocumentAdminController extends TipusDocumentController 
             Where where) throws I18NException {
         Where w = UsuariAplicacioFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID());
         List<StringKeyValue> list = super.getReferenceListForUsuariAplicacioID(request, mav, Where.AND(where, w));
-        
+
         if (getTipusUsuari().equals(TipusUsuari.ADAPP)) {
             String idApp = LoginInfo.getInstance().getEntitat().getUsuariAplicacioID();
             if (idApp != null) {
@@ -321,7 +386,7 @@ public class GestioTipusDocumentAdminController extends TipusDocumentController 
                 }
             }
         }
-        
+
         return list;
     }
 
@@ -342,7 +407,7 @@ public class GestioTipusDocumentAdminController extends TipusDocumentController 
 
     @Override
     public void delete(HttpServletRequest request, TipusDocument tipusDocument) throws I18NException {
-        tipusDocumentLogicaEjb.deleteFull((TipusDocumentJPA) tipusDocument);
+        tipusDocumentLogicaEjb.deleteWithAlternativeDocType(tipusDocument.getTipusDocumentID(), 99);
     }
 
     @Override
@@ -386,20 +451,41 @@ public class GestioTipusDocumentAdminController extends TipusDocumentController 
         return __tmp;
     }
 
-    /*
-      @RequestMapping(value = "/export/{dataExporterID}", method = RequestMethod.POST)
-      public void exportList(@PathVariable("dataExporterID") String dataExporterID,
-      HttpServletRequest request, HttpServletResponse response,
-      TipusDocumentFilterForm filterForm) throws Exception, I18NException {
-    
-    
-    ModelAndView mav = new ModelAndView(getTileList());
-    List<TipusDocument> list = llistat(mav, request, filterForm);
-    Field<?>[] allFields = ALL_TIPUSDOCUMENT_FIELDS;
-    
-    
-    exportData(request, response, dataExporterID, filterForm, list, allFields);
-      }
-    */
+    @RequestMapping(value = CONTEXTWEB_MOURE_TIPUS_DOC, method = RequestMethod.POST)
+    public String moureTipus(HttpServletRequest request, HttpServletResponse response) throws Exception, I18NException {
+
+        final String redirect = "redirect:" + this.getContextWeb() + "/list";
+
+        long tipusIDOriginal = Long.parseLong(request.getParameter("tipusidoriginal"));
+
+        long nouTipusId;
+
+        try {
+            nouTipusId = Long.parseLong(request.getParameter("tipusid"));
+        } catch (Exception e) {
+
+            HtmlUtils.saveMessageError(request, "L'ID elegit pel nou Tipus Documental no és un número vàlid");
+
+            return redirect;
+        }
+
+        try {
+
+            tipusDocumentLogicaEjb.canviarIdDeTipusDocumental(tipusIDOriginal, nouTipusId,
+                    request.getParameter("usuariAplicacioID"));
+
+            HtmlUtils.saveMessageSuccess(request, "El tipus documental " + tipusIDOriginal
+                    + " ha sigut correctament canviat pel tipus " + nouTipusId);
+
+        } catch (I18NException e) {
+
+            HtmlUtils.saveMessageError(request,
+                    "Error en canviar l'ID del Tipus Documental: " + I18NUtils.getMessage(e));
+
+        }
+
+        return redirect;
+
+    }
 
 } // Final de Classe

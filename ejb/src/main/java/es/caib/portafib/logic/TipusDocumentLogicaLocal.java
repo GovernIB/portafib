@@ -46,4 +46,22 @@ public interface TipusDocumentLogicaLocal extends TipusDocumentService {
      * @throws I18NException
      */
     public List<TipusDocument> getTipusDocumentsByUsrApp(UsuariAplicacio ua) throws I18NException;
+    
+    /**
+     * 
+     * @param anticID
+     * @param nouID
+     * @param usrAppID
+     * @throws I18NException
+     */
+    public void canviarIdDeTipusDocumental(long anticID, long nouID, String usrAppID) throws I18NException;
+
+    /**
+     * 
+     * @param idEsborrar
+     * @param idAlternatiu
+     * @throws I18NException
+     */
+    void deleteWithAlternativeDocType(long idEsborrar, long idAlternatiu) throws I18NException;
+    
 }
