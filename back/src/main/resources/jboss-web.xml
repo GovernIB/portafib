@@ -2,5 +2,5 @@
 <jboss-web xmlns="http://www.jboss.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="13.0">
     <!-- xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee http://www.jboss.org/schema/jbossas/jboss-web_13_0.xsd" -->
     <security-domain flushOnSessionInvalidation="true">seycon</security-domain>
-    <proactive-authentication>false</proactive-authentication>
+    <proactive-authentication>${proactiveAuthentication}</proactive-authentication>
 </jboss-web>

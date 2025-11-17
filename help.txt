@@ -49,6 +49,12 @@ Per compilar en mode produccio: deploypro.sh/bat [OPCIONS]
                   http://HOST:8080/portafib/portafirmascb/v0/PortafirmasCallBack
                   i callback versio 0. Per veure les cridades accedir a
                   http://HOST:8080/portafib/portafirmascb
+                  
+-Pkeycloak        Defineix KEYCLOAK en el <auth-method> de <login-config>
+                  dels web.xml enlloc de BASIC
+
+-DproactiveAuthentication Defineix quin valor posar al tag <proactive-authentication>
+                  del fitxer jboss-web.xml de /WEB-INF/jboss-web.xml
 
 clean             Neteja els projectes abans de compilar.
 

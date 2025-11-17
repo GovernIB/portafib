@@ -250,6 +250,7 @@
     <properties>
         <war.useCache>false</war.useCache>
         <webXml.authMethod>BASIC</webXml.authMethod>
+        <proactiveAuthentication>false</proactiveAuthentication>
     </properties>
 
     <profiles>
@@ -326,7 +327,7 @@
         
     </profiles>
 
-    <build>
+    <build>   
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -340,6 +341,17 @@
                         </manifest>
                     </archive>
                     <webResources>
+
+                        <resource>
+                            <directory>src/main/resources</directory>
+                            <includes>
+                                <include>jboss-web.xml</include>
+                            </includes>
+                            <targetPath>WEB-INF</targetPath>
+                            <filtering>true</filtering>
+                        </resource>
+                    
+                    
                         <!-- Documents pdf que es troben dins /doc/pdf i han
                         d'anar a WEBAPP/Documentacio -->
                         <resource>
