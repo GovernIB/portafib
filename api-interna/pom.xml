@@ -13,7 +13,9 @@
     <name>PortaFIB - API Rest - Interna Server</name>
     <properties>
         <client.default.package>es.caib.portafib.apiinterna.client</client.default.package>
+        <authMethod>BASIC</authMethod>
     </properties>
+
 
     <dependencies>
         <!-- Especificacions i llibreries proporcionades per JBoss -->
@@ -468,5 +470,14 @@
             </plugins>
         </pluginManagement>
     </build>
+    
+    <profiles>
+        <profile>
+            <id>keycloak</id>
+            <properties>
+                <authMethod>KEYCLOAK</authMethod>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
