@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
 import org.fundaciobit.genapp.common.ws.WsFieldValidationError;
 import org.fundaciobit.genapp.common.ws.WsI18NArgument;
 import org.fundaciobit.genapp.common.ws.WsI18NTranslation;
 import org.fundaciobit.genapp.common.ws.WsValidationException;
+import org.jboss.logging.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NArgument;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NFieldError;
@@ -25,7 +25,7 @@ import es.caib.portafib.logic.utils.I18NLogicUtils;
  */
 public class WsUtils {
 
-    protected static final Log log = LogFactory.getLog(WsUtils.class);
+    protected final Logger log = Logger.getLogger(getClass());
 
     public static WsValidationException convertToWsValidationException(I18NValidationException ve, Locale locale) {
         if (ve == null) {

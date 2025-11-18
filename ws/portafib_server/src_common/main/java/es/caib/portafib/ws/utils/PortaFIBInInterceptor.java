@@ -7,8 +7,6 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.namespace.QName;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.cxf.binding.soap.SoapFault;
 import org.apache.cxf.service.invoker.MethodDispatcher;
 import org.apache.cxf.interceptor.Fault;
@@ -19,6 +17,7 @@ import org.apache.cxf.security.SecurityContext;
 import org.apache.cxf.service.model.BindingOperationInfo;
 import org.fundaciobit.genapp.common.ws.WsI18NException;
 import org.fundaciobit.genapp.common.ws.WsValidationException;
+import org.jboss.logging.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 
@@ -38,7 +37,7 @@ public class PortaFIBInInterceptor extends AbstractPhaseInterceptor<Message> {
 
     protected static final QName QNAME = new QName("-1");
 
-    protected final Log log = LogFactory.getLog(getClass());
+    protected final Logger log = Logger.getLogger(getClass());
 
     public PortaFIBInInterceptor() {
         // Veure https://cxf.apache.org/docs/interceptors.html

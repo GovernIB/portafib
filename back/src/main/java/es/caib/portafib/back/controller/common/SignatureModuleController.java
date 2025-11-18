@@ -45,6 +45,8 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -214,6 +216,15 @@ public class SignatureModuleController extends HttpServlet {
         if (lang == null) {
             lang = Configuracio.getDefaultLanguage();
         }
+        
+        // No s'aplica el camp ordre en la presentació dels mòduls de firma #1104
+        Collections.sort(modulsFiltered, new Comparator<PluginJPA>() {
+            @Override
+            public int compare(PluginJPA o1, PluginJPA o2) {
+                return o1.getOrdre() - o2.getOrdre();
+            }
+        }  );
+        
 
         ModelAndView mav = new ModelAndView("PluginFirmaSeleccio");
         mav.addObject("signaturesSetID", signaturesSetID);
