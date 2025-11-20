@@ -2,6 +2,7 @@ package es.caib.portafib.back.form.webdb;
 
 import java.util.List;
 import org.fundaciobit.genapp.common.StringKeyValue;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import es.caib.portafib.back.form.PortaFIBBaseForm;
 import es.caib.portafib.persistence.PluginJPA;
 
@@ -12,6 +13,10 @@ import es.caib.portafib.persistence.PluginJPA;
 public class PluginForm extends PortaFIBBaseForm {
   
   private PluginJPA plugin;
+  
+  
+  private CommonsMultipartFile iconaID;
+  private boolean iconaIDDelete;
   
   public PluginForm() {
   }
@@ -49,6 +54,20 @@ public class PluginForm extends PortaFIBBaseForm {
     this.idiomesTraduccio = idiomesTraduccio;
   }
   
+  public CommonsMultipartFile getIconaID() {
+    return iconaID;
+  }
+  
+   public void setIconaID(CommonsMultipartFile iconaID) {
+    this.iconaID = iconaID;
+  }
+  public boolean isIconaIDDelete() {
+    return iconaIDDelete;
+  }
+  
+  public void setIconaIDDelete(boolean iconaIDDelete) {
+    this.iconaIDDelete = iconaIDDelete;
+   }
   private List<StringKeyValue> listOfTraduccioForNomID;
 
   public List<StringKeyValue> getListOfTraduccioForNomID() {

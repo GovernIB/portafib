@@ -107,6 +107,13 @@
           </c:if>
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFields.ICONAID)}">
+          <td>
+            <c:if test="${not empty plugin.icona}">
+              <a target="_blank" href="<c:url value="${pfi:fileUrl(plugin.icona)}"/>">${plugin.icona.nom}</a>
+            </c:if>
+           </td>
+        </c:if>
 
 
         <!--  /** Additional Fields */  -->

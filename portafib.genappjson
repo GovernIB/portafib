@@ -5277,6 +5277,12 @@
               "type": 0
             },
             {
+              "name": "pfi_plugin_fitxer_icona_fk",
+              "table": "pfi_plugin",
+              "field": "iconaid",
+              "type": 0
+            },
+            {
               "name": "pfi_plugcrida_fitxer_param_fk",
               "table": "pfi_plugincridada",
               "field": "parametresfitxerid",
@@ -9471,6 +9477,46 @@
             "webtype": 16
           },
           "foreignKeys": []
+        },
+        {
+          "index": "pfi_plugin_iconaid_fk_i",
+          "isAutoIncrement": false,
+          "sqlName": "iconaid",
+          "sqlType": -5,
+          "size": 19,
+          "digits": 0,
+          "isNotNullable": false,
+          "labels": {
+            "en": "Icon",
+            "ca": "Icona",
+            "es": "Icono"
+          },
+          "javaName": "iconaID",
+          "javaType": "java.lang.Long",
+          "traduible": false,
+          "showInWebList": true,
+          "showInReferenceList": false,
+          "transientField": false,
+          "filter": false,
+          "orderBy": 0,
+          "groupBy": false,
+          "webFieldInfo": {
+            "webtype": 3,
+            "foreignKey": {
+              "name": "pfi_plugin_fitxer_icona_fk",
+              "table": "pfi_fitxer",
+              "field": "fitxerid",
+              "type": 1
+            }
+          },
+          "foreignKeys": [
+            {
+              "name": "pfi_plugin_fitxer_icona_fk",
+              "table": "pfi_fitxer",
+              "field": "fitxerid",
+              "type": 1
+            }
+          ]
         }
       ]
     },

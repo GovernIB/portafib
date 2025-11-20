@@ -36,6 +36,9 @@ import es.caib.portafib.back.form.webdb.PluginForm;
 
 import es.caib.portafib.back.validator.webdb.PluginWebValidator;
 
+import es.caib.portafib.model.entity.Fitxer;
+import es.caib.portafib.persistence.FitxerJPA;
+import org.fundaciobit.genapp.common.web.controller.FilesFormManager;
 import es.caib.portafib.persistence.PluginJPA;
 import es.caib.portafib.model.entity.Plugin;
 import es.caib.portafib.model.fields.*;
@@ -60,7 +63,7 @@ import es.caib.portafib.back.utils.Tab;
 @Tile(name="pluginListWebDB", contentJsp="/WEB-INF/jsp/webdb/pluginList.jsp", extendsTile=Tab.MENU_WEBDB,
        type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="plugin.plugin") })
 public class PluginController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController<Plugin, java.lang.Long> implements PluginFields {
+    extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<Plugin, java.lang.Long, PluginForm> implements PluginFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.IdiomaService.JNDI_NAME)
   protected es.caib.portafib.ejb.IdiomaService idiomaEjb;
@@ -412,21 +415,27 @@ public class PluginController
 
     PluginJPA plugin = pluginForm.getPlugin();
 
+    FilesFormManager<Fitxer> afm = getFilesFormManager(); // FILE
+
     try {
+      this.setFilesFormToEntity(afm, plugin, pluginForm); // FILE
       preValidate(request, pluginForm, result);
       getWebValidator().validate(pluginForm, result);
       postValidate(request,pluginForm, result);
 
       if (result.hasErrors()) {
+        afm.processErrorFilesWithoutThrowException(); // FILE
         result.reject("error.form");
         return getTileForm();
       } else {
         plugin = create(request, plugin);
+        afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.creation", plugin.getPluginID());
         pluginForm.setPlugin(plugin);
         return getRedirectWhenCreated(request, pluginForm);
       }
     } catch (Throwable __e) {
+      afm.processErrorFilesWithoutThrowException(); // FILE
       if (__e instanceof I18NValidationException) {
         ValidationWebUtils.addFieldErrorsToBindingResult(result, (I18NValidationException)__e);
         return getTileForm();
@@ -506,21 +515,26 @@ public class PluginController
     }
     PluginJPA plugin = pluginForm.getPlugin();
 
+    FilesFormManager<Fitxer> afm = getFilesFormManager(); // FILE
     try {
+      this.setFilesFormToEntity(afm, plugin, pluginForm); // FILE
       preValidate(request, pluginForm, result);
       getWebValidator().validate(pluginForm, result);
       postValidate(request, pluginForm, result);
 
       if (result.hasErrors()) {
+        afm.processErrorFilesWithoutThrowException(); // FILE
         result.reject("error.form");
         return getTileForm();
       } else {
         plugin = update(request, plugin);
+        afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.modification", plugin.getPluginID());
         status.setComplete();
         return getRedirectWhenModified(request, pluginForm, null);
       }
     } catch (Throwable __e) {
+      afm.processErrorFilesWithoutThrowException(); // FILE
       if (__e instanceof I18NValidationException) {
         ValidationWebUtils.addFieldErrorsToBindingResult(result, (I18NValidationException)__e);
         return getTileForm();
@@ -678,6 +692,29 @@ public java.lang.Long stringToPK(String value) {
     return _TABLE_MODEL;
   }
 
+  // FILE
+  @Override
+  public void setFilesFormToEntity(FilesFormManager<Fitxer> afm, Plugin plugin,
+      PluginForm form) throws I18NException {
+
+    FitxerJPA f;
+    f = (FitxerJPA)afm.preProcessFile(form.getIconaID(), form.isIconaIDDelete(),
+        form.isNou()? null : plugin.getIcona());
+    ((PluginJPA)plugin).setIcona(f);
+    if (f != null) { 
+      plugin.setIconaID(f.getFitxerID());
+    } else {
+      plugin.setIconaID(null);
+    }
+
+
+  }
+
+  // FILE
+  @Override
+  public void deleteFiles(Plugin plugin) {
+    deleteFile(plugin.getIconaID());
+  }
   // Mètodes a sobreescriure 
 
   public boolean isActiveList() {

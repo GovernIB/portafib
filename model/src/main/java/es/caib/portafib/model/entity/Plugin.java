@@ -41,6 +41,11 @@ public interface Plugin extends org.fundaciobit.genapp.common.IGenAppEntity {
 	public int getPoliticaMostrarPropietats();
 	public void setPoliticaMostrarPropietats(int _politicaMostrarPropietats_);
 
+	public java.lang.Long getIconaID();
+	public void setIconaID(java.lang.Long _iconaID_);
+
+  // Fitxer
+  public <F extends Fitxer> F getIcona();
 
 
   // ======================================

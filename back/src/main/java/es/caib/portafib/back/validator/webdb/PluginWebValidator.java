@@ -162,6 +162,10 @@ _ignoreFields.add(DESCRIPCIOCURTAID);
         }
     }
 
+    if (isNou) { // Creacio
+      // ================ CREATION
+      // Fitxers 
+    }
 
   } // Final de metode
 

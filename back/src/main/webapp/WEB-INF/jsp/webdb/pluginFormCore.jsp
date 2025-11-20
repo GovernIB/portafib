@@ -364,3 +364,59 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PluginFields.ICONAID)}">
+        <tr id="plugin_iconaID_rowid">
+          <td id="plugin_iconaID_columnlabelid">
+            <label>
+              <fmt:message key="${(empty __theForm.labels[PluginFields.ICONAID])?'plugin.iconaID':__theForm.labels[PluginFields.ICONAID]}" />
+             </label>
+              <c:if test="${not empty __theForm.help[PluginFields.ICONAID]}">
+              <i class="fas fa-info-circle" title="${__theForm.help[PluginFields.ICONAID]}" ></i>
+              </c:if>
+            </td>
+          <td id="plugin_iconaID_columnvalueid">
+              <form:errors path="plugin.iconaID" cssClass="errorField alert alert-danger" />
+            <c:if test="${gen:contains(__theForm.readOnlyFields ,PluginFields.ICONAID)}" >
+              <a target="_blank" href="<c:url value="${pfi:fileUrl(__theForm.plugin.icona)}"/>">${__theForm.plugin.icona.nom}</a>
+            </c:if>
+            <c:if test="${!gen:contains(__theForm.readOnlyFields ,PluginFields.ICONAID)}" >
+              <div class="input-group col-md-9-optional" style="padding: 0px">
+                <div class="custom-file">
+                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,PluginFields.ICONAID)? 'true' : 'false'}" cssClass="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,PluginFields.ICONAID)? ' uneditable-input' : ''}"   path="iconaID" type="file" />
+                  <label class="custom-file-label" for="iconaID">
+                  </label>
+                </div>
+                <c:choose>
+                <c:when test="${not empty __theForm.plugin.icona}">
+                <div class="input-group-append">
+                  <span class="input-group-text" id="">
+                  <small>              <a target="_blank" href="<c:url value="${pfi:fileUrl(__theForm.plugin.icona)}"/>">${__theForm.plugin.icona.nom}</a>
+</small>
+                  </span>
+                  <span class="input-group-text" id="">
+                        <form:checkbox path="iconaIDDelete"/>
+                        <small><fmt:message key="genapp.form.file.delete"/></small>
+                  </span>
+                </div>
+                </c:when>
+                <c:otherwise>
+                <div class="input-group-append input-group-append-file">
+                  <span class="input-group-text" id="iconaID-custom-file-label" style="display:none">
+                  <small></small>
+                  </span>
+                </div>
+                <script type="text/javascript">
+					$('#iconaID').on('change', function(){
+						var ruta = $('#iconaID').val(); 
+						var rutaArray = ruta.split('\\');
+						$('#iconaID-custom-file-label').css('display','block');
+						$('#iconaID-custom-file-label small').html(rutaArray[rutaArray.length - 1]);
+					});
+				</script>                </c:otherwise>
+                </c:choose>
+              </div>
+            </c:if>
+           </td>
+        </tr>
+        </c:if>
+        

@@ -25,7 +25,8 @@ import javax.persistence.Id;
         @Index(name="pfi_plugin_pk_i", columnList = "pluginid"),
         @Index(name="pfi_plugin_nomid_fk_i", columnList = "nomid"),
         @Index(name="pfi_plugin_desccurtaid_fk_i", columnList = "descripciocurtaid"),
-        @Index(name="pfi_plugin_entitatid_fk_i", columnList = "entitatid")})
+        @Index(name="pfi_plugin_entitatid_fk_i", columnList = "entitatid"),
+        @Index(name="pfi_plugin_iconaid_fk_i", columnList = "iconaid")})
 @SequenceGenerator(name="PLUGIN_SEQ", sequenceName="pfi_plugin_seq", allocationSize=1, initialValue=1000)
 @javax.xml.bind.annotation.XmlRootElement
 public class PluginJPA implements Plugin {
@@ -83,6 +84,9 @@ public class PluginJPA implements Plugin {
     @org.hibernate.annotations.ColumnDefault("2")
     int politicaMostrarPropietats = 2;
 
+    @Column(name="iconaid",length = 19)
+    java.lang.Long iconaID;
+
 
 
   /** Constructor Buit */
@@ -90,7 +94,7 @@ public class PluginJPA implements Plugin {
   }
 
   /** Constructor amb tots els camps  */
-  public PluginJPA(long pluginID , java.lang.String codi , long nomID , long descripcioCurtaID , java.lang.String classe , java.lang.Integer ordre , int tipus , java.lang.String propertiesAdmin , java.lang.String propertiesEntitat , int politicaDeUs , java.lang.String entitatID , boolean actiu , int politicaMostrarPropietats) {
+  public PluginJPA(long pluginID , java.lang.String codi , long nomID , long descripcioCurtaID , java.lang.String classe , java.lang.Integer ordre , int tipus , java.lang.String propertiesAdmin , java.lang.String propertiesEntitat , int politicaDeUs , java.lang.String entitatID , boolean actiu , int politicaMostrarPropietats , java.lang.Long iconaID) {
     this.pluginID=pluginID;
     this.codi=codi;
     this.nomID=nomID;
@@ -104,9 +108,10 @@ public class PluginJPA implements Plugin {
     this.entitatID=entitatID;
     this.actiu=actiu;
     this.politicaMostrarPropietats=politicaMostrarPropietats;
+    this.iconaID=iconaID;
 }
   /** Constructor sense valors autoincrementals */
-  public PluginJPA(java.lang.String codi , long nomID , long descripcioCurtaID , java.lang.String classe , java.lang.Integer ordre , int tipus , java.lang.String propertiesAdmin , java.lang.String propertiesEntitat , int politicaDeUs , java.lang.String entitatID , boolean actiu , int politicaMostrarPropietats) {
+  public PluginJPA(java.lang.String codi , long nomID , long descripcioCurtaID , java.lang.String classe , java.lang.Integer ordre , int tipus , java.lang.String propertiesAdmin , java.lang.String propertiesEntitat , int politicaDeUs , java.lang.String entitatID , boolean actiu , int politicaMostrarPropietats , java.lang.Long iconaID) {
     this.codi=codi;
     this.nomID=nomID;
     this.descripcioCurtaID=descripcioCurtaID;
@@ -119,6 +124,7 @@ public class PluginJPA implements Plugin {
     this.entitatID=entitatID;
     this.actiu=actiu;
     this.politicaMostrarPropietats=politicaMostrarPropietats;
+    this.iconaID=iconaID;
 }
   /** Constructor dels valors Not Null */
   public PluginJPA(long pluginID , java.lang.String codi , long nomID , long descripcioCurtaID , java.lang.String classe , int tipus , int politicaDeUs , boolean actiu , int politicaMostrarPropietats) {
@@ -146,6 +152,9 @@ public class PluginJPA implements Plugin {
     this.setEntitatID(__bean.getEntitatID());
     this.setActiu(__bean.isActiu());
     this.setPoliticaMostrarPropietats(__bean.getPoliticaMostrarPropietats());
+    this.setIconaID(__bean.getIconaID());
+    // Fitxer
+    this.setIcona(FitxerJPA.toJPA(__bean.getIcona()));
 	}
 
 	public long getPluginID() {
@@ -237,6 +246,13 @@ public class PluginJPA implements Plugin {
 	};
 	public void setPoliticaMostrarPropietats(int _politicaMostrarPropietats_) {
 		this.politicaMostrarPropietats = _politicaMostrarPropietats_;
+	};
+
+	public java.lang.Long getIconaID() {
+		return(iconaID);
+	};
+	public void setIconaID(java.lang.Long _iconaID_) {
+		this.iconaID = _iconaID_;
 	};
 
 
@@ -459,6 +475,20 @@ public class PluginJPA implements Plugin {
     this.entitat = entitat;
   }
 
+// IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "iconaid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false, foreignKey=@ForeignKey(name="pfi_plugin_fitxer_icona_fk"))
+    private FitxerJPA icona;
+
+    public FitxerJPA getIcona() {
+    return this.icona;
+  }
+
+    public  void setIcona(FitxerJPA icona) {
+    this.icona = icona;
+  }
+
 
  // ---------------  STATIC METHODS ------------------
   public static PluginJPA toJPA(Plugin __bean) {
@@ -477,6 +507,9 @@ public class PluginJPA implements Plugin {
     __tmp.setEntitatID(__bean.getEntitatID());
     __tmp.setActiu(__bean.isActiu());
     __tmp.setPoliticaMostrarPropietats(__bean.getPoliticaMostrarPropietats());
+    __tmp.setIconaID(__bean.getIconaID());
+    // Fitxer
+    __tmp.setIcona(FitxerJPA.toJPA(__bean.getIcona()));
 		return __tmp;
 	}
 

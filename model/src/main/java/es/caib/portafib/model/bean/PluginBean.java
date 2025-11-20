@@ -21,6 +21,7 @@ public class PluginBean implements Plugin {
 	java.lang.String entitatID;
 	boolean actiu;
 	int politicaMostrarPropietats;
+	java.lang.Long iconaID;
 
 
   /** Constructor Buit */
@@ -28,7 +29,7 @@ public class PluginBean implements Plugin {
   }
 
   /** Constructor amb tots els camps  */
-  public PluginBean(long pluginID , java.lang.String codi , long nomID , long descripcioCurtaID , java.lang.String classe , java.lang.Integer ordre , int tipus , java.lang.String propertiesAdmin , java.lang.String propertiesEntitat , int politicaDeUs , java.lang.String entitatID , boolean actiu , int politicaMostrarPropietats) {
+  public PluginBean(long pluginID , java.lang.String codi , long nomID , long descripcioCurtaID , java.lang.String classe , java.lang.Integer ordre , int tipus , java.lang.String propertiesAdmin , java.lang.String propertiesEntitat , int politicaDeUs , java.lang.String entitatID , boolean actiu , int politicaMostrarPropietats , java.lang.Long iconaID) {
     this.pluginID=pluginID;
     this.codi=codi;
     this.nomID=nomID;
@@ -42,9 +43,10 @@ public class PluginBean implements Plugin {
     this.entitatID=entitatID;
     this.actiu=actiu;
     this.politicaMostrarPropietats=politicaMostrarPropietats;
+    this.iconaID=iconaID;
 }
   /** Constructor sense valors autoincrementals */
-  public PluginBean(java.lang.String codi , long nomID , long descripcioCurtaID , java.lang.String classe , java.lang.Integer ordre , int tipus , java.lang.String propertiesAdmin , java.lang.String propertiesEntitat , int politicaDeUs , java.lang.String entitatID , boolean actiu , int politicaMostrarPropietats) {
+  public PluginBean(java.lang.String codi , long nomID , long descripcioCurtaID , java.lang.String classe , java.lang.Integer ordre , int tipus , java.lang.String propertiesAdmin , java.lang.String propertiesEntitat , int politicaDeUs , java.lang.String entitatID , boolean actiu , int politicaMostrarPropietats , java.lang.Long iconaID) {
     this.codi=codi;
     this.nomID=nomID;
     this.descripcioCurtaID=descripcioCurtaID;
@@ -57,6 +59,7 @@ public class PluginBean implements Plugin {
     this.entitatID=entitatID;
     this.actiu=actiu;
     this.politicaMostrarPropietats=politicaMostrarPropietats;
+    this.iconaID=iconaID;
 }
   /** Constructor dels valors Not Null */
   public PluginBean(long pluginID , java.lang.String codi , long nomID , long descripcioCurtaID , java.lang.String classe , int tipus , int politicaDeUs , boolean actiu , int politicaMostrarPropietats) {
@@ -84,6 +87,9 @@ public class PluginBean implements Plugin {
     this.setEntitatID(__bean.getEntitatID());
     this.setActiu(__bean.isActiu());
     this.setPoliticaMostrarPropietats(__bean.getPoliticaMostrarPropietats());
+    this.setIconaID(__bean.getIconaID());
+    // Fitxer
+    this.setIcona(FitxerBean.toBean(__bean.getIcona()));
 	}
 
 	public long getPluginID() {
@@ -177,6 +183,13 @@ public class PluginBean implements Plugin {
 		this.politicaMostrarPropietats = _politicaMostrarPropietats_;
 	};
 
+	public java.lang.Long getIconaID() {
+		return(iconaID);
+	};
+	public void setIconaID(java.lang.Long _iconaID_) {
+		this.iconaID = _iconaID_;
+	};
+
 
 
   // ======================================
@@ -197,9 +210,19 @@ public class PluginBean implements Plugin {
     __tmp.setEntitatID(__bean.getEntitatID());
     __tmp.setActiu(__bean.isActiu());
     __tmp.setPoliticaMostrarPropietats(__bean.getPoliticaMostrarPropietats());
+    __tmp.setIconaID(__bean.getIconaID());
+    // Fitxer
+    __tmp.setIcona(FitxerBean.toBean(__bean.getIcona()));
 		return __tmp;
 	}
 
+  protected FitxerBean icona;
+  public FitxerBean getIcona() {
+    return icona;
+  }
+  public void setIcona(FitxerBean __field) {
+    this. icona = __field;
+  }
 
 
 }

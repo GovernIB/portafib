@@ -63,6 +63,10 @@ public class PluginQueryPath extends org.fundaciobit.genapp.common.query.QueryPa
     return new IntegerField(getQueryPath(), PluginFields.POLITICAMOSTRARPROPIETATS);
   }
 
+  public LongField ICONAID() {
+    return new LongField(getQueryPath(), PluginFields.ICONAID);
+  }
+
 
 
   @Override
@@ -246,6 +250,14 @@ public class PluginQueryPath extends org.fundaciobit.genapp.common.query.QueryPa
     return new EntitatQueryPath(new QueryPath() {
       public String getQueryPath() {
           return PluginQueryPath.this.getQueryPath() + "entitat" + ".";
+      }
+    });
+  }
+
+  public FitxerQueryPath ICONA() {
+    return new FitxerQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return PluginQueryPath.this.getQueryPath() + "icona" + ".";
       }
     });
   }

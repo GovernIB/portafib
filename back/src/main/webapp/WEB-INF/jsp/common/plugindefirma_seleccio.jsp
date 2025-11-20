@@ -83,8 +83,17 @@
         <c:forEach items="${moduls}" var="modul">
             <button type="button" id="plugin_${modul.codi}" class="btn btn-large btn-block btn-primary plugin-btn" style="white-space: normal;"
                 data-url="<c:url value="${thecontext}/showsignaturemodule/${modul.pluginID}/${signaturesSetID}"/>">
-                <b>${modul.nom.traduccions[lang].valor}</b><br> <small style="color: white;"> <i>${modul.descripcioCurta.traduccions[lang].valor}</i>
-                </small>
+                <div style="display: ${not empty modul.iconaID?'flex':'block'}; align-items: center; text-align: ${not empty modul.iconaID?'left':'center'};">
+                    <c:if test="${not empty modul.iconaID}">
+                        <img src="<c:url value="${pfi:fileUrl(modul.icona)}"/>" alt="Icona" style="max-height: 40px; margin-right: 10px;"/>
+                    </c:if>
+                    <div>
+                        <b>${modul.nom.traduccions[lang].valor}</b><br>
+                        <small style="color: white;">
+                            <i>${modul.descripcioCurta.traduccions[lang].valor}</i>
+                        </small>
+                    </div>
+                </div>
             </button>
         </c:forEach>
         

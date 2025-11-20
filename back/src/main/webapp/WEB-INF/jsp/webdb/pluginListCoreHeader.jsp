@@ -51,6 +51,9 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFields.POLITICAMOSTRARPROPIETATS)}">
         <th>${pfi:getSortIcons(__theFilterForm,PluginFields.POLITICAMOSTRARPROPIETATS)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFields.ICONAID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PluginFields.ICONAID)}</th>
+        </c:if>
 
 
         <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">

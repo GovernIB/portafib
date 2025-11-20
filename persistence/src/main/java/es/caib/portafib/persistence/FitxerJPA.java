@@ -291,6 +291,19 @@ public class FitxerJPA implements Fitxer {
     }
 
 
+// EXP  Field:iconaid | Table: pfi_plugin | Type: 0  
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "iconaID")
+    private Set<PluginJPA> plugins = new HashSet<PluginJPA>(0);
+    public  Set<PluginJPA> getPlugins() {
+    return this.plugins;
+  }
+
+    public void setPlugins(Set<PluginJPA> plugins) {
+      this.plugins = plugins;
+    }
+
+
 // EXP  Field:parametresfitxerid | Table: pfi_plugincridada | Type: 0  
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parametresFitxerID")
@@ -508,6 +521,10 @@ public class FitxerJPA implements Fitxer {
     if(!"ColaboracioDelegacioJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.colaboracioDelegacios) || org.hibernate.Hibernate.isInitialized(__jpa.getColaboracioDelegacios())) ) {
       __tmp.setColaboracioDelegacios(ColaboracioDelegacioJPA.copyJPA(__jpa.getColaboracioDelegacios(), __alreadyCopied,"FitxerJPA"));
+    }
+    if(!"PluginJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plugins) || org.hibernate.Hibernate.isInitialized(__jpa.getPlugins())) ) {
+      __tmp.setPlugins(PluginJPA.copyJPA(__jpa.getPlugins(), __alreadyCopied,"FitxerJPA"));
     }
     if(!"PluginCridadaJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginCridada_retornfitxerids) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginCridada_retornfitxerids())) ) {
