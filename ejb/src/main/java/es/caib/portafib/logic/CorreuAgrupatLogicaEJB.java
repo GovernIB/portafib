@@ -1,6 +1,5 @@
 package es.caib.portafib.logic;
 
-import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.ejb.CorreuAgrupatEJB;
 import es.caib.portafib.logic.scheduler.AbstractScheduler.ControlOfExecution;
 import es.caib.portafib.logic.utils.EmailUtil;

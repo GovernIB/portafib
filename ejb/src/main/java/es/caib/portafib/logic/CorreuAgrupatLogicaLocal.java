@@ -3,7 +3,6 @@ package es.caib.portafib.logic;
 import java.util.Map;
 import es.caib.portafib.ejb.CorreuAgrupatService;
 import es.caib.portafib.logic.scheduler.AbstractScheduler.ControlOfExecution;
-import es.caib.portafib.model.entity.CorreuAgrupat;
 
 import javax.ejb.Local;
 

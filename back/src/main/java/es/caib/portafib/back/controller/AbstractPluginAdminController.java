@@ -16,7 +16,6 @@ import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
-import org.fundaciobit.pluginsib.signatureweb.api.ISignatureWebPlugin;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,9 +37,6 @@ import es.caib.portafib.utils.ConstantsV2;
  *
  */
 public abstract class AbstractPluginAdminController<I> extends PluginController {
-
-    //@EJB(mappedName = PluginLogicaLocal.JNDI_NAME)
-    //protected PluginLogicaLocal pluginLogicaEjb;
 
     public abstract int getTipusDePlugin();
 
@@ -123,16 +119,10 @@ public abstract class AbstractPluginAdminController<I> extends PluginController 
         
         // Si <I> no es de classe ISignatureWebPlugin llavors amagam el camp ICONAID
         if (getTipusDePlugin()  == ConstantsV2.TIPUS_PLUGIN_MODULDEFIRMA_WEB) {
-            
-            System.out.println(" \n\n MOSTRA ICONA ID\n\n ");
-            
             pluginForm.getHiddenFields().remove(ICONAID);
-        } else {
-            
-            System.out.println(" \n\n OCULTA ICONA ID\n\n ");
+        } else {            
             pluginForm.addHiddenField(ICONAID);
         }
-        
 
         if (!isAdmin()) {
             pluginForm.addHiddenField(ENTITATID);

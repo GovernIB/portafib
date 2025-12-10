@@ -13,7 +13,7 @@ public class ExempleDeByteArray {
     protected String nom;
     protected String mime;
     protected int length;
-    @Schema(name = "bytes", required = true, type = "string", format = "byte")
+    @Schema(name = "bytes", nullable = false, type = "string", format = "byte")
     private byte[] bytes = null;
 
     public ExempleDeByteArray() {

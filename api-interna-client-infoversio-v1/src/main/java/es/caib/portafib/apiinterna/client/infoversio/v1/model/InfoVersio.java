@@ -35,25 +35,25 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class InfoVersio {
   public static final String JSON_PROPERTY_CAIB = "caib";
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private Boolean caib;
 
   public static final String JSON_PROPERTY_VERSION = "version";
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private String version;
 
   public static final String JSON_PROPERTY_BUILD_TIME = "buildTime";
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private String buildTime;
 
   public static final String JSON_PROPERTY_JDK_VERSION = "jdkVersion";
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private String jdkVersion;
 
   public InfoVersio() {
   }
 
-  public InfoVersio caib(@javax.annotation.Nonnull Boolean caib) {
+  public InfoVersio caib(@javax.annotation.Nullable Boolean caib) {
     
     this.caib = caib;
     return this;
@@ -63,9 +63,9 @@ public class InfoVersio {
    * És un servidor de la CAIB
    * @return caib
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CAIB)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean getCaib() {
     return caib;
@@ -73,12 +73,12 @@ public class InfoVersio {
 
 
   @JsonProperty(JSON_PROPERTY_CAIB)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setCaib(@javax.annotation.Nonnull Boolean caib) {
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCaib(@javax.annotation.Nullable Boolean caib) {
     this.caib = caib;
   }
 
-  public InfoVersio version(@javax.annotation.Nonnull String version) {
+  public InfoVersio version(@javax.annotation.Nullable String version) {
     
     this.version = version;
     return this;
@@ -88,9 +88,9 @@ public class InfoVersio {
    * Versió
    * @return version
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_VERSION)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getVersion() {
     return version;
@@ -98,12 +98,12 @@ public class InfoVersio {
 
 
   @JsonProperty(JSON_PROPERTY_VERSION)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setVersion(@javax.annotation.Nonnull String version) {
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setVersion(@javax.annotation.Nullable String version) {
     this.version = version;
   }
 
-  public InfoVersio buildTime(@javax.annotation.Nonnull String buildTime) {
+  public InfoVersio buildTime(@javax.annotation.Nullable String buildTime) {
     
     this.buildTime = buildTime;
     return this;
@@ -113,9 +113,9 @@ public class InfoVersio {
    * Data compilació
    * @return buildTime
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BUILD_TIME)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getBuildTime() {
     return buildTime;
@@ -123,12 +123,12 @@ public class InfoVersio {
 
 
   @JsonProperty(JSON_PROPERTY_BUILD_TIME)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setBuildTime(@javax.annotation.Nonnull String buildTime) {
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setBuildTime(@javax.annotation.Nullable String buildTime) {
     this.buildTime = buildTime;
   }
 
-  public InfoVersio jdkVersion(@javax.annotation.Nonnull String jdkVersion) {
+  public InfoVersio jdkVersion(@javax.annotation.Nullable String jdkVersion) {
     
     this.jdkVersion = jdkVersion;
     return this;
@@ -138,9 +138,9 @@ public class InfoVersio {
    * Versió de JDK en que s&#39;ha compilat
    * @return jdkVersion
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_JDK_VERSION)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getJdkVersion() {
     return jdkVersion;
@@ -148,8 +148,8 @@ public class InfoVersio {
 
 
   @JsonProperty(JSON_PROPERTY_JDK_VERSION)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setJdkVersion(@javax.annotation.Nonnull String jdkVersion) {
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setJdkVersion(@javax.annotation.Nullable String jdkVersion) {
     this.jdkVersion = jdkVersion;
   }
 

@@ -115,6 +115,13 @@
             <artifactId>pluginsib-validatecertificate-api</artifactId>
             <version>3.0.0-SNAPSHOT</version>
         </dependency>
+        
+        
+        <dependency>  
+		    <groupId>es.caib.comanda</groupId>  
+		    <artifactId>comanda-lib</artifactId>  
+		    <version>0.1.0</version>  
+		</dependency>
 
     </dependencies>
     <build>
@@ -188,6 +195,22 @@
                             <filterClass>es.caib.portafib.api.interna.secure.signature.v1.CustomSwaggerFilter</filterClass>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>openapi_4</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>resolve</goal>
+                        </goals>
+                        <configuration>
+                            <contextId>Comanda v1</contextId>
+                            <outputFileName>openapi_comanda_v1</outputFileName>
+                            <resourcePackages>
+                                <package>es.caib.portafib.api.interna.config</package>
+                                <package>es.caib.portafib.api.interna.secure.comanda.v1</package>
+                                <package>es.caib.comanda.ms.salut.model</package>
+                            </resourcePackages>                           
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             
@@ -245,6 +268,9 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <version>7.10.0</version>
+                <configuration>
+                    <!-- <skip>true</skip>   Desactiva el plugin -->
+                </configuration>
 
                 <executions>
                     <execution>

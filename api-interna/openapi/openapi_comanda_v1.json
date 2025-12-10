@@ -1,0 +1,882 @@
+{
+  "openapi" : "3.0.1",
+  "servers" : [ {
+    "url" : "/portafibapi/interna"
+  }, {
+    "url" : "http://localhost:8080/portafibapi/interna"
+  }, {
+    "url" : "https://dev.caib.es/portafibapi/interna"
+  }, {
+    "url" : "https://proves.caib.es/portafibapi/interna"
+  }, {
+    "url" : "https://se.caib.es/portafibapi/interna"
+  }, {
+    "url" : "https://www.caib.es/portafibapi/interna"
+  } ],
+  "tags" : [ {
+    "name" : "ComandaEstadistiques v1",
+    "description" : "Contracte d'API d'estadístiques que COMANDA pot consultar a les APPs"
+  }, {
+    "name" : "ComandaSalut v1",
+    "description" : "Contracte d'API de salut i metadades de l'aplicació que COMANDA pot consultar IFACE"
+  } ],
+  "paths" : {
+    "/api/v1/estadistiques" : {
+      "get" : {
+        "tags" : [ "ComandaEstadistiques v1" ],
+        "summary" : "Darrera captura d'estadístiques",
+        "description" : "Retorna registres d'estadístiques més recents disponibles.",
+        "operationId" : "estadistiques",
+        "responses" : {
+          "401" : {
+            "description" : "No autenticat"
+          },
+          "403" : {
+            "description" : "Prohibit"
+          },
+          "500" : {
+            "description" : "Error intern del servidor"
+          },
+          "200" : {
+            "description" : "Operació correcta",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RegistresEstadistics"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/estadistiques/of/{data}" : {
+      "get" : {
+        "tags" : [ "ComandaEstadistiques v1" ],
+        "summary" : "Estadístiques d'una data",
+        "description" : "Retorna estadístiques corresponents a la data indicada amb format dd-MM-yyyy.",
+        "operationId" : "estadistiquesData",
+        "parameters" : [ {
+          "name" : "data",
+          "in" : "path",
+          "description" : "Data en format dd-MM-yyyy",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "No autenticat"
+          },
+          "403" : {
+            "description" : "Prohibit"
+          },
+          "500" : {
+            "description" : "Error intern del servidor"
+          },
+          "200" : {
+            "description" : "Operació correcta",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RegistresEstadistics"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/estadistiques/from/{dataInici}/to/{dataFi}" : {
+      "get" : {
+        "tags" : [ "ComandaEstadistiques v1" ],
+        "summary" : "Estadístiques per interval",
+        "description" : "Retorna llista d'estadístiques des de dataInici fins a dataFi (ambdues dd-MM-yyyy).",
+        "operationId" : "estadistiquesFromTo",
+        "parameters" : [ {
+          "name" : "dataInici",
+          "in" : "path",
+          "description" : "Data inicial en format dd-MM-yyyy",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "dataFi",
+          "in" : "path",
+          "description" : "Data final en format dd-MM-yyyy",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "No autenticat"
+          },
+          "403" : {
+            "description" : "Prohibit"
+          },
+          "500" : {
+            "description" : "Error intern del servidor"
+          },
+          "200" : {
+            "description" : "Operació correcta",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RegistresEstadistics"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Paràmetre invàlid (format de data o rang)"
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/estadistiques/info" : {
+      "get" : {
+        "tags" : [ "ComandaEstadistiques v1" ],
+        "summary" : "Informació d'estadístiques",
+        "description" : "Retorna el codi de l'app i el catàleg de dimensions i indicadors disponibles.",
+        "operationId" : "statsInfo",
+        "responses" : {
+          "401" : {
+            "description" : "No autenticat"
+          },
+          "403" : {
+            "description" : "Prohibit"
+          },
+          "500" : {
+            "description" : "Error intern del servidor"
+          },
+          "200" : {
+            "description" : "Operació correcta",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/EstadistiquesInfo"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/comanda/salut/v1/appInfo" : {
+      "get" : {
+        "tags" : [ "ComandaSalut v1" ],
+        "summary" : "Informació de l'aplicació",
+        "description" : "Retorna dades bàsiques de l'aplicació (codi, nom, versió, data de build, etc.) i contextos exposats.",
+        "operationId" : "appInfo",
+        "responses" : {
+          "401" : {
+            "description" : "No autenticat"
+          },
+          "403" : {
+            "description" : "Prohibit"
+          },
+          "500" : {
+            "description" : "Error intern del servidor"
+          },
+          "200" : {
+            "description" : "Operació correcta",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AppInfo"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    },
+    "/comanda/salut/v1/salut" : {
+      "get" : {
+        "tags" : [ "ComandaSalut v1" ],
+        "summary" : "Estat de salut funcional",
+        "description" : "Retorna l'estat de salut funcional i integracions, amb metadades de versió.",
+        "operationId" : "salut",
+        "responses" : {
+          "401" : {
+            "description" : "No autenticat"
+          },
+          "403" : {
+            "description" : "Prohibit"
+          },
+          "500" : {
+            "description" : "Error intern del servidor"
+          },
+          "200" : {
+            "description" : "Operació correcta",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SalutInfo"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Dimensio" : {
+        "type" : "object",
+        "properties" : {
+          "codi" : {
+            "type" : "string"
+          },
+          "valor" : {
+            "type" : "string"
+          }
+        },
+        "description" : "Dimensions que qualifiquen el registre (p. ex. àrea, tipus, canal)"
+      },
+      "Fet" : {
+        "type" : "object",
+        "properties" : {
+          "codi" : {
+            "type" : "string"
+          },
+          "valor" : {
+            "type" : "number",
+            "format" : "double"
+          }
+        },
+        "description" : "Fets o mesures quantitatives associades al registre"
+      },
+      "RegistreEstadistic" : {
+        "type" : "object",
+        "properties" : {
+          "dimensions" : {
+            "type" : "array",
+            "description" : "Dimensions que qualifiquen el registre (p. ex. àrea, tipus, canal)",
+            "items" : {
+              "$ref" : "#/components/schemas/Dimensio"
+            }
+          },
+          "fets" : {
+            "type" : "array",
+            "description" : "Fets o mesures quantitatives associades al registre",
+            "items" : {
+              "$ref" : "#/components/schemas/Fet"
+            }
+          }
+        },
+        "description" : "Registre d'estadística amb dimensions i fets associats"
+      },
+      "RegistresEstadistics" : {
+        "required" : [ "temps" ],
+        "type" : "object",
+        "properties" : {
+          "temps" : {
+            "$ref" : "#/components/schemas/Temps"
+          },
+          "fets" : {
+            "type" : "array",
+            "description" : "Llista de registres o fets estadístics recollits en l'instant indicat",
+            "items" : {
+              "$ref" : "#/components/schemas/RegistreEstadistic"
+            }
+          }
+        },
+        "description" : "Registres estadístics d'un instant de temps amb les seves mesures"
+      },
+      "Temps" : {
+        "required" : [ "data" ],
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "Instant temporal de referència",
+            "format" : "date-time"
+          },
+          "anualitat" : {
+            "type" : "integer",
+            "description" : "Any corresponent a la data",
+            "format" : "int32",
+            "example" : 2025
+          },
+          "trimestre" : {
+            "type" : "integer",
+            "description" : "Trimestre (1-4) derivat de la data",
+            "format" : "int32",
+            "example" : 4
+          },
+          "mes" : {
+            "type" : "integer",
+            "description" : "Mes (1-12) derivat de la data",
+            "format" : "int32",
+            "example" : 11
+          },
+          "setmana" : {
+            "type" : "integer",
+            "description" : "Setmana de l'any derivada de la data",
+            "format" : "int32",
+            "example" : 47
+          },
+          "diaSetmana" : {
+            "type" : "string",
+            "description" : "Dia de la setmana",
+            "enum" : [ "DL", "DM", "DC", "DJ", "DV", "DS", "DG" ]
+          },
+          "dia" : {
+            "type" : "integer",
+            "description" : "Dia del mes",
+            "format" : "int32",
+            "example" : 25
+          }
+        },
+        "description" : "Desglossament temporal associat als registres d'estadística"
+      },
+      "DimensioDesc" : {
+        "required" : [ "codi", "nom" ],
+        "type" : "object",
+        "properties" : {
+          "codi" : {
+            "maxLength" : 32,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "nom" : {
+            "maxLength" : 64,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "descripcio" : {
+            "type" : "string"
+          },
+          "valors" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        },
+        "description" : "Dimensions estadístiques disponibles"
+      },
+      "EstadistiquesInfo" : {
+        "required" : [ "codi", "dimensions", "indicadors" ],
+        "type" : "object",
+        "properties" : {
+          "codi" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Codi identificador de l'aplicació",
+            "example" : "NOTIB"
+          },
+          "versio" : {
+            "type" : "string",
+            "description" : "Versió de l'aplicació",
+            "example" : "1.4.3"
+          },
+          "data" : {
+            "type" : "string",
+            "description" : "Data de generació de la informació",
+            "format" : "date-time"
+          },
+          "dimensions" : {
+            "type" : "array",
+            "description" : "Dimensions estadístiques disponibles",
+            "items" : {
+              "$ref" : "#/components/schemas/DimensioDesc"
+            }
+          },
+          "indicadors" : {
+            "type" : "array",
+            "description" : "Indicadors estadístics disponibles",
+            "items" : {
+              "$ref" : "#/components/schemas/IndicadorDesc"
+            }
+          }
+        },
+        "description" : "Catàleg de dimensions i indicadors d'estadística disponibles per a una APP"
+      },
+      "IndicadorDesc" : {
+        "required" : [ "codi", "nom" ],
+        "type" : "object",
+        "properties" : {
+          "codi" : {
+            "maxLength" : 32,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Codi de l'indicador",
+            "example" : "visites"
+          },
+          "nom" : {
+            "maxLength" : 64,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Nom de l'indicador",
+            "example" : "Nombre de visites"
+          },
+          "descripcio" : {
+            "type" : "string",
+            "description" : "Descripció funcional de l'indicador",
+            "example" : "Total de visites registrades per període"
+          },
+          "format" : {
+            "type" : "string",
+            "description" : "Format de representació del valor de l'indicador",
+            "enum" : [ "LONG", "DECIMAL", "PERCENTAGE", "CURRENCY", "DATE", "DATETIME", "BOOLEAN" ]
+          }
+        },
+        "description" : "Descripció d'un indicador/mesura disponible"
+      },
+      "AppInfo" : {
+        "required" : [ "codi", "data", "nom", "versio" ],
+        "type" : "object",
+        "properties" : {
+          "codi" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Codi identificador de l'aplicació",
+            "example" : "NOTIB"
+          },
+          "nom" : {
+            "maxLength" : 100,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Nom complet de l'aplicació",
+            "example" : "NOTIB - Notificacions"
+          },
+          "versio" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Versió desplegada de l'aplicació",
+            "example" : "1.4.3"
+          },
+          "data" : {
+            "type" : "string",
+            "description" : "Data de compilació o de la informació reportada",
+            "format" : "date-time"
+          },
+          "revisio" : {
+            "type" : "string",
+            "description" : "Revisió o identificador de commit de la build",
+            "example" : "a1b2c3d"
+          },
+          "jdkVersion" : {
+            "type" : "string",
+            "description" : "Versió de JDK amb la qual s'executa l'aplicació",
+            "example" : "Temurin-17.0.9"
+          },
+          "integracions" : {
+            "type" : "array",
+            "description" : "Llista d'integracions exposades per l'aplicació",
+            "items" : {
+              "$ref" : "#/components/schemas/IntegracioInfo"
+            }
+          },
+          "subsistemes" : {
+            "type" : "array",
+            "description" : "Llista de subsistemes interns amb el seu estat",
+            "items" : {
+              "$ref" : "#/components/schemas/SubsistemaInfo"
+            }
+          },
+          "contexts" : {
+            "type" : "array",
+            "description" : "Contextos o endpoints base exposats per l'aplicació",
+            "items" : {
+              "$ref" : "#/components/schemas/ContextInfo"
+            }
+          }
+        },
+        "description" : "Informació bàsica de l'aplicació consultada per COMANDA"
+      },
+      "ContextInfo" : {
+        "required" : [ "codi", "nom", "path" ],
+        "type" : "object",
+        "properties" : {
+          "codi" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Codi del context",
+            "example" : "public"
+          },
+          "nom" : {
+            "maxLength" : 255,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Nom descriptiu del context",
+            "example" : "Context públic"
+          },
+          "path" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Path base del context",
+            "example" : "/app/public"
+          },
+          "manuals" : {
+            "type" : "array",
+            "description" : "Llista de manuals associats al context",
+            "items" : {
+              "$ref" : "#/components/schemas/Manual"
+            }
+          },
+          "api" : {
+            "type" : "string",
+            "description" : "URL o especificació OpenAPI del context, si està disponible",
+            "example" : "https://dev.caib.es/app/public/openapi.json"
+          }
+        },
+        "description" : "Context o 'namespace' funcional exposat per l'aplicació"
+      },
+      "IntegracioInfo" : {
+        "required" : [ "codi", "nom" ],
+        "type" : "object",
+        "properties" : {
+          "codi" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Codi identificador de la integració",
+            "example" : "NOTIB"
+          },
+          "nom" : {
+            "maxLength" : 255,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Nom descriptiu de la integració",
+            "example" : "NOTIB - Notificacions"
+          }
+        },
+        "description" : "Informació d'una integració exposada per l'aplicació"
+      },
+      "Manual" : {
+        "required" : [ "nom", "path" ],
+        "type" : "object",
+        "properties" : {
+          "nom" : {
+            "maxLength" : 128,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Nom del manual",
+            "example" : "Guia d'usuari"
+          },
+          "path" : {
+            "maxLength" : 255,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Ruta o URL del manual",
+            "example" : "https://www.caib.es/docs/guia-usuari.pdf"
+          }
+        },
+        "description" : "Referència a un manual o documentació funcional"
+      },
+      "SubsistemaInfo" : {
+        "required" : [ "codi", "nom" ],
+        "type" : "object",
+        "properties" : {
+          "codi" : {
+            "maxLength" : 64,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Codi del subsistema",
+            "example" : "BD"
+          },
+          "nom" : {
+            "maxLength" : 255,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Nom del subsistema",
+            "example" : "Base de Dades"
+          }
+        },
+        "description" : "Informació d'un subsistema intern de l'aplicació"
+      },
+      "DetallSalut" : {
+        "required" : [ "codi", "nom", "valor" ],
+        "type" : "object",
+        "properties" : {
+          "codi" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Codi del detall",
+            "example" : "latencia-db"
+          },
+          "nom" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Nom del detall",
+            "example" : "Latència BD"
+          },
+          "valor" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Valor del detall",
+            "example" : "120ms"
+          }
+        },
+        "description" : "Detall específic d'estat de salut (parella clau-valor)"
+      },
+      "EstatSalut" : {
+        "type" : "object",
+        "properties" : {
+          "estat" : {
+            "type" : "string",
+            "description" : "Enumerat d'estats possibles de salut d'un component",
+            "enum" : [ "UP", "WARN", "DEGRADED", "DOWN", "MAINTENANCE", "UNKNOWN", "ERROR" ]
+          },
+          "latencia" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "description" : "Estat de la base de dades"
+      },
+      "IntegracioPeticions" : {
+        "required" : [ "peticionsErrorUltimPeriode", "peticionsOkUltimPeriode", "tempsMigUltimPeriode", "totalError", "totalOk", "totalTempsMig" ],
+        "type" : "object",
+        "properties" : {
+          "totalOk" : {
+            "type" : "integer",
+            "description" : "Nombre total de peticions amb resultat correcte",
+            "format" : "int64"
+          },
+          "totalError" : {
+            "type" : "integer",
+            "description" : "Nombre total de peticions amb error",
+            "format" : "int64"
+          },
+          "totalTempsMig" : {
+            "type" : "integer",
+            "description" : "Temps mig total de resposta (ms)",
+            "format" : "int32"
+          },
+          "peticionsOkUltimPeriode" : {
+            "type" : "integer",
+            "description" : "Peticions OK en el darrer període",
+            "format" : "int64"
+          },
+          "peticionsErrorUltimPeriode" : {
+            "type" : "integer",
+            "description" : "Peticions en error en el darrer període",
+            "format" : "int64"
+          },
+          "tempsMigUltimPeriode" : {
+            "type" : "integer",
+            "description" : "Temps mig de resposta en el darrer període (ms)",
+            "format" : "int32"
+          },
+          "endpoint" : {
+            "maxLength" : 255,
+            "minLength" : 0,
+            "type" : "string",
+            "description" : "Endpoint concret associat a aquestes mètriques",
+            "example" : "/api/v1/notificacions"
+          },
+          "peticionsPerEntorn" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/IntegracioPeticions"
+            },
+            "description" : "Mètriques per entorn (clau = codi d'entorn)"
+          }
+        },
+        "description" : "Mètriques de peticions d'una integració: totals i darrer període"
+      },
+      "IntegracioSalut" : {
+        "required" : [ "codi" ],
+        "type" : "object",
+        "properties" : {
+          "estat" : {
+            "type" : "string",
+            "description" : "Enumerat d'estats possibles de salut d'un component",
+            "enum" : [ "UP", "WARN", "DEGRADED", "DOWN", "MAINTENANCE", "UNKNOWN", "ERROR" ]
+          },
+          "latencia" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "codi" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Codi de la integració",
+            "example" : "NOTIB"
+          },
+          "peticions" : {
+            "$ref" : "#/components/schemas/IntegracioPeticions"
+          }
+        },
+        "description" : "Estat de salut d'una integració concreta"
+      },
+      "MissatgeSalut" : {
+        "required" : [ "data", "missatge", "nivell" ],
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "Instant del missatge",
+            "format" : "date-time"
+          },
+          "nivell" : {
+            "type" : "string",
+            "description" : "Nivell de gravetat d'un missatge de salut",
+            "enum" : [ "ERROR", "WARN", "INFO" ]
+          },
+          "missatge" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Text del missatge",
+            "example" : "Manteniment programat a les 22:00h"
+          }
+        },
+        "description" : "Missatge informatiu/alerta de salut amb nivell de gravetat"
+      },
+      "SalutInfo" : {
+        "required" : [ "bd", "codi", "data", "estat" ],
+        "type" : "object",
+        "properties" : {
+          "codi" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Codi identificador de l'aplicació",
+            "example" : "NOTIB"
+          },
+          "data" : {
+            "type" : "string",
+            "description" : "Instant de generació de l'estat de salut",
+            "format" : "date-time"
+          },
+          "estat" : {
+            "$ref" : "#/components/schemas/EstatSalut"
+          },
+          "bd" : {
+            "$ref" : "#/components/schemas/EstatSalut"
+          },
+          "integracions" : {
+            "type" : "array",
+            "description" : "Integracions amb el seu estat",
+            "items" : {
+              "$ref" : "#/components/schemas/IntegracioSalut"
+            }
+          },
+          "altres" : {
+            "type" : "array",
+            "description" : "Altres detalls rellevants de salut",
+            "items" : {
+              "$ref" : "#/components/schemas/DetallSalut"
+            }
+          },
+          "missatges" : {
+            "type" : "array",
+            "description" : "Missatges informatius o d'alerta",
+            "items" : {
+              "$ref" : "#/components/schemas/MissatgeSalut"
+            }
+          },
+          "versio" : {
+            "type" : "string",
+            "description" : "Versió de l'aplicació",
+            "example" : "1.4.3"
+          },
+          "subsistemes" : {
+            "type" : "array",
+            "description" : "Subsistemes interns amb el seu estat",
+            "items" : {
+              "$ref" : "#/components/schemas/SubsistemaSalut"
+            }
+          }
+        },
+        "description" : "Estat de salut funcional de l'aplicació i metadades associades"
+      },
+      "SubsistemaSalut" : {
+        "required" : [ "codi", "peticionsErrorUltimPeriode", "peticionsOkUltimPeriode", "tempsMigUltimPeriode", "totalError", "totalOk", "totalTempsMig" ],
+        "type" : "object",
+        "properties" : {
+          "estat" : {
+            "type" : "string",
+            "description" : "Enumerat d'estats possibles de salut d'un component",
+            "enum" : [ "UP", "WARN", "DEGRADED", "DOWN", "MAINTENANCE", "UNKNOWN", "ERROR" ]
+          },
+          "latencia" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "codi" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Codi del subsistema",
+            "example" : "BD"
+          },
+          "totalOk" : {
+            "type" : "integer",
+            "description" : "Total de peticions amb resultat correcte",
+            "format" : "int64"
+          },
+          "totalError" : {
+            "type" : "integer",
+            "description" : "Total de peticions amb error",
+            "format" : "int64"
+          },
+          "totalTempsMig" : {
+            "type" : "integer",
+            "description" : "Temps mig total de resposta (ms)",
+            "format" : "int32"
+          },
+          "peticionsOkUltimPeriode" : {
+            "type" : "integer",
+            "description" : "Peticions OK en el darrer període",
+            "format" : "int64"
+          },
+          "peticionsErrorUltimPeriode" : {
+            "type" : "integer",
+            "description" : "Peticions en error en el darrer període",
+            "format" : "int64"
+          },
+          "tempsMigUltimPeriode" : {
+            "type" : "integer",
+            "description" : "Temps mig de resposta en el darrer període (ms)",
+            "format" : "int32"
+          }
+        },
+        "description" : "Estat de salut i mètriques d'un subsistema intern"
+      }
+    },
+    "securitySchemes" : {
+      "BasicAuth" : {
+        "type" : "http",
+        "scheme" : "basic"
+      }
+    }
+  }
+}

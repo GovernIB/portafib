@@ -246,7 +246,6 @@
         "description" : "Estructura de dades utilitzada per passar informació d'un error"
       },
       "InfoVersio" : {
-        "required" : [ "buildTime", "caib", "jdkVersion", "version" ],
         "type" : "object",
         "properties" : {
           "caib" : {

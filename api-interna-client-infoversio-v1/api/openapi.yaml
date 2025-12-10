@@ -195,10 +195,5 @@ components:
         jdkVersion:
           description: Versió de JDK en que s'ha compilat
           type: string
-      required:
-      - buildTime
-      - caib
-      - jdkVersion
-      - version
       type: object
 

@@ -12,19 +12,19 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Model de dades de Informació bàsica a retornar.")
 public class InfoVersio {
 
-    @Schema(required = true, description = "Versió")
+    @Schema(nullable = false, description = "Versió")
     @JsonProperty("version")
     private String version;
 
-    @Schema(required = true, description = "Data compilació")
+    @Schema(nullable = false, description = "Data compilació")
     @JsonProperty("buildTime")
     private String buildTime;
 
-    @Schema(required = true, description = "Versió de JDK en que s'ha compilat")
+    @Schema(nullable = false, description = "Versió de JDK en que s'ha compilat")
     @JsonProperty("jdkVersion")
     private String jdkVersion;
 
-    @Schema(required = true, description = "És un servidor de la CAIB")
+    @Schema(nullable = false, description = "És un servidor de la CAIB")
     @JsonProperty("caib")
     private boolean caib;
 

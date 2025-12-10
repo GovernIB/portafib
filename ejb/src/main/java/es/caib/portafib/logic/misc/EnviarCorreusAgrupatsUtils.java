@@ -28,13 +28,11 @@ import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NCommonUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
-import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.logic.scheduler.AbstractScheduler.ControlOfExecution;
 import es.caib.portafib.logic.utils.EmailInfo;
 import es.caib.portafib.logic.utils.EmailUtil;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 
-// 
 /**
  * 
  * @author anadal

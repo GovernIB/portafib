@@ -13,4 +13,9 @@
         "url": "./openapi_signature_v1.json",
         "name": "Signature v1"
     }
+,
+    {
+        "url": "./openapi_comanda_v1.json",
+        "name": "Comanda v1"
+    }
 ]
