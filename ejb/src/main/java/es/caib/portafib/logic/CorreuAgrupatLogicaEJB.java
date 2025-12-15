@@ -3,6 +3,7 @@ package es.caib.portafib.logic;
 import es.caib.portafib.ejb.CorreuAgrupatEJB;
 import es.caib.portafib.logic.scheduler.AbstractScheduler.ControlOfExecution;
 import es.caib.portafib.logic.utils.EmailUtil;
+import es.caib.portafib.logic.utils.PortaFIBPluginsManager;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.bean.CorreuAgrupatBean;
 import es.caib.portafib.model.entity.CorreuAgrupat;
@@ -15,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -29,6 +32,8 @@ import org.fundaciobit.genapp.common.query.SelectDistinct;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.query.selectcolumn.Select2Columns;
 import org.fundaciobit.genapp.common.query.selectcolumn.Select2Values;
+import org.fundaciobit.pluginsib.userinformation.IUserInformationPlugin;
+import org.fundaciobit.pluginsib.userinformation.UserInfo;
 
 /**
  * 
@@ -154,7 +159,9 @@ public class CorreuAgrupatLogicaEJB extends CorreuAgrupatEJB implements CorreuAg
      */
     protected String enviarCorreuAgrupat(Map<String, Integer> result, String email, String subject, String message,
             long... ids) {
+
         String error = null;
+        boolean esborrarCorreus = false;
         try {
             final boolean isHtml = true;
             EmailUtil.postMail(subject, message, isHtml, PropietatGlobalUtil.getAppEmail(), email);
@@ -168,46 +175,126 @@ public class CorreuAgrupatLogicaEJB extends CorreuAgrupatEJB implements CorreuAg
 
             result.put(email, missatges);
 
-            if (ids != null && ids.length > 0) {
-                for (long id : ids) {
-                    this.delete(id);
-                }
-            }
+            esborrarCorreus = true;
 
         } catch (I18NException e) {
             // XYZ ZZZ TRA TODO 
+
             error = SDF.format(new Date()) + "Error I18NException enviant correu de bbdd a " + email + ": "
                     + I18NCommonUtils.getMessage(e, new Locale("ca"));
             log.error(error, e);
 
             // 5. PERO: la transacción sigue activa hasta el fin del método
             // Podemos hacer operaciones de BD que se ejecutarán
-            used_to_avoid_self_invocation_problem.guardarError(error, ids);
+            used_to_avoid_self_invocation_problem.guardarError(error, email, ids);
 
         } catch (Throwable e) {
-            // XYZ ZZZ TRA TODO 
-            error = SDF.format(new Date()) + "Error NO CONTROLAT enviant correu de bbdd a " + email + ": "
-                    + e.getMessage();
+            String rejected = extractRejectedAddressIfUserUnknown(e);
+
+            //log.info("\n\n\n  REKJECTED = " + rejected + "\n\n\n");
+
+            if (rejected != null) {
+
+                UserInfo userInfo;
+                try {
+                    IUserInformationPlugin ui = PortaFIBPluginsManager.getUserInformationPluginInstance();
+
+                    String username = email.substring(0, email.indexOf('@'));
+
+                    userInfo = ui.getUserInfoByUserName(username);
+
+                    // Usuari existeix ?
+                    if (userInfo == null) {
+                        log.warn("L'usuari amb nom d'usuari " + username
+                                + " no existeix, esborrem els seus correus agrupats.");
+                        esborrarCorreus = true;
+                        return null;
+                    }
+
+                    // Revisam si l'usuari està actiu
+                    // TODO parche per la CAIB !!!!! SOLUCIO => if (!userInfo.isActive()) {
+                    String dep = userInfo.getCompanyDepartment();
+                    if (dep != null && dep.equalsIgnoreCase("portal")) {
+                        log.warn("L'usuari amb nom d'usuari " + username
+                                + " NO està actiu, esborrem els seus correus agrupats.");
+                        esborrarCorreus = true;
+                        return null;
+                    }
+
+                    // Comprovam que l'adreça de correu és la mateixa
+                    if (userInfo.getEmail() != null && !userInfo.getEmail().equalsIgnoreCase(rejected)) {
+                        error = "Error enviant correu de bbdd: L'usuari amb nom d'usuari " + username
+                                + " té una adreça de correu '" + userInfo.getEmail()
+                                + "' però ens han passat per enviar a una adreça '" + email + "'";
+                        email = userInfo.getEmail();
+                    } else {
+                        error = "Error NO CONTROLAT enviant correu de bbdd a " + email + ": " + e.getMessage()
+                                + " - Rejected address: " + rejected;
+                    }
+
+                } catch (Exception e1) {
+                    error = "Error NO CONTROLAT enviant correu de bbdd a " + email + ": " + e.getMessage()
+                            + " Rejected address: " + rejected + "(Exception: " + e1.getMessage() + ")";
+                }
+
+            } else {
+                error = "Error NO CONTROLAT enviant correu de bbdd a " + email + ": " + e.getMessage();
+            }
+
             log.error(error, e);
 
             // 5. PERO: la transacción sigue activa hasta el fin del método
             // Podemos hacer operaciones de BD que se ejecutarán
-            used_to_avoid_self_invocation_problem.guardarError(error, ids);
+            used_to_avoid_self_invocation_problem.guardarError(SDF.format(new Date()) + error, email, ids);
+        } finally {
+            if (esborrarCorreus) {
+                if (ids != null && ids.length > 0) {
+                    for (long id : ids) {
+                        this.delete(id);
+                    }
+                }
+            }
         }
 
         return error;
     }
 
+    private String extractRejectedAddressIfUserUnknown(Throwable t) {
+        Pattern anglePattern = Pattern.compile("<([^>\\s]+@[^>\\s]+)>");
+        Pattern emailPattern = Pattern.compile("\\b[\\w.%+-]+@[\\w.-]+\\.[A-Za-z]{2,}\\b");
+        final String marker1 = "User unknown in virtual alias table";
+        final String marker2 = "Recipient unknown";
+        while (t != null) {
+            String msg = t.getMessage();
+
+            //log.info("\n\n\n  EXTRACTING FROM MESSAGE = " + msg + "\n\n\n");
+
+            if (msg != null && (msg.contains(marker1) || msg.contains(marker2))) {
+                Matcher m = anglePattern.matcher(msg);
+                if (m.find()) {
+                    return m.group(1);
+                }
+                m = emailPattern.matcher(msg);
+                if (m.find()) {
+                    return m.group();
+                }
+            }
+            t = t.getCause();
+        }
+        return null;
+    }
+
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     @Override
-    public void guardarError(String error, long... ids) {
+    public void guardarError(String error, String email, long... ids) {
 
         for (long id : ids) {
             try {
-                CorreuAgrupat email = this.findByPrimaryKey(id);
+                CorreuAgrupat correuAgrupat = this.findByPrimaryKey(id);
                 //log.info("\n\n\n\n PRE UPDATE 4444!!!!!! \n\n\n\n");
-                email.setError(error);
-                this.update(email);
+                correuAgrupat.setError(error);
+                correuAgrupat.setEmail(email);
+                this.update(correuAgrupat);
                 //log.info("\n\n\n\n POST UPDATE  4444!!!!!! \n\n\n\n");
             } catch (Throwable e) {
                 log.error("Error guardant EmailAgrupat després d'un error (ID =  '" + id + "'): " + e.getMessage(), e);

@@ -304,3 +304,7 @@ api-interna-client-signature-v1-examples/apifirmawebsimple.properties
 /api-interna-client-signature-v1-examples/src/main/java/es/caib/portafib/apiinterna/client/signature/v1/example/api/MyPlantillaDeFluxDeFirmaV1ApiTest.java
 /ejb/testComparePdfs
 /api-interna/generador_comanda
+/back2.bat
+/checkcode.bat
+/deployapis.bat
+/graf_dependencies.bat

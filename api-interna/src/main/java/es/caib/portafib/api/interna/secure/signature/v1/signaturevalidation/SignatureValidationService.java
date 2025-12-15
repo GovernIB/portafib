@@ -157,7 +157,8 @@ public class SignatureValidationService extends RestUtils {
 
         languageUI = checkLanguage(languageUI);
         try {
-            log.info(" XYZ ZZZ Entra a validateSignature ...");
+            String username = request.getUserPrincipal().getName();
+            log.info("ApiInterna::validateSignatureRequest(USR: " + username + ") ...");
 
             //vsr.setSignatureData(signature);
             //vsr.setSignedDocumentData(detached);
@@ -170,12 +171,12 @@ public class SignatureValidationService extends RestUtils {
                 detached = new ByteArrayDataSource(validateSignatureRequest.getDetachedDocument().getData());
             }
 
-            String entitatID = getEntitatId(request.getUserPrincipal().getName(), languageUI);
+            String entitatID = getEntitatId(username, languageUI);
 
             String signType = SignType.fromFile(signatureDocument.getName(), signatureDocument.getMime()).typeName();
 
-            log.info(" XYZ ZZZ Validant firma amb entitatID=" + entitatID + ", signType=" + signType + ", languageUI="
-                    + languageUI);
+            log.info("ApiInterna::validateSignatureRequest(entitatID=" + entitatID + ", signType=" + signType + ", languageUI="
+                    + languageUI + ", Username=" + username);
 
             org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureResponse response;
             response = validacioFirmesEjb.validateSignature(entitatID, signType, signature, detached, languageUI);

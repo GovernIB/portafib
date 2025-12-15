@@ -12,6 +12,7 @@ import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.validation.IValidatorResult;
 import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
 
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.logic.passarela.AbstractPassarelaDeFirmaLocal;
 import es.caib.portafib.logic.passarela.PassarelaDeFirmaEnServidorLocal;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
@@ -191,18 +192,20 @@ public class SignaturesSetValidator<T extends PassarelaSignaturesSet> {
                 //            peticioDeFirma.modeDeFirma=Mode de firma
 
                 // ------------------------
-                if (pfis.getSignMode() != FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED // 0
-                        && pfis.getSignMode() != FileInfoSignature.SIGN_MODE_DETACHED // 1
-                        && pfis.getSignMode() != FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING // 3;
-                        && pfis.getSignMode() != FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED // 4
+                if (pfis.getSignMode() != Constants.SIGN_MODE_ATTACHED_ENVELOPED // 0
+                        && pfis.getSignMode() != Constants.SIGN_MODE_DETACHED // 1
+                        && pfis.getSignMode() != Constants.SIGN_MODE_ATTACHED_ENVELOPING // 3;
+                        && pfis.getSignMode() != Constants.SIGN_MODE_INTERNALLY_DETACHED // 4
+                        && pfis.getSignMode() != Constants.SIGN_MODE_EXTERNALLY_DETACHED //5
                 ) {
                     // El campo {0} solamente acepta los siguientes valores: {1}.
                     Field<?> STL = getF("fileInfoSignatureArray.fileToSign.signMode");
                     __vr.rejectValue(STL, "error.passarela.field.fixedvalues", new I18NArgumentString(get(STL)),
-                            new I18NArgumentString("" + FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED + ", "
-                                    + FileInfoSignature.SIGN_MODE_DETACHED + ", "
-                                    + FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING + ", "
-                                    + FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED));
+                            new I18NArgumentString("" + Constants.SIGN_MODE_ATTACHED_ENVELOPED + ", "
+                                    + Constants.SIGN_MODE_DETACHED + ", "
+                                    + Constants.SIGN_MODE_ATTACHED_ENVELOPING + ", "
+                                    + Constants.SIGN_MODE_INTERNALLY_DETACHED+ ", "
+                                    + Constants.SIGN_MODE_EXTERNALLY_DETACHED));
                 }
 
                 // ------------------------
