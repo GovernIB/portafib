@@ -903,7 +903,12 @@ public class SignatureUtils {
      * @throws I18NException
      */
     public static boolean checkCanviatDocFirmat(UsuariAplicacioConfiguracio configuracio, EntitatService entitatEjb,
-            String entitatID) throws I18NException {
+            String entitatID, boolean willCanCheckIfSignedDocumentWasAlteredAfterSignature) throws I18NException {
+        
+        if (willCanCheckIfSignedDocumentWasAlteredAfterSignature == false) {
+            return false;
+        }
+        
         Boolean comp = configuracio.getCheckCanviatDocFirmat();
 
         if (comp == null) {

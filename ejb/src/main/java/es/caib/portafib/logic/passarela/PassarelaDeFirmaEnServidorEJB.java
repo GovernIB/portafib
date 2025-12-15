@@ -195,10 +195,11 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
 
                     boolean validarFitxerFirma = SignatureUtils.validarFirma(configuracio, entitatEjb, entitatID);
                     final boolean administrationIdCanBeValidatedFromPlugin = true; // Plugins de Servidor sempre es true.
+                    final boolean willCanCheckIfSignedDocumentWasAlteredAfterSignature = true; // Plugins de Servidor sempre es true.
                     boolean comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatEjb, entitatID,
                             administrationIdCanBeValidatedFromPlugin);
                     boolean checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(configuracio, entitatEjb,
-                            entitatID);
+                            entitatID, willCanCheckIfSignedDocumentWasAlteredAfterSignature);
 
                     if (isDebug) {
                         log.info(" CONFIGURACIO => " + configuracio.getUsuariAplicacioConfigID());
@@ -442,9 +443,11 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
 
         boolean validarFitxerFirma = SignatureUtils.validarFirma(config, entitatEjb, entitatID);
         final boolean administrationIdCanBeValidatedFromPlugin = true; // Plugins de Servidor sempre es true.
+        final boolean willCanCheckIfSignedDocumentWasAlteredAfterSignature = true; // Plugins de Servidor sempre es true.
         boolean comprovarNifFirma = SignatureUtils.comprovarNifFirma(config, entitatEjb, entitatID,
                 administrationIdCanBeValidatedFromPlugin);
-        boolean checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(config, entitatEjb, entitatID);
+        boolean checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(config, entitatEjb, entitatID,
+                willCanCheckIfSignedDocumentWasAlteredAfterSignature);
 
         // (A) Validar la Firma
         final IPortaFIBDataSource fitxerOriginal;

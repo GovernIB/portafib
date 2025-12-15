@@ -403,7 +403,6 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
         PassarelaSignaturesSetWebInternalUse ss = readSignaturesSet(transactionID);
 
-
         if (ss == null) {
             log.error("getStatusTransaction(" + transactionID + ") == NULL !!!!! (caducat ?????)");
             return null;
@@ -538,15 +537,14 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
     @Override
     public PassarelaSignaturesSetWebInternalUse finalProcesDeFirma(String transactionID, SignaturesSetWeb ss,
-            boolean administrationIdCanBeValidatedFromPlugin)
-            throws I18NException {
-
+            boolean administrationIdCanBeValidatedFromPlugin,
+            boolean willCanCheckIfSignedDocumentWasAlteredAfterSignature) throws I18NException {
 
         StatusSignaturesSet sss = ss.getStatusSignaturesSet();
 
         //final String languageUI = ssf.getSignaturesSet().getCommonInfoSignature().getLanguageUI();
         final String languageUI = ss.getCommonInfoSignature().getLanguageUI();
-        
+
         PassarelaSignaturesSetWebInternalUse ssf;
         ssf = getSignaturesSetFullByTransactionID(transactionID);
         if (ssf == null) {
@@ -555,14 +553,10 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
         }
         Map<String, PassarelaSignatureStatusWebInternalUse> statusBySignID = ssf.getStatusBySignatureID();
 
-
-       
         switch (sss.getStatus()) {
 
             case StatusSignaturesSet.STATUS_FINAL_OK: {
-                
-                
-                
+
                 // Revisam les firma
 
                 final UsuariAplicacio usuariAplicacio;
@@ -609,17 +603,19 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                             try {
                                 File original = status.getSignedData();
                                 if (!original.exists()) {
-                                    String msg = "El plugin amb ID "  + ssf.getSignaturePluginId() 
-                                    + " ha retornat un status OK per la petició de passarela " + ss.getSignaturesSetID() 
-                                    + " però el fitxer Signat no existeix: " + original.getAbsolutePath();
+                                    String msg = "El plugin amb ID " + ssf.getSignaturePluginId()
+                                            + " ha retornat un status OK per la petició de passarela "
+                                            + ss.getSignaturesSetID() + " però el fitxer Signat no existeix: "
+                                            + original.getAbsolutePath();
                                     log.error(msg, new Exception());
                                     throw new I18NException("genapp.comodi", msg);
                                 }
-                                
+
                                 if (original.length() == 0) {
-                                    String msg = "El plugin amb ID "  + ssf.getSignaturePluginId() 
-                                    + " ha retornat un status OK per la petició de passarela " + ss.getSignaturesSetID() 
-                                    + " però el fitxer Signat està buit: " + original.getAbsolutePath();
+                                    String msg = "El plugin amb ID " + ssf.getSignaturePluginId()
+                                            + " ha retornat un status OK per la petició de passarela "
+                                            + ss.getSignaturesSetID() + " però el fitxer Signat està buit: "
+                                            + original.getAbsolutePath();
                                     log.error(msg, new Exception());
                                     throw new I18NException("genapp.comodi", msg);
                                 }
@@ -641,7 +637,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                                 final int numFirmesOriginals = ssf.getOriginalNumberOfSignsArray()[p];
                                 ValidacioCompletaResponse validacioResponse = validateSignature(ssf, firmat, entitatID,
                                         languageUI, configBySignID.get(signID), pfis, numFirmesOriginals,
-                                        administrationIdCanBeValidatedFromPlugin);
+                                        administrationIdCanBeValidatedFromPlugin,
+                                        willCanCheckIfSignedDocumentWasAlteredAfterSignature);
                                 pss.setInfoValidacio(validacioResponse);
 
                                 // Custodia Documental
@@ -813,7 +810,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     protected ValidacioCompletaResponse validateSignature(PassarelaSignaturesSetWebInternalUse ssf, File fitxerFirmat,
             final String entitatID, final String languageUI, UsuariAplicacioConfiguracioJPA configuracio,
             PassarelaFileInfoSignature fis, final int numFirmesOriginals,
-            boolean administrationIdCanBeValidatedFromPlugin) throws I18NException {
+            boolean administrationIdCanBeValidatedFromPlugin,
+            boolean willCanCheckIfSignedDocumentWasAlteredAfterSignature) throws I18NException {
 
         // TODO check null
         final String signID = fis.getSignID();
@@ -821,7 +819,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
         boolean validarFitxerFirma = SignatureUtils.validarFirma(configuracio, entitatEjb, entitatID);
         boolean comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatEjb, entitatID,
                 administrationIdCanBeValidatedFromPlugin);
-        boolean checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(configuracio, entitatEjb, entitatID);
+        boolean checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(configuracio, entitatEjb, entitatID,
+                willCanCheckIfSignedDocumentWasAlteredAfterSignature);
 
         // (A) Validar la Firma
         final IPortaFIBDataSource fitxerOriginal;
@@ -897,7 +896,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
         try {
             final boolean validateChangesInAttachedFiles = administrationIdCanBeValidatedFromPlugin;
             validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(
-                    ssf.getSignaturesSet().getSignaturesSetID() ,validacioRequest, validateChangesInAttachedFiles);
+                    ssf.getSignaturesSet().getSignaturesSetID(), validacioRequest, validateChangesInAttachedFiles);
         } catch (ValidacioException e) {
             throw new I18NException("genapp.comodi", e.getMessage());
         }
@@ -1060,8 +1059,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                     if (log.isDebugEnabled()) {
                         log.debug("checkExpiredSignaturesSet():: COMPARE('" + key + "','" + transaccioID + "') => "
                                 + key.equals(transaccioID));
-                        log.debug("checkExpiredSignaturesSet():: Signature Test [ID] => ]" + key + "[ {" + key.hashCode()
-                                + "}");
+                        log.debug("checkExpiredSignaturesSet():: Signature Test [ID] => ]" + key + "[ {"
+                                + key.hashCode() + "}");
                     }
                     PassarelaSignaturesSetWebInternalUse ssf = entry.getValue();
                     if (ssf == null) {
@@ -1069,8 +1068,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                                 + " té PassarelaSignaturesSetWebInternalUse.java NULL");
                     } else if (key.equals(transaccioID)) {
 
-                        
-                        log.debug("checkExpiredSignaturesSet():: TROBADA informació de transacció amb ID ]" + key + "[");
+                        log.debug(
+                                "checkExpiredSignaturesSet():: TROBADA informació de transacció amb ID ]" + key + "[");
 
                         valueToReturn = ssf;
                     } else if (now > ssf.getSignaturesSet().getExpiryDate().getTime()) {

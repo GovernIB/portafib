@@ -51,10 +51,11 @@ public abstract class AbstractPluginIBLogicaEJB<I extends IPluginIB> extends Plu
             return TIPUS.equal(getTipusDePlugin());
         } else {
             // Plugins de l'entitat o plugins per totes les entitats
-            return Where.AND(TIPUS.equal(getTipusDePlugin()), ACTIU.equal(true), Where.OR(
-                    Where.AND(POLITICADEUS.equal(ConstantsV2.PLUGIN_POLITICA_DE_US_NOMES_ENTITAT),
-                            ENTITATID.equal(entitatID)),
-                    Where.AND(POLITICADEUS.equal(ConstantsV2.PLUGIN_POLITICA_DE_US_USAR_TOTHOM))));
+            return Where.AND(TIPUS.equal(getTipusDePlugin()), ACTIU.equal(true),
+                    Where.OR(
+                            Where.AND(POLITICADEUS.equal(ConstantsV2.PLUGIN_POLITICA_DE_US_NOMES_ENTITAT),
+                                    ENTITATID.equal(entitatID)),
+                            Where.AND(POLITICADEUS.equal(ConstantsV2.PLUGIN_POLITICA_DE_US_USAR_TOTHOM))));
         }
     }
 

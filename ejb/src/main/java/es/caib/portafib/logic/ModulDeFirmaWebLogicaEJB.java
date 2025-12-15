@@ -240,6 +240,23 @@ public class ModulDeFirmaWebLogicaEJB extends AbstractPluginIBLogicaEJB<ISignatu
             return true;
         }
 
+        ISignatureWebPlugin signaturePlugin = getSignaturePlugin(pluginID);
+
+        return signaturePlugin.administrationIdCanBeValidated();
+    }
+
+    @Override
+    public boolean willCanCheckIfSignedDocumentWasAlteredAfterSignatureFromPlugin(Long pluginID) throws I18NException {
+        if (pluginID == null) {
+            return true;
+        }
+
+        ISignatureWebPlugin signaturePlugin = getSignaturePlugin(pluginID);
+
+        return signaturePlugin.willCanCheckIfSignedDocumentWasAlteredAfterSignature();
+    }
+
+    protected ISignatureWebPlugin getSignaturePlugin(Long pluginID) throws I18NException {
         ISignatureWebPlugin signaturePlugin;
         try {
             signaturePlugin = this.getInstanceByPluginID(pluginID);
@@ -249,8 +266,7 @@ public class ModulDeFirmaWebLogicaEJB extends AbstractPluginIBLogicaEJB<ISignatu
         if (signaturePlugin == null) {
             throw new I18NException("plugin.signatureweb.noexist", String.valueOf(pluginID));
         }
-
-        return signaturePlugin.administrationIdCanBeValidated();
+        return signaturePlugin;
     }
 
 }

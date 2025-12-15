@@ -828,8 +828,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         }
 
         PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat.getTime(),
-                commonInfoSignature, fileInfoSignatureArray, originalNumberOfSignsArray,
-                loginInfo.getUsuariEntitatID(), loginInfo.getEntitat(), urlFinal, true, baseUrl);
+                commonInfoSignature, fileInfoSignatureArray, originalNumberOfSignsArray, loginInfo.getUsuariEntitatID(),
+                loginInfo.getEntitat(), urlFinal, true, baseUrl);
 
         signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 
@@ -1127,8 +1127,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
         PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat.getTime(),
                 commonInfoSignature, new FileInfoSignature[] { fif.fileInfoSignature },
-                new int[] { fif.originalNumberOfSigns }, loginInfo.getUsuariEntitatID(),
-                entitat, urlFinal, true, baseUrl);
+                new int[] { fif.originalNumberOfSigns }, loginInfo.getUsuariEntitatID(), entitat, urlFinal, true,
+                baseUrl);
 
         signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 
@@ -1198,13 +1198,17 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
 
         PortaFIBSignaturesSet ss;
-        boolean administrationIdCanBeValidatedFromPlugin;
+        boolean administrationIdCanBeValidated;
+        boolean willCanCheckIfSignedDocumentWasAlteredAfterSignature;
         {
             PortaFIBSignaturesSet pss = SignatureModuleController.getPortaFIBSignaturesSet(request, signaturesSetID,
                     modulDeFirmaEjb);
 
-            administrationIdCanBeValidatedFromPlugin = this.modulDeFirmaEjb
+            administrationIdCanBeValidated = this.modulDeFirmaEjb
                     .administrationIdCanBeValidatedFromPlugin(pss.getSelectedPluginID());
+
+            willCanCheckIfSignedDocumentWasAlteredAfterSignature = this.modulDeFirmaEjb
+                    .willCanCheckIfSignedDocumentWasAlteredAfterSignatureFromPlugin(pss.getSelectedPluginID());
 
             ss = pss;
         }
@@ -1217,7 +1221,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
             case StatusSignaturesSet.STATUS_FINAL_OK:
 
-                signPostProcessOfSignaturesSet(request, ss, administrationIdCanBeValidatedFromPlugin);
+                signPostProcessOfSignaturesSet(request, ss, administrationIdCanBeValidated,
+                        willCanCheckIfSignedDocumentWasAlteredAfterSignature);
             break;
 
             case StatusSignaturesSet.STATUS_FINAL_ERROR:
@@ -1256,7 +1261,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     public void signPostProcessOfSignaturesSet(HttpServletRequest request, PortaFIBSignaturesSet ss,
-            boolean administrationIdCanBeValidatedFromPlugin) {
+            boolean administrationIdCanBeValidated, boolean willCanCheckIfSignedDocumentWasAlteredAfterSignature) {
 
         FileInfoSignature[] signedFiles = ss.getFileInfoSignatureArray();
 
@@ -1300,22 +1305,21 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                             if (isDebug) {
                                 log.debug("firmat.getAbsolutePath(): " + firmat.getAbsolutePath());
                             }
-                            
-                            
+
                             if (!firmat.exists()) {
-                                String msg = "El plugin amb ID "  + ss.getSelectedPluginID() 
-                                + " ha retornat un status OK per la petició " + ss.getSignaturesSetID() 
-                                + " però el fitxer Signat no existeix: " + firmat.getAbsolutePath() 
-                                + "(app: " + ss.getCommonInfoSignature().getUsername() + ")";
+                                String msg = "El plugin amb ID " + ss.getSelectedPluginID()
+                                        + " ha retornat un status OK per la petició " + ss.getSignaturesSetID()
+                                        + " però el fitxer Signat no existeix: " + firmat.getAbsolutePath() + "(app: "
+                                        + ss.getCommonInfoSignature().getUsername() + ")";
                                 log.error(msg, new Exception());
                                 throw new Exception(msg);
                             }
-                            
+
                             if (firmat.length() == 0) {
-                                String msg = "El plugin amb ID "  + ss.getSelectedPluginID() 
-                                + " ha retornat un status OK per la petició " + ss.getSignaturesSetID() 
-                                + " però el fitxer Signat està buit: " + firmat.getAbsolutePath()
-                                + "(app: " + ss.getCommonInfoSignature().getUsername() + ")";
+                                String msg = "El plugin amb ID " + ss.getSelectedPluginID()
+                                        + " ha retornat un status OK per la petició " + ss.getSignaturesSetID()
+                                        + " però el fitxer Signat està buit: " + firmat.getAbsolutePath() + "(app: "
+                                        + ss.getCommonInfoSignature().getUsername() + ")";
                                 log.error(msg, new Exception());
                                 throw new Exception(msg);
                             }
@@ -1323,7 +1327,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                             peticioDeFirmaLogicaEjb.nouFitxerFirmat(firmat, estatDeFirmaID, peticioDeFirmaID, token,
                                     signedFile.getSignNumber(), originalNumberOfSignsArray[i],
                                     LoginInfo.getInstance().getUsuariPersona().getUsuariPersonaID(),
-                                    administrationIdCanBeValidatedFromPlugin, ss.getSelectedPluginID());
+                                    administrationIdCanBeValidated,
+                                    willCanCheckIfSignedDocumentWasAlteredAfterSignature, ss.getSelectedPluginID());
 
                             status.setProcessed(true);
                             signats++;
@@ -1433,13 +1438,17 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             final long peticioDeFirmaID = signID.getPeticioDeFirmaID();
             final String token = signID.getToken();
 
-            boolean administrationIdCanBeValidatedFromPlugin = this.modulDeFirmaEjb
+            boolean administrationIdCanBeValidated = this.modulDeFirmaEjb
                     .administrationIdCanBeValidatedFromPlugin(this.signaturesSet.getSelectedPluginID());
+
+            boolean willCanCheckIfSignedDocumentWasAlteredAfterSignature = this.modulDeFirmaEjb
+                    .willCanCheckIfSignedDocumentWasAlteredAfterSignatureFromPlugin(
+                            this.signaturesSet.getSelectedPluginID());
 
             peticioDeFirmaLogicaEjb.nouFitxerFirmat(firmat, estatDeFirmaID, peticioDeFirmaID, token,
                     signedFileInfo.getSignNumber(), originalNumberOfSigns,
-                    LoginInfo.getInstance().getUsuariPersona().getUsuariPersonaID(),
-                    administrationIdCanBeValidatedFromPlugin, this.signaturesSet.getSelectedPluginID() );
+                    LoginInfo.getInstance().getUsuariPersona().getUsuariPersonaID(), administrationIdCanBeValidated,
+                    willCanCheckIfSignedDocumentWasAlteredAfterSignature, this.signaturesSet.getSelectedPluginID());
 
         }
     }

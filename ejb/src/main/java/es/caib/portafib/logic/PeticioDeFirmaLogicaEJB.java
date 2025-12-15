@@ -1749,10 +1749,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                         }
 
                         if (log.isDebugEnabled()) {
-                            log.debug("======  INICI d'UN BLOC VERGE: Revisors pendents: "
-                                    + numeroDeRevisorsPendents + "  |  Col·laboradors-Revisors pendents: "
-                                    + numeroDeColaboradorsRevisorsPendents + "  | " + "enviarNotificacioADestinatari: "
-                                    + enviarNotificacioADestinatari);
+                            log.debug("======  INICI d'UN BLOC VERGE: Revisors pendents: " + numeroDeRevisorsPendents
+                                    + "  |  Col·laboradors-Revisors pendents: " + numeroDeColaboradorsRevisorsPendents
+                                    + "  | " + "enviarNotificacioADestinatari: " + enviarNotificacioADestinatari);
                         }
 
                         // No s'ha d'enviar correu a Destinatari de firma pendent si abans hi ha revisor/s #946
@@ -2098,7 +2097,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
     @Override
     public void nouFitxerFirmat(File signatureFile2, Long estatDeFirmaID, Long peticioDeFirmaID, String token,
             int numFirmaPortaFIB, int numFirmesOriginals, String usernameLoguejat,
-            boolean administrationIdCanBeValidatedFromPlugin,
+            boolean administrationIdCanBeValidated, boolean willCanCheckIfSignedDocumentWasAlteredAfterSignature,
             // Afegir informació del PLugin que ha realitzat la Firmes en totes les Apis #1043
             Long signaturePluginID) throws I18NException {
 
@@ -2183,24 +2182,26 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
                 case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
                     validarFitxerFirma = entitat.isValidarfirma();
-                    checkCanviatDocFirmat = entitat.isCheckCanviatDocFirmat();
-                    comprovarNifFirma = administrationIdCanBeValidatedFromPlugin && entitat.isComprovarNifFirma();
+                    checkCanviatDocFirmat = willCanCheckIfSignedDocumentWasAlteredAfterSignature
+                            && entitat.isCheckCanviatDocFirmat();
+                    comprovarNifFirma = administrationIdCanBeValidated && entitat.isComprovarNifFirma();
                 break;
 
                 case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
                     if (confFirmaId == null) {
                         validarFitxerFirma = entitat.isValidarfirma();
-                        checkCanviatDocFirmat = entitat.isCheckCanviatDocFirmat();
-                        comprovarNifFirma = entitat.isComprovarNifFirma();
+                        checkCanviatDocFirmat = willCanCheckIfSignedDocumentWasAlteredAfterSignature
+                                && entitat.isCheckCanviatDocFirmat();
+                        comprovarNifFirma = administrationIdCanBeValidated && entitat.isComprovarNifFirma();
                     } else {
                         UsuariAplicacioConfiguracio configuracio = configuracioDeFirmaLogicaEjb
                                 .findByPrimaryKeyUnauthorized(confFirmaId);
 
                         validarFitxerFirma = SignatureUtils.validarFirma(configuracio, entitatLogicaEjb, entitatID);
                         checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(configuracio, entitatLogicaEjb,
-                                entitatID);
+                                entitatID, willCanCheckIfSignedDocumentWasAlteredAfterSignature);
                         comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatLogicaEjb, entitatID,
-                                administrationIdCanBeValidatedFromPlugin);
+                                administrationIdCanBeValidated);
                     }
                 break;
 
@@ -2219,10 +2220,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
                     validarFitxerFirma = SignatureUtils.validarFirma(configuracio, entitatLogicaEjb, entitatID);
                     checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(configuracio, entitatLogicaEjb,
-                            entitatID);
+                            entitatID, willCanCheckIfSignedDocumentWasAlteredAfterSignature);
 
                     comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatLogicaEjb, entitatID,
-                            administrationIdCanBeValidatedFromPlugin);
+                            administrationIdCanBeValidated);
 
                 break;
 
@@ -2255,7 +2256,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             // Aqui es fan totes les validacions completes !!!!!!
             ValidacioCompletaResponse validacioResponse = null;
             try {
-                final boolean validateChangesInAttachedFiles = administrationIdCanBeValidatedFromPlugin;
+                final boolean validateChangesInAttachedFiles = administrationIdCanBeValidated;
                 validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(String.valueOf(peticioDeFirma),
                         validacioRequest, validateChangesInAttachedFiles);
             } catch (ValidacioException e) {

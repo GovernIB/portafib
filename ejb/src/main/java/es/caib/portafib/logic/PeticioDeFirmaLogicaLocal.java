@@ -95,9 +95,10 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaService {
     public boolean checkPeticioDeFirmaByUsuariEntitat(long peticioDeFirmaID, String usuariEntitatId);
 
     public void nouFitxerFirmat(File file, Long estatDeFirmaID, Long peticioDeFirmaID, String token, int numFirma,
-            int numFirmesOriginals, String usernameLoguejat, boolean administrationIdCanBeValidatedFromPlugin, 
+            int numFirmesOriginals, String usernameLoguejat, boolean administrationIdCanBeValidated,
+            boolean willCanCheckIfSignedDocumentWasAlteredAfterSignature,
             // Afegir informació del PLugin que ha realitzat la Firmes en totes les Apis #1043
-            Long signaturePluginID)  throws I18NException;
+            Long signaturePluginID) throws I18NException;
 
     public void rebutjarPeticioDesDeProcesIntern(long peticioDeFirmaId, String motiuDeRebuig) throws I18NException;
 
@@ -128,8 +129,7 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaService {
             String newMessageFormaPatternForName, String descripcio, String motiu, FitxerJPA fitxerJPA)
             throws I18NException;
 
-    public Collection<InfoUser> enviarMailPeticionsPendentsDeFirmar(ControlOfExecution coe)
-            throws I18NException;
+    public Collection<InfoUser> enviarMailPeticionsPendentsDeFirmar(ControlOfExecution coe) throws I18NException;
 
     public void sendMailToExternalUser(String entitatId, long peticioDeFirmaID, String titolPeticio, FirmaJPA firmaJPA)
             throws I18NException;

@@ -93,8 +93,8 @@ public class PassarelaDeFirmaController {
             if (ssf.getStartDate() != null) {
                 //Utils.printRequestInfo(request);
                 String msgBase = "Algú ja ha accedit a aquesta url amb transacció ID igual " + signaturesSetID;
-                String msgLog = "PASSARELA:: " + msgBase + ". Revisi de no obrir més d'una vegada aquesta url " + request.getRequestURL() 
-                        + " (usrapp = " + ssf.getApplicationID() + " | NIF = "
+                String msgLog = "PASSARELA:: " + msgBase + ". Revisi de no obrir més d'una vegada aquesta url "
+                        + request.getRequestURL() + " (usrapp = " + ssf.getApplicationID() + " | NIF = "
                         + ssf.getSignaturesSet().getCommonInfoSignature().getAdministrationID() + ")";
                 log.error(msgLog);
                 String msgError = msgBase + ". Si us plau torni a intentar la signatura.";
@@ -246,6 +246,7 @@ public class PassarelaDeFirmaController {
 
         SignaturesSetWeb ss;
         boolean administrationIdCanBeValidatedFromPlugin;
+        boolean willCanCheckIfSignedDocumentWasAlteredAfterSignature;
         Long signaturePluginID;
         {
             PortaFIBSignaturesSet pss = SignatureModuleController.getPortaFIBSignaturesSet(request, transactionID,
@@ -253,13 +254,16 @@ public class PassarelaDeFirmaController {
             signaturePluginID = pss.getSelectedPluginID();
             administrationIdCanBeValidatedFromPlugin = modulDeFirmaPublicEjb
                     .administrationIdCanBeValidatedFromPlugin(signaturePluginID);
+
+            willCanCheckIfSignedDocumentWasAlteredAfterSignature = modulDeFirmaPublicEjb
+                    .willCanCheckIfSignedDocumentWasAlteredAfterSignatureFromPlugin(signaturePluginID);
             ss = pss;
         }
 
         // TODO Comprovar si ss és null i mostrar missatge de firma caducada
 
         PassarelaSignaturesSetWebInternalUse ssf = passarelaDeFirmaEjb.finalProcesDeFirma(transactionID, ss,
-                administrationIdCanBeValidatedFromPlugin);
+                administrationIdCanBeValidatedFromPlugin, willCanCheckIfSignedDocumentWasAlteredAfterSignature);
         ssf.setSignaturePluginId(signaturePluginID);
 
         // Eliminam la informació dins SignatureModuleController ja que tenim gurardada la
