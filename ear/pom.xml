@@ -365,6 +365,14 @@
             <version>${plugins.signatureweb.version}</version>
         </dependency>
 
+        <!--  Vintegris - Nebula - Web Signature Plugin --> 
+        <dependency>
+            <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+            <artifactId>pluginsib-signatureweb-nebula</artifactId>
+            <version>${plugins.signatureweb.version}</version>
+        </dependency>
+
+
         <!-- ====================================== -->
         <!-- ==== PLUGINS DE FIRMA EN SERVIDOR ==== -->
         <!-- ====================================== -->
