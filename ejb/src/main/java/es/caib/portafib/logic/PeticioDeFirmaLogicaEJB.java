@@ -32,6 +32,7 @@ import es.caib.portafib.persistence.validator.PeticioDeFirmaBeanValidator;
 import es.caib.portafib.logic.events.EstatDeFirmaEventHelper;
 import es.caib.portafib.logic.events.FirmaEventList;
 import es.caib.portafib.logic.events.FirmaEventManagerLocal;
+import es.caib.portafib.logic.scheduler.AbstractScheduler;
 import es.caib.portafib.logic.scheduler.AbstractScheduler.ControlOfExecution;
 import es.caib.portafib.logic.utils.AttachedFile;
 import es.caib.portafib.logic.utils.CustodiaForStartPeticioDeFirma;
@@ -121,6 +122,7 @@ import org.fundaciobit.pluginsib.documentcustody.api.CustodyException;
 import org.fundaciobit.pluginsib.documentcustody.api.IDocumentCustodyPlugin;
 import org.fundaciobit.pluginsib.documentcustody.api.NotSupportedCustodyException;
 import org.hibernate.Hibernate;
+import org.jboss.ejb3.annotation.TransactionTimeout;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -2094,6 +2096,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
     }
 
+    /**
+     * El timeout d'aquesta transacció és de 10 minuts perquè pot haver de validar fitxers grans.
+     */
+    @TransactionTimeout(value = AbstractScheduler.TEN_MINUTES_IN_MS, unit = TimeUnit.MILLISECONDS)
     @Override
     public void nouFitxerFirmat(File signatureFile2, Long estatDeFirmaID, Long peticioDeFirmaID, String token,
             int numFirmaPortaFIB, int numFirmesOriginals, String usernameLoguejat,

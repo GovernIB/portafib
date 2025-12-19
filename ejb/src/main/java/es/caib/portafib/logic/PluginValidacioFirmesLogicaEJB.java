@@ -141,8 +141,20 @@ public class PluginValidacioFirmesLogicaEJB extends AbstractPluginIBLogicaEJB<IV
             //log.info("validateSignature status = " + vsresp.getValidationStatus().getStatus());
         } catch (Exception e) {
             PluginJPA plugin = findByPrimaryKey(pluginValidateSignatureID);
+
+            // XYZ ZZZ TRA
             String msg = "Error no controlat cridant al validador de firmes "
                     + plugin.getNom().getTraduccio(languageUI).getValor() + ": " + e.getMessage();
+
+            if (e.getCause() != null) {
+                String causeMsg = e.getCause().getMessage();
+                if (causeMsg.contains("413: Request Entity Too Large") ) {
+                    causeMsg = "El fitxer de la signatura o el document associat és massa gran per ser validat pel validador de firmes "
+                            + plugin.getNom().getTraduccio(languageUI).getValor();
+                }
+                msg += " (Detalls: " + causeMsg + ")";
+            }
+            
             log.error(msg, e);
             // XYZ ZZZ Traduir
             throw new I18NException("genapp.comodi", msg);

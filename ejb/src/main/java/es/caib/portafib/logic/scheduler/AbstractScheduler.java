@@ -84,7 +84,7 @@ public abstract class AbstractScheduler {
      */
     public abstract String getCronExpression();
 
-    private static final long TEN_MINUTES_IN_MS = 10 * 60 * 1000;
+    public static final long TEN_MINUTES_IN_MS = 10 * 60 * 1000;
 
     @Timeout
     @TransactionTimeout(value = TEN_MINUTES_IN_MS, unit = TimeUnit.MILLISECONDS)
