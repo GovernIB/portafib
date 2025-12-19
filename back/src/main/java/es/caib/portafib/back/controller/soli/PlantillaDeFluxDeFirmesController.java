@@ -851,7 +851,6 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                 }
             }
 
-            System.out.println(" -----------------------------------------------------");
             for (FirmaJPA firma : firmes) {
 
                 if (!firma.getUsuariEntitat().isActiu()) {
