@@ -400,6 +400,13 @@
                                     </label>
                                     <br/>
                                     
+                                    <c:if test="${readOnly == true}">
+                                        <c:set var="datafirma" value="${fluxDeFirmesForm.datesOfFirma[firma.firmaID]}" />
+                                        <c:if test="${not empty datafirma}">
+                                          <small> <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${datafirma}" /></small>
+                                        </c:if>
+                                    </c:if>
+                                    
                                     <c:if test="${(fn:length(bloc.firmas) > 1) && readOnly == false}">
                                     <button class="btn btn-danger btn-sm"
                                       title="<fmt:message key="genapp.delete.item" ><fmt:param><fmt:message key="firma.firma"/></fmt:param></fmt:message>"

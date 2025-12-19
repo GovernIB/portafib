@@ -1,5 +1,6 @@
 package es.caib.portafib.back.form;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +39,8 @@ public class PlantillaDeFluxDeFirmesForm extends FluxDeFirmesForm {
   private final Map<Long, String> backgroundColorsOfBloc = new HashMap<Long, String>();
 
   private final Map<Long, String> backgroundColorsOfFirma = new HashMap<Long, String>();
+  
+  private final Map<Long, Timestamp> datesOfFirma = new HashMap<Long, Timestamp>();
 
   private final Map<Long, String> backgroundColorsOfRevisor = new HashMap<Long, String>();
 
@@ -104,6 +107,10 @@ public class PlantillaDeFluxDeFirmesForm extends FluxDeFirmesForm {
 
   public Map<Long, String> getBackgroundColorsOfFirma() {
     return backgroundColorsOfFirma;
+  }
+  
+  public Map<Long, Timestamp> getDatesOfFirma() {
+    return datesOfFirma;
   }
 
   public Map<Long, String> getBackgroundColorsOfRevisor() {
