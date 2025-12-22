@@ -45,7 +45,8 @@ import es.caib.portafib.model.entity.UsuariPersona;
         labelCode = "revisor.gestio",
         baseLink = "/aden/revisor/selecciousuari",
         relativeLink = "",
-        order = 100)
+        addSeparatorBefore = true,
+        order = 105)
 public class GestioRoleRevisorController extends AbstractGestioRoleUsuariEntitatController {
 
     @EJB(mappedName = RevisorDeDestinatariLogicaService.JNDI_NAME)

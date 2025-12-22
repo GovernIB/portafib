@@ -450,6 +450,11 @@
     <definition name="usuariEntitatSenseRolsListAden" extends="role_aden">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatList.jsp" />
     </definition>
+    
+    
+    <definition name="revisorDeDestinatariListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/revisorDeDestinatariList.jsp" />
+    </definition>
 
 
 

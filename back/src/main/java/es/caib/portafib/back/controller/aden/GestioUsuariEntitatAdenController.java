@@ -71,12 +71,14 @@ import java.util.Set;
 @MenuOption(
         group = Tab.MENU_ADEN,
         labelCode = "usuarientitat.gestio",
-        baseLink = "/aden/usuariEntitat/selecciousuari",
+        baseLink = GestioUsuariEntitatAdenController.ENTRY_CONTEXTWEB,
         relativeLink = "",
         order = 60)
 public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
 
     public static final String CONTEXTWEB = "/aden/usuariEntitat";
+    
+    public static final String ENTRY_CONTEXTWEB = CONTEXTWEB + "/selecciousuari";
 
     public static final String USUARI_PERSONA_ID_HOLDER = "USUARI_PERSONA_ID_HOLDER";
 

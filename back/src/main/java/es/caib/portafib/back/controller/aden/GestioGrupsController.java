@@ -38,7 +38,7 @@ import es.caib.portafib.model.entity.GrupEntitat;
 @MenuOption(
         group = Tab.MENU_ADEN,
         labelCode = "grups.gestio",
-        order = 110)
+        order = 100)
 public class GestioGrupsController extends GrupEntitatController {
 
     @EJB(mappedName = GrupEntitatLogicaLocal.JNDI_NAME)
