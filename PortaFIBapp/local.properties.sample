@@ -1,0 +1,16 @@
+
+
+Llegeix "readme.signing.txt" per saber com crear el JKS
+
+
+# Per signar l'app
+# Ruta cap al keystore a emprar
+signingKeystoreFile=D\:\\dades\\dades\\CarpetesPersonals\\ProgramacioPortaFIB3\\portafib-3.0\\PortaFIBapp\\certificats\\apk_signer_keystore.jks
+# Clau per accedir al keystore
+signingKeystorePass=portafib
+# Alias del certificat per signar dins el keystore
+signingCertAlias=alias
+# Clau del certificat per signar
+signingCertPass=portafib
+
+

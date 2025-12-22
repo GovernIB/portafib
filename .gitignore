@@ -308,3 +308,4 @@ api-interna-client-signature-v1-examples/apifirmawebsimple.properties
 /checkcode.bat
 /deployapis.bat
 /graf_dependencies.bat
+/PortaFIBapp/certificats/apk_signer_keystore.jks
