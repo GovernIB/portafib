@@ -116,6 +116,16 @@ public class TipusDocumentLogicaEJB extends TipusDocumentEJB implements TipusDoc
         }
         return (TipusDocumentJPA) create(tipusDocument);
     }
+    
+    
+    @Override
+    @javax.annotation.security.PermitAll
+    public List<TipusDocument> getTipusDocumentsByUsrAppPublic(UsuariAplicacio ua) throws I18NException {
+        return getTipusDocumentsByUsrApp(ua);
+    }
+    
+    
+    
 
     /** Llistat de tipus documentals per Usuari Aplicació 
      *

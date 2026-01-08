@@ -47,6 +47,10 @@ public interface TipusDocumentLogicaLocal extends TipusDocumentService {
      */
     public List<TipusDocument> getTipusDocumentsByUsrApp(UsuariAplicacio ua) throws I18NException;
     
+    
+    public List<TipusDocument> getTipusDocumentsByUsrAppPublic(UsuariAplicacio ua) throws I18NException;
+    
+    
     /**
      * 
      * @param anticID

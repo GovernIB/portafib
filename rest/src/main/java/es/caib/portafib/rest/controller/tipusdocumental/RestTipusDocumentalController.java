@@ -79,7 +79,7 @@ public class RestTipusDocumentalController extends RestUtils {
                 ua = usuariAplicacioLogicaEjb.findByPrimaryKey(appuser);
             }
             
-            List<TipusDocument> list = tipusDocumentEjb.getTipusDocumentsByUsrApp(ua);
+            List<TipusDocument> list = tipusDocumentEjb.getTipusDocumentsByUsrAppPublic(ua);
             
             /*
 
