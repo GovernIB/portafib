@@ -1,3 +1,4 @@
+<%@page import="es.caib.portafib.back.utils.Utils"%>
 <%@page import="es.caib.portafib.back.utils.Tab"%>
 <%@page import="es.caib.portafib.commons.utils.Configuracio"%>
 <%@page import="org.fundaciobit.genapp.common.web.menuoptions.MenuOptionManager"%>
@@ -12,13 +13,6 @@
         <h5>
             <fmt:message key="ROLE_COLA.menu" />
         </h5>
-        <%! 
-        public static MenuItem retallaDarrerPath(String label, String url, int order) {
-            int i = url.lastIndexOf('/');
-            return new MenuItem(label, url, url.substring(0, i), order);
-        }
-        
-        %>
         <%
         List<List<MenuItem>> menus = new ArrayList<List<MenuItem>>();
         /*
@@ -28,7 +22,7 @@
 */      
         List<MenuItem> menu1 = new ArrayList<MenuItem>();
         if (Configuracio.isDesenvolupament()) {
-            menu1.add(retallaDarrerPath("colaboracio.totes.plural", ConstantsV2.CONTEXT_COLA_ESTATFIRMA  + "/list", 10));
+            menu1.add(Utils.retallaDarrerPath("colaboracio.totes.plural", ConstantsV2.CONTEXT_COLA_ESTATFIRMA  + "/list", 10));
             menu1.add(null);
         }
 
