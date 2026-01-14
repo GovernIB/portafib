@@ -27,7 +27,8 @@ import es.caib.portafib.utils.ConstantsV2;
 @MenuOption(
         group = Tab.MENU_ADMIN,
         labelCode = "validaciodefirmes.gestio",
-        order = 100)
+        order = 100,
+        addSeparatorAfter = true)
 public class ValidacioFirmesAdminController extends AbstractPluginAdminController<IValidateSignaturePlugin> {
 
     @EJB(mappedName = PluginValidacioFirmesLogicaLocal.JNDI_NAME)

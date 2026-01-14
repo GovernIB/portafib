@@ -1,3 +1,4 @@
+<%@page import="es.caib.portafib.back.utils.Utils"%>
 <%@page import="es.caib.portafib.commons.utils.Configuracio"
 %><%@page import="org.fundaciobit.genapp.common.web.menuoptions.MenuOptionManager"
 %><%@page import="java.util.List"
@@ -11,13 +12,7 @@
         <h5>
             <fmt:message key="ROLE_ADMIN.menu" />
         </h5>
-        <%! 
-        public static MenuItem retallaDarrerPath(String label, String url, int order) {
-            int i = url.lastIndexOf('/');
-            return new MenuItem(label, url, url.substring(0, i), order);
-        }
-        
-        %>
+
         <%
         List<List<MenuItem>> menus = new ArrayList<List<MenuItem>>();
         /*
@@ -28,7 +23,8 @@
         List<MenuItem> menu1 = new ArrayList<MenuItem>();
 
         if (!Configuracio.isCAIB()) {
-            menu1.add(retallaDarrerPath("usuariaplicacio.gestio", "/admin/usuariAplicacio/list", 110));
+         
+            menu1.add(Utils.retallaDarrerPath("usuariaplicacio.gestio", "/admin/usuariAplicacio/list", 105));
             menu1.add(null);
         }
 

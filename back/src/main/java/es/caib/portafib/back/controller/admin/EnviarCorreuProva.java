@@ -32,8 +32,7 @@ import es.caib.portafib.utils.Constants;
         group = Tab.MENU_ADMIN,
         labelCode = "provarservidorcorreu",
         baseLink = "/admin/enviarcorreu/usuariloguejat",
-        relativeLink = "",
-        addSeparatorBefore = true,
+        relativeLink = "",        
         order = 140)
 @MenuOption(
         group = Tab.MENU_ADMIN,
