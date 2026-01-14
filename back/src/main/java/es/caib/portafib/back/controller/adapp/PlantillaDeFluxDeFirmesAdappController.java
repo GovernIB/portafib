@@ -33,17 +33,17 @@ public class PlantillaDeFluxDeFirmesAdappController extends PlantillaDeFluxDeFir
 
     @Override
     public String getTileForm() {
-        return "PlantillaDeFluxDeFirmes2FormAden";
+        return "PlantillaDeFluxDeFirmesFormAdapp";
     }
 
     @Override
     public String getTileList() {
-        return "PlantillaDeFluxDeFirmes2ListAden";
+        return "PlantillaDeFluxDeFirmesListAdapp";
     }
 
     @Override
     public String getSessionAttributeFilterForm() {
-        return "PlantillaFluxDeFirmes_aden";
+        return "PlantillaFluxDeFirmes_adapp";
     }
 
     @Override
