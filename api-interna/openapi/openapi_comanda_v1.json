@@ -248,10 +248,10 @@
       "Dimensio" : {
         "type" : "object",
         "properties" : {
-          "codi" : {
+          "valor" : {
             "type" : "string"
           },
-          "valor" : {
+          "codi" : {
             "type" : "string"
           }
         },
@@ -260,12 +260,12 @@
       "Fet" : {
         "type" : "object",
         "properties" : {
-          "codi" : {
-            "type" : "string"
-          },
           "valor" : {
             "type" : "number",
             "format" : "double"
+          },
+          "codi" : {
+            "type" : "string"
           }
         },
         "description" : "Fets o mesures quantitatives associades al registre"

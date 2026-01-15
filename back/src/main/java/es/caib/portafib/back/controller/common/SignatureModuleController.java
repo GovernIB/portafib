@@ -221,7 +221,9 @@ public class SignatureModuleController extends HttpServlet {
         Collections.sort(modulsFiltered, new Comparator<PluginJPA>() {
             @Override
             public int compare(PluginJPA o1, PluginJPA o2) {
-                return o1.getOrdre() - o2.getOrdre();
+                int ordre1= o1.getOrdre() == null ? 0 : o1.getOrdre();
+                int ordre2= o2.getOrdre() == null ? 0 : o2.getOrdre();
+                return ordre1 - ordre2;
             }
         }  );
         
