@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -32,7 +33,7 @@
             <artifactId>jboss-servlet-api_4.0_spec</artifactId>
             <scope>provided</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -49,8 +50,9 @@
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
+
         </dependency>
-        
+
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-core</artifactId>
@@ -85,48 +87,78 @@
             <artifactId>pluginsib-utils-swagger-ui-configurable-webjar</artifactId>
             <version>${pluginsib.utils.version}</version>
         </dependency>
-        
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>org.fundaciobit.pluginsib.validatecertificate</groupId>
             <artifactId>pluginsib-validatecertificate-api</artifactId>
             <version>3.0.0-SNAPSHOT</version>
         </dependency>
+       
+
         
-        
-        <dependency>  
-		    <groupId>es.caib.comanda</groupId>  
-		    <artifactId>comanda-lib</artifactId>  
-		    <version>0.1.0</version>  
-		</dependency>
+        <!--   COMANDA -->
+        <dependency>
+            <groupId>es.caib.comanda</groupId>
+            <artifactId>comanda-api-server-monitoring</artifactId>
+            <version>1.0.0</version>
+<!-- 
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.cxf</groupId>
+                    <artifactId>cxf-bundle-jaxrs</artifactId>
+                </exclusion>
+            </exclusions>
+             -->
+        </dependency>
+
+<!-- 
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-bundle-jaxrs</artifactId>
+            <version>2.2.9</version>
+            <scope>provided</scope>
+        </dependency>
+ -->
+
+
+        <dependency>
+            <groupId>es.caib.comanda</groupId>
+            <artifactId>comanda-api-utils</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
 
     </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
+
+            <!--   REQUERIT per Comanda -->
+            <plugin>
+                <groupId>io.github.git-commit-id</groupId>
+                <artifactId>git-commit-id-maven-plugin</artifactId>
+                <version>7.0.0</version>
+                <executions>
+                    <execution>
+                        <id>get-the-git-infos</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                    <gitPropertiesPath>${project.build.outputDirectory}</gitPropertiesPath>
+            
+                            <!-- Opcional: només incloure propietats que necessites -->
+                    <includeOnlyProperties>
+                        <includeOnlyProperty>git.commit.id</includeOnlyProperty>
+                        <includeOnlyProperty>git.build.time</includeOnlyProperty>
+                    </includeOnlyProperties>
+                </configuration>
+            </plugin>
+
+
             <!-- Genera el descriptor openapi.json de forma estàtica, després 
                 el posarem l'arrel del WAR -->
             <!--
@@ -207,38 +239,37 @@
                             <resourcePackages>
                                 <package>es.caib.portafib.api.interna.config</package>
                                 <package>es.caib.portafib.api.interna.secure.comanda.v1</package>
-                                <package>es.caib.comanda.ms.salut.model</package>
-                            </resourcePackages>                           
+                            </resourcePackages>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-            
-            
-            <plugin>                                                         
-                <groupId>org.codehaus.gmaven</groupId>                       
-                <artifactId>groovy-maven-plugin</artifactId>                 
-                <version>2.1.1</version>                                       
+
+
+            <plugin>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>groovy-maven-plugin</artifactId>
+                <version>2.1.1</version>
                 <executions>    
                 
                     <!-- Processa l'atribut 'example' del @Schema dels enums swagger i   -->
                     <!-- converteix aquest en noms de variables correctes: -->
-                    <!-- Exemple:    example="SIGNTYPE_PADES|SIGNTYPE_CADES|SIGNTYPE_XADES", -->                                             
-                    <execution>                                              
-                        <phase>process-classes</phase>                              
-                        <goals>                                              
-                            <goal>execute</goal>                             
-                        </goals>                                             
-                        <configuration>                                      
+                    <!-- Exemple:    example="SIGNTYPE_PADES|SIGNTYPE_CADES|SIGNTYPE_XADES", -->
+                    <execution>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
                             <source>${project.basedir}/ProcessEnumVarNamesAndDescriptionsInOpenApiFiles.groovy</source>
                             <properties>
                                 <openapifolder>${project.basedir}/openapi/</openapifolder>
                             </properties>
-                        </configuration>                                     
+                        </configuration>
                     </execution>                                             
                 
                 
-                    <!-- Eliminam _1 de les anotacions amb operationID duplicat --> 
+                    <!-- Eliminam _1 de les anotacions amb operationID duplicat -->
                     <execution>
                         <id>replace-secondary-operations</id>
                         <phase>process-classes</phase>
@@ -252,7 +283,7 @@
                             </properties>
                         </configuration>
                     </execution>
-                </executions>                                             
+                </executions>
             </plugin>
             
 
@@ -280,7 +311,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                             
+
                             <inputSpec>
                                 ${project.basedir}/openapi/openapi_infoversio_v1.json</inputSpec>
                             <generatorName>java</generatorName>
@@ -402,7 +433,7 @@
                         </configuration>
                     </execution>
 
-                    
+
                 </executions>
             </plugin>
 
@@ -448,14 +479,13 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
-                    
+
                     <packagingExcludes>
                         **/snakeyaml*redhat*.jar,
                         <!--  Requereix el mòdul "javax.xml.bind.api" a jboss-deployment-structure.xml de l'ear -->
-                        **/jakarta.xml.bind-api-2.3.3.jar
-
+                        **/jakarta.xml.bind-api-2.3.3.jar,
                     </packagingExcludes>
-                    
+
                     <webResources>
                         <resource>
                             <directory>${project.basedir}/openapi</directory>
@@ -496,7 +526,7 @@
             </plugins>
         </pluginManagement>
     </build>
-    
+
     <profiles>
         <profile>
             <id>keycloak</id>

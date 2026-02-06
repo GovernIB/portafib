@@ -119,6 +119,9 @@
     </sub-deployment>
 
     <sub-deployment name="portafib-api-interna.war">
+        <dependencies>
+           <!--   <module name="org.codehaus.jettison" export="TRUE"/> -->
+        </dependencies>
         <exclusions>
             <!-- Per evitar problemes amb els Bindings de les APIs RestEasy -->
             <!-- Així suporten tipus especials com byte[], timestamp, ...   -->

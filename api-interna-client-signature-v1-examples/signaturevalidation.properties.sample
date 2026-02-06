@@ -7,7 +7,7 @@ password=password
 languageUI=ca
 
 
-files=6
+files=1
 #files=1,2
 
 file.1.name=hola_with_attach-signat.pdf_signed.pdf

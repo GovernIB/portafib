@@ -17,6 +17,7 @@ import es.caib.portafib.model.entity.UsuariAplicacio;
 @Component
 public class UsuariAplicacioWebLogicValidator extends UsuariAplicacioWebValidator {
 
+    @SuppressWarnings("rawtypes")
     protected UsuariAplicacioLogicValidator validatorLogic = new UsuariAplicacioLogicValidator();
 
     @Override
