@@ -1306,11 +1306,12 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                                 log.debug("firmat.getAbsolutePath(): " + firmat.getAbsolutePath());
                             }
 
-                            if (!firmat.exists()) {
+                            if (firmat==null || !firmat.exists()) {
                                 String msg = "El plugin amb ID " + ss.getSelectedPluginID()
                                         + " ha retornat un status OK per la petició " + ss.getSignaturesSetID()
-                                        + " però el fitxer Signat no existeix: " + firmat.getAbsolutePath() + "(app: "
-                                        + ss.getCommonInfoSignature().getUsername() + ")";
+                                        + " però el fitxer Signat no existeix o val null: " 
+                                        + (firmat==null?"NULL": firmat.getAbsolutePath()) 
+                                        + "(app: " + ss.getCommonInfoSignature().getUsername() + ")";
                                 log.error(msg, new Exception());
                                 throw new Exception(msg);
                             }
