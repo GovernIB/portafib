@@ -223,7 +223,7 @@
                                 <package>es.caib.portafib.api.interna.secure.signature.v1.signatureflowtemplate</package>
                                 <package>es.caib.portafib.api.interna.secure.signature.v1.signaturevalidation</package>
                             </resourcePackages>
-                            <!-- S'estan generant un conjunt de -->
+                            <!-- S'estan generant un conjunt de classes internes en el model del client que no són de l'API -->
                             <filterClass>es.caib.portafib.api.interna.secure.signature.v1.CustomSwaggerFilter</filterClass>
                         </configuration>
                     </execution>

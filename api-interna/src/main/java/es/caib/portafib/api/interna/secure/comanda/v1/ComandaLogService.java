@@ -22,13 +22,11 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 
-
 import javax.ws.rs.core.Response;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.InternalServerErrorException;
 import java.io.File;
 import java.nio.file.Files;
-
 
 /**
  * 
@@ -63,16 +61,6 @@ public class ComandaLogService extends RestUtils implements es.caib.comanda.api.
     String nomFitxer) {
         return ComandaServerUtils.getFitxerByNom(nomFitxer);
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
     /**
      * Retorna les darreres línies del fitxer de log indicat per nom. Concretament es retorna el número de línies indicat al paràmetre nLinies.
@@ -125,17 +113,7 @@ public class ComandaLogService extends RestUtils implements es.caib.comanda.api.
     public List<FitxerInfo> llistarFitxers() {
         return ComandaServerUtils.llistarFitxers();
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     /**
      * Descarrega el fitxer de log complet que es troba dins la carpeta de logs del servidor, i que té el nom indicat
      *
@@ -150,68 +128,42 @@ public class ComandaLogService extends RestUtils implements es.caib.comanda.api.
             notes = "Descarrega el fitxer de log complet que es troba dins la carpeta de logs del servidor, i que té el nom indicat",
             tags = { "COMANDA → APP / Logs" })
     @ApiResponses(
-            value = {
-                @ApiResponse(code = 200, message = "Fitxer descarregat correctament"),
-                @ApiResponse(code = 404, message = "Fitxer no trobat"),
-                @ApiResponse(code = 500, message = "Error intern del servidor")
-            })
-   // @RolesAllowed({ Constants.PFI_WS })
-   // @SecurityRequirement(name = SECURITY_NAME)
+            value = { @ApiResponse(code = 200, message = "Fitxer descarregat correctament"),
+                    @ApiResponse(code = 404, message = "Fitxer no trobat"),
+                    @ApiResponse(code = 500, message = "Error intern del servidor") })
+    // @RolesAllowed({ Constants.PFI_WS })
+    // @SecurityRequirement(name = SECURITY_NAME)
     public Response descarregarFitxerDirecte(@PathParam("nomFitxer") @ApiParam("Nom del fitxer")
     String nomFitxer) {
         return descarregarFitxerDirecte2(nomFitxer);
     }
 
-    
-    
-
-
     public static Response descarregarFitxerDirecte2(String nomFitxer) {
         String logsDir = ComandaServerUtils.getLogsDirectory();
-        
+
         if (logsDir == null) {
             throw new InternalServerErrorException("No s'ha pogut determinar el directori de logs");
         }
-        
-        
+
         File fitxer = new File(logsDir, nomFitxer);
-        
+
         if (!fitxer.exists()) {
             throw new NotFoundException("El fitxer de log no existeix: " + nomFitxer);
         }
-        
+
         try {
             String contentType = Files.probeContentType(fitxer.toPath());
             if (contentType == null) {
                 contentType = "text/plain";
             }
-            
-            return Response.ok(fitxer)
-                    .header("Content-Disposition", "attachment; filename=\"" + nomFitxer + "\"")
-                    .header("Content-Type", contentType)
-                    .build();
-                    
+
+            return Response.ok(fitxer).header("Content-Disposition", "attachment; filename=\"" + nomFitxer + "\"")
+                    .header("Content-Type", contentType).build();
+
         } catch (Exception e) {
             throw new InternalServerErrorException(
                     "Error descarregant directament el fitxer : " + nomFitxer + ". Error: " + e.getMessage());
         }
     }
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
 }

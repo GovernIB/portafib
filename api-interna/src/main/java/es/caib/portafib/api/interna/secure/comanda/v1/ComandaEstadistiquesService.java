@@ -29,7 +29,6 @@ import es.caib.comanda.model.server.monitoring.Format;
 import es.caib.comanda.model.server.monitoring.IndicadorDesc;
 import es.caib.comanda.model.server.monitoring.RegistreEstadistic;
 import es.caib.comanda.model.server.monitoring.RegistresEstadistics;
-import es.caib.comanda.model.server.monitoring.Temps;
 import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.model.fields.EstadisticaFields;
@@ -328,7 +327,12 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         RegistresEstadistics re = new RegistresEstadistics();
         re.setFets(registres);
 
-        Temps temps = ComandaServerUtils.createTempsFromDate(dataConsulta);
+        //Temps temps = ComandaServerUtils.createTempsFromDate(dataConsulta);
+        
+        // Crear un offsetdatetime a partir de dataConsulta
+        OffsetDateTime temps = dataConsulta.toInstant().atOffset(OffsetDateTime.now().getOffset());
+        
+        
 
         re.setTemps(temps);
 

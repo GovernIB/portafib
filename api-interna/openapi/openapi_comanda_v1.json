@@ -235,6 +235,21 @@
     "/secure/salut/v1" : {
       "get" : {
         "operationId" : "salut",
+        "parameters" : [ {
+          "name" : "dataPeriode",
+          "in" : "query",
+          "schema" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }, {
+          "name" : "dataTotal",
+          "in" : "query",
+          "schema" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        } ],
         "responses" : {
           "default" : {
             "description" : "default response",
@@ -246,10 +261,7 @@
               }
             }
           }
-        },
-        "security" : [ {
-          "BasicAuth" : [ ]
-        } ]
+        }
       }
     },
     "/secure/salut/v1/info" : {
@@ -320,50 +332,14 @@
         "type" : "object",
         "properties" : {
           "temps" : {
-            "$ref" : "#/components/schemas/Temps"
+            "type" : "string",
+            "format" : "date-time"
           },
           "fets" : {
             "type" : "array",
             "items" : {
               "$ref" : "#/components/schemas/RegistreEstadistic"
             }
-          }
-        }
-      },
-      "Temps" : {
-        "required" : [ "data" ],
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "mana" : {
-            "$ref" : "#/components/schemas/Temps"
-          },
-          "anualitat" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "trimestre" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "mes" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "setmana" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "diaSetmana" : {
-            "type" : "string",
-            "enum" : [ "DL", "DM", "DC", "DJ", "DV", "DS", "DG" ]
-          },
-          "dia" : {
-            "type" : "integer",
-            "format" : "int32"
           }
         }
       },
@@ -459,10 +435,12 @@
             "type" : "string"
           },
           "dataCreacio" : {
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           },
           "dataModificacio" : {
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           },
           "contingut" : {
             "type" : "array",
@@ -487,10 +465,12 @@
             "type" : "string"
           },
           "dataCreacio" : {
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           },
           "dataModificacio" : {
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           }
         }
       },

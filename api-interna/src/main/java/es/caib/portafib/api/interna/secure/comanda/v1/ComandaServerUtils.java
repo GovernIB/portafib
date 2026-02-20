@@ -12,9 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.time.temporal.IsoFields;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,12 +20,9 @@ import javax.activation.MimetypesFileTypeMap;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.InternalServerErrorException;
 
-import org.fundaciobit.pluginsib.utils.rest.RestUtils;
-
-import es.caib.comanda.model.server.monitoring.DiaSetmanaEnum;
 import es.caib.comanda.model.server.monitoring.FitxerContingut;
 import es.caib.comanda.model.server.monitoring.FitxerInfo;
-import es.caib.comanda.model.server.monitoring.Temps;
+
 
 /**
  * Utilitats comunes pel servidor de Comanda
@@ -68,73 +63,14 @@ public class ComandaServerUtils {
         return timestamp;
     }
 
-    public static Temps createTempsFromDate(Timestamp data) {
+    public static OffsetDateTime createTempsFromDate(Timestamp data) {
 
-        Temps temps = new Temps();
+        return data.toInstant().atZone(ZoneId.systemDefault()).toOffsetDateTime();
 
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(data);
-        int mes = cal.get(Calendar.MONTH) + 1;
-
-        temps.data(data.toInstant().atZone(ZoneId.systemDefault()).toOffsetDateTime());
-        temps.anualitat(cal.get(Calendar.YEAR));
-        temps.trimestre(mes / 3);
-        temps.mes(mes);
-        temps.setmana(cal.get(Calendar.WEEK_OF_YEAR));
-
-        DiaSetmanaEnum sde = calendarDayOfWeek2DiaSetmanaEnum(cal.get(Calendar.DAY_OF_WEEK));
-
-        temps.diaSetmana(sde);
-        temps.dia(cal.get(Calendar.DAY_OF_MONTH));
-
-        return temps;
     }
 
-    protected static DiaSetmanaEnum calendarDayOfWeek2DiaSetmanaEnum(int calendarDayOfWeek) {
-
-        DiaSetmanaEnum sde = null;
-
-        switch (calendarDayOfWeek) {
-            case Calendar.SUNDAY:
-                sde = DiaSetmanaEnum.DM;
-            break;
-            case Calendar.MONDAY:
-                sde = DiaSetmanaEnum.DL;
-            break;
-            case Calendar.TUESDAY:
-                sde = DiaSetmanaEnum.DM;
-            break;
-            case Calendar.WEDNESDAY:
-                sde = DiaSetmanaEnum.DC;
-            break;
-            case Calendar.THURSDAY:
-                sde = DiaSetmanaEnum.DJ;
-            break;
-            case Calendar.FRIDAY:
-                sde = DiaSetmanaEnum.DS;
-            break;
-            case Calendar.SATURDAY:
-                sde = DiaSetmanaEnum.DG;
-            break;
-        }
-        return sde;
-    }
-
-    public static Temps creteTempsFromOffsetDateTime(OffsetDateTime data) {
-
-        Temps temps = new Temps();
-
-        temps.data(data);
-        temps.anualitat(data.getYear());
-        temps.mes(data.getMonthValue());
-        temps.trimestre((temps.getMes() - 1) / 3 + 1);
-        temps.setmana(data.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR));
-        DiaSetmanaEnum sde = calendarDayOfWeek2DiaSetmanaEnum(data.getDayOfWeek().ordinal() + 1);
-        temps.diaSetmana(sde);
-        temps.dia(data.getDayOfMonth());
-
-        return temps;
-    }
+   
+    
     
     
     
@@ -185,13 +121,13 @@ public class ComandaServerUtils {
 
             FileTime creationTime = attrs.creationTime();
 
-            info.setDataCreacio(RestUtils.convertDateToDateTimeISO8601(new java.sql.Timestamp(creationTime.toMillis())));
+            info.setDataCreacio(createTempsFromDate(new java.sql.Timestamp(creationTime.toMillis())));
 
         } catch (IOException e) {
 
         }
 
-        info.setDataModificacio(RestUtils.convertDateToDateTimeISO8601(new Timestamp(fitxer.lastModified())));
+        info.setDataModificacio(createTempsFromDate(new Timestamp(fitxer.lastModified())));
         info.setMida(fitxer.length());
         // Obtenir el tipus MIME del fitxer
         try {

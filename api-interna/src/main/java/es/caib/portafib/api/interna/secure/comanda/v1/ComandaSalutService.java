@@ -15,6 +15,7 @@ import javax.management.ObjectName;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import org.fundaciobit.genapp.common.i18n.I18NCommonUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -45,6 +46,7 @@ import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.utils.ConstantsV2;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
@@ -78,9 +80,17 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
     @Produces({ "application/json" })
     @ApiOperation(value = "Obtenir informació de l'estat de salut de l'aplicació", tags = { "COMANDA → APP / Salut" })
     @ApiResponses(value = { @ApiResponse(code = 200, message = "successful operation", response = SalutInfo.class) })
-    @RolesAllowed({ Constants.PFI_WS })
-    @SecurityRequirement(name = SECURITY_NAME)
-    public SalutInfo salut() {
+    //    @RolesAllowed({ Constants.PFI_WS })
+    //    @SecurityRequirement(name = SECURITY_NAME)
+    @Override
+    public SalutInfo salut(@QueryParam("dataPeriode") @ApiParam(
+            defaultValue = "Data mínima de la que es demana informació per període",
+            example = "2025-12-31T23:59:59Z")
+    java.time.OffsetDateTime dataPeriode,
+            @QueryParam("dataTotal") @ApiParam(
+                    defaultValue = "Data mínima de la que demana informació per totals",
+                    example = "2025-01-01T00:00:00Z")
+            java.time.OffsetDateTime dataTotal) {
         SalutInfo sInfo = new SalutInfo();
         sInfo.setCodi("PFI");
         sInfo.setData(getDateTime());
@@ -112,23 +122,35 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
 
             cal.add(Calendar.MONTH, -1);
 
-            Timestamp faunmes = new Timestamp(cal.getTimeInMillis());
+            Timestamp faunmes;
+            if (dataPeriode != null) {
+                faunmes = new Timestamp(dataPeriode.toInstant().toEpochMilli());
+            } else {
+
+                faunmes = new Timestamp(cal.getTimeInMillis());
+            }
 
             cal.add(Calendar.MONTH, -11);
 
-            Timestamp faunany = new Timestamp(cal.getTimeInMillis());
+            Timestamp faunany;
 
-          
+            if (dataTotal != null) {
+                faunany = new Timestamp(dataTotal.toInstant().toEpochMilli());
+            } else {
+                faunany = new Timestamp(cal.getTimeInMillis());
+            }
 
             // Cercar peticions d'aquesta integració 
             IntegracioPeticions peticions = new IntegracioPeticions();
             peticions.setEndpoint("/secure/secure/asyncsignatureonweb/v1/");
-            peticions.setPeticionsErrorUltimPeriode(calculPeticions(ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT, faunmes, avui)); 
-            peticions.setPeticionsOkUltimPeriode(calculPeticions(ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT, faunmes, avui)); 
+            peticions.setPeticionsErrorUltimPeriode(
+                    calculPeticions(ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT, faunmes, avui));
+            peticions.setPeticionsOkUltimPeriode(
+                    calculPeticions(ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT, faunmes, avui));
             peticions.setPeticionsPerEntorn(null); // TODO calcular map
-            peticions.setTempsMigUltimPeriode(-1); 
+            peticions.setTempsMigUltimPeriode(-1);
             peticions.setTotalError(calculPeticions(ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT, faunany, avui));
-            peticions.setTotalOk(calculPeticions(ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT, faunany, avui)); 
+            peticions.setTotalOk(calculPeticions(ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT, faunany, avui));
             peticions.setTotalTempsMig(-1);
             integracio.setPeticions(peticions);
 
@@ -163,7 +185,6 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
 
     protected long calculPeticions(int estat, Timestamp from, Timestamp to) {
         long totalOK;
-        
 
         Where w1 = PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID.isNotNull();
         Where w2 = PeticioDeFirmaFields.DATASOLICITUD.between(from, to);
@@ -196,6 +217,7 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
     @ApiResponses(value = { @ApiResponse(code = 200, message = "successful operation", response = AppInfo.class) })
     @SecurityRequirement(name = SECURITY_NAME)
     @RolesAllowed({ Constants.PFI_WS })
+    @Override
     public AppInfo salutInfo() {
 
         // TODO Utilitzar get BuildInfo
