@@ -135,11 +135,13 @@
           "default" : {
             "description" : "default response",
             "content" : {
-              "application/octet-stream" : { },
-              "text/plain" : { }
+              "application/octet-stream" : { }
             }
           }
-        }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
       }
     },
     "/secure/logs/v1/{nomFitxer}" : {

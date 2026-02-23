@@ -12,8 +12,9 @@ import org.fundaciobit.pluginsib.utils.rest.RestUtils;
 
 import es.caib.comanda.model.server.monitoring.FitxerContingut;
 import es.caib.comanda.model.server.monitoring.FitxerInfo;
+import es.caib.comanda.ms.log.helper.LogFileStream;
+import es.caib.comanda.ms.log.helper.LogHelper;
 import es.caib.portafib.commons.utils.Constants;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -23,18 +24,23 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 
 import javax.ws.rs.core.Response;
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.InternalServerErrorException;
-import java.io.File;
-import java.nio.file.Files;
+import java.io.InputStream;
 
 /**
  * 
  * @author anadal
  * 4 feb 2026 12:45:47
  */
-@Path("/secure")
-@Api(description = "the ComandaAppLogs API")
+@Path("/secure/logs/v1")
+@io.swagger.annotations.SwaggerDefinition(
+        info = @io.swagger.annotations.Info(
+                title = "ComandaAppLogs API",
+                version = "1.0",
+                description = "API per a la gestió de logs de l'aplicació Comanda"),
+        tags = { @io.swagger.annotations.Tag(
+                name = "COMANDA → APP / Logs",
+                description = "Operacions relacionades amb els fitxers de log de l'aplicació Comanda") })
+//@Api(description = "the ComandaAppLogs API")
 @SecurityScheme(type = SecuritySchemeType.HTTP, name = ComandaLogService.SECURITY_NAME, scheme = "basic")
 public class ComandaLogService extends RestUtils implements es.caib.comanda.api.server.monitoring.ComandaAppLogsApi {
 
@@ -47,7 +53,7 @@ public class ComandaLogService extends RestUtils implements es.caib.comanda.api.
      * @return successful operation
      */
     @GET
-    @Path("/logs/v1/{nomFitxer}")
+    @Path("/{nomFitxer}")
     @Produces({ "application/json" })
     @ApiOperation(
             value = "Obtenir contingut complet d'un fitxer de log",
@@ -57,9 +63,13 @@ public class ComandaLogService extends RestUtils implements es.caib.comanda.api.
             value = { @ApiResponse(code = 200, message = "successful operation", response = FitxerContingut.class) })
     @RolesAllowed({ Constants.PFI_WS })
     @SecurityRequirement(name = SECURITY_NAME)
+    @Override
     public FitxerContingut getFitxerByNom(@PathParam("nomFitxer") @ApiParam("Nom del firxer")
     String nomFitxer) {
-        return ComandaServerUtils.getFitxerByNom(nomFitxer);
+
+        return LogHelper.getFitxerByNom(LogHelper.getDirectoryLogsFromJbossServerProperties(), nomFitxer);
+
+        //return ComandaServerUtils.getFitxerByNom(nomFitxer);
     }
 
     /**
@@ -70,7 +80,7 @@ public class ComandaLogService extends RestUtils implements es.caib.comanda.api.
      * @return successful operation
      */
     @GET
-    @Path("/logs/v1/{nomFitxer}/linies/{nLinies}")
+    @Path("/{nomFitxer}/linies/{nLinies}")
     @Produces({ "application/json" })
     @ApiOperation(
             value = "Obtenir les darreres línies d'un fitxer de log",
@@ -84,10 +94,12 @@ public class ComandaLogService extends RestUtils implements es.caib.comanda.api.
                     responseContainer = "List") })
     @RolesAllowed({ Constants.PFI_WS })
     @SecurityRequirement(name = SECURITY_NAME)
+    @Override
     public List<String> llegitUltimesLinies(@PathParam("nomFitxer") @ApiParam("Nom del firxer")
     String nomFitxer, @PathParam("nLinies") @ApiParam("Número de línies a recuperar del firxer")
     Long nLinies) {
-        return ComandaServerUtils.llegirUltimesLinies(nomFitxer, nLinies);
+        return LogHelper.readLastNLines(LogHelper.getDirectoryLogsFromJbossServerProperties(), nomFitxer, nLinies);
+        //return ComandaServerUtils.llegirUltimesLinies(nomFitxer, nLinies);
     }
 
     /**
@@ -96,7 +108,7 @@ public class ComandaLogService extends RestUtils implements es.caib.comanda.api.
      * @return successful operation
      */
     @GET
-    @Path("/logs/v1")
+    @Path("/")
     @Produces({ "application/json" })
     @ApiOperation(
             value = "Obtenir el llistat de fitxers de log disponibles",
@@ -110,8 +122,11 @@ public class ComandaLogService extends RestUtils implements es.caib.comanda.api.
                     responseContainer = "List") })
     @RolesAllowed({ Constants.PFI_WS })
     @SecurityRequirement(name = SECURITY_NAME)
+    @Override
     public List<FitxerInfo> llistarFitxers() {
-        return ComandaServerUtils.llistarFitxers();
+
+        return LogHelper.llistarFitxers(LogHelper.getDirectoryLogsFromJbossServerProperties(), "portafib");
+        //return ComandaServerUtils.llistarFitxers();
     }
 
     /**
@@ -121,8 +136,8 @@ public class ComandaLogService extends RestUtils implements es.caib.comanda.api.
      * @return El fitxer de log
      */
     @GET
-    @Path("/logs/v1/{nomFitxer}/directe")
-    @Produces({ "application/octet-stream", "text/plain" })
+    @Path("/{nomFitxer}/directe")
+    @Produces({ "application/octet-stream" })
     @ApiOperation(
             value = "Descarregar fitxer de log complet",
             notes = "Descarrega el fitxer de log complet que es troba dins la carpeta de logs del servidor, i que té el nom indicat",
@@ -131,39 +146,22 @@ public class ComandaLogService extends RestUtils implements es.caib.comanda.api.
             value = { @ApiResponse(code = 200, message = "Fitxer descarregat correctament"),
                     @ApiResponse(code = 404, message = "Fitxer no trobat"),
                     @ApiResponse(code = 500, message = "Error intern del servidor") })
-    // @RolesAllowed({ Constants.PFI_WS })
-    // @SecurityRequirement(name = SECURITY_NAME)
+    @RolesAllowed({ Constants.PFI_WS })
+    @SecurityRequirement(name = SECURITY_NAME)
+    @Override
     public Response descarregarFitxerDirecte(@PathParam("nomFitxer") @ApiParam("Nom del fitxer")
     String nomFitxer) {
-        return descarregarFitxerDirecte2(nomFitxer);
-    }
+        LogFileStream lfs = LogHelper.getFileStreamByNom(LogHelper.getDirectoryLogsFromJbossServerProperties(),
+                nomFitxer);
 
-    public static Response descarregarFitxerDirecte2(String nomFitxer) {
-        String logsDir = ComandaServerUtils.getLogsDirectory();
+        InputStream is = lfs.getInputStream();
+        String contentType = "application/octet-stream";
+        String fileName = lfs.getFileName();
+        long size = lfs.getSize();
 
-        if (logsDir == null) {
-            throw new InternalServerErrorException("No s'ha pogut determinar el directori de logs");
-        }
+        return Response.ok(is).header("Content-Disposition", "attachment; filename=\"" + fileName + "\"")
+                .header("Content-Type", contentType).header("Content-Length", size).build();
 
-        File fitxer = new File(logsDir, nomFitxer);
-
-        if (!fitxer.exists()) {
-            throw new NotFoundException("El fitxer de log no existeix: " + nomFitxer);
-        }
-
-        try {
-            String contentType = Files.probeContentType(fitxer.toPath());
-            if (contentType == null) {
-                contentType = "text/plain";
-            }
-
-            return Response.ok(fitxer).header("Content-Disposition", "attachment; filename=\"" + nomFitxer + "\"")
-                    .header("Content-Type", contentType).build();
-
-        } catch (Exception e) {
-            throw new InternalServerErrorException(
-                    "Error descarregant directament el fitxer : " + nomFitxer + ". Error: " + e.getMessage());
-        }
     }
 
 }

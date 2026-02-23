@@ -1,5 +1,6 @@
 package es.caib.portafib.api.interna.secure.comanda.v1;
 
+import java.net.URL;
 import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -42,7 +43,12 @@ import es.caib.comanda.ms.salut.helper.SalutHelper.BuildInfo;
 import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.commons.utils.Version;
+import es.caib.portafib.logic.CorreuAgrupatLogicaLocal;
+import es.caib.portafib.logic.EntitatLogicaLocal;
+import es.caib.portafib.logic.NotificacioWSLogicaLocal;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
+import es.caib.portafib.model.fields.CorreuAgrupatFields;
+import es.caib.portafib.model.fields.NotificacioWSFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.utils.ConstantsV2;
 import io.swagger.annotations.ApiOperation;
@@ -68,6 +74,15 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
 
     @EJB(mappedName = es.caib.portafib.ejb.PeticioDeFirmaService.JNDI_NAME)
     protected es.caib.portafib.ejb.PeticioDeFirmaService peticioDeFirmaEjb;
+
+    @EJB(mappedName = CorreuAgrupatLogicaLocal.JNDI_NAME)
+    protected CorreuAgrupatLogicaLocal correuAgrupatLogicaEjb;
+
+    @EJB(mappedName = NotificacioWSLogicaLocal.JNDI_NAME)
+    protected NotificacioWSLogicaLocal notificacioLogicaEjb;
+
+    @EJB(mappedName = EntitatLogicaLocal.JNDI_NAME)
+    protected EntitatLogicaLocal entitatLogicaEjb;
 
     /**
      * Obtenir informació de l&#39;estat de salut de l&#39;aplicació
@@ -95,19 +110,54 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
         sInfo.setCodi("PFI");
         sInfo.setData(getDateTime());
 
-        // TODO
-        EstatSalut estatBaseDeDades = null;
-        sInfo.setEstatBaseDeDades(estatBaseDeDades);
+        {
+            EstatSalut estatBaseDeDades = new EstatSalut();
 
-        // TODO 
-        EstatSalut estatGlobal = new EstatSalut();
-        estatGlobal.setEstat(EstatSalutEnum.UP);
-        estatGlobal.setLatencia(null);
-        sInfo.setEstatGlobal(estatGlobal);
+            long start = System.currentTimeMillis();
+            try {
+                final Where where = null;
+                final Integer firstResult = 1;
+                final Integer maxResults = 1;
+                entitatLogicaEjb.select(where, firstResult, maxResults);
+                estatBaseDeDades.setEstat(EstatSalutEnum.UP);
+            } catch (Exception e) {
+                estatBaseDeDades.setEstat(EstatSalutEnum.ERROR);
+                e.printStackTrace();
+            }
 
-        sInfo.setInformacioSistema(MonitorHelper.getInfoSistema());
+            long end = System.currentTimeMillis();
 
-        // TODO
+            estatBaseDeDades.setLatencia((int) (end - start));
+
+            sInfo.setEstatBaseDeDades(estatBaseDeDades);
+        }
+
+        {
+            EstatSalut estatGlobal = new EstatSalut();
+
+            long start = System.currentTimeMillis();
+            try {
+                String url = PropietatGlobalUtil.getAppUrl();
+
+                // Fer una petició a l'endpoint de info per comprovar que respon correctament
+                // emprant URL
+                URL urlObj = new URL(url);
+                urlObj.openStream().close();
+
+                estatGlobal.setEstat(EstatSalutEnum.UP);
+            } catch (Exception e) {
+                // TODO: handle exception
+                e.printStackTrace();
+
+                estatGlobal.setEstat(EstatSalutEnum.ERROR);
+            }
+            long end = System.currentTimeMillis();
+
+            estatGlobal.setLatencia((int)(end - start));
+            sInfo.setEstatGlobal(estatGlobal);
+
+            sInfo.setInformacioSistema(MonitorHelper.getInfoSistema());
+        }
 
         {
             IntegracioSalut integracio = new IntegracioSalut();
@@ -142,7 +192,7 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
 
             // Cercar peticions d'aquesta integració 
             IntegracioPeticions peticions = new IntegracioPeticions();
-            peticions.setEndpoint("/secure/secure/asyncsignatureonweb/v1/");
+            peticions.setEndpoint("/secure/asyncsignatureonweb/v1/");
             peticions.setPeticionsErrorUltimPeriode(
                     calculPeticions(ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT, faunmes, avui));
             peticions.setPeticionsOkUltimPeriode(
@@ -161,14 +211,91 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
         }
 
         {
-            // TODO
-            MissatgeSalut ms = new MissatgeSalut();
-            ms.setNivell(SalutNivell.ERROR);
-            ms.setData(getDateTime());
-            ms.setMissatge("No funciona l'integració amb el servei XYZ");
 
             List<MissatgeSalut> missatges = new ArrayList<MissatgeSalut>();
-            missatges.add(ms);
+
+            Timestamp faDosDies = new Timestamp(System.currentTimeMillis() - 2L * 24 * 3600 * 1000);
+
+            // Peticions caducades
+            try {
+                Long count = peticioDeFirmaEjb.count(Where.AND(
+                        PeticioDeFirmaFields.DATACADUCITAT.lessThan(new Timestamp(System.currentTimeMillis())),
+                        PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID
+                                .equal(ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES)));
+
+                if (count != null && count > 0) {
+                    MissatgeSalut ms = new MissatgeSalut();
+                    ms.setNivell(SalutNivell.ERROR);
+                    ms.setData(getDateTime());
+                    ms.setMissatge("Hi ha " + count + " peticions de firma caducades.");
+                    missatges.add(ms);
+                }
+
+            } catch (I18NException e) {
+
+                String msg = "Error consultant les peticions de firma caducades: "
+                        + I18NCommonUtils.getMessage(e, new Locale(Configuracio.getDefaultLanguage()));
+
+                log.error(msg, e);
+
+                MissatgeSalut ms = new MissatgeSalut();
+                ms.setNivell(SalutNivell.ERROR);
+                ms.setData(getDateTime());
+                ms.setMissatge(msg);
+                missatges.add(ms);
+            }
+
+            // Calcular CallBacks pendents 
+            try {
+                Long count = notificacioLogicaEjb.count(Where.AND(NotificacioWSFields.DATACREACIO.lessThan(faDosDies),
+                        NotificacioWSFields.BLOQUEJADA.equal(false)));
+
+                if (count != null && count > 0) {
+                    MissatgeSalut ms = new MissatgeSalut();
+                    ms.setNivell(SalutNivell.ERROR);
+                    ms.setData(getDateTime());
+                    ms.setMissatge("Hi ha " + count + " notificacions ws (Callback) pendents de més de 2 dies");
+                    missatges.add(ms);
+                }
+
+            } catch (I18NException e) {
+
+                String msg = "Error consultant les notificacions ws (Callback) pendents: "
+                        + I18NCommonUtils.getMessage(e, new Locale(Configuracio.getDefaultLanguage()));
+
+                log.error(msg, e);
+
+                MissatgeSalut ms = new MissatgeSalut();
+                ms.setNivell(SalutNivell.ERROR);
+                ms.setData(getDateTime());
+                ms.setMissatge(msg);
+                missatges.add(ms);
+            }
+
+            // Missatges agrupats pendents des de fa més de 2 dies
+            try {
+                Long count = correuAgrupatLogicaEjb.count(CorreuAgrupatFields.DATACREACIO.lessThan(faDosDies));
+                if (count != null && count > 0) {
+                    MissatgeSalut ms = new MissatgeSalut();
+                    ms.setNivell(SalutNivell.ERROR);
+                    ms.setData(getDateTime());
+                    ms.setMissatge("Hi ha " + count + " missatges agrupats pendents de més de 2 dies");
+                    missatges.add(ms);
+                }
+            } catch (I18NException e) {
+
+                String msg = "Error consultant el missatges agrupats pendents de més de 2 dies: "
+                        + I18NCommonUtils.getMessage(e, new Locale(Configuracio.getDefaultLanguage()));
+
+                log.error(msg, e);
+
+                MissatgeSalut ms = new MissatgeSalut();
+                ms.setNivell(SalutNivell.ERROR);
+                ms.setData(getDateTime());
+                ms.setMissatge(msg);
+                missatges.add(ms);
+            }
+
             sInfo.setMissatges(missatges);
         }
 
@@ -220,19 +347,23 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
     @Override
     public AppInfo salutInfo() {
 
-        // TODO Utilitzar get BuildInfo
-
-        //SalutHelper.BuildInfo.builder().
 
         AppInfo a = new AppInfo();
 
+        Version version = new Version();
         {
 
-            BuildInfo infoTmp = SalutHelper.BuildInfo.builder().build();
-            a.revisio(infoTmp.getCommitId());
-            a.jdkVersion(infoTmp.getBuildJDK());
+            BuildInfo infoTmp = SalutHelper.getBuildInfo();
+
+            a.setJdkVersion(version.getJdkVersion());
+            a.setRevisio(version.getScmRevision());
+
+            // NO funciona 
+            //a.revisio(infoTmp.getCommitId());            
+            //a.jdkVersion(infoTmp.getBuildJDK());
 
             a.setData(infoTmp.getBuildDate());
+
         }
 
         String urlBase = PropietatGlobalUtil.getAppUrl();
@@ -336,7 +467,7 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
 
         a.setSubsistemes(null);
 
-        a.versio(new Version().getVersion());
+        a.versio(version.getVersion());
 
         a.setVersioJboss(getJBossVersion());
 

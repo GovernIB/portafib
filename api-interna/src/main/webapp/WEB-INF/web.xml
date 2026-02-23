@@ -19,10 +19,12 @@
             <web-resource-name>portafib_api_interna_public</web-resource-name>
             <url-pattern>/public/*</url-pattern>
         </web-resource-collection>
-         <web-resource-collection>
+        <web-resource-collection>
             <web-resource-name>comanda salut obert</web-resource-name>
             <url-pattern>/secure/salut/v1</url-pattern>
         </web-resource-collection>
+        
+       
         <!-- No auth-constraint means everybody has access! -->
     </security-constraint>
 
