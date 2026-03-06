@@ -58,10 +58,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/usuariEntitat")
 @SessionAttributes(types = { UsuariEntitatForm.class, UsuariEntitatFilterForm.class })
-@Tile(name="usuariEntitatFormWebDB", contentJsp="/WEB-INF/jsp/webdb/usuariEntitatForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="usuariEntitat.usuariEntitat")})
-@Tile(name="usuariEntitatListWebDB", contentJsp="/WEB-INF/jsp/webdb/usuariEntitatList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="usuariEntitat.usuariEntitat") })
+@Tile(name="usuariEntitatFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/usuariEntitatForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="usuariEntitat.usuariEntitat")})
+@Tile(name="usuariEntitatListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/usuariEntitatList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="usuariEntitat.usuariEntitat")})
 public class UsuariEntitatController
     extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<UsuariEntitat, java.lang.String, UsuariEntitatForm> implements UsuariEntitatFields {
 

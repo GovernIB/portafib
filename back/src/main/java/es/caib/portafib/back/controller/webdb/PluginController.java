@@ -58,10 +58,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/plugin")
 @SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })
-@Tile(name="pluginFormWebDB", contentJsp="/WEB-INF/jsp/webdb/pluginForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="plugin.plugin")})
-@Tile(name="pluginListWebDB", contentJsp="/WEB-INF/jsp/webdb/pluginList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="plugin.plugin") })
+@Tile(name="pluginFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/pluginForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="plugin.plugin")})
+@Tile(name="pluginListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/pluginList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="plugin.plugin")})
 public class PluginController
     extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<Plugin, java.lang.Long, PluginForm> implements PluginFields {
 

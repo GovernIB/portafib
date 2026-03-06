@@ -55,10 +55,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/rebreAvis")
 @SessionAttributes(types = { RebreAvisForm.class, RebreAvisFilterForm.class })
-@Tile(name="rebreAvisFormWebDB", contentJsp="/WEB-INF/jsp/webdb/rebreAvisForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="rebreAvis.rebreAvis")})
-@Tile(name="rebreAvisListWebDB", contentJsp="/WEB-INF/jsp/webdb/rebreAvisList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="rebreAvis.rebreAvis") })
+@Tile(name="rebreAvisFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/rebreAvisForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="rebreAvis.rebreAvis")})
+@Tile(name="rebreAvisListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/rebreAvisList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="rebreAvis.rebreAvis")})
 public class RebreAvisController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<RebreAvis, java.lang.Long> implements RebreAvisFields {
 

@@ -58,10 +58,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/pluginCridada")
 @SessionAttributes(types = { PluginCridadaForm.class, PluginCridadaFilterForm.class })
-@Tile(name="pluginCridadaFormWebDB", contentJsp="/WEB-INF/jsp/webdb/pluginCridadaForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="pluginCridada.pluginCridada")})
-@Tile(name="pluginCridadaListWebDB", contentJsp="/WEB-INF/jsp/webdb/pluginCridadaList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="pluginCridada.pluginCridada") })
+@Tile(name="pluginCridadaFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/pluginCridadaForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="pluginCridada.pluginCridada")})
+@Tile(name="pluginCridadaListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/pluginCridadaList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="pluginCridada.pluginCridada")})
 public class PluginCridadaController
     extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<PluginCridada, java.lang.Long, PluginCridadaForm> implements PluginCridadaFields {
 

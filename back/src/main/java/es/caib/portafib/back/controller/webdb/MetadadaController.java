@@ -55,10 +55,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/metadada")
 @SessionAttributes(types = { MetadadaForm.class, MetadadaFilterForm.class })
-@Tile(name="metadadaFormWebDB", contentJsp="/WEB-INF/jsp/webdb/metadadaForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="metadada.metadada")})
-@Tile(name="metadadaListWebDB", contentJsp="/WEB-INF/jsp/webdb/metadadaList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="metadada.metadada") })
+@Tile(name="metadadaFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/metadadaForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="metadada.metadada")})
+@Tile(name="metadadaListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/metadadaList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="metadada.metadada")})
 public class MetadadaController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<Metadada, java.lang.Long> implements MetadadaFields {
 

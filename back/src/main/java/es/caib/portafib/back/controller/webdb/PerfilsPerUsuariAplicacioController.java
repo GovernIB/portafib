@@ -55,10 +55,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/perfilsPerUsuariAplicacio")
 @SessionAttributes(types = { PerfilsPerUsuariAplicacioForm.class, PerfilsPerUsuariAplicacioFilterForm.class })
-@Tile(name="perfilsPerUsuariAplicacioFormWebDB", contentJsp="/WEB-INF/jsp/webdb/perfilsPerUsuariAplicacioForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="perfilsPerUsuariAplicacio.perfilsPerUsuariAplicacio")})
-@Tile(name="perfilsPerUsuariAplicacioListWebDB", contentJsp="/WEB-INF/jsp/webdb/perfilsPerUsuariAplicacioList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="perfilsPerUsuariAplicacio.perfilsPerUsuariAplicacio") })
+@Tile(name="perfilsPerUsuariAplicacioFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/perfilsPerUsuariAplicacioForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="perfilsPerUsuariAplicacio.perfilsPerUsuariAplicacio")})
+@Tile(name="perfilsPerUsuariAplicacioListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/perfilsPerUsuariAplicacioList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="perfilsPerUsuariAplicacio.perfilsPerUsuariAplicacio")})
 public class PerfilsPerUsuariAplicacioController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<PerfilsPerUsuariAplicacio, java.lang.Long> implements PerfilsPerUsuariAplicacioFields {
 

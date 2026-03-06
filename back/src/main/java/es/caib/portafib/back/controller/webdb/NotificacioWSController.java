@@ -55,10 +55,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/notificacioWS")
 @SessionAttributes(types = { NotificacioWSForm.class, NotificacioWSFilterForm.class })
-@Tile(name="notificacioWSFormWebDB", contentJsp="/WEB-INF/jsp/webdb/notificacioWSForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="notificacioWS.notificacioWS")})
-@Tile(name="notificacioWSListWebDB", contentJsp="/WEB-INF/jsp/webdb/notificacioWSList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="notificacioWS.notificacioWS") })
+@Tile(name="notificacioWSFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/notificacioWSForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="notificacioWS.notificacioWS")})
+@Tile(name="notificacioWSListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/notificacioWSList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="notificacioWS.notificacioWS")})
 public class NotificacioWSController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<NotificacioWS, java.lang.Long> implements NotificacioWSFields {
 

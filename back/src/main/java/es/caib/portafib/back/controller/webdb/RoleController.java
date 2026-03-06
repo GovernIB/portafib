@@ -53,10 +53,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/role")
 @SessionAttributes(types = { RoleForm.class, RoleFilterForm.class })
-@Tile(name="roleFormWebDB", contentJsp="/WEB-INF/jsp/webdb/roleForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="role.role")})
-@Tile(name="roleListWebDB", contentJsp="/WEB-INF/jsp/webdb/roleList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="role.role") })
+@Tile(name="roleFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/roleForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="role.role")})
+@Tile(name="roleListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/roleList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="role.role")})
 public class RoleController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<Role, java.lang.String> implements RoleFields {
 

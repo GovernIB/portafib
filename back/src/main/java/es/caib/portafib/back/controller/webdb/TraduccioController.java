@@ -53,10 +53,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/traduccio")
 @SessionAttributes(types = { TraduccioForm.class, TraduccioFilterForm.class })
-@Tile(name="traduccioFormWebDB", contentJsp="/WEB-INF/jsp/webdb/traduccioForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="traduccio.traduccio")})
-@Tile(name="traduccioListWebDB", contentJsp="/WEB-INF/jsp/webdb/traduccioList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="traduccio.traduccio") })
+@Tile(name="traduccioFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/traduccioForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="traduccio.traduccio")})
+@Tile(name="traduccioListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/traduccioList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="traduccio.traduccio")})
 public class TraduccioController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<Traduccio, java.lang.Long> implements TraduccioFields {
 

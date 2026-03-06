@@ -55,10 +55,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/estadistica")
 @SessionAttributes(types = { EstadisticaForm.class, EstadisticaFilterForm.class })
-@Tile(name="estadisticaFormWebDB", contentJsp="/WEB-INF/jsp/webdb/estadisticaForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="estadistica.estadistica")})
-@Tile(name="estadisticaListWebDB", contentJsp="/WEB-INF/jsp/webdb/estadisticaList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="estadistica.estadistica") })
+@Tile(name="estadisticaFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/estadisticaForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="estadistica.estadistica")})
+@Tile(name="estadisticaListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/estadisticaList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="estadistica.estadistica")})
 public class EstadisticaController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<Estadistica, java.lang.Long> implements EstadisticaFields {
 

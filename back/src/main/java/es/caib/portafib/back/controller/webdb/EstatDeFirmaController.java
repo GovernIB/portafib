@@ -55,10 +55,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/estatDeFirma")
 @SessionAttributes(types = { EstatDeFirmaForm.class, EstatDeFirmaFilterForm.class })
-@Tile(name="estatDeFirmaFormWebDB", contentJsp="/WEB-INF/jsp/webdb/estatDeFirmaForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="estatDeFirma.estatDeFirma")})
-@Tile(name="estatDeFirmaListWebDB", contentJsp="/WEB-INF/jsp/webdb/estatDeFirmaList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="estatDeFirma.estatDeFirma") })
+@Tile(name="estatDeFirmaFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/estatDeFirmaForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="estatDeFirma.estatDeFirma")})
+@Tile(name="estatDeFirmaListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/estatDeFirmaList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="estatDeFirma.estatDeFirma")})
 public class EstatDeFirmaController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<EstatDeFirma, java.lang.Long> implements EstatDeFirmaFields {
 

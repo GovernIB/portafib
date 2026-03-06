@@ -58,10 +58,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/usuariPersona")
 @SessionAttributes(types = { UsuariPersonaForm.class, UsuariPersonaFilterForm.class })
-@Tile(name="usuariPersonaFormWebDB", contentJsp="/WEB-INF/jsp/webdb/usuariPersonaForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="usuariPersona.usuariPersona")})
-@Tile(name="usuariPersonaListWebDB", contentJsp="/WEB-INF/jsp/webdb/usuariPersonaList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="usuariPersona.usuariPersona") })
+@Tile(name="usuariPersonaFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/usuariPersonaForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="usuariPersona.usuariPersona")})
+@Tile(name="usuariPersonaListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/usuariPersonaList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="usuariPersona.usuariPersona")})
 public class UsuariPersonaController
     extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<UsuariPersona, java.lang.String, UsuariPersonaForm> implements UsuariPersonaFields {
 

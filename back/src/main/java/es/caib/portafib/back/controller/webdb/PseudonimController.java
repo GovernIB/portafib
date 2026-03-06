@@ -53,10 +53,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/pseudonim")
 @SessionAttributes(types = { PseudonimForm.class, PseudonimFilterForm.class })
-@Tile(name="pseudonimFormWebDB", contentJsp="/WEB-INF/jsp/webdb/pseudonimForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="pseudonim.pseudonim")})
-@Tile(name="pseudonimListWebDB", contentJsp="/WEB-INF/jsp/webdb/pseudonimList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="pseudonim.pseudonim") })
+@Tile(name="pseudonimFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/pseudonimForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="pseudonim.pseudonim")})
+@Tile(name="pseudonimListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/pseudonimList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="pseudonim.pseudonim")})
 public class PseudonimController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<Pseudonim, java.lang.Long> implements PseudonimFields {
 

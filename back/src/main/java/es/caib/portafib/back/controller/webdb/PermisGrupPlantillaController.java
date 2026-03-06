@@ -55,10 +55,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/permisGrupPlantilla")
 @SessionAttributes(types = { PermisGrupPlantillaForm.class, PermisGrupPlantillaFilterForm.class })
-@Tile(name="permisGrupPlantillaFormWebDB", contentJsp="/WEB-INF/jsp/webdb/permisGrupPlantillaForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="permisGrupPlantilla.permisGrupPlantilla")})
-@Tile(name="permisGrupPlantillaListWebDB", contentJsp="/WEB-INF/jsp/webdb/permisGrupPlantillaList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="permisGrupPlantilla.permisGrupPlantilla") })
+@Tile(name="permisGrupPlantillaFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/permisGrupPlantillaForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="permisGrupPlantilla.permisGrupPlantilla")})
+@Tile(name="permisGrupPlantillaListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/permisGrupPlantillaList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="permisGrupPlantilla.permisGrupPlantilla")})
 public class PermisGrupPlantillaController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<PermisGrupPlantilla, java.lang.Long> implements PermisGrupPlantillaFields {
 

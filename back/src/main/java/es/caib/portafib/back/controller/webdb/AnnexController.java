@@ -58,10 +58,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/annex")
 @SessionAttributes(types = { AnnexForm.class, AnnexFilterForm.class })
-@Tile(name="annexFormWebDB", contentJsp="/WEB-INF/jsp/webdb/annexForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="annex.annex")})
-@Tile(name="annexListWebDB", contentJsp="/WEB-INF/jsp/webdb/annexList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="annex.annex") })
+@Tile(name="annexFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/annexForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="annex.annex")})
+@Tile(name="annexListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/annexList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="annex.annex")})
 public class AnnexController
     extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<Annex, java.lang.Long, AnnexForm> implements AnnexFields {
 

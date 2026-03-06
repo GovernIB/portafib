@@ -55,10 +55,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/permisUsuariPlantilla")
 @SessionAttributes(types = { PermisUsuariPlantillaForm.class, PermisUsuariPlantillaFilterForm.class })
-@Tile(name="permisUsuariPlantillaFormWebDB", contentJsp="/WEB-INF/jsp/webdb/permisUsuariPlantillaForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="permisUsuariPlantilla.permisUsuariPlantilla")})
-@Tile(name="permisUsuariPlantillaListWebDB", contentJsp="/WEB-INF/jsp/webdb/permisUsuariPlantillaList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="permisUsuariPlantilla.permisUsuariPlantilla") })
+@Tile(name="permisUsuariPlantillaFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/permisUsuariPlantillaForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="permisUsuariPlantilla.permisUsuariPlantilla")})
+@Tile(name="permisUsuariPlantillaListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/permisUsuariPlantillaList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="permisUsuariPlantilla.permisUsuariPlantilla")})
 public class PermisUsuariPlantillaController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<PermisUsuariPlantilla, java.lang.Long> implements PermisUsuariPlantillaFields {
 

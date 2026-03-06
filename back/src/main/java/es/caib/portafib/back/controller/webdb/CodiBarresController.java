@@ -53,10 +53,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/codiBarres")
 @SessionAttributes(types = { CodiBarresForm.class, CodiBarresFilterForm.class })
-@Tile(name="codiBarresFormWebDB", contentJsp="/WEB-INF/jsp/webdb/codiBarresForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="codiBarres.codiBarres")})
-@Tile(name="codiBarresListWebDB", contentJsp="/WEB-INF/jsp/webdb/codiBarresList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="codiBarres.codiBarres") })
+@Tile(name="codiBarresFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/codiBarresForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="codiBarres.codiBarres")})
+@Tile(name="codiBarresListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/codiBarresList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="codiBarres.codiBarres")})
 public class CodiBarresController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<CodiBarres, java.lang.String> implements CodiBarresFields {
 

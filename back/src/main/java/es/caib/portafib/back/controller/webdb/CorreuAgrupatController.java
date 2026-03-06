@@ -55,10 +55,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/correuAgrupat")
 @SessionAttributes(types = { CorreuAgrupatForm.class, CorreuAgrupatFilterForm.class })
-@Tile(name="correuAgrupatFormWebDB", contentJsp="/WEB-INF/jsp/webdb/correuAgrupatForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="correuAgrupat.correuAgrupat")})
-@Tile(name="correuAgrupatListWebDB", contentJsp="/WEB-INF/jsp/webdb/correuAgrupatList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="correuAgrupat.correuAgrupat") })
+@Tile(name="correuAgrupatFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/correuAgrupatForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="correuAgrupat.correuAgrupat")})
+@Tile(name="correuAgrupatListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/correuAgrupatList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="correuAgrupat.correuAgrupat")})
 public class CorreuAgrupatController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<CorreuAgrupat, java.lang.Long> implements CorreuAgrupatFields {
 

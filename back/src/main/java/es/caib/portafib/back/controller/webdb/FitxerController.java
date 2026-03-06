@@ -53,10 +53,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/fitxer")
 @SessionAttributes(types = { FitxerForm.class, FitxerFilterForm.class })
-@Tile(name="fitxerFormWebDB", contentJsp="/WEB-INF/jsp/webdb/fitxerForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="fitxer.fitxer")})
-@Tile(name="fitxerListWebDB", contentJsp="/WEB-INF/jsp/webdb/fitxerList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="fitxer.fitxer") })
+@Tile(name="fitxerFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/fitxerForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="fitxer.fitxer")})
+@Tile(name="fitxerListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/fitxerList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="fitxer.fitxer")})
 public class FitxerController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<Fitxer, java.lang.Long> implements FitxerFields {
 

@@ -55,10 +55,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/tipusDocumentColaboracioDelegacio")
 @SessionAttributes(types = { TipusDocumentColaboracioDelegacioForm.class, TipusDocumentColaboracioDelegacioFilterForm.class })
-@Tile(name="tipusDocumentColaboracioDelegacioFormWebDB", contentJsp="/WEB-INF/jsp/webdb/tipusDocumentColaboracioDelegacioForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="tipusDocumentColaboracioDelegacio.tipusDocumentColaboracioDelegacio")})
-@Tile(name="tipusDocumentColaboracioDelegacioListWebDB", contentJsp="/WEB-INF/jsp/webdb/tipusDocumentColaboracioDelegacioList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="tipusDocumentColaboracioDelegacio.tipusDocumentColaboracioDelegacio") })
+@Tile(name="tipusDocumentColaboracioDelegacioFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/tipusDocumentColaboracioDelegacioForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="tipusDocumentColaboracioDelegacio.tipusDocumentColaboracioDelegacio")})
+@Tile(name="tipusDocumentColaboracioDelegacioListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/tipusDocumentColaboracioDelegacioList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="tipusDocumentColaboracioDelegacio.tipusDocumentColaboracioDelegacio")})
 public class TipusDocumentColaboracioDelegacioController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<TipusDocumentColaboracioDelegacio, java.lang.Long> implements TipusDocumentColaboracioDelegacioFields {
 

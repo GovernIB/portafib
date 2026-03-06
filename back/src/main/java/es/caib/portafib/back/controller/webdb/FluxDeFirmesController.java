@@ -53,10 +53,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/fluxDeFirmes")
 @SessionAttributes(types = { FluxDeFirmesForm.class, FluxDeFirmesFilterForm.class })
-@Tile(name="fluxDeFirmesFormWebDB", contentJsp="/WEB-INF/jsp/webdb/fluxDeFirmesForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="fluxDeFirmes.fluxDeFirmes")})
-@Tile(name="fluxDeFirmesListWebDB", contentJsp="/WEB-INF/jsp/webdb/fluxDeFirmesList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="fluxDeFirmes.fluxDeFirmes") })
+@Tile(name="fluxDeFirmesFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/fluxDeFirmesForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="fluxDeFirmes.fluxDeFirmes")})
+@Tile(name="fluxDeFirmesListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/fluxDeFirmesList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="fluxDeFirmes.fluxDeFirmes")})
 public class FluxDeFirmesController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<FluxDeFirmes, java.lang.Long> implements FluxDeFirmesFields {
 

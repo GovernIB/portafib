@@ -55,10 +55,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/usuariEntitatFavorit")
 @SessionAttributes(types = { UsuariEntitatFavoritForm.class, UsuariEntitatFavoritFilterForm.class })
-@Tile(name="usuariEntitatFavoritFormWebDB", contentJsp="/WEB-INF/jsp/webdb/usuariEntitatFavoritForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="usuariEntitatFavorit.usuariEntitatFavorit")})
-@Tile(name="usuariEntitatFavoritListWebDB", contentJsp="/WEB-INF/jsp/webdb/usuariEntitatFavoritList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="usuariEntitatFavorit.usuariEntitatFavorit") })
+@Tile(name="usuariEntitatFavoritFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/usuariEntitatFavoritForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="usuariEntitatFavorit.usuariEntitatFavorit")})
+@Tile(name="usuariEntitatFavoritListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/usuariEntitatFavoritList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="usuariEntitatFavorit.usuariEntitatFavorit")})
 public class UsuariEntitatFavoritController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<UsuariEntitatFavorit, java.lang.Long> implements UsuariEntitatFavoritFields {
 

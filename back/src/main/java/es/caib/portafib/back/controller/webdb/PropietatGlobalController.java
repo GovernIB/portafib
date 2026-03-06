@@ -55,10 +55,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/propietatGlobal")
 @SessionAttributes(types = { PropietatGlobalForm.class, PropietatGlobalFilterForm.class })
-@Tile(name="propietatGlobalFormWebDB", contentJsp="/WEB-INF/jsp/webdb/propietatGlobalForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="propietatGlobal.propietatGlobal")})
-@Tile(name="propietatGlobalListWebDB", contentJsp="/WEB-INF/jsp/webdb/propietatGlobalList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="propietatGlobal.propietatGlobal") })
+@Tile(name="propietatGlobalFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/propietatGlobalForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="propietatGlobal.propietatGlobal")})
+@Tile(name="propietatGlobalListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/propietatGlobalList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="propietatGlobal.propietatGlobal")})
 public class PropietatGlobalController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<PropietatGlobal, java.lang.Long> implements PropietatGlobalFields {
 

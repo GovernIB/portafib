@@ -55,10 +55,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/bitacola")
 @SessionAttributes(types = { BitacolaForm.class, BitacolaFilterForm.class })
-@Tile(name="bitacolaFormWebDB", contentJsp="/WEB-INF/jsp/webdb/bitacolaForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="bitacola.bitacola")})
-@Tile(name="bitacolaListWebDB", contentJsp="/WEB-INF/jsp/webdb/bitacolaList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="bitacola.bitacola") })
+@Tile(name="bitacolaFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/bitacolaForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="bitacola.bitacola")})
+@Tile(name="bitacolaListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/bitacolaList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="bitacola.bitacola")})
 public class BitacolaController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<Bitacola, java.lang.Long> implements BitacolaFields {
 

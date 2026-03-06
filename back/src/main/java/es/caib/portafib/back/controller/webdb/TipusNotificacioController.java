@@ -53,10 +53,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/tipusNotificacio")
 @SessionAttributes(types = { TipusNotificacioForm.class, TipusNotificacioFilterForm.class })
-@Tile(name="tipusNotificacioFormWebDB", contentJsp="/WEB-INF/jsp/webdb/tipusNotificacioForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="tipusNotificacio.tipusNotificacio")})
-@Tile(name="tipusNotificacioListWebDB", contentJsp="/WEB-INF/jsp/webdb/tipusNotificacioList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="tipusNotificacio.tipusNotificacio") })
+@Tile(name="tipusNotificacioFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/tipusNotificacioForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="tipusNotificacio.tipusNotificacio")})
+@Tile(name="tipusNotificacioListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/tipusNotificacioList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="tipusNotificacio.tipusNotificacio")})
 public class TipusNotificacioController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<TipusNotificacio, java.lang.Long> implements TipusNotificacioFields {
 

@@ -55,10 +55,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/modulDeFirmaPerTipusDeDocument")
 @SessionAttributes(types = { ModulDeFirmaPerTipusDeDocumentForm.class, ModulDeFirmaPerTipusDeDocumentFilterForm.class })
-@Tile(name="modulDeFirmaPerTipusDeDocumentFormWebDB", contentJsp="/WEB-INF/jsp/webdb/modulDeFirmaPerTipusDeDocumentForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="modulDeFirmaPerTipusDeDocument.modulDeFirmaPerTipusDeDocument")})
-@Tile(name="modulDeFirmaPerTipusDeDocumentListWebDB", contentJsp="/WEB-INF/jsp/webdb/modulDeFirmaPerTipusDeDocumentList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="modulDeFirmaPerTipusDeDocument.modulDeFirmaPerTipusDeDocument") })
+@Tile(name="modulDeFirmaPerTipusDeDocumentFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/modulDeFirmaPerTipusDeDocumentForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="modulDeFirmaPerTipusDeDocument.modulDeFirmaPerTipusDeDocument")})
+@Tile(name="modulDeFirmaPerTipusDeDocumentListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/modulDeFirmaPerTipusDeDocumentList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="modulDeFirmaPerTipusDeDocument.modulDeFirmaPerTipusDeDocument")})
 public class ModulDeFirmaPerTipusDeDocumentController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<ModulDeFirmaPerTipusDeDocument, java.lang.Long> implements ModulDeFirmaPerTipusDeDocumentFields {
 

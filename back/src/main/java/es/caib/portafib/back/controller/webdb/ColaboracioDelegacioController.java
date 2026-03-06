@@ -58,10 +58,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/colaboracioDelegacio")
 @SessionAttributes(types = { ColaboracioDelegacioForm.class, ColaboracioDelegacioFilterForm.class })
-@Tile(name="colaboracioDelegacioFormWebDB", contentJsp="/WEB-INF/jsp/webdb/colaboracioDelegacioForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="colaboracioDelegacio.colaboracioDelegacio")})
-@Tile(name="colaboracioDelegacioListWebDB", contentJsp="/WEB-INF/jsp/webdb/colaboracioDelegacioList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="colaboracioDelegacio.colaboracioDelegacio") })
+@Tile(name="colaboracioDelegacioFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/colaboracioDelegacioForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="colaboracioDelegacio.colaboracioDelegacio")})
+@Tile(name="colaboracioDelegacioListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/colaboracioDelegacioList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="colaboracioDelegacio.colaboracioDelegacio")})
 public class ColaboracioDelegacioController
     extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<ColaboracioDelegacio, java.lang.Long, ColaboracioDelegacioForm> implements ColaboracioDelegacioFields {
 

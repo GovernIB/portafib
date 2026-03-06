@@ -55,10 +55,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/pluginFirmaWebPerUsuariAplicacio")
 @SessionAttributes(types = { PluginFirmaWebPerUsuariAplicacioForm.class, PluginFirmaWebPerUsuariAplicacioFilterForm.class })
-@Tile(name="pluginFirmaWebPerUsuariAplicacioFormWebDB", contentJsp="/WEB-INF/jsp/webdb/pluginFirmaWebPerUsuariAplicacioForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="pluginFirmaWebPerUsuariAplicacio.pluginFirmaWebPerUsuariAplicacio")})
-@Tile(name="pluginFirmaWebPerUsuariAplicacioListWebDB", contentJsp="/WEB-INF/jsp/webdb/pluginFirmaWebPerUsuariAplicacioList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="pluginFirmaWebPerUsuariAplicacio.pluginFirmaWebPerUsuariAplicacio") })
+@Tile(name="pluginFirmaWebPerUsuariAplicacioFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/pluginFirmaWebPerUsuariAplicacioForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="pluginFirmaWebPerUsuariAplicacio.pluginFirmaWebPerUsuariAplicacio")})
+@Tile(name="pluginFirmaWebPerUsuariAplicacioListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/pluginFirmaWebPerUsuariAplicacioList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="pluginFirmaWebPerUsuariAplicacio.pluginFirmaWebPerUsuariAplicacio")})
 public class PluginFirmaWebPerUsuariAplicacioController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<PluginFirmaWebPerUsuariAplicacio, java.lang.Long> implements PluginFirmaWebPerUsuariAplicacioFields {
 

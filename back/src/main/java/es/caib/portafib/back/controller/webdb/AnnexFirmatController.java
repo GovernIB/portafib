@@ -58,10 +58,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/annexFirmat")
 @SessionAttributes(types = { AnnexFirmatForm.class, AnnexFirmatFilterForm.class })
-@Tile(name="annexFirmatFormWebDB", contentJsp="/WEB-INF/jsp/webdb/annexFirmatForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="annexFirmat.annexFirmat")})
-@Tile(name="annexFirmatListWebDB", contentJsp="/WEB-INF/jsp/webdb/annexFirmatList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="annexFirmat.annexFirmat") })
+@Tile(name="annexFirmatFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/annexFirmatForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="annexFirmat.annexFirmat")})
+@Tile(name="annexFirmatListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/annexFirmatList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="annexFirmat.annexFirmat")})
 public class AnnexFirmatController
     extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<AnnexFirmat, java.lang.Long, AnnexFirmatForm> implements AnnexFirmatFields {
 

@@ -58,10 +58,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/peticioDeFirma")
 @SessionAttributes(types = { PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
-@Tile(name="peticioDeFirmaFormWebDB", contentJsp="/WEB-INF/jsp/webdb/peticioDeFirmaForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="peticioDeFirma.peticioDeFirma")})
-@Tile(name="peticioDeFirmaListWebDB", contentJsp="/WEB-INF/jsp/webdb/peticioDeFirmaList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="peticioDeFirma.peticioDeFirma") })
+@Tile(name="peticioDeFirmaFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/peticioDeFirmaForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="peticioDeFirma.peticioDeFirma")})
+@Tile(name="peticioDeFirmaListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/peticioDeFirmaList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="peticioDeFirma.peticioDeFirma")})
 public class PeticioDeFirmaController
     extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<PeticioDeFirma, java.lang.Long, PeticioDeFirmaForm> implements PeticioDeFirmaFields {
 
@@ -1071,9 +1075,9 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipusOperacioFirma(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
     List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
-    __tmp.add(new StringKeyValue("0" , "0"));
-    __tmp.add(new StringKeyValue("1" , "1"));
-    __tmp.add(new StringKeyValue("2" , "2"));
+    __tmp.add(new StringKeyValue("0" , "firma"));
+    __tmp.add(new StringKeyValue("1" , "cofirma"));
+    __tmp.add(new StringKeyValue("2" , "contrafirma"));
     return __tmp;
   }
 
@@ -1103,10 +1107,10 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForTipusFirmaID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
     List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
-    __tmp.add(new StringKeyValue("0" , "0"));
-    __tmp.add(new StringKeyValue("1" , "1"));
-    __tmp.add(new StringKeyValue("2" , "2"));
-    __tmp.add(new StringKeyValue("3" , "3"));
+    __tmp.add(new StringKeyValue("0" , "TIPUSFIRMA_PADES"));
+    __tmp.add(new StringKeyValue("1" , "TIPUSFIRMA_XADES"));
+    __tmp.add(new StringKeyValue(" 2" , "TIPUSFIRMA_CADES"));
+    __tmp.add(new StringKeyValue("3" , "TIPUSFIRMA_SMIME"));
     return __tmp;
   }
 
@@ -1136,10 +1140,10 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForAlgorismeDeFirmaID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
     List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
-    __tmp.add(new StringKeyValue("0" , "0"));
-    __tmp.add(new StringKeyValue("1" , "1"));
-    __tmp.add(new StringKeyValue("2" , "2"));
-    __tmp.add(new StringKeyValue("3" , "3"));
+    __tmp.add(new StringKeyValue("0" , "SIGN_ALGORITHM_SHA1WITHRSA"));
+    __tmp.add(new StringKeyValue("1" , "SIGN_ALGORITHM_SHA256WITHRSA"));
+    __tmp.add(new StringKeyValue("2" , "SIGN_ALGORITHM_SHA384WITHRSA"));
+    __tmp.add(new StringKeyValue("3" , "SIGN_ALGORITHM_SHA512WITHRSA"));
     return __tmp;
   }
 
@@ -1169,11 +1173,11 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForModeDeFirma(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
     List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
-    __tmp.add(new StringKeyValue("0" , "0"));
-    __tmp.add(new StringKeyValue("1" , "1"));
-    __tmp.add(new StringKeyValue("3" , "3"));
-    __tmp.add(new StringKeyValue("4" , "4"));
-    __tmp.add(new StringKeyValue("5" , "5"));
+    __tmp.add(new StringKeyValue("0" , "SIGN_MODE_ATTACHED_ENVELOPED"));
+    __tmp.add(new StringKeyValue("3" , "SIGN_MODE_ATTACHED_ENVELOPING"));
+    __tmp.add(new StringKeyValue("1" , "SIGN_MODE_DETACHED"));
+    __tmp.add(new StringKeyValue("4" , "SIGN_MODE_INTERNALLY_DETACHED"));
+    __tmp.add(new StringKeyValue("5" , "SIGN_MODE_EXTERNALLY_DETACHED"));
     return __tmp;
   }
 

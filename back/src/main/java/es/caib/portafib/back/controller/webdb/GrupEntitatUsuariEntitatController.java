@@ -55,10 +55,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/grupEntitatUsuariEntitat")
 @SessionAttributes(types = { GrupEntitatUsuariEntitatForm.class, GrupEntitatUsuariEntitatFilterForm.class })
-@Tile(name="grupEntitatUsuariEntitatFormWebDB", contentJsp="/WEB-INF/jsp/webdb/grupEntitatUsuariEntitatForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="grupEntitatUsuariEntitat.grupEntitatUsuariEntitat")})
-@Tile(name="grupEntitatUsuariEntitatListWebDB", contentJsp="/WEB-INF/jsp/webdb/grupEntitatUsuariEntitatList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="grupEntitatUsuariEntitat.grupEntitatUsuariEntitat") })
+@Tile(name="grupEntitatUsuariEntitatFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/grupEntitatUsuariEntitatForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="grupEntitatUsuariEntitat.grupEntitatUsuariEntitat")})
+@Tile(name="grupEntitatUsuariEntitatListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/grupEntitatUsuariEntitatList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="grupEntitatUsuariEntitat.grupEntitatUsuariEntitat")})
 public class GrupEntitatUsuariEntitatController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<GrupEntitatUsuariEntitat, java.lang.Long> implements GrupEntitatUsuariEntitatFields {
 

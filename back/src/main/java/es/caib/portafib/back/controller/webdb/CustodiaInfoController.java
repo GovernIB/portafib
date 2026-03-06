@@ -55,10 +55,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/custodiaInfo")
 @SessionAttributes(types = { CustodiaInfoForm.class, CustodiaInfoFilterForm.class })
-@Tile(name="custodiaInfoFormWebDB", contentJsp="/WEB-INF/jsp/webdb/custodiaInfoForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="custodiaInfo.custodiaInfo")})
-@Tile(name="custodiaInfoListWebDB", contentJsp="/WEB-INF/jsp/webdb/custodiaInfoList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="custodiaInfo.custodiaInfo") })
+@Tile(name="custodiaInfoFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/custodiaInfoForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="custodiaInfo.custodiaInfo")})
+@Tile(name="custodiaInfoListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/custodiaInfoList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="custodiaInfo.custodiaInfo")})
 public class CustodiaInfoController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<CustodiaInfo, java.lang.Long> implements CustodiaInfoFields {
 

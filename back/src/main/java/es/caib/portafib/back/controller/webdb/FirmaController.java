@@ -58,10 +58,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/firma")
 @SessionAttributes(types = { FirmaForm.class, FirmaFilterForm.class })
-@Tile(name="firmaFormWebDB", contentJsp="/WEB-INF/jsp/webdb/firmaForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="firma.firma")})
-@Tile(name="firmaListWebDB", contentJsp="/WEB-INF/jsp/webdb/firmaList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="firma.firma") })
+@Tile(name="firmaFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/firmaForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="firma.firma")})
+@Tile(name="firmaListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/firmaList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="firma.firma")})
 public class FirmaController
     extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<Firma, java.lang.Long, FirmaForm> implements FirmaFields {
 

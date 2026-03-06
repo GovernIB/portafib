@@ -55,10 +55,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/revisorDeDestinatari")
 @SessionAttributes(types = { RevisorDeDestinatariForm.class, RevisorDeDestinatariFilterForm.class })
-@Tile(name="revisorDeDestinatariFormWebDB", contentJsp="/WEB-INF/jsp/webdb/revisorDeDestinatariForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="revisorDeDestinatari.revisorDeDestinatari")})
-@Tile(name="revisorDeDestinatariListWebDB", contentJsp="/WEB-INF/jsp/webdb/revisorDeDestinatariList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="revisorDeDestinatari.revisorDeDestinatari") })
+@Tile(name="revisorDeDestinatariFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/revisorDeDestinatariForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="revisorDeDestinatari.revisorDeDestinatari")})
+@Tile(name="revisorDeDestinatariListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/revisorDeDestinatariList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="revisorDeDestinatari.revisorDeDestinatari")})
 public class RevisorDeDestinatariController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<RevisorDeDestinatari, java.lang.Long> implements RevisorDeDestinatariFields {
 

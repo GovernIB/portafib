@@ -55,10 +55,14 @@ import es.caib.portafib.back.utils.Tab;
 @Controller
 @RequestMapping(value = "/webdb/usuariAplicacioConfiguracio")
 @SessionAttributes(types = { UsuariAplicacioConfiguracioForm.class, UsuariAplicacioConfiguracioFilterForm.class })
-@Tile(name="usuariAplicacioConfiguracioFormWebDB", contentJsp="/WEB-INF/jsp/webdb/usuariAplicacioConfiguracioForm.jsp", extendsTile=Tab.MENU_WEBDB,
-      type=TileType.WEBDB_FORM , attributes={ @TileAttribute(name="titol", value="usuariAplicacioConfiguracio.usuariAplicacioConfiguracio")})
-@Tile(name="usuariAplicacioConfiguracioListWebDB", contentJsp="/WEB-INF/jsp/webdb/usuariAplicacioConfiguracioList.jsp", extendsTile=Tab.MENU_WEBDB,
-       type=TileType.WEBDB_LIST, attributes={ @TileAttribute(name="titol", value="usuariAplicacioConfiguracio.usuariAplicacioConfiguracio") })
+@Tile(name="usuariAplicacioConfiguracioFormWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe
+    contentJsp="/WEB-INF/jsp/webdb/usuariAplicacioConfiguracioForm.jsp", type=TileType.WEBDB_FORM,
+    attributes={ @TileAttribute(name="titol", value="usuariAplicacioConfiguracio.usuariAplicacioConfiguracio")})
+@Tile(name="usuariAplicacioConfiguracioListWebDB", extendsTile=Tab.MENU_WEBDB,
+    // Els següents atributs no són necessaris si heredes aquesta classe 
+    contentJsp="/WEB-INF/jsp/webdb/usuariAplicacioConfiguracioList.jsp", type=TileType.WEBDB_LIST,
+    attributes={ @TileAttribute(name="titol", value="usuariAplicacioConfiguracio.usuariAplicacioConfiguracio")})
 public class UsuariAplicacioConfiguracioController
     extends es.caib.portafib.back.controller.PortaFIBBaseController<UsuariAplicacioConfiguracio, java.lang.Long> implements UsuariAplicacioConfiguracioFields {
 
