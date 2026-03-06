@@ -194,12 +194,20 @@ public class SignatureValidationService extends RestUtils {
             }
 
             ValidateSignatureResponse vsr = new ValidateSignatureResponse();
-
-            vsr.setSignatureDetailInfo(signDetailList);
+            
+            ValidationStatus vs = from(response.getValidationStatus());
+            
+            vsr.setValidationStatus(vs);
+            
+            //if (vs.getStatus() !=  ValidationStatusConstants.SIGNATURE_ERROR.value.intValue()) 
+            {
+                vsr.setSignatureDetailInfo(signDetailList);
+            }
+            
             vsr.setSignMode(response.getSignMode());
             vsr.setSignProfile(response.getSignProfile());
             vsr.setSignType(response.getSignType());
-            vsr.setValidationStatus(from(response.getValidationStatus()));
+            
             return vsr;
 
         } catch (RestException re) {
@@ -296,6 +304,11 @@ public class SignatureValidationService extends RestUtils {
     
 
     public static CertificateInformation from(InformacioCertificat certInfo) {
+        
+        if (certInfo == null) {
+            return null;
+        }
+        
         CertificateInformation info = new CertificateInformation();
         info.setCertificateDescription(certInfo.getTipusCertificat());
         info.setSubject(certInfo.getSubject());

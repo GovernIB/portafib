@@ -14,6 +14,7 @@ import es.caib.portafib.apiinterna.client.signature.v1.model.CertificateTypeEida
 import es.caib.portafib.apiinterna.client.signature.v1.model.CertificateTypeMineturConstants;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Document;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignModeConstants;
+import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureDetailInfo;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureRequestedInformation;
 import es.caib.portafib.apiinterna.client.signature.v1.model.ValidateSignatureRequest;
 import es.caib.portafib.apiinterna.client.signature.v1.model.ValidateSignatureResponse;
@@ -21,6 +22,7 @@ import es.caib.portafib.apiinterna.client.signature.v1.model.ValidationStatusCon
 import es.caib.portafib.apiinterna.client.signature.v1.services.ApiClient;
 import es.caib.portafib.apiinterna.client.signature.v1.services.ApiException;
 
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -89,14 +91,21 @@ public class ValidacioDeFirmesV1ApiTest extends BasicAbstractV1ApiTest<Signature
                     }
 
                     if (response.getSignatureDetailInfo() != null) {
-                        Integer clasification = response.getSignatureDetailInfo().get(0).getCertificateInfo().getCertificateTypeMinetur();
-                        if (clasification != null) {
-                            System.out.println("** Tipus Certificat Minetur: " + CertificateTypeMineturConstants.fromValue(clasification).name());
-                        }
                         
-                        String clasificationEidas = response.getSignatureDetailInfo().get(0).getCertificateInfo().getCertificateTypeEidas();
-                        if (clasificationEidas != null) {
-                            System.out.println("** Tipus Certificat EIDAS: " + CertificateTypeEidasConstants.fromValue(clasificationEidas).name());
+                        List<SignatureDetailInfo> list = response.getSignatureDetailInfo();
+                        if (list != null && !list.isEmpty()) {
+                            
+                            SignatureDetailInfo sdi = list.get(0);
+                           
+                            Integer clasification = sdi.getCertificateInfo().getCertificateTypeMinetur();
+                            if (clasification != null) {
+                                System.out.println("** Tipus Certificat Minetur: " + CertificateTypeMineturConstants.fromValue(clasification).name());
+                            }
+                            
+                            String clasificationEidas =sdi.getCertificateInfo().getCertificateTypeEidas();
+                            if (clasificationEidas != null) {
+                                System.out.println("** Tipus Certificat EIDAS: " + CertificateTypeEidasConstants.fromValue(clasificationEidas).name());
+                            }
                         }
                         
                     }
