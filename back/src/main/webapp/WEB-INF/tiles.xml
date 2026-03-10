@@ -648,6 +648,15 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginList.jsp" />
     </definition>
     
+    
+    
+    <definition name="propietatsPluginFirmaWebListAdmin" extends="role_admin">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/admin/propertyinfolist.jsp" />
+    </definition>
+    
+    
+    
+    
     <definition name="segellDeTempsFormAdmin" extends="role_admin">
         <put-attribute name="titol" value="modulDeFirma.modulDeFirma" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginForm.jsp" />
