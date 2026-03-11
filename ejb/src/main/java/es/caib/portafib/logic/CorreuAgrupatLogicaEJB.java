@@ -10,8 +10,6 @@ import es.caib.portafib.model.entity.CorreuAgrupat;
 import es.caib.portafib.model.fields.CorreuAgrupatFields;
 import es.caib.portafib.model.fields.CorreuAgrupatQueryPath;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -44,12 +42,22 @@ import org.fundaciobit.pluginsib.userinformation.UserInfo;
 @Stateless(name = "CorreuAgrupatLogicaEJB")
 public class CorreuAgrupatLogicaEJB extends CorreuAgrupatEJB implements CorreuAgrupatLogicaLocal, CorreuAgrupatFields {
 
-    protected static final SimpleDateFormat SDF = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss ");
+    protected static final java.time.format.DateTimeFormatter SDF = java.time.format.DateTimeFormatter
+            .ofPattern("dd/MM/yyyy HH:mm:ss ");
 
     @EJB(mappedName = CorreuAgrupatLogicaLocal.JNDI_NAME)
     protected CorreuAgrupatLogicaLocal used_to_avoid_self_invocation_problem;;
 
+    /**
+     * Envia els correus agrupats de BBDD, agrupant per usuari-entitat, i esborra els correus agrupats que s'han enviat correctament.
+     * Els que donen error es deixen per a que es reintentïn en la següent execució, però s'actualitza el missatge d'error.
+     * 
+     * Important: Aquest mètode no té cap transacció associada, perquè les operacions que es realitzen, esborrat i actualització d'errors, es fan en noves transaccions. 
+     * 
+     * ISSUE: Leak de BBDD en PortaFIB https://github.com/GovernIB/portafib/issues/1138
+     */
     @Override
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public Map<String, Integer> enviarCorreusAgrupatsDeBBDD(ControlOfExecution coe) throws I18NException {
 
         Map<String, Integer> result = new HashMap<String, Integer>();
@@ -125,7 +133,7 @@ public class CorreuAgrupatLogicaEJB extends CorreuAgrupatEJB implements CorreuAg
 
             // Per no saturar (1) el servidor, (2) ni l'enviament de correus (3) ni la firma de sol·licituds 
             try {
-                Thread.sleep(500);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -180,13 +188,13 @@ public class CorreuAgrupatLogicaEJB extends CorreuAgrupatEJB implements CorreuAg
         } catch (I18NException e) {
             // XYZ ZZZ TRA TODO 
 
-            error = SDF.format(new Date()) + "Error I18NException enviant correu de bbdd a " + email + ": "
-                    + I18NCommonUtils.getMessage(e, new Locale("ca"));
+            error = SDF.format(java.time.LocalDateTime.now()) + "Error I18NException enviant correu de bbdd a " + email
+                    + ": " + I18NCommonUtils.getMessage(e, new Locale("ca"));
             log.error(error, e);
 
             // 5. PERO: la transacción sigue activa hasta el fin del método
             // Podemos hacer operaciones de BD que se ejecutarán
-            used_to_avoid_self_invocation_problem.guardarError(error, email, ids);
+            used_to_avoid_self_invocation_problem.saveErrorWithNewTransaction(error, email, ids);
 
         } catch (Throwable e) {
             String rejected = extractRejectedAddressIfUserUnknown(e);
@@ -245,12 +253,13 @@ public class CorreuAgrupatLogicaEJB extends CorreuAgrupatEJB implements CorreuAg
 
             // 5. PERO: la transacción sigue activa hasta el fin del método
             // Podemos hacer operaciones de BD que se ejecutarán
-            used_to_avoid_self_invocation_problem.guardarError(SDF.format(new Date()) + error, email, ids);
+            used_to_avoid_self_invocation_problem
+                    .saveErrorWithNewTransaction(SDF.format(java.time.LocalDateTime.now()) + error, email, ids);
         } finally {
             if (esborrarCorreus) {
                 if (ids != null && ids.length > 0) {
                     for (long id : ids) {
-                        this.delete(id);
+                        used_to_avoid_self_invocation_problem.deleteWithNewTransaction(id);
                     }
                 }
             }
@@ -286,7 +295,7 @@ public class CorreuAgrupatLogicaEJB extends CorreuAgrupatEJB implements CorreuAg
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     @Override
-    public void guardarError(String error, String email, long... ids) {
+    public void saveErrorWithNewTransaction(String error, String email, long... ids) {
 
         for (long id : ids) {
             try {
@@ -301,6 +310,12 @@ public class CorreuAgrupatLogicaEJB extends CorreuAgrupatEJB implements CorreuAg
             }
         }
 
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    @Override
+    public void deleteWithNewTransaction(long id) {
+        this.delete(id);
     }
 
 }

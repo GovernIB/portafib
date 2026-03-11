@@ -40,6 +40,13 @@ public interface CorreuAgrupatLogicaLocal extends CorreuAgrupatService {
      * @param email
      * @param error
      */
-    public void guardarError(String error, String email, long ... ids);
+    public void saveErrorWithNewTransaction(String error, String email, long ... ids);
+    
+    
+    /**
+     * Esborra el correu agrupat i els seus detalls en una nova transacció, per evitar bloquejos
+     * @param id
+     */
+    public void deleteWithNewTransaction(long id);
     
 }

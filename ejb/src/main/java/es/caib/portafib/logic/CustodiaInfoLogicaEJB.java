@@ -46,7 +46,6 @@ import es.caib.portafib.utils.ConstantsV2;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
 
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
@@ -1042,15 +1041,26 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
                     && peticioDeFirma.getModeDeFirma() == SignatureConstants.SIGN_MODE_DETACHED) {
 
                 dc = new DocumentCustody();
-                try {
-                    InputStream inputStream = fitxerAFirmar.getInputStream();
-                    dc.setData(org.fundaciobit.pluginsib.core.v3.utils.FileUtils.toByteArray(inputStream));
-                    inputStream.close();
-                } catch (Exception e) {
-                    // XYZ ZZZ TRA
-                    String msg = "Error desconegut llegint el fitxer original per custodiar: " + e.getMessage();
-                    log.error(msg, e);
-                    throw new I18NException(e, "genapp.comodi", new I18NArgumentString(msg));
+                {
+                    InputStream inputStream = null;
+                    try {
+                        inputStream = fitxerAFirmar.getInputStream();
+                        dc.setData(org.fundaciobit.pluginsib.core.v3.utils.FileUtils.toByteArray(inputStream));
+                    } catch (Exception e) {
+                        // XYZ ZZZ TRA
+                        String msg = "Error desconegut llegint el fitxer original per custodiar: " + e.getMessage();
+                        log.error(msg, e);
+                        throw new I18NException(e, "genapp.comodi", new I18NArgumentString(msg));
+                    } finally {
+                        if (inputStream != null) {
+                            try {
+                                inputStream.close();
+                            } catch (IOException e) {
+                                log.error("Error tancant el fitxer original després de llegir-lo: " + e.getMessage(),
+                                        e);
+                            }
+                        }
+                    }
                 }
                 dc.setLength(dc.getData().length);
                 dc.setMime(dc.getMime());
@@ -1126,10 +1136,6 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
         }
     }
 
-    @Override
-    public EntityManager getEntityManager() {
-        return super.getEntityManager();
-    }
 
     @Override
     public CustodiaInfoJPA findByPrimaryKeyUnathorized(Long _ID_) {

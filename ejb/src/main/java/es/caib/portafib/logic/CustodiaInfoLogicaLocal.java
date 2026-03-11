@@ -16,7 +16,6 @@ import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.entity.UsuariEntitat;
 
 import javax.ejb.Local;
-import javax.persistence.EntityManager;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
@@ -84,6 +83,4 @@ public interface CustodiaInfoLogicaLocal extends CustodiaInfoService {
     public Map<String, Object> getAdditionalParametersForDocumentCustody(PeticioDeFirmaJPA peticioDeFirma,
             FirmaJPA firma, CustodiaInfo custodiaInfo) throws I18NException;
 
-    // ZZZZ
-    public EntityManager getEntityManager();
 }
