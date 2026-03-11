@@ -226,7 +226,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
     private static final int COLUMN_COLABORADORS = 5;
 
-    private static final int COLUMN_REVISORS = 6;
+    protected static final int COLUMN_REVISORS = 6;
 
     private static final int COLUMN_PETICIODEFIRMA_FIRMES_FETES_I_PENDENTS = 7;
 
