@@ -47,6 +47,8 @@ import org.hibernate.LazyInitializationException;
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -254,6 +256,13 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB implements FluxDeFirm
                 }
             }
         }
+        
+        // Les instàncies de FirmaJPA ocupen 1Gb de memòria
+        // https://github.com/GovernIB/portafib/issues/1136
+        
+        EntityManager entityManager = getEntityManager(); 
+        entityManager.flush(); // Sincronitza canvis si n'hi ha
+        entityManager.clear();
         return flux;
     }
 
@@ -282,6 +291,7 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB implements FluxDeFirm
                 for (BlocDeFirmesJPA blocDeFirmesJPA : blocs) {
                     Hibernate.initialize(blocDeFirmesJPA.getFirmas());
                     Set<FirmaJPA> firmes = blocDeFirmesJPA.getFirmas();
+                    // Les instàncies de FirmaJPA ocupen 1Gb de memòria #1136
                     for (FirmaJPA firmaJPA : firmes) {
                         Hibernate.initialize(firmaJPA.getUsuariEntitat());
                         Hibernate.initialize(firmaJPA.getUsuariEntitat().getUsuariPersona());
@@ -308,6 +318,12 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB implements FluxDeFirm
             }
             Hibernate.initialize(flux.getPlantillaFluxDeFirmes());
 
+            // Les instàncies de FirmaJPA ocupen 1Gb de memòria
+            // https://github.com/GovernIB/portafib/issues/1136
+
+            EntityManager entityManager = getEntityManager(); 
+            entityManager.flush(); // Sincronitza canvis si n'hi ha
+            entityManager.clear();
         }
         return flux;
     }
@@ -321,7 +337,7 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB implements FluxDeFirm
         try {
             llista = select(_where_);
         } catch (Exception e) {
-            this.log.error("" + e.getMessage(), e);
+            log.error("Error no controlat en selectPlantilla: " + e.getMessage(), e);
             return null;
         }
 
@@ -478,7 +494,7 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB implements FluxDeFirm
         if (plantillaFlux != null) {
             fitxers.addAll(this.deleteFull(fluxDeFirmesID));
 
-            plantillaFluxDeFirmesLogicaEjb.delete(plantillaFlux);
+            //plantillaFluxDeFirmesLogicaEjb.delete(plantillaFlux);
         }
 
         return fitxers;
