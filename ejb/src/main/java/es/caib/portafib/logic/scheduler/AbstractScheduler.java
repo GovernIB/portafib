@@ -2,6 +2,8 @@ package es.caib.portafib.logic.scheduler;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
@@ -23,7 +25,47 @@ import org.jboss.ejb3.annotation.TransactionTimeout;
  * @author anadal
  * 8 abr 2025 10:59:24
  */
-public abstract class AbstractScheduler {
+public abstract class AbstractScheduler  {
+    
+    
+    
+    private static final Map<Class<?>, AbstractScheduler> SCHEDULER_INSTANCES = new HashMap<>();
+    
+    
+    public static String resetSchedulers() {
+        SCHEDULER_INSTANCES.values().forEach(AbstractScheduler::reset);
+        
+        // Retornem un missatge informatiu amb les següents execucions programades per cada Scheduler
+        StringBuilder sb = new StringBuilder();
+        
+        for(AbstractScheduler scheduler : SCHEDULER_INSTANCES.values()) {
+            sb.append("Scheduler '").append(scheduler.getSchedulerName()).append("': ");
+            try {
+                ScheduleExpression schedule = fromCron(scheduler.getCronExpression());
+                sb.append("Properes execucions: ");
+                boolean first = true;
+                for (Timer timer : scheduler.timerService.getTimers()) {
+                    sb.append(SDF.format(timer.getNextTimeout()));                    
+                    if (!first) {
+                        sb.append(" | ");
+                    } else {
+                        first = false;
+                    }
+                }
+            } catch (Exception e) {
+                sb.append("Error obtenint properes execucions: ").append(e.getMessage());
+            }
+            sb.append("\n");
+        }
+        
+        return sb.toString();    
+        
+        
+        
+    }
+    
+    
+    
 
     protected final Logger log = Logger.getLogger(getClass());
 
@@ -36,6 +78,8 @@ public abstract class AbstractScheduler {
     @PostConstruct
     public void init() {
         // Configurar la tarea con valores dinámicos
+        
+        SCHEDULER_INSTANCES.put(this.getClass(), this);
 
         String cron = getCronExpression();
         ScheduleExpression schedule;
@@ -150,6 +194,24 @@ public abstract class AbstractScheduler {
             return System.currentTimeMillis() > timeout;
         }
 
+    }
+    
+    
+    /**
+     * Reseteja el scheduler: cancel·la els timers actuals i torna a inicialitzar
+     * amb la CronExpression actual (pot haver canviat).
+     */
+    public void reset() {
+        log.info("SCHEDULER[" + getSchedulerName() + "]: RESET sol·licitat. Re-inicialitzant...");
+        try {
+            for (Timer timer : timerService.getTimers()) {
+                timer.cancel();
+            }
+            log.info("SCHEDULER[" + getSchedulerName() + "]: Timers anteriors cancel·lats.");
+        } catch (Throwable t) {
+            log.warn("SCHEDULER[" + getSchedulerName() + "]: Error cancel·lant timers: " + t.getMessage(), t);
+        }
+        init();
     }
 
 }

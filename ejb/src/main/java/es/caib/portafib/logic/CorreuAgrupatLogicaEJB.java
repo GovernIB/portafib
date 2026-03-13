@@ -268,30 +268,42 @@ public class CorreuAgrupatLogicaEJB extends CorreuAgrupatEJB implements CorreuAg
         return error;
     }
 
+    /**
+     * Extrae la dirección de correo rechazada en caso de que el error se deba a que el usuario es desconocido en
+     *  el sistema de correo (por ejemplo, Postfix con virtual alias table).
+     * @param t
+     * @return
+     */
     private String extractRejectedAddressIfUserUnknown(Throwable t) {
         Pattern anglePattern = Pattern.compile("<([^>\\s]+@[^>\\s]+)>");
         Pattern emailPattern = Pattern.compile("\\b[\\w.%+-]+@[\\w.-]+\\.[A-Za-z]{2,}\\b");
-        final String marker1 = "User unknown in virtual alias table";
-        final String marker2 = "Recipient unknown";
+        final String marker1 = "User unknown in virtual alias table".toLowerCase();
+        final String marker2 = "Recipient unknown".toLowerCase();
+        final String marker3 = "Rejected address".toLowerCase();
         while (t != null) {
+
             String msg = t.getMessage();
 
             //log.info("\n\n\n  EXTRACTING FROM MESSAGE = " + msg + "\n\n\n");
-
-            if (msg != null && (msg.contains(marker1) || msg.contains(marker2))) {
-                Matcher m = anglePattern.matcher(msg);
-                if (m.find()) {
-                    return m.group(1);
-                }
-                m = emailPattern.matcher(msg);
-                if (m.find()) {
-                    return m.group();
+            if (msg != null) {
+                msg = msg.toLowerCase();
+                if (msg.contains(marker1) || msg.contains(marker2) || msg.contains(marker3)) {
+                    Matcher m = anglePattern.matcher(msg);
+                    if (m.find()) {
+                        return m.group(1);
+                    }
+                    m = emailPattern.matcher(msg);
+                    if (m.find()) {
+                        return m.group();
+                    }
                 }
             }
             t = t.getCause();
         }
         return null;
     }
+
+
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     @Override

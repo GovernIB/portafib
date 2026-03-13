@@ -381,7 +381,6 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
             mappingOrder.processDirectOrderMapping(fluxDeFirmesFilterForm);
         }
 
-        log.info("usuariPersona = " + isUsuariEntitat());
         mav.addObject("usuariPersona", isUsuariEntitat());
 
         return fluxDeFirmesFilterForm;
