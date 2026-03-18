@@ -39,7 +39,7 @@ public class EnviarCorreusAgrupatsScheduler extends AbstractScheduler {
         //return "0 52 13 * * ? *"; //;
         String cron = PropietatGlobalUtil.getEmailsGroupedSenderCronExpression();
         if (cron == null || cron.trim().length() == 0) {
-            cron = "0 0/10 6 * * ? *";
+            cron = "0 0 6 * * ? *";
         }
         return cron;
     }

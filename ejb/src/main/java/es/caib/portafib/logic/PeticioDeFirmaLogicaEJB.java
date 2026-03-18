@@ -131,7 +131,6 @@ import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -250,9 +249,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
     @EJB(mappedName = es.caib.portafib.ejb.CorreuAgrupatService.JNDI_NAME)
     protected es.caib.portafib.ejb.CorreuAgrupatService correuAgrupatEjb;
-    
-    @PersistenceContext
-    private EntityManager em;
 
     @Resource
     private SessionContext context;
@@ -3671,7 +3667,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
             peticio = createFull(peticio);
 
-            //EntityManager em = custodiaInfoLogicaEjb.getEntityManager();
+            EntityManager em = custodiaInfoLogicaEjb.getEntityManager();
             em.flush();
 
             // Necessitam l'identificador de la petició de Firma per annexes i metadades

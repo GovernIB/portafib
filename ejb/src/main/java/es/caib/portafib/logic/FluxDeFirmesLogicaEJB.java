@@ -260,9 +260,9 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB implements FluxDeFirm
         // Les instàncies de FirmaJPA ocupen 1Gb de memòria
         // https://github.com/GovernIB/portafib/issues/1136
         
-        EntityManager entityManager = getEntityManager(); 
-        entityManager.flush(); // Sincronitza canvis si n'hi ha
-        entityManager.clear();
+//        EntityManager entityManager = getEntityManager(); 
+//        entityManager.flush(); // Sincronitza canvis si n'hi ha
+//        entityManager.clear();
         return flux;
     }
 
@@ -321,9 +321,9 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB implements FluxDeFirm
             // Les instàncies de FirmaJPA ocupen 1Gb de memòria
             // https://github.com/GovernIB/portafib/issues/1136
 
-            EntityManager entityManager = getEntityManager(); 
-            entityManager.flush(); // Sincronitza canvis si n'hi ha
-            entityManager.clear();
+//            EntityManager entityManager = getEntityManager(); 
+//            entityManager.flush(); // Sincronitza canvis si n'hi ha
+//            entityManager.clear();
         }
         return flux;
     }

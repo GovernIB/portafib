@@ -236,17 +236,17 @@ public class CorreuAgrupatLogicaEJB extends CorreuAgrupatEJB implements CorreuAg
                                 + "' però ens han passat per enviar a una adreça '" + email + "'";
                         email = userInfo.getEmail();
                     } else {
-                        error = "Error NO CONTROLAT enviant correu de bbdd a " + email + ": " + e.getMessage()
-                                + " - Rejected address: " + rejected;
+                        error = "Error NO CONTROLAT (1) enviant correu de bbdd a " + email + ": " + e.getMessage()
+                                + " - Adreça Rebutjada: " + rejected;
                     }
 
                 } catch (Exception e1) {
-                    error = "Error NO CONTROLAT enviant correu de bbdd a " + email + ": " + e.getMessage()
+                    error = "Error NO CONTROLAT (2)  enviant correu de bbdd a " + email + ": " + e.getMessage()
                             + " Rejected address: " + rejected + "(Exception: " + e1.getMessage() + ")";
                 }
 
             } else {
-                error = "Error NO CONTROLAT enviant correu de bbdd a " + email + ": " + e.getMessage();
+                error = "Error NO CONTROLAT(3) enviant correu de bbdd a " + email + ": " + e.getMessage();
             }
 
             log.error(error, e);

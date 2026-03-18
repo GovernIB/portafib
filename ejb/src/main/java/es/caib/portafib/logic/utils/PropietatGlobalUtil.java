@@ -331,9 +331,6 @@ public class PropietatGlobalUtil implements ConstantsV2 {
     public static String getAppUrl() {
         final String partialPropertyName = "url";
         String val = getString(partialPropertyName);
-        if (log.isDebugEnabled()) {
-            log.debug("getAppUrl() = " + val);
-        }
         return val;
     }
 
@@ -345,9 +342,6 @@ public class PropietatGlobalUtil implements ConstantsV2 {
     public static String getAppEmail() {
         final String partialPropertyName = "email.from";
         String val = getString(partialPropertyName);
-        if (log.isDebugEnabled()) {
-            log.debug(" getAppEmail() = " + val);
-        }
         return val;
     }
 
@@ -365,9 +359,6 @@ public class PropietatGlobalUtil implements ConstantsV2 {
         String val = getString(partialPropertyName);
         if (val == null) {
             val = "0 0 5 1/1 * ? *";
-        }
-        if (log.isDebugEnabled()) {
-            log.debug(" getBitacolaCleanerCronExpression() = " + val);
         }
         return val;
     }
@@ -394,9 +385,6 @@ public class PropietatGlobalUtil implements ConstantsV2 {
             }
         }
 
-        if (log.isDebugEnabled()) {
-            log.debug(" getBitacolaCleanerDaysOld() = " + val_i);
-        }
         return val_i;
     }
     
@@ -405,9 +393,9 @@ public class PropietatGlobalUtil implements ConstantsV2 {
 
     /**
      * Opcional. Expressió cron que indica cada quan s'ha d'executar l'enviador de correus quan
-     * s'han definit enviament d'avisos agrupats. Per defecte s'executa cada dia a les 6:00 (0 0
-     * 6 1/1 * ? *).Exemples: - L'executa cada dos minuts: 0 0/2 * 1/1 * ? * - L'executa cada dia
-     * a les 6:00: 0 0 6 1/1 * ? *
+     * s'han definit enviament d'avisos agrupats. Per defecte s'executa cada dia a les 6:00 (0 0 6 * * ? *)
+     * Exemples: - L'executa cada dos minuts: 0 0/2 * * * ? * - L'executa cada dia
+     * a les 6:00: 0 0 6 * * ? *
      * 
      * Veure www.cronmaker.com per altres valors.
      * 
@@ -416,12 +404,7 @@ public class PropietatGlobalUtil implements ConstantsV2 {
     public static String getEmailsGroupedSenderCronExpression() {
         final String partialPropertyName = "emailsgroupedsendercronexpression";
         String val = getString(partialPropertyName);
-        if (val == null) {
-            val = "0 */10 6 1/1 * ? *";
-        }
-        if (log.isDebugEnabled()) {
-            log.debug(" getEmailsGroupedSenderCronExpression() = " + val);
-        }
+        
         return val;
     }
 
@@ -438,9 +421,6 @@ public class PropietatGlobalUtil implements ConstantsV2 {
         if (val == null) {
             val = false;
         }
-        if (log.isDebugEnabled()) {
-            log.debug("isAutomaticRedirect() = " + val);
-        }
         return val;
     }
 
@@ -452,9 +432,6 @@ public class PropietatGlobalUtil implements ConstantsV2 {
     public static Long getMaxUploadSizeInBytes() {
         final String partialPropertyName = "maxuploadsizeinbytes";
         Long val = getLong(partialPropertyName);
-        if (log.isDebugEnabled()) {
-            log.debug("getMaxUploadSizeInBytes() = " + val);
-        }
         return val;
     }
 
@@ -467,9 +444,6 @@ public class PropietatGlobalUtil implements ConstantsV2 {
     public static Long getMaxFitxerAdaptatSizeInBytes() {
         final String partialPropertyName = "maxfitxeradaptatsizeinbytes";
         Long val = getLong(partialPropertyName);
-        if (log.isDebugEnabled()) {
-            log.debug("getMaxFitxerAdaptatSizeInBytes() = " + val);
-        }
         return val;
     }
 
@@ -483,9 +457,6 @@ public class PropietatGlobalUtil implements ConstantsV2 {
     public static String getDefaultEntity() {
         final String partialPropertyName = "defaultentity";
         String val = getString(partialPropertyName);
-        if (log.isDebugEnabled()) {
-            log.debug("getDefaultEntity() = " + val);
-        }
         return val;
     }
 
@@ -501,9 +472,6 @@ public class PropietatGlobalUtil implements ConstantsV2 {
     public static String getDefaultRolesInCreation() {
         final String partialPropertyName = "defaultrolesincreation";
         String val = getString(partialPropertyName);
-        if (log.isDebugEnabled()) {
-            log.debug("getDefaultRolesInCreation() = " + val);
-        }
         return val;
     }
 

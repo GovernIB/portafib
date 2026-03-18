@@ -30,7 +30,6 @@ import es.caib.comanda.model.server.monitoring.ContextInfo;
 import es.caib.comanda.model.server.monitoring.EstatSalut;
 import es.caib.comanda.model.server.monitoring.EstatSalutEnum;
 import es.caib.comanda.model.server.monitoring.IntegracioInfo;
-import es.caib.comanda.model.server.monitoring.IntegracioPeticions;
 import es.caib.comanda.model.server.monitoring.IntegracioSalut;
 import es.caib.comanda.model.server.monitoring.Manual;
 import es.caib.comanda.model.server.monitoring.MissatgeSalut;
@@ -529,6 +528,8 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
         }
 
         sInfo.setVersio(new Version().getVersion());
+        
+
 
         return sInfo;
     }
