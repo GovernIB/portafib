@@ -47,7 +47,6 @@ import org.hibernate.LazyInitializationException;
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
 
 import java.util.ArrayList;
 import java.util.HashSet;

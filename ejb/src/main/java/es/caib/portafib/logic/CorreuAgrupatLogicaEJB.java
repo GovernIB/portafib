@@ -222,7 +222,7 @@ public class CorreuAgrupatLogicaEJB extends CorreuAgrupatEJB implements CorreuAg
                     // Revisam si l'usuari està actiu
                     // TODO parche per la CAIB !!!!! SOLUCIO => if (!userInfo.isActive()) {
                     String dep = userInfo.getCompanyDepartment();
-                    if (dep != null && dep.equalsIgnoreCase("portal")) {
+                    if (dep != null && (dep.equalsIgnoreCase("portal") || dep.equalsIgnoreCase("nul"))) {
                         log.warn("L'usuari amb nom d'usuari " + username
                                 + " NO està actiu, esborrem els seus correus agrupats.");
                         esborrarCorreus = true;
