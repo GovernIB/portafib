@@ -142,7 +142,7 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
                 back.setCodi("PFI_BACK");
 
                 Manual manual = new Manual();
-                manual.setPath("Manual_de_Usuari_de_PortaFIB");
+                manual.setNom("Manual_de_Usuari_de_PortaFIB");
                 manual.setPath(
                         "https://github.com/GovernIB/portafib/raw/refs/heads/portafib-3.0/doc/Manual_de_Usuari_de_PortaFIB.odt");
                 back.setManuals(List.of(manual));
@@ -159,7 +159,7 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
                 apiinterna.setCodi("PFI_API_INTERNA");
 
                 Manual manual = new Manual();
-                manual.setPath("Manual_de_Migració_de_APIsIB_a_Api_Interna");
+                manual.setNom("Manual_de_Migració_de_APIsIB_a_Api_Interna");
                 manual.setPath(
                         "https://github.com/GovernIB/portafib/raw/refs/heads/portafib-3.0/doc/Manual_de_Migraci%C3%B3_de_APIsIB_a_Api_Interna.odt");
                 apiinterna.setManuals(List.of(manual));
@@ -194,7 +194,7 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
 
                 for (String[] manualPath : manualsPaths) {
                     Manual manual = new Manual();
-                    manual.setPath(manualPath[0]);
+                    manual.setNom(manualPath[0]);
                     manual.setPath(manualPath[1]);
                     restsimple.addManualsItem(manual);
                 }
