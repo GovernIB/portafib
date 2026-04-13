@@ -391,7 +391,7 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
 
                 if (count != null && count > 0) {
                     MissatgeSalut ms = new MissatgeSalut();
-                    ms.setNivell(SalutNivell.ERROR);
+                    ms.setNivell(SalutNivell.WARN);
                     ms.setData(getDateTime());
                     ms.setMissatge("Hi ha " + count + " peticions de firma caducades.");
                     missatges.add(ms);
@@ -443,7 +443,7 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
                 Long count = correuAgrupatLogicaEjb.count(CorreuAgrupatFields.DATACREACIO.lessThan(faDosDies));
                 if (count != null && count > 0) {
                     MissatgeSalut ms = new MissatgeSalut();
-                    ms.setNivell(SalutNivell.ERROR);
+                    ms.setNivell(SalutNivell.WARN);
                     ms.setData(getDateTime());
                     ms.setMissatge("Hi ha " + count + " missatges agrupats pendents de més de 2 dies");
                     missatges.add(ms);

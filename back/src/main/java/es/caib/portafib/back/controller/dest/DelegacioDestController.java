@@ -625,12 +625,14 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             // ordenam pel Valor
             allTipusDocumentInfo = sortByValue(allTipusDocumentInfo);
 
+            /*
             if (isDebug) {
                 log.debug(" COUNT allTipusDocument = " + allTipusDocumentList.size());
                 for (StringKeyValue skv : allTipusDocumentList) {
                     log.debug("      - Trobat allTipusDocument == " + skv.getKey() + " --> " + skv.getValue());
                 }
             }
+            */
         }
         return allTipusDocumentInfo;
     }

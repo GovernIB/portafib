@@ -3,11 +3,15 @@ package es.caib.portafib.api.interna.secure.signature.v1.signaturevalidation;
 import java.util.Date;
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * 
  * @author anadal
  *
  */
+@Schema(description = "Información detallada de la firma")
 public class SignatureDetailInfo {
 
     protected String algorithm;
@@ -32,6 +36,7 @@ public class SignatureDetailInfo {
 
     protected CertificateInformation certificateInfo;
 
+    @ArraySchema(schema = @Schema(type = "string", format = "byte"))
     protected byte[][] certificateChain;
 
     protected TimeStampInfo timeStampInfo;

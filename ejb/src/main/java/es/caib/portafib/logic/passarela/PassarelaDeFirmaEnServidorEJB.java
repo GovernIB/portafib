@@ -353,6 +353,16 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
 
         } finally {
 
+            // Limpiar referencias a FileDataSource para liberar bloqueos en Windows
+            if (passarelaSignaturesSet != null && passarelaSignaturesSet.getFileInfoSignatureArray() != null) {
+                for (PassarelaFileInfoSignature pfis : passarelaSignaturesSet.getFileInfoSignatureArray()) {
+                    if (pfis.getFileToSign() != null) {
+                        pfis.getFileToSign().setData(null);
+                    }
+                }
+            }
+            System.gc(); // Forzar liberación en Windows
+
             // ESBORRAR TOT DIRECTORI
             File basePath = getTransactionPath(signaturesSetID);
             try {

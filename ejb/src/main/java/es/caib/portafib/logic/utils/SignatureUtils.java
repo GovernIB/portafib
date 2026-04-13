@@ -592,9 +592,19 @@ public class SignatureUtils {
             } else {
                 // No és un PDF, ho substituim pel fitxer convertit
 
-                InputStream is = fitxerConvertit.getData().getInputStream();
-
-                FileUtils.copyInputStreamToFile(is, dst);
+                InputStream is = null;
+                try {
+                    is = fitxerConvertit.getData().getInputStream();
+                    FileUtils.copyInputStreamToFile(is, dst);
+                } finally {
+                    if (is != null) {
+                        try {
+                            is.close();
+                        } catch (IOException e) {
+                            log.warn("Error tancant InputStream de fitxer convertit: " + e.getMessage(), e);
+                        }
+                    }
+                }
 
             }
             // OK
@@ -658,14 +668,25 @@ public class SignatureUtils {
         // (1) Moure FitxerBean (datasource en memòria) a Fitxer en el Sistema
         // d'arxius
         FitxerBean originalInfo = pfis.getFileToSign();
-
-        try {
-            FileUtils.copyInputStreamToFile(originalInfo.getData().getInputStream(), original);
-        } catch (IOException e) {
-            // TODO traduir
-            String msg = "Error desconegut copiant fitxer des de DataSource (" + pfis.getSignID() + ") a "
-                    + original.getAbsolutePath() + ": " + e.getMessage();
-            throw new I18NException("error.unknown", msg);
+        {
+            InputStream is = null;
+            try {
+                is = originalInfo.getData().getInputStream();
+                FileUtils.copyInputStreamToFile(is, original);
+            } catch (IOException e) {
+                // TODO traduir
+                String msg = "Error desconegut copiant fitxer des de DataSource (" + pfis.getSignID() + ") a "
+                        + original.getAbsolutePath() + ": " + e.getMessage();
+                throw new I18NException("error.unknown", msg);
+            } finally {
+                if (is != null) {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        log.warn("Error tancant InputStream de fitxer original: " + e.getMessage(), e);
+                    }
+                }
+            }
         }
         // Desreferenciam memoria
         originalInfo.setData(null);
@@ -904,11 +925,11 @@ public class SignatureUtils {
      */
     public static boolean checkCanviatDocFirmat(UsuariAplicacioConfiguracio configuracio, EntitatService entitatEjb,
             String entitatID, boolean willCanCheckIfSignedDocumentWasAlteredAfterSignature) throws I18NException {
-        
+
         if (willCanCheckIfSignedDocumentWasAlteredAfterSignature == false) {
             return false;
         }
-        
+
         Boolean comp = configuracio.getCheckCanviatDocFirmat();
 
         if (comp == null) {

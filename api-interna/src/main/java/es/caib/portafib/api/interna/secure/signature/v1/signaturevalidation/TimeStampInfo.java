@@ -2,6 +2,8 @@ package es.caib.portafib.api.interna.secure.signature.v1.signaturevalidation;
 
 import java.util.Date;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * 
  * @author anadal
@@ -15,7 +17,10 @@ public class TimeStampInfo {
 
     protected String certificateSubject;
 
+    
+    @Schema(description = "Contingut del certificat de la marca de temps", type = "string", format = "byte")
     protected byte[] certificate;
+
 
     protected String algorithm;
 

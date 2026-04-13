@@ -77,39 +77,46 @@ public class ValidacioDeFirmesV1ApiTest extends BasicAbstractV1ApiTest<Signature
             validateRequest.setSignatureRequestedInformation(sri);
 
             ValidateSignatureResponse response = getApi().validateSignature(getLanguageUI(), validateRequest);
-            
-            if (response!= null && response.getValidationStatus() != null) {
-                
+
+            if (response != null && response.getValidationStatus() != null) {
+
                 if (response.getValidationStatus().getStatus() != null) {
-                    System.out.println("** Estat Validació: " + ValidationStatusConstants.fromValue(response.getValidationStatus().getStatus()).name());
+                    System.out.println("** Estat Validació: "
+                            + ValidationStatusConstants.fromValue(response.getValidationStatus().getStatus()).name());
                 }
-                
-                if (response.getValidationStatus().getStatus() != ValidationStatusConstants.SIGNATURE_ERROR.getValue()) {
-                    
+
+                if (response.getValidationStatus().getStatus() != ValidationStatusConstants.SIGNATURE_ERROR
+                        .getValue()) {
+
                     if (response.getSignMode() != null) {
-                       System.out.println("** Mode de firma: " + SignModeConstants.fromValue(response.getSignMode()).name());
+                        System.out.println(
+                                "** Mode de firma: " + SignModeConstants.fromValue(response.getSignMode()).name());
                     }
 
                     if (response.getSignatureDetailInfo() != null) {
-                        
+
                         List<SignatureDetailInfo> list = response.getSignatureDetailInfo();
                         if (list != null && !list.isEmpty()) {
-                            
+
                             SignatureDetailInfo sdi = list.get(0);
-                           
-                            Integer clasification = sdi.getCertificateInfo().getCertificateTypeMinetur();
-                            if (clasification != null) {
-                                System.out.println("** Tipus Certificat Minetur: " + CertificateTypeMineturConstants.fromValue(clasification).name());
-                            }
-                            
-                            String clasificationEidas =sdi.getCertificateInfo().getCertificateTypeEidas();
-                            if (clasificationEidas != null) {
-                                System.out.println("** Tipus Certificat EIDAS: " + CertificateTypeEidasConstants.fromValue(clasificationEidas).name());
+
+                            if (sdi.getCertificateInfo() != null) {
+                                Integer clasification = sdi.getCertificateInfo().getCertificateTypeMinetur();
+                                if (clasification != null) {
+                                    System.out.println("** Tipus Certificat Minetur: "
+                                            + CertificateTypeMineturConstants.fromValue(clasification).name());
+                                }
+
+                                String clasificationEidas = sdi.getCertificateInfo().getCertificateTypeEidas();
+                                if (clasificationEidas != null) {
+                                    System.out.println("** Tipus Certificat EIDAS: "
+                                            + CertificateTypeEidasConstants.fromValue(clasificationEidas).name());
+                                }
                             }
                         }
-                        
+
                     }
-                
+
                 }
             }
             System.out.println("---------------");

@@ -245,7 +245,9 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                 case ConstantsV2.TIPUSFIRMA_XADES:
 
                     // Si és attached llavors validam
-                    if (validacioRequest.getSignMode() != SignatureConstants.SIGN_MODE_DETACHED) {
+                    final int signModeX = validacioRequest.getSignMode();
+                    if (signModeX == SignatureConstants.SIGN_MODE_ATTACHED_ENVELOPED
+                            || signModeX == SignatureConstants.SIGN_MODE_ATTACHED_ENVELOPING) {
 
                         byte[] documentOriginal = ValidationsXAdES
                                 .getProcessedOriginalData(validacioRequest.getAdaptedData());
@@ -290,7 +292,9 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                 case ConstantsV2.TIPUSFIRMA_CADES:
 
                     // Si és attached llavors validam
-                    if (validacioRequest.getSignMode() != SignatureConstants.SIGN_MODE_DETACHED) {
+                    final int signModeC = validacioRequest.getSignMode();
+                    if (signModeC == SignatureConstants.SIGN_MODE_ATTACHED_ENVELOPED
+                            || signModeC == SignatureConstants.SIGN_MODE_ATTACHED_ENVELOPING) {
 
                         IPortaFIBDataSource originalBo = validacioRequest.getAdaptedData();
 
