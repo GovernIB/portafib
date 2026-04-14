@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * SignatureDetailInfo
+ * Información detallada de la firma
  */
 @JsonPropertyOrder({
   SignatureDetailInfo.JSON_PROPERTY_ALGORITHM,
@@ -81,7 +81,7 @@ public class SignatureDetailInfo {
 
   public static final String JSON_PROPERTY_CERTIFICATE_CHAIN = "certificateChain";
   @javax.annotation.Nullable
-  private List<List<byte[]>> certificateChain = new ArrayList<>();
+  private List<byte[]> certificateChain = new ArrayList<>();
 
   public static final String JSON_PROPERTY_TIME_STAMP_INFO = "timeStampInfo";
   @javax.annotation.Nullable
@@ -314,13 +314,13 @@ public class SignatureDetailInfo {
     this.certificateInfo = certificateInfo;
   }
 
-  public SignatureDetailInfo certificateChain(@javax.annotation.Nullable List<List<byte[]>> certificateChain) {
+  public SignatureDetailInfo certificateChain(@javax.annotation.Nullable List<byte[]> certificateChain) {
     
     this.certificateChain = certificateChain;
     return this;
   }
 
-  public SignatureDetailInfo addCertificateChainItem(List<byte[]> certificateChainItem) {
+  public SignatureDetailInfo addCertificateChainItem(byte[] certificateChainItem) {
     if (this.certificateChain == null) {
       this.certificateChain = new ArrayList<>();
     }
@@ -336,14 +336,14 @@ public class SignatureDetailInfo {
   @JsonProperty(JSON_PROPERTY_CERTIFICATE_CHAIN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<List<byte[]>> getCertificateChain() {
+  public List<byte[]> getCertificateChain() {
     return certificateChain;
   }
 
 
   @JsonProperty(JSON_PROPERTY_CERTIFICATE_CHAIN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCertificateChain(@javax.annotation.Nullable List<List<byte[]>> certificateChain) {
+  public void setCertificateChain(@javax.annotation.Nullable List<byte[]> certificateChain) {
     this.certificateChain = certificateChain;
   }
 

@@ -2267,7 +2267,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                 validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(String.valueOf(peticioDeFirma),
                         validacioRequest, validateChangesInAttachedFiles);
             } catch (ValidacioException e) {
-                throw new I18NException("genapp.comodi", e.getMessage());
+                throw new I18NException(e, "genapp.comodi", e.getMessage());
             }
 
             // Nous camps a Firma i a Petició de Firma #281

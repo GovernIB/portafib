@@ -5622,6 +5622,7 @@ components:
           type: string
       type: object
     SignatureDetailInfo:
+      description: Información detallada de la firma
       example:
         indeterminateChecks:
         - name: name
@@ -5638,16 +5639,12 @@ components:
         timeStampInfo:
           certificateIssuer: certificateIssuer
           creationTime: 2000-01-23T04:56:07.000+00:00
-          certificate:
-          - certificate
-          - certificate
+          certificate: certificate
           certificateSubject: certificateSubject
           algorithm: algorithm
         certificateChain:
-        - - certificateChain
-          - certificateChain
-        - - certificateChain
-          - certificateChain
+        - certificateChain
+        - certificateChain
         invalidChecks:
         - name: name
           type: type
@@ -5727,10 +5724,8 @@ components:
           $ref: '#/components/schemas/CertificateInformation'
         certificateChain:
           items:
-            items:
-              format: byte
-              type: string
-            type: array
+            format: byte
+            type: string
           type: array
         timeStampInfo:
           $ref: '#/components/schemas/TimeStampInfo'
@@ -5739,9 +5734,7 @@ components:
       example:
         certificateIssuer: certificateIssuer
         creationTime: 2000-01-23T04:56:07.000+00:00
-        certificate:
-        - certificate
-        - certificate
+        certificate: certificate
         certificateSubject: certificateSubject
         algorithm: algorithm
       properties:
@@ -5753,10 +5746,9 @@ components:
         certificateSubject:
           type: string
         certificate:
-          items:
-            format: byte
-            type: string
-          type: array
+          description: Contingut del certificat de la marca de temps
+          format: byte
+          type: string
         algorithm:
           type: string
       type: object
@@ -5813,16 +5805,12 @@ components:
           timeStampInfo:
             certificateIssuer: certificateIssuer
             creationTime: 2000-01-23T04:56:07.000+00:00
-            certificate:
-            - certificate
-            - certificate
+            certificate: certificate
             certificateSubject: certificateSubject
             algorithm: algorithm
           certificateChain:
-          - - certificateChain
-            - certificateChain
-          - - certificateChain
-            - certificateChain
+          - certificateChain
+          - certificateChain
           invalidChecks:
           - name: name
             type: type
@@ -5891,16 +5879,12 @@ components:
           timeStampInfo:
             certificateIssuer: certificateIssuer
             creationTime: 2000-01-23T04:56:07.000+00:00
-            certificate:
-            - certificate
-            - certificate
+            certificate: certificate
             certificateSubject: certificateSubject
             algorithm: algorithm
           certificateChain:
-          - - certificateChain
-            - certificateChain
-          - - certificateChain
-            - certificateChain
+          - certificateChain
+          - certificateChain
           invalidChecks:
           - name: name
             type: type

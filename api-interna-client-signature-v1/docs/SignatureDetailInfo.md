@@ -2,6 +2,7 @@
 
 # SignatureDetailInfo
 
+Información detallada de la firma
 
 ## Properties
 
@@ -15,7 +16,7 @@
 |**indeterminateChecks** | [**List&lt;SignatureCheck&gt;**](SignatureCheck.md) |  |  [optional] |
 |**policyIdentifier** | **String** |  |  [optional] |
 |**certificateInfo** | [**CertificateInformation**](CertificateInformation.md) |  |  [optional] |
-|**certificateChain** | **List&lt;List&lt;byte[]&gt;&gt;** |  |  [optional] |
+|**certificateChain** | **List&lt;byte[]&gt;** |  |  [optional] |
 |**timeStampInfo** | [**TimeStampInfo**](TimeStampInfo.md) |  |  [optional] |
 
 

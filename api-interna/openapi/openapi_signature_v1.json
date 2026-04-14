@@ -5382,17 +5382,15 @@
           "certificateChain" : {
             "type" : "array",
             "items" : {
-              "type" : "array",
-              "items" : {
-                "type" : "string",
-                "format" : "byte"
-              }
+              "type" : "string",
+              "format" : "byte"
             }
           },
           "timeStampInfo" : {
             "$ref" : "#/components/schemas/TimeStampInfo"
           }
-        }
+        },
+        "description" : "Información detallada de la firma"
       },
       "TimeStampInfo" : {
         "type" : "object",
@@ -5408,11 +5406,9 @@
             "type" : "string"
           },
           "certificate" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string",
-              "format" : "byte"
-            }
+            "type" : "string",
+            "description" : "Contingut del certificat de la marca de temps",
+            "format" : "byte"
           },
           "algorithm" : {
             "type" : "string"
