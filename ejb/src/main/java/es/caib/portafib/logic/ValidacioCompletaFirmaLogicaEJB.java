@@ -487,12 +487,11 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                         isPseudonymCertificate = false;
                     }
 
+                    // Cercar solució al problema d'ignorar validació de NIf en Certificats de Pseudònim #1035
                     if (isPseudonymCertificate) {
-                        // Acceptam "barco" ja que no tenim els Pseudonim amb que comparar
 
-                        // Cercar solució al problema d'ignorar validació de NIf en Certificats de Pseudònim #1035
-
-                        String pseudonim = CertificateUtils.getPseudonymValue(certificateLastSign);
+                        // Canvia cridada getPseudonymValue() per getPseudonym() #114
+                        String pseudonim = CertificateUtils.getPseudonym(certificateLastSign);
 
                         if (pseudonim == null) {
                             String msg = "Transaccio[" + transaccioID + "]: El certificat ("
