@@ -12,7 +12,7 @@
     <parent>
         <groupId>es.caib.portafib</groupId>
         <artifactId>portafib-ws</artifactId>
-        <version>3.0.11</version>
+        <version>3.0.12</version>
     </parent>
 
     <dependencies>
