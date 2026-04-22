@@ -59,9 +59,7 @@ public abstract class AbstractScheduler  {
         }
         
         return sb.toString();    
-        
-        
-        
+
     }
     
     

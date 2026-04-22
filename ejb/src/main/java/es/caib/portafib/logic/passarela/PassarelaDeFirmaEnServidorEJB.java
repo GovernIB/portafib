@@ -246,10 +246,11 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
                     // En passarel.la no hi ha flux de firma
                     final int numFirmaPortaFIB = 1;
 
+                    final String nifEmpresaEsperat = null;
                     ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID,
                             validarFitxerFirma, checkCanviatDocFirmat, comprovarNifFirma, fitxerOriginal, adaptat,
                             signature, documentDetached, signTypeID, signMode, languageUI, numFirmaPortaFIB,
-                            numFirmesOriginals, nif, posTaulaDeFirmes);
+                            numFirmesOriginals, nif, nifEmpresaEsperat, posTaulaDeFirmes);
 
                     // Aqui es fan totes les validacions completes !!!!!!
                     ValidacioCompletaResponse validacioResponse;
@@ -519,10 +520,11 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
             modificatComprovarNifFirma = true;
         }
 
+        final String nifEmpresaEsperat = null;
         ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID, validarFitxerFirma,
                 checkCanviatDocFirmat, comprovarNifFirma, fitxerOriginal, fitxerOriginal, upgradedSignatureDS,
                 documentDetachedDS, signTypeID, signMode, languageUI, numFirmaPortaFIB, numFirmesOriginals, expectedNif,
-                ConstantsV2.TAULADEFIRMES_SENSETAULA);
+                nifEmpresaEsperat, ConstantsV2.TAULADEFIRMES_SENSETAULA);
 
         // Aqui es fan totes les validacions completes !!!!!!
         ValidacioCompletaResponse validacioResponse;

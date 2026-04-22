@@ -9,211 +9,188 @@ import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
  */
 public class ValidacioCompletaRequest {
 
-  protected String entitatID;
+    protected String entitatID;
 
-  protected boolean validarFitxerFirma;
+    protected boolean validarFitxerFirma;
 
-  protected boolean checkCanviatDocFirmat;
+    protected boolean checkCanviatDocFirmat;
 
-  protected boolean comprovarNifFirma;
+    protected boolean comprovarNifFirma;
 
-  protected IPortaFIBDataSource originalData;
+    protected IPortaFIBDataSource originalData;
 
-  protected IPortaFIBDataSource signatureData;
+    protected IPortaFIBDataSource signatureData;
 
-  protected IPortaFIBDataSource adaptedData;
+    protected IPortaFIBDataSource adaptedData;
 
-  protected IPortaFIBDataSource documentDetachedData;
+    protected IPortaFIBDataSource documentDetachedData;
 
-  protected int signTypeID;
+    protected int signTypeID;
 
-  protected int signMode;
+    protected int signMode;
 
-  protected String languageUI;
+    protected String languageUI;
 
-  protected int numFirmaPortaFIB;
+    protected int numFirmaPortaFIB;
 
-  protected int numFirmesOriginals;
+    protected int numFirmesOriginals;
 
-  protected String nifEsperat;
+    protected String nifPersonaEsperat;
 
-  protected String cifEsperat;
+    protected String nifEmpresaEsperat;
 
-  protected int posTaulaDeFirmes;
+    protected int posTaulaDeFirmes;
 
-  public ValidacioCompletaRequest(String entitatID, boolean validarFitxerFirma,
-      boolean checkCanviatDocFirmat, boolean comprovarNifFirma,
-      IPortaFIBDataSource originalData, IPortaFIBDataSource adaptedData,
-      IPortaFIBDataSource signatureData, IPortaFIBDataSource documentDetachedData,
-      int signTypeID, int signMode, String languageUI, int numFirmaPortaFIB,
-      int numFirmesOriginals, String nifEsperat, int posTaulaDeFirmes) {
-    this.entitatID = entitatID;
-    this.validarFitxerFirma = validarFitxerFirma;
-    this.checkCanviatDocFirmat = checkCanviatDocFirmat;
-    this.comprovarNifFirma = comprovarNifFirma;
-    this.originalData = originalData;
-    this.adaptedData = adaptedData;
-    this.signatureData = signatureData;
-    this.documentDetachedData = documentDetachedData;
-    this.signTypeID = signTypeID;
-    this.signMode = signMode;
-    this.languageUI = languageUI;
-    this.numFirmaPortaFIB = numFirmaPortaFIB;
-    this.numFirmesOriginals = numFirmesOriginals;
-    this.nifEsperat = nifEsperat;
-    this.posTaulaDeFirmes = posTaulaDeFirmes;
-  }
 
-  public ValidacioCompletaRequest(String entitatID, boolean validarFitxerFirma,
-      boolean checkCanviatDocFirmat, boolean comprovarNifFirma,
-      IPortaFIBDataSource originalData, IPortaFIBDataSource adaptedData,
-      IPortaFIBDataSource signatureData, IPortaFIBDataSource documentDetachedData,
-      int signTypeID, int signMode, String languageUI, int numFirmaPortaFIB,
-      int numFirmesOriginals, String nifEsperat, String cifEsperat, int posTaulaDeFirmes) {
-    this.entitatID = entitatID;
-    this.validarFitxerFirma = validarFitxerFirma;
-    this.checkCanviatDocFirmat = checkCanviatDocFirmat;
-    this.comprovarNifFirma = comprovarNifFirma;
-    this.originalData = originalData;
-    this.adaptedData = adaptedData;
-    this.signatureData = signatureData;
-    this.documentDetachedData = documentDetachedData;
-    this.signTypeID = signTypeID;
-    this.signMode = signMode;
-    this.languageUI = languageUI;
-    this.numFirmaPortaFIB = numFirmaPortaFIB;
-    this.numFirmesOriginals = numFirmesOriginals;
-    this.nifEsperat = nifEsperat;
-    this.cifEsperat = cifEsperat;
-    this.posTaulaDeFirmes = posTaulaDeFirmes;
-  }
+    public ValidacioCompletaRequest(String entitatID, boolean validarFitxerFirma, boolean checkCanviatDocFirmat,
+            boolean comprovarNifFirma, IPortaFIBDataSource originalData, IPortaFIBDataSource adaptedData,
+            IPortaFIBDataSource signatureData, IPortaFIBDataSource documentDetachedData, int signTypeID, int signMode,
+            String languageUI, int numFirmaPortaFIB, int numFirmesOriginals, String nifPersonaEsperat,
+            String nifEmpresaEsperat, int posTaulaDeFirmes) {
+        this.entitatID = entitatID;
+        this.validarFitxerFirma = validarFitxerFirma;
+        this.checkCanviatDocFirmat = checkCanviatDocFirmat;
+        this.comprovarNifFirma = comprovarNifFirma;
+        this.originalData = originalData;
+        this.adaptedData = adaptedData;
+        this.signatureData = signatureData;
+        this.documentDetachedData = documentDetachedData;
+        this.signTypeID = signTypeID;
+        this.signMode = signMode;
+        this.languageUI = languageUI;
+        this.numFirmaPortaFIB = numFirmaPortaFIB;
+        this.numFirmesOriginals = numFirmesOriginals;
+        this.nifPersonaEsperat = nifPersonaEsperat;
+        this.nifEmpresaEsperat = nifEmpresaEsperat;
+        this.posTaulaDeFirmes = posTaulaDeFirmes;
+    }
 
-  public int getNumFirmesOriginals() {
-    return numFirmesOriginals;
-  }
+    public int getNumFirmesOriginals() {
+        return numFirmesOriginals;
+    }
 
-  public void setNumFirmesOriginals(int numFirmesOriginals) {
-    this.numFirmesOriginals = numFirmesOriginals;
-  }
+    public void setNumFirmesOriginals(int numFirmesOriginals) {
+        this.numFirmesOriginals = numFirmesOriginals;
+    }
 
-  public boolean isValidarFitxerFirma() {
-    return validarFitxerFirma;
-  }
+    public boolean isValidarFitxerFirma() {
+        return validarFitxerFirma;
+    }
 
-  public void setValidarFitxerFirma(boolean validarFitxerFirma) {
-    this.validarFitxerFirma = validarFitxerFirma;
-  }
+    public void setValidarFitxerFirma(boolean validarFitxerFirma) {
+        this.validarFitxerFirma = validarFitxerFirma;
+    }
 
-  public int getSignTypeID() {
-    return signTypeID;
-  }
+    public int getSignTypeID() {
+        return signTypeID;
+    }
 
-  public void setSignTypeID(int signTypeID) {
-    this.signTypeID = signTypeID;
-  }
+    public void setSignTypeID(int signTypeID) {
+        this.signTypeID = signTypeID;
+    }
 
-  public String getEntitatID() {
-    return entitatID;
-  }
+    public String getEntitatID() {
+        return entitatID;
+    }
 
-  public void setEntitatID(String entitatID) {
-    this.entitatID = entitatID;
-  }
+    public void setEntitatID(String entitatID) {
+        this.entitatID = entitatID;
+    }
 
-  public String getLanguageUI() {
-    return languageUI;
-  }
+    public String getLanguageUI() {
+        return languageUI;
+    }
 
-  public void setLanguageUI(String languageUI) {
-    this.languageUI = languageUI;
-  }
+    public void setLanguageUI(String languageUI) {
+        this.languageUI = languageUI;
+    }
 
-  public boolean isCheckCanviatDocFirmat() {
-    return checkCanviatDocFirmat;
-  }
+    public boolean isCheckCanviatDocFirmat() {
+        return checkCanviatDocFirmat;
+    }
 
-  public void setCheckCanviatDocFirmat(boolean checkCanviatDocFirmat) {
-    this.checkCanviatDocFirmat = checkCanviatDocFirmat;
-  }
+    public void setCheckCanviatDocFirmat(boolean checkCanviatDocFirmat) {
+        this.checkCanviatDocFirmat = checkCanviatDocFirmat;
+    }
 
-  public IPortaFIBDataSource getOriginalData() {
-    return originalData;
-  }
+    public IPortaFIBDataSource getOriginalData() {
+        return originalData;
+    }
 
-  public void setOriginalData(IPortaFIBDataSource originalData) {
-    this.originalData = originalData;
-  }
+    public void setOriginalData(IPortaFIBDataSource originalData) {
+        this.originalData = originalData;
+    }
 
-  public IPortaFIBDataSource getSignatureData() {
-    return signatureData;
-  }
+    public IPortaFIBDataSource getSignatureData() {
+        return signatureData;
+    }
 
-  public void setSignatureData(IPortaFIBDataSource signatureData) {
-    this.signatureData = signatureData;
-  }
+    public void setSignatureData(IPortaFIBDataSource signatureData) {
+        this.signatureData = signatureData;
+    }
 
-  public IPortaFIBDataSource getDocumentDetachedData() {
-    return documentDetachedData;
-  }
+    public IPortaFIBDataSource getDocumentDetachedData() {
+        return documentDetachedData;
+    }
 
-  public void setDocumentDetachedData(IPortaFIBDataSource documentDetachedData) {
-    this.documentDetachedData = documentDetachedData;
-  }
+    public void setDocumentDetachedData(IPortaFIBDataSource documentDetachedData) {
+        this.documentDetachedData = documentDetachedData;
+    }
 
-  public int getNumFirmaPortaFIB() {
-    return numFirmaPortaFIB;
-  }
+    public int getNumFirmaPortaFIB() {
+        return numFirmaPortaFIB;
+    }
 
-  public void setNumFirmaPortaFIB(int numFirmaPortaFIB) {
-    this.numFirmaPortaFIB = numFirmaPortaFIB;
-  }
+    public void setNumFirmaPortaFIB(int numFirmaPortaFIB) {
+        this.numFirmaPortaFIB = numFirmaPortaFIB;
+    }
 
-  public boolean isComprovarNifFirma() {
-    return comprovarNifFirma;
-  }
+    public boolean isComprovarNifFirma() {
+        return comprovarNifFirma;
+    }
 
-  public void setComprovarNifFirma(boolean comprovarNifFirma) {
-    this.comprovarNifFirma = comprovarNifFirma;
-  }
+    public void setComprovarNifFirma(boolean comprovarNifFirma) {
+        this.comprovarNifFirma = comprovarNifFirma;
+    }
 
-  public String getNifEsperat() {
-    return nifEsperat;
-  }
+    public String getNifPersonaEsperat() {
+        return nifPersonaEsperat;
+    }
 
-  public void setNifEsperat(String nifEsperat) {
-    this.nifEsperat = nifEsperat;
-  }
+    public void setNifPersonaEsperat(String nifPersonaEsperat) {
+        this.nifPersonaEsperat = nifPersonaEsperat;
+    }
 
-  public String getCifEsperat() {
-    return cifEsperat;
-  }
+    public String getNifEmpresaEsperat() {
+        return nifEmpresaEsperat;
+    }
 
-  public void setCifEsperat(String cifEsperat) {
-    this.cifEsperat = cifEsperat;
-  }
+    public void setNifEmpresaEsperat(String nifEmpresaEsperat) {
+        this.nifEmpresaEsperat = nifEmpresaEsperat;
+    }
 
-  public int getSignMode() {
-    return signMode;
-  }
+    public int getSignMode() {
+        return signMode;
+    }
 
-  public void setSignMode(int signMode) {
-    this.signMode = signMode;
-  }
+    public void setSignMode(int signMode) {
+        this.signMode = signMode;
+    }
 
-  public IPortaFIBDataSource getAdaptedData() {
-    return adaptedData;
-  }
+    public IPortaFIBDataSource getAdaptedData() {
+        return adaptedData;
+    }
 
-  public void setAdaptedData(IPortaFIBDataSource adaptedData) {
-    this.adaptedData = adaptedData;
-  }
+    public void setAdaptedData(IPortaFIBDataSource adaptedData) {
+        this.adaptedData = adaptedData;
+    }
 
-  public int getPosTaulaDeFirmes() {
-    return posTaulaDeFirmes;
-  }
+    public int getPosTaulaDeFirmes() {
+        return posTaulaDeFirmes;
+    }
 
-  public void setPosTaulaDeFirmes(int posTaulaDeFirmes) {
-    this.posTaulaDeFirmes = posTaulaDeFirmes;
-  }
+    public void setPosTaulaDeFirmes(int posTaulaDeFirmes) {
+        this.posTaulaDeFirmes = posTaulaDeFirmes;
+    }
 
 }

@@ -7,24 +7,23 @@ package es.caib.portafib.commons.utils;
  */
 public interface Constants {
 
-	public static final String PORTAFIB_PROPERTY_BASE = "es.caib.portafib.";
+    public static final String PORTAFIB_PROPERTY_BASE = "es.caib.portafib.";
 
-	public static final String MAIL_SERVICE = "java:/es.caib.portafib.mail";
+    public static final String MAIL_SERVICE = "java:/es.caib.portafib.mail";
 
-	// TRUE ROLES
-	// Rol ADMIN: Administrador PortaFIB
-	public static final String PFI_ADMIN = "PFI_ADMIN";
-	// Rol USER: Admin. d'Entitat, Sol·licitant, Destinatari, Delegat i Col·laborador
-	public static final String PFI_USER = "PFI_USER";
-	public static final String USUARI_TIPUS_I="usuari-tipus-I";
-	public static final String PFI_WS = "PFI_WS";
+    // TRUE ROLES
+    // Rol ADMIN: Administrador PortaFIB
+    public static final String PFI_ADMIN = "PFI_ADMIN";
+    // Rol USER: Admin. d'Entitat, Sol·licitant, Destinatari, Delegat i Col·laborador
+    public static final String PFI_USER = "PFI_USER";
+    public static final String USUARI_TIPUS_I = "usuari-tipus-I";
+    public static final String PFI_WS = "PFI_WS";
 
-	// VIRTUAL SECURITY ROLES
-	// Administrador PortaFIB
-	public static final String ROLE_ADMIN = "ROLE_ADMIN";
-	public static final String ROLE_USER = "ROLE_USER";
-	public static final String ROLE_USUARI_TIPUS_I="ROLE_USUARI_TIPUS_I";
-	
+    // VIRTUAL SECURITY ROLES
+    // Administrador PortaFIB
+    public static final String ROLE_ADMIN = "ROLE_ADMIN";
+    public static final String ROLE_USER = "ROLE_USER";
+    public static final String ROLE_USUARI_TIPUS_I = "ROLE_USUARI_TIPUS_I";
 
     // ROLE Any (tothom)
     public static final String ROLE_ANY = "ROLE_ANY";
@@ -42,25 +41,22 @@ public interface Constants {
     public static final String ROLE_SOLI = "ROLE_SOLI";
     // Revisor
     public static final String ROLE_REVI = "ROLE_REVI";
-    
-    
 
-	// EJB HIGH LEVEL ROLES
-	public static final String ROLE_EJB_FULL_ACCESS = PFI_ADMIN;
-	public static final String ROLE_EJB_BASIC_ACCESS = PFI_USER;
-	public static final String ROLE_EJB_WS_ACCESS = PFI_WS;
-	public static final String ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I = USUARI_TIPUS_I;
-	
-	// API FIRMA SIMPLE STATUS VALUES
-	public static final int STATUS_INITIALIZING = 0;
-	public static final int STATUS_IN_PROGRESS = 1;
-	public static final int STATUS_FINAL_OK = 2;
-	public static final int STATUS_FINAL_ERROR = -1;
-	public static final int STATUS_CANCELLED = -2;
+    // EJB HIGH LEVEL ROLES
+    public static final String ROLE_EJB_FULL_ACCESS = PFI_ADMIN;
+    public static final String ROLE_EJB_BASIC_ACCESS = PFI_USER;
+    public static final String ROLE_EJB_WS_ACCESS = PFI_WS;
+    public static final String ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I = USUARI_TIPUS_I;
 
-	//API FIRMA SIMPLE SIGN TYPE
-	
-	
+    // API FIRMA SIMPLE STATUS VALUES
+    public static final int STATUS_INITIALIZING = 0;
+    public static final int STATUS_IN_PROGRESS = 1;
+    public static final int STATUS_FINAL_OK = 2;
+    public static final int STATUS_FINAL_ERROR = -1;
+    public static final int STATUS_CANCELLED = -2;
+
+    //API FIRMA SIMPLE SIGN TYPE
+
     //Modes de firma 
     /** El fitxer de dades resultant inclou la firma: PDF, ODT, ... */
     public static final int SIGN_MODE_ATTACHED_ENVELOPED = 0;
@@ -79,17 +75,16 @@ public interface Constants {
      * de l'XML: ni la firma inclou les dades ni les dades inclouen la firma
      */
     public static final int SIGN_MODE_INTERNALLY_DETACHED = 4;
-    
+
     /** Firma especial XAdES en que les dades es substitueixen per un resum del fitxer a signar. 
      * Entre les dades del resum hi ha una URL a les dades del fitxer original.
      */
     public static final int SIGN_MODE_EXTERNALLY_DETACHED = 5;
-    
 
     public static final int SIGNATURESTABLELOCATION_WITHOUT = 0;
     public static final int SIGNATURESTABLELOCATION_FIRSTPAGE = 1;
     public static final int SIGNATURESTABLELOCATION_LASTPAGE = -1;
-    
+
     //FIRMA
     public static final int SIGN_OPERATION_SIGN = 0;
     // COFIRMA
@@ -110,8 +105,18 @@ public interface Constants {
     public static final String SIGNPROFILE_A = "AdES-A";
     public static final String SIGNPROFILE_PADES_LTV = "PAdES-LTV";
     public static final String SIGNPROFILE_PADES_BASIC = "PAdES-Basic";
-    
+
     public static final String VIEW_FULLSCREEN = "fullview";
 
+    /** NIF normal o NIE Extrangers */
+    public static final String PATTERN_NIF_PERSONA_FISICA = "([XYZ][0-9]{7}[A-Z])|([0-9]{8}[A-Z])";
+
+    /** CIF d'empreses i persones juridiques */
+    public static final String PATTERN_NIF_PERSONA_JURIDICA = "([ABCDEFGHJNPQRSUVW][0-9]{7}[A-Z0-9])";
+
+    /**
+     * Inclou persones, empreses i persones juridiques
+     */
+    public static final String PATTERN_NIF = PATTERN_NIF_PERSONA_FISICA + "|" + PATTERN_NIF_PERSONA_JURIDICA;
 
 }

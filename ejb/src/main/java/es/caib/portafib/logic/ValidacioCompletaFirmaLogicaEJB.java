@@ -205,6 +205,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                     }
                     nifFirmant = info.getNifResponsable();
                     cifFirmant = info.getUnitatOrganitzativaNifCif();
+                    
                     numeroSerieCertificat = info.getNumeroSerie();
                     emissorCertificat = info.getEmissorOrganitzacio();
                     subjectCertificat = info.getSubject();
@@ -354,13 +355,12 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
         // (c) Verificar que el NIF del certificat correspon amb qui tenia que firmar
         //log.info(" internalValidateCompletaFirma()::"
-        //        + " (c) Verificar que el NIF del certificat correspon amb qui tenia que firmar");
-
-        // Obtenir informació del certificat
         Boolean checkAdministrationIDOfSigner = null;
+        
+        
         if (validacioRequest.isComprovarNifFirma()) {
 
-            if (validacioRequest.getNifEsperat() == null) {
+            if (validacioRequest.getNifPersonaEsperat() == null) {
                 // XYZ ZZZ TRA
                 String msg = "Transaccio[" + transaccioID + "]: "
                         + "La configuració de firma exigeix que es comprovi que el NIF"
@@ -376,7 +376,10 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
             } else {
 
-                if (nifFirmant == null) {
+                
+                
+                if (nifFirmant == null ) {
+                     // XYZ ZZZ TRA
                     switch (validacioRequest.getSignTypeID()) {
 
                         case ConstantsV2.TIPUSFIRMA_PADES:
@@ -427,7 +430,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
                         default: {
                             String msg = "Transaccio[" + transaccioID + "]: "
-                                    + "No esta implementat la comprovació de que qui ha signat és el mateix que l'esperat"
+                                    + "No esta implementat la comprovació del NIF de qui ha signat és el mateix NIF que l'esperat"
                                     + " pel tipus de firma " + validacioRequest.getSignTypeID()
                                     + "(TIPUSFIRMA_XADES=1, TIPUSFIRMA_CADES=2, TIPUSFIRMA_SMIME=3). "
                                     + " Consulti amb l'administrador de PortaFIB el valor de la propietat es.caib.portafib.strictvalidation";
@@ -452,6 +455,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                         }
                     } catch (Exception ignored) {
                     }
+                    
 
                     if (numeroSerieCertificat == null) {
                         numeroSerieCertificat = certificateLastSign.getSerialNumber();
@@ -466,11 +470,13 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                     }
                 }
 
-                if (log.isDebugEnabled()) {
+                //if (log.isDebugEnabled())
+                // XYZ_DEBUG
+                {
                     log.debug("ValidacioCompleta::nifFirmant: " + nifFirmant);
-                    log.debug("ValidacioCompleta::getNifEsperat(): " + validacioRequest.getNifEsperat());
+                    log.debug("ValidacioCompleta::getNifPersonaEsperat(): " + validacioRequest.getNifPersonaEsperat());
                     log.debug("ValidacioCompleta::cifFirmant: " + cifFirmant);
-                    log.debug("ValidacioCompleta::getCifEsperat(): " + validacioRequest.getCifEsperat());
+                    log.debug("ValidacioCompleta::getNifEmpresaEsperat(): " + validacioRequest.getNifEmpresaEsperat());
                 }
 
                 final boolean doChecks;
@@ -503,7 +509,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                                     CertificateUtils.getCN(certificateLastSign));
                         }
 
-                        final String nifEsperat = validacioRequest.getNifEsperat();
+                        final String nifEsperat = validacioRequest.getNifPersonaEsperat();
 
                         // Cercam en el UserInformation si l'usuari amb NIF nifEsperat té el mateix pseudonim
 
@@ -616,16 +622,17 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
                 if (doChecks) {
 
-                    LogicUtils.checkExpectedNif(nifFirmant, validacioRequest.getNifEsperat());
-                    if (validacioRequest.getCifEsperat() != null) {
-                        LogicUtils.checkExpectedCif(cifFirmant, validacioRequest.getCifEsperat());
-                    }
+                    LogicUtils.checkExpectedNif(nifFirmant, validacioRequest.getNifPersonaEsperat(), cifFirmant);
+                    
+                    LogicUtils.checkExpectedCif(cifFirmant, validacioRequest.getNifEmpresaEsperat(), nifFirmant);
+                    
                     checkAdministrationIDOfSigner = true;
                 }
 
             }
 
         }
+        
 
         // Debug
         final boolean isDebug = log.isDebugEnabled();
@@ -639,6 +646,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
             log.debug("checkDocumentModifications: " + checkDocumentModifications);
             log.debug("checkValidationSignature: " + checkValidationSignature);
         }
+        
 
         //log.info("internalValidateCompletaFirma():: Resposta ...");
 
@@ -650,42 +658,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
         return resposta;
     }
 
-    /*
-    public static boolean isPseudonymCertificate(X509Certificate certificate) throws Exception {
-        String politica = getCertificatePolicyId(certificate);
-        return politica != null && politica.startsWith("2.16.724.1.3.5.4.");
-    }
-    
-    public static String getCertificatePolicyId(X509Certificate cert) throws Exception {
-    
-        byte[] extvalue = cert.getExtensionValue("2.5.29.32");
-    
-        int pos = 0;
-        if (extvalue != null) {
-    
-            ASN1InputStream extAsn1InputStream = new ASN1InputStream(new ByteArrayInputStream(extvalue));
-            try {
-                DEROctetString oct = (DEROctetString) (extAsn1InputStream.readObject());
-                ASN1InputStream octAsn1InputStream = new ASN1InputStream(new ByteArrayInputStream(oct.getOctets()));
-                try {
-                    ASN1Sequence seq = (ASN1Sequence) octAsn1InputStream.readObject();
-                    // Check the size so we don't ArrayIndexOutOfBounds
-                    if (seq.size() < pos + 1) {
-                        return null;
-                    }
-                    PolicyInformation pol = PolicyInformation.getInstance((ASN1Sequence) seq.getObjectAt(pos));
-                    return pol.getPolicyIdentifier().getId();
-                } finally {
-                    octAsn1InputStream.close();
-                }
-            } finally {
-                extAsn1InputStream.close();
-            }
-        }
-    
-        return null;
-    }
-    */
+
     public static X509Certificate getLastCertificateOfSignedPdf(IPortaFIBDataSource signedPDFData, int numFirmaPortaFIB,
             int numFirmesOriginals) throws I18NException {
 

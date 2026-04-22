@@ -14353,7 +14353,7 @@
           "showInWebList": true,
           "showInReferenceList": false,
           "transientField": false,
-          "minAllowedValue": "([XYZ][0-9]{7}[A-Z])|([0-9]{8}[A-Z])",
+          "minAllowedValue": "([XYZ][0-9]{7}[A-Z])|([0-9]{8}[A-Z])|([ABCDEFGHJNPQRSUVW][0-9]{7}[A-Z0-9])",
           "filter": true,
           "orderBy": 0,
           "groupBy": false,

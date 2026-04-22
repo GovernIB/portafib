@@ -126,7 +126,7 @@ public class UsuariPersonaValidator<I extends UsuariPersona>
     if (__vr.getFieldErrorCount(NIF) == 0) {
       String val = __target__.getNif();
       if (val != null && val.trim().length() != 0) {
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile("([XYZ][0-9]{7}[A-Z])|([0-9]{8}[A-Z])");
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile("([XYZ][0-9]{7}[A-Z])|([0-9]{8}[A-Z])|([ABCDEFGHJNPQRSUVW][0-9]{7}[A-Z0-9])");
         if (!p.matcher(val).matches()) {
           __vr.rejectValue(NIF, "genapp.validation.malformed",
              new org.fundaciobit.genapp.common.i18n.I18NArgumentString(val), new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(NIF)));

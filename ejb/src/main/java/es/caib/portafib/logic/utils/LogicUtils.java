@@ -23,8 +23,10 @@ public class LogicUtils {
 
     protected static Logger log = Logger.getLogger(LogicUtils.class);
 
-    public static void checkExpectedNif(String nifFirmant, String expectedNif) throws I18NException {
-        if (nifFirmant == null) {
+    public static void checkExpectedNif(String nifPersonaFirmant, String expectedNif, String nifEmpresaFirmant)
+            throws I18NException {
+        if (nifPersonaFirmant == null) {
+            /* S'ha firmat amb un certificat que no té associat cap nif, però es requeria el nif {0} */
             final String codeError = "error.no_nif_en_certificat";
             if (Configuracio.isDesenvolupament()) {
                 // Només mostram l'error pel LOG
@@ -35,45 +37,65 @@ public class LogicUtils {
             }
         } else {
 
-            if (!expectedNif.trim().equalsIgnoreCase(nifFirmant.trim())) {
-                // =S´ha firmat amb un certificat on el nif associat és {0}, però es requeria el nif
-                // {1}
-                final String codeError = "error.firmat_amb_nif_incorrecte";
-                if (Configuracio.isDesenvolupament()) {
-                    // Només mostram l'error pel LOG
-                    // TODO S'ha de crear un idioma per defecte dins configuracio
-                    log.error(I18NLogicUtils.tradueix(new Locale("ca"), codeError, nifFirmant, expectedNif),
-                            new Exception());
+            if (expectedNif.trim().equalsIgnoreCase(nifPersonaFirmant.trim())) {
+
+                // OK, el NIF de la persona coincideix amb el NIF esperat, per tant no es llença cap error
+
+            } else {
+                
+                // En cas que el nif esperat no coincideixi amb el nif de la persona firmant, comprovam si el nif de
+                // l'empresa coincideix amb el nif esperat. 
+
+                // Comprovam a veure si el NIF esperat és el de l'empresa
+                if (nifEmpresaFirmant != null && expectedNif.trim().equalsIgnoreCase(nifEmpresaFirmant.trim())) {
+
+                    // OK, el NIF de l'empresa coincideix amb el NIF esperat, per tant no es llença cap error
+
                 } else {
-                    throw new I18NException(codeError, nifFirmant, expectedNif);
+                    // =S´ha firmat amb un certificat on el nif associat és {0}, però es requeria el nif  {1}
+                    final String codeError = "error.firmat_amb_nif_incorrecte";
+                    throw new I18NException(codeError, nifPersonaFirmant, expectedNif);
                 }
             }
         }
     }
 
-    public static void checkExpectedCif(String cifFirmant, String expectedCif) throws I18NException {
-        if (cifFirmant == null) {
-            final String codeError = "error.no_cif_en_certificat";
-            if (Configuracio.isDesenvolupament()) {
-                // Només mostram l'error pel LOG
-                // TODO S'ha de crear un idioma per defecte dins configuracio
-                log.error(I18NLogicUtils.tradueix(new Locale("ca"), codeError), new Exception());
-            } else {
-                throw new I18NException(codeError);
+    public static void checkExpectedCif(String cifFirmant, String expectedCif, String nifPersonaFirmant) throws I18NException {
+
+        if (expectedCif == null) {
+            // Només hem de comprovar que el CIF del certificat sigui null, sinó es llença un error ja que en aquest cas 
+            // s'esperava un certificat personal i s'ha utitlitzat un certificat de persona JURIDICA
+            if (cifFirmant != null) {
+                // Per a la firma, s´esperava l´ús d´un certificat personal associat al NIF {0} però 
+                // el certificat usat per firmar està associat l´empresa amb NIF {1}
+                final String codeError = "error.no_cif_expected_but_cif_in_certificate";
+                throw new I18NException(codeError, nifPersonaFirmant, cifFirmant);
             }
         } else {
 
-            if (!expectedCif.trim().equalsIgnoreCase(cifFirmant)) {
-                // =S´ha firmat amb un certificat on el cif associat és {0}, però es requeria el cif
-                // {1}
-                final String codeError = "error.firmat_amb_cif_incorrecte";
+            if (cifFirmant == null) {
+                final String codeError = "error.no_cif_en_certificat";
                 if (Configuracio.isDesenvolupament()) {
                     // Només mostram l'error pel LOG
                     // TODO S'ha de crear un idioma per defecte dins configuracio
-                    log.error(I18NLogicUtils.tradueix(new Locale("ca"), codeError, cifFirmant, expectedCif),
-                            new Exception());
+                    log.error(I18NLogicUtils.tradueix(new Locale("ca"), codeError), new Exception());
                 } else {
-                    throw new I18NException(codeError, cifFirmant, expectedCif);
+                    throw new I18NException(codeError);
+                }
+            } else {
+
+                if (!expectedCif.trim().equalsIgnoreCase(cifFirmant)) {
+                    // =S´ha firmat amb un certificat on el cif associat és {0}, però es requeria el cif
+                    // {1}
+                    final String codeError = "error.firmat_amb_cif_incorrecte";
+                    if (Configuracio.isDesenvolupament()) {
+                        // Només mostram l'error pel LOG
+                        // TODO S'ha de crear un idioma per defecte dins configuracio
+                        log.error(I18NLogicUtils.tradueix(new Locale("ca"), codeError, cifFirmant, expectedCif),
+                                new Exception());
+                    } else {
+                        throw new I18NException(codeError, cifFirmant, expectedCif);
+                    }
                 }
             }
         }

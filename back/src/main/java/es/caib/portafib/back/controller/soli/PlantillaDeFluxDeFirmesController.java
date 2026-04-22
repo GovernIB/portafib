@@ -1141,6 +1141,11 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
         return getTileForm();
 
     }
+    
+    
+    
+
+    
 
     protected UsuariEntitatJPA createUsuariExtern(String entitatID, String nif, UsuariExtern usuariExternInfo)
             throws I18NException, I18NValidationException {
@@ -1150,6 +1155,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
             // XYZ ZZZ TRA
             throw new I18NException("genapp.comodi", "El camp NIF de l'Usuari Extern val null o està buit");
         }
+        
+        nif = nif.trim().toUpperCase();
 
         // XYZ ZZZ ZZZ CHECK NIF
         if (nif.length() > 9) {
@@ -1159,11 +1166,15 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController im
                     new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(9)));
         }
 
-        // XYZ ZZZ TRA
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile("([XYZ][0-9]{7}[A-Z])|([0-9]{8}[A-Z])");
+        
+        // Inclou persones, empreses i persones juridiques
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(Constants.PATTERN_NIF);
         if (!p.matcher(nif).matches()) {
+            // El valor NIF de l'Usuari Extern del camp {1} té un format incorrecte
+            // XYZ ZZZ TRA       
             throw new I18NException("genapp.validation.malformed",
-                    // XYZ ZZZ TRA
+                    new org.fundaciobit.genapp.common.i18n.I18NArgumentString(nif),
+                    // XYZ ZZZ TRA       
                     new org.fundaciobit.genapp.common.i18n.I18NArgumentString("NIF de l'Usuari Extern"));
         }
 

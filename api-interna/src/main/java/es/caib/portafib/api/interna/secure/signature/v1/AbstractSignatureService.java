@@ -1647,7 +1647,7 @@ public abstract class AbstractSignatureService extends RestUtils {
                 }
 
                 // XYZ ZZZ TRA
-                java.util.regex.Pattern p = java.util.regex.Pattern.compile("([XYZ][0-9]{7}[A-Z])|([0-9]{8}[A-Z])");
+                java.util.regex.Pattern p = java.util.regex.Pattern.compile(Constants.PATTERN_NIF);
                 if (!p.matcher(nif).matches()) {
                     throw new I18NException("genapp.validation.malformed",
                             // XYZ ZZZ TRA

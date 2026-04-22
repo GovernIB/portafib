@@ -2245,20 +2245,25 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                             + peticioDeFirma.getOrigenPeticioDeFirma() + " és desconegut.");
 
             }
+            
+            
+            IPortaFIBDataSource fitxerAdaptat = new FitxerIdDataSource(peticioDeFirma.getFitxerAdaptatID());
+            
 
-            String expectedNif;
+            String expectedPersonaNif;
             {
                 final StringField NIF = new UsuariEntitatQueryPath().USUARIPERSONA().NIF();
                 final Where where = UsuariEntitatFields.USUARIENTITATID.equal(estatDeFirma.getUsuariEntitatID());
-                expectedNif = usuariEntitatEjb.executeQueryOne(NIF, where);
+                expectedPersonaNif = usuariEntitatEjb.executeQueryOne(NIF, where);
+                
+                expectedPersonaNif = expectedPersonaNif.trim().toUpperCase();
             }
-
-            IPortaFIBDataSource fitxerAdaptat = new FitxerIdDataSource(peticioDeFirma.getFitxerAdaptatID());
-
+            
+            final String nifEmpresaEsperat = null;
             ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID, validarFitxerFirma,
                     checkCanviatDocFirmat, comprovarNifFirma, fitxerOriginal, fitxerAdaptat, signature,
                     documentDetached, peticioDeFirma.getTipusFirmaID(), peticioDeFirma.getModeDeFirma(), languageUI,
-                    numFirmaPortaFIB, numFirmesOriginals, expectedNif, peticioDeFirma.getPosicioTaulaFirmesID());
+                    numFirmaPortaFIB, numFirmesOriginals, expectedPersonaNif, nifEmpresaEsperat, peticioDeFirma.getPosicioTaulaFirmesID());
 
             // Aqui es fan totes les validacions completes !!!!!!
             ValidacioCompletaResponse validacioResponse = null;
