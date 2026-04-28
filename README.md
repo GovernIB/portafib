@@ -1,3 +1,4 @@
+![Logo](https://github.com/GovernIB/maven/raw/binaris/portafib/PortaFIB_drassana.png)
 # ![Logo](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/icon.jpg) PortaFIB (portafib)
  *Portafirmes Digital de les Illes Balears*
 
