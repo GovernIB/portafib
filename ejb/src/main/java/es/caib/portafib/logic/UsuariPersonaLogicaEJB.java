@@ -9,6 +9,7 @@ import es.caib.portafib.logic.utils.PortaFIBPluginsManager;
 import es.caib.portafib.logic.validator.UsuariPersonaLogicValidator;
 import es.caib.portafib.model.entity.PlantillaFluxDeFirmes;
 import es.caib.portafib.model.entity.UsuariPersona;
+import es.caib.portafib.model.fields.CorreuAgrupatFields;
 import es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
@@ -63,14 +64,19 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements UsuariPe
     @EJB(mappedName = PlantillaFluxDeFirmesLogicaLocal.JNDI_NAME)
     protected PlantillaFluxDeFirmesLogicaLocal plantillaFluxDeFirmesLogicaEjb;
 
+    @EJB(mappedName = CorreuAgrupatLogicaLocal.JNDI_NAME)
+    protected CorreuAgrupatLogicaLocal correuAgrupatLogicaEjb;
+
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS, "tothom" })
+    @RolesAllowed({ Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS,
+            Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS, "tothom" })
     public UsuariPersona update(UsuariPersona instance) throws I18NException {
         return super.update(instance);
     }
 
     @Override
-    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS, "tothom" })
+    @RolesAllowed({ Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS,
+            Constants.ROLE_EJB_BASIC_ACCESS_USUARI_TIPUS_I, Constants.ROLE_EJB_WS_ACCESS, "tothom" })
     public UsuariPersonaJPA findByPrimaryKey(String _ID_) {
         return super.findByPrimaryKey(_ID_);
     }
@@ -340,6 +346,9 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements UsuariPe
 
             UsuariPersonaJPA newPersona = findByPrimaryKey(newUsername);
 
+            String oldMail = null;
+            String newMail = null;
+
             if (newPersona == null) {
                 // Feim un clon de l'actual
 
@@ -348,9 +357,11 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements UsuariPe
                 newPersona.setUsuariPersonaID(newUsername);
                 // Posam un NIF temporal ja que el NIF es unike.
                 newPersona.setNif("00000000X");
-                
+
                 if (currentPersona.getEmail() != null && currentPersona.getEmail().indexOf(currentUsername) != -1) {
-                    newPersona.setEmail(currentPersona.getEmail().replaceAll(currentUsername, newUsername));
+                    oldMail = currentPersona.getEmail();
+                    newMail = currentPersona.getEmail().replaceAll(currentUsername, newUsername);
+                    newPersona.setEmail(newMail);
                 }
 
                 newPersona = (UsuariPersonaJPA) create(newPersona);
@@ -368,11 +379,20 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements UsuariPe
             update(UsuariPersonaFields.USUARIPERSONAID.equal(newUsername),
                     new UpdateItemValue<String>(UsuariPersonaFields.NIF, currentPersona.getNif()));
 
+            // (3) Actualitzam correus agrupats que s'envien al correu antic de l'usuari
+            // Al canviar usuari eXXXXX per uXXXX revisar també els Correus Agrupats #1147
+            if (oldMail != null && newMail != null) {
+                correuAgrupatLogicaEjb.update(CorreuAgrupatFields.EMAIL, newMail,
+                        CorreuAgrupatFields.EMAIL.equal(oldMail));
+            }
+
             return "OK";
 
         } catch (I18NException i18n) {
-            return "Error actualitzant usuari de '" + currentUsername + "' a '" + newUsername + "': "
+            final String msg = "Error actualitzant usuari de '" + currentUsername + "' a '" + newUsername + "': "
                     + I18NCommonUtils.getMessage(i18n, new Locale(langUI));
+            log.error(msg, i18n);
+            return msg;
         }
     }
 
