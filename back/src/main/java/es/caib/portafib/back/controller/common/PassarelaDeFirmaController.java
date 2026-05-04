@@ -1,5 +1,6 @@
 package es.caib.portafib.back.controller.common;
 
+import es.caib.portafib.back.controller.AbstractSignatureModuleController;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBSessionLocaleResolver;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
@@ -121,7 +122,7 @@ public class PassarelaDeFirmaController {
             // Vull suposar que abans de 10 minuts haurà firmat
             java.util.Date caducitat = pss.getExpiryDate();
 
-            String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request,
+            String relativeControllerBase = AbstractSignatureModuleController.getRelativeControllerBase(request,
                     PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH);
             final String urlFinal = response.encodeURL(relativeControllerBase
                     + PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH_FINAL + "/" + signaturesSetID);
@@ -148,7 +149,7 @@ public class PassarelaDeFirmaController {
 
             final String view = "PluginDeFirmaContenidor_Passarela";
 
-            ModelAndView mav = SignatureModuleController.startPublicSignatureProcess(request, response, view,
+            ModelAndView mav = AbstractSignatureModuleController.startPublicSignatureProcess(request, response, view,
                     signaturesSet);
 
             LoginInfo loginInfo = null;
@@ -249,7 +250,7 @@ public class PassarelaDeFirmaController {
         boolean willCanCheckIfSignedDocumentWasAlteredAfterSignature;
         Long signaturePluginID;
         {
-            PortaFIBSignaturesSet pss = SignatureModuleController.getPortaFIBSignaturesSet(request, transactionID,
+            PortaFIBSignaturesSet pss = AbstractSignatureModuleController.getPortaFIBSignaturesSet(request, transactionID,
                     modulDeFirmaPublicEjb);
             signaturePluginID = pss.getSelectedPluginID();
             administrationIdCanBeValidatedFromPlugin = modulDeFirmaPublicEjb
@@ -268,7 +269,7 @@ public class PassarelaDeFirmaController {
 
         // Eliminam la informació dins SignatureModuleController ja que tenim gurardada la
         // informació dins la capa EJB
-        SignatureModuleController.closeSignaturesSet(request, transactionID, modulDeFirmaPublicEjb);
+        AbstractSignatureModuleController.closeSignaturesSet(request, transactionID, modulDeFirmaPublicEjb);
 
         final String url = ssf.getSignaturesSet().getCommonInfoSignature().getUrlFinal();
 

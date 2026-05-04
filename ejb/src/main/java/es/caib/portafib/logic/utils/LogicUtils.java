@@ -23,8 +23,8 @@ public class LogicUtils {
 
     protected static Logger log = Logger.getLogger(LogicUtils.class);
 
-    public static void checkExpectedNif(String nifPersonaFirmant, String expectedNif, String nifEmpresaFirmant)
-            throws I18NException {
+    public static boolean checkExpectedNif(String nifPersonaFirmant, String expectedNif, String nifEmpresaFirmant,
+            String expectedCif) throws I18NException {
         if (nifPersonaFirmant == null) {
             /* S'ha firmat amb un certificat que no té associat cap nif, però es requeria el nif {0} */
             final String codeError = "error.no_nif_en_certificat";
@@ -39,10 +39,16 @@ public class LogicUtils {
 
             if (expectedNif.trim().equalsIgnoreCase(nifPersonaFirmant.trim())) {
 
-                // OK, el NIF de la persona coincideix amb el NIF esperat, per tant no es llença cap error
+                // OK, Només si el NIF de la persona coincideix amb el NIF esperat
+                // i no s'ha de comprovar el CIF, per tant no es llença cap error
+                if (nifEmpresaFirmant == null && expectedCif == null) {
+                    return true;
+                } else {
+                    return false;
+                }
 
             } else {
-                
+
                 // En cas que el nif esperat no coincideixi amb el nif de la persona firmant, comprovam si el nif de
                 // l'empresa coincideix amb el nif esperat. 
 
@@ -50,22 +56,34 @@ public class LogicUtils {
                 if (nifEmpresaFirmant != null && expectedNif.trim().equalsIgnoreCase(nifEmpresaFirmant.trim())) {
 
                     // OK, el NIF de l'empresa coincideix amb el NIF esperat, per tant no es llença cap error
+                    return true;
 
                 } else {
+
+                    log.error("checkExpectedNif::nifPersonaFirmant: " + nifPersonaFirmant);
+                    log.error("checkExpectedNif::expectedNif: " + expectedNif);
+                    log.error("checkExpectedNif::nifEmpresaFirmant: " + nifEmpresaFirmant);
+
                     // =S´ha firmat amb un certificat on el nif associat és {0}, però es requeria el nif  {1}
                     final String codeError = "error.firmat_amb_nif_incorrecte";
                     throw new I18NException(codeError, nifPersonaFirmant, expectedNif);
                 }
             }
         }
+        return false;
     }
 
-    public static void checkExpectedCif(String cifFirmant, String expectedCif, String nifPersonaFirmant) throws I18NException {
+    public static void checkExpectedCif(String cifFirmant, String expectedCif, String nifPersonaFirmant)
+            throws I18NException {
 
         if (expectedCif == null) {
             // Només hem de comprovar que el CIF del certificat sigui null, sinó es llença un error ja que en aquest cas 
             // s'esperava un certificat personal i s'ha utitlitzat un certificat de persona JURIDICA
             if (cifFirmant != null) {
+                log.error("checkExpectedCif::cifFirmant: " + cifFirmant);
+                log.error("checkExpectedCif::expectedCif: " + expectedCif);
+                log.error("checkExpectedCif::nifPersonaFirmant: " + nifPersonaFirmant);
+
                 // Per a la firma, s´esperava l´ús d´un certificat personal associat al NIF {0} però 
                 // el certificat usat per firmar està associat l´empresa amb NIF {1}
                 final String codeError = "error.no_cif_expected_but_cif_in_certificate";

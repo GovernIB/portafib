@@ -29,6 +29,14 @@
 </function>
 
 <function>
+        <description>Crea una URL a partir d'un objecte IFile</description>
+        <name>fileUrlPublic</name>
+        <function-class>es.caib.portafib.back.controller.FileDownloadController</function-class>
+        <function-signature>java.lang.String fileUrlPublic(es.caib.portafib.model.entity.Fitxer) throws Exception
+        </function-signature>
+</function>
+
+<function>
         <description>Retalla un string a la longitud desitjada i el fa net de tags html </description>
         <name>retallar</name>
         <function-class>es.caib.portafib.back.utils.Utils</function-class>

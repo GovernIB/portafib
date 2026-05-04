@@ -32,7 +32,7 @@
 
   <c:forEach var="fitxer" items="${fitxers}" varStatus="theCount">
 
-    <c:url var="urlfile" value="${pfi:fileUrl(fitxer.key)}"/>
+    <c:url var="urlfile" value="${pfi:fileUrlPublic(fitxer.key)}"/>
     <c:set var="nomfile" value="${fitxer.key.nom}"/>
     <fmt:parseNumber var="type" type="number" value="${fitxer.value}" />
     

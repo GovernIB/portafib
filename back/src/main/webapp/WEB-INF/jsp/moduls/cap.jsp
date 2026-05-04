@@ -33,7 +33,7 @@
 				<div class="logoGovern">
 					<a href="<c:out value="${loginInfo.entitat.web}" />"
 						target="_blank"> <img
-						src="<c:url value="${pfi:fileUrl(loginInfo.entitat.logoWeb)}"/>"
+						src="<c:url value="${pfi:fileUrlPublic(loginInfo.entitat.logoWeb)}"/>"
 						title="${loginInfo.entitat.nom}" alt="${loginInfo.entitat.nom}" />
 					</a>
 				</div>

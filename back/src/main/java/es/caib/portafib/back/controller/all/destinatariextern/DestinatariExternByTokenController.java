@@ -1,4 +1,4 @@
-package es.caib.portafib.back.controller.common.destinatariextern;
+package es.caib.portafib.back.controller.all.destinatariextern;
 
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBSessionLocaleResolver;
@@ -43,8 +43,9 @@ import java.util.Set;
  * @author anadal(u80067)
  *
  */
+@SuppressWarnings("removal")
 @Controller
-@RequestMapping(value = ConstantsV2.CONTEXT_EXTERNALUSER_TOKEN)
+@RequestMapping(value = { ConstantsV2.CONTEXT_EXTERNALUSER_TOKEN, ConstantsV2.CONTEXT_EXTERNALUSER_TOKEN_PUBLIC  })
 public class DestinatariExternByTokenController {
 
   public static final String EXTERNAL_USER_TOKEN = "EXTERNAL_USER_TOKEN";
@@ -74,11 +75,11 @@ public class DestinatariExternByTokenController {
     }
 
     String username = firma.getUsuariEntitat().getUsuariPersonaID();
-    log.info("token::USERNAME => |" + username + "|");
+    log.info("token::USUARI EXTERN::USERNAME => |" + username + "|");
     
     String idiomaID = firma.getUsuariExternIdioma();
     
-    log.info("token::IDIOMA USUARI EXTERN => " + idiomaID);
+    log.info("token::USUARI EXTERN::IDIOMA => " + idiomaID);
     
     PortaFIBSessionLocaleResolver.setLocaleManually(request, idiomaID);
 
@@ -122,7 +123,7 @@ public class DestinatariExternByTokenController {
             .setAttribute(EXTERNAL_USER_ESTATFIRMAID, ef.getEstatDeFirmaID());
 
         // redirect a pantalla completa de firma
-        String redirect = ConstantsV2.CONTEXT_EXTERNALUSER_ESTATDEFIRMA + "/fullView/"
+        String redirect = ConstantsV2.CONTEXT_EXTERNALUSER_ESTATDEFIRMA_PUBLIC + "/fullView/"
             + ef.getEstatDeFirmaID() + "/" + peticio.getPeticioDeFirmaID(); //+ "?lang=" + idiomaID;
 
         return new ModelAndView(new RedirectView(redirect, true));

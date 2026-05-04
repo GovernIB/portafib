@@ -1,6 +1,6 @@
-package es.caib.portafib.back.controller.common;
+package es.caib.portafib.back.controller;
 
-import es.caib.portafib.back.controller.FileDownloadController;
+
 import es.caib.portafib.back.security.LoginException;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
@@ -26,7 +26,6 @@ import org.fundaciobit.pluginsib.signatureweb.api.ISignatureWebPlugin;
 import org.fundaciobit.pluginsib.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.pluginsib.utils.webutils.AbstractWebPlugin;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -60,11 +59,11 @@ import java.util.Set;
  * @author anadal
  *
  */
-@Controller
-@RequestMapping(value = SignatureModuleController.PRIVATE_CONTEXTWEB)
-public class SignatureModuleController extends HttpServlet {
+public abstract class AbstractSignatureModuleController extends HttpServlet {
 
-    protected static Logger log = Logger.getLogger(SignatureModuleController.class);
+    protected static Logger log_static = Logger.getLogger(AbstractSignatureModuleController.class);
+    
+    protected Logger log = Logger.getLogger(this.getClass());
 
     @EJB(mappedName = ModulDeFirmaWebPublicLogicaLocal.JNDI_NAME)
     protected ModulDeFirmaWebPublicLogicaLocal modulDeFirmaEjb;
@@ -72,6 +71,10 @@ public class SignatureModuleController extends HttpServlet {
     public static final String PRIVATE_CONTEXTWEB = "/common/signmodule";
 
     public static final String PUBLIC_CONTEXTWEB = "/public/signmodule";
+    
+    
+    public abstract boolean isPublicContext();
+    
 
     @RequestMapping(value = "/selectsignmodule/{signaturesSetID}")
     public ModelAndView selectSignModules(HttpServletRequest request, HttpServletResponse response,
@@ -265,7 +268,11 @@ public class SignatureModuleController extends HttpServlet {
 
                     String logoUrl = PropietatGlobalUtil.getSignatureHeaderLogoUrl(entitatID);
                     if (logoUrl == null || logoUrl.trim().length() == 0) {
-                        logoUrl = FileDownloadController.fileUrl(signaturesSet.getEntitat().getLogoWeb());
+                        if (isPublicContext()) {
+                            logoUrl = FileDownloadController.fileUrlPublic(signaturesSet.getEntitat().getLogoWeb());
+                        } else {
+                            logoUrl = FileDownloadController.fileUrl(signaturesSet.getEntitat().getLogoWeb());
+                        }
                     }
 
                     String text = PropietatGlobalUtil.getSignatureHeaderText(entitatID);
@@ -656,7 +663,7 @@ public class SignatureModuleController extends HttpServlet {
         PortaFIBSignaturesSet pss = getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
 
         if (pss == null) {
-            log.warn("NO Existeix signaturesSetID igual a " + signaturesSetID);
+            log_static.warn("NO Existeix signaturesSetID igual a " + signaturesSetID);
             return;
         }
 
@@ -676,21 +683,21 @@ public class SignatureModuleController extends HttpServlet {
             try {
                 signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(pluginID);
             } catch (I18NException e) {
-                log.error(I18NUtils.getMessage(e), e);
+                log_static.error(I18NUtils.getMessage(e), e);
             }
             if (signaturePlugin == null) {
-                log.error(I18NUtils.tradueix("plugin.signatureweb.noexist", String.valueOf(pluginID)));
+                log_static.error(I18NUtils.tradueix("plugin.signatureweb.noexist", String.valueOf(pluginID)));
             } else {
                 try {
                     signaturePlugin.closeSignaturesSet(request, signaturesSetID);
                 } catch (Exception e) {
-                    log.error("Error esborrant dades d'un SignaturesSet " + signaturesSetID + ": " + e.getMessage(), e);
+                    log_static.error("Error esborrant dades d'un SignaturesSet " + signaturesSetID + ": " + e.getMessage(), e);
                 }
             }
         }
         synchronized (portaFIBSignaturesSets) {
-            if (log.isDebugEnabled()) {
-                log.info("SignatureModuleController::closeSignaturesSet() " + "=> Esborrant signaturesSetID = "
+            if (log_static.isDebugEnabled()) {
+                log_static.info("SignatureModuleController::closeSignaturesSet() " + "=> Esborrant signaturesSetID = "
                         + signaturesSetID);
             }
             portaFIBSignaturesSets.remove(signaturesSetID);
@@ -752,9 +759,9 @@ public class SignatureModuleController extends HttpServlet {
             sss.setErrorException(th);
             sss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
             if (th == null) {
-                log.warn(msg);
+                log_static.warn(msg);
             } else {
-                log.warn(msg, th);
+                log_static.warn(msg, th);
             }
 
             urlFinal = pss.getUrlFinalOriginal();
@@ -791,7 +798,7 @@ public class SignatureModuleController extends HttpServlet {
                 for (Map.Entry<String, PortaFIBSignaturesSet> entry : portaFIBSignaturesSets.entrySet()) {
                     PortaFIBSignaturesSet ss = entry.getValue();
                     if (ss != null && now > ss.getExpiryDate().getTime()) {
-                        log.warn("Tancarem Signature SET amb ID = " + entry.getKey() + " a causa de que està caducat "
+                        log_static.warn("Tancarem Signature SET amb ID = " + entry.getKey() + " a causa de que està caducat "
                                 + "( ARA: " + sdf.format(new Date(now)) + " | CADUCITAT: "
                                 + sdf.format(ss.getExpiryDate()) + ")");
                         setsToDelete.add(ss);
@@ -836,17 +843,17 @@ public class SignatureModuleController extends HttpServlet {
         synchronized (portaFIBSignaturesSets) {
             if (portaFIBSignaturesSets.containsKey(signaturesSetID)) {
 
-                log.warn("startSignatureProcess(" + signaturesSetID + "): ALREADY CONTAINS KEY !!!!  ");
-                log.warn("startSignatureProcess(" + signaturesSetID + "): Algún procés anterior amb SignatureID="
+                log_static.warn("startSignatureProcess(" + signaturesSetID + "): ALREADY CONTAINS KEY !!!!  ");
+                log_static.warn("startSignatureProcess(" + signaturesSetID + "): Algún procés anterior amb SignatureID="
                         + signaturesSetID + " ja ha iniciat el procés de firma");
 
-                log.info("startSignatureProcess(" + signaturesSetID + "): Aplicació actual " + request.getRemoteUser());
+                log_static.info("startSignatureProcess(" + signaturesSetID + "): Aplicació actual " + request.getRemoteUser());
 
-                log.info("======  SIGNATURESet ANTIC ======");
-                log.info(toString(portaFIBSignaturesSets.get(signaturesSetID)));
+                log_static.info("======  SIGNATURESet ANTIC ======");
+                log_static.info(toString(portaFIBSignaturesSets.get(signaturesSetID)));
 
-                log.info("======  SIGNATURESet NOU ======");
-                log.info(toString(signaturesSet));
+                log_static.info("======  SIGNATURESet NOU ======");
+                log_static.info(toString(signaturesSet));
 
                 // Problema de Fitxer Buit retornat per plugin i warning "ALREADY CONTAINS KEY !!!!" #1081
                 // Sembla que s'intenta iniciar dues vegades el procés de firma amb el mateix ID {0}. Data: {1}
@@ -854,7 +861,7 @@ public class SignatureModuleController extends HttpServlet {
                         new I18NDateTimeFormat().format(new Date()));
 
             }
-            log.info("SignatureModuleController::startSignatureProcess(" + request.getRemoteUser() + ") "
+            log_static.info("SignatureModuleController::startSignatureProcess(" + request.getRemoteUser() + ") "
                     + "=> Afegint signaturesSetID=" + signaturesSetID);
             portaFIBSignaturesSets.put(signaturesSetID, signaturesSet);
         }
@@ -863,11 +870,11 @@ public class SignatureModuleController extends HttpServlet {
         String encodeURL = baseUrl + context + "/selectsignmodule/" + signaturesSetID;
         final String urlToSelectPluginPagePage = response.encodeURL(encodeURL);
 
-        if (log.isDebugEnabled()) {
-            log.info("baseUrl: " + baseUrl);
-            log.info("context: " + context);
-            log.info("encodeURL: " + encodeURL);
-            log.info("urlToSelectPluginPagePage: " + urlToSelectPluginPagePage);
+        if (log_static.isDebugEnabled()) {
+            log_static.info("baseUrl: " + baseUrl);
+            log_static.info("context: " + context);
+            log_static.info("encodeURL: " + encodeURL);
+            log_static.info("urlToSelectPluginPagePage: " + urlToSelectPluginPagePage);
         }
 
         ModelAndView mav = new ModelAndView(view);

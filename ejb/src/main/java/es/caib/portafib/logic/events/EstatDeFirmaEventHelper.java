@@ -44,7 +44,7 @@ public class EstatDeFirmaEventHelper {
                     + " PortafibUrlForExternalSignatures. Consulti amb l'administrador de PortaFIB.");
         }
 
-        final String urlToken = urlPortaFIB + ConstantsV2.CONTEXT_EXTERNALUSER_TOKEN + "/"
+        final String urlToken = urlPortaFIB + ConstantsV2.CONTEXT_EXTERNALUSER_TOKEN_PUBLIC + "/"
                 + firmaJPA.getUsuariExternToken();
 
         Locale locale = new Locale(firmaJPA.getUsuariExternIdioma());

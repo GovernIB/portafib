@@ -189,8 +189,23 @@ public interface ConstantsV2 {
 
     public static final String CONTEXT_ADEN_NOTIFICACIONSWS = "/aden/notificaciows";
 
-    public static final String CONTEXT_EXTERNALUSER_TOKEN = "/common/externaluser/token";
-    public static final String CONTEXT_EXTERNALUSER_ESTATDEFIRMA = "/common/externaluser/estatdefirma";
+    /** Aquest context s'ha de mantenir per compatibilitat amb les versions anteriors però no s'ha d'utilitzar en cap
+     *  lloc del codi ja que es va canviar el nom a CONTEXT_EXTERNALUSER_TOKEN_PUBLIC per temes de permisos 
+     *  del context web "common" 
+     * @deprecated See Constants.CONTEXT_EXTERNALUSER_TOKEN_PUBLIC
+     */
+    @Deprecated(since = "3.0.12", forRemoval = true)
+    public static final String CONTEXT_EXTERNALUSER_TOKEN = "/common/externaluser/token";    
+    public static final String CONTEXT_EXTERNALUSER_TOKEN_PUBLIC = "/public/externaluser/token";
+    
+    /** Aquest context s'ha de mantenir per compatibilitat amb les versions anteriors però no s'ha d'utilitzar en cap
+     *  lloc del codi ja que es va canviar el nom a CONTEXT_EXTERNALUSER_ESTATDEFIRMA_PUBLIC per temes de permisos 
+     *  del context web "common" 
+     * @deprecated See Constants.CONTEXT_EXTERNALUSER_ESTATDEFIRMA_PUBLIC
+     */
+    @Deprecated(since = "3.0.12", forRemoval = true)
+    public static final String CONTEXT_EXTERNALUSER_ESTATDEFIRMA = "/common/externaluser/estatdefirma";    
+    public static final String CONTEXT_EXTERNALUSER_ESTATDEFIRMA_PUBLIC = "/public/externaluser/estatdefirma";
 
     //==============================================================
     // ---   Operació de Firma - PORTAFIB v2.0 #164 -----

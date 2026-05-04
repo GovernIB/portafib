@@ -1,4 +1,4 @@
-package es.caib.portafib.back.controller.common.destinatariextern;
+package es.caib.portafib.back.controller.all.destinatariextern;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +16,10 @@ import es.caib.portafib.back.form.webdb.FluxDeFirmesForm;
  *
  */
 @Controller
-@RequestMapping(value = "/common/plantilla")
+@RequestMapping(value = { 
+        /**  TODO Passar-ho a constants i revisar JSP estatFirmaFullView.jsp */
+        "/common/plantilla",       
+"/public/plantilla" })
 @SessionAttributes(types = {  SeleccioUsuariForm.class, PlantillaDeFluxDeFirmesForm.class,
     FluxDeFirmesForm.class,  FluxDeFirmesFilterForm.class })
 public class DestinatariExternPlantillaDeFluxDeFirmesDestController extends PlantillaDeFluxDeFirmesController {

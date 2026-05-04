@@ -205,7 +205,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                     }
                     nifFirmant = info.getNifResponsable();
                     cifFirmant = info.getUnitatOrganitzativaNifCif();
-                    
+
                     numeroSerieCertificat = info.getNumeroSerie();
                     emissorCertificat = info.getEmissorOrganitzacio();
                     subjectCertificat = info.getSubject();
@@ -356,8 +356,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
         // (c) Verificar que el NIF del certificat correspon amb qui tenia que firmar
         //log.info(" internalValidateCompletaFirma()::"
         Boolean checkAdministrationIDOfSigner = null;
-        
-        
+
         if (validacioRequest.isComprovarNifFirma()) {
 
             if (validacioRequest.getNifPersonaEsperat() == null) {
@@ -376,10 +375,8 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
             } else {
 
-                
-                
-                if (nifFirmant == null ) {
-                     // XYZ ZZZ TRA
+                if (nifFirmant == null) {
+                    // XYZ ZZZ TRA
                     switch (validacioRequest.getSignTypeID()) {
 
                         case ConstantsV2.TIPUSFIRMA_PADES:
@@ -455,7 +452,6 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                         }
                     } catch (Exception ignored) {
                     }
-                    
 
                     if (numeroSerieCertificat == null) {
                         numeroSerieCertificat = certificateLastSign.getSerialNumber();
@@ -468,15 +464,6 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                     if (subjectCertificat == null) {
                         subjectCertificat = certificateLastSign.getSubjectDN().getName();
                     }
-                }
-
-                //if (log.isDebugEnabled())
-                // XYZ_DEBUG
-                {
-                    log.debug("ValidacioCompleta::nifFirmant: " + nifFirmant);
-                    log.debug("ValidacioCompleta::getNifPersonaEsperat(): " + validacioRequest.getNifPersonaEsperat());
-                    log.debug("ValidacioCompleta::cifFirmant: " + cifFirmant);
-                    log.debug("ValidacioCompleta::getNifEmpresaEsperat(): " + validacioRequest.getNifEmpresaEsperat());
                 }
 
                 final boolean doChecks;
@@ -622,17 +609,30 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
                 if (doChecks) {
 
-                    LogicUtils.checkExpectedNif(nifFirmant, validacioRequest.getNifPersonaEsperat(), cifFirmant);
-                    
-                    LogicUtils.checkExpectedCif(cifFirmant, validacioRequest.getNifEmpresaEsperat(), nifFirmant);
-                    
+                    try {
+
+                        if (!LogicUtils.checkExpectedNif(nifFirmant, validacioRequest.getNifPersonaEsperat(),
+                                cifFirmant, validacioRequest.getNifEmpresaEsperat())) {
+                            LogicUtils.checkExpectedCif(cifFirmant, validacioRequest.getNifEmpresaEsperat(),
+                                    nifFirmant);
+                        }
+
+                    } catch (I18NException e) {
+                        log.error("2.-ValidacioCompleta::nifFirmant: " + nifFirmant);
+                        log.error("2.-ValidacioCompleta::getNifPersonaEsperat(): "
+                                + validacioRequest.getNifPersonaEsperat());
+                        log.error("2.-ValidacioCompleta::cifFirmant: " + cifFirmant);
+                        log.error("2.-ValidacioCompleta::getNifEmpresaEsperat(): "
+                                + validacioRequest.getNifEmpresaEsperat());
+                        throw e;
+                    }
+
                     checkAdministrationIDOfSigner = true;
                 }
 
             }
 
         }
-        
 
         // Debug
         final boolean isDebug = log.isDebugEnabled();
@@ -646,7 +646,6 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
             log.debug("checkDocumentModifications: " + checkDocumentModifications);
             log.debug("checkValidationSignature: " + checkValidationSignature);
         }
-        
 
         //log.info("internalValidateCompletaFirma():: Resposta ...");
 
@@ -657,7 +656,6 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
         return resposta;
     }
-
 
     public static X509Certificate getLastCertificateOfSignedPdf(IPortaFIBDataSource signedPDFData, int numFirmaPortaFIB,
             int numFirmesOriginals) throws I18NException {

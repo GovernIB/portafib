@@ -85,7 +85,7 @@
                 data-url="<c:url value="${thecontext}/showsignaturemodule/${modul.pluginID}/${signaturesSetID}"/>">
                 <div style="display: ${not empty modul.iconaID?'flex':'block'}; align-items: center; text-align: ${not empty modul.iconaID?'left':'center'};">
                     <c:if test="${not empty modul.iconaID}">
-                        <img src="<c:url value="${pfi:fileUrl(modul.icona)}"/>" alt="Icona" style="max-height: 40px; margin-right: 10px;"/>
+                        <img src="<c:url value="${pfi:fileUrlPublic(modul.icona)}"/>" alt="Icona" style="max-height: 40px; margin-right: 10px;"/>
                     </c:if>
                     <div>
                         <b>${modul.nom.traduccions[lang].valor}</b><br>

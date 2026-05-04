@@ -1,6 +1,4 @@
 package es.caib.portafib.back.controller;
-
-import es.caib.portafib.back.controller.common.SignatureModuleController;
 import es.caib.portafib.back.controller.webdb.EstatDeFirmaController;
 import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
@@ -795,7 +793,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
         }
 
-        final String signaturesSetID = SignatureModuleController.generateUniqueSignaturesSetID();
+        final String signaturesSetID = AbstractSignatureModuleController.generateUniqueSignaturesSetID();
 
         CommonInfoSignature commonInfoSignature;
         {
@@ -812,7 +810,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         caducitat.add(Calendar.MINUTE, 9 + fileInfoFullArray.size());
 
         // {0} ==> es substituirà per l'ID del plugin de firma seleccionat per firmar
-        String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, getContextWeb());
+        String relativeControllerBase = AbstractSignatureModuleController.getRelativeControllerBase(request, getContextWeb());
 
         final String urlFinal = response.encodeURL(relativeControllerBase + "/finalFirma/" + signaturesSetID);
 
@@ -839,7 +837,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         }
 
         final String view = "PluginDeFirmaContenidor_" + getRole();
-        ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, response, view,
+        ModelAndView mav = AbstractSignatureModuleController.startPrivateSignatureProcess(request, response, view,
                 signaturesSet);
 
         // Només quan #peticions > 3 activar thread
@@ -1102,7 +1100,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
         EntitatJPA entitat = loginInfo.getEntitat();
 
-        final String signaturesSetID = SignatureModuleController.generateUniqueSignaturesSetID();
+        final String signaturesSetID = AbstractSignatureModuleController.generateUniqueSignaturesSetID();
 
         CommonInfoSignature commonInfoSignature;
         {
@@ -1138,12 +1136,15 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
         // XYZ ZZZ ZZZ
         ModelAndView mav;
+        
+        log.info("\n\n\n  USUARI INTERN[" + loginInfo.getUsuariPersona().getNif() + "] => " + loginInfo.getUsuariPersona().isUsuariIntern() + "  \n\n\n");
+        
         if (loginInfo.getUsuariPersona().isUsuariIntern()) {
             final String view = "PluginDeFirmaContenidor_AutoFirma";
-            mav = SignatureModuleController.startPrivateSignatureProcess(request, response, view, signaturesSet);
+            mav = AbstractSignatureModuleController.startPrivateSignatureProcess(request, response, view, signaturesSet);
         } else {
             final String view = "PluginDeFirmaContenidor_UsuariExtern";
-            mav = SignatureModuleController.startPublicSignatureProcess(request, response, view, signaturesSet);
+            mav = AbstractSignatureModuleController.startPublicSignatureProcess(request, response, view, signaturesSet);
         }
 
         return mav;
@@ -1195,13 +1196,13 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         // Ens asseguram que a la pàgina final sempre es mostren els missatges
         request.getSession().removeAttribute("keepMessages");
 
-        SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
+        AbstractSignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
 
         PortaFIBSignaturesSet ss;
         boolean administrationIdCanBeValidated;
         boolean willCanCheckIfSignedDocumentWasAlteredAfterSignature;
         {
-            PortaFIBSignaturesSet pss = SignatureModuleController.getPortaFIBSignaturesSet(request, signaturesSetID,
+            PortaFIBSignaturesSet pss = AbstractSignatureModuleController.getPortaFIBSignaturesSet(request, signaturesSetID,
                     modulDeFirmaEjb);
 
             administrationIdCanBeValidated = this.modulDeFirmaEjb
@@ -1254,7 +1255,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             HtmlUtils.saveMessageError(request, statusError.getErrorMsg());
         }
 
-        SignatureModuleController.closeSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
+        AbstractSignatureModuleController.closeSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
 
         ModelAndView mav = new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
         return mav;

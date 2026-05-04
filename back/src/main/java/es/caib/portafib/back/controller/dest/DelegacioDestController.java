@@ -49,8 +49,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import es.caib.portafib.back.controller.AbstractSignatureModuleController;
 import es.caib.portafib.back.controller.common.SearchJSONController;
-import es.caib.portafib.back.controller.common.SignatureModuleController;
 import es.caib.portafib.back.controller.webdb.ColaboracioDelegacioController;
 import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.dest.ColaboracioDelegacioDestForm;
@@ -1154,7 +1154,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         
         return SignatureModuleController.startPrivateSignatureProcess(request, response, view, signaturesSet);
         */
-        String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, getContextWeb());
+        String relativeControllerBase = AbstractSignatureModuleController.getRelativeControllerBase(request, getContextWeb());
         final String urlFirmaFinal = response.encodeURL(relativeControllerBase + "/finalFirma/" + delegacioID);
 
         return new ModelAndView(new RedirectView(urlFirmaFinal, false));

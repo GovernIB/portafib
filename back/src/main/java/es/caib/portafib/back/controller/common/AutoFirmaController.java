@@ -1,5 +1,6 @@
 package es.caib.portafib.back.controller.common;
 
+import es.caib.portafib.back.controller.AbstractSignatureModuleController;
 import es.caib.portafib.back.controller.admin.GestioEntitatAdminController;
 import es.caib.portafib.back.controller.webdb.FitxerController;
 import es.caib.portafib.back.form.AutoFirmaForm;
@@ -251,7 +252,7 @@ public class AutoFirmaController extends FitxerController implements PeticioDeFi
 
             // NOTA: per #549 el que feim es emprar l'identificador segur per la transacció
             // mentre que com a signId posam l'id del fitxer que estam signant per identificar-lo
-            final String signaturesSetID = SignatureModuleController.generateUniqueSignaturesSetID();
+            final String signaturesSetID = AbstractSignatureModuleController.generateUniqueSignaturesSetID();
             final String signId = String.valueOf(id);
 
             // Ve d'un camp d'Autofirma que indica si l'usuari vol Segellat de Temps
@@ -290,7 +291,7 @@ public class AutoFirmaController extends FitxerController implements PeticioDeFi
             Calendar caducitat = Calendar.getInstance();
             caducitat.add(Calendar.MINUTE, 10);
 
-            String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, CONTEXTWEB);
+            String relativeControllerBase = AbstractSignatureModuleController.getRelativeControllerBase(request, CONTEXTWEB);
             final String urlFinal = response.encodeURL(relativeControllerBase + "/final/" + signaturesSetID);
 
             final String baseUrl = Utils.getUrlBaseFromFullUrl(request, form.getBaseUrlFull());
@@ -310,7 +311,7 @@ public class AutoFirmaController extends FitxerController implements PeticioDeFi
             signaturesSet.getApplicationBySignatureID().put(fis.getSignID(), entitat.getUsuariAplicacioID());
 
             final String view = "PluginDeFirmaContenidor_AutoFirma";
-            ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, response, view,
+            ModelAndView mav = AbstractSignatureModuleController.startPrivateSignatureProcess(request, response, view,
                     signaturesSet);
 
             return mav;
@@ -339,7 +340,7 @@ public class AutoFirmaController extends FitxerController implements PeticioDeFi
     public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
             @PathVariable("signaturesSetID") String signaturesSetID) throws Exception {
 
-        SignaturesSetWeb ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
+        SignaturesSetWeb ss = AbstractSignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
         StatusSignaturesSet sss = ss.getStatusSignaturesSet();
         StatusSignaturesSet statusError = null;
         String idDescarrega = null;
@@ -411,7 +412,7 @@ public class AutoFirmaController extends FitxerController implements PeticioDeFi
             HtmlUtils.saveMessageError(request, statusError.getErrorMsg());
         }
 
-        SignatureModuleController.closeSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
+        AbstractSignatureModuleController.closeSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
 
         if (idDescarrega == null) {
             return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));

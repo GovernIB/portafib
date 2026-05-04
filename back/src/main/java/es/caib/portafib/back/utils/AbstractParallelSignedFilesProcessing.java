@@ -13,7 +13,7 @@ import org.fundaciobit.pluginsib.signature.api.StatusSignature;
 import org.fundaciobit.pluginsib.signature.api.StatusSignaturesSet;
 import org.fundaciobit.pluginsib.signatureweb.api.SignaturesSetWeb;
 
-import es.caib.portafib.back.controller.common.SignatureModuleController;
+import es.caib.portafib.back.controller.AbstractSignatureModuleController;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 
 /**
@@ -64,7 +64,7 @@ public abstract class AbstractParallelSignedFilesProcessing extends Thread {
             }
 
             SignaturesSetWeb ss;
-            ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
+            ss = AbstractSignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
 
             if (ss == null) {
                 return;

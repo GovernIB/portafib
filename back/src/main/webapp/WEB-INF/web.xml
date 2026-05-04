@@ -31,7 +31,7 @@
     
   <servlet>
     <servlet-name>PluginCommonSignWebRequests</servlet-name>
-    <servlet-class>es.caib.portafib.back.controller.common.SignatureModuleController</servlet-class>
+    <servlet-class>es.caib.portafib.back.controller.common.SignatureModuleControllerPrivate</servlet-class>
   </servlet>
 
   <servlet-mapping>
@@ -43,7 +43,7 @@
   
   <servlet>
     <servlet-name>PluginPublicSignWebRequests</servlet-name>
-    <servlet-class>es.caib.portafib.back.controller.common.SignatureModuleControllerPublic</servlet-class>
+    <servlet-class>es.caib.portafib.back.controller.all.SignatureModuleControllerPublic</servlet-class>
   </servlet>
 
   <servlet-mapping>
@@ -168,9 +168,13 @@
             <!-- GENERADOR DE SEGELLAT DE TEMPS PER FIRMA EN SERVIDOR -->
             <url-pattern>/common/timestampgenerator/*</url-pattern>
             <!-- Usuaris Externs: Login per TOKEN -->
+            <!-- 
             <url-pattern>/common/externaluser/*</url-pattern>
             <url-pattern>/common/plantilla/viewonlyflux/*</url-pattern>
+            
+            URL's a Imatges de Plugins de la selecció de plugin que siguin d'accés públic. #1153
             <url-pattern>/common/arxiu/*</url-pattern>
+             -->
             <!--  REST Autenticació per Codi -->
             <url-pattern>/common/json/usuarientitatrevisor</url-pattern>
             <url-pattern>/common/json/usuarientitatrevisorall</url-pattern>

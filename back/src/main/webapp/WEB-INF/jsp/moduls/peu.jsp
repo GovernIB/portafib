@@ -72,7 +72,7 @@
 			<c:if test="${not empty loginInfo.entitatID}">
 				<a href="<c:out value="${loginInfo.entitat.web}" />" target="_blank">
 					<img
-					src="<c:url value="${pfi:fileUrl(loginInfo.entitat.logoWebPeu)}"/>"
+					src="<c:url value="${pfi:fileUrlPublic(loginInfo.entitat.logoWebPeu)}"/>"
 					alt="${loginInfo.entitat.nom }" />
 				</a>
 			</c:if>

@@ -7,7 +7,7 @@
 <!--  INICI MENU -->
 <div class="row">
 <div class="mainMenu col-5">
-
+<%-- TODO ${rolecontext}/plantilla s'ha de sustituir per URL desde Controller  --%>
   <iframe scrolling="auto"
     src="<c:url value="/${rolecontext}/plantilla/viewonlyflux/${peticioDeFirma.fluxDeFirmesID}?readOnly=true"/>"
     style="width: 100%; height: 375px;"> </iframe>
@@ -49,7 +49,7 @@
                   onclick="goTo('<c:url value="${contexte}/acceptar/${estatID}/${peticioID}"/>')"> <i
                   class="far fa-check-square"></i> <fmt:message key="revisor.acceptar" /> </a> &nbsp;&nbsp; 
                 </c:if>
-                <c:if test="${ rolecontext eq 'dest' || rolecontext eq 'dele' || rolecontext eq 'common' }" >
+                <c:if test="${ rolecontext eq 'dest' || rolecontext eq 'dele' || rolecontext eq 'common' || rolecontext eq 'public' }" >
                   <a class="btn btn-success" href="#"
                   onclick="firmar('<c:url value="${contexte}/firmar/${estatID}/${peticioID}"/>')"> <i
                   class="fas fa-file-signature"></i> <fmt:message key="firmar" /> </a> &nbsp;&nbsp; 

@@ -25,7 +25,7 @@
 </c:if>
 
 <c:if test="${not empty loginInfo.entitatID}">
-	<link href="<c:url value="${pfi:fileUrl(loginInfo.entitat.favicon)}"/>"
+	<link href="<c:url value="${pfi:fileUrlPublic(loginInfo.entitat.favicon)}"/>"
 		rel="shortcut icon" type="image/x-icon" />
 </c:if>
 
