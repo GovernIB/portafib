@@ -291,25 +291,18 @@ public class PassarelaDeFirmaController {
     public final void afegirEstadistiques(PassarelaSignaturesSetWebInternalUse ssf) {
 
         try {
-            
+
             int val1 = ssf.getPeticioFirmaBySignID().size();
-            //int val2 = ssf.getSignaturesSet().getFileInfoSignatureArray().length;
-         // XYZ DEBUG
-            log.info("\n\n ESTADISTIQUES TOTAL => ssf.getPeticioFirmaBySignID().size() : " + val1);
-            //log.info(" ssf.getSignaturesSet().getFileInfoSignatureArray().length => " + val2 + "\n\n");
-            
 
             Collection<PeticioDeFirmaJPA> firmes = ssf.getPeticioFirmaBySignID().values();
-            
-            
 
-            // XYZ DEBUG
-
+            /*
             for (PeticioDeFirmaJPA peticiodeFirma : firmes) {
-
+            
                 log.info("\n\n ESTADISTIQUES: Origen " + peticiodeFirma.getOrigenPeticioDeFirma() + " i applicationID "
                         + ssf.getApplicationID());
             }
+            */
 
             final int globalStatus = ssf.getStatus();
             final int totalfirmes = val1;
@@ -354,7 +347,6 @@ public class PassarelaDeFirmaController {
 
                         }
                     }
-                    
 
                 break;
 
@@ -369,7 +361,8 @@ public class PassarelaDeFirmaController {
             String entitatID = ssf.getEntitatID();
             String applicationID = ssf.getApplicationID();
 
-            estadisticaLogicaEjb.createEstadistica(origen, entitatID, applicationID, suma_ok, suma_cancelled, suma_error);
+            estadisticaLogicaEjb.createEstadistica(origen, entitatID, applicationID, suma_ok, suma_cancelled,
+                    suma_error);
 
         } catch (Throwable th) {
             log.error("Error afegint estadístiques de la petició de firma: " + th.getMessage(), th);

@@ -15,8 +15,6 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
-import org.fundaciobit.genapp.common.i18n.I18NException;
-
 /**
  * 
  * @author anadal(u80067)
@@ -24,14 +22,6 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
  */
 @Stateless(name = "EstadisticaLogicaEJB")
 public class EstadisticaLogicaEJB extends EstadisticaEJB implements EstadisticaLogicaLocal {
-
-    @Override
-    @PermitAll
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW) // (2) Força una nova transacció
-    @Deprecated // XYZ DEBUG: Aquest metode no s´hauria d´utilitzar, ja que no es pot controlar qui el crida, i per tant es poden crear estadistiques sense permisos, o amb dades incorrectes, etc. S´hauria d´utilitzar només per casos molt concrets, i sempre controlant qui el crida, per exemple des de un altre metode de aquesta classe que si controli els permisos i les dades.
-    public Estadistica createUnauthorized(Estadistica estadistica) throws I18NException {
-        return super.create(estadistica);
-    }
 
     /**
      * Crea una estadistica, si no es pot crear por algun error, se devuelve null, pero no se lanza ninguna excepcion, para no afectar al funcionamiento del sistema
@@ -220,7 +210,6 @@ public class EstadisticaLogicaEJB extends EstadisticaEJB implements EstadisticaL
             case ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
             case ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
 
-            // XYZ DEBUG
             // XYZ ZZZ TODO: FALTEN ESTADISTIQUES D'AQUEST PROCES DE FIRMA, CALDRIA AFEGIR-LES
             break;
 

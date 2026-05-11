@@ -1,6 +1,5 @@
 package es.caib.portafib.back.controller;
 
-
 import es.caib.portafib.back.security.LoginException;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
@@ -62,7 +61,7 @@ import java.util.Set;
 public abstract class AbstractSignatureModuleController extends HttpServlet {
 
     protected static Logger log_static = Logger.getLogger(AbstractSignatureModuleController.class);
-    
+
     protected Logger log = Logger.getLogger(this.getClass());
 
     @EJB(mappedName = ModulDeFirmaWebPublicLogicaLocal.JNDI_NAME)
@@ -71,10 +70,8 @@ public abstract class AbstractSignatureModuleController extends HttpServlet {
     public static final String PRIVATE_CONTEXTWEB = "/common/signmodule";
 
     public static final String PUBLIC_CONTEXTWEB = "/public/signmodule";
-    
-    
+
     public abstract boolean isPublicContext();
-    
 
     @RequestMapping(value = "/selectsignmodule/{signaturesSetID}")
     public ModelAndView selectSignModules(HttpServletRequest request, HttpServletResponse response,
@@ -219,17 +216,16 @@ public abstract class AbstractSignatureModuleController extends HttpServlet {
         if (lang == null) {
             lang = Configuracio.getDefaultLanguage();
         }
-        
+
         // No s'aplica el camp ordre en la presentació dels mòduls de firma #1104
         Collections.sort(modulsFiltered, new Comparator<PluginJPA>() {
             @Override
             public int compare(PluginJPA o1, PluginJPA o2) {
-                int ordre1= o1.getOrdre() == null ? 0 : o1.getOrdre();
-                int ordre2= o2.getOrdre() == null ? 0 : o2.getOrdre();
+                int ordre1 = o1.getOrdre() == null ? 0 : o1.getOrdre();
+                int ordre2 = o2.getOrdre() == null ? 0 : o2.getOrdre();
                 return ordre1 - ordre2;
             }
-        }  );
-        
+        });
 
         ModelAndView mav = new ModelAndView("PluginFirmaSeleccio");
         mav.addObject("signaturesSetID", signaturesSetID);
@@ -253,9 +249,6 @@ public abstract class AbstractSignatureModuleController extends HttpServlet {
             if (headerEnabled) {
 
                 final String url = signaturesSet.getUrlFinal();
-
-                // XYZ DEBUG
-                log.info("\n\n" + "XYZ ZZZ url FINAL FIRMA ASYNC => " + url);
 
                 /** No ho mostram dins de POrtaFIB, només quan ens criden des de l'API */
                 if (url.indexOf(ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT) == -1
@@ -351,10 +344,6 @@ public abstract class AbstractSignatureModuleController extends HttpServlet {
         mav.addObject("URL_FINAL", urlFinal);
         mav.addObject("window", pss.isRedirectToParentWindow() ? "window.top" : "window");
 
-        
-        // XYZ DEBUG
-        log.info("\n\n finalProcesDeFirma(): FINAL : " + urlFinal + "\n\n");
-
         return mav;
 
     }
@@ -367,9 +356,6 @@ public abstract class AbstractSignatureModuleController extends HttpServlet {
         ModelAndView mav = new ModelAndView("PluginFirmaFinal");
         mav.addObject("URL_FINAL", urlFinal);
         mav.addObject("window", "window.top");
-        
-     // XYZ DEBUG
-        log.info("\n\n errorProcesDeFirma(): ERROR : " + urlFinal + "\n\n");
 
         return mav;
     }
@@ -406,10 +392,6 @@ public abstract class AbstractSignatureModuleController extends HttpServlet {
 
         mav.addObject("URL_FINAL", redireccio); // 
         mav.addObject("window", (pss == null || pss.isRedirectToParentWindow()) ? "window.top" : "window");
-        
-        
-        // XYZ DEBUG
-        log.info("\n\n cancelSignatureSelection(): CANCEL : " + redireccio + "\n\n");
 
         return mav;
 
@@ -450,8 +432,9 @@ public abstract class AbstractSignatureModuleController extends HttpServlet {
             if (signaturesSet.getStartDate() != null) {
                 //Utils.printRequestInfo(request);
                 String msgBase = "Algú ja ha accedit a aquesta url amb transacció ID igual " + signaturesSetID;
-                String msgLog = "SIGNATUREMODULECONTROLLER:: " + msgBase + ". Revisi de no obrir més d'una vegada aquesta url " + request.getRequestURL() 
-                        + " (usrapp = " + signaturesSet.getUsr() + " | NIF = "
+                String msgLog = "SIGNATUREMODULECONTROLLER:: " + msgBase
+                        + ". Revisi de no obrir més d'una vegada aquesta url " + request.getRequestURL() + " (usrapp = "
+                        + signaturesSet.getUsr() + " | NIF = "
                         + signaturesSet.getCommonInfoSignature().getAdministrationID() + ")";
                 log.error(msgLog);
                 String msgError = msgBase + ". Si us plau torni a intentar la signatura.";
@@ -701,7 +684,8 @@ public abstract class AbstractSignatureModuleController extends HttpServlet {
                 try {
                     signaturePlugin.closeSignaturesSet(request, signaturesSetID);
                 } catch (Exception e) {
-                    log_static.error("Error esborrant dades d'un SignaturesSet " + signaturesSetID + ": " + e.getMessage(), e);
+                    log_static.error(
+                            "Error esborrant dades d'un SignaturesSet " + signaturesSetID + ": " + e.getMessage(), e);
                 }
             }
         }
@@ -808,9 +792,9 @@ public abstract class AbstractSignatureModuleController extends HttpServlet {
                 for (Map.Entry<String, PortaFIBSignaturesSet> entry : portaFIBSignaturesSets.entrySet()) {
                     PortaFIBSignaturesSet ss = entry.getValue();
                     if (ss != null && now > ss.getExpiryDate().getTime()) {
-                        log_static.warn("Tancarem Signature SET amb ID = " + entry.getKey() + " a causa de que està caducat "
-                                + "( ARA: " + sdf.format(new Date(now)) + " | CADUCITAT: "
-                                + sdf.format(ss.getExpiryDate()) + ")");
+                        log_static.warn("Tancarem Signature SET amb ID = " + entry.getKey()
+                                + " a causa de que està caducat " + "( ARA: " + sdf.format(new Date(now))
+                                + " | CADUCITAT: " + sdf.format(ss.getExpiryDate()) + ")");
                         setsToDelete.add(ss);
                     }
                 }
@@ -857,7 +841,8 @@ public abstract class AbstractSignatureModuleController extends HttpServlet {
                 log_static.warn("startSignatureProcess(" + signaturesSetID + "): Algún procés anterior amb SignatureID="
                         + signaturesSetID + " ja ha iniciat el procés de firma");
 
-                log_static.info("startSignatureProcess(" + signaturesSetID + "): Aplicació actual " + request.getRemoteUser());
+                log_static.info(
+                        "startSignatureProcess(" + signaturesSetID + "): Aplicació actual " + request.getRemoteUser());
 
                 log_static.info("======  SIGNATURESet ANTIC ======");
                 log_static.info(toString(portaFIBSignaturesSets.get(signaturesSetID)));

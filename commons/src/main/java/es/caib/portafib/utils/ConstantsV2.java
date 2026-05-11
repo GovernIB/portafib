@@ -317,14 +317,12 @@ public interface ConstantsV2 {
     public static final int ESTADISTICA_TIPUS_APIFIRMASIMPLE_UPGRADE_OK = 15;
     public static final int ESTADISTICA_TIPUS_APIFIRMASIMPLE_UPGRADE_ERROR = -15;
 
-    // TODO XYZ DEBUG Falta afegir estadistica d'aquest cas
     public static final int ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_CREADA = 20;
     public static final int ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_OK = 21;
     // Nota: un valor més gran que 100 significa CANCEL·LADA
     public static final int ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_CANCEL = 121;
     public static final int ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_ERROR = -21;
 
-    // TODO XYZ DEBUG Falta afegir estadistica d'aquest cas
     public static final int ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_CREADA = 30;
     public static final int ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_OK = 31;
     // Nota: un valor més gran que 100 significa CANCEL·LADA
@@ -347,7 +345,6 @@ public interface ConstantsV2 {
     public static final int ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_INVALID = 147;
     public static final int ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_ERROR = -47;
 
-    // TODO XYZ DEBUG Falta afegir estadistica d'aquest cas
     public static final int ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_CREADA = 50;
     public static final int ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_OK = 51;
     // Nota: un valor més gran que 100 significa CANCEL·LADA
@@ -359,7 +356,6 @@ public interface ConstantsV2 {
     // Nota: un valor més gran que 100 significa CANCEL·LADA
     public static final int ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_CANCEL = 161;
     public static final int ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_ERROR = -61;
-    
     public static final int ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_FIRMA = 62;
     
 

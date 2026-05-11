@@ -275,13 +275,14 @@ public abstract class AbstractEstadisticaGraficaAdenController implements Consta
 
         }
 
-        // XYZ DEBUG
+        /*
         log.info("TipusOK by grup: " + tipusOkByGrup.stream().map(String::valueOf) // Converteix cada Integer a String
                 .collect(Collectors.joining(", ")));
         log.info("TipusError by grup: " + tipusErrorByGrup.stream().map(String::valueOf) // Converteix cada Integer a String
                 .collect(Collectors.joining(", ")));
         log.info("TipusCancel by grup: " + tipusCancelByGrup.stream().map(String::valueOf) // Converteix cada Integer a String
                 .collect(Collectors.joining(", ")));
+                */
 
         final String[] labelsX;
         final String[] valuesCreate;
@@ -585,11 +586,12 @@ public abstract class AbstractEstadisticaGraficaAdenController implements Consta
             List<Integer> totesLesEstadistiques) throws I18NException {
 
         // Imprimier al log les variables d'entrada
-        // XYZ DEBUG
+        /*
         log.info("getUsuarisAplicacio - entitatID: " + entitatID);
         log.info("getUsuarisAplicacio - rangInicial: " + rangInicial);
         log.info("getUsuarisAplicacio - rangFinal: " + rangFinal);
         log.info("getUsuarisAplicacio - totesLesEstadistiques: " + Arrays.toString(totesLesEstadistiques.toArray()));
+        */
 
         List<String> usuaris = estadisticaEjb.executeQuery(
                 new SelectDistinct<String>(EstadisticaFields.USUARIAPLICACIOID),
