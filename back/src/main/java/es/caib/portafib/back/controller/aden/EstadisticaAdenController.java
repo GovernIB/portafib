@@ -13,6 +13,8 @@ import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.GroupByItem;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.exportdata.DataExporterManager;
@@ -37,6 +39,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -45,6 +48,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -222,13 +226,19 @@ public class EstadisticaAdenController extends EstadisticaController {
         if (filterForm.getExporter() == null && !allDataExporters.isEmpty()) {
             filterForm.setExporter(allDataExporters.get(0).getID());
         }
+        
+        
+        mav.addObject("listOfValuesForTipus", getReferenceListForTipus(request, mav, null));
+        
+        
 
         return filterForm;
     }
 
     @RequestMapping(value = "/canvipersonaaplicacio/{isAplicacio}", method = RequestMethod.GET)
     public String canvipersonaaplicacio(HttpServletRequest request, HttpServletResponse response,
-            @PathVariable("isAplicacio") java.lang.Boolean isAplicacio) throws Exception, I18NException {
+            @PathVariable("isAplicacio")
+            java.lang.Boolean isAplicacio) throws Exception, I18NException {
 
         setEstadistiquesPerUsrApp(request, isAplicacio);
         return "redirect:" + getContextWeb() + "/list/";
@@ -342,8 +352,8 @@ public class EstadisticaAdenController extends EstadisticaController {
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public String search(HttpServletRequest request, HttpServletResponse response,
-            @ModelAttribute EstadisticaFilterForm filterForm) throws I18NException {
+    public String search(HttpServletRequest request, HttpServletResponse response, @ModelAttribute
+    EstadisticaFilterForm filterForm) throws I18NException {
         setEstadistiquesPerUsrApp(request, ((EstadisticaAdenFilterForm) filterForm).getAplicacio());
         return "redirect:" + getContextWeb() + "/search";
     }
@@ -358,8 +368,9 @@ public class EstadisticaAdenController extends EstadisticaController {
 
     @Override
     @RequestMapping(value = "/export/{dataExporterID}", method = RequestMethod.POST)
-    public void exportList(@PathVariable("dataExporterID") String dataExporterID, HttpServletRequest request,
-            HttpServletResponse response, EstadisticaFilterForm filterForm) throws Exception, I18NException {
+    public void exportList(@PathVariable("dataExporterID")
+    String dataExporterID, HttpServletRequest request, HttpServletResponse response, EstadisticaFilterForm filterForm)
+            throws Exception, I18NException {
 
         setEstadistiquesPerUsrApp(request, ((EstadisticaAdenFilterForm) filterForm).getAplicacio());
 
@@ -489,17 +500,43 @@ public class EstadisticaAdenController extends EstadisticaController {
     }
 
     @Override
+    public List<StringKeyValue> getReferenceListForTipus(HttpServletRequest request, ModelAndView mav,
+            EstadisticaForm estadisticaForm, Where where) throws I18NException {
+
+        return getReferenceListForTipus(request, mav, where);
+    }
+
+    @Override
+    public List<StringKeyValue> getReferenceListForTipus(HttpServletRequest request, ModelAndView mav,
+            EstadisticaFilterForm estadisticaFilterForm, List<Estadistica> list,
+            Map<Field<?>, GroupByItem> _groupByItemsMap, Where where) throws I18NException {
+
+        return getReferenceListForTipus(request, mav, where);
+    }
+
+    @Override
     public List<StringKeyValue> getReferenceListForTipus(HttpServletRequest request, ModelAndView mav, Where where)
             throws I18NException {
+        
 
         List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
 
-        final int[] tipus = { ConstantsV2.ESTADISTICA_TIPUS_PETICIO_INICI, ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FINAL,
-                ConstantsV2.ESTADISTICA_TIPUS_PETICIO_REBUTJADA, ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FIRMES };
+        final List<Integer> tipus1 = List.of(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_INICI, ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FINAL,
+                ConstantsV2.ESTADISTICA_TIPUS_PETICIO_REBUTJADA, ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FIRMA_REALITZADA,
+                ConstantsV2.ESTADISTICA_TIPUS_PASSARELA_FIRMA_SERVIDOR,
+                ConstantsV2.ESTADISTICA_TIPUS_PASSARELA_FIRMA_WEB);
+        
+        List<Integer> tipus = new ArrayList<Integer>();
+        
+        tipus.addAll(tipus1);
+        tipus.addAll(Arrays.stream(ConstantsV2.ESTADISTICA_TIPUS)
+                .boxed() // Converteix de IntStream a Stream<Integer>
+                .collect(Collectors.toList()));
+        
 
-        for (int i = 0; i < tipus.length; i++) {
-            __tmp.add(new StringKeyValue(String.valueOf(tipus[i]),
-                    I18NUtils.tradueix("estadistica.peticiofirma." + tipus[i])));
+        for (int i : tipus) {
+            __tmp.add(new StringKeyValue(String.valueOf(i),
+                    I18NUtils.tradueix("estadistica.peticiofirma." + i)));
         }
 
         return __tmp;

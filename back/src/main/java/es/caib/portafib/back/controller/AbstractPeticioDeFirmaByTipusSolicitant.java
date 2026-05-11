@@ -1309,6 +1309,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
             break;
 
             case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+            case ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_ASYNC_V1:
                 peticioDeFirmaForm.addReadOnlyField(SOLICITANTUSUARIAPLICACIOID);
 
                 if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() != ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
@@ -1380,6 +1381,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
 
             case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
             case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+            case ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_ASYNC_V1:
                 UsuariAplicacio ua = this.usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID);
 
                 // Per usuaris aplicacio tipus Indra només mostram els tipus negatius
@@ -1557,7 +1559,8 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
                 }
                 {
                     final int[] estatsFirmaAsyncPerApp = { ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1,
-                            ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2 };
+                            ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2, 
+                            ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_ASYNC_V1};
 
                     List<StringKeyValue> origens = new ArrayList<StringKeyValue>();
                     for (int i = 0; i < estatsFirmaAsyncPerApp.length; i++) {
@@ -1616,6 +1619,11 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
                         mapSoli.put(key, "<small><b>ASYNC_SIMPLE_V2:</b> "
                                 + mapApp.get(peticio.getSolicitantUsuariAplicacioID()) + "</small>");
                     break;
+                    
+                    case ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_ASYNC_V1:
+                        mapSoli.put(key, "<small><b>SWAGGER_ASYNC_V2:</b> "
+                                + mapApp.get(peticio.getSolicitantUsuariAplicacioID()) + "</small>");
+                        break;
 
                     default:
                         // XYZ ZZZ TRA
@@ -2190,7 +2198,9 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
             break;
 
             case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_SIMPLE_WEB_V1:
+            case ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_SYNC_V1:
             case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+            case ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_ASYNC_V1:
                 // Requereixen CONFIGURACIO DE FIRMA
                 if (peticioDeFirmaForm.getPeticioDeFirma().getConfiguracioDeFirmaID() == null) {
                     result.rejectValue(get(CONFIGURACIODEFIRMAID), "genapp.validation.required",

@@ -30,6 +30,7 @@ import es.caib.portafib.api.interna.secure.signature.v1.commons.Document;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.logic.PluginValidacioFirmesLogicaLocal;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
+import es.caib.portafib.logic.PluginValidacioFirmesLogicaEJB.GrupEstadisticaValidacio;
 import es.caib.portafib.logic.signatures.SignType;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.datasource.ByteArrayDataSource;
@@ -157,8 +158,8 @@ public class SignatureValidationService extends RestUtils {
 
         languageUI = checkLanguage(languageUI);
         try {
-            String username = request.getUserPrincipal().getName();
-            log.info("ApiInterna::validateSignatureRequest(USR: " + username + ") ...");
+            String usuariAplicacioID = request.getUserPrincipal().getName();
+            log.info("ApiInterna::validateSignatureRequest(USR: " + usuariAplicacioID + ") ...");
 
             //vsr.setSignatureData(signature);
             //vsr.setSignedDocumentData(detached);
@@ -171,15 +172,17 @@ public class SignatureValidationService extends RestUtils {
                 detached = new ByteArrayDataSource(validateSignatureRequest.getDetachedDocument().getData());
             }
 
-            String entitatID = getEntitatId(username, languageUI);
+            String entitatID = getEntitatId(usuariAplicacioID, languageUI);
 
             String signType = SignType.fromFile(signatureDocument.getName(), signatureDocument.getMime()).typeName();
 
             log.info("ApiInterna::validateSignatureRequest(entitatID=" + entitatID + ", signType=" + signType + ", languageUI="
-                    + languageUI + ", Username=" + username);
+                    + languageUI + ", Username=" + usuariAplicacioID);
 
             org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureResponse response;
-            response = validacioFirmesEjb.validateSignature(entitatID, signType, signature, detached, languageUI);
+            response = validacioFirmesEjb.validateSignature(entitatID, usuariAplicacioID,
+                    GrupEstadisticaValidacio.ESTADISTICA_GRUP_APISWAGGER_VALIDATEV1, signType, signature,
+                    detached, languageUI);
 
             // TODO FALTA CODI !!!!
             List<SignatureDetailInfo> signDetailList = null;

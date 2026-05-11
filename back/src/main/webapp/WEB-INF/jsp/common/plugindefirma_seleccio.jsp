@@ -99,7 +99,7 @@
         
         <%-- Boto de Cancel·lar en gris --%>
         <br/>
-        <button type="button" class="btn btn-block btn-secondary" style="white-space: normal;"
+        <button type="button" class="btn btn-block btn-secondary plugin-btn" style="white-space: normal;"
             onclick="location.href='<c:url value="${thecontext}/cancelSignatureSelection/${signaturesSetID}"/>'">
             <b><fmt:message key="genapp.cancel" /></b>
         </button>

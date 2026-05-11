@@ -23,7 +23,6 @@
   </properties>
 
   <dependencies>
-
     <dependency>
       <artifactId>apifirmaasyncsimple-jersey</artifactId>
       <groupId>org.fundaciobit.apisib.apifirmaasyncsimple</groupId>

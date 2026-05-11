@@ -26,7 +26,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/aden/bitacola")
 @SessionAttributes(types = { BitacolaForm.class, BitacolaFilterForm.class })
-@MenuOption(group = Tab.MENU_ADEN, labelCode = "bitacola.menu", order = 250)
+@MenuOption(group = Tab.MENU_ADEN, labelCode = "bitacola.menu", addSeparatorBefore = true, order = 250)
 public class BitacolaAdenController extends AbstractBitacolaAdenController {
 
     private static final String OBJECTEID_REQUEST_ATTRIBUTE = "BitacolaAdenController.objecteid";

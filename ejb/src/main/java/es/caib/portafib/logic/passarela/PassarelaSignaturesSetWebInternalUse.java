@@ -49,7 +49,17 @@ public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStat
     protected Date startDate = null;
 
     /**
+     * 
+     * @param entitatID
+     * @param originalNumberOfSignsArray
+     * @param fullView
      * @param signaturesSet
+     * @param applicationID
+     * @param baseUrl
+     * @param perfilDeFirma
+     * @param configBySignID
+     * @param custodiaBySignID
+     * @param peticioFirmaBySignID
      */
     public PassarelaSignaturesSetWebInternalUse(String entitatID, int[] originalNumberOfSignsArray, boolean fullView,
             PassarelaSignaturesSet signaturesSet, String applicationID, String baseUrl, PerfilDeFirma perfilDeFirma,

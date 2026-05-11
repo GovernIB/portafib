@@ -64,25 +64,25 @@ public class ApiFirmaEnServidorSimpleTester {
 
             ApiFirmaEnServidorSimpleTester tester = new ApiFirmaEnServidorSimpleTester();
 
-            //tester.testGetAvailableProfiles();
+            tester.testGetAvailableProfiles();
 
             tester.testSignatureServerPAdES();
 
-            //tester.testSignatureServerCAdES();
+            tester.testSignatureServerCAdES();
 
-            // tester.testSignatureServerXAdESBinary();
+            tester.testSignatureServerXAdESBinary();
 
-            //tester.testSignatureServerXAdESXml();
+            tester.testSignatureServerXAdESXml();
 
-            //tester.testSignatureServerPAdESXAdESCAdES();
+            tester.testSignatureServerPAdESXAdESCAdES();
 
-            //tester.testUpgradeSignaturePAdES();
+            tester.testUpgradeSignaturePAdES();
 
-            //tester.testUpgradeSignatureXAdESOfBinary();
+            tester.testUpgradeSignatureXAdESOfBinary();
 
-            //tester.testUpgradeSignatureXAdESOfXML();
+            tester.testUpgradeSignatureXAdESOfXML();
 
-            //tester.testUpgradeSignatureCAdES();
+            tester.testUpgradeSignatureCAdES();
 
         } catch (NoAvailablePluginException nape) {
 

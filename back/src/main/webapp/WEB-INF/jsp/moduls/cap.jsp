@@ -17,7 +17,7 @@
         int blue = Integer.parseInt(backGroundColorHex.substring(5, 7), 16)/2;
 
         // Ensambla el nuevo color hexadecimal
-        backGroundColorHexStyle =  "style=\"background-color:" + String.format("#%02X%02X%02X", red, green, blue) + "\";";
+        backGroundColorHexStyle =  "style=\"background-color:" + String.format("#%02X%02X%02X", red, green, blue) + ";\"";
         backGroundColorHex= "background-color:" + backGroundColorHex + " !important;";
     }%>
 <header>

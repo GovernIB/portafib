@@ -3,7 +3,6 @@ package es.caib.portafib.logic.passarela;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.EstadisticaService;
 import es.caib.portafib.persistence.EntitatJPA;
-import es.caib.portafib.persistence.EstadisticaJPA;
 import es.caib.portafib.persistence.PluginJPA;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
@@ -59,14 +58,12 @@ import javax.ejb.Stateless;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
 /**
@@ -257,7 +254,7 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
                     try {
                         final boolean validateChangesInAttachedFiles = true;
                         validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(signaturesSetID,
-                                validacioRequest, validateChangesInAttachedFiles);
+                                validacioRequest, validateChangesInAttachedFiles, usrApp.getUsuariAplicacioID());
 
                         if (isDebug) {
                             log.info("n\n validacioResponse[" + pfis.getSignID() + "] => " + validacioResponse);
@@ -309,10 +306,15 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
                     }
                 }
                 if (signaturesValides > 0) {
+                    
+                    // Noves entrades a la taula d'estadístiques per retornar informació a COMANDA #1162
+                    /*
+                    
+                    
                     try {
                         EstadisticaJPA est = new EstadisticaJPA();
                         est.setValor((double) signaturesValides);
-                        est.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FIRMES);
+                        est.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PASSARELA_FIRMA_SERVIDOR);
                         est.setUsuariAplicacioID(usrApp.getUsuariAplicacioID());
 
                         {
@@ -336,6 +338,7 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
                     } catch (Throwable th) {
                         log.error("Error afegint estadistiques de Peticio Finalitzada: " + th.getMessage(), th);
                     }
+                    */
                 }
             }
 
@@ -531,7 +534,7 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
         try {
             final boolean validateChangesInAttachedFiles = true;
             validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma("upgradeSignature", validacioRequest,
-                    validateChangesInAttachedFiles);
+                    validateChangesInAttachedFiles, usrApp.getUsuariAplicacioID());
         } catch (ValidacioException e) {
             throw new I18NException("genapp.comodi", e.getMessage());
         }

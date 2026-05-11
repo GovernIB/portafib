@@ -130,13 +130,13 @@ public class ApiFirmaWebSimpleTester {
             String redirectUrl = api.startTransaction(startTransactionInfo);
 
             System.out.println("RedirectUrl = " + redirectUrl);
-/*
+
             if (Desktop.isDesktopSupported()) {
                 Desktop.getDesktop().browse(new URI(redirectUrl));
             } else {
                 System.out.println("Per favor obri un Navegador i copia-li la URL anterior ...");
             }
-*/
+
             readFromSocket(port);
 
             FirmaSimpleGetTransactionStatusResponse fullTransactionStatus;

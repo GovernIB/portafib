@@ -16,7 +16,8 @@ public interface ValidacioCompletaFirmaLogicaLocal {
     String JNDI_NAME = "java:app/portafib-ejb/ValidacioCompletaFirmaLogicaEJB";
 
     public ValidacioCompletaResponse validateCompletaFirma(String transaccioID,
-            ValidacioCompletaRequest validacioRequest, boolean validateChangesInAttachedFiles)
+            ValidacioCompletaRequest validacioRequest, boolean validateChangesInAttachedFiles,
+            final String usuariAplicacioID)
             throws ValidacioException;
 
 }

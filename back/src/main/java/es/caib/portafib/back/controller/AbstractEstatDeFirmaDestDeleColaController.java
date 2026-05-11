@@ -25,6 +25,7 @@ import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
 import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.Token;
+import es.caib.portafib.logic.PluginValidacioFirmesLogicaEJB.GrupEstadisticaValidacio;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
@@ -1619,7 +1620,9 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             }
             break;
 
-            case ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2: {
+            case ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+            case ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_ASYNC_V1: 
+            {
                 UsuariAplicacioConfiguracioJPA configuracioDefirma = configuracioDeFirmaLogicaEjb
                         .findByPrimaryKeyUnauthorized(peticioDeFirma.getConfiguracioDeFirmaID());
 
@@ -1964,6 +1967,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             break;
 
             case ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+            case ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_ASYNC_V1:
 
                 usuariAplicacioConfiguracio = configuracioDeFirmaLogicaEjb
                         .findByPrimaryKeyUnauthorized(peticioDeFirma.getConfiguracioDeFirmaID());
@@ -3135,7 +3139,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         Map<Long, List<Signature>> signatures = processSignatures(fitxers, request);
         mav.addObject("signatures", signatures);
         if (request.getParameter("validar") != null) {
-            mav.addObject("signaturesValidation", processSignaturesValidation(fitxers, signatures));
+            mav.addObject("signaturesValidation", processSignaturesValidation(fitxers, signatures, peticioDeFirma.getSolicitantUsuariAplicacioID()));
         }
 
         // Traduccions
@@ -3225,7 +3229,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     private Map<Long, SignatureValidationHelper> processSignaturesValidation(List<FitxerJPA> fitxers,
-            Map<Long, List<Signature>> signatures) throws I18NException {
+            Map<Long, List<Signature>> signatures, String usuariAplicacioID) throws I18NException {
         String lang = LocaleContextHolder.getLocale().getLanguage(); //LoginInfo.getInstance().getUsuariPersona().getIdiomaID();
         String entitat = LoginInfo.getInstance().getEntitatID();
 
@@ -3233,7 +3237,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         for (FitxerJPA fitxer : fitxers) {
             List<Signature> signatureList = signatures.get(fitxer.getFitxerID());
             if (signatureList != null && !signatureList.isEmpty()) {
-                SignatureValidation validation = signatureServiceEjb.getSignaturesValidation(fitxer, entitat, lang);
+                SignatureValidation validation = signatureServiceEjb.getSignaturesValidation(fitxer, entitat, lang,
+                        GrupEstadisticaValidacio.ESTADISTICA_GRUP_PORTAFIB_VALIDATE, usuariAplicacioID);
                 signaturesValidation.put(fitxer.getFitxerID(), new SignatureValidationHelper(validation));
             }
         }

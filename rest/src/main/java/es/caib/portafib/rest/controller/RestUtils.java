@@ -27,27 +27,61 @@ public class RestUtils {
         return headers;
     }
 
+    public class AuthenticateInfo {
+
+        private final String errorMsg;
+        private final UsuariAplicacioJPA usuariAplicacio;
+
+        public AuthenticateInfo(UsuariAplicacioJPA usuariAplicacio) {
+
+            this.usuariAplicacio = usuariAplicacio;
+            this.errorMsg = null;
+        }
+
+        public AuthenticateInfo(String errorMsg) {
+
+            this.usuariAplicacio = null;
+            this.errorMsg = errorMsg;
+        }
+
+        public UsuariAplicacioJPA getUsuariAplicacio() {
+            return usuariAplicacio;
+        }
+
+        public String getErrorMsg() {
+            return errorMsg;
+        }
+    }
+
     protected String autenticateUsrApp(HttpServletRequest request) {
+        AuthenticateInfo authInfo = autenticateUsrAppFull(request);
+        if (authInfo.getErrorMsg() != null) {
+            return authInfo.getErrorMsg();
+        }
+        return null; // OK
+    }
+        
+    protected AuthenticateInfo autenticateUsrAppFull(HttpServletRequest request) {
 
         try {
             String authHeader = request.getHeader(javax.ws.rs.core.HttpHeaders.AUTHORIZATION);
             if (authHeader == null || authHeader.trim().length() == 0) {
                 final String msg = "No conte capçalera d'autenticació";
                 log.warn(" XYZ ZZZ autenticate:: " + msg);
-                return msg;
+                return new AuthenticateInfo(msg);
             }
             StringTokenizer st = new StringTokenizer(authHeader);
             if (!st.hasMoreTokens()) {
                 final String msg = "La capçalera d'autenticació està buida";
                 log.warn(" XYZ ZZZ autenticate:: " + msg);
-                return msg;
+                return new AuthenticateInfo(msg);
             }
             String basic = st.nextToken();
 
             if (!basic.equalsIgnoreCase("Basic")) {
                 final String msg = "Tipus d'autenticació no suportat " + basic;
                 log.warn(" XYZ ZZZ autenticate:: " + msg);
-                return msg;
+                return new AuthenticateInfo(msg);
             }
             /*
                   String credentials = new String(Base64.decode(st.nextToken()));
@@ -82,7 +116,7 @@ public class RestUtils {
                     final String msg = "No puc accedir al gestor d´obtenció de" + " informació de usuari-aplicacio per "
                             + username + ": " + e.getMessage();
                     log.error(" XYZ ZZZ autenticate:: " + msg, e);
-                    return msg;
+                    return new AuthenticateInfo(msg);
                 }
 
                 UsuariAplicacioJPA usuariAplicacio = usuariAplicacioEjb.findByPrimaryKeyFull(username);
@@ -90,7 +124,7 @@ public class RestUtils {
                     final String msg = "L'usuari " + username
                             + " està autenticat però no s'ha donat d'alta en el PortaFIB ";
                     log.error(" XYZ ZZZ autenticate:: " + msg);
-                    return msg;
+                    return new AuthenticateInfo(msg);
                 }
 
                 /*
@@ -109,7 +143,7 @@ public class RestUtils {
                     final String msg = "L'entitat " + entitat.getNom() + " a la que està associat l'usuari-aplicacio "
                             + username + " esta deshabilitada.";
                     log.error(" XYZ ZZZ autenticate:: " + msg);
-                    return msg;
+                    return new AuthenticateInfo(msg);
                 }
                 /*
                         User user = new User(username, password, seyconAuthorities);
@@ -120,28 +154,25 @@ public class RestUtils {
                         // and set the authentication of the current Session context
                         SecurityContextHolder.getContext().setAuthentication(loginInfo.generateToken());
                 */
-                log.info("Loguejat Usuari App "  + username + ": " + obtenerMetodoLlamadorDesdeConstructor());
+                log.info("Loguejat Usuari App " + username + ": " + obtenerMetodoLlamadorDesdeConstructor());
 
-                return null; // OK
+                return new AuthenticateInfo(usuariAplicacio); // OK
 
             } else {
                 final String msg = "Usuari o contrasenya incorrectes";
                 log.error(" XYZ ZZZ autenticate:: " + msg);
-                return msg;
+                return new AuthenticateInfo(msg);
             }
 
         } catch (Exception e) {
 
             final String msg = "Error desconegut intentant autenticar petició REST: " + e.getMessage();
             log.error(" XYZ ZZZ autenticate:: " + msg, e);
-            return msg;
+            return new AuthenticateInfo(msg);
         }
 
     }
-    
-    
-    
-    
+
     private String obtenerMetodoLlamadorDesdeConstructor() {
         try {
             StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
@@ -159,7 +190,7 @@ public class RestUtils {
         }
         return "Metode Desconegut";
     }
-    
+
     /*
       public static boolean authenticateUsernamePassword(HttpServletRequest request, String username,
       String password, Set<String> roles, Logger log) {

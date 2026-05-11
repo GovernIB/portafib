@@ -63,7 +63,6 @@ public class ApiFirmaAsyncSimpleTester {
             } catch (Exception e) {
             }
         }
-
     }
 
     public static void main(String[] args) {
@@ -77,16 +76,16 @@ public class ApiFirmaAsyncSimpleTester {
             ApiFirmaAsyncSimple api = tester.getApiFirmaAsyncSimple();
 
             // --------- URL al FLUX 
-            //tester.getUrlToViewFlow(languageUI, api);
+            tester.getUrlToViewFlow(languageUI, api);
 
             // ----------- Idiomes Disponibles
-            //tester.getIdiomesDisponibles(languageUI, api);
+            tester.getIdiomesDisponibles(languageUI, api);
 
             // ----------- Perfils Disponibles
-            // tester.getPerfilsDisponibles(languageUI, api);
+            tester.getPerfilsDisponibles(languageUI, api);
 
             // ----------- Tipus de Documents DIsponibles
-            //tester.getTipusDeDocumentsDisponibles(languageUI, api);
+            tester.getTipusDeDocumentsDisponibles(languageUI, api);
 
             // ----------- Peticio de Firma
             tester.createSignatureRequestAndStart(languageUI, api);

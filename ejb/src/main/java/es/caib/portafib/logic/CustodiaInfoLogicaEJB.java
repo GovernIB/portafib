@@ -570,7 +570,8 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
             break;
 
             case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
-            case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2: {
+            case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+            case ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_ASYNC_V1: {
 
                 int politicaCustodia = usuariAplicacio.getPoliticaCustodia();
                 onlyDef = this.searchDefaultCustodyInfo(peticio, entitatJPA, politicaCustodia, "soli aplicacio", titol,
@@ -836,6 +837,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
 
             case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
             case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+            case ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_ASYNC_V1:
                 log.debug("getAllowedCustodyInfo:: ES USER APP (cridant a getCustodiaUA)");
                 onlyDef = this.getCustodiaUA(usuariAplicacio, custodiaSentByUser, titol, entitatJPA);
             break;

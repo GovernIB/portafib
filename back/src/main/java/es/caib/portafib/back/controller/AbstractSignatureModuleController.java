@@ -254,7 +254,8 @@ public abstract class AbstractSignatureModuleController extends HttpServlet {
 
                 final String url = signaturesSet.getUrlFinal();
 
-                // log.info("\n\n" + "XYZ ZZZ url => " + url);
+                // XYZ DEBUG
+                log.info("\n\n" + "XYZ ZZZ url FINAL FIRMA ASYNC => " + url);
 
                 /** No ho mostram dins de POrtaFIB, només quan ens criden des de l'API */
                 if (url.indexOf(ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT) == -1
@@ -350,7 +351,9 @@ public abstract class AbstractSignatureModuleController extends HttpServlet {
         mav.addObject("URL_FINAL", urlFinal);
         mav.addObject("window", pss.isRedirectToParentWindow() ? "window.top" : "window");
 
-        //log.info("\n\n finalProcesDeFirma: SURT\n\n");
+        
+        // XYZ DEBUG
+        log.info("\n\n finalProcesDeFirma(): FINAL : " + urlFinal + "\n\n");
 
         return mav;
 
@@ -364,6 +367,9 @@ public abstract class AbstractSignatureModuleController extends HttpServlet {
         ModelAndView mav = new ModelAndView("PluginFirmaFinal");
         mav.addObject("URL_FINAL", urlFinal);
         mav.addObject("window", "window.top");
+        
+     // XYZ DEBUG
+        log.info("\n\n errorProcesDeFirma(): ERROR : " + urlFinal + "\n\n");
 
         return mav;
     }
@@ -400,6 +406,10 @@ public abstract class AbstractSignatureModuleController extends HttpServlet {
 
         mav.addObject("URL_FINAL", redireccio); // 
         mav.addObject("window", (pss == null || pss.isRedirectToParentWindow()) ? "window.top" : "window");
+        
+        
+        // XYZ DEBUG
+        log.info("\n\n cancelSignatureSelection(): CANCEL : " + redireccio + "\n\n");
 
         return mav;
 

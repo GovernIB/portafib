@@ -51,6 +51,7 @@ import es.caib.portafib.api.interna.secure.signature.v1.commons.ValidationInfo;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.ejb.UsuariPersonaService;
 import es.caib.portafib.logic.EntitatLogicaLocal;
+import es.caib.portafib.logic.EstadisticaLogicaLocal;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.ValidacioCompletaFirmaLogicaLocal;
 import es.caib.portafib.logic.passarela.NoCompatibleSignaturePluginException;
@@ -70,6 +71,7 @@ import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
+import es.caib.portafib.utils.ConstantsV2;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -157,7 +159,7 @@ public class SignatureOnServerService extends AbstractSignatureService implement
     public static final String TAG_NAME = "SignatureOnServer v1"; // => FirmaEnServidorV1Api
 
     public static final Map<SignatureTypeFormEnumForUpgrade, String> upgradeTypesToSimpleTypes = new HashMap<SignatureTypeFormEnumForUpgrade, String>();
-    
+
     //  SignatureFormForUpgrade to EniPerfilDeFirma
     public static final Map<String, String> upgradeTypesToSignatureFormForUpgrade = new HashMap<String, String>();
 
@@ -198,9 +200,9 @@ public class SignatureOnServerService extends AbstractSignatureService implement
                 FileInfoSignature.SIGN_TYPE_PADES);
         upgradeTypesToSimpleTypes.put(SignatureTypeFormEnumForUpgrade.PAdES_LTA_LEVEL,
                 FileInfoSignature.SIGN_TYPE_PADES);
-        
+
         // -----------------------------------
-        
+
         upgradeTypesToSignatureFormForUpgrade.put(SignatureFormForUpgrade.T, "T");
         upgradeTypesToSignatureFormForUpgrade.put(SignatureFormForUpgrade.C, "C");
         upgradeTypesToSignatureFormForUpgrade.put(SignatureFormForUpgrade.X, "X");
@@ -208,22 +210,18 @@ public class SignatureOnServerService extends AbstractSignatureService implement
         upgradeTypesToSignatureFormForUpgrade.put(SignatureFormForUpgrade.X_2, "X");
         upgradeTypesToSignatureFormForUpgrade.put(SignatureFormForUpgrade.X_L, "XL");
         upgradeTypesToSignatureFormForUpgrade.put(SignatureFormForUpgrade.X_L_1, "XL");
-        upgradeTypesToSignatureFormForUpgrade.put( SignatureFormForUpgrade.X_L_2, "XL");
-        upgradeTypesToSignatureFormForUpgrade.put( SignatureFormForUpgrade.A, "A");
-        upgradeTypesToSignatureFormForUpgrade.put( SignatureFormForUpgrade.T_LEVEL, "BASELINE T-Level");
-        upgradeTypesToSignatureFormForUpgrade.put( SignatureFormForUpgrade.LT_LEVEL, "BASELINE LT-Level");
+        upgradeTypesToSignatureFormForUpgrade.put(SignatureFormForUpgrade.X_L_2, "XL");
+        upgradeTypesToSignatureFormForUpgrade.put(SignatureFormForUpgrade.A, "A");
+        upgradeTypesToSignatureFormForUpgrade.put(SignatureFormForUpgrade.T_LEVEL, "BASELINE T-Level");
+        upgradeTypesToSignatureFormForUpgrade.put(SignatureFormForUpgrade.LT_LEVEL, "BASELINE LT-Level");
         upgradeTypesToSignatureFormForUpgrade.put(SignatureFormForUpgrade.LTA_LEVEL, "BASELINE LTA-Level 2");
 
-        
         // EPES,   BASELINE B-Level,
-
 
         upgradeTypesToSignatureFormForUpgrade.put(SignatureFormForUpgrade.PADES_LTV, "LTV");
 
-        
-
     }
-    
+
     @EJB(mappedName = es.caib.portafib.logic.passarela.PassarelaDeFirmaEnServidorLocal.JNDI_NAME)
     protected es.caib.portafib.logic.passarela.PassarelaDeFirmaEnServidorLocal passarelaDeFirmaEnServidorEjb;
 
@@ -238,6 +236,9 @@ public class SignatureOnServerService extends AbstractSignatureService implement
 
     @EJB(mappedName = UsuariAplicacioLogicaLocal.JNDI_NAME)
     protected UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
+
+    @EJB(mappedName = EstadisticaLogicaLocal.JNDI_NAME)
+    protected EstadisticaLogicaLocal estadisticaLogicaEjb;
 
     @Operation(
             tags = SignatureOnServerService.TAG_NAME,
@@ -302,7 +303,8 @@ public class SignatureOnServerService extends AbstractSignatureService implement
     public es.caib.portafib.api.interna.secure.signature.v1.signatureonserver.UpgradeResponse upgradeSignature(
             @Parameter(hidden = true) @Context
             HttpServletRequest request, @RequestBody
-            UpgradeRequest fsur, @Parameter(
+            UpgradeRequest fsur,
+            @Parameter(
                     description = "Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')",
                     in = ParameterIn.QUERY,
                     required = false,
@@ -310,26 +312,25 @@ public class SignatureOnServerService extends AbstractSignatureService implement
                             @ExampleObject(name = "Castellano", value = "es") },
                     schema = @Schema(defaultValue = "ca", implementation = String.class)) @QueryParam("languageUI")
             String languageUI) {
-        
+
         languageUI = RestUtils.checkLanguage(languageUI);
-        
+
+        UsuariAplicacioJPA usuariAplicacio = checkUsuariAplicacioFull(request);
+
         try {
-            
-            
-            
+
             log.info(" XYZ ZZZ eNTRA A upgradeSignature => upgrade: " + fsur);
-            String usuariAplicacioID = checkUsuariAplicacio(request);
-    
+
             if (fsur == null) {
                 // XYZ ZZZ TRA
                 String errorMsg = "L'objecte FirmaSimpleUpgradeRequest val null.";
                 throw new RestException(errorMsg, "FirmaSimpleUpgradeRequest");
             }
-    
-            
-    
+
+            final String usuariAplicacioID = usuariAplicacio.getUsuariAplicacioID();
+
             // XYZ ZZZ Falta checks sobre fsur
-    
+
             Document signature = fsur.getSignature();
 
             final PerfilDeFirma perfilDeFirma;
@@ -374,10 +375,8 @@ public class SignatureOnServerService extends AbstractSignatureService implement
 
             UpgradeResponse upgradeResponse;
 
-            String entitatId = getEntitatId(usuariAplicacioID, languageUI);
-            EntitatJPA entitat = getEntitatJpa(entitatId);
-
-            UsuariAplicacioJPA usuariAplicacio = usuariAplicacioLogicaEjb.findByPrimaryKey(usuariAplicacioID);
+            //String entitatId = getEntitatId(usuariAplicacioID, languageUI);
+            EntitatJPA entitat = usuariAplicacio.getEntitat();
 
             upgradeResponse = passarelaDeFirmaEnServidorEjb.upgradeSignature(getFirmaSimpleFile(signature),
                     getFirmaSimpleFile(fsur.getDetachedDocument()), getFirmaSimpleFile(fsur.getTargetCertificate()),
@@ -408,22 +407,37 @@ public class SignatureOnServerService extends AbstractSignatureService implement
                 log.info("Surt de upgradeSignature => FINAL OK");
             }
 
+            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_UPGRADEV1_OK,
+                    usuariAplicacio);
+
             return fsuresp;
 
-        } catch (NoCompatibleSignaturePluginException nape) {
-
-            String errorMsg = getNoAvailablePluginErrorMessage(languageUI, false, nape);
-            throw new RestException(Status.INTERNAL_SERVER_ERROR, errorMsg);
-
-        } catch (I18NException i18ne) {
-            // XYZ ZZZ
-            String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
-            log.error(msg, i18ne);
-            throw new RestException(Status.INTERNAL_SERVER_ERROR, msg);
-
         } catch (Throwable th) {
-            // XYZ ZZZ TRA
-            String msg = "Error desconegut durant el procés d'actualització de firma: " + th.getMessage();
+
+            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_UPGRADEV1_ERROR,
+                    usuariAplicacio);
+
+            if (th instanceof RestException) {
+                throw (RestException) th;
+            }
+
+            if (th instanceof NoCompatibleSignaturePluginException) {
+
+                String errorMsg = getNoAvailablePluginErrorMessage(languageUI, false,
+                        (NoCompatibleSignaturePluginException) th);
+                throw new RestException(Status.INTERNAL_SERVER_ERROR, errorMsg);
+            }
+
+            String msg;
+
+            if (th instanceof I18NException) {
+                msg = I18NLogicUtils.getMessage((I18NException) th, new Locale(languageUI));
+
+            } else {
+                // XYZ ZZZ TRA
+                msg = "Error desconegut durant el procés d'actualització de firma: " + th.getMessage();
+            }
+
             log.error(msg, th);
             throw new RestException(Status.INTERNAL_SERVER_ERROR, msg);
 
@@ -458,43 +472,45 @@ public class SignatureOnServerService extends AbstractSignatureService implement
     public SignDocumentResponse signDocument(@Parameter(hidden = true) @Context
     HttpServletRequest request, @RequestBody
     SignDocumentRequest simpleSignature) throws RestException {
-        
+
         String transactionID = null;
         String languageUI = "ca";
+        
+        UsuariAplicacioJPA usuariAplicacio = super.checkUsuariAplicacioFull(request);
+        
+        
         try {
             log.info(" XYZ ZZZ eNTRA A signDocuments => simpleSignature: " + simpleSignature);
-    
+
             // Validar simpleSignature
             // XYZ ZZZ Canviar per idioma per defecte
-    
+
             if (simpleSignature == null) {
                 // XYZ ZZZ TRA
                 String errMsg = "L´objecte FirmaSimpleSignDocumentRequest passat per paràmetre val null";
                 throw new RestException(Status.BAD_REQUEST, errMsg, "FirmaSimpleSignDocumentRequest");
             }
-    
+
             if (simpleSignature.getCommonInfo() == null) {
                 // XYZ ZZZ TRA
                 String errMsg = "L´objecte commonInfo(FirmaSimpleCommonInfo) definit dins de FirmaSimpleSignDocumentRequest val null";
                 throw new RestException(Status.BAD_REQUEST, errMsg, "FirmaSimpleSignDocumentRequest.commonInfo");
             }
-    
+
             languageUI = simpleSignature.getCommonInfo().getLanguageUI();
             if (languageUI == null || languageUI.trim().length() == 0) {
                 // XYZ ZZZ TRA
                 String errMsg = "El camp languageUI definit dins de FirmaSimpleSignDocumentRequest.FirmaSimpleCommonInfo està buit o val null";
-                throw new RestException(Status.BAD_REQUEST, errMsg, "FirmaSimpleSignDocumentRequest.commonInfo.languageUI");
+                throw new RestException(Status.BAD_REQUEST, errMsg,
+                        "FirmaSimpleSignDocumentRequest.commonInfo.languageUI");
             }
-    
+
             languageUI = RestUtils.checkLanguage(languageUI);
-    
+
             log.info("simpleSignaturesSet.getCommonInfo().getSignProfile() ==> "
                     + simpleSignature.getCommonInfo().getSignProfile());
             log.info("simpleSignaturesSet.getCommonInfo().getLanguageUI() ==> " + languageUI);
-    
-           
 
-        
             Long signaturePluginId = null;
             transactionID = internalGetTransacction();
             String username = request.getUserPrincipal().getName();
@@ -516,16 +532,16 @@ public class SignatureOnServerService extends AbstractSignatureService implement
             String entitatId = usuariAplicacioLogicaEjb.executeQueryOne(UsuariAplicacioFields.ENTITATID, w);
             getEntitatId(username, languageUI);
 
-            EntitatJPA entitat = entitatLogicaEjb.findByPrimaryKey(entitatId);
-            UsuariAplicacioJPA usuariAplicacio = usuariAplicacioLogicaEjb.findByPrimaryKey(username);
+            //EntitatJPA entitat = entitatLogicaEjb.findByPrimaryKey(entitatId);
+            //UsuariAplicacioJPA usuariAplicacio = usuariAplicacioLogicaEjb.findByPrimaryKey(username);
 
             PassarelaSignaturesSet pss = convertRestBean2PassarelaBeanServer(transactionID, simpleSignature, username,
-                    entitat, pcf.perfilDeFirma, pcf.configBySignID);
+                    usuariAplicacio.getEntitat(), pcf.perfilDeFirma, pcf.configBySignID);
 
             log.info("XYZ ZZZ  ======>   USERNAME = ]" + pss.getCommonInfoSignature().getUsername() + "[");
             PassarelaSignatureInServerResults fullResults;
 
-            fullResults = passarelaDeFirmaEnServidorEjb.signDocuments(pss, entitat, usuariAplicacio, pcf.perfilDeFirma,
+            fullResults = passarelaDeFirmaEnServidorEjb.signDocuments(pss, usuariAplicacio.getEntitat(), usuariAplicacio, pcf.perfilDeFirma,
                     pcf.configBySignID);
 
             signaturePluginId = fullResults.getPluginFirmaEnServidorId();
@@ -537,6 +553,8 @@ public class SignatureOnServerService extends AbstractSignatureService implement
             //
             ProcessStatus statusGlobal;
             List<SignatureResponse> results;
+            int suma_error = 0;
+            int suma_ok = 0;
             {
                 PassarelaFullResults pfullResults = fullResults.getPassarelaFullResults();
 
@@ -560,6 +578,12 @@ public class SignatureOnServerService extends AbstractSignatureService implement
 
                     es.caib.portafib.logic.utils.ValidacioCompletaResponse validacioInfo;
                     for (PassarelaSignatureResult psr : passarelaSR) {
+
+                        if (psr.getStatus() == StatusSignature.STATUS_FINAL_OK) {
+                            suma_ok++;
+                        } else {
+                            suma_error++;
+                        }
 
                         validacioInfo = fullResults.getValidacioResponseBySignID().get(psr.getSignID());
 
@@ -622,33 +646,47 @@ public class SignatureOnServerService extends AbstractSignatureService implement
                 signPlugin = null;
             }
 
+            {
+                Map<Integer, Integer> comptadorPerEstadistica = new HashMap<Integer, Integer>();
+
+                comptadorPerEstadistica.put(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SIGNONSERVERV1_OK, suma_ok);
+
+                comptadorPerEstadistica.put(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SIGNONSERVERV1_ERROR, suma_error);
+
+                estadisticaLogicaEjb.createEstadistica(usuariAplicacio.getEntitatID(),
+                        usuariAplicacio.getUsuariAplicacioID(), comptadorPerEstadistica);
+            }
+
             log.info(" XYZ ZZZ Surt de signDocuments => FINAL");
 
             return new SignDocumentResponse(result, signPlugin);
 
-        } catch (NoCompatibleSignaturePluginException nape) {
-
-            throw new RestException(Status.INTERNAL_SERVER_ERROR,
-                    getNoAvailablePluginErrorMessage(languageUI, esFirmaEnServidor, nape), nape);
-
+       
         } catch (Throwable th) {
+            
+            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SIGNONSERVERV1_ERROR, usuariAplicacio);
 
             if (th instanceof RestException) {
                 throw (RestException) th;
             }
+            
+            
+            String errorMsg;
+            if (th instanceof NoCompatibleSignaturePluginException) {
 
-            String msgOrig;
-            if (th instanceof I18NException) {
+                 errorMsg = getNoAvailablePluginErrorMessage(languageUI, esFirmaEnServidor,
+                        (NoCompatibleSignaturePluginException) th);
+            } else if (th instanceof I18NException) {
                 I18NException i18ne = (I18NException) th;
-                msgOrig = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
+                errorMsg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
             } else {
-                msgOrig = th.getMessage();
+                errorMsg = "Error desconegut iniciant el proces de Firma: " + th.getMessage();
             }
 
             // XYZ ZZZ TRA
-            String msg = "Error desconegut iniciant el proces de Firma: " + msgOrig;
-            log.error(msg, th);
-            throw new RestException(Status.INTERNAL_SERVER_ERROR, msg, th);
+            
+            log.error(errorMsg, th);
+            throw new RestException(Status.INTERNAL_SERVER_ERROR, errorMsg, th);
 
         } finally {
             if (transactionID != null) {
@@ -810,15 +848,11 @@ public class SignatureOnServerService extends AbstractSignatureService implement
         return msg;
     }
 
-
-
     protected UpgradedFileInfo constructFirmaSimpleUpgradedFileInfo(UpgradeResponse upgradeResponse,
-            String signatureType,  SignatureTypeFormEnumForUpgrade singTypeForm) throws I18NException {
-        
+            String signatureType, SignatureTypeFormEnumForUpgrade singTypeForm) throws I18NException {
 
-        
         String profileSignType = singTypeForm.getName();
-        
+
         log.info("Cridant a constructFirmaSimpleUpgradedFileInfo:: signatureType => " + signatureType
                 + " profileSignType => " + profileSignType);
 
@@ -834,19 +868,17 @@ public class SignatureOnServerService extends AbstractSignatureService implement
             upgradedFileInfo.setValidationInfo(new ValidationInfo());
 
             upgradedFileInfo.setEniPerfilFirma(profileSignType);
-            
+
             //singTypeForm.getFormat()
 
             // SI es PADES llavors el signMode es attached
             if (FileInfoSignature.SIGN_TYPE_PADES.equals(signatureType)) {
                 int signMode = Constants.SIGN_MODE_ATTACHED_ENVELOPED;
                 upgradedFileInfo.setSignMode(signMode);
-                
+
                 String eniTipoFirma = SignatureUtils.getEniTipoFirma(signatureType, signMode);
                 upgradedFileInfo.setEniTipoFirma(eniTipoFirma);
-                
-               
-                
+
             }
 
         } else {
@@ -877,7 +909,7 @@ public class SignatureOnServerService extends AbstractSignatureService implement
                     validationInfo, additionInformation);
 
         }
-        
+
         /**
          *  Para las firmas XADES y CADES: EPES, T, C, X, XL, A, BASELINE B-Level, BASELINE T-Level,
          *                                        BASELINE LT-Level, BASELINE LTA-Level 2.

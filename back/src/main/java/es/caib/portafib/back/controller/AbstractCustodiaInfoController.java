@@ -190,6 +190,7 @@ public abstract class AbstractCustodiaInfoController extends CustodiaInfoControl
 
                 case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
                 case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+                case ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_ASYNC_V1:
                     // Usuari Aplicació
                     politicaDeCustodia = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUA(
                             peticioDeFirma.getSolicitantUsuariAplicacioID(), entitatJPA);

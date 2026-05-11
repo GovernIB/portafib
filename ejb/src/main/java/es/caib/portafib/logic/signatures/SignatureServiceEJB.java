@@ -2,6 +2,7 @@ package es.caib.portafib.logic.signatures;
 
 import es.caib.portafib.logic.PluginValidacioFirmesLogicaLocal;
 import es.caib.portafib.logic.ValidacioException;
+import es.caib.portafib.logic.PluginValidacioFirmesLogicaEJB.GrupEstadisticaValidacio;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.datasource.FitxerIdDataSource;
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
@@ -49,7 +50,7 @@ public class SignatureServiceEJB implements SignatureServiceLocal {
     }
 
     @Override
-    public SignatureValidation getSignaturesValidation(Fitxer fitxer, String entitat, String lang)
+    public SignatureValidation getSignaturesValidation(Fitxer fitxer, String entitat, final String usuariAplicacioID, final GrupEstadisticaValidacio grupEstadistica, String lang)
             throws I18NException {
         if (fitxer == null) {
             throw new IllegalArgumentException("fitxer no pot ser null");
@@ -59,7 +60,7 @@ public class SignatureServiceEJB implements SignatureServiceLocal {
             IPortaFIBDataSource dataSource = new FitxerIdDataSource(fitxer.getFitxerID());
             String signType = SignType.fromFile(fitxer).typeName();
             ValidateSignatureResponse response =
-                    validacioFirmesEjb.validateSignature(entitat, signType, dataSource, null, lang);
+                    validacioFirmesEjb.validateSignature(entitat, usuariAplicacioID, grupEstadistica, signType, dataSource, null, lang);
             if (response == null) {
                 // un respose null és la manera actual de dir que no hi ha plugin de validació
                 String message = I18NLogicUtils.tradueix(new Locale(lang), "peticiodefirma.error.nopluginvalidacio");

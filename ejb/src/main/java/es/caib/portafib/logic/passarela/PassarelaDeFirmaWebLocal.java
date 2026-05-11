@@ -35,6 +35,26 @@ public interface PassarelaDeFirmaWebLocal extends AbstractPassarelaDeFirmaLocal 
     public Map<String, PassarelaSignaturesSetWebInternalUse> getAllTransactionsByEntitatID(String entitatID)
             throws I18NException;
 
+    /**
+     * 
+     * @param signaturesSet  
+     * @param entitatID
+     * @param fullView
+     * @param usuariAplicacio
+     * @param perfilDeFirma
+     * @param configBySignID
+     * @param tipusDocumentalBySignID
+     * @param origenPeticioDeFirma ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_PASSARELA_WEB = -1;
+    ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB = 0;
+    ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1 = 1;
+    ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2 = 2;
+    ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_SIMPLE_WEB_V1 = 3;
+    ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_ASYNC_V1 = 4;
+    ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_SYNC_V1 = 5;
+     * @return
+     * @throws I18NException
+     * @throws I18NValidationException
+     */
     public String startTransaction(PassarelaSignaturesSet signaturesSet, String entitatID, boolean fullView,
             UsuariAplicacioJPA usuariAplicacio, PerfilDeFirma perfilDeFirma,
             Map<String, UsuariAplicacioConfiguracioJPA> configBySignID, Map<String, Long> tipusDocumentalBySignID,

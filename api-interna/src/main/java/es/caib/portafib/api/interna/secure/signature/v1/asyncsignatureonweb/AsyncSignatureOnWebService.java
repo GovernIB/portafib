@@ -24,6 +24,7 @@ import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.persistence.UsuariPersonaJPA;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
+import es.caib.portafib.logic.EstadisticaLogicaLocal;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
 import es.caib.portafib.logic.FitxerLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
@@ -113,7 +114,7 @@ import java.util.TreeSet;
                 title = "API Interna de PortaFIB que ofereix serveis associats amb la firma digital",
                 description = "Conjunt de Serveis REST de PortaFIB per atendre peticions de firma en servidor,"
                         + " firma web síncrona, firma web asíncrona, validació de firma i plantilla de flux de firma.",
-                        summary = "API Interna de PortaFIB XXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+                summary = "API Interna de PortaFIB XXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
                 version = "1.0-SNAPSHOT",
                 license = @License(
                         name = "European Union Public Licence (EUPL v1.2)",
@@ -121,15 +122,16 @@ import java.util.TreeSet;
                 contact = @Contact(
                         name = "Departament de Govern Digital a la Fundació Bit",
                         email = "firma@fundaciobit.org",
-                        url = "https://governdigital.fundaciobit.org") 
-                ),
+                        url = "https://governdigital.fundaciobit.org")),
         externalDocs = @ExternalDocumentation(
-                        description = "Manual d'usuari Signature v1 (Ús i Guia de Migració des d'APIsIB)",
-                        url = "https://github.com/GovernIB/portafib/blob/portafib-3.0/doc/Manual_de_Migraci%C3%B3_de_APIsIB_a_Api_Interna.odt"),
+                description = "Manual d'usuari Signature v1 (Ús i Guia de Migració des d'APIsIB)",
+                url = "https://github.com/GovernIB/portafib/blob/portafib-3.0/doc/Manual_de_Migraci%C3%B3_de_APIsIB_a_Api_Interna.odt"),
         /** ======   @INFO Final de INFO  ==== **/
-        tags = @Tag(name = AsyncSignatureOnWebService.TAG_NAME, description = "Firma Web Asincrona Swagger v1. "
-                + "API Interna de PortaFIB que ofereix serveis de firma web de forma asíncrona (també anomenada diferida) "
-                + " incloent múltiples firmants, annexes, fluxos, revisors, ..."))
+        tags = @Tag(
+                name = AsyncSignatureOnWebService.TAG_NAME,
+                description = "Firma Web Asincrona Swagger v1. "
+                        + "API Interna de PortaFIB que ofereix serveis de firma web de forma asíncrona (també anomenada diferida) "
+                        + " incloent múltiples firmants, annexes, fluxos, revisors, ..."))
 @SecurityScheme(type = SecuritySchemeType.HTTP, name = AsyncSignatureOnWebService.SECURITY_NAME, scheme = "basic")
 @ApiResponses(
         value = {
@@ -201,6 +203,9 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
 
     @EJB(mappedName = EstatDeFirmaLogicaLocal.JNDI_NAME)
     protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
+
+    @EJB(mappedName = EstadisticaLogicaLocal.JNDI_NAME)
+    protected EstadisticaLogicaLocal estadisticaLogicaEjb;
 
     @Operation(
             tags = AsyncSignatureOnWebService.TAG_NAME,
@@ -277,9 +282,9 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
     SignatureRequestWithSignBlockList signatureRequest) {
 
         String languageUI = "ca"; // XYZ ZZZ
+        UsuariAplicacioJPA ua = checkUsuariAplicacioFull(request);
         Set<Long> fitxersCreats = new HashSet<Long>();
         try {
-            UsuariAplicacioJPA ua = checkUsuariAplicacioFull(request);
 
             if (signatureRequest == null) {
                 // XYZ ZZZ TRA
@@ -289,59 +294,70 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
             // Check de commonInfo
             languageUI = checkLanguage(signatureRequest.getLanguageUI());
 
-            Document fileToConvertInfo = signatureRequest.getFileToSign();
+            long id = internalCreateAndStartSignatureRequest(signatureRequest, languageUI, fitxersCreats, ua);
 
-            if (fileToConvertInfo == null) {
-                throw new I18NException("genapp.validation.required", PeticioDeFirmaFields.FITXERAFIRMARID.fullName);
-            }
+            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_CREADA, ua);
 
-            PeticioDeFirmaJPA peticioDeFirmaJPA = signatureRequestToPeticioDeFirmaJPAFull(signatureRequest, ua,
-                    ua.getEntitat(), fitxersCreats, languageUI);
-
-            // Final Convertir Fitxer
-
-            peticioDeFirmaJPA = peticioDeFirmaLogicaEjb.createFull(peticioDeFirmaJPA);
-
-            // System.gc();
-
-            long peticioDeFirmaID = peticioDeFirmaJPA.getPeticioDeFirmaID();
-
-            try {
-                peticioDeFirmaLogicaEjb.start(peticioDeFirmaJPA.getPeticioDeFirmaID(), true, ua.getUsuariAplicacioID());
-            } catch (I18NException th) {
-                deletePeticioDeFirma(peticioDeFirmaID, ua.getUsuariAplicacioID());
-                throw th;
-            }
-
-            return peticioDeFirmaID;
-
-        } catch (RestException re) {
-            log.error(re.getMessage(), re);
-            throw re;
-
-        } catch (I18NValidationException ve) {
-
-            String msg = I18NLogicUtils.getMessage(ve, new Locale(languageUI));
-            fitxerLogicaEjb.cleanSet(fitxersCreats);
-            log.error(msg, ve);
-            throw new RestException(msg);
-
-        } catch (I18NException i18ne) {
-
-            String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
-            fitxerLogicaEjb.cleanSet(fitxersCreats);
-            log.error(msg, i18ne);
-            throw new RestException(msg);
+            return id;
 
         } catch (Throwable th) {
 
-            // XYZ ZZZ TRA
-            String msg = "Error desconegut cridant a createAndStartSignatureRequest: " + th.getMessage();
-            log.error(msg, th);
+            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_ERROR, ua);
+
             fitxerLogicaEjb.cleanSet(fitxersCreats);
-            throw new RestException(msg, th);
+
+            String msg;
+
+            if (th instanceof I18NValidationException) {
+                msg = I18NLogicUtils.getMessage((I18NValidationException) th, new Locale(languageUI));
+
+            } else if (th instanceof I18NException) {
+                msg = I18NLogicUtils.getMessage((I18NException) th, new Locale(languageUI));
+            } else {
+                // XYZ ZZZ TRA
+                msg = "Error desconegut cridant a createAndStartSignatureRequest: " + th.getMessage();
+            }
+
+            log.error(msg, th);
+
+            if (th instanceof RestException) {
+                throw (RestException) th;
+            } else {
+
+                throw new RestException(msg, th);
+            }
         }
 
+    }
+
+    public long internalCreateAndStartSignatureRequest(SignatureRequestWithSignBlockList signatureRequest,
+            String languageUI, Set<Long> fitxersCreats, UsuariAplicacioJPA ua)
+            throws I18NException, I18NValidationException {
+        Document fileToConvertInfo = signatureRequest.getFileToSign();
+
+        if (fileToConvertInfo == null) {
+            throw new I18NException("genapp.validation.required", PeticioDeFirmaFields.FITXERAFIRMARID.fullName);
+        }
+
+        PeticioDeFirmaJPA peticioDeFirmaJPA = signatureRequestToPeticioDeFirmaJPAFull(signatureRequest, ua,
+                ua.getEntitat(), fitxersCreats, languageUI);
+
+        // Final Convertir Fitxer
+
+        peticioDeFirmaJPA = peticioDeFirmaLogicaEjb.createFull(peticioDeFirmaJPA);
+
+        // System.gc();
+
+        long peticioDeFirmaID = peticioDeFirmaJPA.getPeticioDeFirmaID();
+
+        try {
+            peticioDeFirmaLogicaEjb.start(peticioDeFirmaJPA.getPeticioDeFirmaID(), true, ua.getUsuariAplicacioID());
+        } catch (I18NException th) {
+            deletePeticioDeFirma(peticioDeFirmaID, ua.getUsuariAplicacioID());
+            throw th;
+        }
+
+        return peticioDeFirmaID;
     }
 
     @Path(value = "/createAndStartSignatureRequestWithFlowTemplateCode")
@@ -379,6 +395,10 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
         List<SignatureBlock> signatureBlocks;
 
         String languageUI = "ca";
+
+        UsuariAplicacioJPA ua = checkUsuariAplicacioFull(request);
+
+        Set<Long> fitxersCreats = new HashSet<Long>();
 
         try {
 
@@ -496,27 +516,39 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
             SignatureRequestWithSignBlockList sr = new SignatureRequestWithSignBlockList(signatureRequest,
                     signatureBlocks);
 
-            return createAndStartSignatureRequestWithSignBlockList(request, sr);
+            long id = internalCreateAndStartSignatureRequest(sr, languageUI, fitxersCreats, ua);
 
-        } catch (RestException re) {
-            log.error(re.getMessage(), re);
-            throw re;
+            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_CREADA, ua);
 
-        } catch (I18NException i18ne) {
-
-            String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
-
-            log.error(msg, i18ne);
-            throw new RestException(msg);
+            return id;
 
         } catch (Throwable th) {
 
-            // XYZ ZZZ TRA
-            String msg = "Error desconegut cridant a createAndStartSignatureRequestWithFlowTemplateCode: "
-                    + th.getMessage();
+            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_ERROR, ua);
+
+            fitxerLogicaEjb.cleanSet(fitxersCreats);
+
+            String msg;
+
+            if (th instanceof I18NValidationException) {
+                msg = I18NLogicUtils.getMessage((I18NValidationException) th, new Locale(languageUI));
+
+            } else if (th instanceof I18NException) {
+                msg = I18NLogicUtils.getMessage((I18NException) th, new Locale(languageUI));
+            } else {
+
+                // XYZ ZZZ TRA
+                msg = "Error desconegut cridant a createAndStartSignatureRequestWithFlowTemplateCode: "
+                        + th.getMessage();
+            }
+
             log.error(msg, th);
 
-            throw new RestException(msg, th);
+            if (th instanceof RestException) {
+                throw (RestException) th;
+            } else {
+                throw new RestException(msg, th);
+            }
         }
 
     }
@@ -687,8 +719,7 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
             tags = TAG_NAME,
             operationId = "getSignedFileOfSignatureRequest",
 
-            summary = "Retorna el Fitxer Signat acompanyats de Informació de la Firma, Signants, custòdia i validacions realitzades."
-            )
+            summary = "Retorna el Fitxer Signat acompanyats de Informació de la Firma, Signants, custòdia i validacions realitzades.")
     @ApiResponses(
             value = { @ApiResponse(
                     responseCode = "200",
@@ -1326,7 +1357,7 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
 
         Long custodiaInfoID = null;
 
-        final int origenPeticioDeFirma = ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2;
+        final int origenPeticioDeFirma = ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_ASYNC_V1;
 
         PeticioDeFirmaJPA peticio = new PeticioDeFirmaJPA(peticioDeFirmaID, titol, descripcio, motiu, fitxerAFirmarID,
                 firmaOriginalDetachedID, fitxerAdaptatID, tipusDocumentID, descripcioTipusDocument, dataSolicitud,

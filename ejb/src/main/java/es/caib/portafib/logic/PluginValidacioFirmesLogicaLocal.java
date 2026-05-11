@@ -5,6 +5,7 @@ import javax.ejb.Local;
 import org.fundaciobit.pluginsib.validatesignature.api.IValidateSignaturePlugin;
 import org.fundaciobit.pluginsib.validatesignature.api.ValidateSignatureResponse;
 
+import es.caib.portafib.logic.PluginValidacioFirmesLogicaEJB.GrupEstadisticaValidacio;
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 
 /**
@@ -18,7 +19,8 @@ public interface PluginValidacioFirmesLogicaLocal extends
 
   String JNDI_NAME = "java:app/portafib-ejb/PluginValidacioFirmesLogicaEJB";
 
-  public ValidateSignatureResponse validateSignature(final String entitatID, String signType,
+  public ValidateSignatureResponse validateSignature(final String entitatID, final String usuariAplicacio,
+          final GrupEstadisticaValidacio grupEstadistica, String signType,
       IPortaFIBDataSource signature, IPortaFIBDataSource documentDetached, String languageUI)
       throws ValidacioException;
 

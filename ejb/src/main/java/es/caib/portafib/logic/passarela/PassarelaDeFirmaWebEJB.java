@@ -5,7 +5,6 @@ import es.caib.portafib.ejb.CodiBarresService;
 import es.caib.portafib.ejb.EstadisticaService;
 import es.caib.portafib.persistence.CustodiaInfoJPA;
 import es.caib.portafib.persistence.EntitatJPA;
-import es.caib.portafib.persistence.EstadisticaJPA;
 import es.caib.portafib.persistence.FirmaJPA;
 import es.caib.portafib.persistence.PeticioDeFirmaJPA;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
@@ -76,7 +75,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
 /**
@@ -121,6 +119,26 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
         return modulDeFirmaEjb;
     }
 
+    /**
+     * 
+     * @param signaturesSet     
+     * @param entitatID
+     * @param fullView
+     * @param usuariAplicacio
+     * @param perfilDeFirma
+     * @param configBySignID
+     * @param tipusDocumentalBySignID
+     * @param origenPeticioDeFirma  ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_PASSARELA_WEB = -1;
+    ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB = 0;
+    ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1 = 1;
+    ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2 = 2;
+    ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_SIMPLE_WEB_V1 = 3;
+    ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_ASYNC_V1 = 4;
+    ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_SYNC_V1 = 5;
+     * @return
+     * @throws I18NException
+     * @throws I18NValidationException
+     */
     @Override
     public String startTransaction(PassarelaSignaturesSet signaturesSet, String entitatID, boolean fullView,
             UsuariAplicacioJPA usuariAplicacio, PerfilDeFirma perfilDeFirma,
@@ -196,14 +214,45 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                 File adaptat = getFitxerAdaptatPath(signaturesSetID, signID);
                 originalNumberOfSignsArray[count] = processFileToSign(locale, entitatID, pfis, original, adaptat,
                         usuariAplicacio);
+                /*
+                int tipusFirmaID = SignatureUtils.convertApiSignTypeToPortafibSignType(pfis.getSignType());
+                
+                switch(tipusFirmaID) {
+                    case ConstantsV2.TIPUSFIRMA_PADES:
+                        
+                        
+                        log.info("\n\n PATH O= " + original.getAbsolutePath() + "\n\n");
+                        log.info("\n\n EXIST O= " + original.exists() + "\n\n");
+                        
+                        log.info("\n\n PATH A= " + adaptat.getAbsolutePath() + "\n\n");
+                        log.info("\n\n EXIST A= " + adaptat.exists() + "\n\n");
+                        
+                        
+                        
+                        
+                        
+                    break;
+                    
+                    case ConstantsV2.TIPUSFIRMA_CADES:
+                    case ConstantsV2.TIPUSFIRMA_XADES:
+                        // No s'ha de fer cap comprovació especial
+                    break;
+                    
+                    default:
+                        String msg = "Tipus de firma desconegut: " + pfis.getSignType() + " per a SignID: " + signID;
+                        log.error(msg, new Exception());
+                        throw new I18NException("genapp.comodi", msg);
+                }
+                */
+
+                final String titol = nom + "_" + signaturesSet.getSignaturesSetID() + "_" + signID;
+                CustodiaInfoJPA cust;
 
                 if (custodiaInfo != null) {
 
                     pfis.setSecureVerificationCodeStampInfo(psvcs);
 
-                    String titol = nom + "_" + signaturesSet.getSignaturesSetID() + "_" + signID;
-
-                    CustodiaInfoJPA cust = CustodiaInfoJPA.toJPA(custodiaInfo);
+                    cust = CustodiaInfoJPA.toJPA(custodiaInfo);
 
                     cust.setCustodiaInfoID(0);
                     cust.setTitolPeticio(titol);
@@ -214,43 +263,46 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                         log.debug("Creada custodia per SIGID[" + signID + "] ==> " + cust);
                     }
                     custodiaBySignID.put(signID, cust);
-
-                    UsuariAplicacioConfiguracioJPA config = configBySignID.get(signID);
-
-                    Long tipusDocumentID = tipusDocumentalBySignID.get(signID);
-
-                    if (tipusDocumentID == null) {
-                        tipusDocumentID = 99L; // == TD99
-                    }
-
-                    PeticioDeFirmaJPA peticioDeFirma = convertPassarelaFileInfoSignature2PeticioDeFirma(titol,
-                            origenPeticioDeFirma, tipusDocumentID, usuariAplicacio, pfis, cust, config, entitatJPA);
-                    peticioDeFirmaBySignID.put(signID, peticioDeFirma);
-
-                    // Peticio de Firma
-                    CustodiaForStartPeticioDeFirma custStartInfo = custodiaInfoLogicaEjb
-                            .custodiaCommonActionsOnStartPeticioDeFirma(peticioDeFirma, cust);
-
-                    switch (peticioDeFirma.getTipusFirmaID()) {
-
-                        case ConstantsV2.TIPUSFIRMA_PADES:
-                            custodiaInfoLogicaEjb.custodiaPAdESActionsOnStartPeticioDeFirma(peticioDeFirma, cust,
-                                    custStartInfo, locale);
-                        break;
-
-                        case ConstantsV2.TIPUSFIRMA_CADES:
-                        case ConstantsV2.TIPUSFIRMA_XADES:
-                        // No s'ha de fer res especial
-                        break;
-
-                        default:
-                            // XYZ ZZZ TRA
-                            String msg = "ID de Tipus de Firma desconegut: " + peticioDeFirma.getTipusFirmaID();
-                            log.error(msg, new Exception());
-                            throw new I18NException("genapp.comodi", msg);
-                    }
+                } else {
+                    cust = null;
                 }
 
+                UsuariAplicacioConfiguracioJPA config = configBySignID.get(signID);
+
+                Long tipusDocumentID = tipusDocumentalBySignID.get(signID);
+
+                if (tipusDocumentID == null) {
+                    tipusDocumentID = 99L; // == TD99
+                }
+
+                PeticioDeFirmaJPA peticioDeFirma = convertPassarelaFileInfoSignature2PeticioDeFirma(titol,
+                        origenPeticioDeFirma, tipusDocumentID, usuariAplicacio, pfis, cust, config, entitatJPA);
+                peticioDeFirmaBySignID.put(signID, peticioDeFirma);
+
+                switch (peticioDeFirma.getTipusFirmaID()) {
+
+                    case ConstantsV2.TIPUSFIRMA_PADES:
+                        if (custodiaInfo != null) {
+
+                            // Peticio de Firma
+                            CustodiaForStartPeticioDeFirma custStartInfo = custodiaInfoLogicaEjb
+                                    .custodiaCommonActionsOnStartPeticioDeFirma(peticioDeFirma, cust);
+                            custodiaInfoLogicaEjb.custodiaPAdESActionsOnStartPeticioDeFirma(peticioDeFirma, cust,
+                                    custStartInfo, locale);
+                        }
+                    break;
+
+                    case ConstantsV2.TIPUSFIRMA_CADES:
+                    case ConstantsV2.TIPUSFIRMA_XADES:
+                    // No s'ha de fer res especial
+                    break;
+
+                    default:
+                        // XYZ ZZZ TRA
+                        String msg = "ID de Tipus de Firma desconegut: " + peticioDeFirma.getTipusFirmaID();
+                        log.error(msg, new Exception());
+                        throw new I18NException("genapp.comodi", msg);
+                }
                 count++;
             }
 
@@ -275,7 +327,11 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                 }
             }
 
-            deleteSignaturesSet(signaturesSetID);
+            if (!deleteSignaturesSetByTransactionID(signaturesSetID)) {
+                deleteSignaturesSetDirectory(signaturesSetID);
+            }
+            ;
+
             throw i18n;
         }
 
@@ -532,7 +588,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     @Override
     public void closeTransaction(String transactionID) {
         //log.info("closeTransaction():: Cridant a deleteSignaturesSet(" + transactionID + ")");
-        deleteSignaturesSet(transactionID);
+        deleteSignaturesSetByTransactionID(transactionID);
     }
 
     @Override
@@ -757,11 +813,15 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                 }
             }
             if (signaturesValides > 0) {
+                
+                // Noves entrades a la taula d'estadístiques per retornar informació a COMANDA #1162
+                /*
+                
                 // Estadistiques
                 try {
                     EstadisticaJPA est = new EstadisticaJPA();
                     est.setValor((double) signaturesValides);
-                    est.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FIRMES);
+                    est.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PASSARELA_FIRMA_WEB);
                     est.setUsuariAplicacioID(ssf.getApplicationID());
                     {
                         Properties params = new Properties();
@@ -778,6 +838,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                 } catch (Throwable th) {
                     log.error("Error afegint estadistiques de Peticio Finalitzada: " + th.getMessage(), th);
                 }
+                */
             }
         }
 
@@ -896,7 +957,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
         try {
             final boolean validateChangesInAttachedFiles = administrationIdCanBeValidatedFromPlugin;
             validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(
-                    ssf.getSignaturesSet().getSignaturesSetID(), validacioRequest, validateChangesInAttachedFiles);
+                    ssf.getSignaturesSet().getSignaturesSetID(), validacioRequest, validateChangesInAttachedFiles,
+                    ssf.getApplicationID());
         } catch (ValidacioException e) {
             throw new I18NException("genapp.comodi", e.getMessage());
         }
@@ -984,16 +1046,6 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
         }
     }
 
-    protected void deleteSignaturesSet(String transactionID) {
-        PassarelaSignaturesSetWebInternalUse pss = readSignaturesSet(transactionID);
-        if (pss == null) {
-            log.warn("NO Existeix signaturesSetID igual a " + transactionID);
-            return;
-        }
-
-        deleteSignaturesSet(pss);
-    }
-
     @Override
     public Map<String, PassarelaSignaturesSetWebInternalUse> getAllTransactionsByEntitatID(String entitatID)
             throws I18NException {
@@ -1013,10 +1065,26 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
         return map;
     }
 
+    protected boolean deleteSignaturesSetByTransactionID(String transactionID) {
+        PassarelaSignaturesSetWebInternalUse pss = readSignaturesSet(transactionID);
+        if (pss == null) {
+            log.warn("NO Existeix signaturesSetID igual a " + transactionID);
+            return false;
+        }
+
+        deleteSignaturesSet(pss);
+
+        return true;
+    }
+
     protected void deleteSignaturesSet(PassarelaSignaturesSetWebInternalUse pss) {
 
         final String signaturesSetID = pss.getSignaturesSet().getSignaturesSetID();
 
+        deleteSignaturesSetDirectory(signaturesSetID);
+    }
+
+    public final void deleteSignaturesSetDirectory(final String signaturesSetID) {
         //log.info("deleteSignaturesSet amb signaturesSetID = " + signaturesSetID);
 
         // ESBORRAR TOT DIRECTORI

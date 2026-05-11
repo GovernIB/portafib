@@ -2,6 +2,8 @@ package es.caib.portafib.rest.controller.apifirmasimple.v1;
 
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.rest.controller.LoginInfo;
+import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.logic.EstadisticaLogicaLocal;
 import es.caib.portafib.logic.ValidacioCompletaFirmaLogicaLocal;
 import es.caib.portafib.logic.passarela.NoCompatibleSignaturePluginException;
 import es.caib.portafib.logic.passarela.PassarelaSignatureInServerResults;
@@ -145,6 +147,9 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
     @EJB(mappedName = ValidacioCompletaFirmaLogicaLocal.JNDI_NAME)
     protected ValidacioCompletaFirmaLogicaLocal validacioCompletaLogicaEjb;
 
+    @EJB(mappedName = EstadisticaLogicaLocal.JNDI_NAME)
+    protected EstadisticaLogicaLocal estadisticaLogicaEjb;
+
     @RequestMapping(value = "/" + ApiFirmaEnServidorSimple.UPGRADESIGNATURE, method = RequestMethod.POST)
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
@@ -155,13 +160,17 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
         FirmaSimpleFile signature = fsur.getSignature();
 
         //log.info("ENTRA A upgradeSignature => signature: " + signature);
+        AuthenticateInfo authInfo = autenticateUsrAppFull(request);
 
-        String error = autenticateUsrApp(request);
+        String error = authInfo.getErrorMsg();
         if (error != null) {
             return generateServerError(error, HttpStatus.UNAUTHORIZED);
         }
 
         if (fsur.getLanguageUI() == null) {
+
+            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_UPGRADE_ERROR,
+                    authInfo.getUsuariAplicacio());
             // XYZ ZZZ TRA
             return generateServerError("L'objecte FirmaSimpleUpgradeRequest o l'idioma valen null.");
         }
@@ -240,23 +249,31 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
             if (isDebug) {
                 log.info("Surt de upgradeSignature => FINAL OK");
             }
+            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_UPGRADE_OK,
+                    authInfo.getUsuariAplicacio());
 
             return re;
 
-        } catch (NoCompatibleSignaturePluginException nape) {
-
-            return generateNoAvailablePlugin(fsur.getLanguageUI(), false, nape);
-
-        } catch (I18NException i18ne) {
-            // XYZ ZZZ
-            String msg = I18NLogicUtils.getMessage(i18ne, new Locale(fsur.getLanguageUI()));
-            log.error(msg, i18ne);
-            return generateServerError(msg);
-
         } catch (Throwable th) {
-            // XYZ ZZZ TRA
-            String msg = "Error desconegut durant el procés d'actualització de firma: " + th.getMessage();
+
+            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_UPGRADE_ERROR,
+                    authInfo.getUsuariAplicacio());
+
+            if (th instanceof NoCompatibleSignaturePluginException) {
+                // No es comptible el plugin de firma per fer l'upgrade
+                return generateNoAvailablePlugin(fsur.getLanguageUI(), false,
+                        (NoCompatibleSignaturePluginException) th);
+            }
+
+            final String msg;
+            if (th instanceof I18NException) {
+                msg = I18NLogicUtils.getMessage((I18NException) th, new Locale(fsur.getLanguageUI()));
+            } else {
+                // XYZ ZZZ TRA
+                msg = "Error desconegut durant el procés d'actualització de firma: " + th.getMessage();
+            }
             log.error(msg, th);
+
             return generateServerError(msg, th);
         }
 
@@ -333,8 +350,9 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
     FirmaSimpleSignDocumentRequest simpleSignature) {
 
         //log.info("ENTRA A signDocuments => simpleSignature: " + simpleSignature);
+        AuthenticateInfo authInfo = autenticateUsrAppFull(request);
 
-        String error = autenticateUsrApp(request);
+        String error = authInfo.getErrorMsg();
         if (error != null) {
             return generateServerError(error, HttpStatus.UNAUTHORIZED);
         }
@@ -431,8 +449,18 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
                                     profileSignType, result.getSignedFile(), result.getSignedFileInfo(),
                                     loginInfo.getEntitat().getEntitatID(), useSignPolicy, vcr, languageUI));
 
+                    estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_SERVIDOR_OK,
+                            authInfo.getUsuariAplicacio());
+
+                } else {
+
+                    estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_SERVIDOR_ERROR,
+                            authInfo.getUsuariAplicacio());
                 }
             } else {
+
+                estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_SERVIDOR_ERROR,
+                        authInfo.getUsuariAplicacio());
                 // Passam l'error general a l'error de la firma
                 result = new FirmaSimpleSignatureResult(signID, statusGlobal, null, null);
             }
@@ -443,18 +471,18 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimple
 
             return re;
 
-        } catch (I18NException i18ne) {
-
-            String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
-
-            log.error(msg, i18ne);
-
-            return generateServerError(msg);
-
         } catch (Throwable th) {
 
-            // XYZ ZZZ TRA
-            String msg = "Error desconegut iniciant el proces de Firma: " + th.getMessage();
+            final String msg;
+            if (th instanceof I18NException) {
+                msg = I18NLogicUtils.getMessage((I18NException) th, new Locale(languageUI));
+            } else {
+                // XYZ ZZZ TRA
+                msg = "Error desconegut iniciant el proces de Firma: " + th.getMessage();
+            }
+
+            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_SERVIDOR_ERROR,
+                    authInfo.getUsuariAplicacio());
 
             log.error(msg, th);
 

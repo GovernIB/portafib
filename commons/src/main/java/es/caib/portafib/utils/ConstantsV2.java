@@ -1,6 +1,8 @@
 package es.caib.portafib.utils;
 
 import java.nio.charset.Charset;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -195,16 +197,16 @@ public interface ConstantsV2 {
      * @deprecated See Constants.CONTEXT_EXTERNALUSER_TOKEN_PUBLIC
      */
     @Deprecated(since = "3.0.12", forRemoval = true)
-    public static final String CONTEXT_EXTERNALUSER_TOKEN = "/common/externaluser/token";    
+    public static final String CONTEXT_EXTERNALUSER_TOKEN = "/common/externaluser/token";
     public static final String CONTEXT_EXTERNALUSER_TOKEN_PUBLIC = "/public/externaluser/token";
-    
+
     /** Aquest context s'ha de mantenir per compatibilitat amb les versions anteriors però no s'ha d'utilitzar en cap
      *  lloc del codi ja que es va canviar el nom a CONTEXT_EXTERNALUSER_ESTATDEFIRMA_PUBLIC per temes de permisos 
      *  del context web "common" 
      * @deprecated See Constants.CONTEXT_EXTERNALUSER_ESTATDEFIRMA_PUBLIC
      */
     @Deprecated(since = "3.0.12", forRemoval = true)
-    public static final String CONTEXT_EXTERNALUSER_ESTATDEFIRMA = "/common/externaluser/estatdefirma";    
+    public static final String CONTEXT_EXTERNALUSER_ESTATDEFIRMA = "/common/externaluser/estatdefirma";
     public static final String CONTEXT_EXTERNALUSER_ESTATDEFIRMA_PUBLIC = "/public/externaluser/estatdefirma";
 
     //==============================================================
@@ -294,13 +296,167 @@ public interface ConstantsV2 {
     // ----- ESTADISTICA #168 ------
     // ========================================================
 
+    // TODO DEBUG Deprecar aquestes constants
+    @Deprecated
     public static final int ESTADISTICA_TIPUS_PETICIO_INICI = 0;
-
+    @Deprecated
     public static final int ESTADISTICA_TIPUS_PETICIO_FINAL = 1;
-
+    @Deprecated
     public static final int ESTADISTICA_TIPUS_PETICIO_REBUTJADA = 2;
+    @Deprecated
+    public static final int ESTADISTICA_TIPUS_PETICIO_FIRMA_REALITZADA = 3;
 
-    public static final int ESTADISTICA_TIPUS_PETICIO_FIRMES = 3;
+    // TODO DEBUG Deprecar aquestes constants
+    @Deprecated
+    public static final int ESTADISTICA_TIPUS_PASSARELA_FIRMA_SERVIDOR = 5;
+    @Deprecated
+    public static final int ESTADISTICA_TIPUS_PASSARELA_FIRMA_WEB = 6;
+
+    public static final int ESTADISTICA_TIPUS_APIFIRMASIMPLE_SERVIDOR_OK = 10;
+    public static final int ESTADISTICA_TIPUS_APIFIRMASIMPLE_SERVIDOR_ERROR = -10;
+    public static final int ESTADISTICA_TIPUS_APIFIRMASIMPLE_UPGRADE_OK = 15;
+    public static final int ESTADISTICA_TIPUS_APIFIRMASIMPLE_UPGRADE_ERROR = -15;
+
+    // TODO XYZ DEBUG Falta afegir estadistica d'aquest cas
+    public static final int ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_CREADA = 20;
+    public static final int ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_OK = 21;
+    // Nota: un valor més gran que 100 significa CANCEL·LADA
+    public static final int ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_CANCEL = 121;
+    public static final int ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_ERROR = -21;
+
+    // TODO XYZ DEBUG Falta afegir estadistica d'aquest cas
+    public static final int ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_CREADA = 30;
+    public static final int ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_OK = 31;
+    // Nota: un valor més gran que 100 significa CANCEL·LADA
+    public static final int ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_CANCEL = 131;
+    public static final int ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_ERROR = -31;
+    public static final int ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_FIRMA = 32;
+
+    public static final int ESTADISTICA_TIPUS_APISWAGGER_SIGNONSERVERV1_OK = 40;
+    public static final int ESTADISTICA_TIPUS_APISWAGGER_SIGNONSERVERV1_ERROR = -40;
+    public static final int ESTADISTICA_TIPUS_APISWAGGER_UPGRADEV1_OK = 41;
+    public static final int ESTADISTICA_TIPUS_APISWAGGER_UPGRADEV1_ERROR = -41;
+
+    public static final int ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_VALID = 45;
+    // Nota: un valor més gran que 100 significa una FIRMA INVALIDA
+    public static final int ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_INVALID = 145;
+    public static final int ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_ERROR = -45;
+
+    public static final int ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_VALID = 47;
+    // Nota: un valor més gran que 100 significa una FIRMA INVALIDA
+    public static final int ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_INVALID = 147;
+    public static final int ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_ERROR = -47;
+
+    // TODO XYZ DEBUG Falta afegir estadistica d'aquest cas
+    public static final int ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_CREADA = 50;
+    public static final int ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_OK = 51;
+    // Nota: un valor més gran que 100 significa CANCEL·LADA
+    public static final int ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_CANCEL = 151;
+    public static final int ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_ERROR = -51;
+
+    public static final int ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_CREADA = 60;
+    public static final int ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_OK = 61;
+    // Nota: un valor més gran que 100 significa CANCEL·LADA
+    public static final int ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_CANCEL = 161;
+    public static final int ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_ERROR = -61;
+    
+    public static final int ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_FIRMA = 62;
+    
+
+    // Estadistiques Antigues
+    public static final int[] ESTADISTICA_TIPUS = { 
+            ESTADISTICA_TIPUS_APIFIRMASIMPLE_SERVIDOR_OK, ESTADISTICA_TIPUS_APIFIRMASIMPLE_SERVIDOR_ERROR,
+            ESTADISTICA_TIPUS_APIFIRMASIMPLE_UPGRADE_OK, ESTADISTICA_TIPUS_APIFIRMASIMPLE_UPGRADE_ERROR,
+            ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_CREADA, ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_OK,
+            ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_CANCEL, ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_ERROR,
+            ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_CREADA, ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_OK,
+            ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_CANCEL, ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_ERROR,
+            ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_FIRMA,
+            ESTADISTICA_TIPUS_APISWAGGER_SIGNONSERVERV1_OK, ESTADISTICA_TIPUS_APISWAGGER_SIGNONSERVERV1_ERROR,
+            ESTADISTICA_TIPUS_APISWAGGER_UPGRADEV1_OK, ESTADISTICA_TIPUS_APISWAGGER_UPGRADEV1_ERROR,
+            ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_VALID, ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_INVALID,
+            ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_ERROR, ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_VALID,
+            ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_INVALID, ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_ERROR,
+            ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_CREADA, ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_OK,
+            ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_CANCEL, ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_ERROR,
+            ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_CREADA, ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_OK,
+            ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_CANCEL, ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_ERROR,
+            ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_FIRMA
+            };
+
+    // GRUPS D'ESTADISTIQUES
+
+
+    public static final int ESTADISTICA_GRUP_APIFIRMASIMPLE_SERVIDOR_UPGRADE = 3;
+
+    public static final int ESTADISTICA_GRUP_APIFIRMASIMPLE_SINCRONA = 4;
+
+    public static final int ESTADISTICA_GRUP_APIFIRMASIMPLE_ASINCRONA = 5;
+
+    public static final int ESTADISTICA_GRUP_APISWAGGER_SERVER_UPGRADE = 6;
+
+    public static final int ESTADISTICA_GRUP_APISWAGGER_SYNCV1 = 7;
+
+    public static final int ESTADISTICA_GRUP_APISWAGGER_ASYNCV1 = 8;
+
+    public static final int ESTADISTICA_GRUP_APISWAGGER_VALIDATEV1 = 9;
+
+    public static final int ESTADISTICA_GRUP_PORTAFIB_VALIDATE = 10;
+
+    /**
+     * Inclou les apis de Firma en Servidor, Upgrade de Firma i Validacio
+     */
+    public static final int[] ESTADISTIQUES_GRUPS_SIGNONSERVER_AND_UPGRADE = {
+            ESTADISTICA_GRUP_APIFIRMASIMPLE_SERVIDOR_UPGRADE, ESTADISTICA_GRUP_APISWAGGER_SERVER_UPGRADE };
+
+    public static final int[] ESTADISTIQUES_GRUPS_VALIDATE = { 
+            ESTADISTICA_GRUP_APISWAGGER_VALIDATEV1, ESTADISTICA_GRUP_PORTAFIB_VALIDATE };
+
+    public static final Map<Integer, List<Integer>> ESTADISTIQUES_BY_GRUP = Map.of(
+            
+
+            // -----------------  ESTADISTICA_GRUP_APIFIRMASIMPLE_SERVIDOR_UPGRADE
+            ESTADISTICA_GRUP_APIFIRMASIMPLE_SERVIDOR_UPGRADE,
+            List.of(ESTADISTICA_TIPUS_APIFIRMASIMPLE_SERVIDOR_OK, ESTADISTICA_TIPUS_APIFIRMASIMPLE_SERVIDOR_ERROR,
+                    ESTADISTICA_TIPUS_APIFIRMASIMPLE_UPGRADE_OK, ESTADISTICA_TIPUS_APIFIRMASIMPLE_UPGRADE_ERROR),
+
+            // ------------------  ESTADISTICA_GRUP_APIFIRMASIMPLE_SINCRONA
+            ESTADISTICA_GRUP_APIFIRMASIMPLE_SINCRONA,
+            List.of(ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_CREADA, ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_OK,
+                    ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_CANCEL, ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_ERROR),
+
+            //  -----------------  ESTADISTICA_GRUP_APISWAGGER_SERVER_UPGRADE
+            ESTADISTICA_GRUP_APISWAGGER_SERVER_UPGRADE,
+            List.of(ESTADISTICA_TIPUS_APISWAGGER_SIGNONSERVERV1_OK, ESTADISTICA_TIPUS_APISWAGGER_SIGNONSERVERV1_ERROR,
+                    ESTADISTICA_TIPUS_APISWAGGER_UPGRADEV1_OK, ESTADISTICA_TIPUS_APISWAGGER_UPGRADEV1_ERROR),
+
+            // ------------------ ESTADISTICA_GRUP_APISWAGGER_VALIDATEV1
+            ESTADISTICA_GRUP_APISWAGGER_VALIDATEV1,
+            List.of(ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_VALID, ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_INVALID,
+                    ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_ERROR),
+            
+            //  -----------------  ESTADISTICA_GRUP_APISWAGGER_SYNCV1
+            ESTADISTICA_GRUP_APISWAGGER_SYNCV1,
+            List.of(ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_CREADA, ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_OK, 
+                    ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_CANCEL, ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_ERROR),
+
+            // ------------------  ESTADISTICA_GRUP_PORTAFIB_VALIDATE
+            ESTADISTICA_GRUP_PORTAFIB_VALIDATE, List.of(ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_VALID,
+                    ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_INVALID, ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_ERROR),
+            
+            // ------------------ ESTADISTICA_GRUP_APIFIRMASIMPLE_ASINCRONA
+            ESTADISTICA_GRUP_APIFIRMASIMPLE_ASINCRONA, 
+            List.of(ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_CREADA, ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_OK,
+                    ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_CANCEL, ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_ERROR,
+                    ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_FIRMA),
+            
+            // ------------------ ESTADISTICA_GRUP_APISWAGGER_ASYNCV1
+            ESTADISTICA_GRUP_APISWAGGER_ASYNCV1,
+             List.of(ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_CREADA, ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_OK, 
+                    ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_CANCEL, ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_ERROR,
+                    ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_FIRMA)
+
+    );
 
     //========================================================
     // -- POLITICA DE CUSTODIA (Es troben a Constants de WS --
@@ -420,7 +576,7 @@ public interface ConstantsV2 {
 
     /** Attached
      * @see SignatureConstants#SIGN_MODE_ATTACHED_ENVELOPED, SignatureConstants#SIGN_MODE_ATTACHED_ENVELOPING
-     */    
+     */
     @Deprecated
     public static final boolean SIGN_MODE_IMPLICIT = false;
     /** Detached
@@ -451,12 +607,16 @@ public interface ConstantsV2 {
     // ----------  Origen Peticio de Firma #281 ---------------
     // ========================================================
 
-    // XYZ ZZZ Quan s'elimini PASSARELA aquesta també s'ha d'esborrar 
+    // TODO DEPRECAR
     public static final int ORIGEN_PETICIO_DE_FIRMA_API_PASSARELA_WEB = -1;
     public static final int ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB = 0;
+    
+    // TODO DEPRECAR
     public static final int ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1 = 1;
     public static final int ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2 = 2;
     public static final int ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_SIMPLE_WEB_V1 = 3;
+    public static final int ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_ASYNC_V1 = 4;
+    public static final int ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_SYNC_V1 = 5;
 
     // ========================================================
     // -------------  Bitàcola genèrica #325  -----------------

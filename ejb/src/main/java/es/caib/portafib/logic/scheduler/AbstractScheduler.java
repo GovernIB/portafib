@@ -41,7 +41,7 @@ public abstract class AbstractScheduler  {
         for(AbstractScheduler scheduler : SCHEDULER_INSTANCES.values()) {
             sb.append("Scheduler '").append(scheduler.getSchedulerName()).append("': ");
             try {
-                ScheduleExpression schedule = fromCron(scheduler.getCronExpression());
+                //ScheduleExpression schedule = fromCron(scheduler.getCronExpression());
                 sb.append("Properes execucions: ");
                 boolean first = true;
                 for (Timer timer : scheduler.timerService.getTimers()) {

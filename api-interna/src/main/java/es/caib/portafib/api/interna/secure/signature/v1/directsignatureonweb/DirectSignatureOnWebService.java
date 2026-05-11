@@ -42,6 +42,7 @@ import es.caib.portafib.api.interna.secure.signature.v1.commons.SignPlugin;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.SignatureStatus;
 import es.caib.portafib.api.interna.secure.signature.v1.signatureonserver.SignatureResponse;
 import es.caib.portafib.commons.utils.Constants;
+import es.caib.portafib.logic.EstadisticaLogicaLocal;
 import es.caib.portafib.logic.passarela.PassarelaSignatureStatusWebInternalUse;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSetWebInternalUse;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
@@ -129,6 +130,10 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
     @EJB(mappedName = es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal.JNDI_NAME)
     protected es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal passarelaDeFirmaWebEjb;
+    
+    @EJB(mappedName = EstadisticaLogicaLocal.JNDI_NAME)
+    protected EstadisticaLogicaLocal estadisticaLogicaEjb;
+    
 
     protected static final DirectTransactionManager directTransactionManager = new DirectTransactionManager();
 
@@ -449,9 +454,9 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
                 // TODO XYZ ZZZ Traduir
                 final Map<Integer, String> ESTATS = Map.of(TransactionInfo.STATUS_RESERVED_ID, "STATUS_RESERVED_ID",
                         TransactionInfo.STATUS_IN_PROGRESS, "STATUS_IN_PROGRESS");
-                
-                throw new RestException("La transacció " + transactionID + " es troba en un estat "  
-                        + ESTATS.get(ti.getStatus()) + " (" + ti.getStatus() 
+
+                throw new RestException("La transacció " + transactionID + " es troba en un estat "
+                        + ESTATS.get(ti.getStatus()) + " (" + ti.getStatus()
                         + " ). Només es permet arrancar una transacció si aquesta es troba en estat Reservat");
             }
 
@@ -514,7 +519,7 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
             // CRIDAR A START TRANSACION
             final boolean fullView = StartTransactionRequest.VIEW_FULLSCREEN.equals(startTransactionRequest.getView());
 
-            final int origenPeticioDeFirma = ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_SIMPLE_WEB_V1;
+            final int origenPeticioDeFirma = ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_SYNC_V1;
 
             String redirectUrl = passarelaDeFirmaWebEjb.startTransaction(pss, entitat.getEntitatID(), fullView,
                     usrAppJPA, perfilDeFirma, configBySignID, tipusDocumentalBySignID, origenPeticioDeFirma);
@@ -524,36 +529,35 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
             log.info(" XYZ ZZZ SURT DE startTransaction => FINAL OK");
 
             ti.setStatus(TransactionInfo.STATUS_IN_PROGRESS);
+            
+            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_CREADA, usrAppJPA);
 
             return redirectUrl;
 
-        } catch (RestException re) {
-            log.error(re.getMessage(), re);
-            throw re;
-
-        } catch (I18NValidationException i18nve) {
-
-            String msg = I18NLogicUtils.getMessage(i18nve, new Locale(languageUI));
-            log.error(msg, i18nve);
-            throw new RestException(msg);
-
-        } catch (I18NException i18ne) {
-
-            String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
-
-            log.error(msg, i18ne);
-
-            throw new RestException(msg);
-
         } catch (Throwable th) {
+            
+            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_ERROR, usrAppJPA);
+            
 
-            // XYZ ZZZ TRA
-            String msg = "Error desconegut iniciant el proces de Firma de la transacció " + transactionID
-                    + " per part de l'usuari " + usrAppJPA.getUsuariAplicacioID() + ": " + th.getMessage();
+            if (th instanceof RestException) {
+                log.error(th.getMessage(), th);
+                throw (RestException) th;
+            } else if (th instanceof I18NValidationException) {
+                String msg = I18NLogicUtils.getMessage((I18NValidationException) th, new Locale(languageUI));
+                log.error(msg, th);
+                throw new RestException(msg);
 
-            log.error(msg, th);
-
-            throw new RestException(msg, th);
+            } else if (th instanceof I18NException) {
+                String msg = I18NLogicUtils.getMessage((I18NException) th, new Locale(languageUI));
+                log.error(msg, th);
+                throw new RestException(msg);
+            } else {
+                // XYZ ZZZ TRA
+                String msg = "Error desconegut iniciant el proces de Firma de la transacció " + transactionID
+                        + " per part de l'usuari " + usrAppJPA.getUsuariAplicacioID() + ": " + th.getMessage();
+                log.error(msg, th);
+                throw new RestException(msg, th);
+            }
         }
 
     }

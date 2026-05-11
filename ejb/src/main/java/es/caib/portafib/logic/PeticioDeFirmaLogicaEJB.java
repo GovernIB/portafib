@@ -15,7 +15,6 @@ import es.caib.portafib.persistence.AnnexJPA;
 import es.caib.portafib.persistence.BlocDeFirmesJPA;
 import es.caib.portafib.persistence.CustodiaInfoJPA;
 import es.caib.portafib.persistence.EntitatJPA;
-import es.caib.portafib.persistence.EstadisticaJPA;
 import es.caib.portafib.persistence.EstatDeFirmaJPA;
 import es.caib.portafib.persistence.FirmaJPA;
 import es.caib.portafib.persistence.FitxerJPA;
@@ -60,7 +59,6 @@ import es.caib.portafib.model.entity.BlocDeFirmes;
 import es.caib.portafib.model.entity.ColaboracioDelegacio;
 import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.entity.Entitat;
-import es.caib.portafib.model.entity.Estadistica;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.entity.Firma;
 import es.caib.portafib.model.entity.Fitxer;
@@ -401,7 +399,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             break;
 
             case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
-            case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2: {
+            case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+            case ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_ASYNC_V1: {
                 // Peticio via UsrApp
                 // #186
                 if (PropietatGlobalUtil.isDisabledSignaturesTable()) {
@@ -695,6 +694,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                 log.debug("State NO INICIAT = " + ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT);
             }
 
+            @SuppressWarnings("unused")
             boolean esInici;
             if (ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT == currentState) {
 
@@ -782,17 +782,16 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             firmaEventManagerEjb.processList(events, wakeupTimer);
 
             // Estadistiques
+            // Noves entrades a la taula d'estadístiques per retornar informació a COMANDA #1162
+            /*
             if (esInici) {
                 try {
-                    String entitatID = peticioDeFirma.getUsuariAplicacio().getEntitatID();
+                    final String entitatID = peticioDeFirma.getUsuariAplicacio().getEntitatID();
+                    final String usrApp = peticioDeFirma.getSolicitantUsuariAplicacioID();
+                    final int tipus = ConstantsV2.ESTADISTICA_TIPUS_PETICIO_INICI;
+                    final String usrent = peticioDeFirma.getSolicitantUsuariEntitat1ID();
 
-                    Estadistica est = new EstadisticaJPA();
-
-                    est.setValor(1.0);
-                    est.setUsuariAplicacioID(peticioDeFirma.getSolicitantUsuariAplicacioID());
-                    est.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_INICI);
-                    String usrent = peticioDeFirma.getSolicitantUsuariEntitat1ID();
-                    est.setUsuariEntitatID(usrent);
+                    final String paramsStr;
                     {
                         Properties params = new Properties();
                         params.setProperty("entitatID", entitatID);
@@ -803,17 +802,16 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                         if (usrent != null) {
                             params.setProperty("usuariEntitatID", usrent);
                         }
-                        est.setParametres(getPropertiesAsString(params));
+                        paramsStr = getPropertiesAsString(params);
                     }
-                    est.setEntitatID(entitatID);
-                    est.setData(new Timestamp(System.currentTimeMillis()));
 
-                    estadisticaEjb.create(est);
+                    estadisticaEjb.createEstadistica(tipus, entitatID, usrApp, usrent, paramsStr);
 
                 } catch (Throwable th) {
                     log.error("Error afegint estadistiques de Peticio Iniciada: " + th.getMessage(), th);
                 }
             }
+            */
 
         } catch (Throwable error) {
             log.error("Error arrancant peticio de firma " + peticioDeFirmaID, error);
@@ -959,6 +957,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
                 case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
                 case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+                case ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_ASYNC_V1:
                     // usuari aplicacio
                     log.debug(" Idioma Usuari Aplicació: ");
                     idioma = peticioDeFirma.getUsuariAplicacio().getIdiomaID();
@@ -2213,6 +2212,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                 break;
 
                 case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+                case ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_ASYNC_V1:
                     if (confFirmaId == null) {
                         // XYZ ZZZ TRA
                         throw new I18NException("genapp.comodi",
@@ -2234,6 +2234,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
                 break;
 
+                case ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_SYNC_V1:
+                    // XYZ ZZZ TRA
+                    throw new I18NException("genapp.comodi", "Una petició amb origen"
+                            + " ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_SYNC_V1 no hauria de passar per aquí.");
+
                 case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_SIMPLE_WEB_V1:
                     // XYZ ZZZ TRA
                     throw new I18NException("genapp.comodi", "Una petició amb origen"
@@ -2245,32 +2250,32 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                             + peticioDeFirma.getOrigenPeticioDeFirma() + " és desconegut.");
 
             }
-            
-            
+
             IPortaFIBDataSource fitxerAdaptat = new FitxerIdDataSource(peticioDeFirma.getFitxerAdaptatID());
-            
 
             String expectedPersonaNif;
             {
                 final StringField NIF = new UsuariEntitatQueryPath().USUARIPERSONA().NIF();
                 final Where where = UsuariEntitatFields.USUARIENTITATID.equal(estatDeFirma.getUsuariEntitatID());
                 expectedPersonaNif = usuariEntitatEjb.executeQueryOne(NIF, where);
-                
+
                 expectedPersonaNif = expectedPersonaNif.trim().toUpperCase();
             }
-            
+
             final String nifEmpresaEsperat = null;
             ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID, validarFitxerFirma,
                     checkCanviatDocFirmat, comprovarNifFirma, fitxerOriginal, fitxerAdaptat, signature,
                     documentDetached, peticioDeFirma.getTipusFirmaID(), peticioDeFirma.getModeDeFirma(), languageUI,
-                    numFirmaPortaFIB, numFirmesOriginals, expectedPersonaNif, nifEmpresaEsperat, peticioDeFirma.getPosicioTaulaFirmesID());
+                    numFirmaPortaFIB, numFirmesOriginals, expectedPersonaNif, nifEmpresaEsperat,
+                    peticioDeFirma.getPosicioTaulaFirmesID());
 
             // Aqui es fan totes les validacions completes !!!!!!
             ValidacioCompletaResponse validacioResponse = null;
             try {
                 final boolean validateChangesInAttachedFiles = administrationIdCanBeValidated;
                 validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(String.valueOf(peticioDeFirma),
-                        validacioRequest, validateChangesInAttachedFiles);
+                        validacioRequest, validateChangesInAttachedFiles,
+                        peticioDeFirma.getSolicitantUsuariAplicacioID());
             } catch (ValidacioException e) {
                 throw new I18NException(e, "genapp.comodi", e.getMessage());
             }
@@ -2458,44 +2463,85 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                             + peticioDeFirma.getPeticioDeFirmaID() + ": " + msg, error);
                 }
 
-                // Estadistiques
-                try {
+            }
 
-                    EstadisticaJPA est = new EstadisticaJPA();
+            // 10. Estadistiques
+            try {
 
-                    est.setValor(1.0);
-                    est.setUsuariAplicacioID(peticioDeFirma.getSolicitantUsuariAplicacioID());
-                    est.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FINAL);
-                    est.setUsuariEntitatID(peticioDeFirma.getSolicitantUsuariEntitat1ID());
-                    {
-                        Properties params = new Properties();
-                        params.setProperty("entitatID", entitatID);
-                        params.setProperty("peticioDeFirmaID", String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
-                        params.setProperty("tipusFirmaID", String.valueOf(peticioDeFirma.getTipusFirmaID()));
-                        params.setProperty("tipusDocumentID", String.valueOf(peticioDeFirma.getTipusDocumentID()));
-                        String usrent = peticioDeFirma.getSolicitantUsuariEntitat1ID();
-                        if (usrent != null) {
-                            params.setProperty("usuariEntitatID", usrent);
-                        }
-                        est.setParametres(getPropertiesAsString(params));
-                    }
-                    est.setEntitatID(entitatID);
-                    est.setData(new Timestamp(System.currentTimeMillis()));
+                // NOVES ESTADISTIQUES
+                if (peticioDeFirma
+                        .getOrigenPeticioDeFirma() == ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_ASYNC_V1) {
+                    // Estadística de firmes en peticions amb API Swagger Async V1
+                    estadisticaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_FIRMA, entitatID,
+                            peticioDeFirma.getSolicitantUsuariAplicacioID());
 
-                    estadisticaEjb.createUnauthorized(est);
+                } else if (peticioDeFirma
+                        .getOrigenPeticioDeFirma() == ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2) {
+                    // Estadística de firmes en peticions amb API Firma Async Simple V2
+                    estadisticaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_FIRMA,
+                            entitatID, peticioDeFirma.getSolicitantUsuariAplicacioID());
 
-                    // Estadística amb el nombre de firmes de la petició
-                    Estadistica est2 = EstadisticaJPA.copyJPA(est);
-                    est2.setEstadisticaID(0);
-                    est2.setUsuariEntitatID(null);
-                    est2.setValor(Double.valueOf(firma.getNumFirmaDocument()));
-                    est2.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FIRMES);
-                    estadisticaEjb.createUnauthorized(est2);
-
-                } catch (Throwable th) {
-                    log.error("Error afegint estadistiques de Peticio Finalitzada: " + th.getMessage(), th);
                 }
 
+                // Estadística amb el nombre de firmes de la petició
+                // Noves entrades a la taula d'estadístiques per retornar informació a COMANDA #1162
+                /*
+                Estadistica est2 = new EstadisticaJPA();
+                est2.setValor(1.0);
+                est2.setUsuariAplicacioID(peticioDeFirma.getSolicitantUsuariAplicacioID());
+                est2.setValor(Double.valueOf(firma.getNumFirmaDocument()));
+                est2.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FIRMA_REALITZADA);
+                est2.setEntitatID(entitatID);
+
+                {
+                    Properties params = new Properties();
+                    params.setProperty("entitatID", entitatID);
+                    params.setProperty("peticioDeFirmaID", String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
+                    params.setProperty("tipusFirmaID", String.valueOf(peticioDeFirma.getTipusFirmaID()));
+                    params.setProperty("tipusDocumentID", String.valueOf(peticioDeFirma.getTipusDocumentID()));
+                    String usrent = peticioDeFirma.getSolicitantUsuariEntitat1ID();
+                    if (usrent != null) {
+                        params.setProperty("usuariEntitatID", usrent);
+                    }
+                    est2.setParametres(getPropertiesAsString(params));
+                }
+                estadisticaEjb.createUnauthorized(est2);
+                */
+
+                if (peticioFinalitzada) {
+
+                    if (peticioDeFirma
+                            .getOrigenPeticioDeFirma() == ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_ASYNC_V1) {
+                        // Estadística de firmes en peticions amb API Swagger Async V1
+                        estadisticaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_OK, entitatID,
+                                peticioDeFirma.getSolicitantUsuariAplicacioID());
+
+                    } else if (peticioDeFirma
+                            .getOrigenPeticioDeFirma() == ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2) {
+                        // Estadística de firmes en peticions amb API Firma Async Simple V2
+                        estadisticaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_OK,
+                                entitatID, peticioDeFirma.getSolicitantUsuariAplicacioID());
+                    }
+
+                    // Noves entrades a la taula d'estadístiques per retornar informació a COMANDA #1162
+                    /*
+                    {
+                        EstadisticaJPA est = new EstadisticaJPA();
+                        est.setValor(1.0);
+                        est.setUsuariAplicacioID(peticioDeFirma.getSolicitantUsuariAplicacioID());
+                        est.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FINAL);
+                        est.setUsuariEntitatID(peticioDeFirma.getSolicitantUsuariEntitat1ID());
+                        est.setEntitatID(entitatID);
+                        est.setData(new Timestamp(System.currentTimeMillis()));
+                        est.setParametres(est2.getParametres());
+                        estadisticaEjb.createUnauthorized(est);
+                    }
+                    */
+
+                }
+
+            } catch (Throwable th) {
+                log.error("Error afegint estadistiques de Peticio Firmada: " + th.getMessage(), th);
             }
 
         } catch (Throwable error) {
@@ -2938,34 +2984,44 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
 
     protected void rebutjarEstadistica(String usuariEntitatIDQueRebutja, String entitatID,
             PeticioDeFirmaJPA peticioDeFirma) {
-        // Estadistiques
-        try {
+        // Estadistiques ANTIGUES
+        // 
+        String usrApp = peticioDeFirma.getSolicitantUsuariAplicacioID();
+     // Noves entrades a la taula d'estadístiques per retornar informació a COMANDA #1162
+        /*
+        {
 
-            Estadistica est = new EstadisticaJPA();
-
-            est.setValor(1.0);
-            est.setUsuariAplicacioID(peticioDeFirma.getSolicitantUsuariAplicacioID());
-            est.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_REBUTJADA);
-            est.setUsuariEntitatID(usuariEntitatIDQueRebutja);
+         
+            int tipus = ConstantsV2.ESTADISTICA_TIPUS_PETICIO_REBUTJADA;
+            String quirebutja = usuariEntitatIDQueRebutja;
+            String usrent = peticioDeFirma.getSolicitantUsuariEntitat1ID();
+            String paramStr;
             {
                 Properties params = new Properties();
-                params.setProperty("entitatID", entitatID);
+                params.setProperty("usuariEntitatQueRebutja", quirebutja);
                 params.setProperty("peticioDeFirmaID", String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
                 params.setProperty("tipusFirmaID", String.valueOf(peticioDeFirma.getTipusFirmaID()));
                 params.setProperty("tipusDocumentID", String.valueOf(peticioDeFirma.getTipusDocumentID()));
-                String usrent = peticioDeFirma.getSolicitantUsuariEntitat1ID();
+
                 if (usrent != null) {
                     params.setProperty("usuariEntitatID", usrent);
                 }
-                est.setParametres(getPropertiesAsString(params));
+                paramStr = getPropertiesAsString(params);
             }
-            est.setEntitatID(entitatID);
-            est.setData(new Timestamp(System.currentTimeMillis()));
 
-            estadisticaEjb.createUnauthorized(est);
-        } catch (Throwable th) {
-            log.error("Error afegint estadistiques de Peticio Finalitzada: " + th.getMessage(), th);
+            estadisticaEjb.createEstadistica(tipus, entitatID, usrApp, usrent, paramStr);
         }
+        */
+
+        // ESTADISTIQUES NOVES
+        {
+            final int suma_ok = 0;
+            final int suma_cancelled = 1;
+            final int suma_error = 0;
+            estadisticaEjb.createEstadistica(peticioDeFirma.getOrigenPeticioDeFirma(), entitatID,
+                    usrApp, suma_ok, suma_cancelled, suma_error);
+        }
+
     }
 
     @Override

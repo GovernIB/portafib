@@ -14,7 +14,10 @@
   <input type="hidden" id="agruparPerCamp" name="groupBy" value="tipus" />
 
   <div id="estadistica_listheader" class="filterLine lead" style="margin-bottom:10px">
-    <fmt:message key="estadistica.estadistica"/>
+    <h3><fmt:message key="estadistica.estadistica"/></h3><br/>
+    
+    
+    <h5>NOTA: Apartir de la versi&oacute; 3.0.12 de PortaFIB aquestes estad&iacute;stiques han deixat de registrar-se.</h5>
 
     <c:forEach var="button" items="${__theFilterForm.additionalButtons}">
       <c:set var="thelink" value="${button.link}" />
@@ -90,6 +93,12 @@
         </div>
     </div>
 
+
+
+   <c:set var="containEmptyValue"  value="false" />
+         
+
+
     <div class="control-group">
         <label class="control-label"><fmt:message key="estadistiques.estatpeticio" /></label>
         <div class="controls">
@@ -97,12 +106,14 @@
                 <c:forEach  var="groupby_item" items="${groupby_items}">
                     <c:if test="${groupby_item.value == 'tipus'}">
                         <c:forEach  var="groupbyvalue_item"  items="${groupby_item.values}">
+                            <c:if test="${(groupbyvalue_item.value + 0) < 10 && (groupbyvalue_item.valu+ 0) >= 0}">
                             <form:option value="${groupbyvalue_item.value}">${groupbyvalue_item.codeLabel}</form:option>
+                            </c:if>
                         </c:forEach>
                     </c:if>
                 </c:forEach>
             </form:select>
-        </div>
+        </div>       
     </div>
 
     <div class="control-group">

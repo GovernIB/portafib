@@ -22,6 +22,7 @@ import es.caib.portafib.persistence.UsuariPersonaJPA;
 import es.caib.portafib.rest.controller.LoginInfo;
 import es.caib.portafib.rest.controller.RestFirmaUtils;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
+import es.caib.portafib.logic.EstadisticaLogicaLocal;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
 import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.FitxerLogicaLocal;
@@ -150,6 +151,9 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
     @EJB(mappedName = RevisorDeDestinatariLogicaService.JNDI_NAME)
     protected RevisorDeDestinatariLogicaService revisorDeDestinatariEjb;
 
+    @EJB(mappedName = EstadisticaLogicaLocal.JNDI_NAME)
+    protected EstadisticaLogicaLocal estadisticaLogicaEjb;
+
     // -------------------------------------------------------------------
     // -------------------------------------------------------------------
     // --------------------------| UTILITATS |----------------------------
@@ -160,8 +164,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getAvailableLanguages(HttpServletRequest request,
-            @RequestBody TextNode languageUITextNode) {
+    public ResponseEntity<?> getAvailableLanguages(HttpServletRequest request, @RequestBody
+    TextNode languageUITextNode) {
 
         final String languageUI = languageUITextNode.asText();
 
@@ -217,8 +221,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getAvailableProfiles(HttpServletRequest request,
-            @RequestBody TextNode languageUITextNode) {
+    public ResponseEntity<?> getAvailableProfiles(HttpServletRequest request, @RequestBody
+    TextNode languageUITextNode) {
 
         final String languageUI = languageUITextNode.asText();
 
@@ -229,8 +233,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getAvailableTypesOfDocuments(HttpServletRequest request,
-            @RequestBody TextNode languageUITextNode) {
+    public ResponseEntity<?> getAvailableTypesOfDocuments(HttpServletRequest request, @RequestBody
+    TextNode languageUITextNode) {
 
         final String languageUI = languageUITextNode.asText();
 
@@ -255,10 +259,9 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             }
 
             UsuariAplicacioJPA ua = loginInfo.getUsuariAplicacio();
-            
+
             List<TipusDocument> list = tipusDocumentEjb.getTipusDocumentsByUsrApp(ua);
 
-            
             /*
              * 
              * if (idioma == null || idioma.trim().length() != 2) { idioma =
@@ -314,10 +317,11 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> createAndStartSignatureRequestWithFlowTemplateCode(HttpServletRequest request,
-            @RequestBody FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode signatureRequest) {
+    public ResponseEntity<?> createAndStartSignatureRequestWithFlowTemplateCode(HttpServletRequest request, @RequestBody
+    FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode signatureRequest) {
 
-        String error = autenticateUsrApp(request);
+        AuthenticateInfo authInfo = this.autenticateUsrAppFull(request);
+        String error = authInfo.getErrorMsg();
         if (error != null) {
             return generateServerError(error, HttpStatus.UNAUTHORIZED);
         }
@@ -326,6 +330,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
 
         String languageUI = "ca"; // XYZ ZZZ
 
+        Set<Long> fitxersCreats = new HashSet<Long>();
         try {
 
             LoginInfo loginInfo = commonChecks();
@@ -451,27 +456,35 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
                 count++;
             }
 
-        } catch (I18NException i18ne) {
+            FirmaAsyncSimpleSignatureRequestWithSignBlockList sr = new FirmaAsyncSimpleSignatureRequestWithSignBlockList(
+                    signatureRequest, signatureBlocks);
 
-            String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
+            ResponseEntity<?> re = internalCreateAndStartSignatureRequest(sr, languageUI, fitxersCreats, loginInfo);
 
-            log.error(msg, i18ne);
-            return generateServerError(msg);
+            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_CREADA,
+                    authInfo.getUsuariAplicacio());
+
+            return re;
 
         } catch (Throwable th) {
 
-            // XYZ ZZZ TRA
-            String msg = "Error desconegut cridant a createAndStartSignatureRequestWithFlowTemplateCode: "
-                    + th.getMessage();
+            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_ERROR,
+                    authInfo.getUsuariAplicacio());
+
+            String msg;
+            if (th instanceof I18NException) {
+                msg = I18NLogicUtils.getMessage((I18NException) th, new Locale(languageUI));
+            } else {
+                // XYZ ZZZ TRA
+                msg = "Error desconegut cridant a createAndStartSignatureRequestWithFlowTemplateCode: "
+                        + th.getMessage();
+            }
             log.error(msg, th);
+
+            fitxerLogicaEjb.cleanSet(fitxersCreats);
 
             return generateServerError(msg, th);
         }
-
-        FirmaAsyncSimpleSignatureRequestWithSignBlockList sr = new FirmaAsyncSimpleSignatureRequestWithSignBlockList(
-                signatureRequest, signatureBlocks);
-
-        return createAndStartSignatureRequest(request, sr);
 
     }
 
@@ -491,10 +504,11 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> createAndStartSignatureRequest(HttpServletRequest request,
-            @RequestBody FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest) {
+    public ResponseEntity<?> createAndStartSignatureRequest(HttpServletRequest request, @RequestBody
+    FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest) {
 
-        String error = autenticateUsrApp(request);
+        AuthenticateInfo authInfo = this.autenticateUsrAppFull(request);
+        String error = authInfo.getErrorMsg();
         if (error != null) {
             return generateServerError(error, HttpStatus.UNAUTHORIZED);
         }
@@ -523,81 +537,30 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
                 return generateServerError("El paràmetre d'entrada languageUI no pot ser null o buit.");
             }
 
-            FirmaAsyncSimpleFile fileToConvertInfo = signatureRequest.getFileToSign();
+            ResponseEntity<?> re = internalCreateAndStartSignatureRequest(signatureRequest, languageUI, fitxersCreats,
+                    loginInfo);
 
-            if (fileToConvertInfo == null) {
-                throw new I18NException("genapp.validation.required", PeticioDeFirmaFields.FITXERAFIRMARID.fullName);
-            }
+            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_CREADA,
+                    authInfo.getUsuariAplicacio());
 
-            PeticioDeFirmaJPA peticioDeFirmaJPA = signatureRequestToPeticioDeFirmaJPAFull(signatureRequest,
-                    loginInfo.getUsuariAplicacio(), loginInfo.getUsuariAplicacio().getEntitat(), fitxersCreats,
-                    languageUI);
-
-            // Convertir Fitxers
-            /*
-             * Long fitxerAFirmarID = peticioDeFirmaJPA.getFitxerAFirmarID(); {
-             * 
-             * File fileToConvert = FileSystemManager.getFile(fitxerAFirmarID); Fitxer
-             * fitxerConvertit = PdfUtils.convertToPDF(fileToConvert,
-             * JPAConversion.toJPA(fileToConvertInfo));
-             * 
-             * if (fitxerConvertit == fileToConvertInfo) { // Es un PDF. // No feim res }
-             * else { // No és un PDF, ho substituim pel fitxer convertit
-             * 
-             * // Actualitzam el Fitxer a firmar InputStream is =
-             * fitxerConvertit.getData().getInputStream(); FileOutputStream fos = new
-             * FileOutputStream(fileToConvert); try { FileSystemManager.copy(is,fos); }
-             * finally { try { is.close(); } catch(Throwable th) {} } fos.flush();
-             * fos.close(); // Canviar BBDD Fitxer f =
-             * fitxerLogicaEjb.findByPrimaryKey(fitxerAFirmarID); f.setNom(f.getNom()+
-             * ".pdf"); f.setMime(Constants.PDF_MIME_TYPE);
-             * f.setTamany(fitxerConvertit.getTamany());
-             * 
-             * fitxerLogicaEjb.update(f); }
-             * 
-             * }
-             */
-            // Final Convertir Fitxer
-
-            peticioDeFirmaJPA = peticioDeFirmaLogicaEjb.createFull(peticioDeFirmaJPA);
-
-            // System.gc();
-
-            long peticioDeFirmaID = peticioDeFirmaJPA.getPeticioDeFirmaID();
-
-            UsuariAplicacioJPA ua = loginInfo.getUsuariAplicacio();
-
-            try {
-                peticioDeFirmaLogicaEjb.start(peticioDeFirmaJPA.getPeticioDeFirmaID(), true, ua.getUsuariAplicacioID());
-            } catch (I18NException th) {
-                deletePeticioDeFirma(peticioDeFirmaID, loginInfo.getUsuariAplicacio().getUsuariAplicacioID());
-                throw th;
-            }
-
-            HttpHeaders headers = addAccessControllAllowOrigin();
-
-            ResponseEntity<Long> res;
-            res = new ResponseEntity<Long>(peticioDeFirmaID, headers, HttpStatus.OK);
-
-            return res;
-        } catch (org.fundaciobit.genapp.common.i18n.I18NValidationException ve) {
-
-            String msg = I18NLogicUtils.getMessage(ve, new Locale(languageUI));
-            fitxerLogicaEjb.cleanSet(fitxersCreats);
-            log.error(msg, ve);
-            return generateServerError(msg);
-
-        } catch (I18NException i18ne) {
-
-            String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
-            fitxerLogicaEjb.cleanSet(fitxersCreats);
-            log.error(msg, i18ne);
-            return generateServerError(msg);
+            return re;
 
         } catch (Throwable th) {
 
-            // XYZ ZZZ TRA
-            String msg = "Error desconegut cridant a createAndStartSignatureRequest: " + th.getMessage();
+            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_ERROR,
+                    authInfo.getUsuariAplicacio());
+
+            String msg;
+            if (th instanceof I18NValidationException) {
+                msg = I18NLogicUtils.getMessage((I18NValidationException) th, new Locale(languageUI));
+            } else if (th instanceof I18NException) {
+                msg = I18NLogicUtils.getMessage((I18NException) th, new Locale(languageUI));
+            } else {
+
+                // XYZ ZZZ TRA
+                msg = "Error desconegut cridant a createAndStartSignatureRequest: " + th.getMessage();
+            }
+
             log.error(msg, th);
             fitxerLogicaEjb.cleanSet(fitxersCreats);
             return generateServerError(msg, th);
@@ -605,12 +568,73 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
 
     }
 
+    public final ResponseEntity<?> internalCreateAndStartSignatureRequest(
+            FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest, String languageUI,
+            Set<Long> fitxersCreats, LoginInfo loginInfo) throws I18NException, I18NValidationException {
+        FirmaAsyncSimpleFile fileToConvertInfo = signatureRequest.getFileToSign();
+
+        if (fileToConvertInfo == null) {
+            throw new I18NException("genapp.validation.required", PeticioDeFirmaFields.FITXERAFIRMARID.fullName);
+        }
+
+        PeticioDeFirmaJPA peticioDeFirmaJPA = signatureRequestToPeticioDeFirmaJPAFull(signatureRequest,
+                loginInfo.getUsuariAplicacio(), loginInfo.getUsuariAplicacio().getEntitat(), fitxersCreats, languageUI);
+
+        // Convertir Fitxers
+        /*
+         * Long fitxerAFirmarID = peticioDeFirmaJPA.getFitxerAFirmarID(); {
+         * 
+         * File fileToConvert = FileSystemManager.getFile(fitxerAFirmarID); Fitxer
+         * fitxerConvertit = PdfUtils.convertToPDF(fileToConvert,
+         * JPAConversion.toJPA(fileToConvertInfo));
+         * 
+         * if (fitxerConvertit == fileToConvertInfo) { // Es un PDF. // No feim res }
+         * else { // No és un PDF, ho substituim pel fitxer convertit
+         * 
+         * // Actualitzam el Fitxer a firmar InputStream is =
+         * fitxerConvertit.getData().getInputStream(); FileOutputStream fos = new
+         * FileOutputStream(fileToConvert); try { FileSystemManager.copy(is,fos); }
+         * finally { try { is.close(); } catch(Throwable th) {} } fos.flush();
+         * fos.close(); // Canviar BBDD Fitxer f =
+         * fitxerLogicaEjb.findByPrimaryKey(fitxerAFirmarID); f.setNom(f.getNom()+
+         * ".pdf"); f.setMime(Constants.PDF_MIME_TYPE);
+         * f.setTamany(fitxerConvertit.getTamany());
+         * 
+         * fitxerLogicaEjb.update(f); }
+         * 
+         * }
+         */
+        // Final Convertir Fitxer
+
+        peticioDeFirmaJPA = peticioDeFirmaLogicaEjb.createFull(peticioDeFirmaJPA);
+
+        // System.gc();
+
+        long peticioDeFirmaID = peticioDeFirmaJPA.getPeticioDeFirmaID();
+
+        UsuariAplicacioJPA ua = loginInfo.getUsuariAplicacio();
+
+        try {
+            peticioDeFirmaLogicaEjb.start(peticioDeFirmaJPA.getPeticioDeFirmaID(), true, ua.getUsuariAplicacioID());
+        } catch (I18NException th) {
+            deletePeticioDeFirma(peticioDeFirmaID, loginInfo.getUsuariAplicacio().getUsuariAplicacioID());
+            throw th;
+        }
+
+        HttpHeaders headers = addAccessControllAllowOrigin();
+
+        ResponseEntity<Long> res;
+        res = new ResponseEntity<Long>(peticioDeFirmaID, headers, HttpStatus.OK);
+
+        return res;
+    }
+
     @RequestMapping(value = "/" + ApiFirmaAsyncSimple.SIGNATUREREQUESTSTATE, method = RequestMethod.POST)
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getSignatureRequestState(HttpServletRequest request,
-            @RequestBody FirmaAsyncSimpleSignatureRequestInfo info) {
+    public ResponseEntity<?> getSignatureRequestState(HttpServletRequest request, @RequestBody
+    FirmaAsyncSimpleSignatureRequestInfo info) {
 
         String error = autenticateUsrApp(request);
         if (error != null) {
@@ -679,8 +703,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getUrlToViewFlow(HttpServletRequest request,
-            @RequestBody FirmaAsyncSimpleSignatureRequestInfo info) {
+    public ResponseEntity<?> getUrlToViewFlow(HttpServletRequest request, @RequestBody
+    FirmaAsyncSimpleSignatureRequestInfo info) {
 
         String error = autenticateUsrApp(request);
         if (error != null) {
@@ -733,8 +757,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getSignedFileOfSignatureRequest(HttpServletRequest request,
-            @RequestBody FirmaAsyncSimpleSignatureRequestInfo info) {
+    public ResponseEntity<?> getSignedFileOfSignatureRequest(HttpServletRequest request, @RequestBody
+    FirmaAsyncSimpleSignatureRequestInfo info) {
 
         String error = autenticateUsrApp(request);
         if (error != null) {
@@ -915,8 +939,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> getOriginalFileOfSignatureRequest(HttpServletRequest request,
-            @RequestBody FirmaAsyncSimpleSignatureRequestInfo info) {
+    public ResponseEntity<?> getOriginalFileOfSignatureRequest(HttpServletRequest request, @RequestBody
+    FirmaAsyncSimpleSignatureRequestInfo info) {
 
         String error = autenticateUsrApp(request);
         if (error != null) {
@@ -961,8 +985,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
     @ResponseBody
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<?> deletePeticioDeFirma(HttpServletRequest request,
-            @RequestBody FirmaAsyncSimpleSignatureRequestInfo info) {
+    public ResponseEntity<?> deletePeticioDeFirma(HttpServletRequest request, @RequestBody
+    FirmaAsyncSimpleSignatureRequestInfo info) {
 
         String error = autenticateUsrApp(request);
         if (error != null) {
@@ -1019,7 +1043,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
         if (log.isDebugEnabled()) {
             log.debug("loginInfo.hasRole(ConstantsV2.ROLE_ADMIN) => " + loginInfo.hasRole(Constants.ROLE_ADMIN));
             log.debug("loginInfo.hasRole(ConstantsV2.PFI_ADMIN) => " + loginInfo.hasRole(Constants.PFI_ADMIN));
-        };
+        }
+        ;
 
         boolean hasRoleAdmin = loginInfo.hasRole(Constants.ROLE_ADMIN) || loginInfo.hasRole(Constants.PFI_ADMIN);
 
@@ -1235,13 +1260,14 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestFirmaUtils<FirmaAsy
             // Genera un token únic
             extern_token = firmaLogicaEjb.getUniqueTokenForFirma();
         }
-        
+
         final Long pluginFirmaID = null;
 
         FirmaJPA jpa = new FirmaJPA(firmaID, destinatariID, blocDeFirmaID, obligatori, fitxerFirmatID, numFirmaDocument,
                 caixaPagina, caixaX, caixaY, caixaAmple, caixaAlt, numeroSerieCertificat, emissorCertificat,
                 nomCertificat, tipusEstatDeFirmaFinalID, mostrarRubrica, motiu, minimDeRevisors, null, null, null, null,
-                extern_nom, extern_llinatges, extern_email, extern_idioma, extern_token, extern_nivellseguretat, pluginFirmaID);
+                extern_nom, extern_llinatges, extern_email, extern_idioma, extern_token, extern_nivellseguretat,
+                pluginFirmaID);
 
         List<FirmaAsyncSimpleReviser> revisors = firmaBean.getRevisers();
 

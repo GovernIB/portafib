@@ -35,6 +35,7 @@ import es.caib.portafib.persistence.TraduccioMapJPA;
 import es.caib.portafib.persistence.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import es.caib.portafib.rest.controller.LoginInfo;
+import es.caib.portafib.logic.EstadisticaLogicaLocal;
 import es.caib.portafib.logic.passarela.PassarelaSignatureStatusWebInternalUse;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSetWebInternalUse;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
@@ -82,6 +83,9 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
 
     @EJB(mappedName = es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal.JNDI_NAME)
     protected es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal passarelaDeFirmaWebEjb;
+
+    @EJB(mappedName = EstadisticaLogicaLocal.JNDI_NAME)
+    protected EstadisticaLogicaLocal estadisticaLogicaEjb;
 
     protected static final Map<String, TransactionInfo> currentTransactions = new ConcurrentHashMap<String, TransactionInfo>();
 
@@ -329,19 +333,18 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
     public ResponseEntity<?> startTransaction(HttpServletRequest request, @RequestBody
     FirmaSimpleStartTransactionRequest startTransactionRequest) {
 
-        String error = autenticateUsrApp(request);
+        AuthenticateInfo ai = autenticateUsrAppFull(request);
+        String error = ai.getErrorMsg();
         if (error != null) {
             return generateServerError(error, HttpStatus.UNAUTHORIZED);
         }
 
         // XYZ ZZZ Canviar per idioma per defecte
         String languageUI = "ca";
-
+        TransactionInfo ti = null;
         try {
             //log.info("eNTRA A startTransaction => FirmaWebSimpleStartTransactionRequest: "
             //        + startTransactionRequest);
-            
-            
 
             // TODO XYZ ZZZ CHECKS DE LOGIN
             LoginInfo loginInfo = commonChecks();
@@ -349,22 +352,20 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
             //log.info("LOGININFO => " + loginInfo);
 
             final String transactionID = startTransactionRequest.getTransactionID();
-            
-            
 
             log.info("startTransaction(" + transactionID + ") => app=" + loginInfo.getUsuariAplicacio());
             //log.info("startTransaction::currentTransactions.size() => " + currentTransactions.size());
 
-            TransactionInfo ti = currentTransactions.get(transactionID);
+            ti = currentTransactions.get(transactionID);
 
             if (ti == null) {
                 // TODO XYZ ZZZ Traduir
-                return generateServerError("No existeix cap transacció amb ID " + transactionID);
+                throw new Exception("No existeix cap transacció amb ID " + transactionID);
             }
 
             if (ti.getStatus() != TransactionInfo.STATUS_RESERVED_ID) {
                 // TODO XYZ ZZZ Traduir
-                return generateServerError("La transacció " + transactionID
+                throw new Exception("La transacció " + transactionID
                         + " es troba en un estat que no accepta més documents per firmar");
             }
 
@@ -380,7 +381,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
             if (dataCreacio.getTime() + TransactionInfo.MAX_TIME < System.currentTimeMillis()) {
                 // TODO XYZ ZZZ Traduir
                 currentTransactions.remove(transactionID);
-                return generateServerError("La transacció amb ID " + transactionID + " ha expirat");
+                throw new Exception("La transacció amb ID " + transactionID + " ha expirat");
             }
 
             // TODO XYZ ZZZ VALIDAR ESTRUCTURA simpleSignaturesSet
@@ -454,30 +455,33 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
 
             ti.setStatus(TransactionInfo.STATUS_IN_PROGRESS);
 
+            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_CREADA,
+                    ai.getUsuariAplicacio(), ti.getFirmaSimpleFileList().size());
+
             return re;
-
-        } catch (I18NValidationException i18nve) {
-
-            String msg = I18NLogicUtils.getMessage(i18nve, new Locale(languageUI));
-            log.error(msg, i18nve);
-            return generateServerError(msg);
-
-        } catch (I18NException i18ne) {
-
-            String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
-
-            log.error(msg, i18ne);
-
-            return generateServerError(msg);
 
         } catch (Throwable th) {
 
-            // XYZ ZZZ TRA
-            String msg = "Error desconegut iniciant el proces de Firma: " + th.getMessage();
+            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_ERROR,
+                    ai.getUsuariAplicacio(), ti == null? 1: ti.getFirmaSimpleFileList().size());
 
-            log.error(msg, th);
+            if (th instanceof I18NValidationException) {
+                String msg = I18NLogicUtils.getMessage((I18NValidationException) th, new Locale(languageUI));
+                log.error(msg, th);
+                return generateServerError(msg);
+            } else if (th instanceof I18NException) {
+                String msg = I18NLogicUtils.getMessage((I18NException) th, new Locale(languageUI));
+                log.error(msg, th);
+                return generateServerError(msg);
+            } else {
 
-            return generateServerError(msg, th);
+                // XYZ ZZZ TRA
+                String msg = "Error desconegut iniciant el proces de Firma: " + th.getMessage();
+
+                log.error(msg, th);
+
+                return generateServerError(msg, th);
+            }
         }
 
     }

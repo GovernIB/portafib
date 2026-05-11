@@ -25,7 +25,8 @@ import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.commons.io.FileUtils;
-
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -176,11 +177,33 @@ public class PdfUtils implements ConstantsV2 {
     public static final boolean isPdf(File file) {
 
         // Llegeix el fitxer amb itext. Si llança excepció retornar false. Sinó retorna true
+        /*
+         Quan iText obre un PDF passant-li una ruta (String), internament utilitza un RandomAccessFile mapejat
+         (memory-mapped file) que manté el descriptor del fitxer obert i bloquejat a Windows fins que el GC alliberi
+          tots els objectes interns. Encara que facis reader.close(), el MappedByteBuffer no s'allibera immediatament
+           (és un bug conegut de la JVM en sistemes Windows). Per això FileUtils.moveFile falla després al delete().
+         */
+        /*
+        PdfReader reader = null;
         try {
-            PdfReader reader = new PdfReader(file.getAbsolutePath());
-            reader.close();
+            reader = new PdfReader(file.getAbsolutePath());
             return true;
         } catch (Throwable e) {
+            return false;
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (Exception e) {
+                }
+            }
+            
+        }
+        */
+
+        try (PDDocument doc = Loader.loadPDF(file)) {
+            return true;
+        } catch (IOException e) {
             return false;
         }
 

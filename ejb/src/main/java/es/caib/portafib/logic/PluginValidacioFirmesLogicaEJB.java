@@ -15,6 +15,7 @@ import org.fundaciobit.pluginsib.validatesignature.api.ValidationStatus;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+
 import java.util.Locale;
 
 /**
@@ -25,8 +26,32 @@ import java.util.Locale;
 public class PluginValidacioFirmesLogicaEJB extends AbstractPluginIBLogicaEJB<IValidateSignaturePlugin>
         implements PluginValidacioFirmesLogicaLocal {
 
+    /**
+     * Enumeracio amb els valors de grups d'estadistica ConstantsV2.ESTADISTICA_GRUP_APISWAGGER_VALIDATEV1 i  ConstantsV2.ESTADISTICA_GRUP_PORTAFIB_VALIDATE
+     * 
+     *  
+     *  
+     */
+    public enum GrupEstadisticaValidacio {
+        ESTADISTICA_GRUP_APISWAGGER_VALIDATEV1(ConstantsV2.ESTADISTICA_GRUP_APISWAGGER_VALIDATEV1),
+        ESTADISTICA_GRUP_PORTAFIB_VALIDATE(ConstantsV2.ESTADISTICA_GRUP_PORTAFIB_VALIDATE);
+
+        private final int grup;
+
+        GrupEstadisticaValidacio(int grup) {
+            this.grup = grup;
+        }
+
+        public int getGrup() {
+            return grup;
+        }
+    }
+
     @EJB(mappedName = EntitatService.JNDI_NAME, beanName = "EntitatEJB")
     private EntitatService entitatEjb;
+
+    @EJB(mappedName = EstadisticaLogicaLocal.JNDI_NAME)
+    private EstadisticaLogicaLocal estadisticaLogicaEjb;
 
     @Override
     public int getTipusDePlugin() {
@@ -39,9 +64,9 @@ public class PluginValidacioFirmesLogicaEJB extends AbstractPluginIBLogicaEJB<IV
     }
 
     @Override
-    public ValidateSignatureResponse validateSignature(final String entitatID, String signType,
-            IPortaFIBDataSource signatureDS, IPortaFIBDataSource documentDetachedDS, String languageUI)
-            throws ValidacioException {
+    public ValidateSignatureResponse validateSignature(final String entitatID, final String usuariAplicacioID,
+            final GrupEstadisticaValidacio grupEstadistica, String signType, IPortaFIBDataSource signatureDS,
+            IPortaFIBDataSource documentDetachedDS, String languageUI) throws ValidacioException {
 
         try {
             //log.info("validateSignature");
@@ -83,12 +108,84 @@ public class PluginValidacioFirmesLogicaEJB extends AbstractPluginIBLogicaEJB<IV
                         + ((documentDetached == null) ? "NULL" : ("" + documentDetached.length)));
             }
 
-            return internalValidateSignature(pluginValidateSignatureID, signType, signature, documentDetached,
-                    languageUI);
-        } catch (I18NException e) {
-            String message = I18NLogicUtils.getMessage(e, new Locale(languageUI));
-            log.error("Error al plugin de validació de firma: " + message);
+            ValidateSignatureResponse response = internalValidateSignature(pluginValidateSignatureID, signType,
+                    signature, documentDetached, languageUI);
+
+            afegirEstadistiques(entitatID, usuariAplicacioID, grupEstadistica, response);
+
+            return response;
+        } catch (Throwable e) {
+
+            try {
+                int tipus;
+                if (grupEstadistica.equals(GrupEstadisticaValidacio.ESTADISTICA_GRUP_APISWAGGER_VALIDATEV1)) {
+                    tipus = ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_ERROR;
+                } else { // ESTADISTICA_GRUP_PORTAFIB_VALIDATE:
+                    tipus = ConstantsV2.ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_ERROR;
+                }
+                estadisticaLogicaEjb.createEstadistica(tipus, entitatID, usuariAplicacioID);
+            } catch (Throwable e2) {
+                log.error("Error afegint estadistica d'error a validacio: " + e2.getMessage(), e2);
+            }
+
+            String message;
+            if (e instanceof I18NException) {
+
+                message = I18NLogicUtils.getMessage((I18NException) e, new Locale(languageUI));
+            } else {
+                // XYZ ZZZ TRA
+                message = "Error no controlat al plugin de validació de firma: " + e.getMessage();
+            }
+            log.error(message, e);
             throw new ValidacioException(message, e);
+        }
+    }
+
+    public final void afegirEstadistiques(final String entitatID, final String usuariAplicacioID,
+            final GrupEstadisticaValidacio grupEstadistica, ValidateSignatureResponse response) {
+        try {
+
+            final int status = response.getValidationStatus().getStatus();
+            final int tipus;
+
+            if (grupEstadistica.equals(GrupEstadisticaValidacio.ESTADISTICA_GRUP_APISWAGGER_VALIDATEV1)) {
+                switch (status) {
+                    case ValidationStatus.SIGNATURE_VALID:
+                        tipus = ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_VALID;
+                    break;
+                    case ValidationStatus.SIGNATURE_INVALID:
+                        tipus = ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_INVALID;
+                    break;
+                    case ValidationStatus.SIGNATURE_ERROR:
+                        tipus = ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_ERROR;
+                    break;
+                    default:
+                        // XYZ ZZZ TRA
+                        throw new Exception("Status de validació desconegut retornat pel validador: " + status);
+
+                }
+            } else { // ESTADISTICA_GRUP_PORTAFIB_VALIDATE:
+                switch (status) {
+                    case ValidationStatus.SIGNATURE_VALID:
+                        tipus = ConstantsV2.ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_VALID;
+                    break;
+                    case ValidationStatus.SIGNATURE_INVALID:
+                        tipus = ConstantsV2.ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_INVALID;
+                    break;
+                    case ValidationStatus.SIGNATURE_ERROR:
+                        tipus = ConstantsV2.ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_ERROR;
+                    break;
+                    default:
+                        // XYZ ZZZ TRA
+                        throw new Exception("Status de validació desconegut retornat pel validador: " + status);
+                }
+            }
+
+            estadisticaLogicaEjb.createEstadistica(tipus, entitatID, usuariAplicacioID);
+
+        } catch (Throwable e) {
+            // TODO: handle exception
+            log.error("Error afegint estadistica a validacio: " + e.getMessage(), e);
         }
     }
 
@@ -148,13 +245,13 @@ public class PluginValidacioFirmesLogicaEJB extends AbstractPluginIBLogicaEJB<IV
 
             if (e.getCause() != null) {
                 String causeMsg = e.getCause().getMessage();
-                if (causeMsg.contains("413: Request Entity Too Large") ) {
+                if (causeMsg.contains("413: Request Entity Too Large")) {
                     causeMsg = "El fitxer de la signatura o el document associat és massa gran per ser validat pel validador de firmes "
                             + plugin.getNom().getTraduccio(languageUI).getValor();
                 }
                 msg += " (Detalls: " + causeMsg + ")";
             }
-            
+
             log.error(msg, e);
             // XYZ ZZZ Traduir
             throw new I18NException("genapp.comodi", msg);

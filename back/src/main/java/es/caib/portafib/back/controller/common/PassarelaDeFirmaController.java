@@ -5,12 +5,15 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBSessionLocaleResolver;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
 import es.caib.portafib.persistence.EntitatJPA;
+import es.caib.portafib.persistence.PeticioDeFirmaJPA;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
+import es.caib.portafib.logic.EstadisticaLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebPublicLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsPublicLogicaLocal;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal;
+import es.caib.portafib.logic.passarela.PassarelaSignatureStatusWebInternalUse;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSetWebInternalUse;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
@@ -33,6 +36,7 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.StringWriter;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -64,6 +68,9 @@ public class PassarelaDeFirmaController {
 
     @EJB(mappedName = UsuariAplicacioLogicaLocal.JNDI_NAME)
     protected UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
+
+    @EJB(mappedName = EstadisticaLogicaLocal.JNDI_NAME)
+    protected EstadisticaLogicaLocal estadisticaLogicaEjb;
 
     /**
      * 
@@ -250,8 +257,8 @@ public class PassarelaDeFirmaController {
         boolean willCanCheckIfSignedDocumentWasAlteredAfterSignature;
         Long signaturePluginID;
         {
-            PortaFIBSignaturesSet pss = AbstractSignatureModuleController.getPortaFIBSignaturesSet(request, transactionID,
-                    modulDeFirmaPublicEjb);
+            PortaFIBSignaturesSet pss = AbstractSignatureModuleController.getPortaFIBSignaturesSet(request,
+                    transactionID, modulDeFirmaPublicEjb);
             signaturePluginID = pss.getSelectedPluginID();
             administrationIdCanBeValidatedFromPlugin = modulDeFirmaPublicEjb
                     .administrationIdCanBeValidatedFromPlugin(signaturePluginID);
@@ -267,6 +274,8 @@ public class PassarelaDeFirmaController {
                 administrationIdCanBeValidatedFromPlugin, willCanCheckIfSignedDocumentWasAlteredAfterSignature);
         ssf.setSignaturePluginId(signaturePluginID);
 
+        afegirEstadistiques(ssf);
+
         // Eliminam la informació dins SignatureModuleController ja que tenim gurardada la
         // informació dins la capa EJB
         AbstractSignatureModuleController.closeSignaturesSet(request, transactionID, modulDeFirmaPublicEjb);
@@ -276,6 +285,95 @@ public class PassarelaDeFirmaController {
         log.debug("PassarelaDeFirmaController::finalProcessDeFirma(); => URL redirect = " + url);
 
         return new ModelAndView(new RedirectView(url));
+
+    }
+
+    public final void afegirEstadistiques(PassarelaSignaturesSetWebInternalUse ssf) {
+
+        try {
+            
+            int val1 = ssf.getPeticioFirmaBySignID().size();
+            //int val2 = ssf.getSignaturesSet().getFileInfoSignatureArray().length;
+         // XYZ DEBUG
+            log.info("\n\n ESTADISTIQUES TOTAL => ssf.getPeticioFirmaBySignID().size() : " + val1);
+            //log.info(" ssf.getSignaturesSet().getFileInfoSignatureArray().length => " + val2 + "\n\n");
+            
+
+            Collection<PeticioDeFirmaJPA> firmes = ssf.getPeticioFirmaBySignID().values();
+            
+            
+
+            // XYZ DEBUG
+
+            for (PeticioDeFirmaJPA peticiodeFirma : firmes) {
+
+                log.info("\n\n ESTADISTIQUES: Origen " + peticiodeFirma.getOrigenPeticioDeFirma() + " i applicationID "
+                        + ssf.getApplicationID());
+            }
+
+            final int globalStatus = ssf.getStatus();
+            final int totalfirmes = val1;
+
+            int suma_cancelled = 0;
+            int suma_error = 0;
+            int suma_ok = 0;
+
+            switch (globalStatus) {
+                case StatusSignature.STATUS_CANCELLED:
+                    suma_cancelled = totalfirmes;
+                break;
+
+                // Si arribam aqui amb init o signing ho entenem coma un error.
+                case StatusSignature.STATUS_INITIALIZING:
+                case StatusSignature.STATUS_IN_PROGRESS:
+                case StatusSignature.STATUS_FINAL_ERROR:
+                    suma_error = totalfirmes;
+                break;
+
+                // Transacció ha finalitzat OK, hem de revisar cada firma
+                case StatusSignature.STATUS_FINAL_OK:
+
+                    for (PassarelaSignatureStatusWebInternalUse s : ssf.getStatusBySignatureID().values()) {
+
+                        switch (s.getStatus()) {
+
+                            case StatusSignature.STATUS_FINAL_OK:
+                                suma_ok++;
+                            break;
+
+                            case StatusSignature.STATUS_CANCELLED:
+                                suma_cancelled++;
+                            break;
+
+                            // Si arribam aqui amb init o signing ho entenem coma un error.
+                            case StatusSignature.STATUS_INITIALIZING:
+                            case StatusSignature.STATUS_IN_PROGRESS:
+                            case StatusSignature.STATUS_FINAL_ERROR:
+                                suma_error++;
+                            break;
+
+                        }
+                    }
+                    
+
+                break;
+
+                default:
+                    log.warn("Status de la petició de firma desconegut: " + globalStatus);
+            }
+
+            // Obtenir origen de la peticio de firma
+            PeticioDeFirmaJPA peticiodeFirma = firmes.iterator().next();
+
+            int origen = peticiodeFirma.getOrigenPeticioDeFirma();
+            String entitatID = ssf.getEntitatID();
+            String applicationID = ssf.getApplicationID();
+
+            estadisticaLogicaEjb.createEstadistica(origen, entitatID, applicationID, suma_ok, suma_cancelled, suma_error);
+
+        } catch (Throwable th) {
+            log.error("Error afegint estadístiques de la petició de firma: " + th.getMessage(), th);
+        }
 
     }
 

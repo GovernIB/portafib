@@ -4,6 +4,7 @@ import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.security.PdfPKCS7;
 
+import es.caib.portafib.logic.PluginValidacioFirmesLogicaEJB.GrupEstadisticaValidacio;
 import es.caib.portafib.logic.utils.DNIUtils;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.LogicUtils;
@@ -69,10 +70,10 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
     @Override
     public ValidacioCompletaResponse validateCompletaFirma(String transaccioID,
-            ValidacioCompletaRequest validacioRequest, boolean validateChangesInAttachedFiles)
+            ValidacioCompletaRequest validacioRequest, boolean validateChangesInAttachedFiles, final String usuariAplicacioID)
             throws ValidacioException {
         try {
-            return internalValidateCompletaFirma(transaccioID, validacioRequest, validateChangesInAttachedFiles);
+            return internalValidateCompletaFirma(transaccioID, validacioRequest, validateChangesInAttachedFiles,  usuariAplicacioID);
         } catch (I18NException e) {
             String message = I18NLogicUtils.getMessage(e, new Locale(validacioRequest.getLanguageUI()));
             log.error("Transaccio[" + transaccioID + "]: Rebut error de validació de firma: " + message);
@@ -81,8 +82,10 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
     }
 
     private ValidacioCompletaResponse internalValidateCompletaFirma(String transaccioID,
-            ValidacioCompletaRequest validacioRequest, boolean validateChangesInAttachedFiles)
+            ValidacioCompletaRequest validacioRequest, boolean validateChangesInAttachedFiles,
+            final String usuariAplicacioID)
             throws I18NException, ValidacioException {
+        
 
         String signType;
         String mime;
@@ -149,7 +152,8 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                 log.debug("validateCompletaFirma :: getDocumentDetachedData() => " + documentDetached);
             }
 
-            validateSignatureResponse = validacioFirmesEjb.validateSignature(validacioRequest.getEntitatID(), signType,
+            validateSignatureResponse = validacioFirmesEjb.validateSignature(validacioRequest.getEntitatID(), 
+                    usuariAplicacioID, GrupEstadisticaValidacio.ESTADISTICA_GRUP_PORTAFIB_VALIDATE, signType,
                     validacioRequest.getSignatureData(), documentDetached, validacioRequest.getLanguageUI());
 
             if (validateSignatureResponse == null) {
