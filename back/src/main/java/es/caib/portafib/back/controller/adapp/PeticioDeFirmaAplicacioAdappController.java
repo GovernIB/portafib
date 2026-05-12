@@ -24,7 +24,7 @@ import es.caib.portafib.back.utils.Tab;
 @MenuOption(group = Tab.MENU_ADAPP, labelCode = "peticiodefirma.usrapp.llistar", order = 110)
 public final class PeticioDeFirmaAplicacioAdappController extends AbstractPeticioDeFirmaAdenController {
 
-    public static final String CONTEXT_ADAPP_PETICIOFIRMA_USRAPP = "/aden/peticiofirmaaplicacio";
+    public static final String CONTEXT_ADAPP_PETICIOFIRMA_USRAPP = "/adapp/peticiofirmaaplicacio";
     
     @Override
     public String getEntityNameCode() {

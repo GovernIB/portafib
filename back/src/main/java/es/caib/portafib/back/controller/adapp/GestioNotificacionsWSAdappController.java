@@ -10,6 +10,7 @@ import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import es.caib.portafib.ejb.PeticioDeFirmaService;
 import es.caib.portafib.ejb.UsuariAplicacioService;
 import es.caib.portafib.persistence.NotificacioWSJPA;
+import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.logic.NotificacioWSLogicaLocal;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.NotificacioWS;
@@ -56,7 +57,7 @@ import java.util.TreeMap;
  * @author areus
  */
 @Controller
-@RequestMapping(value = "/aden/notificaciows")
+@RequestMapping(value = ConstantsV2.CONTEXT_ADAPP_NOTIFICACIONSWS)
 @SessionAttributes(types = { NotificacioWSForm.class, NotificacioWSFilterForm.class })
 @MenuOption(labelCode = "notificaciows.llistat", group = Tab.MENU_ADAPP, order = 180)
 public class GestioNotificacionsWSAdappController extends NotificacioWSController {
