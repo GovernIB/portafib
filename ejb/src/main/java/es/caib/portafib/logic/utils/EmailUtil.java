@@ -85,7 +85,7 @@ public class EmailUtil {
                 */
                 msg.setContent(message, "text/html;charset=utf-8");
             } else {
-                msg.setContent(message, "text/plain" /*; charset=UTF-8"*/);
+                msg.setContent(message, "text/plain;charset=UTF-8");
             }
 
             // Mandamos el mail

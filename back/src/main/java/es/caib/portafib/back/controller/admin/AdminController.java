@@ -18,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.logic.EstadisticaLogicaLocal;
 
-
 /**
  * AdminController
  * @author anadal (u80067)
@@ -29,11 +28,9 @@ import es.caib.portafib.logic.EstadisticaLogicaLocal;
         order = 156,
         group = Tab.MENU_ADMIN,
         baseLink = "/admin/sizeofdatabasetables",
-        relativeLink = ""
-        )
+        relativeLink = "")
 @Controller
 public class AdminController {
-
 
     public class KeyValueItem implements Comparable<KeyValueItem> {
         private String key;
@@ -91,12 +88,9 @@ public class AdminController {
         }
     }
 
-    
-    
-    @EJB(mappedName=EstadisticaLogicaLocal.JNDI_NAME)
+    @EJB(mappedName = EstadisticaLogicaLocal.JNDI_NAME)
     EstadisticaLogicaLocal estadisticaLogicaEjb;
-    
-    
+
     @RequestMapping(value = "/admin/sizeofdatabasetables")
     public ModelAndView tablesize(HttpSession session, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -106,18 +100,17 @@ public class AdminController {
         List<KeyValueItem> keyValuelist = new ArrayList<KeyValueItem>();
 
         for (Map.Entry<String, Long> entry : sizes.entrySet()) {
-            keyValuelist.add(new KeyValueItem((String) entry.getKey(), entry.getValue() + " bytes" , "<i class=\"fas fa-database\"></i>", humanReadableByteCount(entry.getValue()) ));
+            keyValuelist.add(new KeyValueItem((String) entry.getKey(), entry.getValue() + " bytes",
+                    "<i class=\"fas fa-database\"></i>", humanReadableByteCount(entry.getValue())));
         }
 
-        
         ModelAndView mav = new ModelAndView("keyvalueAdmin");
         mav.addObject("title", "Size of database tables");
         mav.addObject("subtitle", "");
         mav.addObject("keyValueList", keyValuelist);
         return mav;
     }
-    
-    
+
     public static String humanReadableByteCount(long bytes) {
         int unit = 1024;
         if (bytes < unit) {
@@ -127,6 +120,5 @@ public class AdminController {
         String prefix = "KMGTPE".charAt(exp - 1) + "B"; // KB, MB, GB, TB, PB, EB
         return String.format("%.2f %s", bytes / Math.pow(unit, exp), prefix);
     }
-    
-    
+
 }
