@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.ejb.Local;
 
+import org.fundaciobit.genapp.common.i18n.I18NException;
+
 /**
  * 
  * @author anadal(u80067)
@@ -36,5 +38,7 @@ public interface EstadisticaLogicaLocal extends EstadisticaService {
 
     public void createEstadistica(int origen, String entitatID, String applicationID, int suma_ok, int suma_cancelled,
             int suma_error, int suma_firma);
+
+    public Map<String, Long> getTableSizes() throws I18NException;
 
 }

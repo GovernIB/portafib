@@ -71,6 +71,7 @@ import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.model.fields.AnnexFields;
 import es.caib.portafib.model.fields.AnnexFirmatFields;
+import es.caib.portafib.model.fields.BitacolaFields;
 import es.caib.portafib.model.fields.BlocDeFirmesFields;
 import es.caib.portafib.model.fields.ColaboracioDelegacioFields;
 import es.caib.portafib.model.fields.ColaboracioDelegacioQueryPath;
@@ -790,7 +791,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                     final String usrApp = peticioDeFirma.getSolicitantUsuariAplicacioID();
                     final int tipus = ConstantsV2.ESTADISTICA_TIPUS_PETICIO_INICI;
                     final String usrent = peticioDeFirma.getSolicitantUsuariEntitat1ID();
-
+            
                     final String paramsStr;
                     {
                         Properties params = new Properties();
@@ -798,15 +799,15 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                         params.setProperty("peticioDeFirmaID", String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
                         params.setProperty("tipusFirmaID", String.valueOf(peticioDeFirma.getTipusFirmaID()));
                         params.setProperty("tipusDocumentID", String.valueOf(peticioDeFirma.getTipusDocumentID()));
-
+            
                         if (usrent != null) {
                             params.setProperty("usuariEntitatID", usrent);
                         }
                         paramsStr = getPropertiesAsString(params);
                     }
-
+            
                     estadisticaEjb.createEstadistica(tipus, entitatID, usrApp, usrent, paramsStr);
-
+            
                 } catch (Throwable th) {
                     log.error("Error afegint estadistiques de Peticio Iniciada: " + th.getMessage(), th);
                 }
@@ -1890,7 +1891,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             // notificacioWsEjb.delete(NotificacioWSFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
 
             // Esborrar Bitacola
-            // bitacolaEjb.delete(BitacolaFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
+            bitacolaLogicaEjb.delete(Where.AND(BitacolaFields.OBJECTEID.equal(String.valueOf(peticioDeFirmaID)),
+                    BitacolaFields.TIPUSOBJECTE.equal(BITACOLA_TIPUS_PETICIO)
+            ));
 
             // Esborrar metadades
             metadadaLogicaEjb.delete(MetadadaFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
@@ -2492,7 +2495,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                 est2.setValor(Double.valueOf(firma.getNumFirmaDocument()));
                 est2.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FIRMA_REALITZADA);
                 est2.setEntitatID(entitatID);
-
+                
                 {
                     Properties params = new Properties();
                     params.setProperty("entitatID", entitatID);
@@ -2987,10 +2990,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
         // Estadistiques ANTIGUES
         // 
         String usrApp = peticioDeFirma.getSolicitantUsuariAplicacioID();
-     // Noves entrades a la taula d'estadístiques per retornar informació a COMANDA #1162
+        // Noves entrades a la taula d'estadístiques per retornar informació a COMANDA #1162
         /*
         {
-
+        
          
             int tipus = ConstantsV2.ESTADISTICA_TIPUS_PETICIO_REBUTJADA;
             String quirebutja = usuariEntitatIDQueRebutja;
@@ -3002,13 +3005,13 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
                 params.setProperty("peticioDeFirmaID", String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
                 params.setProperty("tipusFirmaID", String.valueOf(peticioDeFirma.getTipusFirmaID()));
                 params.setProperty("tipusDocumentID", String.valueOf(peticioDeFirma.getTipusDocumentID()));
-
+        
                 if (usrent != null) {
                     params.setProperty("usuariEntitatID", usrent);
                 }
                 paramStr = getPropertiesAsString(params);
             }
-
+        
             estadisticaEjb.createEstadistica(tipus, entitatID, usrApp, usrent, paramStr);
         }
         */
@@ -3018,8 +3021,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements Petici
             final int suma_ok = 0;
             final int suma_cancelled = 1;
             final int suma_error = 0;
-            estadisticaEjb.createEstadistica(peticioDeFirma.getOrigenPeticioDeFirma(), entitatID,
-                    usrApp, suma_ok, suma_cancelled, suma_error);
+            estadisticaEjb.createEstadistica(peticioDeFirma.getOrigenPeticioDeFirma(), entitatID, usrApp, suma_ok,
+                    suma_cancelled, suma_error);
         }
 
     }
