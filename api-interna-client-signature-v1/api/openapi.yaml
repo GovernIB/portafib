@@ -4479,16 +4479,34 @@ components:
       description: Estat d'algun procés
       example:
         errorStackTrace: errorStackTrace
-        errorMessage: errorMessage
+        errorMessage: Error al validar el certificat
+        errorCode: errorCode
         status: 0
       properties:
         status:
+          description: "Codi de l'estat del procés. StatusConstants.STATUS_FINAL_OK\
+            \ si tot ha anat bé, qualsevol altre valor indica un error o cancel·lació\
+            . Pels valors d'aquest camp veure classe StatusConstants"
+          example: 0
           format: int32
           type: integer
+        errorCode:
+          description: "En cas d'error, codi d'error encara que fins i tot en el cas\
+            \ d'error normalment valdrà null. Els valors d'aquest camp són enviats\
+            \ pels diferents plugins de firma, per tant poden variar molt en funció\
+            \ del plugin que s'hagi utilitzat. Per a més informació sobre els valors\
+            \ d'aquest camp, consultar la documentació del plugin de firma que s'hagi\
+            \ utilitzat."
+          type: string
         errorMessage:
+          description: "En cas d'error, missatge d'error"
+          example: Error al validar el certificat
           type: string
         errorStackTrace:
+          description: "En cas d'error, stack trace de l'error en format String"
           type: string
+      required:
+      - status
       type: object
     SignatureResponse:
       description: Resposta de la petició de firma en servidor
@@ -4565,7 +4583,8 @@ components:
         signID: signID
         status:
           errorStackTrace: errorStackTrace
-          errorMessage: errorMessage
+          errorMessage: Error al validar el certificat
+          errorCode: errorCode
           status: 0
       properties:
         signedFile:
@@ -4645,7 +4664,8 @@ components:
         signID: signID
         status:
           errorStackTrace: errorStackTrace
-          errorMessage: errorMessage
+          errorMessage: Error al validar el certificat
+          errorCode: errorCode
           status: 0
       properties:
         signID:
@@ -4664,18 +4684,21 @@ components:
           signaturePluginNameInternal: signaturePluginNameInternal
         transactionStatus:
           errorStackTrace: errorStackTrace
-          errorMessage: errorMessage
+          errorMessage: Error al validar el certificat
+          errorCode: errorCode
           status: 0
         signaturesStatusList:
         - signID: signID
           status:
             errorStackTrace: errorStackTrace
-            errorMessage: errorMessage
+            errorMessage: Error al validar el certificat
+            errorCode: errorCode
             status: 0
         - signID: signID
           status:
             errorStackTrace: errorStackTrace
-            errorMessage: errorMessage
+            errorMessage: Error al validar el certificat
+            errorCode: errorCode
             status: 0
       properties:
         transactionStatus:
@@ -5057,7 +5080,8 @@ components:
           key: key
         status:
           errorStackTrace: errorStackTrace
-          errorMessage: errorMessage
+          errorMessage: Error al validar el certificat
+          errorCode: errorCode
           status: 0
       properties:
         status:
@@ -5562,7 +5586,8 @@ components:
         signID: signID
         status:
           errorStackTrace: errorStackTrace
-          errorMessage: errorMessage
+          errorMessage: Error al validar el certificat
+          errorCode: errorCode
           status: 0
       properties:
         signedFile:

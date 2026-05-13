@@ -959,7 +959,7 @@ public abstract class AbstractSignatureService extends RestUtils {
             es.caib.portafib.logic.utils.ValidacioCompletaResponse infoValidacio, boolean isSignatureInServer,
             Long signaturePluginId) throws Exception {
 
-        ProcessStatus status = new ProcessStatus(psr.getStatus(), psr.getErrorMessage(), psr.getErrorStackTrace());
+        ProcessStatus status = new ProcessStatus(psr.getStatus(), psr.getErrorCode(),  psr.getErrorMessage(), psr.getErrorStackTrace());
 
         SignedFileInfo sfi = null;
         Document file = null;

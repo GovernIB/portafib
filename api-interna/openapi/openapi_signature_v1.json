@@ -4934,17 +4934,27 @@
         "description" : "Informació especifica per a realitzar la firma"
       },
       "ProcessStatus" : {
+        "required" : [ "status" ],
         "type" : "object",
         "properties" : {
           "status" : {
             "type" : "integer",
-            "format" : "int32"
+            "description" : "Codi de l'estat del procés. StatusConstants.STATUS_FINAL_OK si tot ha anat bé, qualsevol altre valor indica un error o cancel·lació. Pels valors d'aquest camp veure classe StatusConstants",
+            "format" : "int32",
+            "example" : 0
+          },
+          "errorCode" : {
+            "type" : "string",
+            "description" : "En cas d'error, codi d'error encara que fins i tot en el cas d'error normalment valdrà null. Els valors d'aquest camp són enviats pels diferents plugins de firma, per tant poden variar molt en funció del plugin que s'hagi utilitzat. Per a més informació sobre els valors d'aquest camp, consultar la documentació del plugin de firma que s'hagi utilitzat."
           },
           "errorMessage" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "En cas d'error, missatge d'error",
+            "example" : "Error al validar el certificat"
           },
           "errorStackTrace" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "En cas d'error, stack trace de l'error en format String"
           }
         },
         "description" : "Estat d'algun procés"

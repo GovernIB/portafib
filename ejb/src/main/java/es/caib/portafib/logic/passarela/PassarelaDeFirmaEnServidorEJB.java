@@ -143,7 +143,7 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
                         + " configuracions de firma encara no està implementat."
                         + " Consulti amb l'administrador de PortaFIB";
                 final Exception e = new Exception(msg);
-                return processError(e, msg);
+                return processError(e, null, msg);
             }
 
             UsuariAplicacioConfiguracioJPA config = configBySignID.values().iterator().next();
@@ -348,12 +348,12 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
         } catch (I18NValidationException i18nve) {
 
             String msg = I18NLogicUtils.getMessage(i18nve, locale);
-            return processError(i18nve, msg);
+            return processError(i18nve, null,  msg);
 
         } catch (I18NException i18ne) {
 
             String msg = I18NLogicUtils.getMessage(i18ne, locale);
-            return processError(i18ne, msg);
+            return processError(i18ne, null, msg);
 
         } finally {
 
@@ -574,11 +574,14 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
         throw new I18NException("genapp.comodi", "Tipus de Firma per upgrade desconegut: " + type);
     }
 
-    private PassarelaSignatureInServerResults processError(Throwable i18nve, String msg) {
+    private PassarelaSignatureInServerResults processError(Throwable i18nve, String errorCode, String msg) {
         PassarelaSignatureStatus pss = new PassarelaSignatureStatus();
 
         pss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+        pss.setErrorCode(errorCode);
         pss.setErrorMessage(msg);
+        
+        
 
         StringWriter trace = new StringWriter();
         i18nve.printStackTrace(new java.io.PrintWriter(trace));
@@ -668,6 +671,8 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
 
     private void statusToPassarelaStatus(StatusSignaturesSet sss, PassarelaSignatureStatus pss) {
         pss.setStatus(sss.getStatus());
+        // TODO FALTA Issue #1168
+        // pss.setErrorCode(sss.getErrorCode());
         pss.setErrorMessage(sss.getErrorMsg());
         if (sss.getErrorException() != null) {
             StringWriter trace = new StringWriter();

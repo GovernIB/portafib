@@ -487,8 +487,7 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
 
         return result;
     }
-    
-    
+
     @Path("/getAllFlowTemplateInfo")
     @GET
     @RolesAllowed({ Constants.PFI_WS })
@@ -541,8 +540,6 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
             throw new RestException(msg, th);
         }
     }
-    
-    
 
     /**
      * 
@@ -609,7 +606,7 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
             tags = TAG_NAME,
             operationId = "getAllFlowTemplatesByFilter",
             summary = "Retorna una llista de totes les plantilles de flux de firmes associades a l'usuari aplicació amb el que s'autentica."
-              + "Deprecat: usar getAllFlowTemplateInfoByFilter(String, String, String)")
+                    + "Deprecat: usar getAllFlowTemplateInfoByFilter(String, String, String)")
     @ApiResponses(
             value = { @ApiResponse(
                     responseCode = "200",
@@ -655,7 +652,8 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
             // Validar simpleSignature
             restApiPlantillaFluxLocal.cleanExpiredTransactions();
 
-            Set<KeyValue> results = internalGetAllToKeyValue(nameFilter, descriptionFilter, checkUsuariAplicacio(request));
+            Set<KeyValue> results = internalGetAllToKeyValue(nameFilter, descriptionFilter,
+                    checkUsuariAplicacio(request));
 
             //log.info("SURT DE getAllFlowTemplatesByFilter => FINAL OK");
 
@@ -674,9 +672,7 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
             throw new RestException(msg, th);
         }
     }
-    
-    
-    
+
     @Path("/getAllFlowTemplateInfoByFilter")
     @GET
     @RolesAllowed({ Constants.PFI_WS })
@@ -731,7 +727,8 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
             // Validar simpleSignature
             restApiPlantillaFluxLocal.cleanExpiredTransactions();
 
-            Set<SignatureFlowTemplateInfo> results = internalGetAll(nameFilter, descriptionFilter, checkUsuariAplicacio(request));
+            Set<SignatureFlowTemplateInfo> results = internalGetAll(nameFilter, descriptionFilter,
+                    checkUsuariAplicacio(request));
 
             //log.info("SURT DE getAllFlowTemplatesByFilter => FINAL OK");
 
@@ -882,10 +879,8 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
 
             final List<KeyValue> properties = null;
 
-            ProcessStatus flowStatus = new ProcessStatus();
-            flowStatus.setStatus(status.getStatus());
-            flowStatus.setErrorMessage(status.getErrorMessage());
-            flowStatus.setErrorStackTrace(status.getErrorStackTrace());
+            ProcessStatus flowStatus = new ProcessStatus(status.getStatus(), null, status.getErrorMessage(),
+                    status.getErrorStackTrace());
 
             SignatureFlowTemplateTransactionResult result = new SignatureFlowTemplateTransactionResult(flowStatus,
                     flowInfo, properties);

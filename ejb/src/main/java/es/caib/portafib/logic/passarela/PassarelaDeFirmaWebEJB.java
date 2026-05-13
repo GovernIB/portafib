@@ -559,7 +559,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                     custodyFilePrintableFileDirectUrl, custodyFileEniFileDirectUrl);
         }
 
-        PassarelaSignatureResult psr = new PassarelaSignatureResult(signID, ss.getStatus(), ss.getErrorMessage(),
+        PassarelaSignatureResult psr = new PassarelaSignatureResult(signID, ss.getStatus(), ss.getErrorCode(), ss.getErrorMessage(),
                 ss.getErrorStackTrace(), signedFile, pCustodyInfo, pvi);
 
         return psr;
@@ -649,6 +649,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                             // statusFinal = status;
 
                             // Copiar estat
+                            // Descomentar al implementar l'issue #1168
+                            //pss.setErrorCode(status.getErrorCode());
                             pss.setErrorMessage(msg);
                             pss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
                             pss.setErrorStackTrace(null);
@@ -713,6 +715,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                                 }
 
                                 // Copiar estat
+                                // Descomentar al implementar l'issue #1168
+                                //pss.setErrorCode(status.getErrorCode());
                                 pss.setErrorMessage(status.getErrorMsg());
                                 pss.setStatus(status.getStatus());
                                 pss.setFitxerFirmat(firmat);
@@ -721,6 +725,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                                 log.error("Error durant el process de final de firma: " + transactionID + ". "
                                         + i18n.getMessage());
                                 pss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
+                                pss.setErrorCode(null);
                                 pss.setErrorMessage(I18NLogicUtils.getMessage(i18n, new Locale(languageUI)));
 
                                 // Esborrar fitxer firmat si existeix
@@ -783,6 +788,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
         //ssf.setStatus(statusFinal.getStatus());
         //ssf.setErrorMessage(statusFinal.getErrorMsg());
         ssf.setStatus(sss.getStatus());
+        // TODO Descomentar al implementar l'issue #1168
+        //ssf.setErrorCode(sss.getErrorCode());
         ssf.setErrorMessage(sss.getErrorMsg());
 
         if (sss.getErrorException() != null) {

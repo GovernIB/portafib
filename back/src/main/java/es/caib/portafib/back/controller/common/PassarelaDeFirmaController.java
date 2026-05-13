@@ -205,6 +205,7 @@ public class PassarelaDeFirmaController {
 
             ssf.setStatus(StatusSignature.STATUS_FINAL_ERROR);
             ssf.setErrorMessage(msg);
+            ssf.setErrorCode(null);
 
             StringWriter trace = new StringWriter();
             th.printStackTrace(new java.io.PrintWriter(trace));

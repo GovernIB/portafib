@@ -475,10 +475,9 @@ public class SignatureOnServerService extends AbstractSignatureService implement
 
         String transactionID = null;
         String languageUI = "ca";
-        
+
         UsuariAplicacioJPA usuariAplicacio = super.checkUsuariAplicacioFull(request);
-        
-        
+
         try {
             log.info(" XYZ ZZZ eNTRA A signDocuments => simpleSignature: " + simpleSignature);
 
@@ -541,8 +540,8 @@ public class SignatureOnServerService extends AbstractSignatureService implement
             log.info("XYZ ZZZ  ======>   USERNAME = ]" + pss.getCommonInfoSignature().getUsername() + "[");
             PassarelaSignatureInServerResults fullResults;
 
-            fullResults = passarelaDeFirmaEnServidorEjb.signDocuments(pss, usuariAplicacio.getEntitat(), usuariAplicacio, pcf.perfilDeFirma,
-                    pcf.configBySignID);
+            fullResults = passarelaDeFirmaEnServidorEjb.signDocuments(pss, usuariAplicacio.getEntitat(),
+                    usuariAplicacio, pcf.perfilDeFirma, pcf.configBySignID);
 
             signaturePluginId = fullResults.getPluginFirmaEnServidorId();
 
@@ -561,7 +560,8 @@ public class SignatureOnServerService extends AbstractSignatureService implement
                 PassarelaSignatureStatus passarelaSS = pfullResults.getSignaturesSetStatus();
 
                 statusGlobal = new es.caib.portafib.api.interna.secure.signature.v1.commons.ProcessStatus(
-                        passarelaSS.getStatus(), passarelaSS.getErrorMessage(), passarelaSS.getErrorStackTrace());
+                        passarelaSS.getStatus(), passarelaSS.getErrorCode(), passarelaSS.getErrorMessage(),
+                        passarelaSS.getErrorStackTrace());
 
                 if (passarelaSS.getStatus() == StatusSignature.STATUS_FINAL_OK) {
 
@@ -661,20 +661,19 @@ public class SignatureOnServerService extends AbstractSignatureService implement
 
             return new SignDocumentResponse(result, signPlugin);
 
-       
         } catch (Throwable th) {
-            
-            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SIGNONSERVERV1_ERROR, usuariAplicacio);
+
+            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SIGNONSERVERV1_ERROR,
+                    usuariAplicacio);
 
             if (th instanceof RestException) {
                 throw (RestException) th;
             }
-            
-            
+
             String errorMsg;
             if (th instanceof NoCompatibleSignaturePluginException) {
 
-                 errorMsg = getNoAvailablePluginErrorMessage(languageUI, esFirmaEnServidor,
+                errorMsg = getNoAvailablePluginErrorMessage(languageUI, esFirmaEnServidor,
                         (NoCompatibleSignaturePluginException) th);
             } else if (th instanceof I18NException) {
                 I18NException i18ne = (I18NException) th;
@@ -684,7 +683,7 @@ public class SignatureOnServerService extends AbstractSignatureService implement
             }
 
             // XYZ ZZZ TRA
-            
+
             log.error(errorMsg, th);
             throw new RestException(Status.INTERNAL_SERVER_ERROR, errorMsg, th);
 

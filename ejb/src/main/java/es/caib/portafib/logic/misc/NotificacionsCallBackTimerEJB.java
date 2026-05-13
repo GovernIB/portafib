@@ -411,7 +411,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
                         String dest = usuariAplicacio.getEmailAdmin();
                         final String from = PropietatGlobalUtil.getAppEmail();
                         final boolean isHtml = true;
-                        final String url = PropietatGlobalUtil.getAppUrl() + ConstantsV2.CONTEXT_ADEN_NOTIFICACIONSWS
+                        final String url = PropietatGlobalUtil.getAppUrl() + ConstantsV2.CONTEXT_ADAPP_NOTIFICACIONSWS
                                 + "/list";
                         Locale loc = new Locale(usuariAplicacio.getIdiomaID());
                         String subject = I18NLogicUtils.tradueix(loc, "notificacioerrorcallback.subject");

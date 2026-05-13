@@ -18,10 +18,10 @@ public class PassarelaSignatureResult extends PassarelaSignatureStatus {
   
   protected PassarelaValidationInfo validationInfo;
 
-  public PassarelaSignatureResult(String signID, int status, String errorMessage,
+  public PassarelaSignatureResult(String signID, int status, String errorCode, String errorMessage,
       String errorStackTrace, FitxerBean signedFile, PassarelaCustodyInfo custodyInfo,
       PassarelaValidationInfo validationInfo) {
-    super(status, errorMessage, errorStackTrace);
+    super(status, errorCode, errorMessage, errorStackTrace);
     this.signID = signID;
     this.signedFile = signedFile;
     this.custodyInfo = custodyInfo;

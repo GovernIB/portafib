@@ -608,7 +608,7 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
             log.info("\n\n XYZ ZZZ Estat de la transacció " + transactionID + " es de " + status.getStatus() + "\n\n");
 
             ProcessStatus transactionStatus;
-            transactionStatus = new ProcessStatus(status.getStatus(), status.getErrorMessage(),
+            transactionStatus = new ProcessStatus(status.getStatus(), status.getErrorCode(), status.getErrorMessage(),
                     status.getErrorStackTrace());
 
             final boolean addFiles = false;
@@ -625,7 +625,7 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
                 //log.info("\n\n XYZ ZZZ Estat Firma "  + psr.getSignID()+ " de la transacció " + transactionID + " es " + psr.getStatus() + "\n\n");
 
                 signResults.add(new SignatureStatus(psr.getSignID(),
-                        new ProcessStatus(psr.getStatus(), psr.getErrorMessage(), psr.getErrorStackTrace())));
+                        new ProcessStatus(psr.getStatus(), psr.getErrorCode(), psr.getErrorMessage(), psr.getErrorStackTrace())));
 
             }
 

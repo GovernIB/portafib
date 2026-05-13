@@ -28,14 +28,19 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  */
 @JsonPropertyOrder({
   ProcessStatus.JSON_PROPERTY_STATUS,
+  ProcessStatus.JSON_PROPERTY_ERROR_CODE,
   ProcessStatus.JSON_PROPERTY_ERROR_MESSAGE,
   ProcessStatus.JSON_PROPERTY_ERROR_STACK_TRACE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
 public class ProcessStatus {
   public static final String JSON_PROPERTY_STATUS = "status";
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private Integer status;
+
+  public static final String JSON_PROPERTY_ERROR_CODE = "errorCode";
+  @javax.annotation.Nullable
+  private String errorCode;
 
   public static final String JSON_PROPERTY_ERROR_MESSAGE = "errorMessage";
   @javax.annotation.Nullable
@@ -48,19 +53,19 @@ public class ProcessStatus {
   public ProcessStatus() {
   }
 
-  public ProcessStatus status(@javax.annotation.Nullable Integer status) {
+  public ProcessStatus status(@javax.annotation.Nonnull Integer status) {
     
     this.status = status;
     return this;
   }
 
   /**
-   * Get status
+   * Codi de l&#39;estat del procés. StatusConstants.STATUS_FINAL_OK si tot ha anat bé, qualsevol altre valor indica un error o cancel·lació. Pels valors d&#39;aquest camp veure classe StatusConstants
    * @return status
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getStatus() {
     return status;
@@ -68,9 +73,34 @@ public class ProcessStatus {
 
 
   @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setStatus(@javax.annotation.Nullable Integer status) {
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setStatus(@javax.annotation.Nonnull Integer status) {
     this.status = status;
+  }
+
+  public ProcessStatus errorCode(@javax.annotation.Nullable String errorCode) {
+    
+    this.errorCode = errorCode;
+    return this;
+  }
+
+  /**
+   * En cas d&#39;error, codi d&#39;error encara que fins i tot en el cas d&#39;error normalment valdrà null. Els valors d&#39;aquest camp són enviats pels diferents plugins de firma, per tant poden variar molt en funció del plugin que s&#39;hagi utilitzat. Per a més informació sobre els valors d&#39;aquest camp, consultar la documentació del plugin de firma que s&#39;hagi utilitzat.
+   * @return errorCode
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ERROR_CODE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getErrorCode() {
+    return errorCode;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ERROR_CODE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setErrorCode(@javax.annotation.Nullable String errorCode) {
+    this.errorCode = errorCode;
   }
 
   public ProcessStatus errorMessage(@javax.annotation.Nullable String errorMessage) {
@@ -80,7 +110,7 @@ public class ProcessStatus {
   }
 
   /**
-   * Get errorMessage
+   * En cas d&#39;error, missatge d&#39;error
    * @return errorMessage
    */
   @javax.annotation.Nullable
@@ -105,7 +135,7 @@ public class ProcessStatus {
   }
 
   /**
-   * Get errorStackTrace
+   * En cas d&#39;error, stack trace de l&#39;error en format String
    * @return errorStackTrace
    */
   @javax.annotation.Nullable
@@ -133,13 +163,14 @@ public class ProcessStatus {
     }
     ProcessStatus processStatus = (ProcessStatus) o;
     return Objects.equals(this.status, processStatus.status) &&
+        Objects.equals(this.errorCode, processStatus.errorCode) &&
         Objects.equals(this.errorMessage, processStatus.errorMessage) &&
         Objects.equals(this.errorStackTrace, processStatus.errorStackTrace);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(status, errorMessage, errorStackTrace);
+    return Objects.hash(status, errorCode, errorMessage, errorStackTrace);
   }
 
   @Override
@@ -147,6 +178,7 @@ public class ProcessStatus {
     StringBuilder sb = new StringBuilder();
     sb.append("class ProcessStatus {\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    errorCode: ").append(toIndentedString(errorCode)).append("\n");
     sb.append("    errorMessage: ").append(toIndentedString(errorMessage)).append("\n");
     sb.append("    errorStackTrace: ").append(toIndentedString(errorStackTrace)).append("\n");
     sb.append("}");
