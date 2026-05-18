@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -17,11 +18,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
-
+import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.pluginsib.utils.rest.RestException;
 import org.fundaciobit.pluginsib.utils.rest.RestExceptionInfo;
 import org.fundaciobit.pluginsib.utils.rest.RestUtils;
 
+import es.caib.portafib.logic.utils.I18NLogicUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -335,10 +337,14 @@ public class ExempleInfoService extends RestUtils {
             throw re;
         } catch (Throwable th) {
             String msg;
-            if ("es".equals(language)) {
-                msg = "Error desconocido devolviendo los datos completos: " + th.getMessage();
+            if (th instanceof I18NException) {
+                msg = I18NLogicUtils.getMessage((I18NException) th, new Locale(language));
             } else {
-                msg = "Error desconegut retornant dades completes: " + th.getMessage();
+                if ("es".equals(language)) {
+                    msg = "Error desconocido devolviendo los datos completos: " + th.getMessage();
+                } else {
+                    msg = "Error desconegut retornant dades completes: " + th.getMessage();
+                }
             }
             log.error(msg, th);
             throw new RestException(Status.INTERNAL_SERVER_ERROR, msg, th);
@@ -360,7 +366,7 @@ public class ExempleInfoService extends RestUtils {
 
     // TODO Modificar implementació d'aquest mètode per atacar a una BBDD
     protected LlistaDeExempleInfoPaginada consultaPaginadaInternaBBDD(String filterName, Date filterStartDate,
-            Date filterEndDate, int page, int pageSize, String language, String nextUrl) throws Exception {
+            Date filterEndDate, int page, int pageSize, String language, String nextUrl) throws I18NException {
 
         // TODO Com que això es un exemple de funcionament, no s'ha implementat els filtres per nom i dates
 
@@ -395,7 +401,7 @@ public class ExempleInfoService extends RestUtils {
 
     // TODO Modificar implementació d'aquest mètode per atacar a una BBDD
     protected LlistaDeExempleInfoCompleta consultaCompletaInternaBBDD(String filterName, Date filterStartDate,
-            Date filterEndDate, String language) throws Exception {
+            Date filterEndDate, String language) throws I18NException {
 
         // TODO Com que això es un exemple de funcionament, no s'ha implementat els filtres per nom i dates
 

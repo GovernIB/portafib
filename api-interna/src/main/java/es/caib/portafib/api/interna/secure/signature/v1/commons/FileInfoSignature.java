@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 @Schema(description = "Informació especifica per a realitzar la firma")
 public class FileInfoSignature {
 
-    @Schema(description = "Document a signar",  requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "Document a signar", requiredMode = RequiredMode.REQUIRED)
     protected Document fileToSign;
 
     /**
@@ -17,25 +17,31 @@ public class FileInfoSignature {
     @Schema(description = "Només per CAdES i XAdEs Detached amb firma prèvia", requiredMode = RequiredMode.NOT_REQUIRED)
     protected Document previusSignatureDetachedFile = null;
 
-    @Schema(description = "Identificador de la Firma", example = "1",  requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "Identificador de la Firma", example = "1", requiredMode = RequiredMode.REQUIRED)
     protected String signID;
 
     @Schema(
             description = "Nom descriptiu de la firma. Pot ser el nom del fitxer o un nom associat a la tasca per a la que es requereix la firma.",
             example = "test.pdf",
-             requiredMode = RequiredMode.REQUIRED)
+            requiredMode = RequiredMode.REQUIRED)
     protected String name;
 
-    @Schema(description = "Raó de la realització de la firma.", example = "Exemple de firma",  requiredMode = RequiredMode.REQUIRED)
+    @Schema(
+            description = "Raó de la realització de la firma.",
+            example = "Exemple de firma",
+            requiredMode = RequiredMode.REQUIRED)
     protected String reason;
 
-    @Schema(description = "Lloc on es realitza la firma.", example = "Palma",  requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "Lloc on es realitza la firma.", example = "Palma", requiredMode = RequiredMode.REQUIRED)
     protected String location;
 
-    @Schema(description = "Posició de la firma dins el flux de firma.", example = "1",  requiredMode = RequiredMode.REQUIRED)
+    @Schema(
+            description = "Posició de la firma dins el flux de firma.",
+            example = "1",
+            requiredMode = RequiredMode.REQUIRED)
     protected int signNumber;
 
-    @Schema(description = "Idioma del document.", example = "ca",  requiredMode = RequiredMode.REQUIRED)
+    @Schema(description = "Idioma del document.", example = "ca", requiredMode = RequiredMode.REQUIRED)
     protected String languageSign;
 
     @Schema(description = "Codi de l'expedient.", example = "ca", requiredMode = RequiredMode.NOT_REQUIRED)
@@ -53,8 +59,21 @@ public class FileInfoSignature {
     @Schema(description = "Nom del Procediment.", example = "ca", requiredMode = RequiredMode.NOT_REQUIRED)
     protected String procedimentNom;
 
-    @Schema(description = "Tipus Documental. Si val null se li assigna 99", example = "TD99", requiredMode = RequiredMode.NOT_REQUIRED)
+    @Schema(
+            description = "Tipus Documental. Si val null se li assigna 99",
+            example = "TD99",
+            requiredMode = RequiredMode.NOT_REQUIRED)
     protected Long documentType;
+
+    @Schema(
+            description = "Indica si es requereix que la firma tingui un segell de temps associat. "
+                    + "També depen de la politica de Segellat de Temps de l'usuari aplicació. "
+                    + "Només es farà cas d'aquest camp si les politiques són "
+                    + "POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI o "
+                    + "POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_NO. En el cas de que la politica sigui "
+                    + "diferent a les dues anterior i aquest valor es defineixi, llavors es llançarà un error.",
+            requiredMode = RequiredMode.NOT_REQUIRED)
+    protected Boolean requiresTimeStampInSignature;
 
     @Schema(description = "Informació Addicional.", example = "ca", requiredMode = RequiredMode.NOT_REQUIRED)
     protected List<KeyValue> additionalInformation = null;
@@ -76,8 +95,8 @@ public class FileInfoSignature {
      * @param signNumber
      * @param languageSign
      */
-    public FileInfoSignature(Document fileToSign, String signID, String name, String reason,
-            String location, int signNumber, String languageSign, Long documentType) {
+    public FileInfoSignature(Document fileToSign, String signID, String name, String reason, String location,
+            int signNumber, String languageSign, Long documentType, Boolean requiresTimeStampInSignature) {
         super();
         this.fileToSign = fileToSign;
         this.signID = signID;
@@ -87,6 +106,7 @@ public class FileInfoSignature {
         this.signNumber = signNumber;
         this.languageSign = languageSign;
         this.documentType = documentType;
+        this.requiresTimeStampInSignature = requiresTimeStampInSignature;
     }
 
     /**
@@ -102,9 +122,9 @@ public class FileInfoSignature {
      * @param operationSign
      * @param additionalInformation
      */
-    public FileInfoSignature(Document fileToSign, Document previusSignatureDetachedFile,
-            String signID, String name, String reason, String location, String signerEmail, int signNumber,
-            String languageSign, List<KeyValue> additionalInformation) {
+    public FileInfoSignature(Document fileToSign, Document previusSignatureDetachedFile, String signID, String name,
+            String reason, String location, String signerEmail, int signNumber, String languageSign,
+            List<KeyValue> additionalInformation, Boolean requiresTimeStampInSignature) {
         super();
         this.fileToSign = fileToSign;
         this.previusSignatureDetachedFile = previusSignatureDetachedFile;
@@ -114,6 +134,7 @@ public class FileInfoSignature {
         this.location = location;
         this.signNumber = signNumber;
         this.languageSign = languageSign;
+        this.requiresTimeStampInSignature = requiresTimeStampInSignature;
         this.additionalInformation = additionalInformation;
     }
 
@@ -235,6 +256,14 @@ public class FileInfoSignature {
 
     public void setDocumentType(Long documentType) {
         this.documentType = documentType;
+    }
+
+    public Boolean getRequiresTimeStampInSignature() {
+        return requiresTimeStampInSignature;
+    }
+
+    public void setRequiresTimeStampInSignature(Boolean requiresTimeStampInSignature) {
+        this.requiresTimeStampInSignature = requiresTimeStampInSignature;
     }
 
 }

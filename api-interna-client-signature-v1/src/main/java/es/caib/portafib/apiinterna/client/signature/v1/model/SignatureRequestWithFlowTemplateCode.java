@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Annex;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Document;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Metadata;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,6 +46,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   SignatureRequestWithFlowTemplateCode.JSON_PROPERTY_LANGUAGE_U_I,
   SignatureRequestWithFlowTemplateCode.JSON_PROPERTY_PRIORITY,
   SignatureRequestWithFlowTemplateCode.JSON_PROPERTY_SENDER_NAME,
+  SignatureRequestWithFlowTemplateCode.JSON_PROPERTY_EXPIRATION_DATE,
+  SignatureRequestWithFlowTemplateCode.JSON_PROPERTY_REQUIRES_TIME_STAMP_IN_SIGNATURE,
   SignatureRequestWithFlowTemplateCode.JSON_PROPERTY_SENDER_DESCRIPTION,
   SignatureRequestWithFlowTemplateCode.JSON_PROPERTY_EXPEDIENT_CODE,
   SignatureRequestWithFlowTemplateCode.JSON_PROPERTY_EXPEDIENT_NAME,
@@ -106,6 +109,14 @@ public class SignatureRequestWithFlowTemplateCode {
   public static final String JSON_PROPERTY_SENDER_NAME = "senderName";
   @javax.annotation.Nonnull
   private String senderName;
+
+  public static final String JSON_PROPERTY_EXPIRATION_DATE = "expirationDate";
+  @javax.annotation.Nullable
+  private OffsetDateTime expirationDate;
+
+  public static final String JSON_PROPERTY_REQUIRES_TIME_STAMP_IN_SIGNATURE = "requiresTimeStampInSignature";
+  @javax.annotation.Nullable
+  private Boolean requiresTimeStampInSignature;
 
   public static final String JSON_PROPERTY_SENDER_DESCRIPTION = "senderDescription";
   @javax.annotation.Nullable
@@ -454,6 +465,56 @@ public class SignatureRequestWithFlowTemplateCode {
     this.senderName = senderName;
   }
 
+  public SignatureRequestWithFlowTemplateCode expirationDate(@javax.annotation.Nullable OffsetDateTime expirationDate) {
+    
+    this.expirationDate = expirationDate;
+    return this;
+  }
+
+  /**
+   * Data en que caducarà aquesta petició de firma. Si la data es inferior a 3 dies a partir de la data d&#39;avui, llavors es posa 1 mes a partir d&#39;avui. Si val null automàticament es posa a 30 dies a partir de la creació de la petició.
+   * @return expirationDate
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_EXPIRATION_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public OffsetDateTime getExpirationDate() {
+    return expirationDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_EXPIRATION_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setExpirationDate(@javax.annotation.Nullable OffsetDateTime expirationDate) {
+    this.expirationDate = expirationDate;
+  }
+
+  public SignatureRequestWithFlowTemplateCode requiresTimeStampInSignature(@javax.annotation.Nullable Boolean requiresTimeStampInSignature) {
+    
+    this.requiresTimeStampInSignature = requiresTimeStampInSignature;
+    return this;
+  }
+
+  /**
+   * Indica si es requereix que la firma tingui un segell de temps associat. També depen de la politica de Segellat de Temps de l&#39;usuari aplicació. Només es farà cas d&#39;aquest camp si les politiques són POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI o POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_NO. En el cas de que la politica sigui diferent a les dues anteriors i aquest camp es defineixi, llavors es llançarà un error.
+   * @return requiresTimeStampInSignature
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_REQUIRES_TIME_STAMP_IN_SIGNATURE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Boolean getRequiresTimeStampInSignature() {
+    return requiresTimeStampInSignature;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REQUIRES_TIME_STAMP_IN_SIGNATURE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setRequiresTimeStampInSignature(@javax.annotation.Nullable Boolean requiresTimeStampInSignature) {
+    this.requiresTimeStampInSignature = requiresTimeStampInSignature;
+  }
+
   public SignatureRequestWithFlowTemplateCode senderDescription(@javax.annotation.Nullable String senderDescription) {
     
     this.senderDescription = senderDescription;
@@ -766,6 +827,8 @@ public class SignatureRequestWithFlowTemplateCode {
         Objects.equals(this.languageUI, signatureRequestWithFlowTemplateCode.languageUI) &&
         Objects.equals(this.priority, signatureRequestWithFlowTemplateCode.priority) &&
         Objects.equals(this.senderName, signatureRequestWithFlowTemplateCode.senderName) &&
+        Objects.equals(this.expirationDate, signatureRequestWithFlowTemplateCode.expirationDate) &&
+        Objects.equals(this.requiresTimeStampInSignature, signatureRequestWithFlowTemplateCode.requiresTimeStampInSignature) &&
         Objects.equals(this.senderDescription, signatureRequestWithFlowTemplateCode.senderDescription) &&
         Objects.equals(this.expedientCode, signatureRequestWithFlowTemplateCode.expedientCode) &&
         Objects.equals(this.expedientName, signatureRequestWithFlowTemplateCode.expedientName) &&
@@ -781,7 +844,7 @@ public class SignatureRequestWithFlowTemplateCode {
 
   @Override
   public int hashCode() {
-    return Objects.hash(profileCode, fileToSign, originalDetachedSignature, title, description, reason, documentType, documentTypeDescription, languageDoc, languageUI, priority, senderName, senderDescription, expedientCode, expedientName, expedientUrl, procedureCode, procedureName, additionalInformation, additionalInformationEvaluable, annexs, metadadaList, flowTemplateCode);
+    return Objects.hash(profileCode, fileToSign, originalDetachedSignature, title, description, reason, documentType, documentTypeDescription, languageDoc, languageUI, priority, senderName, expirationDate, requiresTimeStampInSignature, senderDescription, expedientCode, expedientName, expedientUrl, procedureCode, procedureName, additionalInformation, additionalInformationEvaluable, annexs, metadadaList, flowTemplateCode);
   }
 
   @Override
@@ -800,6 +863,8 @@ public class SignatureRequestWithFlowTemplateCode {
     sb.append("    languageUI: ").append(toIndentedString(languageUI)).append("\n");
     sb.append("    priority: ").append(toIndentedString(priority)).append("\n");
     sb.append("    senderName: ").append(toIndentedString(senderName)).append("\n");
+    sb.append("    expirationDate: ").append(toIndentedString(expirationDate)).append("\n");
+    sb.append("    requiresTimeStampInSignature: ").append(toIndentedString(requiresTimeStampInSignature)).append("\n");
     sb.append("    senderDescription: ").append(toIndentedString(senderDescription)).append("\n");
     sb.append("    expedientCode: ").append(toIndentedString(expedientCode)).append("\n");
     sb.append("    expedientName: ").append(toIndentedString(expedientName)).append("\n");

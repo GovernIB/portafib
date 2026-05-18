@@ -130,10 +130,9 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
     @EJB(mappedName = es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal.JNDI_NAME)
     protected es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal passarelaDeFirmaWebEjb;
-    
+
     @EJB(mappedName = EstadisticaLogicaLocal.JNDI_NAME)
     protected EstadisticaLogicaLocal estadisticaLogicaEjb;
-    
 
     protected static final DirectTransactionManager directTransactionManager = new DirectTransactionManager();
 
@@ -476,7 +475,8 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
             // Cercam que tengui configuracio
 
-            FileInfoSignature[] fileInfoSignatureArray = ti.getFirmaSimpleFileList().toArray(new FileInfoSignature[0]);
+            FileInfoSignature[] fileInfoSignatureArray = ti.getFirmaSimpleFileList()
+                    .toArray(new FileInfoSignature[ti.getFirmaSimpleFileList().size()]);
 
             SignDocumentsRequest simpleSignaturesSet;
             simpleSignaturesSet = new SignDocumentsRequest(ti.getCommonInfo(), fileInfoSignatureArray);
@@ -529,35 +529,42 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
             log.info(" XYZ ZZZ SURT DE startTransaction => FINAL OK");
 
             ti.setStatus(TransactionInfo.STATUS_IN_PROGRESS);
-            
+
             estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_CREADA, usrAppJPA);
 
             return redirectUrl;
 
         } catch (Throwable th) {
-            
-            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_ERROR, usrAppJPA);
-            
 
+            log.info(" ENTRA A catch de startTransaction => Throwable: " + th.getClass().getName() + " - "
+                    + th.getMessage());
+
+            estadisticaLogicaEjb.createEstadistica(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_ERROR, usrAppJPA);
+
+            String msg;
             if (th instanceof RestException) {
-                log.error(th.getMessage(), th);
+                log.error("Error controlar en el mètode startTransaction(): " + th.getMessage(), th);
                 throw (RestException) th;
             } else if (th instanceof I18NValidationException) {
-                String msg = I18NLogicUtils.getMessage((I18NValidationException) th, new Locale(languageUI));
-                log.error(msg, th);
-                throw new RestException(msg);
+                msg = I18NLogicUtils.getMessage((I18NValidationException) th, new Locale(languageUI));
 
             } else if (th instanceof I18NException) {
-                String msg = I18NLogicUtils.getMessage((I18NException) th, new Locale(languageUI));
-                log.error(msg, th);
-                throw new RestException(msg);
+
+                log.info("\n\n  ENTRA A CAS I18NException PRE  AAAAAAAAAAAAA");
+
+                msg = I18NLogicUtils.getMessage((I18NException) th, new Locale(languageUI));
+
+                log.info("\n\n  ENTRA A CAS I18NException POST AAAAAAAAAAAAA. msg = ]" + msg + "[\n\n");
+
             } else {
                 // XYZ ZZZ TRA
-                String msg = "Error desconegut iniciant el proces de Firma de la transacció " + transactionID
+                msg = "Error desconegut iniciant el proces de Firma de la transacció " + transactionID
                         + " per part de l'usuari " + usrAppJPA.getUsuariAplicacioID() + ": " + th.getMessage();
-                log.error(msg, th);
-                throw new RestException(msg, th);
             }
+
+            log.error(msg, th);
+            throw new RestException(msg);
+
         }
 
     }
@@ -624,8 +631,8 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
 
                 //log.info("\n\n XYZ ZZZ Estat Firma "  + psr.getSignID()+ " de la transacció " + transactionID + " es " + psr.getStatus() + "\n\n");
 
-                signResults.add(new SignatureStatus(psr.getSignID(),
-                        new ProcessStatus(psr.getStatus(), psr.getErrorCode(), psr.getErrorMessage(), psr.getErrorStackTrace())));
+                signResults.add(new SignatureStatus(psr.getSignID(), new ProcessStatus(psr.getStatus(),
+                        psr.getErrorCode(), psr.getErrorMessage(), psr.getErrorStackTrace())));
 
             }
 

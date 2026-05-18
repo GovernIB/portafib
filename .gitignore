@@ -311,3 +311,6 @@ api-interna-client-signature-v1-examples/apifirmawebsimple.properties
 /PortaFIBapp/certificats/apk_signer_keystore.jks
 /apifirmaasyncsimple/apifirmaasyncsimple-example/src/test/java/org/fundaciobit/apisib/apifirmaasyncsimple/v2/test/MyApiFirmaAsyncSimpleTester.java
 /api-interna-client-signature-v1-examples/src/main/java/es/caib/portafib/apiinterna/client/signature/v1/example/api/MyFirmaEnServidorV1ApiTest.java
+/api-interna-client-signature-v1/gradle
+/api-interna-client-signature-v1-examples/src/main/java/es/caib/portafib/apiinterna/client/signature/v1/example/api/MyFirmaAsincWebV1ApiTest.java
+/api-interna-client-signature-v1-examples/src/main/java/es/caib/portafib/apiinterna/client/signature/v1/example/api/MyFirmaDirecteWebV1ApiTest.java

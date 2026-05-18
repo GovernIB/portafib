@@ -135,26 +135,24 @@ public abstract class AbstractV1ApiTest<A> extends BasicAbstractV1ApiTest<A> {
         }
 
     }
-    
-    
+
     protected File getResultsDirectory() {
         File res = new File("results");
         res.mkdirs();
         return res;
     }
-    
 
     protected FileInfoSignature[] getFilesToSign(Properties prop, long tipusDocumentalID) throws Exception {
 
         Document[] documentsToSign = getDocumentsToSign(prop);
         FileInfoSignature[] filesToSign = new FileInfoSignature[documentsToSign.length];
         int count = 0;
-        for(Document fileToSign: documentsToSign) {
+        for (Document fileToSign : documentsToSign) {
             FileInfoSignature fileInfoSignature = new FileInfoSignature();
 
             fileInfoSignature.setFileToSign(fileToSign);
             String signID = "Firma_" + count;
-            
+
             fileInfoSignature.setSignID(signID);
             String name = fileToSign.getName();
             fileInfoSignature.setName(name);
@@ -170,6 +168,16 @@ public abstract class AbstractV1ApiTest<A> extends BasicAbstractV1ApiTest<A> {
 
             fileInfoSignature.setDocumentType(tipusDocumentalID);
 
+            String RequiresTimeStampInSignatureStr = prop.getProperty("RequiresTimeStampInSignature");
+
+            if (RequiresTimeStampInSignatureStr == null || RequiresTimeStampInSignatureStr.trim().length() == 0) {
+                fileInfoSignature.setRequiresTimeStampInSignature(null);
+            } else if (RequiresTimeStampInSignatureStr.equalsIgnoreCase("false")) {
+                fileInfoSignature.setRequiresTimeStampInSignature(false);
+            } else {
+                fileInfoSignature.setRequiresTimeStampInSignature(true);
+            }
+
             filesToSign[count] = fileInfoSignature;
             count++;
         }
@@ -181,7 +189,7 @@ public abstract class AbstractV1ApiTest<A> extends BasicAbstractV1ApiTest<A> {
         Document[] documentsToSign;
         String files = prop.getProperty("files");
         String[] parts = files.split(",");
-         documentsToSign = new Document[parts.length];
+        documentsToSign = new Document[parts.length];
 
         for (int i = 0; i < parts.length; i++) {
 

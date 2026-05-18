@@ -20,6 +20,8 @@ Estructura de dades per a la sol·licitud de signatura electrònica a partir d'u
 |**languageUI** | **String** | Idioma de la interficie d&#39;usuari (es o ca) |  |
 |**priority** | **Integer** | Prioritat de la Petició. Veure enumeració PriorityConstants. |  |
 |**senderName** | **String** | Nom de la persona/aplicació que envia la petició. |  |
+|**expirationDate** | **OffsetDateTime** | Data en que caducarà aquesta petició de firma. Si la data es inferior a 3 dies a partir de la data d&#39;avui, llavors es posa 1 mes a partir d&#39;avui. Si val null automàticament es posa a 30 dies a partir de la creació de la petició. |  [optional] |
+|**requiresTimeStampInSignature** | **Boolean** | Indica si es requereix que la firma tingui un segell de temps associat. També depen de la politica de Segellat de Temps de l&#39;usuari aplicació. Només es farà cas d&#39;aquest camp si les politiques són POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI o POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_NO. En el cas de que la politica sigui diferent a les dues anteriors i aquest camp es defineixi, llavors es llançarà un error. |  [optional] |
 |**senderDescription** | **String** | Descripció de la persona o responsable de l&#39;aplicació que envia la petició. Es sol posar el correu electronic de la persona que que envia la petició. |  [optional] |
 |**expedientCode** | **String** | Codi de l&#39;expedient |  [optional] |
 |**expedientName** | **String** | Nom de l&#39;expedient |  [optional] |

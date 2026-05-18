@@ -9,7 +9,6 @@ import javax.ws.rs.core.Application;
 
 import org.jboss.logging.Logger;
 
-
 /**
  *
  * @author anadal
@@ -20,8 +19,7 @@ import org.jboss.logging.Logger;
                 @Server(url = "https://dev.caib.es/portafibapi/interna"),
                 @Server(url = "https://proves.caib.es/portafibapi/interna"),
                 @Server(url = "https://se.caib.es/portafibapi/interna"),
-                @Server(url = "https://www.caib.es/portafibapi/interna") }
-        )
+                @Server(url = "https://www.caib.es/portafibapi/interna") })
 @ApplicationPath("/")
 public class JAXRSConfiguration extends Application {
 
@@ -39,6 +37,7 @@ public class JAXRSConfiguration extends Application {
     @PostConstruct
     private void init() {
         log.info("Iniciant API REST INTERNA de PortaFIB");
+
     }
 
 }

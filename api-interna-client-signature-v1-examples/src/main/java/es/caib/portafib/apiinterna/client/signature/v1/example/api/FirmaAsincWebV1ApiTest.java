@@ -2,6 +2,7 @@ package es.caib.portafib.apiinterna.client.signature.v1.example.api;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -46,12 +47,9 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
         FirmaAsincWebV1ApiTest tester = new FirmaAsincWebV1ApiTest();
 
         try {
-            String languageUI = "ca"; // Català
+            final String languageUI = "ca"; // Català
 
-            //tester.callCommonTests();
-
-            // --------- URL al FLUX 
-            //tester.getUrlToViewFlow(languageUI, api);
+            tester.callCommonTests();
 
             // ----------- Peticio de Firma
             tester.createSignatureRequestAndStart(languageUI);
@@ -62,7 +60,6 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
             e.printStackTrace(System.err);
         }
     }
-
 
     public void createSignatureRequestAndStart(String languageUI) throws Exception {
 
@@ -174,7 +171,8 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
             throw new Exception("No s'ha definit fitxer a firmar");
         }
 
-        Long peticioDeFirmaID2 = null;;
+        Long peticioDeFirmaID2 = null;
+        ;
         try {
 
             String profileCode = getPerfil();
@@ -205,8 +203,10 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
                     procedureCode, procedureName, additionalInformation, additionalInformationEvaluable, annexs,
                     metadadaList);
             */
+            // Caduca als 20 dies a partir d'ara
+            OffsetDateTime expirationDate = OffsetDateTime.now().plusDays(20);
             // Crear Peticio
-            
+
             if (plantillaDeFirmes != null) {
                 // Utilitzar plantilla
                 log.info("Petició de Firma emprant Plantilla de Flux de Firmes");
@@ -236,6 +236,8 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
                 signatureRequest.setAdditionalInformationEvaluable(additionalInformationEvaluable);
                 signatureRequest.setAnnexs(annexs);
                 signatureRequest.setMetadadaList(metadadaList);
+
+                signatureRequest.setExpirationDate(expirationDate);
 
                 signatureRequest.setFlowTemplateCode(plantillaDeFirmes);
 
@@ -271,13 +273,14 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
                 signatureRequest.setAnnexs(annexs);
                 signatureRequest.setMetadadaList(metadadaList);
 
+                signatureRequest.setExpirationDate(expirationDate);
+
                 signatureRequest.setSignatureBlocks(Arrays.asList(signatureBlocks));
 
                 peticioDeFirmaID2 = api.createAndStartSignatureRequestWithSignBlockList(signatureRequest);
             }
 
             log.info("Creada peticio amb ID = " + peticioDeFirmaID2);
-
 
             String url = api.getUrlToViewFlow(peticioDeFirmaID2, languageUI);
 
@@ -292,14 +295,16 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
                 // AIXÒ NO S'HA DE FER !!!!!
                 // S'HAN D'UTILITZAR ELS CALLBACKS PER RECUPERAR FITXERS SIGNATS !!!!!
 
-                System.out.println(" + SignatureRequestStateConstants.SIGNED: " + SignatureRequestStateConstants.SIGNED.getValue());
-                System.out.println(" + SignatureRequestStateConstants.REJECTED: " + SignatureRequestStateConstants.REJECTED.getValue());
-                  
+                System.out.println(" + SignatureRequestStateConstants.SIGNED: "
+                        + SignatureRequestStateConstants.SIGNED.getValue());
+                System.out.println(" + SignatureRequestStateConstants.REJECTED: "
+                        + SignatureRequestStateConstants.REJECTED.getValue());
+
                 do {
                     Thread.sleep(5000);
                     state = api.getSignatureRequestState(peticioDeFirmaID2, languageUI);
                     estat = state.getState();
-                    System.out.println((new Date()) + " Estat de la peticio de firma: " + estat );
+                    System.out.println((new Date()) + " Estat de la peticio de firma: " + estat);
                 } while (estat != (int) SignatureRequestStateConstants.SIGNED.getValue()
                         && estat != (int) SignatureRequestStateConstants.REJECTED.getValue());
 
@@ -315,10 +320,9 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
 
                     // Imprimir Informacio
 
-                    
                     SignedFileInfo info = signedFileFull.getSignedFileInfo();
                     if (info != null) {
-                      System.out.println(info.toString());
+                        System.out.println(info.toString());
                     } else {
                         System.err.println("No hi ha informació del SignedFileInfo");
                     }
@@ -361,7 +365,7 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
                 System.out.println(" === ORIGINAL FILE  ===");
 
                 byte[] data = originalFile.getData();
-                System.out.println("Tamany del fitxer: " + data.length);
+                System.out.println("Mida del fitxer: " + data.length);
 
                 String prefix = "original_" + peticioDeFirmaID2 + "_";
                 File fitxerOriginal = new File(prefix + originalFile.getName());
@@ -506,8 +510,8 @@ public class FirmaAsincWebV1ApiTest extends AbstractV1ApiTest<AsyncSignatureOnWe
 
     @Override
     protected AsyncSignatureOnWebV1Api getApi() throws Exception {
-
-        return new AsyncSignatureOnWebV1Api(getApiClient());
+        ApiClient apiClient = getApiClient();
+        return new AsyncSignatureOnWebV1Api(apiClient);
     }
 
     @Override

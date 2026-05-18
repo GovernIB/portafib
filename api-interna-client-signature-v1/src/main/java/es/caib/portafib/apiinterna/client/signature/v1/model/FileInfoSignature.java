@@ -46,6 +46,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FileInfoSignature.JSON_PROPERTY_PROCEDIMENT_CODI,
   FileInfoSignature.JSON_PROPERTY_PROCEDIMENT_NOM,
   FileInfoSignature.JSON_PROPERTY_DOCUMENT_TYPE,
+  FileInfoSignature.JSON_PROPERTY_REQUIRES_TIME_STAMP_IN_SIGNATURE,
   FileInfoSignature.JSON_PROPERTY_ADDITIONAL_INFORMATION
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -105,6 +106,10 @@ public class FileInfoSignature {
   public static final String JSON_PROPERTY_DOCUMENT_TYPE = "documentType";
   @javax.annotation.Nullable
   private Long documentType;
+
+  public static final String JSON_PROPERTY_REQUIRES_TIME_STAMP_IN_SIGNATURE = "requiresTimeStampInSignature";
+  @javax.annotation.Nullable
+  private Boolean requiresTimeStampInSignature;
 
   public static final String JSON_PROPERTY_ADDITIONAL_INFORMATION = "additionalInformation";
   @javax.annotation.Nullable
@@ -463,6 +468,31 @@ public class FileInfoSignature {
     this.documentType = documentType;
   }
 
+  public FileInfoSignature requiresTimeStampInSignature(@javax.annotation.Nullable Boolean requiresTimeStampInSignature) {
+    
+    this.requiresTimeStampInSignature = requiresTimeStampInSignature;
+    return this;
+  }
+
+  /**
+   * Indica si es requereix que la firma tingui un segell de temps associat. També depen de la politica de Segellat de Temps de l&#39;usuari aplicació. Només es farà cas d&#39;aquest camp si les politiques són POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI o POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_NO. En el cas de que la politica sigui diferent a les dues anterior i aquest valor es defineixi, llavors es llançarà un error.
+   * @return requiresTimeStampInSignature
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_REQUIRES_TIME_STAMP_IN_SIGNATURE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Boolean getRequiresTimeStampInSignature() {
+    return requiresTimeStampInSignature;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REQUIRES_TIME_STAMP_IN_SIGNATURE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setRequiresTimeStampInSignature(@javax.annotation.Nullable Boolean requiresTimeStampInSignature) {
+    this.requiresTimeStampInSignature = requiresTimeStampInSignature;
+  }
+
   public FileInfoSignature additionalInformation(@javax.annotation.Nullable List<KeyValue> additionalInformation) {
     
     this.additionalInformation = additionalInformation;
@@ -519,12 +549,13 @@ public class FileInfoSignature {
         Objects.equals(this.procedimentCodi, fileInfoSignature.procedimentCodi) &&
         Objects.equals(this.procedimentNom, fileInfoSignature.procedimentNom) &&
         Objects.equals(this.documentType, fileInfoSignature.documentType) &&
+        Objects.equals(this.requiresTimeStampInSignature, fileInfoSignature.requiresTimeStampInSignature) &&
         Objects.equals(this.additionalInformation, fileInfoSignature.additionalInformation);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(fileToSign, previusSignatureDetachedFile, signID, name, reason, location, signNumber, languageSign, expedientCodi, expedientNom, expedientUrl, procedimentCodi, procedimentNom, documentType, additionalInformation);
+    return Objects.hash(fileToSign, previusSignatureDetachedFile, signID, name, reason, location, signNumber, languageSign, expedientCodi, expedientNom, expedientUrl, procedimentCodi, procedimentNom, documentType, requiresTimeStampInSignature, additionalInformation);
   }
 
   @Override
@@ -545,6 +576,7 @@ public class FileInfoSignature {
     sb.append("    procedimentCodi: ").append(toIndentedString(procedimentCodi)).append("\n");
     sb.append("    procedimentNom: ").append(toIndentedString(procedimentNom)).append("\n");
     sb.append("    documentType: ").append(toIndentedString(documentType)).append("\n");
+    sb.append("    requiresTimeStampInSignature: ").append(toIndentedString(requiresTimeStampInSignature)).append("\n");
     sb.append("    additionalInformation: ").append(toIndentedString(additionalInformation)).append("\n");
     sb.append("}");
     return sb.toString();

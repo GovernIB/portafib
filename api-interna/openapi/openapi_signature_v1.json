@@ -4230,6 +4230,16 @@
             "type" : "string",
             "description" : "Nom de la persona/aplicació que envia la petició."
           },
+          "expirationDate" : {
+            "type" : "string",
+            "description" : "Data en que caducarà aquesta petició de firma. Si la data es inferior a 3 dies a partir de la data d'avui, llavors es posa 1 mes a partir d'avui. Si val null automàticament es posa a 30 dies a partir de la creació de la petició.",
+            "format" : "date-time",
+            "example" : "2025-06-16T12:00:00Z"
+          },
+          "requiresTimeStampInSignature" : {
+            "type" : "boolean",
+            "description" : "Indica si es requereix que la firma tingui un segell de temps associat. També depen de la politica de Segellat de Temps de l'usuari aplicació. Només es farà cas d'aquest camp si les politiques són POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI o POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_NO. En el cas de que la politica sigui diferent a les dues anteriors i aquest camp es defineixi, llavors es llançarà un error."
+          },
           "senderDescription" : {
             "type" : "string",
             "description" : "Descripció de la persona o responsable de l'aplicació que envia la petició. Es sol posar el correu electronic de la persona que que envia la petició."
@@ -4450,6 +4460,16 @@
           "senderName" : {
             "type" : "string",
             "description" : "Nom de la persona/aplicació que envia la petició."
+          },
+          "expirationDate" : {
+            "type" : "string",
+            "description" : "Data en que caducarà aquesta petició de firma. Si la data es inferior a 3 dies a partir de la data d'avui, llavors es posa 1 mes a partir d'avui. Si val null automàticament es posa a 30 dies a partir de la creació de la petició.",
+            "format" : "date-time",
+            "example" : "2025-06-16T12:00:00Z"
+          },
+          "requiresTimeStampInSignature" : {
+            "type" : "boolean",
+            "description" : "Indica si es requereix que la firma tingui un segell de temps associat. També depen de la politica de Segellat de Temps de l'usuari aplicació. Només es farà cas d'aquest camp si les politiques són POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI o POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_NO. En el cas de que la politica sigui diferent a les dues anteriors i aquest camp es defineixi, llavors es llançarà un error."
           },
           "senderDescription" : {
             "type" : "string",
@@ -4921,6 +4941,10 @@
             "type" : "integer",
             "description" : "Tipus Documental. Si val null se li assigna 99",
             "format" : "int64"
+          },
+          "requiresTimeStampInSignature" : {
+            "type" : "boolean",
+            "description" : "Indica si es requereix que la firma tingui un segell de temps associat. També depen de la politica de Segellat de Temps de l'usuari aplicació. Només es farà cas d'aquest camp si les politiques són POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI o POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_NO. En el cas de que la politica sigui diferent a les dues anterior i aquest valor es defineixi, llavors es llançarà un error."
           },
           "additionalInformation" : {
             "type" : "array",

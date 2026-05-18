@@ -531,11 +531,9 @@ public class SignatureOnServerService extends AbstractSignatureService implement
             String entitatId = usuariAplicacioLogicaEjb.executeQueryOne(UsuariAplicacioFields.ENTITATID, w);
             getEntitatId(username, languageUI);
 
-            //EntitatJPA entitat = entitatLogicaEjb.findByPrimaryKey(entitatId);
-            //UsuariAplicacioJPA usuariAplicacio = usuariAplicacioLogicaEjb.findByPrimaryKey(username);
-
             PassarelaSignaturesSet pss = convertRestBean2PassarelaBeanServer(transactionID, simpleSignature, username,
-                    usuariAplicacio.getEntitat(), pcf.perfilDeFirma, pcf.configBySignID);
+                    usuariAplicacio.getEntitat(), pcf.perfilDeFirma, pcf.configBySignID, 
+                    simpleSignature.getFileInfoSignature().getRequiresTimeStampInSignature());
 
             log.info("XYZ ZZZ  ======>   USERNAME = ]" + pss.getCommonInfoSignature().getUsername() + "[");
             PassarelaSignatureInServerResults fullResults;
@@ -545,11 +543,7 @@ public class SignatureOnServerService extends AbstractSignatureService implement
 
             signaturePluginId = fullResults.getPluginFirmaEnServidorId();
 
-            //SignDocumentsResponse fssfrFull = processPassarelaResults(fullResults, pss, isSignatureInServer,
-            //        fullResults.getPluginFirmaEnServidorId());
-            // private SignDocumentsResponse processPassarelaResults(PassarelaSignatureInServerResults completeResults,
-            // PassarelaSignaturesSet pss, boolean isSignatureInServer, Long signaturePluginID) throws Exception {
-            //
+
             ProcessStatus statusGlobal;
             List<SignatureResponse> results;
             int suma_error = 0;

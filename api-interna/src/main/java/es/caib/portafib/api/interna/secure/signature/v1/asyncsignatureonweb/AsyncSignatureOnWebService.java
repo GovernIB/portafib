@@ -1291,8 +1291,16 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
         java.lang.String motiu = signatureRequest.getReason();
         long tipusDocumentID = signatureRequest.getDocumentType();
         java.lang.String descripcioTipusDocument = signatureRequest.getDocumentTypeDescription();
-        // 1 mes
-        java.sql.Timestamp dataCaducitat = new Timestamp(System.currentTimeMillis() + 2629750000L);
+
+        java.sql.Timestamp dataCaducitat;
+        if (signatureRequest.getExpirationDate() != null &&
+                // Comprovar que la data no sigui inferir a 3 dies a partir d'avui
+                signatureRequest.getExpirationDate().toInstant().toEpochMilli() > (System.currentTimeMillis() + 3 * 24 * 3600 * 1000L)) {
+            dataCaducitat = new Timestamp(signatureRequest.getExpirationDate().toInstant().toEpochMilli());
+        } else {
+            // 1 mes
+            dataCaducitat = new Timestamp(System.currentTimeMillis() + 2629750000L);
+        }
         java.sql.Timestamp dataSolicitud = new Timestamp(System.currentTimeMillis());
         java.sql.Timestamp dataFinal = null;
 
@@ -1348,7 +1356,7 @@ public class AsyncSignatureOnWebService extends AbstractSignatureService impleme
 
         // TODO XYZ ZZZ Cercar-ho a info de l'usuari-app. Ara cercar-ho de les
         // DADES DE l'ENTITAT
-        final boolean segellatDeTemps = getUseTimestampOfConfig(solicitantUsuariAplicacioID, config, entitatJPA);
+        final boolean segellatDeTemps = getUseTimestampOfConfig(solicitantUsuariAplicacioID, config, entitatJPA, signatureRequest.getRequiresTimeStampInSignature());
 
         // XYZ ZZZ ZZZ
         java.lang.Long fitxerAFirmarID = null;

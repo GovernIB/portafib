@@ -24,6 +24,7 @@ import es.caib.portafib.apiinterna.client.signature.v1.model.Annex;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Document;
 import es.caib.portafib.apiinterna.client.signature.v1.model.Metadata;
 import es.caib.portafib.apiinterna.client.signature.v1.model.SignatureBlock;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -46,6 +47,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   SignatureRequestWithSignBlockList.JSON_PROPERTY_LANGUAGE_U_I,
   SignatureRequestWithSignBlockList.JSON_PROPERTY_PRIORITY,
   SignatureRequestWithSignBlockList.JSON_PROPERTY_SENDER_NAME,
+  SignatureRequestWithSignBlockList.JSON_PROPERTY_EXPIRATION_DATE,
+  SignatureRequestWithSignBlockList.JSON_PROPERTY_REQUIRES_TIME_STAMP_IN_SIGNATURE,
   SignatureRequestWithSignBlockList.JSON_PROPERTY_SENDER_DESCRIPTION,
   SignatureRequestWithSignBlockList.JSON_PROPERTY_EXPEDIENT_CODE,
   SignatureRequestWithSignBlockList.JSON_PROPERTY_EXPEDIENT_NAME,
@@ -107,6 +110,14 @@ public class SignatureRequestWithSignBlockList {
   public static final String JSON_PROPERTY_SENDER_NAME = "senderName";
   @javax.annotation.Nonnull
   private String senderName;
+
+  public static final String JSON_PROPERTY_EXPIRATION_DATE = "expirationDate";
+  @javax.annotation.Nullable
+  private OffsetDateTime expirationDate;
+
+  public static final String JSON_PROPERTY_REQUIRES_TIME_STAMP_IN_SIGNATURE = "requiresTimeStampInSignature";
+  @javax.annotation.Nullable
+  private Boolean requiresTimeStampInSignature;
 
   public static final String JSON_PROPERTY_SENDER_DESCRIPTION = "senderDescription";
   @javax.annotation.Nullable
@@ -455,6 +466,56 @@ public class SignatureRequestWithSignBlockList {
     this.senderName = senderName;
   }
 
+  public SignatureRequestWithSignBlockList expirationDate(@javax.annotation.Nullable OffsetDateTime expirationDate) {
+    
+    this.expirationDate = expirationDate;
+    return this;
+  }
+
+  /**
+   * Data en que caducarà aquesta petició de firma. Si la data es inferior a 3 dies a partir de la data d&#39;avui, llavors es posa 1 mes a partir d&#39;avui. Si val null automàticament es posa a 30 dies a partir de la creació de la petició.
+   * @return expirationDate
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_EXPIRATION_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public OffsetDateTime getExpirationDate() {
+    return expirationDate;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_EXPIRATION_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setExpirationDate(@javax.annotation.Nullable OffsetDateTime expirationDate) {
+    this.expirationDate = expirationDate;
+  }
+
+  public SignatureRequestWithSignBlockList requiresTimeStampInSignature(@javax.annotation.Nullable Boolean requiresTimeStampInSignature) {
+    
+    this.requiresTimeStampInSignature = requiresTimeStampInSignature;
+    return this;
+  }
+
+  /**
+   * Indica si es requereix que la firma tingui un segell de temps associat. També depen de la politica de Segellat de Temps de l&#39;usuari aplicació. Només es farà cas d&#39;aquest camp si les politiques són POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI o POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_NO. En el cas de que la politica sigui diferent a les dues anteriors i aquest camp es defineixi, llavors es llançarà un error.
+   * @return requiresTimeStampInSignature
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_REQUIRES_TIME_STAMP_IN_SIGNATURE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Boolean getRequiresTimeStampInSignature() {
+    return requiresTimeStampInSignature;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REQUIRES_TIME_STAMP_IN_SIGNATURE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setRequiresTimeStampInSignature(@javax.annotation.Nullable Boolean requiresTimeStampInSignature) {
+    this.requiresTimeStampInSignature = requiresTimeStampInSignature;
+  }
+
   public SignatureRequestWithSignBlockList senderDescription(@javax.annotation.Nullable String senderDescription) {
     
     this.senderDescription = senderDescription;
@@ -775,6 +836,8 @@ public class SignatureRequestWithSignBlockList {
         Objects.equals(this.languageUI, signatureRequestWithSignBlockList.languageUI) &&
         Objects.equals(this.priority, signatureRequestWithSignBlockList.priority) &&
         Objects.equals(this.senderName, signatureRequestWithSignBlockList.senderName) &&
+        Objects.equals(this.expirationDate, signatureRequestWithSignBlockList.expirationDate) &&
+        Objects.equals(this.requiresTimeStampInSignature, signatureRequestWithSignBlockList.requiresTimeStampInSignature) &&
         Objects.equals(this.senderDescription, signatureRequestWithSignBlockList.senderDescription) &&
         Objects.equals(this.expedientCode, signatureRequestWithSignBlockList.expedientCode) &&
         Objects.equals(this.expedientName, signatureRequestWithSignBlockList.expedientName) &&
@@ -790,7 +853,7 @@ public class SignatureRequestWithSignBlockList {
 
   @Override
   public int hashCode() {
-    return Objects.hash(profileCode, fileToSign, originalDetachedSignature, title, description, reason, documentType, documentTypeDescription, languageDoc, languageUI, priority, senderName, senderDescription, expedientCode, expedientName, expedientUrl, procedureCode, procedureName, additionalInformation, additionalInformationEvaluable, annexs, metadadaList, signatureBlocks);
+    return Objects.hash(profileCode, fileToSign, originalDetachedSignature, title, description, reason, documentType, documentTypeDescription, languageDoc, languageUI, priority, senderName, expirationDate, requiresTimeStampInSignature, senderDescription, expedientCode, expedientName, expedientUrl, procedureCode, procedureName, additionalInformation, additionalInformationEvaluable, annexs, metadadaList, signatureBlocks);
   }
 
   @Override
@@ -809,6 +872,8 @@ public class SignatureRequestWithSignBlockList {
     sb.append("    languageUI: ").append(toIndentedString(languageUI)).append("\n");
     sb.append("    priority: ").append(toIndentedString(priority)).append("\n");
     sb.append("    senderName: ").append(toIndentedString(senderName)).append("\n");
+    sb.append("    expirationDate: ").append(toIndentedString(expirationDate)).append("\n");
+    sb.append("    requiresTimeStampInSignature: ").append(toIndentedString(requiresTimeStampInSignature)).append("\n");
     sb.append("    senderDescription: ").append(toIndentedString(senderDescription)).append("\n");
     sb.append("    expedientCode: ").append(toIndentedString(expedientCode)).append("\n");
     sb.append("    expedientName: ").append(toIndentedString(expedientName)).append("\n");

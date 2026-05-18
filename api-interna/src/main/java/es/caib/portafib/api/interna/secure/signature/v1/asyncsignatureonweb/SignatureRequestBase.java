@@ -1,6 +1,8 @@
 package es.caib.portafib.api.interna.secure.signature.v1.asyncsignatureonweb;
 
+import java.sql.Timestamp;
 import java.util.List;
+
 import es.caib.portafib.api.interna.secure.signature.v1.commons.Document;
 import es.caib.portafib.api.interna.secure.signature.v1.commons.DocumentaryTypeConstants;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -58,6 +60,26 @@ public class SignatureRequestBase {
 
     @Schema(description = "Nom de la persona/aplicació que envia la petició.", requiredMode = RequiredMode.REQUIRED)
     protected String senderName;
+
+    @Schema(
+            requiredMode = RequiredMode.NOT_REQUIRED,
+            description = "Data en que caducarà aquesta petició de firma. Si la data es inferior a 3 dies a partir"
+                    + " de la data d'avui, llavors es posa 1 mes a partir d'avui."
+                    + " Si val null automàticament es posa a 30 dies a partir de la creació de la petició.",
+            type = "string",
+            format = "date-time",
+            example = "2025-06-16T12:00:00+00:00")
+    protected Timestamp expirationDate;
+
+    @Schema(
+            description = "Indica si es requereix que la firma tingui un segell de temps associat. "
+                    + "També depen de la politica de Segellat de Temps de l'usuari aplicació. "
+                    + "Només es farà cas d'aquest camp si les politiques són "
+                    + "POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI o "
+                    + "POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_NO. En el cas de que la politica sigui "
+                    + "diferent a les dues anteriors i aquest camp es defineixi, llavors es llançarà un error.",
+            requiredMode = RequiredMode.NOT_REQUIRED)
+    protected Boolean requiresTimeStampInSignature;
 
     @Schema(
             description = "Descripció de la persona o responsable de l'aplicació que envia la petició."
@@ -339,6 +361,22 @@ public class SignatureRequestBase {
 
     public void setMetadadaList(List<Metadata> metadadaList) {
         this.metadadaList = metadadaList;
+    }
+
+    public Timestamp getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Timestamp expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public Boolean getRequiresTimeStampInSignature() {
+        return requiresTimeStampInSignature;
+    }
+
+    public void setRequiresTimeStampInSignature(Boolean requiresTimeStampInSignature) {
+        this.requiresTimeStampInSignature = requiresTimeStampInSignature;
     }
 
 }

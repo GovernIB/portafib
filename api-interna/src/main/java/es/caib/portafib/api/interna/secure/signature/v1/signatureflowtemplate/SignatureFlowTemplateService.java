@@ -28,6 +28,7 @@ import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleG
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleStartTransactionRequest;
 import org.fundaciobit.apisib.apiflowtemplatesimple.v1.beans.FlowTemplateSimpleStatus;
 import org.fundaciobit.genapp.common.crypt.FileIDEncrypter;
+import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Where;
@@ -548,10 +549,10 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
      * @param usuariAplicacioID
      * @return
      * @throws I18NException
-     * @throws Exception
+     * 
      */
     protected Set<SignatureFlowTemplateInfo> internalGetAll(String name, String description, String usuariAplicacioID)
-            throws I18NException, Exception {
+            throws I18NException {
 
         Select3Columns<Long, String, String> select = new Select3Columns<Long, String, String>(
                 PlantillaFluxDeFirmesFields.FLUXDEFIRMESID.select,
@@ -580,8 +581,13 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
         FileIDEncrypter encrypter = HibernateFileUtil.getEncrypter();
 
         for (Select3Values<Long, String, String> skv : listKV) {
-            result.add(new SignatureFlowTemplateInfo(encrypter.encrypt(String.valueOf(skv.getValue1())),
-                    skv.getValue2(), skv.getValue3()));
+            try {
+                result.add(new SignatureFlowTemplateInfo(encrypter.encrypt(String.valueOf(skv.getValue1())),
+                        skv.getValue2(), skv.getValue3()));
+            } catch (Exception e) {
+                throw new I18NException(e, "genapp.comodi", new I18NArgumentString(
+                        "Error encriptant el ID de la plantilla de flux de firmes amb ID " + skv.getValue1()));
+            }
         }
 
         return result;
@@ -908,9 +914,8 @@ public class SignatureFlowTemplateService extends AbstractSignatureService imple
      * @param fluxDeFirmesID
      * @return
      * @throws I18NException
-     * @throws Exception
      */
-    protected SignatureFlowTemplate getFlowTemplateInfo(Long fluxDeFirmesID) throws I18NException, Exception {
+    protected SignatureFlowTemplate getFlowTemplateInfo(Long fluxDeFirmesID) throws I18NException {
         SignatureFlowTemplate flowInfo;
 
         FluxDeFirmesJPA flux;

@@ -7,17 +7,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.ext.Provider;
 
 import org.apache.log4j.Logger;
-
+import org.fundaciobit.pluginsib.utils.rest.ISO8601DateTimeDeserializer;
 import org.fundaciobit.pluginsib.utils.rest.ISO8601DateTimeSerializer;
+import org.fundaciobit.pluginsib.utils.rest.ISO8601TimestampDeserializer;
 import org.fundaciobit.pluginsib.utils.rest.ISO8601TimestampSerializer;
-
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ByteArraySerializer;
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
-
 
 /**
  * 
@@ -37,20 +36,22 @@ public class ObjectMapperConfiguration extends JacksonJaxbJsonProvider {
         modul.addSerializer(Timestamp.class, new ISO8601TimestampSerializer());
         modul.addSerializer(Date.class, new ISO8601DateTimeSerializer());
         modul.addSerializer(byte[].class, new ByteArraySerializer());
+
+        modul.addDeserializer(Timestamp.class, new ISO8601TimestampDeserializer());
+        modul.addDeserializer(Date.class, new ISO8601DateTimeDeserializer());
+
         MAPPER.registerModule(modul);
 
         // allow only non-null fields to be serialized
         MAPPER.setSerializationInclusion(Include.NON_NULL);
-        
+
+        //log.info("Inicialitzant ObjectMapperConfiguration ...");
+
     }
 
     public ObjectMapperConfiguration() {
-        //log.debug("Inicialitzant ObjectMapperConfiguration ...");
+        log.debug("Inicialitzant ObjectMapperConfiguration ...");
         super.setMapper(MAPPER);
     }
 
-    
-
-
 }
-

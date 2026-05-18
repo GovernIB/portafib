@@ -11,13 +11,13 @@ public class SignDocumentRequest {
             description = "Configuracions generals de firma i identificacio del solicitant i solicitat",
             example = "",
             requiredMode = RequiredMode.REQUIRED)
-	CommonInfo commonInfo;
+	protected CommonInfo commonInfo;
 
     @Schema(
             description = "Informació especifica per a realitzar la firma",
             example = "",
             requiredMode = RequiredMode.REQUIRED)
-	FileInfoSignature fileInfoSignature;
+    protected  FileInfoSignature fileInfoSignature;
 
 	public SignDocumentRequest() {
 		super();

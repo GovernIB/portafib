@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
+import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.pluginsib.utils.rest.RestException;
 import org.fundaciobit.pluginsib.utils.rest.RestExceptionInfo;
 import org.fundaciobit.pluginsib.utils.rest.RestUtils;
@@ -279,10 +280,10 @@ public class InfoVersioService extends RestUtils {
     /**
      * Método sobrecargado que devuelve información más detallada
      */
-    public static double getDetailedDiskInfo(File file) throws Exception {
+    public static double getDetailedDiskInfo(File file) throws I18NException {
 
         if (!file.exists()) {
-            throw new Exception("La ruta no existe: " + file.getAbsolutePath());
+            throw new I18NException("genapp.comodi", "La ruta no existe: " + file.getAbsolutePath());
         }
 
         long totalSpace = file.getTotalSpace();
@@ -290,7 +291,7 @@ public class InfoVersioService extends RestUtils {
         long usableSpace = file.getUsableSpace();
 
         if (totalSpace <= 0) {
-            throw new Exception("No se puede obtener información del espacio");
+            throw new I18NException("genapp.comodi", "No se puede obtener información del espacio");
         }
 
         double freePercentage = (usableSpace * 100.0) / totalSpace;
@@ -301,7 +302,7 @@ public class InfoVersioService extends RestUtils {
         double freeGB = freeSpace / (1024.0 * 1024.0 * 1024.0);
         double usableGB = usableSpace / (1024.0 * 1024.0 * 1024.0);
 
-        System.out.println(String.format(
+        log.info(String.format(
                 "Información del disco:%n" + "Ruta: %s%n" + "Espacio total: %.2f GB%n" + "Espacio libre: %.2f GB%n"
                         + "Espacio usable: %.2f GB%n" + "Porcentaje libre: %.2f%%%n" + "Porcentaje usado: %.2f%%",
                 file.getAbsoluteFile(), totalGB, freeGB, usableGB, freePercentage, usedPercentage));

@@ -474,6 +474,36 @@
                     </webResources>
                 </configuration>
             </plugin>
+            <!-- 
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>
+                                        ${basedir}/../ejb/src/main/resources</directory>
+                                    <includes>
+                                        <include>logicmissatges_*.properties</include>
+                                        <include>genapp_*.properties</include>
+                                        <include>portafib_genapp_*.properties</include>
+                                    </includes>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                            <overwrite>true</overwrite>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+             -->
 
         </plugins>
 

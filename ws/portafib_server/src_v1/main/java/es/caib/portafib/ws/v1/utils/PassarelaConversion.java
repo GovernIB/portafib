@@ -29,7 +29,7 @@ public class PassarelaConversion {
     }
 
     return new es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus(
-        pssWs.getStatus(), pssWs.getErrorMessage(), pssWs.getErrorStackTrace());
+        pssWs.getStatus(), pssWs.getErrorMessage(), pssWs.getErrorStackTrace(), null);
 
   }
 

@@ -22,6 +22,9 @@ password=pwd
 # Propietats de Firma Web
 #======================================
 
+# optional. Values true or false or null. Default null.
+#RequiresTimeStampInSignature=true
+
 PROFILE_PADES=PROFILE_PADES
 PROFILE_XADES=PROFILE_XADES
 PROFILE_CADES=PROFILE_CADES
