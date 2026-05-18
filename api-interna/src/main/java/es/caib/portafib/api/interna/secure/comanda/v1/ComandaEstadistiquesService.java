@@ -60,7 +60,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_SERVIDOR_OK = 10;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APIFIRMASIMPLE_SERVIDOR_OK");
+            ind.setCodi("APIFIRMASIMPLE_SERVIDOR_OK");
             ind.setNom("Api Firma Simple - Firmes en Servidor - OK");
             ind.setDescripcio(
                     "Número de firmes en Servidor realitzades des de l'API de Firma Simple que han finalitzat correctament");
@@ -70,7 +70,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_SERVIDOR_ERROR = -10;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APIFIRMASIMPLE_SERVIDOR_ERROR");
+            ind.setCodi("APIFIRMASIMPLE_SERVIDOR_ERROR");
             ind.setNom("Api Firma Simple - Firmes en Servidor - Error");
             ind.setDescripcio(
                     "Número de firmes en Servidor realitzades des de l'API de Firma Simple que han finalitzat amb error");
@@ -81,7 +81,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_UPGRADE_OK = 15;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APIFIRMASIMPLE_UPGRADE_OK");
+            ind.setCodi("APIFIRMASIMPLE_UPGRADE_OK");
             ind.setNom("Api Firma Simple - Upgrade de Firmes - OK");
             ind.setDescripcio(
                     "Número d'upgrades de firma realitzades des de l'API de Firma Simple que han finalitzat correctament");
@@ -91,7 +91,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_UPGRADE_ERROR = -15;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APIFIRMASIMPLE_UPGRADE_ERROR");
+            ind.setCodi("APIFIRMASIMPLE_UPGRADE_ERROR");
             ind.setNom("Api Firma Simple - Upgrade de Firmes - Error");
             ind.setDescripcio(
                     "Número d'upgrades de firma realitzades des de l'API de Firma Simple que han finalitzat amb error");
@@ -104,7 +104,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_CREADA = 20;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_CREADA");
+            ind.setCodi("APIFIRMASIMPLE_SINCRONA_CREADA");
             ind.setNom("Api Firma Simple - Firma Síncrona - Creada");
             ind.setDescripcio(
                     "Número de peticions de firma síncrona realitzades des de l'API de Firma Simple que han estat creades.");
@@ -114,7 +114,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_OK = 21;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_OK");
+            ind.setCodi("APIFIRMASIMPLE_SINCRONA_OK");
             ind.setNom("Api Firma Simple - Firma Síncrona - OK");
             ind.setDescripcio(
                     "Número de peticions de firma síncrona realitzades des de l'API de Firma Simple que han finalitzat correctament.");
@@ -124,7 +124,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_CANCEL = 121;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_CANCEL");
+            ind.setCodi("APIFIRMASIMPLE_SINCRONA_CANCEL");
             ind.setNom("Api Firma Simple - Firma Síncrona - Cancel");
             ind.setDescripcio(
                     "Número de peticions de firma síncrona realitzades des de l'API de Firma Simple que han estat cancel·lades.");
@@ -134,7 +134,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_ERROR = -21;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_ERROR");
+            ind.setCodi("APIFIRMASIMPLE_SINCRONA_ERROR");
             ind.setNom("Api Firma Simple - Firma Síncrona - Error");
             ind.setDescripcio(
                     "Número de peticions de firma síncrona realitzades des de l'API de Firma Simple que han finalitzat amb error.");
@@ -145,7 +145,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_CREADA = 30;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_CREADA");
+            ind.setCodi("APIFIRMASIMPLE_ASINCRONA_CREADA");
             ind.setNom("Api Firma Simple - Firma Asíncrona - Creada");
             ind.setDescripcio(
                     "Número de peticions de firma asíncrona realitzades des de l'API de Firma Simple que han sigut creades.");
@@ -155,7 +155,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_OK = 31;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_OK");
+            ind.setCodi("APIFIRMASIMPLE_ASINCRONA_OK");
             ind.setNom("Api Firma Simple - Firma Asíncrona - OK");
             ind.setDescripcio(
                     "Número de peticions de firma asíncrona realitzades des de l'API de Firma Simple que han finalitzat correctament.");
@@ -165,7 +165,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_CANCEL = 131;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_CANCEL");
+            ind.setCodi("APIFIRMASIMPLE_ASINCRONA_CANCEL");
             ind.setNom("Api Firma Simple - Firma Asíncrona - Cancel");
             ind.setDescripcio(
                     "Número de peticions de firma asíncrona realitzades des de l'API de Firma Simple que han sido cancel·lades.");
@@ -178,7 +178,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_ERROR = -31;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_ERROR");
+            ind.setCodi("APIFIRMASIMPLE_ASINCRONA_ERROR");
             ind.setNom("Api Firma Simple - Firma Asíncrona - Error");
             ind.setDescripcio(
                     "Número de peticions de firma asíncrona realitzades des de l'API de Firma Simple que han finalitzat amb error.");
@@ -188,7 +188,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_FIRMA = 32;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_FIRMA");
+            ind.setCodi("APIFIRMASIMPLE_ASINCRONA_FIRMA");
             ind.setNom("Api Firma Simple - Firma Asíncrona - Firma");
             ind.setDescripcio(
                     "Número de firmes asíncrones realitzades correctament des de l'API de Firma Simple.");
@@ -201,7 +201,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SIGNONSERVERV1_OK = 40;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APISWAGGER_SIGNONSERVERV1_OK");
+            ind.setCodi("APISWAGGER_SIGNONSERVERV1_OK");
             ind.setNom("Api Swagger - Signatures en Servidor V1 - OK");
             ind.setDescripcio(
                     "Número de signatures en Servidor realitzades des de l'API Swagger V1 que han finalitzat correctament.");
@@ -211,7 +211,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SIGNONSERVERV1_ERROR = -40;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APISWAGGER_SIGNONSERVERV1_ERROR");
+            ind.setCodi("APISWAGGER_SIGNONSERVERV1_ERROR");
             ind.setNom("Api Swagger - Signatures en Servidor V1 - Error");
             ind.setDescripcio(
                     "Número de signatures en Servidor realitzades des de l'API Swagger V1 que han finalitzat amb error.");
@@ -222,7 +222,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_UPGRADEV1_OK = 41;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APISWAGGER_UPGRADEV1_OK");
+            ind.setCodi("APISWAGGER_UPGRADEV1_OK");
             ind.setNom("Api Swagger - Upgrade de Firmes V1 - OK");
             ind.setDescripcio(
                     "Número d'upgrades de firma realitzades des de l'API Swagger V1 que han finalitzat correctament.");
@@ -232,7 +232,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_UPGRADEV1_ERROR = -41;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APISWAGGER_UPGRADEV1_ERROR");
+            ind.setCodi("APISWAGGER_UPGRADEV1_ERROR");
             ind.setNom("Api Swagger - Upgrade de Firmes V1 - Error");
             ind.setDescripcio(
                     "Número d'upgrades de firma realitzades des de l'API Swagger V1 que han finalitzat amb error.");
@@ -245,7 +245,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_VALID = 45;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_VALID");
+            ind.setCodi("APISWAGGER_VALIDATE_VALID");
             ind.setNom("Api Swagger - Validació de Firmes - Vàlida");
             ind.setDescripcio(
                     "Número de validacions de firma des de l'API Swagger que han resultat en firma vàlida.");
@@ -255,7 +255,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_INVALID = 145;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_INVALID");
+            ind.setCodi("APISWAGGER_VALIDATE_INVALID");
             ind.setNom("Api Swagger - Validació de Firmes - Invàlida");
             ind.setDescripcio(
                     "Número de validacions de firma des de l'API Swagger que han resultat en firma invàlida o incompleta.");
@@ -265,7 +265,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_ERROR = -45;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_ERROR");
+            ind.setCodi("APISWAGGER_VALIDATE_ERROR");
             ind.setNom("Api Swagger - Validació de Firmes - Error");
             ind.setDescripcio(
                     "Número de validacions de firma des de l'API Swagger que han finalitzat amb error.");
@@ -278,7 +278,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_VALID = 47;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_VALID");
+            ind.setCodi("PORTAFIB_VALIDATE_VALID");
             ind.setNom("Portafib - Validació de Firmes - Vàlida");
             ind.setDescripcio(
                     "Número de validacions de firma completades a Portafib que han resultat vàlides.");
@@ -288,7 +288,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_INVALID = 147;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_INVALID");
+            ind.setCodi("PORTAFIB_VALIDATE_INVALID");
             ind.setNom("Portafib - Validació de Firmes - Invàlida");
             ind.setDescripcio(
                     "Número de validacions de firma completades a Portafib que han resultat invàlides.");
@@ -298,7 +298,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_ERROR = -47;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_ERROR");
+            ind.setCodi("PORTAFIB_VALIDATE_ERROR");
             ind.setNom("Portafib - Validació de Firmes - Error");
             ind.setDescripcio(
                     "Número de validacions de firma completades a Portafib que han finalitzat amb error.");
@@ -311,7 +311,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_CREADA = 50;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_CREADA");
+            ind.setCodi("APISWAGGER_SYNCV1_CREADA");
             ind.setNom("Api Swagger - Firma Síncrona V1 - Creada");
             ind.setDescripcio(
                     "Número de peticions de firma síncrona realitzades des de l'API Swagger V1 que han estat creades.");
@@ -321,7 +321,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_OK = 51;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_OK");
+            ind.setCodi("APISWAGGER_SYNCV1_OK");
             ind.setNom("Api Swagger - Firma Síncrona V1 - OK");
             ind.setDescripcio(
                     "Número de peticions de firma síncrona realitzades des de l'API Swagger V1 que han finalitzat correctament.");
@@ -331,7 +331,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_CANCEL = 151;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_CANCEL");
+            ind.setCodi("APISWAGGER_SYNCV1_CANCEL");
             ind.setNom("Api Swagger - Firma Síncrona V1 - Cancel");
             ind.setDescripcio(
                     "Número de peticions de firma síncrona realitzades des de l'API Swagger V1 que han estat cancel·lades.");
@@ -341,7 +341,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_ERROR = -51;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_ERROR");
+            ind.setCodi("APISWAGGER_SYNCV1_ERROR");
             ind.setNom("Api Swagger - Firma Síncrona V1 - Error");
             ind.setDescripcio(
                     "Número de peticions de firma síncrona realitzades des de l'API Swagger V1 que han finalitzat amb error.");
@@ -354,7 +354,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_CREADA = 60;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_CREADA");
+            ind.setCodi("APISWAGGER_ASYNCV1_CREADA");
             ind.setNom("Api Swagger - Firma Asíncrona V1 - Creada");
             ind.setDescripcio(
                     "Número de peticions de firma asíncrona realitzades des de l'API Swagger V1 que han sigut creades.");
@@ -364,7 +364,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_OK = 61;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_OK");
+            ind.setCodi("APISWAGGER_ASYNCV1_OK");
             ind.setNom("Api Swagger - Firma Asíncrona V1 - OK");
             ind.setDescripcio(
                     "Número de peticions de firma asíncrona realitzades des de l'API Swagger V1 que han finalitzat correctament.");
@@ -374,7 +374,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_CANCEL = 161;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_CANCEL");
+            ind.setCodi("APISWAGGER_ASYNCV1_CANCEL");
             ind.setNom("Api Swagger - Firma Asíncrona V1 - Cancel");
             ind.setDescripcio(
                     "Número de peticions de firma asíncrona realitzades des de l'API Swagger V1 que han estat cancel·lades.");
@@ -384,7 +384,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_ERROR = -61;  
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_ERROR");
+            ind.setCodi("APISWAGGER_ASYNCV1_ERROR");
             ind.setNom("Api Swagger - Firma Asíncrona V1 - Error");
             ind.setDescripcio(
                     "Número de peticions de firma asíncrona realitzades des de l'API Swagger V1 que han finalitzat amb error.");
@@ -394,7 +394,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         // ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_FIRMA = 62;
         {
             IndicadorDesc ind = new IndicadorDesc();
-            ind.setCodi("ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_FIRMA");
+            ind.setCodi("APISWAGGER_ASYNCV1_FIRMA");
             ind.setNom("Api Swagger - Firma Asíncrona V1 - Firma");
             ind.setDescripcio(
                     "Número de firmes asíncrones realitzades correctament des de l'API Swagger V1.");
@@ -403,6 +403,36 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
         }
 
     }
+    
+    
+    public static void main(String[] args) {
+        
+        try {
+            
+            for (Map.Entry<Integer, IndicadorDesc> entry : INDICADORS_BY_TIPUS_ESTADISTICA.entrySet()) {
+                
+                IndicadorDesc ind = entry.getValue();
+                
+                if (ind.getCodi().length() > 32) {
+                    System.out.println("Codi: " + ind.getCodi() +  " => " +  ind.getCodi().length() );
+                    System.out.println("Nom: " + ind.getNom());
+                    System.out.println("=============================================");
+                    // throw new Exception();
+                }
+            }
+            
+            System.out.println("FINAL");
+            
+            
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        
+        
+    }
+    
+    
 
     private static final String DIMENSIO_ENTITAT = "ENT";
 
