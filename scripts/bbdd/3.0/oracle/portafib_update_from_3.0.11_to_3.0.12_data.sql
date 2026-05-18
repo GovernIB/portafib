@@ -16,7 +16,7 @@ INSERT INTO pfi_traducciomap VALUES (501, 'es', 'Plugin de Validación de Firmas
 INSERT INTO pfi_plugin(
             pluginid, nomid, descripciocurtaid, classe, propertiesadmin, 
             propertiesentitat, entitatid, actiu, tipus, codi, ordre, politicadeus, 
-            politicamostrarpropietats, iconaid) VALUES (nextval('pfi_plugin_seq'), 500, 501, 'org.fundaciobit.pluginsib.validatesignature.utilitatsfirma.UtilitatsFirmaValidateSignaturePlugin', 'es.caib.portafib.pluginsib.validatesignature.utilitatsfirma.host=https://dev.caib.es/utilitatsfirmaapi/interna
+            politicamostrarpropietats, iconaid) VALUES (pfi_plugin_seq.nextval, 500, 501, 'org.fundaciobit.pluginsib.validatesignature.utilitatsfirma.UtilitatsFirmaValidateSignaturePlugin', 'es.caib.portafib.pluginsib.validatesignature.utilitatsfirma.host=https://dev.caib.es/utilitatsfirmaapi/interna
 es.caib.portafib.pluginsib.validatesignature.utilitatsfirma.username=<<username>>
 es.caib.portafib.pluginsib.validatesignature.utilitatsfirma.password=<<password>>
 es.caib.portafib.pluginsib.validatesignature.utilitatsfirma.languageui=ca', NULL, NULL, 1, 4, 'VALIDA_UTILFIRMA', 1, 2, 2, NULL);
