@@ -264,6 +264,29 @@
                             </properties>
                         </configuration>
                     </execution>
+                    
+                    <!-- Convertim \r\n a \n en els fitxers .json creats -->
+                    <execution>
+                        <id>normalize-line-endings</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>
+                                <![CDATA[
+                                // Normalitza els salts de línia dels fitxers openapi_*.json a LF (\n)
+                                def folder = new File(project.basedir, 'openapi')
+                                folder.eachFileMatch(~/openapi_.*\.json/) { f ->
+                                    def text = f.getText('UTF-8')
+                                    def normalized = text.replaceAll('\r\n', '\n').replaceAll('\r', '\n')
+                                    f.withWriter('UTF-8') { w -> w.write(normalized) }
+                                    println "Normalitzat a LF: ${f.name}"
+                                }
+                                ]]>
+                            </source>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             
