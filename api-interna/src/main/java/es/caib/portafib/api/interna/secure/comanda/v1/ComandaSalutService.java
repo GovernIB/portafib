@@ -164,9 +164,6 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
                         "https://github.com/GovernIB/portafib/raw/refs/heads/portafib-3.0/doc/Manual_de_Migraci%C3%B3_de_APIsIB_a_Api_Interna.odt");
                 apiinterna.setManuals(List.of(manual));
 
-                apiinterna.setNom("PortaFIB Backoffice/Frontoffice");
-                apiinterna.setPath(urlBase + "/portafibapi/interna");
-
                 contexts.add(apiinterna);
             }
 
@@ -177,16 +174,12 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
 
                 String[][] manualsPaths = { { "Manual_de_RESTServices_de_PortaFIB",
                         "https://github.com/GovernIB/portafib/raw/refs/heads/portafib-3.0/doc/Manual_de_RESTServices_de_PortaFIB.odt" },
-
                         { "Manual_Integracio_API_Firma_Async_Simple_v2_0",
                                 "https://github.com/GovernIB/portafib/raw/refs/heads/portafib-3.0/doc/Manual_Integracio_API_Firma_Async_Simple_v2_0.odt" },
-
                         { "Manual_Integracio_API_Firma_Simple_v1_0",
                                 "https://github.com/GovernIB/portafib/raw/refs/heads/portafib-3.0/doc/Manual_Integracio_API_Firma_Simple_v1_0.odt" },
                         { "Manual_Integracio_API_Plantilla_Flux_Simple_v1_0",
                                 "https://github.com/GovernIB/portafib/raw/refs/heads/portafib-3.0/doc/Manual_Integracio_API_Plantilla_Flux_Simple_v1_0.odt" },
-                        { "Manual_de_RESTServices_de_PortaFIB",
-                                "https://github.com/GovernIB/portafib/raw/refs/heads/portafib-3.0/doc/Manual_de_RESTServices_de_PortaFIB.odt" },
                         { "Model_de_classes_API_de_firma",
                                 "https://github.com/GovernIB/portafib/raw/refs/heads/portafib-3.0/doc/Model_de_classes_API_de_firma.odt" }
 
@@ -528,8 +521,6 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
         }
 
         sInfo.setVersio(new Version().getVersion());
-        
-
 
         return sInfo;
     }
