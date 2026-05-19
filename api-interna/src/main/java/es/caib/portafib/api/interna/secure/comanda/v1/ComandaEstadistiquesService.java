@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
+import javax.validation.Valid;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.Path;
@@ -463,7 +464,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
     @RolesAllowed({ Constants.PFI_WS })
     @SecurityRequirement(name = SECURITY_NAME)
     @Override
-    public EstadistiquesInfo estadistiquesInfo() {
+    public @Valid EstadistiquesInfo estadistiquesInfo() {
 
         EstadistiquesInfo info = new EstadistiquesInfo();
 
@@ -520,7 +521,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
 
     @RolesAllowed({ Constants.PFI_WS })
     @SecurityRequirement(name = SECURITY_NAME)
-    public RegistresEstadistics estadistiques() {
+    public @Valid RegistresEstadistics estadistiques() {
 
         Timestamp dataConsulta = new Timestamp(System.currentTimeMillis());
 
@@ -545,7 +546,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
     @RolesAllowed({ Constants.PFI_WS })
     @SecurityRequirement(name = SECURITY_NAME)
     @Override
-    public RegistresEstadistics estadistiquesPerData(@PathParam("data")
+    public @Valid RegistresEstadistics estadistiquesPerData(@PathParam("data")
     String data) {
 
         Timestamp dataConsulta = ComandaServerUtils.stringWithFormatddMMyy2Timestamp(data);
@@ -606,7 +607,7 @@ public class ComandaEstadistiquesService extends RestUtils implements ComandaApp
     // -------------------- METODE UTILITATS ---------------------
     // ----------------------------------------------------------------
 
-    protected RegistresEstadistics estadistiquesPerUnDia(Timestamp dataConsulta) {
+    protected @Valid RegistresEstadistics estadistiquesPerUnDia(Timestamp dataConsulta) {
         List<RegistreEstadistic> registres = new ArrayList<>();
         try {
 

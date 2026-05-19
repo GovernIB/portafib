@@ -13,6 +13,7 @@ import javax.ejb.EJB;
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
 import javax.management.ObjectName;
+import javax.validation.Valid;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.Path;
@@ -107,7 +108,7 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
     @SecurityRequirement(name = SECURITY_NAME)
     @RolesAllowed({ Constants.PFI_WS })
     @Override
-    public AppInfo salutInfo() {
+    public @Valid AppInfo salutInfo() {
 
         AppInfo a = new AppInfo();
 
@@ -157,6 +158,8 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
                 ContextInfo apiinterna = new ContextInfo();
                 apiinterna.setApi(urlBase + "/portafibapi/interna");
                 apiinterna.setCodi("PFI_API_INTERNA");
+                apiinterna.setNom("PortaFIB API Interna");
+                apiinterna.setPath(urlBase + "/portafibapi/interna");
 
                 Manual manual = new Manual();
                 manual.setNom("Manual_de_Migració_de_APIsIB_a_Api_Interna");
@@ -250,7 +253,7 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
     //    @RolesAllowed({ Constants.PFI_WS })
     //    @SecurityRequirement(name = SECURITY_NAME)
     @Override
-    public SalutInfo salut(@QueryParam("dataPeriode") @ApiParam(
+    public @Valid SalutInfo salut(@QueryParam("dataPeriode") @ApiParam(
             defaultValue = "Data mínima de la que es demana informació per període",
             example = "2025-12-31T23:59:59Z")
     java.time.OffsetDateTime dataPeriode,
@@ -548,7 +551,7 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
 
     public static String jbossVersionCache = null;
 
-    public String getJBossVersion() {
+    protected String getJBossVersion() {
 
         if (jbossVersionCache == null) {
             String jbossVersion = null;

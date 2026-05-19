@@ -3,6 +3,7 @@ package es.caib.portafib.api.interna.secure.comanda.v1;
 import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
+import javax.validation.Valid;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -64,7 +65,7 @@ public class ComandaLogService extends RestUtils implements es.caib.comanda.api.
     @RolesAllowed({ Constants.PFI_WS })
     @SecurityRequirement(name = SECURITY_NAME)
     @Override
-    public FitxerContingut getFitxerByNom(@PathParam("nomFitxer") @ApiParam("Nom del firxer")
+    public @Valid FitxerContingut getFitxerByNom(@PathParam("nomFitxer") @ApiParam("Nom del firxer")
     String nomFitxer) {
 
         return LogHelper.getFitxerByNom(LogHelper.getDirectoryLogsFromJbossServerProperties(), nomFitxer);
@@ -123,7 +124,7 @@ public class ComandaLogService extends RestUtils implements es.caib.comanda.api.
     @RolesAllowed({ Constants.PFI_WS })
     @SecurityRequirement(name = SECURITY_NAME)
     @Override
-    public List<FitxerInfo> llistarFitxers() {
+    public @Valid List<FitxerInfo> llistarFitxers() {
 
         return LogHelper.llistarFitxers(LogHelper.getDirectoryLogsFromJbossServerProperties(), "portafib");
         //return ComandaServerUtils.llistarFitxers();
