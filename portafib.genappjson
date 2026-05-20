@@ -5376,7 +5376,7 @@
           "isNotNullable": true,
           "labels": {
             "en": "Size",
-            "ca": "Tamany",
+            "ca": "Mida",
             "es": "Tamaño"
           },
           "javaName": "tamany",

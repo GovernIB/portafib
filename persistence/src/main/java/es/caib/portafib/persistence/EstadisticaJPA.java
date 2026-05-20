@@ -39,7 +39,7 @@ public class EstadisticaJPA implements Estadistica {
     java.lang.String entitatID;
 
     @Column(name="valor",nullable = false,length = 17,precision = 17)
-    @org.hibernate.annotations.ColumnDefault("(double)1")
+    @org.hibernate.annotations.ColumnDefault("1")
     java.lang.Double valor = (double)1;
 
   /** No te la clau forània amb pfi_usuariaplicacio ja que si s'esborra l'usuari aplicació, haurien de quedar les estadistiques. */
