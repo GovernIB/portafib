@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
@@ -15,7 +16,6 @@ import javax.management.MBeanServerFactory;
 import javax.management.ObjectName;
 import javax.validation.Valid;
 import javax.ws.rs.GET;
-import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -23,6 +23,7 @@ import javax.ws.rs.QueryParam;
 import org.fundaciobit.genapp.common.i18n.I18NCommonUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.pluginsib.utils.rest.RestException;
 import org.fundaciobit.pluginsib.utils.rest.RestUtils;
 import org.jboss.logging.Logger;
 
@@ -31,6 +32,7 @@ import es.caib.comanda.model.server.monitoring.ContextInfo;
 import es.caib.comanda.model.server.monitoring.EstatSalut;
 import es.caib.comanda.model.server.monitoring.EstatSalutEnum;
 import es.caib.comanda.model.server.monitoring.IntegracioInfo;
+import es.caib.comanda.model.server.monitoring.IntegracioPeticions;
 import es.caib.comanda.model.server.monitoring.IntegracioSalut;
 import es.caib.comanda.model.server.monitoring.Manual;
 import es.caib.comanda.model.server.monitoring.MissatgeSalut;
@@ -48,8 +50,10 @@ import es.caib.portafib.commons.utils.Version;
 import es.caib.portafib.logic.CorreuAgrupatLogicaLocal;
 import es.caib.portafib.logic.EntitatLogicaLocal;
 import es.caib.portafib.logic.NotificacioWSLogicaLocal;
+import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.fields.CorreuAgrupatFields;
+import es.caib.portafib.model.fields.EstadisticaFields;
 import es.caib.portafib.model.fields.NotificacioWSFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.utils.ConstantsV2;
@@ -86,13 +90,111 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
     @EJB(mappedName = EntitatLogicaLocal.JNDI_NAME)
     protected EntitatLogicaLocal entitatLogicaEjb;
 
-    protected static IntegracioApp[] INTEGRACIONS_PORTAFIB = { IntegracioApp.EVI, IntegracioApp.CDO, IntegracioApp.EML,
-            IntegracioApp.SIG, IntegracioApp.VFI, IntegracioApp.VIF, IntegracioApp.USR };
+    @EJB(mappedName = es.caib.portafib.ejb.EstadisticaService.JNDI_NAME)
+    protected es.caib.portafib.ejb.EstadisticaService estadisticaEjb;
 
-    public static final String SUBSISTEMA_API_FIRMA_ASYNC = "PFI_API_FIRMA_ASYNC";
+    /**
+     * ACH ("Archium"),
+    AFI ("Afirma"),
+    ARX ("Arxiu"),
+    CAR ("Carpeta"),
+    CSV ("ConCSV"),
+    CDO ("Conversió de documents"),
+    CIE ("Cie"),
+    CUS ("Custòdia"),
+    DIB ("DigitalIB"),
+    DIR ("Dir3Caib"),
+    DIS ("Distribucio"),
+    EML ("E-mail"),
+    EMS ("Emiserv"),
+    EVI ("EvidenciesIB"),
+    GDC ("Gestor documental"),
+    HEL ("Helium"),
+    IPA ("Ripea"),
+    ITD ("InterDoc"),
+    LGI ("LoginIB"),
+    NOT ("Notib"),
+    NTF ("Notifica"),
+    PAE ("PaymentIB"),
+    PBL ("Pinbal"),
+    PFI ("Portafirmes"),
+    REG ("Registre"),
+    RSC ("Rolsac"),
+    RS2 ("Rolsac2"),
+    SIG ("Signatura"),
+    SIS ("Sistra"),
+    SI2 ("Sistra2"),
+    TIN ("TinyCaib"),
+    TRA ("TranslatorIB"),
+    USR ("Usuaris"),
+    VIF ("ViaFirma"),
+    VFI ("Validació firma");
+     */
+
+    // Upgrade
+    public static final String IntegracioApp_UPG = "UPG";
+
+    protected static Map<String, String> INTEGRACIONS_PORTAFIB = Map.of(
+            // EVI ("EvidenciesIB")
+            IntegracioApp.EVI.getCodi(), "EvidenciesIB",
+            // CDO ("Conversió de documents"),
+            IntegracioApp.CDO.getCodi(), "Conversió de documents",
+            // EML ("E-mail"),
+            IntegracioApp.EML.getCodi(), "E-mail",
+            // SIG ("Signatura"),
+            IntegracioApp.SIG.getCodi(), "Signatura",
+            // VFI ("Validació firma");    
+            IntegracioApp.VFI.getCodi(), "Validació firma",
+            //VIF ("ViaFirma"),
+            IntegracioApp.VIF.getCodi(), "ViaFirma",
+            //  USR ("Usuaris"), "Usuaris"
+            IntegracioApp.USR.getCodi(), "Usuaris",
+            // UPG ("Upgrade firma"),
+            IntegracioApp_UPG, "Upgrade firma");
+
+    //public static final String SUBSISTEMA_API_FIRMA_ASYNC = "PFI_API_FIRMA_ASYNC";
 
     protected static final String[][] SUBSISTEMES_PORTAFIB = {
-            { SUBSISTEMA_API_FIRMA_ASYNC, "API de Firma Asyncrona" } };
+
+            //  { SUBSISTEMA_API_FIRMA_ASYNC, "API de Firma Asyncrona" } 
+
+    };
+
+    protected enum FinalProcess {
+        OK, ERROR
+    }
+
+    // IntegracioApp.SIG, "Signatura",
+    // IntegracioApp.VFI, "Validació firma",  
+    // IntegracioApp_UPG, "Upgrade firma"
+    protected static final Map<String, Map<FinalProcess, List<Integer>>> ESTADISTIQUES_BY_INTEGRACIOAPP = Map.of(
+
+            IntegracioApp.SIG.getCodi(),
+            Map.of(FinalProcess.OK,
+                    List.of(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_SERVIDOR_OK,
+                            ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SIGNONSERVERV1_OK),
+                    FinalProcess.ERROR,
+                    List.of(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SIGNONSERVERV1_ERROR,
+                            ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_SERVIDOR_ERROR)),
+
+            IntegracioApp_UPG,
+            Map.of(FinalProcess.OK,
+                    List.of(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_UPGRADEV1_OK,
+                            ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_UPGRADE_OK),
+                    FinalProcess.ERROR,
+                    List.of(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_UPGRADE_ERROR,
+                            ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_UPGRADEV1_ERROR)),
+
+            IntegracioApp.VFI.getCodi(),
+            Map.of(FinalProcess.OK,
+                    List.of(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_VALID,
+                            ConstantsV2.ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_VALID,
+                            ConstantsV2.ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_INVALID,
+                            ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_INVALID),
+                    FinalProcess.ERROR, List.of(ConstantsV2.ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_ERROR,
+                            ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_ERROR))
+
+    );
 
     /**
      * Obtenir informació de l&#39;aplicació
@@ -108,7 +210,8 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
     @SecurityRequirement(name = SECURITY_NAME)
     @RolesAllowed({ Constants.PFI_WS })
     @Override
-    public @Valid AppInfo salutInfo() {
+    public @Valid
+    AppInfo salutInfo() {
 
         AppInfo a = new AppInfo();
 
@@ -175,7 +278,7 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
                 restsimple.setApi(null);
                 restsimple.setCodi("PFI_API_SIMPLE_REST");
 
-                String[][] manualsPaths = { { "Manual_de_RESTServices_de_PortaFIB",
+                final String[][] manualsPaths = { { "Manual_de_RESTServices_de_PortaFIB",
                         "https://github.com/GovernIB/portafib/raw/refs/heads/portafib-3.0/doc/Manual_de_RESTServices_de_PortaFIB.odt" },
                         { "Manual_Integracio_API_Firma_Async_Simple_v2_0",
                                 "https://github.com/GovernIB/portafib/raw/refs/heads/portafib-3.0/doc/Manual_Integracio_API_Firma_Async_Simple_v2_0.odt" },
@@ -206,18 +309,17 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
 
         }
 
+        // Integracions 
         {
             List<IntegracioInfo> list = new ArrayList<>();
-
-            for (IntegracioApp ia : INTEGRACIONS_PORTAFIB) {
+            for (Map.Entry<String, String> entry : INTEGRACIONS_PORTAFIB.entrySet()) {
+                String codi = entry.getKey();
                 IntegracioInfo i1 = new IntegracioInfo();
-                i1.setCodi(ia.name());
-                i1.setNom(ia.getNom());
+                i1.setCodi(codi);
+                i1.setNom(entry.getValue());
                 list.add(i1);
             }
-
             a.setIntegracions(list);
-
         }
 
         {
@@ -253,7 +355,8 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
     //    @RolesAllowed({ Constants.PFI_WS })
     //    @SecurityRequirement(name = SECURITY_NAME)
     @Override
-    public @Valid SalutInfo salut(@QueryParam("dataPeriode") @ApiParam(
+    public @Valid
+    SalutInfo salut(@QueryParam("dataPeriode") @ApiParam(
             defaultValue = "Data mínima de la que es demana informació per període",
             example = "2025-12-31T23:59:59Z")
     java.time.OffsetDateTime dataPeriode,
@@ -317,53 +420,78 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
         {
             List<IntegracioSalut> integracions = new java.util.ArrayList<>();
 
-            for (IntegracioApp integracioApp : INTEGRACIONS_PORTAFIB) {
+            
+            for (String integracioCodi : INTEGRACIONS_PORTAFIB.keySet()) {
+
+                
 
                 IntegracioSalut integracio = new IntegracioSalut();
-                integracio.setCodi(integracioApp.name());
-                integracio.setEstat(EstatSalutEnum.UP);
+                integracio.setCodi(integracioCodi); 
+                integracio.setEstat(EstatSalutEnum.UNKNOWN);
                 // TODO calcular latència
                 integracio.setLatencia(null);
 
-                /*
-                Timestamp avui = new Timestamp(System.currentTimeMillis());
-                
-                Calendar cal = Calendar.getInstance();
-                
-                cal.add(Calendar.MONTH, -1);
-                
-                Timestamp faunmes;
-                if (dataPeriode != null) {
-                faunmes = new Timestamp(dataPeriode.toInstant().toEpochMilli());
-                } else {
-                
-                faunmes = new Timestamp(cal.getTimeInMillis());
+                // IntegracioApp.SIG, "Signatura",
+                // IntegracioApp.VFI, "Validació firma",                
+                if (integracioCodi.equals(IntegracioApp.SIG.getCodi())
+                        || integracioCodi.equals(IntegracioApp.VFI.getCodi())
+                        || integracioCodi.equals(IntegracioApp_UPG)) {
+                    // Ho farem a continuació
+                    
+                    Map<FinalProcess, List<Integer>> estadistiquesByFinalProcess = ESTADISTIQUES_BY_INTEGRACIOAPP.get(integracioCodi);
+
+                    Timestamp avui = new Timestamp(System.currentTimeMillis());
+
+                    Calendar cal = Calendar.getInstance();
+
+                    Timestamp fa6dies;
+                    if (dataPeriode != null) {
+                        fa6dies = new Timestamp(dataPeriode.toInstant().toEpochMilli());
+                    } else {
+
+                        cal.add(Calendar.DAY_OF_YEAR, -6);
+
+                        fa6dies = new Timestamp(cal.getTimeInMillis());
+                        cal.add(Calendar.DAY_OF_YEAR, +6);
+                    }
+
+                    Timestamp faunmes;
+
+                    if (dataTotal != null) {
+                        faunmes = new Timestamp(dataTotal.toInstant().toEpochMilli());
+                    } else {
+                        cal.add(Calendar.MONTH, -1);
+
+                        faunmes = new Timestamp(cal.getTimeInMillis());
+                        cal.add(Calendar.MONTH, +1);
+                    }
+
+                    try {
+
+                        // Cercar peticions d'aquesta integració 
+                        IntegracioPeticions peticions = new IntegracioPeticions();
+                        peticions.setEndpoint(null);
+                        peticions.setPeticionsErrorUltimPeriode(
+                                calculPeticions(estadistiquesByFinalProcess.get(FinalProcess.OK), fa6dies, avui));
+                        peticions.setPeticionsOkUltimPeriode(
+                                calculPeticions(estadistiquesByFinalProcess.get(FinalProcess.ERROR), fa6dies, avui));
+                        peticions.setPeticionsPerEntorn(null); // TODO calcular map
+                        peticions.setTempsMigUltimPeriode(-1);
+                        peticions.setTotalError(
+                                calculPeticions(estadistiquesByFinalProcess.get(FinalProcess.OK), faunmes, avui));
+                        peticions.setTotalOk(
+                                calculPeticions(estadistiquesByFinalProcess.get(FinalProcess.ERROR), faunmes, avui));
+                        peticions.setTotalTempsMig(-1);
+                        integracio.setPeticions(peticions);
+                    } catch (I18NException e) {
+
+                        String msg = "Error calculant l'estat de salut de la integració " + integracioCodi + ": "
+                                + I18NLogicUtils.getMessage(e, new Locale(Configuracio.getDefaultLanguage()));
+
+                        log.error(msg, e);
+                        throw new RestException(msg, e);
+                    }
                 }
-                
-                cal.add(Calendar.MONTH, -11);
-                
-                Timestamp faunany;
-                
-                if (dataTotal != null) {
-                faunany = new Timestamp(dataTotal.toInstant().toEpochMilli());
-                } else {
-                faunany = new Timestamp(cal.getTimeInMillis());
-                }
-                
-                // Cercar peticions d'aquesta integració 
-                IntegracioPeticions peticions = new IntegracioPeticions();
-                peticions.setEndpoint("/secure/asyncsignatureonweb/v1/");
-                peticions.setPeticionsErrorUltimPeriode(
-                    calculPeticions(ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT, faunmes, avui));
-                peticions.setPeticionsOkUltimPeriode(
-                    calculPeticions(ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT, faunmes, avui));
-                peticions.setPeticionsPerEntorn(null); // TODO calcular map
-                peticions.setTempsMigUltimPeriode(-1);
-                peticions.setTotalError(calculPeticions(ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT, faunany, avui));
-                peticions.setTotalOk(calculPeticions(ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT, faunany, avui));
-                peticions.setTotalTempsMig(-1);
-                integracio.setPeticions(peticions);
-                */
 
                 integracions.add(integracio);
 
@@ -466,41 +594,41 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
             List<SubsistemaSalut> subsistemesList = new java.util.ArrayList<>();
 
             for (String[] subsistema : SUBSISTEMES_PORTAFIB) {
-
+                /*
                 if (SUBSISTEMA_API_FIRMA_ASYNC.equals(subsistema[0])) {
-
+                
                     SubsistemaSalut subSystemApiFirmaAsinc = new SubsistemaSalut();
                     subSystemApiFirmaAsinc.setCodi(SUBSISTEMA_API_FIRMA_ASYNC);
                     subSystemApiFirmaAsinc.setEstat(EstatSalutEnum.UP);
                     // TODO calcular latència
                     subSystemApiFirmaAsinc.setLatencia(null);
-
+                
                     Timestamp avui = new Timestamp(System.currentTimeMillis());
-
+                
                     Calendar cal = Calendar.getInstance();
-
+                
                     cal.add(Calendar.MONTH, -1);
-
+                
                     Timestamp faunmes;
                     if (dataPeriode != null) {
                         faunmes = new Timestamp(dataPeriode.toInstant().toEpochMilli());
                     } else {
-
+                
                         faunmes = new Timestamp(cal.getTimeInMillis());
                     }
-
+                
                     cal.add(Calendar.MONTH, -11);
-
+                
                     Timestamp faunany;
-
+                
                     if (dataTotal != null) {
                         faunany = new Timestamp(dataTotal.toInstant().toEpochMilli());
                     } else {
                         faunany = new Timestamp(cal.getTimeInMillis());
                     }
-
+                
                     // Cercar peticions d'aquesta integració 
-
+                
                     subSystemApiFirmaAsinc.setPeticionsErrorUltimPeriode(
                             calculPeticions(ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT, faunmes, avui));
                     subSystemApiFirmaAsinc.setPeticionsOkUltimPeriode(
@@ -511,13 +639,13 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
                     subSystemApiFirmaAsinc
                             .setTotalOk(calculPeticions(ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT, faunany, avui));
                     subSystemApiFirmaAsinc.setTotalTempsMig(-1);
-
+                
                     subsistemesList.add(subSystemApiFirmaAsinc);
                 } else {
                     throw new InternalServerErrorException(
                             "No s'ha implementat el càlcul de peticions pel subsistema " + subsistema[0]);
                 }
-
+                */
             }
 
             sInfo.setSubsistemes(subsistemesList);
@@ -528,13 +656,16 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
         return sInfo;
     }
 
-    protected long calculPeticions(int estat, Timestamp from, Timestamp to) {
-        long totalOK;
+    protected long calculPeticions(List<Integer> tipus, Timestamp from, Timestamp to) throws I18NException {
 
+        /*
+        
+        long totalOK;
+        
         Where w1 = PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID.isNotNull();
         Where w2 = PeticioDeFirmaFields.DATASOLICITUD.between(from, to);
         Where w3 = PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(estat);
-
+        
         Where w = Where.AND(w1, w2, w3);
         try {
             totalOK = peticioDeFirmaEjb.count(w);
@@ -543,6 +674,20 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
             totalOK = -1;
         }
         return totalOK;
+        */
+
+        Where wFromTo = EstadisticaFields.DATA.between(from, to);
+
+        Where wTipus = EstadisticaFields.TIPUS.in(tipus);
+
+        Double valorObj = estadisticaEjb.sumDecimal(EstadisticaFields.VALOR, Where.AND(wTipus, wFromTo));
+
+        if (valorObj == null) {
+            return 0;
+        } else {
+            return valorObj.longValue();
+        }
+
     }
 
     protected OffsetDateTime getDateTime() {
