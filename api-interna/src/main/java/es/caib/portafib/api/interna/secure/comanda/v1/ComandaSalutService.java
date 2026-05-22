@@ -509,9 +509,9 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
                         peticions.setPeticionsPerEntorn(null); // TODO calcular map
                         peticions.setTempsMigUltimPeriode(-1);
                         peticions.setTotalError(
-                                calculPeticions(estadistiquesByFinalProcess.get(FinalProcess.OK), faunmes, avui));
-                        peticions.setTotalOk(
                                 calculPeticions(estadistiquesByFinalProcess.get(FinalProcess.ERROR), faunmes, avui));
+                        peticions.setTotalOk(
+                                calculPeticions(estadistiquesByFinalProcess.get(FinalProcess.OK), faunmes, avui));
                         peticions.setTotalTempsMig(-1);
                         integracio.setPeticions(peticions);
 
