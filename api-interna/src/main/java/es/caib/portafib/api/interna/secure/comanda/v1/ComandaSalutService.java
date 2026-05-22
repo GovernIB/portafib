@@ -131,8 +131,16 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
     VFI ("Validació firma");
      */
 
-    // Upgrade
-    public static final String IntegracioApp_UPG = "UPG";
+    // Upgrade de Firmes
+    public static final String IntegracioApp_UPGRADE_FIRMA = "PORTAFIB_UPGRADE_FIRMA";
+
+    public static final String IntegracioApp_FIRMA_SERVIDOR = "PORTAFIB_FIRMA_SERVIDOR";
+
+    public static final String IntegracioApp_FIRMA_SYNC = "PORTAFIB_FIRMA_SYNC";
+
+    public static final String IntegracioApp_FIRMA_ASYNC = "PORTAFIB_FIRMA_ASYNC";
+
+    public static final String IntegracioApp_VALIDACIO_FIRMA = "PORTAFIB_VALIDACIO_FIRMA";
 
     protected static Map<String, String> INTEGRACIONS_PORTAFIB = Map.of(
             // EVI ("EvidenciesIB")
@@ -141,16 +149,21 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
             IntegracioApp.CDO.getCodi(), "Conversió de documents",
             // EML ("E-mail"),
             IntegracioApp.EML.getCodi(), "E-mail",
-            // SIG ("Signatura"),
-            IntegracioApp.SIG.getCodi(), "Signatura",
-            // VFI ("Validació firma");    
-            IntegracioApp.VFI.getCodi(), "Validació firma",
-            //VIF ("ViaFirma"),
-            IntegracioApp.VIF.getCodi(), "ViaFirma",
+
             //  USR ("Usuaris"), "Usuaris"
             IntegracioApp.USR.getCodi(), "Usuaris",
-            // UPG ("Upgrade firma"),
-            IntegracioApp_UPG, "Upgrade firma");
+            // Upgrade firma
+            IntegracioApp_UPGRADE_FIRMA, "Upgrade firma",
+            // Firma en Servidor
+            IntegracioApp_FIRMA_SERVIDOR, "Firma en Servidor",
+            // Firma Sync
+            IntegracioApp_FIRMA_SYNC, "Firma Síncrona",
+            // Firma Async
+            IntegracioApp_FIRMA_ASYNC, "Firma Asíncrona",
+            // Validació firma
+            IntegracioApp_VALIDACIO_FIRMA, "Validació de firma"
+
+    );
 
     //public static final String SUBSISTEMA_API_FIRMA_ASYNC = "PFI_API_FIRMA_ASYNC";
 
@@ -169,15 +182,8 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
     // IntegracioApp_UPG, "Upgrade firma"
     protected static final Map<String, Map<FinalProcess, List<Integer>>> ESTADISTIQUES_BY_INTEGRACIOAPP = Map.of(
 
-            IntegracioApp.SIG.getCodi(),
-            Map.of(FinalProcess.OK,
-                    List.of(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_SERVIDOR_OK,
-                            ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SIGNONSERVERV1_OK),
-                    FinalProcess.ERROR,
-                    List.of(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SIGNONSERVERV1_ERROR,
-                            ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_SERVIDOR_ERROR)),
-
-            IntegracioApp_UPG,
+            // Upgrade firma
+            IntegracioApp_UPGRADE_FIRMA,
             Map.of(FinalProcess.OK,
                     List.of(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_UPGRADEV1_OK,
                             ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_UPGRADE_OK),
@@ -185,7 +191,39 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
                     List.of(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_UPGRADE_ERROR,
                             ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_UPGRADEV1_ERROR)),
 
-            IntegracioApp.VFI.getCodi(),
+            // Firma en Servidor
+            IntegracioApp_FIRMA_SERVIDOR,
+            Map.of(FinalProcess.OK,
+                    List.of(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_SERVIDOR_OK,
+                            ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SIGNONSERVERV1_OK),
+                    FinalProcess.ERROR,
+                    List.of(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SIGNONSERVERV1_ERROR,
+                            ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_SERVIDOR_ERROR)),
+
+            // "Firma Síncrona",
+            IntegracioApp_FIRMA_SYNC,
+            Map.of(FinalProcess.OK,
+                    List.of(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_OK,
+                            ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_CANCEL,
+                            ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_OK,
+                            ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_CANCEL),
+                    FinalProcess.ERROR,
+                    List.of(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_SYNCV1_ERROR,
+                            ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_SINCRONA_ERROR)),
+
+            // "Firma Asíncrona",
+            IntegracioApp_FIRMA_ASYNC,
+            Map.of(FinalProcess.OK,
+                    List.of(ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_OK,
+                            ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_CANCEL,
+                            ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_OK,
+                            ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_CANCEL),
+                    FinalProcess.ERROR,
+                    List.of(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_ASYNCV1_ERROR,
+                            ConstantsV2.ESTADISTICA_TIPUS_APIFIRMASIMPLE_ASINCRONA_ERROR)),
+
+            // Validació firma
+            IntegracioApp_VALIDACIO_FIRMA,
             Map.of(FinalProcess.OK,
                     List.of(ConstantsV2.ESTADISTICA_TIPUS_APISWAGGER_VALIDATE_VALID,
                             ConstantsV2.ESTADISTICA_TIPUS_PORTAFIB_VALIDATE_VALID,
@@ -420,25 +458,17 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
         {
             List<IntegracioSalut> integracions = new java.util.ArrayList<>();
 
-            
             for (String integracioCodi : INTEGRACIONS_PORTAFIB.keySet()) {
 
-                
-
                 IntegracioSalut integracio = new IntegracioSalut();
-                integracio.setCodi(integracioCodi); 
+                integracio.setCodi(integracioCodi);
                 integracio.setEstat(EstatSalutEnum.UNKNOWN);
                 // TODO calcular latència
                 integracio.setLatencia(null);
 
-                // IntegracioApp.SIG, "Signatura",
-                // IntegracioApp.VFI, "Validació firma",                
-                if (integracioCodi.equals(IntegracioApp.SIG.getCodi())
-                        || integracioCodi.equals(IntegracioApp.VFI.getCodi())
-                        || integracioCodi.equals(IntegracioApp_UPG)) {
-                    // Ho farem a continuació
-                    
-                    Map<FinalProcess, List<Integer>> estadistiquesByFinalProcess = ESTADISTIQUES_BY_INTEGRACIOAPP.get(integracioCodi);
+                Map<FinalProcess, List<Integer>> estadistiquesByFinalProcess = ESTADISTIQUES_BY_INTEGRACIOAPP
+                        .get(integracioCodi);
+                if (estadistiquesByFinalProcess != null) {
 
                     Timestamp avui = new Timestamp(System.currentTimeMillis());
 
@@ -471,10 +501,11 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
                         // Cercar peticions d'aquesta integració 
                         IntegracioPeticions peticions = new IntegracioPeticions();
                         peticions.setEndpoint(null);
-                        peticions.setPeticionsErrorUltimPeriode(
-                                calculPeticions(estadistiquesByFinalProcess.get(FinalProcess.OK), fa6dies, avui));
-                        peticions.setPeticionsOkUltimPeriode(
-                                calculPeticions(estadistiquesByFinalProcess.get(FinalProcess.ERROR), fa6dies, avui));
+                        long finalOK = calculPeticions(estadistiquesByFinalProcess.get(FinalProcess.OK), fa6dies, avui);
+                        peticions.setPeticionsOkUltimPeriode(finalOK);
+                        long finalError = calculPeticions(estadistiquesByFinalProcess.get(FinalProcess.ERROR), fa6dies,
+                                avui);
+                        peticions.setPeticionsErrorUltimPeriode(finalError);
                         peticions.setPeticionsPerEntorn(null); // TODO calcular map
                         peticions.setTempsMigUltimPeriode(-1);
                         peticions.setTotalError(
@@ -483,6 +514,15 @@ public class ComandaSalutService extends RestUtils implements es.caib.comanda.ap
                                 calculPeticions(estadistiquesByFinalProcess.get(FinalProcess.ERROR), faunmes, avui));
                         peticions.setTotalTempsMig(-1);
                         integracio.setPeticions(peticions);
+
+                        if (finalOK == 0 && finalError == 0) {
+                            integracio.setEstat(EstatSalutEnum.UP);
+                        } else if (finalOK > finalError) {
+                            integracio.setEstat(EstatSalutEnum.UP);
+                        } else {
+                            integracio.setEstat(EstatSalutEnum.DOWN);
+                        }
+
                     } catch (I18NException e) {
 
                         String msg = "Error calculant l'estat de salut de la integració " + integracioCodi + ": "
