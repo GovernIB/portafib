@@ -183,27 +183,29 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
             System.out.println(fullTransactionStatus.getSignPlugin());
 
             ProcessStatus processStatus = fullTransactionStatus.getTransactionStatus();
+            
+            int statusGlobal = processStatus.getStatus();
 
-            switch (StatusConstants.fromValue(processStatus.getStatus())) {
+            switch (StatusConstants.fromValue(statusGlobal)) {
                 case STATUS_INITIALIZING: //fss.getSTATUSINITIALIZING(): // = 0;
-                    System.err.println("  STATUS TRANSACCIO = " + processStatus.getStatus() + " (STATUS_INITIALIZING)");
+                    System.err.println("  STATUS TRANSACCIO = " + statusGlobal + " (STATUS_INITIALIZING)");
                     System.err.println(
                             "  RESULT: Incoherent Status (Indica que hi ha hagut una mala gestió en el procés de firma)");
                 break;
 
                 case STATUS_IN_PROGRESS: //fss.getSTATUSINPROGRESS(): // = 1;
-                    System.err.println("  STATUS TRANSACCIO= " + processStatus.getStatus() + " (STATUS_IN_PROGRESS)");
+                    System.err.println("  STATUS TRANSACCIO= " + statusGlobal + " (STATUS_IN_PROGRESS)");
                     System.err.println(
                             "  RESULT: Incoherent Status (Indica que hi ha hagut una mala gestió en el procés de firma)");
                 break;
 
                 case STATUS_FINAL_ERROR: //fss.getSTATUSFINALERROR(): // = -1;
-                    System.err.println("  STATUS TRANSACCIO= " + processStatus.getStatus() + " (STATUS_ERROR)");
+                    System.err.println("  STATUS TRANSACCIO= " + statusGlobal + " (STATUS_ERROR)");
                     System.err.println("  RESULT: Error en la firma: " + processStatus.getErrorMessage());
                 break;
 
                 case STATUS_CANCELLED: //fss.getSTATUSCANCELLED(): // = -2;
-                    System.err.println("  STATUS TRANSACCIO= " + processStatus.getStatus() + " (STATUS_CANCELLED)");
+                    System.err.println("  STATUS TRANSACCIO= " + statusGlobal + " (STATUS_CANCELLED)");
                     if (processStatus.getErrorMessage() != null) {
                         System.err.println("  RESULT: " + processStatus.getErrorMessage());
                     } else {
@@ -212,7 +214,7 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
                 break;
 
                 case STATUS_FINAL_OK:
-                    System.err.println("  STATUS TRANSACCIO= " + processStatus.getStatus() + " (STATUS_FINAL_OK)");
+                    System.err.println("  STATUS TRANSACCIO= " + statusGlobal + " (STATUS_FINAL_OK)");
 
                 { // PROCESSAR CADA FIRMA !!!!!
 
@@ -227,6 +229,7 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
                         ProcessStatus fss = signatureStatus.getStatus();
 
                         int status = fss.getStatus(); //fss.getSTATUS();
+                        
                         System.out.println("Estat Firma Numeric: " + status);
                         StatusConstants statusSign = StatusConstants.fromValue(status);
 
