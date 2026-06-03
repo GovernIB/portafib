@@ -8,6 +8,7 @@ import es.caib.portafib.logic.PluginValidacioFirmesLogicaEJB.GrupEstadisticaVali
 import es.caib.portafib.logic.utils.DNIUtils;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.LogicUtils;
+import es.caib.portafib.logic.utils.LogicUtilsWorkaroundIssue1156;
 import es.caib.portafib.logic.utils.PdfComparator;
 import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.logic.utils.PortaFIBPluginsManager;
@@ -612,23 +613,37 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                 }
 
                 if (doChecks) {
-
-                    try {
-
-                        if (!LogicUtils.checkExpectedNif(nifFirmant, validacioRequest.getNifPersonaEsperat(),
-                                cifFirmant, validacioRequest.getNifEmpresaEsperat())) {
-                            LogicUtils.checkExpectedCif(cifFirmant, validacioRequest.getNifEmpresaEsperat(),
-                                    nifFirmant);
+                    
+                    log.info("\n\n\n PropietatGlobalUtil.useOldSystemToValidateNif() => " + PropietatGlobalUtil.useOldSystemToValidateNif() + "\n\n\n");
+                    
+                    if (PropietatGlobalUtil.useOldSystemToValidateNif()) {
+                    
+                        LogicUtilsWorkaroundIssue1156.checkExpectedNif(nifFirmant, validacioRequest.getNifPersonaEsperat());
+                        if (validacioRequest.getNifEmpresaEsperat() != null) {
+                            LogicUtilsWorkaroundIssue1156.checkExpectedCif(cifFirmant, validacioRequest.getNifEmpresaEsperat());
                         }
+                        checkAdministrationIDOfSigner = true;
+                    
+                    } else {
+                    
 
-                    } catch (I18NException e) {
-                        log.error("2.-ValidacioCompleta::nifFirmant: " + nifFirmant);
-                        log.error("2.-ValidacioCompleta::getNifPersonaEsperat(): "
-                                + validacioRequest.getNifPersonaEsperat());
-                        log.error("2.-ValidacioCompleta::cifFirmant: " + cifFirmant);
-                        log.error("2.-ValidacioCompleta::getNifEmpresaEsperat(): "
-                                + validacioRequest.getNifEmpresaEsperat());
-                        throw e;
+                        try {
+    
+                            if (!LogicUtils.checkExpectedNif(nifFirmant, validacioRequest.getNifPersonaEsperat(),
+                                    cifFirmant, validacioRequest.getNifEmpresaEsperat())) {
+                                LogicUtils.checkExpectedCif(cifFirmant, validacioRequest.getNifEmpresaEsperat(),
+                                        nifFirmant);
+                            }
+    
+                        } catch (I18NException e) {
+                            log.error("2.-ValidacioCompleta::nifFirmant: " + nifFirmant);
+                            log.error("2.-ValidacioCompleta::getNifPersonaEsperat(): "
+                                    + validacioRequest.getNifPersonaEsperat());
+                            log.error("2.-ValidacioCompleta::cifFirmant: " + cifFirmant);
+                            log.error("2.-ValidacioCompleta::getNifEmpresaEsperat(): "
+                                    + validacioRequest.getNifEmpresaEsperat());
+                            throw e;
+                        }
                     }
 
                     checkAdministrationIDOfSigner = true;

@@ -238,8 +238,6 @@ public abstract class AbstractEstadisticaGraficaAdenController implements Consta
 
             {
 
-                log.info("Grup: " + grup);
-
                 List<Integer> estadistiquesPerGrup = ConstantsV2.ESTADISTIQUES_BY_GRUP.get(grup);
 
                 totesLesEstadistiques.addAll(estadistiquesPerGrup);

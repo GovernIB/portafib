@@ -3,6 +3,8 @@ package org.fundaciobit.apisib.apifirmaasyncsimple.v2.test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -51,14 +53,15 @@ public class ApiFirmaAsyncSimpleTester {
         testProperties = new Properties();
 
         // Propietats del Servidor i del test
-        FileInputStream fis = null;
+        InputStreamReader reader = null;
         try {
-            fis = new FileInputStream("./apifirmaasyncsimple.properties");
-            testProperties.load(fis);
+            reader = new InputStreamReader(new FileInputStream("./apifirmaasyncsimple.properties"),
+                    StandardCharsets.UTF_8);
+            testProperties.load(reader);
         } finally {
             try {
-                if (fis != null) {
-                    fis.close();
+                if (reader != null) {
+                    reader.close();
                 }
             } catch (Exception e) {
             }

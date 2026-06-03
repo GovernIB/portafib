@@ -23,6 +23,17 @@ public class PropietatGlobalUtil implements ConstantsV2 {
             + "avisosfirmespendents.diesabans";
 
     /**
+     * Nou a la versió 3.0.12
+     * Opcional. Valor per defecte false. WORKAROUND I EVITAR QUE FALLI SI ES FIRMA AMB UN CERTIFICAT DE PERSONA
+     *  JURIDICA QUAN S'ESPERAVA UN CERTIFICAT DE PERSONA FISICA, O VICEVERSA.
+     */
+    public static boolean useOldSystemToValidateNif() {
+        final String partialname = "useOldSystemToValidateNif";
+        Boolean val = getBoolean(partialname);
+        return (val == null) ? false : val.booleanValue();
+    }
+
+    /**
      * Nou a 2.0.21. Opcional.
      * Llista de expressions regulars, separades per bots de línia que s'empraran per extreure el NIF/NIE de dins el serialNumber
      * del Subject dels certificats. el NIF/NIE ha d'estar dins el primer grup.
@@ -387,9 +398,6 @@ public class PropietatGlobalUtil implements ConstantsV2 {
 
         return val_i;
     }
-    
-    
-    
 
     /**
      * Opcional. Expressió cron que indica cada quan s'ha d'executar l'enviador de correus quan
@@ -404,7 +412,7 @@ public class PropietatGlobalUtil implements ConstantsV2 {
     public static String getEmailsGroupedSenderCronExpression() {
         final String partialPropertyName = "emailsgroupedsendercronexpression";
         String val = getString(partialPropertyName);
-        
+
         return val;
     }
 

@@ -168,8 +168,9 @@
             <!-- GENERADOR DE SEGELLAT DE TEMPS PER FIRMA EN SERVIDOR -->
             <url-pattern>/common/timestampgenerator/*</url-pattern>
             <!-- Usuaris Externs: Login per TOKEN -->
-            <!-- 
+            <!--   TODO En la versió 2.0.14 eliminar aquesta ruta dels usuris externs -->
             <url-pattern>/common/externaluser/*</url-pattern>
+            <!-- 
             <url-pattern>/common/plantilla/viewonlyflux/*</url-pattern>
             
             URL's a Imatges de Plugins de la selecció de plugin que siguin d'accés públic. #1153
