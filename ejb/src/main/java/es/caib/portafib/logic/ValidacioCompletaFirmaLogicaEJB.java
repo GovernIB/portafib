@@ -71,10 +71,11 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
     @Override
     public ValidacioCompletaResponse validateCompletaFirma(String transaccioID,
-            ValidacioCompletaRequest validacioRequest, boolean validateChangesInAttachedFiles, final String usuariAplicacioID)
-            throws ValidacioException {
+            ValidacioCompletaRequest validacioRequest, boolean validateChangesInAttachedFiles,
+            final String usuariAplicacioID) throws ValidacioException {
         try {
-            return internalValidateCompletaFirma(transaccioID, validacioRequest, validateChangesInAttachedFiles,  usuariAplicacioID);
+            return internalValidateCompletaFirma(transaccioID, validacioRequest, validateChangesInAttachedFiles,
+                    usuariAplicacioID);
         } catch (I18NException e) {
             String message = I18NLogicUtils.getMessage(e, new Locale(validacioRequest.getLanguageUI()));
             log.error("Transaccio[" + transaccioID + "]: Rebut error de validació de firma: " + message);
@@ -84,9 +85,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
     private ValidacioCompletaResponse internalValidateCompletaFirma(String transaccioID,
             ValidacioCompletaRequest validacioRequest, boolean validateChangesInAttachedFiles,
-            final String usuariAplicacioID)
-            throws I18NException, ValidacioException {
-        
+            final String usuariAplicacioID) throws I18NException, ValidacioException {
 
         String signType;
         String mime;
@@ -153,7 +152,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                 log.debug("validateCompletaFirma :: getDocumentDetachedData() => " + documentDetached);
             }
 
-            validateSignatureResponse = validacioFirmesEjb.validateSignature(validacioRequest.getEntitatID(), 
+            validateSignatureResponse = validacioFirmesEjb.validateSignature(validacioRequest.getEntitatID(),
                     usuariAplicacioID, GrupEstadisticaValidacio.ESTADISTICA_GRUP_PORTAFIB_VALIDATE, signType,
                     validacioRequest.getSignatureData(), documentDetached, validacioRequest.getLanguageUI());
 
@@ -613,28 +612,43 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                 }
 
                 if (doChecks) {
-                    
-                    log.info("\n\n\n PropietatGlobalUtil.useOldSystemToValidateNif() => " + PropietatGlobalUtil.useOldSystemToValidateNif() + "\n\n\n");
-                    
+
+                    // XYZ DEBUG
+                    log.info("\n\n\n" + " - PropietatGlobalUtil.useOldSystemToValidateNif() => "
+                            + PropietatGlobalUtil.useOldSystemToValidateNif() + "\n" + " - nifFirmant => " + nifFirmant
+                            + "\n" + " - cifFirmant => " + cifFirmant + "\n"
+                            + " - validacioRequest.getNifPersonaEsperat() => " + validacioRequest.getNifPersonaEsperat()
+                            + "\n" + " - validacioRequest.getNifEmpresaEsperat() => "
+                            + validacioRequest.getNifEmpresaEsperat() + "\n" + "\n\n\n");
+
                     if (PropietatGlobalUtil.useOldSystemToValidateNif()) {
-                    
-                        LogicUtilsWorkaroundIssue1156.checkExpectedNif(nifFirmant, validacioRequest.getNifPersonaEsperat());
-                        if (validacioRequest.getNifEmpresaEsperat() != null) {
-                            LogicUtilsWorkaroundIssue1156.checkExpectedCif(cifFirmant, validacioRequest.getNifEmpresaEsperat());
+
+                        // CAS ESPECIAL DE FIRMA AMB CERTIFICAT DE REPESENTANT
+                        if (cifFirmant != null && nifFirmant != null && validacioRequest.getNifPersonaEsperat() != null
+                                && cifFirmant.equalsIgnoreCase(validacioRequest.getNifPersonaEsperat())) {
+
+                            // Ho donam per bó !!!!
+                        } else {
+
+                            LogicUtilsWorkaroundIssue1156.checkExpectedNif(nifFirmant,
+                                    validacioRequest.getNifPersonaEsperat());
+                            if (validacioRequest.getNifEmpresaEsperat() != null) {
+                                LogicUtilsWorkaroundIssue1156.checkExpectedCif(cifFirmant,
+                                        validacioRequest.getNifEmpresaEsperat());
+                            }
                         }
                         checkAdministrationIDOfSigner = true;
-                    
+
                     } else {
-                    
 
                         try {
-    
+
                             if (!LogicUtils.checkExpectedNif(nifFirmant, validacioRequest.getNifPersonaEsperat(),
                                     cifFirmant, validacioRequest.getNifEmpresaEsperat())) {
                                 LogicUtils.checkExpectedCif(cifFirmant, validacioRequest.getNifEmpresaEsperat(),
                                         nifFirmant);
                             }
-    
+
                         } catch (I18NException e) {
                             log.error("2.-ValidacioCompleta::nifFirmant: " + nifFirmant);
                             log.error("2.-ValidacioCompleta::getNifPersonaEsperat(): "

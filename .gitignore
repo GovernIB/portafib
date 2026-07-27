@@ -315,3 +315,4 @@ api-interna-client-signature-v1-examples/apifirmawebsimple.properties
 /api-interna-client-signature-v1-examples/src/main/java/es/caib/portafib/apiinterna/client/signature/v1/example/api/MyFirmaAsincWebV1ApiTest.java
 /api-interna-client-signature-v1-examples/src/main/java/es/caib/portafib/apiinterna/client/signature/v1/example/api/MyFirmaDirecteWebV1ApiTest.java
 /apifirmasimple/apifirmasimple-example-console/src/test/java/org/fundaciobit/apisib/apifirmasimple/v1/test/MyApiFirmaEnServidorSimpleTester.java
+/portafib-it/usuaris.txt
