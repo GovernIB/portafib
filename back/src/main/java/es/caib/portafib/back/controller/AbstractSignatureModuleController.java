@@ -400,7 +400,8 @@ public abstract class AbstractSignatureModuleController extends HttpServlet {
     @RequestMapping(value = "/showsignaturemodule/{pluginID}/{signaturesSetID}")
     public ModelAndView showSignatureModule(HttpServletRequest request, HttpServletResponse response,
             @PathVariable("pluginID")
-            Long pluginID, @PathVariable("signaturesSetID")
+            Long pluginID,
+            @PathVariable("signaturesSetID")
             String signaturesSetID) throws Exception {
 
         // El plugin existeix?
@@ -437,9 +438,22 @@ public abstract class AbstractSignatureModuleController extends HttpServlet {
                         + signaturesSet.getUsr() + " | NIF = "
                         + signaturesSet.getCommonInfoSignature().getAdministrationID() + ")";
                 log.error(msgLog);
+
+                log.error("\n========================  CRIDADA ACTUAL ======================== \n"
+                        + Utils.requestInfoToString(request) + "\n");
+
+                // SimpleDateFormat amb milisegons
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+                log.error("\n========================  CRIDADA PREVIA (" + sdf.format(signaturesSet.getStartDate())
+                        + ") ======================== \n" + signaturesSet.getStartDateInfo() + "\n");
+
                 String msgError = msgBase + ". Si us plau torni a intentar la signatura.";
+
                 return generateErrorMAV(request, signaturesSetID, msgError, null);
             }
+
+            signaturesSet.setStartDateInfo(Utils.requestInfoToString(request));
 
             signaturesSet.setStartDate(new Date());
         }

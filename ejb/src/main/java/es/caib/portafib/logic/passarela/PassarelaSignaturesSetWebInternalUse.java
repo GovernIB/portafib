@@ -47,6 +47,9 @@ public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStat
      * Data d'inici del procés web de signatura (accés a /public/passarela/start/)
      */
     protected Date startDate = null;
+    
+    // Afegir logs complets per l'error de "Ja s'accedit a aquesta pàgina"     #1193
+    protected String startDateInfo = null;
 
     /**
      * 
@@ -150,6 +153,14 @@ public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStat
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
+    }
+
+    public String getStartDateInfo() {
+        return startDateInfo;
+    }
+
+    public void setStartDateInfo(String startDateInfo) {
+        this.startDateInfo = startDateInfo;
     }
 
 }

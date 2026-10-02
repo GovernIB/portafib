@@ -4,6 +4,7 @@ import es.caib.portafib.back.controller.AbstractSignatureModuleController;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBSessionLocaleResolver;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
+import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.persistence.PeticioDeFirmaJPA;
 import es.caib.portafib.persistence.UsuariAplicacioJPA;
@@ -36,6 +37,7 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -105,11 +107,28 @@ public class PassarelaDeFirmaController {
                         + request.getRequestURL() + " (usrapp = " + ssf.getApplicationID() + " | NIF = "
                         + ssf.getSignaturesSet().getCommonInfoSignature().getAdministrationID() + ")";
                 log.error(msgLog);
+                
+                
+                
+                log.error("\n========================  CRIDADA ACTUAL ======================== \n"
+                        + Utils.requestInfoToString(request) + "\n\n");
+
+                // SimpleDateFormat amb milisegons
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+                log.error("\n========================  CRIDADA PREVIA (" + sdf.format(ssf.getStartDate())
+                        + ") ========================\n" + ssf.getStartDateInfo() + "\n\n");
+
+                
+                
                 String msgError = msgBase + ". Si us plau torni a intentar la signatura.";
                 throw new Exception(msgError);
             }
 
             ssf.setStartDate(new Date());
+            
+            ssf.setStartDateInfo(Utils.requestInfoToString(request));
+            
         }
 
         // Passarela només pot tenir una sola Configuracio

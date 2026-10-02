@@ -135,7 +135,7 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
             // Funcio de firma
 
             // Servidor TEMPORAL
-            String host = Inet4Address.getLocalHost().getHostAddress();
+            String host = Inet4Address.getLocalHost().getHostName();
             final int port = 1900; // 1989 + (int) (Math.random() * 100.0);
             final String returnUrl = "http://" + host + ":" + port + "/returnurl/" + transactionID;
             final String view = ViewConstants.VIEW_FULLSCREEN.getValue();
@@ -146,27 +146,31 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
             startTransactionInfo.setView(view);
 
             String redirectUrl = api.startTransaction(startTransactionInfo);
+            
+            boolean openBrowser = "true".equalsIgnoreCase(props.getProperty("openbrowser"));
 
             if (showInIframe) {
-                final String iframeUrl = "http://" + host + ":" + (port + 1) + "/iframe/";
-                if (Desktop.isDesktopSupported()) {
+                final int portIFrame = port + 1;
+                final String iframeUrl = "http://" + host + ":" + portIFrame + "/iframe/";
+                if (openBrowser && Desktop.isDesktopSupported()) {
                     Desktop.getDesktop().browse(new URI(iframeUrl));
                 } else {
                     System.out.println("Per favor obri un Navegador i copia-li la URL " + iframeUrl);
                 }
-                String htmlIframe = "<div style=\"\n" + "        background-color: red;\n" + "        width: 100%;\n"
-                        + "        height: 100%;\n" + "        display: flex;\n" + "        justify-content: center;\n"
-                        + "        align-items: center;\n" + "    \">\n"
+                String htmlIframe = "    <div style=\"background-color: green;width: 100%; height: 100%; display: flex;"
+                        + " justify-content: center; align-items: center;\">\n"
                         + "        <div style=\"width: calc(100% - 100px); height: calc(100% - 100px);\">\n"
-                        + "            Iframe atacant URL: " + iframeUrl + "...<br/>\n" + "            <iframe \n"
-                        + "                src=\"" + redirectUrl + "\" \n"
-                        + "                style=\"width: 100%; height: 100%; border: none;\"\n"
-                        + "            ></iframe>\n" + "        </div>\n" + "    </div>";
+                        + "            Iframe atacant URL: " + iframeUrl + "...<br/>\n"
+                        + "            <iframe src=\"" + redirectUrl + "\" style=\"width: 100%; height: 100%; border: none;\"></iframe>\n"
+                        + "        </div>\n"
+                        + "    </div>";
 
-                readFromSocket(port + 1, htmlIframe);
+                readFromSocket(portIFrame, htmlIframe);
                 System.out.println("Algun navegador ha llegit html amb iframe ...");
+                
+                System.out.println("Iframe URL " + redirectUrl);
             } else {
-                if (Desktop.isDesktopSupported()) {
+                if (openBrowser && Desktop.isDesktopSupported()) {
                     Desktop.getDesktop().browse(new URI(redirectUrl));
                 } else {
                     System.out.println("Per favor obri un Navegador i copia-li la URL " + redirectUrl);

@@ -1118,11 +1118,11 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     private PassarelaSignaturesSetWebInternalUse checkExpiredSignaturesSet(String transaccioID) {
 
         long now = System.currentTimeMillis();
-        final long un_minut_en_ms = 3600000;
+        final long dos_minut_en_ms = 2 * 3600000;
 
         PassarelaSignaturesSetWebInternalUse valueToReturn = null;
 
-        if (now + un_minut_en_ms > lastCheckFirmesCaducades) {
+        if (now + dos_minut_en_ms > lastCheckFirmesCaducades) {
             lastCheckFirmesCaducades = now;
             Set<PassarelaSignaturesSetWebInternalUse> setsToDelete = new HashSet<PassarelaSignaturesSetWebInternalUse>();
             SimpleDateFormat sdf = new SimpleDateFormat();
@@ -1148,8 +1148,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
                         valueToReturn = ssf;
                     } else if (now > ssf.getSignaturesSet().getExpiryDate().getTime()) {
-                        if (log.isDebugEnabled()) {
-                            log.debug("Passarel·la De Firma: Tancant SignatureSET amb ID = " + entry.getKey()
+                        {
+                            log.warn("Passarel·la De Firma: Tancant SignatureSET amb ID = " + entry.getKey()
                                     + " a causa de que està caducat " + "( ARA: " + sdf.format(new Date(now))
                                     + " | CADUCITAT: " + sdf.format(ssf.getSignaturesSet().getExpiryDate()) + ")");
                         }

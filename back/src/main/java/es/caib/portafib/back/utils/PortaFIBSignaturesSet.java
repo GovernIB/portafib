@@ -45,6 +45,9 @@ public class PortaFIBSignaturesSet extends SignaturesSetWeb {
      */
     protected Date startDate = null;
 
+    // Afegir logs complets per l'error de "Ja s'ha accedit a aquesta pàgina"     #1193
+    protected String startDateInfo = null;
+
     /**
      * @param signaturesSetID
      * @param expiryDate
@@ -129,6 +132,15 @@ public class PortaFIBSignaturesSet extends SignaturesSetWeb {
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
+    }
+
+    // Afegir logs complets per l'error de "Ja s'accedit a aquesta pàgina"     #1193
+    public String getStartDateInfo() {
+        return startDateInfo;
+    }
+
+    public void setStartDateInfo(String startDateInfo) {
+        this.startDateInfo = startDateInfo;
     }
 
 }

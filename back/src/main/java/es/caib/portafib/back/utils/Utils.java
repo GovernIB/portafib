@@ -243,6 +243,12 @@ public class Utils {
         sb.append('\n').append(" ++++ getRequestURI: " + request.getRequestURI());
         sb.append('\n').append(" ++++ getRequestURL: " + request.getRequestURL());
         sb.append('\n').append(" ++++ getQueryString: " + request.getQueryString());
+        
+        // Afegim HEADERs DEL REQUEST
+        sb.append('\n').append(" ++++ Headers: ");
+        request.getHeaderNames().asIterator().forEachRemaining(headerName -> {
+            sb.append('\n').append("      * " + headerName + ": " + request.getHeader(headerName));
+        });
 
         sb.append('\n').append(" ++++ javax.servlet.forward.request_uri: "
                 + (String) request.getAttribute("javax.servlet.forward.request_uri"));
