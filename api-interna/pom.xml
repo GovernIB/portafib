@@ -58,7 +58,7 @@
             <artifactId>swagger-core</artifactId>
             <version>2.2.27</version>
         </dependency>
-<!--
+        <!--
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-json-provider</artifactId>
@@ -87,7 +87,7 @@
             <artifactId>pluginsib-utils-swagger-ui-configurable-webjar</artifactId>
             <version>${pluginsib.utils.version}</version>
         </dependency>
-<!--
+        <!--
         <dependency>
             <groupId>org.fundaciobit.pluginsib.validatecertificate</groupId>
             <artifactId>pluginsib-validatecertificate-api</artifactId>
@@ -130,8 +130,8 @@
                 <configuration>
                     <generateGitPropertiesFile>true</generateGitPropertiesFile>
                     <gitPropertiesPath>${project.build.outputDirectory}</gitPropertiesPath>
-            
-                            <!-- Opcional: només incloure propietats que necessites -->
+
+                    <!-- Opcional: només incloure propietats que necessites -->
                     <includeOnlyProperties>
                         <includeOnlyProperty>git.commit.id</includeOnlyProperty>
                         <includeOnlyProperty>git.build.time</includeOnlyProperty>
@@ -231,8 +231,8 @@
                 <groupId>org.codehaus.gmaven</groupId>
                 <artifactId>groovy-maven-plugin</artifactId>
                 <version>2.1.1</version>
-                <executions>    
-                
+                <executions>
+
                     <!-- Processa l'atribut 'example' del @Schema dels enums swagger i   -->
                     <!-- converteix aquest en noms de variables correctes: -->
                     <!-- Exemple:    example="SIGNTYPE_PADES|SIGNTYPE_CADES|SIGNTYPE_XADES", -->
@@ -247,9 +247,9 @@
                                 <openapifolder>${project.basedir}/openapi/</openapifolder>
                             </properties>
                         </configuration>
-                    </execution>                                             
-                
-                
+                    </execution>
+
+
                     <!-- Eliminam _1 de les anotacions amb operationID duplicat -->
                     <execution>
                         <id>replace-secondary-operations</id>
@@ -264,7 +264,7 @@
                             </properties>
                         </configuration>
                     </execution>
-                    
+
                     <!-- Convertim \r\n a \n en els fitxers .json creats -->
                     <execution>
                         <id>normalize-line-endings</id>
@@ -289,8 +289,6 @@
                     </execution>
                 </executions>
             </plugin>
-            
-
 
 
             <!--
@@ -484,11 +482,13 @@
                 <configuration>
                     <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
 
-                    <packagingExcludes>
-                        **/snakeyaml*redhat*.jar,
-                        <!--  Requereix el mòdul "javax.xml.bind.api" a jboss-deployment-structure.xml de l'ear -->
-                        **/jakarta.xml.bind-api-2.3.3.jar,
-                    </packagingExcludes>
+                    <archive>
+                        <manifest>
+                            <addClasspath>false</addClasspath>
+                        </manifest>
+                    </archive>
+
+                    <packagingExcludes> **/snakeyaml*redhat*.jar, <!--  Requereix el mòdul "javax.xml.bind.api" a jboss-deployment-structure.xml de l'ear --> **/jakarta.xml.bind-api-2.3.3.jar, </packagingExcludes>
 
                     <webResources>
                         <resource>

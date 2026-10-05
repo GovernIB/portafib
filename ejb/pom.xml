@@ -386,9 +386,6 @@
             <artifactId>bcmail-jdk15on</artifactId>
         </dependency>
 
-
-
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
