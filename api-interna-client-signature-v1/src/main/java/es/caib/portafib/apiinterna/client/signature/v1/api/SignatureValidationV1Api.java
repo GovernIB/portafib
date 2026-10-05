@@ -38,10 +38,10 @@ public class SignatureValidationV1Api {
   }
 
   /**
-   * Operacio de firma simple en servidor d&#39;un document
+   * Operacio de validació de documents signats digitalment
    * 
    * @param languageUI Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) (optional, default to ca)
-   * @param validateSignatureRequest Operacio de firma simple en servidor d&#39;un document (optional)
+   * @param validateSignatureRequest Document digital signat que es vol validar (optional)
    * @return a {@code ValidateSignatureResponse}
    * @throws ApiException if fails to make API call
    */

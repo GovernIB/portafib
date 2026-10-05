@@ -3965,7 +3965,7 @@
     "/secure/signaturevalidation/v1/validateSignature" : {
       "post" : {
         "tags" : [ "SignatureValidation v1" ],
-        "summary" : "Operacio de firma simple en servidor d'un document",
+        "summary" : "Operacio de validació de documents signats digitalment",
         "operationId" : "validateSignature",
         "parameters" : [ {
           "name" : "languageUI",
@@ -3987,7 +3987,7 @@
           }
         } ],
         "requestBody" : {
-          "description" : "Operacio de firma simple en servidor d'un document",
+          "description" : "Document digital signat que es vol validar",
           "content" : {
             "application/json" : {
               "schema" : {

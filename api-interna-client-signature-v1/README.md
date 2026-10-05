@@ -169,7 +169,7 @@ Class | Method | HTTP request | Description
 *SignatureOnServerV1Api* | [**signdocument**](docs/SignatureOnServerV1Api.md#signdocument) | **POST** /secure/signatureonserver/v1/signdocument | Operacio de firma simple en servidor d&#39;un document
 *SignatureOnServerV1Api* | [**upgradeSignature**](docs/SignatureOnServerV1Api.md#upgradeSignature) | **POST** /secure/signatureonserver/v1/upgradeSignature | Operacio de firma simple en servidor d&#39;un document
 *SignatureOnServerV1Api* | [**versio**](docs/SignatureOnServerV1Api.md#versio) | **GET** /secure/signatureonserver/v1/versio | Retorna la versió d&#39;aquest Servei
-*SignatureValidationV1Api* | [**validateSignature**](docs/SignatureValidationV1Api.md#validateSignature) | **POST** /secure/signaturevalidation/v1/validateSignature | Operacio de firma simple en servidor d&#39;un document
+*SignatureValidationV1Api* | [**validateSignature**](docs/SignatureValidationV1Api.md#validateSignature) | **POST** /secure/signaturevalidation/v1/validateSignature | Operacio de validació de documents signats digitalment
 
 
 ## Documentation for Models

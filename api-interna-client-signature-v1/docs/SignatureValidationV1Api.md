@@ -4,7 +4,7 @@ All URIs are relative to */portafibapi/interna*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**validateSignature**](SignatureValidationV1Api.md#validateSignature) | **POST** /secure/signaturevalidation/v1/validateSignature | Operacio de firma simple en servidor d&#39;un document |
+| [**validateSignature**](SignatureValidationV1Api.md#validateSignature) | **POST** /secure/signaturevalidation/v1/validateSignature | Operacio de validació de documents signats digitalment |
 
 
 
@@ -12,7 +12,7 @@ All URIs are relative to */portafibapi/interna*
 
 > ValidateSignatureResponse validateSignature(languageUI, validateSignatureRequest)
 
-Operacio de firma simple en servidor d&#39;un document
+Operacio de validació de documents signats digitalment
 
 ### Example
 
@@ -37,7 +37,7 @@ public class Example {
 
         SignatureValidationV1Api apiInstance = new SignatureValidationV1Api(defaultClient);
         String languageUI = "ca"; // String | Idioma en que s'han de retornar les dades i errors(Només suportat 'ca' o 'es')
-        ValidateSignatureRequest validateSignatureRequest = new ValidateSignatureRequest(); // ValidateSignatureRequest | Operacio de firma simple en servidor d'un document
+        ValidateSignatureRequest validateSignatureRequest = new ValidateSignatureRequest(); // ValidateSignatureRequest | Document digital signat que es vol validar
         try {
             ValidateSignatureResponse result = apiInstance.validateSignature(languageUI, validateSignatureRequest);
             System.out.println(result);
@@ -58,7 +58,7 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **languageUI** | **String**| Idioma en que s&#39;han de retornar les dades i errors(Només suportat &#39;ca&#39; o &#39;es&#39;) | [optional] [default to ca] |
-| **validateSignatureRequest** | [**ValidateSignatureRequest**](ValidateSignatureRequest.md)| Operacio de firma simple en servidor d&#39;un document | [optional] |
+| **validateSignatureRequest** | [**ValidateSignatureRequest**](ValidateSignatureRequest.md)| Document digital signat que es vol validar | [optional] |
 
 ### Return type
 
