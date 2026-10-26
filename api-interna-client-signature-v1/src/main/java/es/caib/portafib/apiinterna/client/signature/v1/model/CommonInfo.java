@@ -31,7 +31,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   CommonInfo.JSON_PROPERTY_LANGUAGE_U_I,
   CommonInfo.JSON_PROPERTY_USERNAME,
   CommonInfo.JSON_PROPERTY_ADMINISTRATION_I_D,
-  CommonInfo.JSON_PROPERTY_ORGANIZATION_I_D,
   CommonInfo.JSON_PROPERTY_SIGNER_EMAIL
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0")
@@ -51,10 +50,6 @@ public class CommonInfo {
   public static final String JSON_PROPERTY_ADMINISTRATION_I_D = "administrationID";
   @javax.annotation.Nonnull
   private String administrationID;
-
-  public static final String JSON_PROPERTY_ORGANIZATION_I_D = "organizationID";
-  @javax.annotation.Nullable
-  private String organizationID;
 
   public static final String JSON_PROPERTY_SIGNER_EMAIL = "signerEmail";
   @javax.annotation.Nullable
@@ -163,31 +158,6 @@ public class CommonInfo {
     this.administrationID = administrationID;
   }
 
-  public CommonInfo organizationID(@javax.annotation.Nullable String organizationID) {
-    
-    this.organizationID = organizationID;
-    return this;
-  }
-
-  /**
-   * Opcional. És el CIF de l&#39;organització representada pel signant. Si esta activa la validació dins PortaFIB llavors es valida que el Certificat sigui un certificat de representant d&#39;aquest CIF.
-   * @return organizationID
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ORGANIZATION_I_D)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getOrganizationID() {
-    return organizationID;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_ORGANIZATION_I_D)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setOrganizationID(@javax.annotation.Nullable String organizationID) {
-    this.organizationID = organizationID;
-  }
-
   public CommonInfo signerEmail(@javax.annotation.Nullable String signerEmail) {
     
     this.signerEmail = signerEmail;
@@ -226,13 +196,12 @@ public class CommonInfo {
         Objects.equals(this.languageUI, commonInfo.languageUI) &&
         Objects.equals(this.username, commonInfo.username) &&
         Objects.equals(this.administrationID, commonInfo.administrationID) &&
-        Objects.equals(this.organizationID, commonInfo.organizationID) &&
         Objects.equals(this.signerEmail, commonInfo.signerEmail);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(signProfile, languageUI, username, administrationID, organizationID, signerEmail);
+    return Objects.hash(signProfile, languageUI, username, administrationID, signerEmail);
   }
 
   @Override
@@ -243,7 +212,6 @@ public class CommonInfo {
     sb.append("    languageUI: ").append(toIndentedString(languageUI)).append("\n");
     sb.append("    username: ").append(toIndentedString(username)).append("\n");
     sb.append("    administrationID: ").append(toIndentedString(administrationID)).append("\n");
-    sb.append("    organizationID: ").append(toIndentedString(organizationID)).append("\n");
     sb.append("    signerEmail: ").append(toIndentedString(signerEmail)).append("\n");
     sb.append("}");
     return sb.toString();

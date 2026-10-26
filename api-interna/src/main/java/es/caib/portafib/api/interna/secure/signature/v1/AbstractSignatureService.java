@@ -583,7 +583,8 @@ public abstract class AbstractSignatureService extends RestUtils {
 
             final String username = commonInfo.getUsername();
             final String administrationID = commonInfo.getAdministrationID();
-            final String organizationID = commonInfo.getOrganizationID();
+            //final String organizationID = commonInfo.getOrganizationID();
+            final String organizationID = null;
 
             PassarelaCommonInfoSignature commonInfoSignature = new PassarelaCommonInfoSignature(languageUI,
                     filtreCertificats, username, administrationID, organizationID, null, policyInfoSignature);

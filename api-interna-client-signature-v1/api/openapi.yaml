@@ -4654,7 +4654,6 @@ components:
       example:
         signProfile: PROFILE_PADES
         administrationID: 99999999Z
-        organizationID: B99999999
         signerEmail: correufirmant@entitat.org
         languageUI: ca
         username: "\"u800xx\" / \"u[DNI]\""
@@ -4686,12 +4685,6 @@ components:
             \ defineix i si esta activa la validació dins PortaFIB llavors es valida\
             \ que el DNI del Certificat sigui el mateix que aquest."
           example: 99999999Z
-          type: string
-        organizationID:
-          description: Opcional. És el CIF de l'organització representada pel signant.
-            Si esta activa la validació dins PortaFIB llavors es valida que el Certificat
-            sigui un certificat de representant d'aquest CIF.
-          example: B99999999
           type: string
         signerEmail:
           description: " - FIRMA WEB: Opcional. Correu del Firmant. Per afegir a les\
@@ -5539,7 +5532,6 @@ components:
         commonInfo:
           signProfile: PROFILE_PADES
           administrationID: 99999999Z
-          organizationID: B99999999
           signerEmail: correufirmant@entitat.org
           languageUI: ca
           username: "\"u800xx\" / \"u[DNI]\""

@@ -757,7 +757,7 @@ public class SignatureOnServerService extends AbstractSignatureService implement
         org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo commonFileInfoApisib = new org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo();
         commonFileInfoApisib.setAdministrationID(commonFileInfo.getAdministrationID());
         commonFileInfoApisib.setLanguageUI(commonFileInfo.getLanguageUI());
-        commonFileInfoApisib.setOrganizationID(commonFileInfo.getOrganizationID());
+        //commonFileInfoApisib.setOrganizationID(commonFileInfo.getOrganizationID());
         commonFileInfoApisib.setSignerEmail(commonFileInfo.getSignerEmail());
         commonFileInfoApisib.setSignProfile(commonFileInfo.getSignProfile());
         commonFileInfoApisib.setUsername(commonFileInfo.getUsername());

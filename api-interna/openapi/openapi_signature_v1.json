@@ -5027,11 +5027,6 @@
             "description" : " - FIRMA WEB: Requerit. És el DNI de la persona signant. Si esta activa la validació dins PortaFIB llavors es valida que el DNI del Certificat sigui el mateix que aquest.\r\n - FIRMA EN SERVIDOR: Opcional. És el CIF o NIF associat al certificat en servidor. Si es defineix i si esta activa la validació dins PortaFIB llavors es valida que el DNI del Certificat sigui el mateix que aquest.",
             "example" : "99999999Z"
           },
-          "organizationID" : {
-            "type" : "string",
-            "description" : "Opcional. És el CIF de l'organització representada pel signant. Si esta activa la validació dins PortaFIB llavors es valida que el Certificat sigui un certificat de representant d'aquest CIF.",
-            "example" : "B99999999"
-          },
           "signerEmail" : {
             "type" : "string",
             "description" : " - FIRMA WEB: Opcional. Correu del Firmant. Per afegir a les dades de la firma.\r\n - FIRMA EN SERVIDOR: Opcional. Correu del departament que ordena la firma. Per afegir a les dades de la firma.",

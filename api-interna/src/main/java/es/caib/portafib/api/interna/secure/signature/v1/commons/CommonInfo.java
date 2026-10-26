@@ -41,12 +41,14 @@ public class CommonInfo {
             requiredMode = RequiredMode.REQUIRED)
     protected String administrationID;
 
+    /*
     @Schema(
             description = "Opcional. És el CIF de l'organització representada pel signant. Si esta activa la validació"
                     + " dins PortaFIB llavors es valida que el Certificat sigui un certificat de representant d'aquest CIF.",
             example = "B99999999",
             requiredMode = RequiredMode.NOT_REQUIRED)
     protected String organizationID;
+    */
 
     @Schema(
             description = " - FIRMA WEB: Opcional. Correu del Firmant. Per afegir a les dades de la firma.\r\n"
@@ -67,7 +69,7 @@ public class CommonInfo {
         this.administrationID = administrationID;
         this.signerEmail = signerEmail;
     }
-
+/*
     public CommonInfo(String signProfile, String languageUI, String username, String administrationID,
             String organizationID, String signerEmail) {
         this.signProfile = signProfile;
@@ -77,7 +79,7 @@ public class CommonInfo {
         this.organizationID = organizationID;
         this.signerEmail = signerEmail;
     }
-
+*/
     public String getLanguageUI() {
         return languageUI;
     }
@@ -101,7 +103,7 @@ public class CommonInfo {
     public void setAdministrationID(String administrationID) {
         this.administrationID = administrationID;
     }
-
+/*
     public String getOrganizationID() {
         return organizationID;
     }
@@ -109,6 +111,7 @@ public class CommonInfo {
     public void setOrganizationID(String organizationID) {
         this.organizationID = organizationID;
     }
+    */
 
     public String getSignProfile() {
         return signProfile;

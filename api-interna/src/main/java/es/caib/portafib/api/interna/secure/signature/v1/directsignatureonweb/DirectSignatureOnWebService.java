@@ -1023,7 +1023,7 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
         info.setAdministrationID(swaggerInfo.getAdministrationID());
         info.setLanguageUI(swaggerInfo.getLanguageUI());
 
-        info.setOrganizationID(swaggerInfo.getOrganizationID());
+        //info.setOrganizationID(swaggerInfo.getOrganizationID());
         info.setSignerEmail(swaggerInfo.getSignerEmail());
 
         info.setSignProfile(swaggerInfo.getSignProfile());
