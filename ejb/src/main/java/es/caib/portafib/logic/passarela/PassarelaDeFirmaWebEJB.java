@@ -559,6 +559,13 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                     custodyFilePrintableFileDirectUrl, custodyFileEniFileDirectUrl);
         }
 
+        /*
+        log.info("XYZ ZZZ  convertToPassarelaSignatureResult:: ss.getStatus() => " + ss.getStatus());
+        log.info("XYZ ZZZ  convertToPassarelaSignatureResult:: ss.getErrorCode() => " + ss.getErrorCode());
+        log.info("XYZ ZZZ  convertToPassarelaSignatureResult:: ss.getErrorMessage() => " + ss.getErrorMessage());
+        */
+        
+        
         PassarelaSignatureResult psr = new PassarelaSignatureResult(signID, ss.getStatus(), ss.getErrorCode(), ss.getErrorMessage(),
                 ss.getErrorStackTrace(), signedFile, pCustodyInfo, pvi);
 
@@ -649,8 +656,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                             // statusFinal = status;
 
                             // Copiar estat
-                            // Descomentar al implementar l'issue #1168
-                            //pss.setErrorCode(status.getErrorCode());
+                            pss.setErrorCode(status.getErrorCode());
                             pss.setErrorMessage(msg);
                             pss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
                             pss.setErrorStackTrace(null);
@@ -715,8 +721,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                                 }
 
                                 // Copiar estat
-                                // Descomentar al implementar l'issue #1168
-                                //pss.setErrorCode(status.getErrorCode());
+                                pss.setErrorCode(status.getErrorCode());
                                 pss.setErrorMessage(status.getErrorMsg());
                                 pss.setStatus(status.getStatus());
                                 pss.setFitxerFirmat(firmat);
@@ -725,7 +730,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                                 log.error("Error durant el process de final de firma: " + transactionID + ". "
                                         + i18n.getMessage());
                                 pss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
-                                pss.setErrorCode(null);
+                                pss.setErrorCode("PORTAFIB_02");
                                 pss.setErrorMessage(I18NLogicUtils.getMessage(i18n, new Locale(languageUI)));
 
                                 // Esborrar fitxer firmat si existeix
@@ -787,9 +792,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
         // Copiar Estat General
         //ssf.setStatus(statusFinal.getStatus());
         //ssf.setErrorMessage(statusFinal.getErrorMsg());
-        ssf.setStatus(sss.getStatus());
-        // TODO Descomentar al implementar l'issue #1168
-        //ssf.setErrorCode(sss.getErrorCode());
+        ssf.setStatus(sss.getStatus());        
+        ssf.setErrorCode(sss.getErrorCode());
         ssf.setErrorMessage(sss.getErrorMsg());
 
         if (sss.getErrorException() != null) {

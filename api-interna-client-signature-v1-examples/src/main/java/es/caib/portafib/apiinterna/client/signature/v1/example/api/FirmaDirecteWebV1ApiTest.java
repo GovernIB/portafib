@@ -205,7 +205,8 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
 
                 case STATUS_FINAL_ERROR: //fss.getSTATUSFINALERROR(): // = -1;
                     System.err.println("  STATUS TRANSACCIO= " + statusGlobal + " (STATUS_ERROR)");
-                    System.err.println("  RESULT: Error en la firma: " + processStatus.getErrorMessage());
+                    System.err.println("  RESULT: Error Message: " + processStatus.getErrorMessage());
+                    System.err.println("  RESULT: Error Code: " + processStatus.getErrorCode());
                 break;
 
                 case STATUS_CANCELLED: //fss.getSTATUSCANCELLED(): // = -2;
@@ -250,7 +251,8 @@ public class FirmaDirecteWebV1ApiTest extends AbstractV1ApiTest<DirectSignatureO
 
                             case STATUS_FINAL_ERROR: //fss.getSTATUSFINALERROR(): // = -1;
                                 System.err.println("  STATUS SIGN= " + statusSign + " (STATUS_ERROR)");
-                                System.err.println("  RESULT: Error en la firma: " + fss.getErrorMessage());
+                                System.err.println("  RESULT: Error message: " + fss.getErrorMessage());
+                                System.err.println("  RESULT: Error Code: " + fss.getErrorCode());
                             break;
 
                             case STATUS_CANCELLED: //fss.getSTATUSCANCELLED(): // = -2;

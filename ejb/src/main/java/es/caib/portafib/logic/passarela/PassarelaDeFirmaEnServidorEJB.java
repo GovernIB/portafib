@@ -143,7 +143,7 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
                         + " configuracions de firma encara no està implementat."
                         + " Consulti amb l'administrador de PortaFIB";
                 final Exception e = new Exception(msg);
-                return processError(e, null, msg);
+                return processError(e, "PORTAFIB_03", msg);
             }
 
             UsuariAplicacioConfiguracioJPA config = configBySignID.values().iterator().next();
@@ -348,12 +348,12 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
         } catch (I18NValidationException i18nve) {
 
             String msg = I18NLogicUtils.getMessage(i18nve, locale);
-            return processError(i18nve, null,  msg);
+            return processError(i18nve, "PORTAFIB_04",  msg);
 
         } catch (I18NException i18ne) {
 
             String msg = I18NLogicUtils.getMessage(i18ne, locale);
-            return processError(i18ne, null, msg);
+            return processError(i18ne, "PORTAFIB_05", msg);
 
         } finally {
 
@@ -671,8 +671,7 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
 
     private void statusToPassarelaStatus(StatusSignaturesSet sss, PassarelaSignatureStatus pss) {
         pss.setStatus(sss.getStatus());
-        // TODO FALTA Issue #1168
-        // pss.setErrorCode(sss.getErrorCode());
+        pss.setErrorCode(sss.getErrorCode());
         pss.setErrorMessage(sss.getErrorMsg());
         if (sss.getErrorException() != null) {
             StringWriter trace = new StringWriter();

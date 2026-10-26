@@ -224,7 +224,7 @@ public class PassarelaDeFirmaController {
 
             ssf.setStatus(StatusSignature.STATUS_FINAL_ERROR);
             ssf.setErrorMessage(msg);
-            ssf.setErrorCode(null);
+            ssf.setErrorCode("PORTAFIB_01");
 
             StringWriter trace = new StringWriter();
             th.printStackTrace(new java.io.PrintWriter(trace));

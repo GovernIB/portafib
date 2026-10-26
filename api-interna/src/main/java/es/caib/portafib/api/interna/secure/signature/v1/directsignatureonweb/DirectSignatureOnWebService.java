@@ -612,7 +612,7 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
             final PassarelaSignatureStatus status = pss;
             //status = passarelaDeFirmaWebEjb.getStatusTransaction(transactionID);
 
-            log.info("\n\n XYZ ZZZ Estat de la transacció " + transactionID + " es de " + status.getStatus() + "\n\n");
+            //log.info("\n\n XYZ ZZZ Estat de la transacció " + transactionID + " es de " + status.getStatus() + "\n\n");
 
             ProcessStatus transactionStatus;
             transactionStatus = new ProcessStatus(status.getStatus(), status.getErrorCode(), status.getErrorMessage(),
@@ -629,7 +629,13 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
             List<SignatureStatus> signResults = new ArrayList<SignatureStatus>();
             for (PassarelaSignatureResult psr : results) {
 
-                //log.info("\n\n XYZ ZZZ Estat Firma "  + psr.getSignID()+ " de la transacció " + transactionID + " es " + psr.getStatus() + "\n\n");
+                /*
+                log.info("\n\n XYZ ZZZ"
+                        + "\ngetTransactionStatus[" + psr.getSignID() + "]::psr.getStatus() => " + psr.getStatus() 
+                        + "\ngetTransactionStatus[" + psr.getSignID() + "]::psr.getErrorCode() => " + psr.getErrorCode()
+                        + "\ngetTransactionStatus[" + psr.getSignID() + "]::psr.getErrorMessage() => " + psr.getErrorMessage()                        
+                        + "\n\n");
+                */
 
                 signResults.add(new SignatureStatus(psr.getSignID(), new ProcessStatus(psr.getStatus(),
                         psr.getErrorCode(), psr.getErrorMessage(), psr.getErrorStackTrace())));
@@ -652,7 +658,7 @@ public class DirectSignatureOnWebService extends AbstractSignatureService implem
             //HttpHeaders headers = addAccessControllAllowOrigin();
             //ResponseEntity<?> re = new ResponseEntity<FirmaSimpleGetTransactionStatusResponse>(ssresponse, headers,
             //        HttpStatus.OK);
-            log.info(" XYZ ZZZ surt de  getTransactionStatus => FINAL OK");
+            //log.info(" XYZ ZZZ surt de  getTransactionStatus => FINAL OK");
 
             return ssresponse;
 
