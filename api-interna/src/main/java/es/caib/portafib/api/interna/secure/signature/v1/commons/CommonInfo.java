@@ -32,7 +32,7 @@ public class CommonInfo {
     protected String username;
 
     @Schema(
-            description = " - FIRMA WEB: Requerit. És el DNI de la persona signant. Si esta activa la validació dins"
+            description = " - FIRMA WEB: Requerit. És el DNI de la persona signant i CIF de l'empresa. Si esta activa la validació dins"
                     + " PortaFIB llavors es valida que el DNI del Certificat sigui el mateix que aquest.\r\n"
                     + " - FIRMA EN SERVIDOR: Opcional. És el CIF o NIF associat al certificat en servidor."
                     + " Si es defineix i si esta activa la validació dins PortaFIB llavors es valida que el"

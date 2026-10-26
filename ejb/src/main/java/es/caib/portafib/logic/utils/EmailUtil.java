@@ -2,6 +2,7 @@ package es.caib.portafib.logic.utils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -12,7 +13,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import org.apache.log4j.Logger;
-import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
+import org.fundaciobit.genapp.common.i18n.I18NCommonUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
 import es.caib.portafib.commons.utils.Configuracio;
@@ -145,8 +146,17 @@ public class EmailUtil {
             }
 
         } catch (Exception e) {
-            throw new I18NException(e, "error.unknown",
-                    new I18NArgumentString("Error enviant mail: " + e.getMessage()));
+
+            String errorMsg;
+            if (e instanceof I18NException) {
+                errorMsg = I18NCommonUtils.getMessage((I18NException) e, new Locale(Configuracio.getDefaultLanguage()));
+            } else {
+                errorMsg = e.getMessage();
+            }
+
+            log.error("Error enviant correu: " + errorMsg, e);
+            throw new I18NException(e, "error.enviaremail", errorMsg);
+
         }
 
     }
