@@ -732,7 +732,8 @@
     <definition name="pseudonimListAdmin" extends="role_admin">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pseudonimList.jsp" />
     </definition>
- 
+    
+    
     <!--  ===========  COL·LABORADOR ================== -->
     
     
