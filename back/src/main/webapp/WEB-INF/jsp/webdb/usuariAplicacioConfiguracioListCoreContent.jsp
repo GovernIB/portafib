@@ -25,216 +25,321 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USUARIAPLICACIOCONFIGID)}">
-          <td>
+        <td>
           ${usuariAplicacioConfiguracio.usuariAplicacioConfigID}
+             <c:if test="${empty usuariAplicacioConfiguracio.usuariAplicacioConfigID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.NOM)}">
-          <td>
+        <td>
           ${usuariAplicacioConfiguracio.nom}
+             <c:if test="${empty usuariAplicacioConfiguracio.nom}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.ENTITATID)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.entitatID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfEntitatForEntitatID[tmp]}
           </c:if>
+             <c:if test="${empty usuariAplicacioConfiguracio.entitatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLESERVIDOR)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaApiSimpleServidor?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaApiSimpleServidor?'success':'error'}.png"/>" alt="${usuariAplicacioConfiguracio.usEnFirmaApiSimpleServidor}" >
+             <c:if test="${empty usuariAplicacioConfiguracio.usEnFirmaApiSimpleServidor}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLEWEB)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaApiSimpleWeb?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaApiSimpleWeb?'success':'error'}.png"/>" alt="${usuariAplicacioConfiguracio.usEnFirmaApiSimpleWeb}" >
+             <c:if test="${empty usuariAplicacioConfiguracio.usEnFirmaApiSimpleWeb}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAWEB)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaWeb?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaWeb?'success':'error'}.png"/>" alt="${usuariAplicacioConfiguracio.usEnFirmaWeb}" >
+             <c:if test="${empty usuariAplicacioConfiguracio.usEnFirmaWeb}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAWS1)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaWS1?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaWS1?'success':'error'}.png"/>" alt="${usuariAplicacioConfiguracio.usEnFirmaWS1}" >
+             <c:if test="${empty usuariAplicacioConfiguracio.usEnFirmaWS1}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAASYNCREST2)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaAsyncRest2?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaAsyncRest2?'success':'error'}.png"/>" alt="${usuariAplicacioConfiguracio.usEnFirmaAsyncRest2}" >
+             <c:if test="${empty usuariAplicacioConfiguracio.usEnFirmaAsyncRest2}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELASERVIDOR)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaPassarelaServidor?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaPassarelaServidor?'success':'error'}.png"/>" alt="${usuariAplicacioConfiguracio.usEnFirmaPassarelaServidor}" >
+             <c:if test="${empty usuariAplicacioConfiguracio.usEnFirmaPassarelaServidor}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaPassarelaWeb?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaPassarelaWeb?'success':'error'}.png"/>" alt="${usuariAplicacioConfiguracio.usEnFirmaPassarelaWeb}" >
+             <c:if test="${empty usuariAplicacioConfiguracio.usEnFirmaPassarelaWeb}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.FILTRECERTIFICATS)}">
-          <td>
+        <td>
           ${usuariAplicacioConfiguracio.filtreCertificats}
+             <c:if test="${empty usuariAplicacioConfiguracio.filtreCertificats}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.TIPUSOPERACIOFIRMA)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.tipusOperacioFirma}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForTipusOperacioFirma[tmp]}
           </c:if>
+             <c:if test="${empty usuariAplicacioConfiguracio.tipusOperacioFirma}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.TIPUSFIRMAID)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.tipusFirmaID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForTipusFirmaID[tmp]}
           </c:if>
+             <c:if test="${empty usuariAplicacioConfiguracio.tipusFirmaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.ALGORISMEDEFIRMAID)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.algorismeDeFirmaID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForAlgorismeDeFirmaID[tmp]}
           </c:if>
+             <c:if test="${empty usuariAplicacioConfiguracio.algorismeDeFirmaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MODEDEFIRMA)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.modeDeFirma}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForModeDeFirma[tmp]}
           </c:if>
+             <c:if test="${empty usuariAplicacioConfiguracio.modeDeFirma}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.usPoliticaDeFirma}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForUsPoliticaDeFirma[tmp]}
           </c:if>
+             <c:if test="${empty usuariAplicacioConfiguracio.usPoliticaDeFirma}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIER)}">
-          <td>
+        <td>
           ${usuariAplicacioConfiguracio.policyIdentifier}
+             <c:if test="${empty usuariAplicacioConfiguracio.policyIdentifier}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASH)}">
-          <td>
+        <td>
           ${usuariAplicacioConfiguracio.policyIdentifierHash}
+             <c:if test="${empty usuariAplicacioConfiguracio.policyIdentifierHash}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASHALGORITHM)}">
-          <td>
+        <td>
           ${usuariAplicacioConfiguracio.policyIdentifierHashAlgorithm}
+             <c:if test="${empty usuariAplicacioConfiguracio.policyIdentifierHashAlgorithm}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYURLDOCUMENT)}">
-          <td>
+        <td>
           ${usuariAplicacioConfiguracio.policyUrlDocument}
+             <c:if test="${empty usuariAplicacioConfiguracio.policyUrlDocument}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.motiuDelegacioID}</c:set>
           <c:if test="${not empty tmp}">
           ${usuariAplicacioConfiguracio.motiuDelegacio.traduccions[lang].valor}
           </c:if>
+             <c:if test="${empty usuariAplicacioConfiguracio.motiuDelegacio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.politicaTaulaFirmes}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForPoliticaTaulaFirmes[tmp]}
           </c:if>
+             <c:if test="${empty usuariAplicacioConfiguracio.politicaTaulaFirmes}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.posicioTaulaFirmesID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForPosicioTaulaFirmesID[tmp]}
           </c:if>
+             <c:if test="${empty usuariAplicacioConfiguracio.posicioTaulaFirmesID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.firmatPerFormatID}</c:set>
           <c:if test="${not empty tmp}">
           ${usuariAplicacioConfiguracio.firmatPerFormat.traduccions[lang].valor}
           </c:if>
+             <c:if test="${empty usuariAplicacioConfiguracio.firmatPerFormat}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)}">
-          <td>
+        <td>
           ${usuariAplicacioConfiguracio.propietatsTaulaFirmes}
+             <c:if test="${empty usuariAplicacioConfiguracio.propietatsTaulaFirmes}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.politicaSegellatDeTemps}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForPoliticaSegellatDeTemps[tmp]}
           </c:if>
+             <c:if test="${empty usuariAplicacioConfiguracio.politicaSegellatDeTemps}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.PLUGINSEGELLATID)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.pluginSegellatID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfPluginForPluginSegellatID[tmp]}
           </c:if>
+             <c:if test="${empty usuariAplicacioConfiguracio.pluginSegellatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.HTMLPERLLISTARPLUGINSFIRMAWEB)}">
-          <td>
+        <td>
           ${usuariAplicacioConfiguracio.htmlPerLlistarPluginsFirmaWeb}
+             <c:if test="${empty usuariAplicacioConfiguracio.htmlPerLlistarPluginsFirmaWeb}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.PLUGINFIRMASERVIDORID)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.pluginFirmaServidorID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfPluginForPluginFirmaServidorID[tmp]}
           </c:if>
+             <c:if test="${empty usuariAplicacioConfiguracio.pluginFirmaServidorID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.upgradeSignFormat}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForUpgradeSignFormat[tmp]}
           </c:if>
+             <c:if test="${empty usuariAplicacioConfiguracio.upgradeSignFormat}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.VALIDARFIRMA)}">
-          <td>
-            <fmt:message key="definitenentitat.${usuariAplicacioConfiguracio.validarFirma}" />          </td>
+        <td>
+            <fmt:message key="definitenentitat.${usuariAplicacioConfiguracio.validarFirma}" />             <c:if test="${empty usuariAplicacioConfiguracio.validarFirma}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.CHECKCANVIATDOCFIRMAT)}">
-          <td>
-            <fmt:message key="definitenentitat.${usuariAplicacioConfiguracio.checkCanviatDocFirmat}" />          </td>
+        <td>
+            <fmt:message key="definitenentitat.${usuariAplicacioConfiguracio.checkCanviatDocFirmat}" />             <c:if test="${empty usuariAplicacioConfiguracio.checkCanviatDocFirmat}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA)}">
-          <td>
-            <fmt:message key="definitenentitat.${usuariAplicacioConfiguracio.comprovarNifFirma}" />          </td>
+        <td>
+            <fmt:message key="definitenentitat.${usuariAplicacioConfiguracio.comprovarNifFirma}" />             <c:if test="${empty usuariAplicacioConfiguracio.comprovarNifFirma}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.VALIDARCERTIFICAT)}">
-          <td>
-            <fmt:message key="definitenentitat.${usuariAplicacioConfiguracio.validarCertificat}" />          </td>
+        <td>
+            <fmt:message key="definitenentitat.${usuariAplicacioConfiguracio.validarCertificat}" />             <c:if test="${empty usuariAplicacioConfiguracio.validarCertificat}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.ESDEPETICIO)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.esDePeticio?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.esDePeticio?'success':'error'}.png"/>" alt="${usuariAplicacioConfiguracio.esDePeticio}" >
+             <c:if test="${empty usuariAplicacioConfiguracio.esDePeticio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

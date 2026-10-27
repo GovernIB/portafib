@@ -5,8 +5,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,RoleFields.ROLEID)}">
         <tr id="role_roleID_rowid">
           <td id="role_roleID_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[RoleFields.ROLEID])?'role.roleID':__theForm.labels[RoleFields.ROLEID]}" /> &nbsp;(*)
+            <label for="role.roleID">
+              <fmt:message key="${(empty __theForm.labels[RoleFields.ROLEID])?'role.roleID':__theForm.labels[RoleFields.ROLEID]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[RoleFields.ROLEID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[RoleFields.ROLEID]}" ></i>
@@ -14,7 +14,7 @@
             </td>
           <td id="role_roleID_columnvalueid">
             <form:errors path="role.roleID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,RoleFields.ROLEID)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,RoleFields.ROLEID)? ' uneditable-input' : ''}"  style="" maxlength="50" path="role.roleID"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,RoleFields.ROLEID)? 'readonly' : ''}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,RoleFields.ROLEID)? ' uneditable-input' : ''}"  style="" maxlength="50" path="role.roleID"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -23,8 +23,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,RoleFields.NOM)}">
         <tr id="role_nom_rowid">
           <td id="role_nom_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[RoleFields.NOM])?'role.nom':__theForm.labels[RoleFields.NOM]}" /> &nbsp;(*)
+            <label for="role.nom">
+              <fmt:message key="${(empty __theForm.labels[RoleFields.NOM])?'role.nom':__theForm.labels[RoleFields.NOM]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[RoleFields.NOM]}">
               <i class="fas fa-info-circle" title="${__theForm.help[RoleFields.NOM]}" ></i>
@@ -32,7 +32,7 @@
             </td>
           <td id="role_nom_columnvalueid">
             <form:errors path="role.nom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,RoleFields.NOM)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,RoleFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="role.nom"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,RoleFields.NOM)? 'readonly' : ''}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,RoleFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="role.nom"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -41,7 +41,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,RoleFields.DESCRIPCIO)}">
         <tr id="role_descripcio_rowid">
           <td id="role_descripcio_columnlabelid">
-            <label>
+            <label for="role.descripcio">
               <fmt:message key="${(empty __theForm.labels[RoleFields.DESCRIPCIO])?'role.descripcio':__theForm.labels[RoleFields.DESCRIPCIO]}" />
              </label>
               <c:if test="${not empty __theForm.help[RoleFields.DESCRIPCIO]}">
@@ -53,18 +53,18 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,RoleFields.DESCRIPCIO)? 'true' : 'false'}" path="role.descripcio"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,RoleFields.DESCRIPCIO)? 'readonly' : ''}" path="role.descripcio"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
-        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;" aria-label="Opcions de format"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_descripcio" class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('role.descripcio'); ta.wrap='off';" >No Wrap</a>
           <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('role.descripcio'); ta.wrap='soft';">Soft Wrap</a>
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('role.descripcio'); ta.wrap='hard';">Hard Wrap</a>
         </div>
       </div>
-      <script type="text/javascript">
+      <script>
 			$('#dropdownMenuButton_descripcio').on('click', function(){
 					var valor = ($('#dropdownMenuContainer_descripcio').css('display') != 'none') ? 'none' : 'block';
                  $('#dropdownMenuContainer_descripcio').css('display', valor);

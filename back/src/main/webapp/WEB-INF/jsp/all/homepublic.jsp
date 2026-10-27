@@ -10,7 +10,7 @@
 <div>
 <br/>
 <center>
-<img src="<c:url value="/img/app-logo.png"/>"  alt="PortaFIB" title="PortaFIB"/>
+<img src="<c:url value="/img/app-logo.png"/>"  alt="PortaFIB" />
 
 <br/>
 <br/>
@@ -21,16 +21,11 @@ This page is generated automatically. Please edit.
 
 <br/>
 <br/>
-<table border="0" >
-<tr>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-<td valign="top">
-<a href="http://blog.fundaciobit.org/category/admindigital/" target="_blank">
-<img src="<c:url value="/img/fundaciobit.png"/>"  alt="Fundació Bit" title="Fundació Bit"/>
+<div>
+<a href="https://governdigital.caib.es/" target="_blank">
+<img src="<c:url value="/img/fundaciobit.png"/>"  alt="IBDigital - Govern Digital" />
 </a>
-</td>
-</tr>
-</table>
+</div>
 <br/>
 </center>
  

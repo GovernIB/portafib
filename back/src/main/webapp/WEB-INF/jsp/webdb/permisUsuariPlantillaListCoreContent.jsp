@@ -25,24 +25,33 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PermisUsuariPlantillaFields.PERMISUSUARIPLANTILLAID)}">
-          <td>
+        <td>
           ${permisUsuariPlantilla.permisUsuariPlantillaID}
+             <c:if test="${empty permisUsuariPlantilla.permisUsuariPlantillaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PermisUsuariPlantillaFields.USUARIENTITATID)}">
-          <td>
+        <td>
           <c:set var="tmp">${permisUsuariPlantilla.usuariEntitatID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariEntitatForUsuariEntitatID[tmp]}
           </c:if>
+             <c:if test="${empty permisUsuariPlantilla.usuariEntitatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PermisUsuariPlantillaFields.PLANTILLAFLUXDEFIRMESID)}">
-          <td>
+        <td>
           <c:set var="tmp">${permisUsuariPlantilla.plantillaFluxDeFirmesID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfPlantillaFluxDeFirmesForPlantillaFluxDeFirmesID[tmp]}
           </c:if>
+             <c:if test="${empty permisUsuariPlantilla.plantillaFluxDeFirmesID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

@@ -5,8 +5,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariPersonaFields.USUARIPERSONAID)}">
         <tr id="usuariPersona_usuariPersonaID_rowid">
           <td id="usuariPersona_usuariPersonaID_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.USUARIPERSONAID])?'usuariPersona.usuariPersonaID':__theForm.labels[UsuariPersonaFields.USUARIPERSONAID]}" /> &nbsp;(*)
+            <label for="usuariPersona.usuariPersonaID">
+              <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.USUARIPERSONAID])?'usuariPersona.usuariPersonaID':__theForm.labels[UsuariPersonaFields.USUARIPERSONAID]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[UsuariPersonaFields.USUARIPERSONAID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariPersonaFields.USUARIPERSONAID]}" ></i>
@@ -14,7 +14,7 @@
             </td>
           <td id="usuariPersona_usuariPersonaID_columnvalueid">
             <form:errors path="usuariPersona.usuariPersonaID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.USUARIPERSONAID)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.USUARIPERSONAID)? ' uneditable-input' : ''}"  style="" maxlength="50" path="usuariPersona.usuariPersonaID"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.USUARIPERSONAID)? 'readonly' : ''}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.USUARIPERSONAID)? ' uneditable-input' : ''}"  style="" maxlength="50" path="usuariPersona.usuariPersonaID"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -23,8 +23,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariPersonaFields.NOM)}">
         <tr id="usuariPersona_nom_rowid">
           <td id="usuariPersona_nom_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.NOM])?'usuariPersona.nom':__theForm.labels[UsuariPersonaFields.NOM]}" /> &nbsp;(*)
+            <label for="usuariPersona.nom">
+              <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.NOM])?'usuariPersona.nom':__theForm.labels[UsuariPersonaFields.NOM]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[UsuariPersonaFields.NOM]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariPersonaFields.NOM]}" ></i>
@@ -32,7 +32,7 @@
             </td>
           <td id="usuariPersona_nom_columnvalueid">
             <form:errors path="usuariPersona.nom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NOM)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="usuariPersona.nom"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NOM)? 'readonly' : ''}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="usuariPersona.nom"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -41,8 +41,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariPersonaFields.LLINATGES)}">
         <tr id="usuariPersona_llinatges_rowid">
           <td id="usuariPersona_llinatges_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.LLINATGES])?'usuariPersona.llinatges':__theForm.labels[UsuariPersonaFields.LLINATGES]}" /> &nbsp;(*)
+            <label for="usuariPersona.llinatges">
+              <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.LLINATGES])?'usuariPersona.llinatges':__theForm.labels[UsuariPersonaFields.LLINATGES]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[UsuariPersonaFields.LLINATGES]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariPersonaFields.LLINATGES]}" ></i>
@@ -50,7 +50,7 @@
             </td>
           <td id="usuariPersona_llinatges_columnvalueid">
             <form:errors path="usuariPersona.llinatges" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.LLINATGES)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.LLINATGES)? ' uneditable-input' : ''}"  style="" maxlength="100" path="usuariPersona.llinatges"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.LLINATGES)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.LLINATGES)? ' uneditable-input' : ''}"  style="" maxlength="100" path="usuariPersona.llinatges"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -59,8 +59,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariPersonaFields.EMAIL)}">
         <tr id="usuariPersona_email_rowid">
           <td id="usuariPersona_email_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.EMAIL])?'usuariPersona.email':__theForm.labels[UsuariPersonaFields.EMAIL]}" /> &nbsp;(*)
+            <label for="usuariPersona.email">
+              <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.EMAIL])?'usuariPersona.email':__theForm.labels[UsuariPersonaFields.EMAIL]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[UsuariPersonaFields.EMAIL]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariPersonaFields.EMAIL]}" ></i>
@@ -68,7 +68,7 @@
             </td>
           <td id="usuariPersona_email_columnvalueid">
             <form:errors path="usuariPersona.email" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.EMAIL)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.EMAIL)? ' uneditable-input' : ''}"  style="" maxlength="100" path="usuariPersona.email"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.EMAIL)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.EMAIL)? ' uneditable-input' : ''}"  style="" maxlength="100" path="usuariPersona.email"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -77,8 +77,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariPersonaFields.NIF)}">
         <tr id="usuariPersona_nif_rowid">
           <td id="usuariPersona_nif_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.NIF])?'usuariPersona.nif':__theForm.labels[UsuariPersonaFields.NIF]}" /> &nbsp;(*)
+            <label for="usuariPersona.nif">
+              <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.NIF])?'usuariPersona.nif':__theForm.labels[UsuariPersonaFields.NIF]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[UsuariPersonaFields.NIF]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariPersonaFields.NIF]}" ></i>
@@ -86,7 +86,7 @@
             </td>
           <td id="usuariPersona_nif_columnvalueid">
             <form:errors path="usuariPersona.nif" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NIF)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NIF)? ' uneditable-input' : ''}"  style="" maxlength="9" path="usuariPersona.nif"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NIF)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NIF)? ' uneditable-input' : ''}"  style="" maxlength="9" path="usuariPersona.nif"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -95,8 +95,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariPersonaFields.IDIOMAID)}">
         <tr id="usuariPersona_idiomaID_rowid">
           <td id="usuariPersona_idiomaID_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.IDIOMAID])?'usuariPersona.idiomaID':__theForm.labels[UsuariPersonaFields.IDIOMAID]}" /> &nbsp;(*)
+            <label for="usuariPersona.idiomaID">
+              <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.IDIOMAID])?'usuariPersona.idiomaID':__theForm.labels[UsuariPersonaFields.IDIOMAID]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[UsuariPersonaFields.IDIOMAID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariPersonaFields.IDIOMAID]}" ></i>
@@ -106,13 +106,16 @@
           <form:errors path="usuariPersona.idiomaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.IDIOMAID)}" >
           <form:hidden path="usuariPersona.idiomaID"/>
-          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.usuariPersona.idiomaID,__theForm.listOfIdiomaForIdiomaID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.usuariPersona.idiomaID,__theForm.listOfIdiomaForIdiomaID)}" aria-label="usuariPersona.idiomaID"   required aria-required="true"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.IDIOMAID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="usuariPersona_idiomaID"  onchange="if(typeof onChangeIdiomaID == 'function') {  onChangeIdiomaID(this); };"  cssClass="form-control col-md-9-optional" path="usuariPersona.idiomaID">
+          <form:select path="usuariPersona.idiomaID" cssClass="form-control col-md-9-optional"  required="required"  aria-required="true"  onchange="if(typeof onChangeIdiomaID == 'function') {  onChangeIdiomaID(this); };">
+
+
             <c:forEach items="${__theForm.listOfIdiomaForIdiomaID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
+
                 <c:if test="${empty tmp.key}">
                   <c:set var="containEmptyValue"  value="true" />
                 </c:if>
@@ -126,7 +129,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariPersonaFields.RUBRICAID)}">
         <tr id="usuariPersona_rubricaID_rowid">
           <td id="usuariPersona_rubricaID_columnlabelid">
-            <label>
+            <label for="usuariPersona.rubricaID">
               <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.RUBRICAID])?'usuariPersona.rubricaID':__theForm.labels[UsuariPersonaFields.RUBRICAID]}" />
              </label>
               <c:if test="${not empty __theForm.help[UsuariPersonaFields.RUBRICAID]}">
@@ -141,20 +144,25 @@
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.RUBRICAID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
                 <div class="custom-file">
-                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.RUBRICAID)? 'true' : 'false'}" cssClass="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.RUBRICAID)? ' uneditable-input' : ''}"   path="rubricaID" type="file" />
-                  <label class="custom-file-label" for="rubricaID">
-                  </label>
+                  <input id="usuariPersona.rubricaID" name="rubricaID" class="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.RUBRICAID)? ' uneditable-input' : ''}"  type="file"  />
+                  <span id="rubricaID-custom-file-label2" class="custom-file-label" >
+                    <c:if test="${ empty __theForm.usuariPersona.rubrica}">
+                    <fmt:message key="genapp.form.file.select"/>
+                    </c:if>
+                  </span>
                 </div>
                 <c:choose>
                 <c:when test="${not empty __theForm.usuariPersona.rubrica}">
-                <div class="input-group-append">
-                  <span class="input-group-text" id="">
+                <div class="input-group-append input-group-append-file">
+                  <span class="input-group-text" id="rubricaID-custom-file-label">
                   <small>              <a target="_blank" href="<c:url value="${pfi:fileUrl(__theForm.usuariPersona.rubrica)}"/>">${__theForm.usuariPersona.rubrica.nom}</a>
 </small>
                   </span>
-                  <span class="input-group-text" id="">
-                        <form:checkbox path="rubricaIDDelete"/>
-                        <small><fmt:message key="genapp.form.file.delete"/></small>
+                  <span class="input-group-text" >
+                        <form:checkbox id="rubricaIDDelete" path="rubricaIDDelete"/>
+                        <label style="margin-bottom:0px" for="rubricaIDDelete">
+                        <small style="color:#000">&nbsp;<fmt:message key="genapp.form.file.delete"/></small>
+                        </label>
                   </span>
                 </div>
                 </c:when>
@@ -164,15 +172,17 @@
                   <small></small>
                   </span>
                 </div>
-                <script type="text/javascript">
-					$('#rubricaID').on('change', function(){
-						var ruta = $('#rubricaID').val(); 
+                </c:otherwise>
+                </c:choose>
+                <script>
+					$('#usuariPersona\\.rubricaID').on('change', function(){
+						var ruta = $('#usuariPersona\\.rubricaID').val(); 
 						var rutaArray = ruta.split('\\');
 						$('#rubricaID-custom-file-label').css('display','block');
 						$('#rubricaID-custom-file-label small').html(rutaArray[rutaArray.length - 1]);
-					});
-				</script>                </c:otherwise>
-                </c:choose>
+                       $('#rubricaID-custom-file-label2').html(rutaArray[rutaArray.length - 1]);
+                   });
+				</script>
               </div>
             </c:if>
            </td>
@@ -182,7 +192,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariPersonaFields.USUARIINTERN)}">
         <tr id="usuariPersona_usuariIntern_rowid">
           <td id="usuariPersona_usuariIntern_columnlabelid">
-            <label>
+            <label for="usuariPersona.usuariIntern">
               <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.USUARIINTERN])?'usuariPersona.usuariIntern':__theForm.labels[UsuariPersonaFields.USUARIINTERN]}" />
              </label>
               <c:if test="${not empty __theForm.help[UsuariPersonaFields.USUARIINTERN]}">
@@ -191,8 +201,11 @@
             </td>
           <td id="usuariPersona_usuariIntern_columnvalueid">
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.USUARIINTERN)}" >
-              <form:errors path="usuariPersona.usuariIntern" cssClass="errorField alert alert-danger" />
-              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.USUARIINTERN)? 'false' : 'true'}" path="usuariPersona.usuariIntern" />
+              <form:errors  path="usuariPersona.usuariIntern" cssClass="errorField alert alert-danger" />
+<fieldset>
+<legend class="sr-only">Evitar errors d'Accessibilitat</legend>
+              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.USUARIINTERN)? 'false' : 'true'}" id="usuariPersona.usuariIntern" path="usuariPersona.usuariIntern"   />
+</fieldset>
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.USUARIINTERN)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.usuariPersona.usuariIntern}" />
@@ -204,7 +217,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariPersonaFields.CONTRASENYA)}">
         <tr id="usuariPersona_contrasenya_rowid">
           <td id="usuariPersona_contrasenya_columnlabelid">
-            <label>
+            <label for="usuariPersona.contrasenya">
               <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.CONTRASENYA])?'usuariPersona.contrasenya':__theForm.labels[UsuariPersonaFields.CONTRASENYA]}" />
              </label>
               <c:if test="${not empty __theForm.help[UsuariPersonaFields.CONTRASENYA]}">
@@ -213,7 +226,7 @@
             </td>
           <td id="usuariPersona_contrasenya_columnvalueid">
             <form:errors path="usuariPersona.contrasenya" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.CONTRASENYA)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.CONTRASENYA)? ' uneditable-input' : ''}"  style="" maxlength="255" path="usuariPersona.contrasenya"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.CONTRASENYA)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.CONTRASENYA)? ' uneditable-input' : ''}"  style="" maxlength="255" path="usuariPersona.contrasenya"   />
 
            </td>
         </tr>

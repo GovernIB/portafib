@@ -25,37 +25,52 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PlantillaFluxDeFirmesFields.FLUXDEFIRMESID)}">
-          <td>
+        <td>
           <c:set var="tmp">${plantillaFluxDeFirmes.fluxDeFirmesID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfFluxDeFirmesForFluxDeFirmesID[tmp]}
           </c:if>
+             <c:if test="${empty plantillaFluxDeFirmes.fluxDeFirmesID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PlantillaFluxDeFirmesFields.DESCRIPCIO)}">
-          <td>
+        <td>
           ${plantillaFluxDeFirmes.descripcio}
+             <c:if test="${empty plantillaFluxDeFirmes.descripcio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PlantillaFluxDeFirmesFields.USUARIENTITATID)}">
-          <td>
+        <td>
           <c:set var="tmp">${plantillaFluxDeFirmes.usuariEntitatID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariEntitatForUsuariEntitatID[tmp]}
           </c:if>
+             <c:if test="${empty plantillaFluxDeFirmes.usuariEntitatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PlantillaFluxDeFirmesFields.USUARIAPLICACIOID)}">
-          <td>
+        <td>
           <c:set var="tmp">${plantillaFluxDeFirmes.usuariAplicacioID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariAplicacioForUsuariAplicacioID[tmp]}
           </c:if>
+             <c:if test="${empty plantillaFluxDeFirmes.usuariAplicacioID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PlantillaFluxDeFirmesFields.COMPARTIR)}">
-          <td>
-            <fmt:message key="compartirplantilla.${plantillaFluxDeFirmes.compartir}" />          </td>
+        <td>
+            <fmt:message key="compartirplantilla.${plantillaFluxDeFirmes.compartir}" />             <c:if test="${empty plantillaFluxDeFirmes.compartir}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
 
 

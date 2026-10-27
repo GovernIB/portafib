@@ -12,9 +12,9 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 <sec:authorize access="hasRole('ROLE_DEST')">
     <div>
-        <h5>
+        <span style="font-size: 1.25rem">
             <fmt:message key="ROLE_DEST.menu" />
-        </h5>
+        </span>
         <%
 
         List<List<MenuItem>> menus = new ArrayList<List<MenuItem>>();

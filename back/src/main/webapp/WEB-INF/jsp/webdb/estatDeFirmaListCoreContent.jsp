@@ -25,59 +25,90 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstatDeFirmaFields.ESTATDEFIRMAID)}">
-          <td>
+        <td>
           ${estatDeFirma.estatDeFirmaID}
+             <c:if test="${empty estatDeFirma.estatDeFirmaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstatDeFirmaFields.FIRMAID)}">
-          <td>
+        <td>
           <c:set var="tmp">${estatDeFirma.firmaID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfFirmaForFirmaID[tmp]}
           </c:if>
+             <c:if test="${empty estatDeFirma.firmaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstatDeFirmaFields.USUARIENTITATID)}">
-          <td>
+        <td>
           <c:set var="tmp">${estatDeFirma.usuariEntitatID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariEntitatForUsuariEntitatID[tmp]}
           </c:if>
+             <c:if test="${empty estatDeFirma.usuariEntitatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstatDeFirmaFields.DATAINICI)}">
-          <td> <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${estatDeFirma.dataInici}" /></td>
+        <td>
+          <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${estatDeFirma.dataInici}" />
+             <c:if test="${empty estatDeFirma.dataInici}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstatDeFirmaFields.DATAFI)}">
-          <td> <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${estatDeFirma.dataFi}" /></td>
+        <td>
+          <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${estatDeFirma.dataFi}" />
+             <c:if test="${empty estatDeFirma.dataFi}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID)}">
-          <td>
+        <td>
           <c:set var="tmp">${estatDeFirma.tipusEstatDeFirmaInicialID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForTipusEstatDeFirmaInicialID[tmp]}
           </c:if>
+             <c:if test="${empty estatDeFirma.tipusEstatDeFirmaInicialID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID)}">
-          <td>
+        <td>
           <c:set var="tmp">${estatDeFirma.tipusEstatDeFirmaFinalID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForTipusEstatDeFirmaFinalID[tmp]}
           </c:if>
+             <c:if test="${empty estatDeFirma.tipusEstatDeFirmaFinalID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstatDeFirmaFields.COLABORACIODELEGACIOID)}">
-          <td>
+        <td>
           <c:set var="tmp">${estatDeFirma.colaboracioDelegacioID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfColaboracioDelegacioForColaboracioDelegacioID[tmp]}
           </c:if>
+             <c:if test="${empty estatDeFirma.colaboracioDelegacioID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstatDeFirmaFields.DESCRIPCIO)}">
-          <td>
+        <td>
           ${estatDeFirma.descripcio}
+             <c:if test="${empty estatDeFirma.descripcio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

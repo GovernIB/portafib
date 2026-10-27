@@ -25,29 +25,41 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ModulDeFirmaPerTipusDeDocumentFields.ID)}">
-          <td>
+        <td>
           ${modulDeFirmaPerTipusDeDocument.ID}
+             <c:if test="${empty modulDeFirmaPerTipusDeDocument.ID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ModulDeFirmaPerTipusDeDocumentFields.NOM)}">
-          <td>
+        <td>
           ${modulDeFirmaPerTipusDeDocument.nom}
+             <c:if test="${empty modulDeFirmaPerTipusDeDocument.nom}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ModulDeFirmaPerTipusDeDocumentFields.TIPUSDOCUMENTID)}">
-          <td>
+        <td>
           <c:set var="tmp">${modulDeFirmaPerTipusDeDocument.tipusDocumentID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfTipusDocumentForTipusDocumentID[tmp]}
           </c:if>
+             <c:if test="${empty modulDeFirmaPerTipusDeDocument.tipusDocumentID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ModulDeFirmaPerTipusDeDocumentFields.PLUGINID)}">
-          <td>
+        <td>
           <c:set var="tmp">${modulDeFirmaPerTipusDeDocument.pluginID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfPluginForPluginID[tmp]}
           </c:if>
+             <c:if test="${empty modulDeFirmaPerTipusDeDocument.pluginID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

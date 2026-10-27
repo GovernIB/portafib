@@ -3,8 +3,8 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
 
-<form:form modelAttribute="metadadaForm" method="${(empty method)?'post':method}"
-  enctype="multipart/form-data">
+<form:form modelAttribute="metadadaForm" method="${(empty method)?'post':method}" 
+ enctype="multipart/form-data">
   
   <%@include file="metadadaFormTitle.jsp" %>
  

@@ -25,57 +25,96 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.NOTIFICACIOID)}">
-          <td>
+        <td>
           ${notificacioWS.notificacioID}
+             <c:if test="${empty notificacioWS.notificacioID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.PETICIODEFIRMAID)}">
-          <td>
+        <td>
           ${notificacioWS.peticioDeFirmaID}
+             <c:if test="${empty notificacioWS.peticioDeFirmaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.TIPUSNOTIFICACIOID)}">
-          <td>
+        <td>
           <c:set var="tmp">${notificacioWS.tipusNotificacioID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfTipusNotificacioForTipusNotificacioID[tmp]}
           </c:if>
+             <c:if test="${empty notificacioWS.tipusNotificacioID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.DATACREACIO)}">
-          <td> <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${notificacioWS.dataCreacio}" /></td>
+        <td>
+          <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${notificacioWS.dataCreacio}" />
+             <c:if test="${empty notificacioWS.dataCreacio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.DATAENVIAMENT)}">
-          <td> <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${notificacioWS.dataEnviament}" /></td>
+        <td>
+          <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${notificacioWS.dataEnviament}" />
+             <c:if test="${empty notificacioWS.dataEnviament}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.DESCRIPCIO)}">
-          <td>
+        <td>
           ${notificacioWS.descripcio}
+             <c:if test="${empty notificacioWS.descripcio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.BLOQUEJADA)}">
-          <td>
+        <td>
             &nbsp;<c:if test="${not empty notificacioWS.bloquejada}">
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${notificacioWS.bloquejada?'success':'error'}.png"/>">
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${notificacioWS.bloquejada?'success':'error'}.png"/>" alt="${notificacioWS.bloquejada}" >
             </c:if>
+             <c:if test="${empty notificacioWS.bloquejada}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.ERROR)}">
-          <td>
+        <td>
           ${notificacioWS.error}
+             <c:if test="${empty notificacioWS.error}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.DATAERROR)}">
-          <td> <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${notificacioWS.dataError}" /></td>
+        <td>
+          <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${notificacioWS.dataError}" />
+             <c:if test="${empty notificacioWS.dataError}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.REINTENTS)}">
-          <td>
+        <td>
           ${notificacioWS.reintents}
+             <c:if test="${empty notificacioWS.reintents}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,NotificacioWSFields.USUARIAPLICACIOID)}">
-          <td>
+        <td>
           ${notificacioWS.usuariAplicacioID}
+             <c:if test="${empty notificacioWS.usuariAplicacioID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

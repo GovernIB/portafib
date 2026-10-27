@@ -25,24 +25,33 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,GrupEntitatUsuariEntitatFields.GRUPENTITATUSUARIENTITATID)}">
-          <td>
+        <td>
           ${grupEntitatUsuariEntitat.grupEntitatUsuariEntitatID}
+             <c:if test="${empty grupEntitatUsuariEntitat.grupEntitatUsuariEntitatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,GrupEntitatUsuariEntitatFields.USUARIENTITATID)}">
-          <td>
+        <td>
           <c:set var="tmp">${grupEntitatUsuariEntitat.usuariEntitatID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariEntitatForUsuariEntitatID[tmp]}
           </c:if>
+             <c:if test="${empty grupEntitatUsuariEntitat.usuariEntitatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,GrupEntitatUsuariEntitatFields.GRUPENTITATID)}">
-          <td>
+        <td>
           <c:set var="tmp">${grupEntitatUsuariEntitat.grupEntitatID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfGrupEntitatForGrupEntitatID[tmp]}
           </c:if>
+             <c:if test="${empty grupEntitatUsuariEntitat.grupEntitatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

@@ -25,175 +25,258 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CUSTODIAINFOID)}">
-          <td>
+        <td>
           ${custodiaInfo.custodiaInfoID}
+             <c:if test="${empty custodiaInfo.custodiaInfoID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.NOMPLANTILLA)}">
-          <td>
+        <td>
           ${custodiaInfo.nomPlantilla}
+             <c:if test="${empty custodiaInfo.nomPlantilla}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CUSTODIADOCUMENTID)}">
-          <td>
+        <td>
           ${custodiaInfo.custodiaDocumentID}
+             <c:if test="${empty custodiaInfo.custodiaDocumentID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.PLUGINID)}">
-          <td>
+        <td>
           <c:set var="tmp">${custodiaInfo.pluginID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfPluginForPluginID[tmp]}
           </c:if>
+             <c:if test="${empty custodiaInfo.pluginID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS)}">
-          <td>
+        <td>
           ${custodiaInfo.custodiaPluginParameters}
+             <c:if test="${empty custodiaInfo.custodiaPluginParameters}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CUSTODIAR)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${custodiaInfo.custodiar?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${custodiaInfo.custodiar?'success':'error'}.png"/>" alt="${custodiaInfo.custodiar}" >
+             <c:if test="${empty custodiaInfo.custodiar}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.PAGINES)}">
-          <td>
+        <td>
           ${custodiaInfo.pagines}
+             <c:if test="${empty custodiaInfo.pagines}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.MISSATGE)}">
-          <td>
+        <td>
           ${custodiaInfo.missatge}
+             <c:if test="${empty custodiaInfo.missatge}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.MISSATGEPOSICIOPAGINAID)}">
-          <td>
+        <td>
           <c:set var="tmp">${custodiaInfo.missatgePosicioPaginaID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForMissatgePosicioPaginaID[tmp]}
           </c:if>
+             <c:if test="${empty custodiaInfo.missatgePosicioPaginaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CODIBARRESID)}">
-          <td>
+        <td>
           <c:set var="tmp">${custodiaInfo.codiBarresID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfCodiBarresForCodiBarresID[tmp]}
           </c:if>
+             <c:if test="${empty custodiaInfo.codiBarresID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CODIBARRESPOSICIOPAGINAID)}">
-          <td>
+        <td>
           <c:set var="tmp">${custodiaInfo.codiBarresPosicioPaginaID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForCodiBarresPosicioPaginaID[tmp]}
           </c:if>
+             <c:if test="${empty custodiaInfo.codiBarresPosicioPaginaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CODIBARRESTEXT)}">
-          <td>
+        <td>
           ${custodiaInfo.codiBarresText}
+             <c:if test="${empty custodiaInfo.codiBarresText}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.USUARIENTITATID)}">
-          <td>
+        <td>
           <c:set var="tmp">${custodiaInfo.usuariEntitatID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariEntitatForUsuariEntitatID[tmp]}
           </c:if>
+             <c:if test="${empty custodiaInfo.usuariEntitatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.USUARIAPLICACIOID)}">
-          <td>
+        <td>
           <c:set var="tmp">${custodiaInfo.usuariAplicacioID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariAplicacioForUsuariAplicacioID[tmp]}
           </c:if>
+             <c:if test="${empty custodiaInfo.usuariAplicacioID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.ENTITATID)}">
-          <td>
+        <td>
           <c:set var="tmp">${custodiaInfo.entitatID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfEntitatForEntitatID[tmp]}
           </c:if>
+             <c:if test="${empty custodiaInfo.entitatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.TITOLPETICIO)}">
-          <td>
+        <td>
           ${custodiaInfo.titolPeticio}
+             <c:if test="${empty custodiaInfo.titolPeticio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.DATACUSTODIA)}">
-          <td> <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${custodiaInfo.dataCustodia}" /></td>
+        <td>
+          <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${custodiaInfo.dataCustodia}" />
+             <c:if test="${empty custodiaInfo.dataCustodia}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.EDITABLE)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${custodiaInfo.editable?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${custodiaInfo.editable?'success':'error'}.png"/>" alt="${custodiaInfo.editable}" >
+             <c:if test="${empty custodiaInfo.editable}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CSV)}">
-          <td>
+        <td>
           ${custodiaInfo.csv}
+             <c:if test="${empty custodiaInfo.csv}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CSVVALIDATIONWEB)}">
-          <td>
+        <td>
                        <c:if test="${ not empty custodiaInfo.csvValidationWeb}">
                <a href="${custodiaInfo.csvValidationWeb}" target="_blank">${custodiaInfo.csvValidationWeb}</a>
              </c:if>
 
+             <c:if test="${empty custodiaInfo.csvValidationWeb}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CSVGENERATIONDEFINITION)}">
-          <td>
+        <td>
                        <c:if test="${ not empty custodiaInfo.csvGenerationDefinition}">
                <a href="${custodiaInfo.csvGenerationDefinition}" target="_blank">${custodiaInfo.csvGenerationDefinition}</a>
              </c:if>
 
+             <c:if test="${empty custodiaInfo.csvGenerationDefinition}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.URLFITXERCUSTODIAT)}">
-          <td>
+        <td>
                        <c:if test="${ not empty custodiaInfo.urlFitxerCustodiat}">
                <a href="${custodiaInfo.urlFitxerCustodiat}" target="_blank">${custodiaInfo.urlFitxerCustodiat}</a>
              </c:if>
 
+             <c:if test="${empty custodiaInfo.urlFitxerCustodiat}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.ORIGINALFILEDIRECTURL)}">
-          <td>
+        <td>
                        <c:if test="${ not empty custodiaInfo.originalFileDirectUrl}">
                <a href="${custodiaInfo.originalFileDirectUrl}" target="_blank">${custodiaInfo.originalFileDirectUrl}</a>
              </c:if>
 
+             <c:if test="${empty custodiaInfo.originalFileDirectUrl}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)}">
-          <td>
+        <td>
                        <c:if test="${ not empty custodiaInfo.printableFileDirectUrl}">
                <a href="${custodiaInfo.printableFileDirectUrl}" target="_blank">${custodiaInfo.printableFileDirectUrl}</a>
              </c:if>
 
+             <c:if test="${empty custodiaInfo.printableFileDirectUrl}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.ENIFILEDIRECTURL)}">
-          <td>
+        <td>
                        <c:if test="${ not empty custodiaInfo.eniFileDirectUrl}">
                <a href="${custodiaInfo.eniFileDirectUrl}" target="_blank">${custodiaInfo.eniFileDirectUrl}</a>
              </c:if>
 
+             <c:if test="${empty custodiaInfo.eniFileDirectUrl}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.EXPEDIENTARXIUID)}">
-          <td>
+        <td>
           ${custodiaInfo.expedientArxiuId}
+             <c:if test="${empty custodiaInfo.expedientArxiuId}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.DOCUMENTARXIUID)}">
-          <td>
+        <td>
           ${custodiaInfo.documentArxiuId}
+             <c:if test="${empty custodiaInfo.documentArxiuId}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

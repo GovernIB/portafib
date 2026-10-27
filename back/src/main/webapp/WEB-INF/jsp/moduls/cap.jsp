@@ -34,13 +34,12 @@
 					<a href="<c:out value="${loginInfo.entitat.web}" />"
 						target="_blank"> <img
 						src="<c:url value="${pfi:fileUrlPublic(loginInfo.entitat.logoWeb)}"/>"
-						title="${loginInfo.entitat.nom}" alt="${loginInfo.entitat.nom}" />
+						alt="${loginInfo.entitat.nom}" />
 					</a>
 				</div>
 			</c:if>
 			<div class="logoGovern">
-				<img src="<c:url value="/img/app-logo-header.png"/>" alt="PortaFIB"
-					title="PortaFIB" />
+				<img src="<c:url value="/img/app-logo-header.png"/>" alt="PortaFIB" />
 			</div>
 			<c:if test="${isMobile}">
 				<div class="clearfix"></div>

@@ -25,68 +25,108 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.COLABORACIODELEGACIOID)}">
-          <td>
+        <td>
           ${colaboracioDelegacio.colaboracioDelegacioID}
+             <c:if test="${empty colaboracioDelegacio.colaboracioDelegacioID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.DESTINATARIID)}">
-          <td>
+        <td>
           <c:set var="tmp">${colaboracioDelegacio.destinatariID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariEntitatForDestinatariID[tmp]}
           </c:if>
+             <c:if test="${empty colaboracioDelegacio.destinatariID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.COLABORADORDELEGATID)}">
-          <td>
+        <td>
           <c:set var="tmp">${colaboracioDelegacio.colaboradorDelegatID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariEntitatForColaboradorDelegatID[tmp]}
           </c:if>
+             <c:if test="${empty colaboracioDelegacio.colaboradorDelegatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.ESDELEGAT)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${colaboracioDelegacio.esDelegat?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${colaboracioDelegacio.esDelegat?'success':'error'}.png"/>" alt="${colaboracioDelegacio.esDelegat}" >
+             <c:if test="${empty colaboracioDelegacio.esDelegat}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.MOTIU)}">
-          <td>
+        <td>
           ${colaboracioDelegacio.motiu}
+             <c:if test="${empty colaboracioDelegacio.motiu}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.DESCRIPCIO)}">
-          <td>
+        <td>
           ${colaboracioDelegacio.descripcio}
+             <c:if test="${empty colaboracioDelegacio.descripcio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.DATAINICI)}">
-          <td> <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${colaboracioDelegacio.dataInici}" /></td>
+        <td>
+          <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${colaboracioDelegacio.dataInici}" />
+             <c:if test="${empty colaboracioDelegacio.dataInici}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.DATAFI)}">
-          <td> <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${colaboracioDelegacio.dataFi}" /></td>
+        <td>
+          <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${colaboracioDelegacio.dataFi}" />
+             <c:if test="${empty colaboracioDelegacio.dataFi}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.ACTIVA)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${colaboracioDelegacio.activa?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${colaboracioDelegacio.activa?'success':'error'}.png"/>" alt="${colaboracioDelegacio.activa}" >
+             <c:if test="${empty colaboracioDelegacio.activa}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.REVISOR)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${colaboracioDelegacio.revisor?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${colaboracioDelegacio.revisor?'success':'error'}.png"/>" alt="${colaboracioDelegacio.revisor}" >
+             <c:if test="${empty colaboracioDelegacio.revisor}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.MOTIUDESHABILITADA)}">
-          <td>
+        <td>
           ${colaboracioDelegacio.motiuDeshabilitada}
+             <c:if test="${empty colaboracioDelegacio.motiuDeshabilitada}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.FITXERAUTORITZACIOID)}">
-          <td>
+        <td>
             <c:if test="${not empty colaboracioDelegacio.fitxerAutoritzacio}">
               <a target="_blank" href="<c:url value="${pfi:fileUrl(colaboracioDelegacio.fitxerAutoritzacio)}"/>">${colaboracioDelegacio.fitxerAutoritzacio.nom}</a>
             </c:if>
-           </td>
+             <c:if test="${empty colaboracioDelegacio.fitxerAutoritzacio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
 
 

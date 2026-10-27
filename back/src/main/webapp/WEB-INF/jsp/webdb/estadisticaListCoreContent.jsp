@@ -25,47 +25,73 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.ESTADISTICAID)}">
-          <td>
+        <td>
           ${estadistica.estadisticaID}
+             <c:if test="${empty estadistica.estadisticaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.DATA)}">
-          <td> <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${estadistica.data}" /></td>
+        <td>
+          <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${estadistica.data}" />
+             <c:if test="${empty estadistica.data}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.TIPUS)}">
-          <td>
+        <td>
           <c:set var="tmp">${estadistica.tipus}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForTipus[tmp]}
           </c:if>
+             <c:if test="${empty estadistica.tipus}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.ENTITATID)}">
-          <td>
+        <td>
           <c:set var="tmp">${estadistica.entitatID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfEntitatForEntitatID[tmp]}
           </c:if>
+             <c:if test="${empty estadistica.entitatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.VALOR)}">
-          <td>
+        <td>
           ${estadistica.valor}
+             <c:if test="${empty estadistica.valor}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.USUARIAPLICACIOID)}">
-          <td>
+        <td>
           ${estadistica.usuariAplicacioID}
+             <c:if test="${empty estadistica.usuariAplicacioID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.USUARIENTITATID)}">
-          <td>
+        <td>
           ${estadistica.usuariEntitatID}
+             <c:if test="${empty estadistica.usuariEntitatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.PARAMETRES)}">
-          <td>
+        <td>
           ${estadistica.parametres}
+             <c:if test="${empty estadistica.parametres}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

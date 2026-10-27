@@ -5,8 +5,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.DESTINATARIID)}">
         <tr id="firma_destinatariID_rowid">
           <td id="firma_destinatariID_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[FirmaFields.DESTINATARIID])?'firma.destinatariID':__theForm.labels[FirmaFields.DESTINATARIID]}" /> &nbsp;(*)
+            <label for="firma.destinatariID">
+              <fmt:message key="${(empty __theForm.labels[FirmaFields.DESTINATARIID])?'firma.destinatariID':__theForm.labels[FirmaFields.DESTINATARIID]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.DESTINATARIID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[FirmaFields.DESTINATARIID]}" ></i>
@@ -16,13 +16,16 @@
           <form:errors path="firma.destinatariID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,FirmaFields.DESTINATARIID)}" >
           <form:hidden path="firma.destinatariID"/>
-          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.firma.destinatariID,__theForm.listOfUsuariEntitatForDestinatariID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.firma.destinatariID,__theForm.listOfUsuariEntitatForDestinatariID)}" aria-label="firma.destinatariID"   required aria-required="true"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,FirmaFields.DESTINATARIID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="firma_destinatariID"  onchange="if(typeof onChangeDestinatariID == 'function') {  onChangeDestinatariID(this); };"  cssClass="form-control col-md-9-optional" path="firma.destinatariID">
+          <form:select path="firma.destinatariID" cssClass="form-control col-md-9-optional"  required="required"  aria-required="true"  onchange="if(typeof onChangeDestinatariID == 'function') {  onChangeDestinatariID(this); };">
+
+
             <c:forEach items="${__theForm.listOfUsuariEntitatForDestinatariID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
+
                 <c:if test="${empty tmp.key}">
                   <c:set var="containEmptyValue"  value="true" />
                 </c:if>
@@ -36,8 +39,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.BLOCDEFIRMAID)}">
         <tr id="firma_blocDeFirmaID_rowid">
           <td id="firma_blocDeFirmaID_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[FirmaFields.BLOCDEFIRMAID])?'firma.blocDeFirmaID':__theForm.labels[FirmaFields.BLOCDEFIRMAID]}" /> &nbsp;(*)
+            <label for="firma.blocDeFirmaID">
+              <fmt:message key="${(empty __theForm.labels[FirmaFields.BLOCDEFIRMAID])?'firma.blocDeFirmaID':__theForm.labels[FirmaFields.BLOCDEFIRMAID]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.BLOCDEFIRMAID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[FirmaFields.BLOCDEFIRMAID]}" ></i>
@@ -47,13 +50,16 @@
           <form:errors path="firma.blocDeFirmaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,FirmaFields.BLOCDEFIRMAID)}" >
           <form:hidden path="firma.blocDeFirmaID"/>
-          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.firma.blocDeFirmaID,__theForm.listOfBlocDeFirmesForBlocDeFirmaID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.firma.blocDeFirmaID,__theForm.listOfBlocDeFirmesForBlocDeFirmaID)}" aria-label="firma.blocDeFirmaID"   required aria-required="true"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,FirmaFields.BLOCDEFIRMAID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="firma_blocDeFirmaID"  onchange="if(typeof onChangeBlocDeFirmaID == 'function') {  onChangeBlocDeFirmaID(this); };"  cssClass="form-control col-md-9-optional" path="firma.blocDeFirmaID">
+          <form:select path="firma.blocDeFirmaID" cssClass="form-control col-md-9-optional"  required="required"  aria-required="true"  onchange="if(typeof onChangeBlocDeFirmaID == 'function') {  onChangeBlocDeFirmaID(this); };">
+
+
             <c:forEach items="${__theForm.listOfBlocDeFirmesForBlocDeFirmaID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
+
                 <c:if test="${empty tmp.key}">
                   <c:set var="containEmptyValue"  value="true" />
                 </c:if>
@@ -67,7 +73,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.OBLIGATORI)}">
         <tr id="firma_obligatori_rowid">
           <td id="firma_obligatori_columnlabelid">
-            <label>
+            <label for="firma.obligatori">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.OBLIGATORI])?'firma.obligatori':__theForm.labels[FirmaFields.OBLIGATORI]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.OBLIGATORI]}">
@@ -76,8 +82,11 @@
             </td>
           <td id="firma_obligatori_columnvalueid">
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,FirmaFields.OBLIGATORI)}" >
-              <form:errors path="firma.obligatori" cssClass="errorField alert alert-danger" />
-              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,FirmaFields.OBLIGATORI)? 'false' : 'true'}" path="firma.obligatori" />
+              <form:errors  path="firma.obligatori" cssClass="errorField alert alert-danger" />
+<fieldset>
+<legend class="sr-only">Evitar errors d'Accessibilitat</legend>
+              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,FirmaFields.OBLIGATORI)? 'false' : 'true'}" id="firma.obligatori" path="firma.obligatori"   />
+</fieldset>
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,FirmaFields.OBLIGATORI)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.firma.obligatori}" />
@@ -89,7 +98,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.FITXERFIRMATID)}">
         <tr id="firma_fitxerFirmatID_rowid">
           <td id="firma_fitxerFirmatID_columnlabelid">
-            <label>
+            <label for="firma.fitxerFirmatID">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.FITXERFIRMATID])?'firma.fitxerFirmatID':__theForm.labels[FirmaFields.FITXERFIRMATID]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.FITXERFIRMATID]}">
@@ -104,20 +113,25 @@
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,FirmaFields.FITXERFIRMATID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
                 <div class="custom-file">
-                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.FITXERFIRMATID)? 'true' : 'false'}" cssClass="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.FITXERFIRMATID)? ' uneditable-input' : ''}"   path="fitxerFirmatID" type="file" />
-                  <label class="custom-file-label" for="fitxerFirmatID">
-                  </label>
+                  <input id="firma.fitxerFirmatID" name="fitxerFirmatID" class="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.FITXERFIRMATID)? ' uneditable-input' : ''}"  type="file"  />
+                  <span id="fitxerFirmatID-custom-file-label2" class="custom-file-label" >
+                    <c:if test="${ empty __theForm.firma.fitxerFirmat}">
+                    <fmt:message key="genapp.form.file.select"/>
+                    </c:if>
+                  </span>
                 </div>
                 <c:choose>
                 <c:when test="${not empty __theForm.firma.fitxerFirmat}">
-                <div class="input-group-append">
-                  <span class="input-group-text" id="">
+                <div class="input-group-append input-group-append-file">
+                  <span class="input-group-text" id="fitxerFirmatID-custom-file-label">
                   <small>              <a target="_blank" href="<c:url value="${pfi:fileUrl(__theForm.firma.fitxerFirmat)}"/>">${__theForm.firma.fitxerFirmat.nom}</a>
 </small>
                   </span>
-                  <span class="input-group-text" id="">
-                        <form:checkbox path="fitxerFirmatIDDelete"/>
-                        <small><fmt:message key="genapp.form.file.delete"/></small>
+                  <span class="input-group-text" >
+                        <form:checkbox id="fitxerFirmatIDDelete" path="fitxerFirmatIDDelete"/>
+                        <label style="margin-bottom:0px" for="fitxerFirmatIDDelete">
+                        <small style="color:#000">&nbsp;<fmt:message key="genapp.form.file.delete"/></small>
+                        </label>
                   </span>
                 </div>
                 </c:when>
@@ -127,15 +141,17 @@
                   <small></small>
                   </span>
                 </div>
-                <script type="text/javascript">
-					$('#fitxerFirmatID').on('change', function(){
-						var ruta = $('#fitxerFirmatID').val(); 
+                </c:otherwise>
+                </c:choose>
+                <script>
+					$('#firma\\.fitxerFirmatID').on('change', function(){
+						var ruta = $('#firma\\.fitxerFirmatID').val(); 
 						var rutaArray = ruta.split('\\');
 						$('#fitxerFirmatID-custom-file-label').css('display','block');
 						$('#fitxerFirmatID-custom-file-label small').html(rutaArray[rutaArray.length - 1]);
-					});
-				</script>                </c:otherwise>
-                </c:choose>
+                       $('#fitxerFirmatID-custom-file-label2').html(rutaArray[rutaArray.length - 1]);
+                   });
+				</script>
               </div>
             </c:if>
            </td>
@@ -145,7 +161,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.NUMFIRMADOCUMENT)}">
         <tr id="firma_numFirmaDocument_rowid">
           <td id="firma_numFirmaDocument_columnlabelid">
-            <label>
+            <label for="firma.numFirmaDocument">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.NUMFIRMADOCUMENT])?'firma.numFirmaDocument':__theForm.labels[FirmaFields.NUMFIRMADOCUMENT]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.NUMFIRMADOCUMENT]}">
@@ -154,7 +170,7 @@
             </td>
           <td id="firma_numFirmaDocument_columnvalueid">
             <form:errors path="firma.numFirmaDocument" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMFIRMADOCUMENT)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMFIRMADOCUMENT)? ' uneditable-input' : ''}"  style=""  path="firma.numFirmaDocument"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMFIRMADOCUMENT)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMFIRMADOCUMENT)? ' uneditable-input' : ''}"  style=""  path="firma.numFirmaDocument"   />
 
            </td>
         </tr>
@@ -163,8 +179,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.CAIXAPAGINA)}">
         <tr id="firma_caixaPagina_rowid">
           <td id="firma_caixaPagina_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[FirmaFields.CAIXAPAGINA])?'firma.caixaPagina':__theForm.labels[FirmaFields.CAIXAPAGINA]}" /> &nbsp;(*)
+            <label for="firma.caixaPagina">
+              <fmt:message key="${(empty __theForm.labels[FirmaFields.CAIXAPAGINA])?'firma.caixaPagina':__theForm.labels[FirmaFields.CAIXAPAGINA]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.CAIXAPAGINA]}">
               <i class="fas fa-info-circle" title="${__theForm.help[FirmaFields.CAIXAPAGINA]}" ></i>
@@ -172,7 +188,7 @@
             </td>
           <td id="firma_caixaPagina_columnvalueid">
             <form:errors path="firma.caixaPagina" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAPAGINA)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAPAGINA)? ' uneditable-input' : ''}"  style=""  path="firma.caixaPagina"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAPAGINA)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAPAGINA)? ' uneditable-input' : ''}"  style=""  path="firma.caixaPagina"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -181,7 +197,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.CAIXAX)}">
         <tr id="firma_caixaX_rowid">
           <td id="firma_caixaX_columnlabelid">
-            <label>
+            <label for="firma.caixaX">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.CAIXAX])?'firma.caixaX':__theForm.labels[FirmaFields.CAIXAX]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.CAIXAX]}">
@@ -190,7 +206,7 @@
             </td>
           <td id="firma_caixaX_columnvalueid">
             <form:errors path="firma.caixaX" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAX)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAX)? ' uneditable-input' : ''}"  style=""  path="firma.caixaX"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAX)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAX)? ' uneditable-input' : ''}"  style=""  path="firma.caixaX"   />
 
            </td>
         </tr>
@@ -199,7 +215,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.CAIXAY)}">
         <tr id="firma_caixaY_rowid">
           <td id="firma_caixaY_columnlabelid">
-            <label>
+            <label for="firma.caixaY">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.CAIXAY])?'firma.caixaY':__theForm.labels[FirmaFields.CAIXAY]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.CAIXAY]}">
@@ -208,7 +224,7 @@
             </td>
           <td id="firma_caixaY_columnvalueid">
             <form:errors path="firma.caixaY" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAY)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAY)? ' uneditable-input' : ''}"  style=""  path="firma.caixaY"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAY)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAY)? ' uneditable-input' : ''}"  style=""  path="firma.caixaY"   />
 
            </td>
         </tr>
@@ -217,7 +233,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.CAIXAAMPLE)}">
         <tr id="firma_caixaAmple_rowid">
           <td id="firma_caixaAmple_columnlabelid">
-            <label>
+            <label for="firma.caixaAmple">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.CAIXAAMPLE])?'firma.caixaAmple':__theForm.labels[FirmaFields.CAIXAAMPLE]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.CAIXAAMPLE]}">
@@ -226,7 +242,7 @@
             </td>
           <td id="firma_caixaAmple_columnvalueid">
             <form:errors path="firma.caixaAmple" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAAMPLE)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAAMPLE)? ' uneditable-input' : ''}"  style=""  path="firma.caixaAmple"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAAMPLE)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAAMPLE)? ' uneditable-input' : ''}"  style=""  path="firma.caixaAmple"   />
 
            </td>
         </tr>
@@ -235,7 +251,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.CAIXAALT)}">
         <tr id="firma_caixaAlt_rowid">
           <td id="firma_caixaAlt_columnlabelid">
-            <label>
+            <label for="firma.caixaAlt">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.CAIXAALT])?'firma.caixaAlt':__theForm.labels[FirmaFields.CAIXAALT]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.CAIXAALT]}">
@@ -244,7 +260,7 @@
             </td>
           <td id="firma_caixaAlt_columnvalueid">
             <form:errors path="firma.caixaAlt" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAALT)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAALT)? ' uneditable-input' : ''}"  style=""  path="firma.caixaAlt"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAALT)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAALT)? ' uneditable-input' : ''}"  style=""  path="firma.caixaAlt"   />
 
            </td>
         </tr>
@@ -253,7 +269,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.NUMEROSERIECERTIFICAT)}">
         <tr id="firma_numeroSerieCertificat_rowid">
           <td id="firma_numeroSerieCertificat_columnlabelid">
-            <label>
+            <label for="firma.numeroSerieCertificat">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.NUMEROSERIECERTIFICAT])?'firma.numeroSerieCertificat':__theForm.labels[FirmaFields.NUMEROSERIECERTIFICAT]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.NUMEROSERIECERTIFICAT]}">
@@ -262,7 +278,7 @@
             </td>
           <td id="firma_numeroSerieCertificat_columnvalueid">
             <form:errors path="firma.numeroSerieCertificat" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMEROSERIECERTIFICAT)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMEROSERIECERTIFICAT)? ' uneditable-input' : ''}"  style=""  path="firma.numeroSerieCertificat"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMEROSERIECERTIFICAT)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMEROSERIECERTIFICAT)? ' uneditable-input' : ''}"  style=""  path="firma.numeroSerieCertificat"   />
 
            </td>
         </tr>
@@ -271,7 +287,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.EMISSORCERTIFICAT)}">
         <tr id="firma_emissorCertificat_rowid">
           <td id="firma_emissorCertificat_columnlabelid">
-            <label>
+            <label for="firma.emissorCertificat">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.EMISSORCERTIFICAT])?'firma.emissorCertificat':__theForm.labels[FirmaFields.EMISSORCERTIFICAT]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.EMISSORCERTIFICAT]}">
@@ -280,7 +296,7 @@
             </td>
           <td id="firma_emissorCertificat_columnvalueid">
             <form:errors path="firma.emissorCertificat" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.EMISSORCERTIFICAT)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.EMISSORCERTIFICAT)? ' uneditable-input' : ''}"  style="" maxlength="1000" path="firma.emissorCertificat"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.EMISSORCERTIFICAT)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.EMISSORCERTIFICAT)? ' uneditable-input' : ''}"  style="" maxlength="1000" path="firma.emissorCertificat"   />
 
            </td>
         </tr>
@@ -289,7 +305,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.NOMCERTIFICAT)}">
         <tr id="firma_nomCertificat_rowid">
           <td id="firma_nomCertificat_columnlabelid">
-            <label>
+            <label for="firma.nomCertificat">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.NOMCERTIFICAT])?'firma.nomCertificat':__theForm.labels[FirmaFields.NOMCERTIFICAT]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.NOMCERTIFICAT]}">
@@ -298,7 +314,7 @@
             </td>
           <td id="firma_nomCertificat_columnvalueid">
             <form:errors path="firma.nomCertificat" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.NOMCERTIFICAT)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.NOMCERTIFICAT)? ' uneditable-input' : ''}"  style="" maxlength="1000" path="firma.nomCertificat"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.NOMCERTIFICAT)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.NOMCERTIFICAT)? ' uneditable-input' : ''}"  style="" maxlength="1000" path="firma.nomCertificat"   />
 
            </td>
         </tr>
@@ -307,7 +323,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.TIPUSESTATDEFIRMAFINALID)}">
         <tr id="firma_tipusEstatDeFirmaFinalID_rowid">
           <td id="firma_tipusEstatDeFirmaFinalID_columnlabelid">
-            <label>
+            <label for="firma.tipusEstatDeFirmaFinalID">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.TIPUSESTATDEFIRMAFINALID])?'firma.tipusEstatDeFirmaFinalID':__theForm.labels[FirmaFields.TIPUSESTATDEFIRMAFINALID]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.TIPUSESTATDEFIRMAFINALID]}">
@@ -318,13 +334,16 @@
           <form:errors path="firma.tipusEstatDeFirmaFinalID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,FirmaFields.TIPUSESTATDEFIRMAFINALID)}" >
           <form:hidden path="firma.tipusEstatDeFirmaFinalID"/>
-          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.firma.tipusEstatDeFirmaFinalID,__theForm.listOfValuesForTipusEstatDeFirmaFinalID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.firma.tipusEstatDeFirmaFinalID,__theForm.listOfValuesForTipusEstatDeFirmaFinalID)}" aria-label="firma.tipusEstatDeFirmaFinalID"   />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,FirmaFields.TIPUSESTATDEFIRMAFINALID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="firma_tipusEstatDeFirmaFinalID"  onchange="if(typeof onChangeTipusEstatDeFirmaFinalID == 'function') {  onChangeTipusEstatDeFirmaFinalID(this); };"  cssClass="form-control col-md-9-optional" path="firma.tipusEstatDeFirmaFinalID">
+          <form:select path="firma.tipusEstatDeFirmaFinalID" cssClass="form-control col-md-9-optional"  onchange="if(typeof onChangeTipusEstatDeFirmaFinalID == 'function') {  onChangeTipusEstatDeFirmaFinalID(this); };">
+
+
             <c:forEach items="${__theForm.listOfValuesForTipusEstatDeFirmaFinalID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
+
                 <c:if test="${empty tmp.key}">
                   <c:set var="containEmptyValue"  value="true" />
                 </c:if>
@@ -332,10 +351,12 @@
             <%-- El camp pot ser null, per la qual cosa afegim una entrada buida si no s'ha definit abans --%>
             <c:if test="${not containEmptyValue}">
               <c:if test="${empty __theForm.firma.tipusEstatDeFirmaFinalID }">
-                  <form:option value="" selected="true" ></form:option>
+                  <option value="" selected></option>
+
               </c:if>
               <c:if test="${not empty __theForm.firma.tipusEstatDeFirmaFinalID }">
-                  <form:option value="" ></form:option>
+
+                  <option value="" ></option>
               </c:if>
             </c:if>
           </form:select>
@@ -347,7 +368,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.MOSTRARRUBRICA)}">
         <tr id="firma_mostrarRubrica_rowid">
           <td id="firma_mostrarRubrica_columnlabelid">
-            <label>
+            <label for="firma.mostrarRubrica">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.MOSTRARRUBRICA])?'firma.mostrarRubrica':__theForm.labels[FirmaFields.MOSTRARRUBRICA]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.MOSTRARRUBRICA]}">
@@ -356,8 +377,11 @@
             </td>
           <td id="firma_mostrarRubrica_columnvalueid">
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,FirmaFields.MOSTRARRUBRICA)}" >
-              <form:errors path="firma.mostrarRubrica" cssClass="errorField alert alert-danger" />
-              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,FirmaFields.MOSTRARRUBRICA)? 'false' : 'true'}" path="firma.mostrarRubrica" />
+              <form:errors  path="firma.mostrarRubrica" cssClass="errorField alert alert-danger" />
+<fieldset>
+<legend class="sr-only">Evitar errors d'Accessibilitat</legend>
+              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,FirmaFields.MOSTRARRUBRICA)? 'false' : 'true'}" id="firma.mostrarRubrica" path="firma.mostrarRubrica"   />
+</fieldset>
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,FirmaFields.MOSTRARRUBRICA)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.firma.mostrarRubrica}" />
@@ -369,7 +393,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.MOTIU)}">
         <tr id="firma_motiu_rowid">
           <td id="firma_motiu_columnlabelid">
-            <label>
+            <label for="firma.motiu">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.MOTIU])?'firma.motiu':__theForm.labels[FirmaFields.MOTIU]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.MOTIU]}">
@@ -378,7 +402,7 @@
             </td>
           <td id="firma_motiu_columnvalueid">
             <form:errors path="firma.motiu" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.MOTIU)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.MOTIU)? ' uneditable-input' : ''}"  style="" maxlength="255" path="firma.motiu"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.MOTIU)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.MOTIU)? ' uneditable-input' : ''}"  style="" maxlength="255" path="firma.motiu"   />
 
            </td>
         </tr>
@@ -387,8 +411,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.MINIMDEREVISORS)}">
         <tr id="firma_minimDeRevisors_rowid">
           <td id="firma_minimDeRevisors_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[FirmaFields.MINIMDEREVISORS])?'firma.minimDeRevisors':__theForm.labels[FirmaFields.MINIMDEREVISORS]}" /> &nbsp;(*)
+            <label for="firma.minimDeRevisors">
+              <fmt:message key="${(empty __theForm.labels[FirmaFields.MINIMDEREVISORS])?'firma.minimDeRevisors':__theForm.labels[FirmaFields.MINIMDEREVISORS]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.MINIMDEREVISORS]}">
               <i class="fas fa-info-circle" title="${__theForm.help[FirmaFields.MINIMDEREVISORS]}" ></i>
@@ -396,7 +420,7 @@
             </td>
           <td id="firma_minimDeRevisors_columnvalueid">
             <form:errors path="firma.minimDeRevisors" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.MINIMDEREVISORS)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.MINIMDEREVISORS)? ' uneditable-input' : ''}"  style=""  path="firma.minimDeRevisors"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.MINIMDEREVISORS)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.MINIMDEREVISORS)? ' uneditable-input' : ''}"  style=""  path="firma.minimDeRevisors"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -405,7 +429,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.CHECKADMINISTRATIONIDOFSIGNER)}">
         <tr id="firma_checkAdministrationIdOfSigner_rowid">
           <td id="firma_checkAdministrationIdOfSigner_columnlabelid">
-            <label>
+            <label for="firma.checkAdministrationIdOfSigner">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.CHECKADMINISTRATIONIDOFSIGNER])?'firma.checkAdministrationIdOfSigner':__theForm.labels[FirmaFields.CHECKADMINISTRATIONIDOFSIGNER]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.CHECKADMINISTRATIONIDOFSIGNER]}">
@@ -430,7 +454,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.CHECKDOCUMENTMODIFICATIONS)}">
         <tr id="firma_checkDocumentModifications_rowid">
           <td id="firma_checkDocumentModifications_columnlabelid">
-            <label>
+            <label for="firma.checkDocumentModifications">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.CHECKDOCUMENTMODIFICATIONS])?'firma.checkDocumentModifications':__theForm.labels[FirmaFields.CHECKDOCUMENTMODIFICATIONS]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.CHECKDOCUMENTMODIFICATIONS]}">
@@ -455,7 +479,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.CHECKVALIDATIONSIGNATURE)}">
         <tr id="firma_checkValidationSignature_rowid">
           <td id="firma_checkValidationSignature_columnlabelid">
-            <label>
+            <label for="firma.checkValidationSignature">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.CHECKVALIDATIONSIGNATURE])?'firma.checkValidationSignature':__theForm.labels[FirmaFields.CHECKVALIDATIONSIGNATURE]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.CHECKVALIDATIONSIGNATURE]}">
@@ -480,7 +504,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.PERFILDEFIRMA)}">
         <tr id="firma_perfilDeFirma_rowid">
           <td id="firma_perfilDeFirma_columnlabelid">
-            <label>
+            <label for="firma.perfilDeFirma">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.PERFILDEFIRMA])?'firma.perfilDeFirma':__theForm.labels[FirmaFields.PERFILDEFIRMA]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.PERFILDEFIRMA]}">
@@ -489,7 +513,7 @@
             </td>
           <td id="firma_perfilDeFirma_columnvalueid">
             <form:errors path="firma.perfilDeFirma" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.PERFILDEFIRMA)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.PERFILDEFIRMA)? ' uneditable-input' : ''}"  style="" maxlength="50" path="firma.perfilDeFirma"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.PERFILDEFIRMA)? 'readonly' : ''}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.PERFILDEFIRMA)? ' uneditable-input' : ''}"  style="" maxlength="50" path="firma.perfilDeFirma"   />
 
            </td>
         </tr>
@@ -498,7 +522,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.USUARIEXTERNNOM)}">
         <tr id="firma_usuariExternNom_rowid">
           <td id="firma_usuariExternNom_columnlabelid">
-            <label>
+            <label for="firma.usuariExternNom">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.USUARIEXTERNNOM])?'firma.usuariExternNom':__theForm.labels[FirmaFields.USUARIEXTERNNOM]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.USUARIEXTERNNOM]}">
@@ -507,7 +531,7 @@
             </td>
           <td id="firma_usuariExternNom_columnvalueid">
             <form:errors path="firma.usuariExternNom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNNOM)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNNOM)? ' uneditable-input' : ''}"  style="" maxlength="100" path="firma.usuariExternNom"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNNOM)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNNOM)? ' uneditable-input' : ''}"  style="" maxlength="100" path="firma.usuariExternNom"   />
 
            </td>
         </tr>
@@ -516,7 +540,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.USUARIEXTERNLLINATGES)}">
         <tr id="firma_usuariExternLlinatges_rowid">
           <td id="firma_usuariExternLlinatges_columnlabelid">
-            <label>
+            <label for="firma.usuariExternLlinatges">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.USUARIEXTERNLLINATGES])?'firma.usuariExternLlinatges':__theForm.labels[FirmaFields.USUARIEXTERNLLINATGES]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.USUARIEXTERNLLINATGES]}">
@@ -525,7 +549,7 @@
             </td>
           <td id="firma_usuariExternLlinatges_columnvalueid">
             <form:errors path="firma.usuariExternLlinatges" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNLLINATGES)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNLLINATGES)? ' uneditable-input' : ''}"  style="" maxlength="255" path="firma.usuariExternLlinatges"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNLLINATGES)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNLLINATGES)? ' uneditable-input' : ''}"  style="" maxlength="255" path="firma.usuariExternLlinatges"   />
 
            </td>
         </tr>
@@ -534,7 +558,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.USUARIEXTERNEMAIL)}">
         <tr id="firma_usuariExternEmail_rowid">
           <td id="firma_usuariExternEmail_columnlabelid">
-            <label>
+            <label for="firma.usuariExternEmail">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.USUARIEXTERNEMAIL])?'firma.usuariExternEmail':__theForm.labels[FirmaFields.USUARIEXTERNEMAIL]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.USUARIEXTERNEMAIL]}">
@@ -543,7 +567,7 @@
             </td>
           <td id="firma_usuariExternEmail_columnvalueid">
             <form:errors path="firma.usuariExternEmail" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNEMAIL)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNEMAIL)? ' uneditable-input' : ''}"  style="" maxlength="255" path="firma.usuariExternEmail"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNEMAIL)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNEMAIL)? ' uneditable-input' : ''}"  style="" maxlength="255" path="firma.usuariExternEmail"   />
 
            </td>
         </tr>
@@ -552,7 +576,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.USUARIEXTERNIDIOMA)}">
         <tr id="firma_usuariExternIdioma_rowid">
           <td id="firma_usuariExternIdioma_columnlabelid">
-            <label>
+            <label for="firma.usuariExternIdioma">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.USUARIEXTERNIDIOMA])?'firma.usuariExternIdioma':__theForm.labels[FirmaFields.USUARIEXTERNIDIOMA]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.USUARIEXTERNIDIOMA]}">
@@ -561,7 +585,7 @@
             </td>
           <td id="firma_usuariExternIdioma_columnvalueid">
             <form:errors path="firma.usuariExternIdioma" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNIDIOMA)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNIDIOMA)? ' uneditable-input' : ''}"  style="" maxlength="2" path="firma.usuariExternIdioma"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNIDIOMA)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNIDIOMA)? ' uneditable-input' : ''}"  style="" maxlength="2" path="firma.usuariExternIdioma"   />
 
            </td>
         </tr>
@@ -570,7 +594,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.USUARIEXTERNTOKEN)}">
         <tr id="firma_usuariExternToken_rowid">
           <td id="firma_usuariExternToken_columnlabelid">
-            <label>
+            <label for="firma.usuariExternToken">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.USUARIEXTERNTOKEN])?'firma.usuariExternToken':__theForm.labels[FirmaFields.USUARIEXTERNTOKEN]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.USUARIEXTERNTOKEN]}">
@@ -579,7 +603,7 @@
             </td>
           <td id="firma_usuariExternToken_columnvalueid">
             <form:errors path="firma.usuariExternToken" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNTOKEN)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNTOKEN)? ' uneditable-input' : ''}"  style="" maxlength="255" path="firma.usuariExternToken"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNTOKEN)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNTOKEN)? ' uneditable-input' : ''}"  style="" maxlength="255" path="firma.usuariExternToken"   />
 
            </td>
         </tr>
@@ -588,7 +612,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.USUARIEXTERNNIVELLSEGURETAT)}">
         <tr id="firma_usuariExternNivellSeguretat_rowid">
           <td id="firma_usuariExternNivellSeguretat_columnlabelid">
-            <label>
+            <label for="firma.usuariExternNivellSeguretat">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.USUARIEXTERNNIVELLSEGURETAT])?'firma.usuariExternNivellSeguretat':__theForm.labels[FirmaFields.USUARIEXTERNNIVELLSEGURETAT]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.USUARIEXTERNNIVELLSEGURETAT]}">
@@ -599,13 +623,16 @@
           <form:errors path="firma.usuariExternNivellSeguretat" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNNIVELLSEGURETAT)}" >
           <form:hidden path="firma.usuariExternNivellSeguretat"/>
-          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.firma.usuariExternNivellSeguretat,__theForm.listOfValuesForUsuariExternNivellSeguretat)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.firma.usuariExternNivellSeguretat,__theForm.listOfValuesForUsuariExternNivellSeguretat)}" aria-label="firma.usuariExternNivellSeguretat"   />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNNIVELLSEGURETAT)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="firma_usuariExternNivellSeguretat"  onchange="if(typeof onChangeUsuariExternNivellSeguretat == 'function') {  onChangeUsuariExternNivellSeguretat(this); };"  cssClass="form-control col-md-9-optional" path="firma.usuariExternNivellSeguretat">
+          <form:select path="firma.usuariExternNivellSeguretat" cssClass="form-control col-md-9-optional"  onchange="if(typeof onChangeUsuariExternNivellSeguretat == 'function') {  onChangeUsuariExternNivellSeguretat(this); };">
+
+
             <c:forEach items="${__theForm.listOfValuesForUsuariExternNivellSeguretat}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
+
                 <c:if test="${empty tmp.key}">
                   <c:set var="containEmptyValue"  value="true" />
                 </c:if>
@@ -613,10 +640,12 @@
             <%-- El camp pot ser null, per la qual cosa afegim una entrada buida si no s'ha definit abans --%>
             <c:if test="${not containEmptyValue}">
               <c:if test="${empty __theForm.firma.usuariExternNivellSeguretat }">
-                  <form:option value="" selected="true" ></form:option>
+                  <option value="" selected></option>
+
               </c:if>
               <c:if test="${not empty __theForm.firma.usuariExternNivellSeguretat }">
-                  <form:option value="" ></form:option>
+
+                  <option value="" ></option>
               </c:if>
             </c:if>
           </form:select>
@@ -628,7 +657,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.SIGNATUREPLUGINID)}">
         <tr id="firma_signaturePluginId_rowid">
           <td id="firma_signaturePluginId_columnlabelid">
-            <label>
+            <label for="firma.signaturePluginId">
               <fmt:message key="${(empty __theForm.labels[FirmaFields.SIGNATUREPLUGINID])?'firma.signaturePluginId':__theForm.labels[FirmaFields.SIGNATUREPLUGINID]}" />
              </label>
               <c:if test="${not empty __theForm.help[FirmaFields.SIGNATUREPLUGINID]}">
@@ -637,7 +666,7 @@
             </td>
           <td id="firma_signaturePluginId_columnvalueid">
             <form:errors path="firma.signaturePluginId" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.SIGNATUREPLUGINID)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.SIGNATUREPLUGINID)? ' uneditable-input' : ''}"  style=""  path="firma.signaturePluginId"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.SIGNATUREPLUGINID)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.SIGNATUREPLUGINID)? ' uneditable-input' : ''}"  style=""  path="firma.signaturePluginId"   />
 
            </td>
         </tr>

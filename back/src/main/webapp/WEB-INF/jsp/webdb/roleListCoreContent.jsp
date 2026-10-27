@@ -25,18 +25,27 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RoleFields.ROLEID)}">
-          <td>
+        <td>
           ${role.roleID}
+             <c:if test="${empty role.roleID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RoleFields.NOM)}">
-          <td>
+        <td>
           ${role.nom}
+             <c:if test="${empty role.nom}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RoleFields.DESCRIPCIO)}">
-          <td>
+        <td>
           ${role.descripcio}
+             <c:if test="${empty role.descripcio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

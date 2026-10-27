@@ -25,31 +25,46 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PropietatGlobalFields.PROPIETATGLOBALID)}">
-          <td>
+        <td>
           ${propietatGlobal.propietatGlobalID}
+             <c:if test="${empty propietatGlobal.propietatGlobalID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PropietatGlobalFields.CLAU)}">
-          <td>
+        <td>
           ${propietatGlobal.clau}
+             <c:if test="${empty propietatGlobal.clau}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PropietatGlobalFields.VALOR)}">
-          <td>
+        <td>
           ${propietatGlobal.valor}
+             <c:if test="${empty propietatGlobal.valor}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PropietatGlobalFields.ENTITATID)}">
-          <td>
+        <td>
           <c:set var="tmp">${propietatGlobal.entitatID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfEntitatForEntitatID[tmp]}
           </c:if>
+             <c:if test="${empty propietatGlobal.entitatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PropietatGlobalFields.DESCRIPCIO)}">
-          <td>
+        <td>
           ${propietatGlobal.descripcio}
+             <c:if test="${empty propietatGlobal.descripcio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

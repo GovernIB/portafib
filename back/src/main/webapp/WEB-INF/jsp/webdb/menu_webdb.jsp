@@ -3,7 +3,7 @@
 <sec:authorize access="hasRole('ROLE_ADMIN')">
  <c:set var="url" value="${urlActual}" />
  <div>
- <h5>WebDatabase</h5>
+ <span style="font-size: 1.25rem">WebDatabase</span>
  <ul class="tree" style="margin:3px; padding:0px;">
  <%-- ==== GENAPP MARK START --%>
 

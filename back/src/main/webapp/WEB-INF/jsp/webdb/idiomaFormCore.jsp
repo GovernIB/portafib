@@ -5,8 +5,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,IdiomaFields.IDIOMAID)}">
         <tr id="idioma_idiomaID_rowid">
           <td id="idioma_idiomaID_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[IdiomaFields.IDIOMAID])?'idioma.idiomaID':__theForm.labels[IdiomaFields.IDIOMAID]}" /> &nbsp;(*)
+            <label for="idioma.idiomaID">
+              <fmt:message key="${(empty __theForm.labels[IdiomaFields.IDIOMAID])?'idioma.idiomaID':__theForm.labels[IdiomaFields.IDIOMAID]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[IdiomaFields.IDIOMAID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[IdiomaFields.IDIOMAID]}" ></i>
@@ -14,7 +14,7 @@
             </td>
           <td id="idioma_idiomaID_columnvalueid">
             <form:errors path="idioma.idiomaID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,IdiomaFields.IDIOMAID)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,IdiomaFields.IDIOMAID)? ' uneditable-input' : ''}"  style="" maxlength="5" path="idioma.idiomaID"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,IdiomaFields.IDIOMAID)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,IdiomaFields.IDIOMAID)? ' uneditable-input' : ''}"  style="" maxlength="5" path="idioma.idiomaID"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -23,8 +23,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,IdiomaFields.NOM)}">
         <tr id="idioma_nom_rowid">
           <td id="idioma_nom_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[IdiomaFields.NOM])?'idioma.nom':__theForm.labels[IdiomaFields.NOM]}" /> &nbsp;(*)
+            <label for="idioma.nom">
+              <fmt:message key="${(empty __theForm.labels[IdiomaFields.NOM])?'idioma.nom':__theForm.labels[IdiomaFields.NOM]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[IdiomaFields.NOM]}">
               <i class="fas fa-info-circle" title="${__theForm.help[IdiomaFields.NOM]}" ></i>
@@ -32,7 +32,7 @@
             </td>
           <td id="idioma_nom_columnvalueid">
             <form:errors path="idioma.nom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,IdiomaFields.NOM)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,IdiomaFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="idioma.nom"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,IdiomaFields.NOM)? 'readonly' : ''}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,IdiomaFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="idioma.nom"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -41,7 +41,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,IdiomaFields.SUPORTAT)}">
         <tr id="idioma_suportat_rowid">
           <td id="idioma_suportat_columnlabelid">
-            <label>
+            <label for="idioma.suportat">
               <fmt:message key="${(empty __theForm.labels[IdiomaFields.SUPORTAT])?'idioma.suportat':__theForm.labels[IdiomaFields.SUPORTAT]}" />
              </label>
               <c:if test="${not empty __theForm.help[IdiomaFields.SUPORTAT]}">
@@ -50,8 +50,11 @@
             </td>
           <td id="idioma_suportat_columnvalueid">
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,IdiomaFields.SUPORTAT)}" >
-              <form:errors path="idioma.suportat" cssClass="errorField alert alert-danger" />
-              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,IdiomaFields.SUPORTAT)? 'false' : 'true'}" path="idioma.suportat" />
+              <form:errors  path="idioma.suportat" cssClass="errorField alert alert-danger" />
+<fieldset>
+<legend class="sr-only">Evitar errors d'Accessibilitat</legend>
+              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,IdiomaFields.SUPORTAT)? 'false' : 'true'}" id="idioma.suportat" path="idioma.suportat"   />
+</fieldset>
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,IdiomaFields.SUPORTAT)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.idioma.suportat}" />
@@ -63,8 +66,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,IdiomaFields.ORDRE)}">
         <tr id="idioma_ordre_rowid">
           <td id="idioma_ordre_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[IdiomaFields.ORDRE])?'idioma.ordre':__theForm.labels[IdiomaFields.ORDRE]}" /> &nbsp;(*)
+            <label for="idioma.ordre">
+              <fmt:message key="${(empty __theForm.labels[IdiomaFields.ORDRE])?'idioma.ordre':__theForm.labels[IdiomaFields.ORDRE]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[IdiomaFields.ORDRE]}">
               <i class="fas fa-info-circle" title="${__theForm.help[IdiomaFields.ORDRE]}" ></i>
@@ -72,7 +75,7 @@
             </td>
           <td id="idioma_ordre_columnvalueid">
             <form:errors path="idioma.ordre" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,IdiomaFields.ORDRE)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,IdiomaFields.ORDRE)? ' uneditable-input' : ''}"  style=""  path="idioma.ordre"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,IdiomaFields.ORDRE)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,IdiomaFields.ORDRE)? ' uneditable-input' : ''}"  style=""  path="idioma.ordre"  required="required"  aria-required="true"   />
 
            </td>
         </tr>

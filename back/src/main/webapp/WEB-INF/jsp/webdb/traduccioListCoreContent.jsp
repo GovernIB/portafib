@@ -25,8 +25,11 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TraduccioFields.TRADUCCIOID)}">
-          <td>
+        <td>
           ${traduccio.traduccioID}
+             <c:if test="${empty traduccio.traduccioID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

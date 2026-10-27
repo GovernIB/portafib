@@ -16,7 +16,8 @@
     </c:forEach>
     </c:if>
 
+<small class="text-muted" style="font-size:0.8em"><span class="text-danger" aria-hidden="true">*</span> &nbsp;<fmt:message key="info.camp.obligatori"/></small>
     <form:errors cssClass="errorField alert alert-danger" delimiter="&lt;p/&gt;" />
-    <table id="tipusNotificacio_tableid" class="tdformlabel table-sm table table-bordered table-striped marTop10 table-genapp table-genapp-form" > 
+    <table id="tipusNotificacio_tableid" role="presentation" class="tdformlabel table-sm table table-bordered table-striped marTop10 table-genapp table-genapp-form">
     <tbody>      
 

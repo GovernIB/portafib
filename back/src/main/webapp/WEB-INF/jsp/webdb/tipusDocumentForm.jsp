@@ -3,8 +3,8 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
 
-<form:form modelAttribute="tipusDocumentForm" method="${(empty method)?'post':method}"
-  enctype="multipart/form-data">
+<form:form modelAttribute="tipusDocumentForm" method="${(empty method)?'post':method}" 
+ enctype="multipart/form-data">
   
   <%@include file="tipusDocumentFormTitle.jsp" %>
  

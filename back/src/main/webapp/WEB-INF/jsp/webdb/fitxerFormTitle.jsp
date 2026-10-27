@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
   
 <div class="lead" style="margin-bottom:10px">
-<label style="font-size: 1.25rem;font-weight: bold;">
+<span class="llistaformularititol">
  <c:choose>
   <c:when test="${fn:startsWith(fitxerForm.titleCode,'=')}">
        <c:out value="${fn:substringAfter(fitxerForm.titleCode, '=')}" escapeXml="false"/>
@@ -24,9 +24,9 @@
       <fmt:param value="${entityname}"/>
     </fmt:message>
     </c:otherwise>
- </c:choose></label>
+ </c:choose></span>
   <c:if test="${not empty fitxerForm.subTitleCode}">
-<h6 style="line-height: 10px; margin-top: 0px; margin-bottom: 0px;font-style:italic;">
+<span class="llistaformularisubtitol">
 <c:set var="subtitleTranslated" value="${fn:startsWith(fitxerForm.subTitleCode,'=')}" />
 <c:if test="${subtitleTranslated}">
    <c:out value="${fn:substringAfter(fitxerForm.subTitleCode, '=')}" escapeXml="false"/>
@@ -34,6 +34,6 @@
 <c:if test="${not subtitleTranslated}">
   <fmt:message key="${fitxerForm.subTitleCode}" />
 </c:if>
-</h6>
+</span>
   </c:if>
 </div>

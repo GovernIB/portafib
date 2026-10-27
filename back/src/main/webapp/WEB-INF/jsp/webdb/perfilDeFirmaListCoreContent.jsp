@@ -25,73 +25,106 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.USUARIAPLICACIOPERFILID)}">
-          <td>
+        <td>
           ${perfilDeFirma.usuariAplicacioPerfilID}
+             <c:if test="${empty perfilDeFirma.usuariAplicacioPerfilID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.NOM)}">
-          <td>
+        <td>
           ${perfilDeFirma.nom}
+             <c:if test="${empty perfilDeFirma.nom}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.CODI)}">
-          <td>
+        <td>
           ${perfilDeFirma.codi}
+             <c:if test="${empty perfilDeFirma.codi}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.DESCRIPCIO)}">
-          <td>
+        <td>
           ${perfilDeFirma.descripcio}
+             <c:if test="${empty perfilDeFirma.descripcio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.CONDICIO)}">
-          <td>
+        <td>
           ${perfilDeFirma.condicio}
+             <c:if test="${empty perfilDeFirma.condicio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.CONFIGURACIODEFIRMA1ID)}">
-          <td>
+        <td>
           <c:set var="tmp">${perfilDeFirma.configuracioDeFirma1ID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma1ID[tmp]}
           </c:if>
+             <c:if test="${empty perfilDeFirma.configuracioDeFirma1ID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.CONFIGURACIODEFIRMA2ID)}">
-          <td>
+        <td>
           <c:set var="tmp">${perfilDeFirma.configuracioDeFirma2ID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma2ID[tmp]}
           </c:if>
+             <c:if test="${empty perfilDeFirma.configuracioDeFirma2ID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.CONFIGURACIODEFIRMA3ID)}">
-          <td>
+        <td>
           <c:set var="tmp">${perfilDeFirma.configuracioDeFirma3ID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma3ID[tmp]}
           </c:if>
+             <c:if test="${empty perfilDeFirma.configuracioDeFirma3ID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.CONFIGURACIODEFIRMA4ID)}">
-          <td>
+        <td>
           <c:set var="tmp">${perfilDeFirma.configuracioDeFirma4ID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID[tmp]}
           </c:if>
+             <c:if test="${empty perfilDeFirma.configuracioDeFirma4ID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.CONFIGURACIODEFIRMA5ID)}">
-          <td>
+        <td>
           <c:set var="tmp">${perfilDeFirma.configuracioDeFirma5ID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID[tmp]}
           </c:if>
+             <c:if test="${empty perfilDeFirma.configuracioDeFirma5ID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.URLBASE)}">
-          <td>
+        <td>
           ${perfilDeFirma.urlBase}
+             <c:if test="${empty perfilDeFirma.urlBase}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

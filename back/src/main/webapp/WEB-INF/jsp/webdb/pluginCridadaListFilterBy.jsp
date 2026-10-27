@@ -16,7 +16,7 @@
         
         <div class="float-right">
 
-           <a class="float-right" style="margin-left:10px" href="#"> <i title="<fmt:message key="genapp.form.hidefilter"/>" onclick="document.getElementById('FilterDiv').style.display='none'; document.getElementById('FilterButton').style.display='inline';" class="far fa-window-close"></i></a>
+           <a class="float-right" style="margin-left:10px" href="#" title="<fmt:message key="genapp.form.hidefilter"/>" onclick="document.getElementById('FilterDiv').style.display='none'; document.getElementById('FilterButton').style.display='inline'; return false;"> <i aria-hidden="true" class="far fa-window-close"></i><span class="sr-only"><fmt:message key="genapp.form.hidefilter"/></span></a>
            <input style="margin-left: 3px" class="btn btn-sm btn-warning float-right" type="button" onclick="clear_form_elements(this.form)" value="<fmt:message key="genapp.form.clean"/>"/>
            <input style="margin-left: 3px" class="btn btn-sm btn-warning float-right" type="reset" value="<fmt:message key="genapp.form.reset"/>"/>
            <input style="margin-left: 3px" class="btn btn-sm btn-primary float-right" type="submit" value="<fmt:message key="genapp.form.search"/>"/>
@@ -27,8 +27,10 @@
       
       <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
       <c:if test="${ __entry.key < 0 && not empty __entry.value.searchBy }">
-      <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+      <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
+        <label for="${__entry.value.codeName}" style="display: inline;">
         <span class="add-on"><fmt:message key="${__entry.value.codeName}" />:</span>
+        </label>
         <fmt:message key="genapp.form.searchby" var="cercaperAF" >
           <fmt:param>
             <fmt:message key="${__entry.value.codeName}" />
@@ -37,12 +39,12 @@
         <c:choose>
           <c:when test="${gen:isFieldSearchInRange(__entry.value.searchBy)}">
             <span class="add-on"><fmt:message key="genapp.from" /></span>
-            <input id="${__entry.value.searchBy.fullName}" name="${__entry.value.searchBy.fullName}" class="input-small input-medium" type="text" value="${__entry.value.searchByValue}"/>
+            <input aria-label="${__entry.value.codeName}"  id="${__entry.value.searchBy.fullName}" name="${__entry.value.searchBy.fullName}" class="input-small input-medium" type="text" value="${__entry.value.searchByValue}"/>
             <span class="add-on"><fmt:message key="genapp.to" /></span>
             <input id="${__entry.value.searchBy.fullName}Fins" name="${__entry.value.searchBy.fullName}Fins" class="input-small input-medium search-query" type="text" value="${__entry.value.searchByValueFins}"/>
           </c:when>
           <c:otherwise>
-            <input id="${__entry.value.searchBy.fullName}" name="${__entry.value.searchBy.fullName}" class="search-query input-medium" placeholder="${cercaperAF}" type="text" value="${__entry.value.searchByValue}"/>
+            <input aria-label="${__entry.value.codeName}" id="${__entry.value.searchBy.fullName}" name="${__entry.value.searchBy.fullName}" class="search-query input-medium" placeholder="${cercaperAF}" type="text" value="${__entry.value.searchByValue}"/>
           </c:otherwise>
         </c:choose>
       </div>
@@ -51,9 +53,11 @@
 
 
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginCridadaFields.PLUGINCRIDADAID)}">
-            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
+              <label for="pluginCridada_pluginCridadaID" style="display: inline;">
               <span class="add-on"><fmt:message key="pluginCridada.pluginCridadaID" />:</span>
+              </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
@@ -70,12 +74,14 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginCridadaFields.ENTITATID)}">
             <%-- FILTRE STRING --%>
-            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-prepend" style="padding-right: 24px;padding-bottom: 4px;">
+              <label for="entitatID" style="display: inline;">
               <fmt:message key="pluginCridada.entitatID" var="entitatID" />
               <fmt:message key="genapp.form.searchby" var="cercaperentitatID" >                
                  <fmt:param value="${entitatID}"/>
               </fmt:message>
               <span class="add-on"><c:out value="${entitatID}" />:</span>
+              </label>
               <form:input cssClass="search-query input-medium" placeholder="${cercaperentitatID}" path="entitatID" />
             </div>
 
@@ -83,22 +89,24 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginCridadaFields.DATA)}">
 <%-- FILTRE DATE-TIME --%>
-            <div class="input-group" style="padding-right:4px;padding-bottom:4px;align-items:center;">
+            <div class="input-group" style="padding-right:24px;padding-bottom:4px;align-items:center;">
+              <label id="pluginCridada_data_label" style="display: inline;">
               <span class="add-on"><fmt:message key="pluginCridada.data" />:</span>
+              </label>
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
             <div class="form-group"  style="margin-bottom: 0px;" >
-                <div class="input-group date" id="dataDesde" data-target-input="nearest">
-                      <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataDesde" path="dataDesde" />
+                <div class="input-group date" id="dataDesdeDiv" data-target-input="nearest">
+                      <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataDesdeDiv" path="dataDesde"  aria-labelledby="pluginCridada_data_label"   />
                     <c:if test="${!false}" >
-                    <div class="input-group-append"  data-target="#dataDesde"  data-toggle="datetimepicker">
+                    <div class="input-group-append"  data-target="#dataDesdeDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
                     </c:if>
                 </div>
             </div>
-        <script type="text/javascript">
+        <script>
             $(function () {
-                $('#dataDesde').datetimepicker({
+                $('#dataDesdeDiv').datetimepicker({
                     format: '${gen:getJSDateTimePattern()}',
                     locale: '${lang}',
                     icons: {
@@ -106,20 +114,21 @@
                     }
                 });
             });
-        </script>              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
+        </script>
+              <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
             <div class="form-group"  style="margin-bottom: 0px;" >
-                <div class="input-group date" id="dataFins" data-target-input="nearest">
-                      <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataFins" path="dataFins" />
+                <div class="input-group date" id="dataFinsDiv" data-target-input="nearest">
+                      <form:input  cssClass="form-control datetimepicker-input"  data-target="#dataFinsDiv" path="dataFins"  aria-labelledby="pluginCridada_data_label"   />
                     <c:if test="${!false}" >
-                    <div class="input-group-append"  data-target="#dataFins"  data-toggle="datetimepicker">
+                    <div class="input-group-append"  data-target="#dataFinsDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
                     </c:if>
                 </div>
             </div>
-        <script type="text/javascript">
+        <script>
             $(function () {
-                $('#dataFins').datetimepicker({
+                $('#dataFinsDiv').datetimepicker({
                     format: '${gen:getJSDateTimePattern()}',
                     locale: '${lang}',
                     icons: {
@@ -127,14 +136,17 @@
                     }
                 });
             });
-        </script>            </div>
+        </script>
+            </div>
 
     
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginCridadaFields.PLUGINID)}">
-            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
+              <label for="pluginCridada_pluginID" style="display: inline;">
               <span class="add-on"><fmt:message key="pluginCridada.pluginID" />:</span>
+              </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
@@ -151,12 +163,14 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginCridadaFields.METODEPLUGIN)}">
             <%-- FILTRE STRING --%>
-            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-prepend" style="padding-right: 24px;padding-bottom: 4px;">
+              <label for="metodePlugin" style="display: inline;">
               <fmt:message key="pluginCridada.metodePlugin" var="metodePlugin" />
               <fmt:message key="genapp.form.searchby" var="cercapermetodePlugin" >                
                  <fmt:param value="${metodePlugin}"/>
               </fmt:message>
               <span class="add-on"><c:out value="${metodePlugin}" />:</span>
+              </label>
               <form:input cssClass="search-query input-medium" placeholder="${cercapermetodePlugin}" path="metodePlugin" />
             </div>
 
@@ -164,12 +178,14 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginCridadaFields.PARAMETRESTEXT)}">
             <%-- FILTRE STRING --%>
-            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-prepend" style="padding-right: 24px;padding-bottom: 4px;">
+              <label for="parametresText" style="display: inline;">
               <fmt:message key="pluginCridada.parametresText" var="parametresText" />
               <fmt:message key="genapp.form.searchby" var="cercaperparametresText" >                
                  <fmt:param value="${parametresText}"/>
               </fmt:message>
               <span class="add-on"><c:out value="${parametresText}" />:</span>
+              </label>
               <form:input cssClass="search-query input-medium" placeholder="${cercaperparametresText}" path="parametresText" />
             </div>
 
@@ -177,21 +193,25 @@
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginCridadaFields.RETORNTEXT)}">
             <%-- FILTRE STRING --%>
-            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-prepend" style="padding-right: 24px;padding-bottom: 4px;">
+              <label for="retornText" style="display: inline;">
               <fmt:message key="pluginCridada.retornText" var="retornText" />
               <fmt:message key="genapp.form.searchby" var="cercaperretornText" >                
                  <fmt:param value="${retornText}"/>
               </fmt:message>
               <span class="add-on"><c:out value="${retornText}" />:</span>
+              </label>
               <form:input cssClass="search-query input-medium" placeholder="${cercaperretornText}" path="retornText" />
             </div>
 
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginCridadaFields.TIPUSTESULTAT)}">
-            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
+              <label for="pluginCridada_tipusTesultat" style="display: inline;">
               <span class="add-on"><fmt:message key="pluginCridada.tipusTesultat" />:</span>
+              </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
@@ -207,9 +227,11 @@
 
         </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginCridadaFields.TEMPSEXECUCIO)}">
-            <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+            <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
+              <label for="pluginCridada_tempsExecucio" style="display: inline;">
               <span class="add-on"><fmt:message key="pluginCridada.tempsExecucio" />:</span>
+              </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
@@ -227,8 +249,10 @@
 
       <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
       <c:if test="${ __entry.key >= 0 && not empty __entry.value.searchBy }">
-      <div class="input-group" style="padding-right: 4px;padding-bottom: 4px;">
+      <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
+        <label for="${__entry.value.codeName}" style="display: inline;">
         <span class="add-on"><fmt:message key="${__entry.value.codeName}" />:</span>
+        </label>
         <fmt:message key="genapp.form.searchby" var="cercaperAF" >
           <fmt:param>
             <fmt:message key="${__entry.value.codeName}" />
@@ -237,12 +261,12 @@
         <c:choose>
           <c:when test="${gen:isFieldSearchInRange(__entry.value.searchBy)}">
             <span class="add-on"><fmt:message key="genapp.from" /></span>
-            <input id="${__entry.value.searchBy.fullName}" name="${__entry.value.searchBy.fullName}" class="input-small input-medium" type="text" value="${__entry.value.searchByValue}"/>
+            <input aria-label="${__entry.value.codeName}"  id="${__entry.value.searchBy.fullName}" name="${__entry.value.searchBy.fullName}" class="input-small input-medium" type="text" value="${__entry.value.searchByValue}"/>
             <span class="add-on"><fmt:message key="genapp.to" /></span>
             <input id="${__entry.value.searchBy.fullName}Fins" name="${__entry.value.searchBy.fullName}Fins" class="input-small input-medium search-query" type="text" value="${__entry.value.searchByValueFins}"/>
           </c:when>
           <c:otherwise>
-            <input id="${__entry.value.searchBy.fullName}" name="${__entry.value.searchBy.fullName}" class="search-query input-medium" placeholder="${cercaperAF}" type="text" value="${__entry.value.searchByValue}"/>
+            <input aria-label="${__entry.value.codeName}" id="${__entry.value.searchBy.fullName}" name="${__entry.value.searchBy.fullName}" class="search-query input-medium" placeholder="${cercaperAF}" type="text" value="${__entry.value.searchByValue}"/>
           </c:otherwise>
         </c:choose>
       </div>

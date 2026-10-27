@@ -25,24 +25,33 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RoleUsuariEntitatFields.ID)}">
-          <td>
+        <td>
           ${roleUsuariEntitat.id}
+             <c:if test="${empty roleUsuariEntitat.id}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RoleUsuariEntitatFields.ROLEID)}">
-          <td>
+        <td>
           <c:set var="tmp">${roleUsuariEntitat.roleID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfRoleForRoleID[tmp]}
           </c:if>
+             <c:if test="${empty roleUsuariEntitat.roleID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RoleUsuariEntitatFields.USUARIENTITATID)}">
-          <td>
+        <td>
           <c:set var="tmp">${roleUsuariEntitat.usuariEntitatID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariEntitatForUsuariEntitatID[tmp]}
           </c:if>
+             <c:if test="${empty roleUsuariEntitat.usuariEntitatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

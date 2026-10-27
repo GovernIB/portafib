@@ -1,6 +1,8 @@
 <%-- ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! --%>
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
+<fieldset>
+<legend class="sr-only">Evitar errors d'Accessibilitat Web</legend>
 <form:form name="plantillaFluxDeFirmes" cssClass="form-search"  modelAttribute="plantillaFluxDeFirmesFilterForm" 
         method="${(empty method)?'post':method}"  enctype="multipart/form-data">
 
@@ -33,5 +35,6 @@
   </div> <%-- Final de div d'AGRUPACIO i TAULA CONTINGUTS --%>
 
 </form:form> 
+</fieldset>
     
 

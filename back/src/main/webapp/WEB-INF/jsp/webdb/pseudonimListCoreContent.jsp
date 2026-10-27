@@ -25,18 +25,27 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PseudonimFields.PSEUDONIMID)}">
-          <td>
+        <td>
           ${pseudonim.pseudonimid}
+             <c:if test="${empty pseudonim.pseudonimid}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PseudonimFields.PSEUDONIM)}">
-          <td>
+        <td>
           ${pseudonim.pseudonim}
+             <c:if test="${empty pseudonim.pseudonim}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PseudonimFields.NIF)}">
-          <td>
+        <td>
           ${pseudonim.nif}
+             <c:if test="${empty pseudonim.nif}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

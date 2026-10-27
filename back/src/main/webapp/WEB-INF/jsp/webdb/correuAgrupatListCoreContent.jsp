@@ -25,44 +25,70 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CorreuAgrupatFields.CORREUAGRUPATID)}">
-          <td>
+        <td>
           ${correuAgrupat.correuAgrupatID}
+             <c:if test="${empty correuAgrupat.correuAgrupatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CorreuAgrupatFields.EMAIL)}">
-          <td>
+        <td>
           ${correuAgrupat.email}
+             <c:if test="${empty correuAgrupat.email}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CorreuAgrupatFields.SUBJECT)}">
-          <td>
+        <td>
           ${correuAgrupat.subject}
+             <c:if test="${empty correuAgrupat.subject}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CorreuAgrupatFields.MESSAGE)}">
-          <td>
+        <td>
           ${correuAgrupat.message}
+             <c:if test="${empty correuAgrupat.message}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CorreuAgrupatFields.HTML)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${correuAgrupat.html?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${correuAgrupat.html?'success':'error'}.png"/>" alt="${correuAgrupat.html}" >
+             <c:if test="${empty correuAgrupat.html}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CorreuAgrupatFields.USUARIENTITATID)}">
-          <td>
+        <td>
           <c:set var="tmp">${correuAgrupat.usuariEntitatID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariEntitatForUsuariEntitatID[tmp]}
           </c:if>
+             <c:if test="${empty correuAgrupat.usuariEntitatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CorreuAgrupatFields.DATACREACIO)}">
-          <td> <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${correuAgrupat.dataCreacio}" /></td>
+        <td>
+          <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${correuAgrupat.dataCreacio}" />
+             <c:if test="${empty correuAgrupat.dataCreacio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CorreuAgrupatFields.ERROR)}">
-          <td>
+        <td>
           ${correuAgrupat.error}
+             <c:if test="${empty correuAgrupat.error}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

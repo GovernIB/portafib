@@ -25,28 +25,43 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FitxerFields.FITXERID)}">
-          <td>
+        <td>
           ${fitxer.fitxerID}
+             <c:if test="${empty fitxer.fitxerID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FitxerFields.NOM)}">
-          <td>
+        <td>
           ${fitxer.nom}
+             <c:if test="${empty fitxer.nom}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FitxerFields.DESCRIPCIO)}">
-          <td>
+        <td>
           ${fitxer.descripcio}
+             <c:if test="${empty fitxer.descripcio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FitxerFields.TAMANY)}">
-          <td>
+        <td>
           ${fitxer.tamany}
+             <c:if test="${empty fitxer.tamany}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FitxerFields.MIME)}">
-          <td>
+        <td>
           ${fitxer.mime}
+             <c:if test="${empty fitxer.mime}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

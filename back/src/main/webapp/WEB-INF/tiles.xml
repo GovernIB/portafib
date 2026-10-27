@@ -179,7 +179,7 @@
     <definition name="desenvolupament" extends="base.definition">
         <put-attribute name="pipella" value="desenvolupament" />
         <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_desenvolupament.jsp" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/desenvolupament.jsp" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/desenvolupament/desenvolupament.jsp" />
     </definition>
     
     

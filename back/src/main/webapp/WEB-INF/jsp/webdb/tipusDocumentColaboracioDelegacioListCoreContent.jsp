@@ -25,24 +25,33 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusDocumentColaboracioDelegacioFields.ID)}">
-          <td>
+        <td>
           ${tipusDocumentColaboracioDelegacio.id}
+             <c:if test="${empty tipusDocumentColaboracioDelegacio.id}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusDocumentColaboracioDelegacioFields.COLABORACIODELEGACIOID)}">
-          <td>
+        <td>
           <c:set var="tmp">${tipusDocumentColaboracioDelegacio.colaboracioDelegacioID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfColaboracioDelegacioForColaboracioDelegacioID[tmp]}
           </c:if>
+             <c:if test="${empty tipusDocumentColaboracioDelegacio.colaboracioDelegacioID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusDocumentColaboracioDelegacioFields.TIPUSDOCUMENTID)}">
-          <td>
+        <td>
           <c:set var="tmp">${tipusDocumentColaboracioDelegacio.tipusDocumentID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfTipusDocumentForTipusDocumentID[tmp]}
           </c:if>
+             <c:if test="${empty tipusDocumentColaboracioDelegacio.tipusDocumentID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

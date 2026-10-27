@@ -25,32 +25,44 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFirmaWebPerUsuariEntitatFields.PLUGINFIRMAWEBPERUSRENTID)}">
-          <td>
+        <td>
           ${pluginFirmaWebPerUsuariEntitat.pluginFirmaWebPerUsrEntID}
+             <c:if test="${empty pluginFirmaWebPerUsuariEntitat.pluginFirmaWebPerUsrEntID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFirmaWebPerUsuariEntitatFields.USUARIENTITATID)}">
-          <td>
+        <td>
           <c:set var="tmp">${pluginFirmaWebPerUsuariEntitat.usuariEntitatID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariEntitatForUsuariEntitatID[tmp]}
           </c:if>
+             <c:if test="${empty pluginFirmaWebPerUsuariEntitat.usuariEntitatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFirmaWebPerUsuariEntitatFields.PLUGINFIRMAWEBID)}">
-          <td>
+        <td>
           <c:set var="tmp">${pluginFirmaWebPerUsuariEntitat.pluginFirmaWebID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfPluginForPluginFirmaWebID[tmp]}
           </c:if>
+             <c:if test="${empty pluginFirmaWebPerUsuariEntitat.pluginFirmaWebID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFirmaWebPerUsuariEntitatFields.ACCIO)}">
-          <td>
+        <td>
           <c:set var="tmp">${pluginFirmaWebPerUsuariEntitat.accio}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForAccio[tmp]}
           </c:if>
+             <c:if test="${empty pluginFirmaWebPerUsuariEntitat.accio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

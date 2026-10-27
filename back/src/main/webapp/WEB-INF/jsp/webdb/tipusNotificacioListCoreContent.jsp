@@ -25,25 +25,37 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusNotificacioFields.TIPUSNOTIFICACIOID)}">
-          <td>
+        <td>
           ${tipusNotificacio.tipusNotificacioID}
+             <c:if test="${empty tipusNotificacio.tipusNotificacioID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusNotificacioFields.NOM)}">
-          <td>
+        <td>
           ${tipusNotificacio.nom}
+             <c:if test="${empty tipusNotificacio.nom}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusNotificacioFields.DESCRIPCIO)}">
-          <td>
+        <td>
           ${tipusNotificacio.descripcio}
+             <c:if test="${empty tipusNotificacio.descripcio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusNotificacioFields.ESAVIS)}">
-          <td>
+        <td>
             &nbsp;<c:if test="${not empty tipusNotificacio.esAvis}">
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${tipusNotificacio.esAvis?'success':'error'}.png"/>">
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${tipusNotificacio.esAvis?'success':'error'}.png"/>" alt="${tipusNotificacio.esAvis}" >
             </c:if>
+             <c:if test="${empty tipusNotificacio.esAvis}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

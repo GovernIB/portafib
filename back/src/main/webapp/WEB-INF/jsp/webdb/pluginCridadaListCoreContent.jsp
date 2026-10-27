@@ -25,66 +25,101 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.PLUGINCRIDADAID)}">
-          <td>
+        <td>
           ${pluginCridada.pluginCridadaID}
+             <c:if test="${empty pluginCridada.pluginCridadaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.ENTITATID)}">
-          <td>
+        <td>
           <c:set var="tmp">${pluginCridada.entitatID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfEntitatForEntitatID[tmp]}
           </c:if>
+             <c:if test="${empty pluginCridada.entitatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.DATA)}">
-          <td> <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${pluginCridada.data}" /></td>
+        <td>
+          <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${pluginCridada.data}" />
+             <c:if test="${empty pluginCridada.data}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.PLUGINID)}">
-          <td>
+        <td>
           <c:set var="tmp">${pluginCridada.pluginID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfPluginForPluginID[tmp]}
           </c:if>
+             <c:if test="${empty pluginCridada.pluginID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.METODEPLUGIN)}">
-          <td>
+        <td>
           ${pluginCridada.metodePlugin}
+             <c:if test="${empty pluginCridada.metodePlugin}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.PARAMETRESTEXT)}">
-          <td>
+        <td>
           ${pluginCridada.parametresText}
+             <c:if test="${empty pluginCridada.parametresText}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.PARAMETRESFITXERID)}">
-          <td>
+        <td>
             <c:if test="${not empty pluginCridada.parametresFitxer}">
               <a target="_blank" href="<c:url value="${pfi:fileUrl(pluginCridada.parametresFitxer)}"/>">${pluginCridada.parametresFitxer.nom}</a>
             </c:if>
-           </td>
+             <c:if test="${empty pluginCridada.parametresFitxer}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.RETORNTEXT)}">
-          <td>
+        <td>
           ${pluginCridada.retornText}
+             <c:if test="${empty pluginCridada.retornText}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.RETORNFITXERID)}">
-          <td>
+        <td>
             <c:if test="${not empty pluginCridada.retornFitxer}">
               <a target="_blank" href="<c:url value="${pfi:fileUrl(pluginCridada.retornFitxer)}"/>">${pluginCridada.retornFitxer.nom}</a>
             </c:if>
-           </td>
+             <c:if test="${empty pluginCridada.retornFitxer}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.TIPUSTESULTAT)}">
-          <td>
+        <td>
           ${pluginCridada.tipusTesultat}
+             <c:if test="${empty pluginCridada.tipusTesultat}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.TEMPSEXECUCIO)}">
-          <td>
+        <td>
           ${pluginCridada.tempsExecucio}
+             <c:if test="${empty pluginCridada.tempsExecucio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

@@ -25,93 +25,135 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.USUARIAPLICACIOID)}">
-          <td>
+        <td>
           ${usuariAplicacio.usuariAplicacioID}
+             <c:if test="${empty usuariAplicacio.usuariAplicacioID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.ENTITATID)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariAplicacio.entitatID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfEntitatForEntitatID[tmp]}
           </c:if>
+             <c:if test="${empty usuariAplicacio.entitatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.EMAILADMIN)}">
-          <td>
+        <td>
           ${usuariAplicacio.emailAdmin}
+             <c:if test="${empty usuariAplicacio.emailAdmin}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.CALLBACKVERSIO)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariAplicacio.callbackVersio}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForCallbackVersio[tmp]}
           </c:if>
+             <c:if test="${empty usuariAplicacio.callbackVersio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.CALLBACKURL)}">
-          <td>
+        <td>
           ${usuariAplicacio.callbackURL}
+             <c:if test="${empty usuariAplicacio.callbackURL}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.ACTIU)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacio.actiu?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacio.actiu?'success':'error'}.png"/>" alt="${usuariAplicacio.actiu}" >
+             <c:if test="${empty usuariAplicacio.actiu}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.IDIOMAID)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariAplicacio.idiomaID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfIdiomaForIdiomaID[tmp]}
           </c:if>
+             <c:if test="${empty usuariAplicacio.idiomaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.DESCRIPCIO)}">
-          <td>
+        <td>
           ${usuariAplicacio.descripcio}
+             <c:if test="${empty usuariAplicacio.descripcio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.LOGOSEGELLID)}">
-          <td>
+        <td>
             <c:if test="${not empty usuariAplicacio.logoSegell}">
               <a target="_blank" href="<c:url value="${pfi:fileUrl(usuariAplicacio.logoSegell)}"/>">${usuariAplicacio.logoSegell.nom}</a>
             </c:if>
-           </td>
+             <c:if test="${empty usuariAplicacio.logoSegell}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariAplicacio.politicaDePluginFirmaWeb}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForPoliticaDePluginFirmaWeb[tmp]}
           </c:if>
+             <c:if test="${empty usuariAplicacio.politicaDePluginFirmaWeb}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.POLITICACUSTODIA)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariAplicacio.politicaCustodia}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForPoliticaCustodia[tmp]}
           </c:if>
+             <c:if test="${empty usuariAplicacio.politicaCustodia}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.CUSTODIAINFOID)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariAplicacio.custodiaInfoID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfCustodiaInfoForCustodiaInfoID[tmp]}
           </c:if>
+             <c:if test="${empty usuariAplicacio.custodiaInfoID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.CREARUSUARIS)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacio.crearUsuaris?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacio.crearUsuaris?'success':'error'}.png"/>" alt="${usuariAplicacio.crearUsuaris}" >
+             <c:if test="${empty usuariAplicacio.crearUsuaris}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.TIPUSREVISORS)}">
-          <td>
-            <fmt:message key="tipusrevisors.${usuariAplicacio.tipusRevisors}" />          </td>
+        <td>
+            <fmt:message key="tipusrevisors.${usuariAplicacio.tipusRevisors}" />             <c:if test="${empty usuariAplicacio.tipusRevisors}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
 
 

@@ -25,52 +25,81 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.BITACOLAID)}">
-          <td>
+        <td>
           ${bitacola.bitacolaID}
+             <c:if test="${empty bitacola.bitacolaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.ENTITATID)}">
-          <td>
+        <td>
           ${bitacola.entitatid}
+             <c:if test="${empty bitacola.entitatid}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.USUARIID)}">
-          <td>
+        <td>
           ${bitacola.usuariid}
+             <c:if test="${empty bitacola.usuariid}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.DATA)}">
-          <td> <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${bitacola.data}" /></td>
+        <td>
+          <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${bitacola.data}" />
+             <c:if test="${empty bitacola.data}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.TIPUSOBJECTE)}">
-          <td>
+        <td>
           <c:set var="tmp">${bitacola.tipusObjecte}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForTipusObjecte[tmp]}
           </c:if>
+             <c:if test="${empty bitacola.tipusObjecte}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.OBJECTEID)}">
-          <td>
+        <td>
           ${bitacola.objecteid}
+             <c:if test="${empty bitacola.objecteid}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.TIPUSOPERACIO)}">
-          <td>
+        <td>
           <c:set var="tmp">${bitacola.tipusOperacio}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForTipusOperacio[tmp]}
           </c:if>
+             <c:if test="${empty bitacola.tipusOperacio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.DESCRIPCIO)}">
-          <td>
+        <td>
           ${bitacola.descripcio}
+             <c:if test="${empty bitacola.descripcio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.OBJECTESERIALITZAT)}">
-          <td>
+        <td>
           ${bitacola.objecteSerialitzat}
+             <c:if test="${empty bitacola.objecteSerialitzat}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

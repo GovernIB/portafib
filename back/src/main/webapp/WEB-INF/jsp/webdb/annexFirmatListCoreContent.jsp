@@ -25,31 +25,43 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,AnnexFirmatFields.ANNEXFIRMATID)}">
-          <td>
+        <td>
           ${annexFirmat.annexfirmatID}
+             <c:if test="${empty annexFirmat.annexfirmatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,AnnexFirmatFields.FITXERID)}">
-          <td>
+        <td>
             <c:if test="${not empty annexFirmat.fitxer}">
               <a target="_blank" href="<c:url value="${pfi:fileUrl(annexFirmat.fitxer)}"/>">${annexFirmat.fitxer.nom}</a>
             </c:if>
-           </td>
+             <c:if test="${empty annexFirmat.fitxer}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,AnnexFirmatFields.ANNEXID)}">
-          <td>
+        <td>
           <c:set var="tmp">${annexFirmat.annexID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfAnnexForAnnexID[tmp]}
           </c:if>
+             <c:if test="${empty annexFirmat.annexID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,AnnexFirmatFields.FIRMAID)}">
-          <td>
+        <td>
           <c:set var="tmp">${annexFirmat.firmaID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfFirmaForFirmaID[tmp]}
           </c:if>
+             <c:if test="${empty annexFirmat.firmaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

@@ -25,23 +25,35 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,IdiomaFields.IDIOMAID)}">
-          <td>
+        <td>
           ${idioma.idiomaID}
+             <c:if test="${empty idioma.idiomaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,IdiomaFields.NOM)}">
-          <td>
+        <td>
           ${idioma.nom}
+             <c:if test="${empty idioma.nom}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,IdiomaFields.SUPORTAT)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${idioma.suportat?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${idioma.suportat?'success':'error'}.png"/>" alt="${idioma.suportat}" >
+             <c:if test="${empty idioma.suportat}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,IdiomaFields.ORDRE)}">
-          <td>
+        <td>
           ${idioma.ordre}
+             <c:if test="${empty idioma.ordre}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

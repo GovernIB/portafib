@@ -25,53 +25,80 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariPersonaFields.USUARIPERSONAID)}">
-          <td>
+        <td>
           ${usuariPersona.usuariPersonaID}
+             <c:if test="${empty usuariPersona.usuariPersonaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariPersonaFields.NOM)}">
-          <td>
+        <td>
           ${usuariPersona.nom}
+             <c:if test="${empty usuariPersona.nom}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariPersonaFields.LLINATGES)}">
-          <td>
+        <td>
           ${usuariPersona.llinatges}
+             <c:if test="${empty usuariPersona.llinatges}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariPersonaFields.EMAIL)}">
-          <td>
+        <td>
           ${usuariPersona.email}
+             <c:if test="${empty usuariPersona.email}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariPersonaFields.NIF)}">
-          <td>
+        <td>
           ${usuariPersona.nif}
+             <c:if test="${empty usuariPersona.nif}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariPersonaFields.IDIOMAID)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariPersona.idiomaID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfIdiomaForIdiomaID[tmp]}
           </c:if>
+             <c:if test="${empty usuariPersona.idiomaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariPersonaFields.RUBRICAID)}">
-          <td>
+        <td>
             <c:if test="${not empty usuariPersona.rubrica}">
               <a target="_blank" href="<c:url value="${pfi:fileUrl(usuariPersona.rubrica)}"/>">${usuariPersona.rubrica.nom}</a>
             </c:if>
-           </td>
+             <c:if test="${empty usuariPersona.rubrica}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariPersonaFields.USUARIINTERN)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariPersona.usuariIntern?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariPersona.usuariIntern?'success':'error'}.png"/>" alt="${usuariPersona.usuariIntern}" >
+             <c:if test="${empty usuariPersona.usuariIntern}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariPersonaFields.CONTRASENYA)}">
-          <td>
+        <td>
           ${usuariPersona.contrasenya}
+             <c:if test="${empty usuariPersona.contrasenya}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

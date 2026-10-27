@@ -5,8 +5,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.USUARIAPLICACIOID)}">
         <tr id="usuariAplicacio_usuariAplicacioID_rowid">
           <td id="usuariAplicacio_usuariAplicacioID_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.USUARIAPLICACIOID])?'usuariAplicacio.usuariAplicacioID':__theForm.labels[UsuariAplicacioFields.USUARIAPLICACIOID]}" /> &nbsp;(*)
+            <label for="usuariAplicacio.usuariAplicacioID">
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.USUARIAPLICACIOID])?'usuariAplicacio.usuariAplicacioID':__theForm.labels[UsuariAplicacioFields.USUARIAPLICACIOID]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioFields.USUARIAPLICACIOID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioFields.USUARIAPLICACIOID]}" ></i>
@@ -14,7 +14,7 @@
             </td>
           <td id="usuariAplicacio_usuariAplicacioID_columnvalueid">
             <form:errors path="usuariAplicacio.usuariAplicacioID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.USUARIAPLICACIOID)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.USUARIAPLICACIOID)? ' uneditable-input' : ''}"  style="" maxlength="101" path="usuariAplicacio.usuariAplicacioID"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.USUARIAPLICACIOID)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.USUARIAPLICACIOID)? ' uneditable-input' : ''}"  style="" maxlength="101" path="usuariAplicacio.usuariAplicacioID"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -23,8 +23,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.ENTITATID)}">
         <tr id="usuariAplicacio_entitatID_rowid">
           <td id="usuariAplicacio_entitatID_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.ENTITATID])?'usuariAplicacio.entitatID':__theForm.labels[UsuariAplicacioFields.ENTITATID]}" /> &nbsp;(*)
+            <label for="usuariAplicacio.entitatID">
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.ENTITATID])?'usuariAplicacio.entitatID':__theForm.labels[UsuariAplicacioFields.ENTITATID]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioFields.ENTITATID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioFields.ENTITATID]}" ></i>
@@ -34,13 +34,16 @@
           <form:errors path="usuariAplicacio.entitatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.ENTITATID)}" >
           <form:hidden path="usuariAplicacio.entitatID"/>
-          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.usuariAplicacio.entitatID,__theForm.listOfEntitatForEntitatID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.usuariAplicacio.entitatID,__theForm.listOfEntitatForEntitatID)}" aria-label="usuariAplicacio.entitatID"   required aria-required="true"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.ENTITATID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="usuariAplicacio_entitatID"  onchange="if(typeof onChangeEntitatID == 'function') {  onChangeEntitatID(this); };"  cssClass="form-control col-md-9-optional" path="usuariAplicacio.entitatID">
+          <form:select path="usuariAplicacio.entitatID" cssClass="form-control col-md-9-optional"  required="required"  aria-required="true"  onchange="if(typeof onChangeEntitatID == 'function') {  onChangeEntitatID(this); };">
+
+
             <c:forEach items="${__theForm.listOfEntitatForEntitatID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
+
                 <c:if test="${empty tmp.key}">
                   <c:set var="containEmptyValue"  value="true" />
                 </c:if>
@@ -54,8 +57,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.EMAILADMIN)}">
         <tr id="usuariAplicacio_emailAdmin_rowid">
           <td id="usuariAplicacio_emailAdmin_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.EMAILADMIN])?'usuariAplicacio.emailAdmin':__theForm.labels[UsuariAplicacioFields.EMAILADMIN]}" /> &nbsp;(*)
+            <label for="usuariAplicacio.emailAdmin">
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.EMAILADMIN])?'usuariAplicacio.emailAdmin':__theForm.labels[UsuariAplicacioFields.EMAILADMIN]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioFields.EMAILADMIN]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioFields.EMAILADMIN]}" ></i>
@@ -63,7 +66,7 @@
             </td>
           <td id="usuariAplicacio_emailAdmin_columnvalueid">
             <form:errors path="usuariAplicacio.emailAdmin" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.EMAILADMIN)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.EMAILADMIN)? ' uneditable-input' : ''}"  style="" maxlength="100" path="usuariAplicacio.emailAdmin"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.EMAILADMIN)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.EMAILADMIN)? ' uneditable-input' : ''}"  style="" maxlength="100" path="usuariAplicacio.emailAdmin"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -72,8 +75,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.CALLBACKVERSIO)}">
         <tr id="usuariAplicacio_callbackVersio_rowid">
           <td id="usuariAplicacio_callbackVersio_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.CALLBACKVERSIO])?'usuariAplicacio.callbackVersio':__theForm.labels[UsuariAplicacioFields.CALLBACKVERSIO]}" /> &nbsp;(*)
+            <label for="usuariAplicacio.callbackVersio">
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.CALLBACKVERSIO])?'usuariAplicacio.callbackVersio':__theForm.labels[UsuariAplicacioFields.CALLBACKVERSIO]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioFields.CALLBACKVERSIO]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioFields.CALLBACKVERSIO]}" ></i>
@@ -83,13 +86,16 @@
           <form:errors path="usuariAplicacio.callbackVersio" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CALLBACKVERSIO)}" >
           <form:hidden path="usuariAplicacio.callbackVersio"/>
-          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.usuariAplicacio.callbackVersio,__theForm.listOfValuesForCallbackVersio)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.usuariAplicacio.callbackVersio,__theForm.listOfValuesForCallbackVersio)}" aria-label="usuariAplicacio.callbackVersio"   required aria-required="true"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CALLBACKVERSIO)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="usuariAplicacio_callbackVersio"  onchange="if(typeof onChangeCallbackVersio == 'function') {  onChangeCallbackVersio(this); };"  cssClass="form-control col-md-9-optional" path="usuariAplicacio.callbackVersio">
+          <form:select path="usuariAplicacio.callbackVersio" cssClass="form-control col-md-9-optional"  required="required"  aria-required="true"  onchange="if(typeof onChangeCallbackVersio == 'function') {  onChangeCallbackVersio(this); };">
+
+
             <c:forEach items="${__theForm.listOfValuesForCallbackVersio}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
+
                 <c:if test="${empty tmp.key}">
                   <c:set var="containEmptyValue"  value="true" />
                 </c:if>
@@ -103,7 +109,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.CALLBACKURL)}">
         <tr id="usuariAplicacio_callbackURL_rowid">
           <td id="usuariAplicacio_callbackURL_columnlabelid">
-            <label>
+            <label for="usuariAplicacio.callbackURL">
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.CALLBACKURL])?'usuariAplicacio.callbackURL':__theForm.labels[UsuariAplicacioFields.CALLBACKURL]}" />
              </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioFields.CALLBACKURL]}">
@@ -112,7 +118,7 @@
             </td>
           <td id="usuariAplicacio_callbackURL_columnvalueid">
             <form:errors path="usuariAplicacio.callbackURL" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CALLBACKURL)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CALLBACKURL)? ' uneditable-input' : ''}"  style="" maxlength="400" path="usuariAplicacio.callbackURL"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CALLBACKURL)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CALLBACKURL)? ' uneditable-input' : ''}"  style="" maxlength="400" path="usuariAplicacio.callbackURL"   />
 
            </td>
         </tr>
@@ -121,7 +127,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.ACTIU)}">
         <tr id="usuariAplicacio_actiu_rowid">
           <td id="usuariAplicacio_actiu_columnlabelid">
-            <label>
+            <label for="usuariAplicacio.actiu">
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.ACTIU])?'usuariAplicacio.actiu':__theForm.labels[UsuariAplicacioFields.ACTIU]}" />
              </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioFields.ACTIU]}">
@@ -130,8 +136,11 @@
             </td>
           <td id="usuariAplicacio_actiu_columnvalueid">
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.ACTIU)}" >
-              <form:errors path="usuariAplicacio.actiu" cssClass="errorField alert alert-danger" />
-              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.ACTIU)? 'false' : 'true'}" path="usuariAplicacio.actiu" />
+              <form:errors  path="usuariAplicacio.actiu" cssClass="errorField alert alert-danger" />
+<fieldset>
+<legend class="sr-only">Evitar errors d'Accessibilitat</legend>
+              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.ACTIU)? 'false' : 'true'}" id="usuariAplicacio.actiu" path="usuariAplicacio.actiu"   />
+</fieldset>
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.ACTIU)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.usuariAplicacio.actiu}" />
@@ -143,8 +152,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.IDIOMAID)}">
         <tr id="usuariAplicacio_idiomaID_rowid">
           <td id="usuariAplicacio_idiomaID_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.IDIOMAID])?'usuariAplicacio.idiomaID':__theForm.labels[UsuariAplicacioFields.IDIOMAID]}" /> &nbsp;(*)
+            <label for="usuariAplicacio.idiomaID">
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.IDIOMAID])?'usuariAplicacio.idiomaID':__theForm.labels[UsuariAplicacioFields.IDIOMAID]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioFields.IDIOMAID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioFields.IDIOMAID]}" ></i>
@@ -154,13 +163,16 @@
           <form:errors path="usuariAplicacio.idiomaID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.IDIOMAID)}" >
           <form:hidden path="usuariAplicacio.idiomaID"/>
-          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.usuariAplicacio.idiomaID,__theForm.listOfIdiomaForIdiomaID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.usuariAplicacio.idiomaID,__theForm.listOfIdiomaForIdiomaID)}" aria-label="usuariAplicacio.idiomaID"   required aria-required="true"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.IDIOMAID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="usuariAplicacio_idiomaID"  onchange="if(typeof onChangeIdiomaID == 'function') {  onChangeIdiomaID(this); };"  cssClass="form-control col-md-9-optional" path="usuariAplicacio.idiomaID">
+          <form:select path="usuariAplicacio.idiomaID" cssClass="form-control col-md-9-optional"  required="required"  aria-required="true"  onchange="if(typeof onChangeIdiomaID == 'function') {  onChangeIdiomaID(this); };">
+
+
             <c:forEach items="${__theForm.listOfIdiomaForIdiomaID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
+
                 <c:if test="${empty tmp.key}">
                   <c:set var="containEmptyValue"  value="true" />
                 </c:if>
@@ -174,7 +186,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.DESCRIPCIO)}">
         <tr id="usuariAplicacio_descripcio_rowid">
           <td id="usuariAplicacio_descripcio_columnlabelid">
-            <label>
+            <label for="usuariAplicacio.descripcio">
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.DESCRIPCIO])?'usuariAplicacio.descripcio':__theForm.labels[UsuariAplicacioFields.DESCRIPCIO]}" />
              </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioFields.DESCRIPCIO]}">
@@ -186,18 +198,18 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.DESCRIPCIO)? 'true' : 'false'}" path="usuariAplicacio.descripcio"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.DESCRIPCIO)? 'readonly' : ''}" path="usuariAplicacio.descripcio"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
-        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;" aria-label="Opcions de format"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_descripcio" class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('usuariAplicacio.descripcio'); ta.wrap='off';" >No Wrap</a>
           <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('usuariAplicacio.descripcio'); ta.wrap='soft';">Soft Wrap</a>
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('usuariAplicacio.descripcio'); ta.wrap='hard';">Hard Wrap</a>
         </div>
       </div>
-      <script type="text/javascript">
+      <script>
 			$('#dropdownMenuButton_descripcio').on('click', function(){
 					var valor = ($('#dropdownMenuContainer_descripcio').css('display') != 'none') ? 'none' : 'block';
                  $('#dropdownMenuContainer_descripcio').css('display', valor);
@@ -213,7 +225,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.LOGOSEGELLID)}">
         <tr id="usuariAplicacio_logoSegellID_rowid">
           <td id="usuariAplicacio_logoSegellID_columnlabelid">
-            <label>
+            <label for="usuariAplicacio.logoSegellID">
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.LOGOSEGELLID])?'usuariAplicacio.logoSegellID':__theForm.labels[UsuariAplicacioFields.LOGOSEGELLID]}" />
              </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioFields.LOGOSEGELLID]}">
@@ -228,20 +240,25 @@
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.LOGOSEGELLID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
                 <div class="custom-file">
-                  <form:input  readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.LOGOSEGELLID)? 'true' : 'false'}" cssClass="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.LOGOSEGELLID)? ' uneditable-input' : ''}"   path="logoSegellID" type="file" />
-                  <label class="custom-file-label" for="logoSegellID">
-                  </label>
+                  <input id="usuariAplicacio.logoSegellID" name="logoSegellID" class="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.LOGOSEGELLID)? ' uneditable-input' : ''}"  type="file"  />
+                  <span id="logoSegellID-custom-file-label2" class="custom-file-label" >
+                    <c:if test="${ empty __theForm.usuariAplicacio.logoSegell}">
+                    <fmt:message key="genapp.form.file.select"/>
+                    </c:if>
+                  </span>
                 </div>
                 <c:choose>
                 <c:when test="${not empty __theForm.usuariAplicacio.logoSegell}">
-                <div class="input-group-append">
-                  <span class="input-group-text" id="">
+                <div class="input-group-append input-group-append-file">
+                  <span class="input-group-text" id="logoSegellID-custom-file-label">
                   <small>              <a target="_blank" href="<c:url value="${pfi:fileUrl(__theForm.usuariAplicacio.logoSegell)}"/>">${__theForm.usuariAplicacio.logoSegell.nom}</a>
 </small>
                   </span>
-                  <span class="input-group-text" id="">
-                        <form:checkbox path="logoSegellIDDelete"/>
-                        <small><fmt:message key="genapp.form.file.delete"/></small>
+                  <span class="input-group-text" >
+                        <form:checkbox id="logoSegellIDDelete" path="logoSegellIDDelete"/>
+                        <label style="margin-bottom:0px" for="logoSegellIDDelete">
+                        <small style="color:#000">&nbsp;<fmt:message key="genapp.form.file.delete"/></small>
+                        </label>
                   </span>
                 </div>
                 </c:when>
@@ -251,15 +268,17 @@
                   <small></small>
                   </span>
                 </div>
-                <script type="text/javascript">
-					$('#logoSegellID').on('change', function(){
-						var ruta = $('#logoSegellID').val(); 
+                </c:otherwise>
+                </c:choose>
+                <script>
+					$('#usuariAplicacio\\.logoSegellID').on('change', function(){
+						var ruta = $('#usuariAplicacio\\.logoSegellID').val(); 
 						var rutaArray = ruta.split('\\');
 						$('#logoSegellID-custom-file-label').css('display','block');
 						$('#logoSegellID-custom-file-label small').html(rutaArray[rutaArray.length - 1]);
-					});
-				</script>                </c:otherwise>
-                </c:choose>
+                       $('#logoSegellID-custom-file-label2').html(rutaArray[rutaArray.length - 1]);
+                   });
+				</script>
               </div>
             </c:if>
            </td>
@@ -269,8 +288,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB)}">
         <tr id="usuariAplicacio_politicaDePluginFirmaWeb_rowid">
           <td id="usuariAplicacio_politicaDePluginFirmaWeb_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB])?'usuariAplicacio.politicaDePluginFirmaWeb':__theForm.labels[UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB]}" /> &nbsp;(*)
+            <label for="usuariAplicacio.politicaDePluginFirmaWeb">
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB])?'usuariAplicacio.politicaDePluginFirmaWeb':__theForm.labels[UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB]}" ></i>
@@ -280,13 +299,16 @@
           <form:errors path="usuariAplicacio.politicaDePluginFirmaWeb" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB)}" >
           <form:hidden path="usuariAplicacio.politicaDePluginFirmaWeb"/>
-          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.usuariAplicacio.politicaDePluginFirmaWeb,__theForm.listOfValuesForPoliticaDePluginFirmaWeb)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.usuariAplicacio.politicaDePluginFirmaWeb,__theForm.listOfValuesForPoliticaDePluginFirmaWeb)}" aria-label="usuariAplicacio.politicaDePluginFirmaWeb"   required aria-required="true"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="usuariAplicacio_politicaDePluginFirmaWeb"  onchange="if(typeof onChangePoliticaDePluginFirmaWeb == 'function') {  onChangePoliticaDePluginFirmaWeb(this); };"  cssClass="form-control col-md-9-optional" path="usuariAplicacio.politicaDePluginFirmaWeb">
+          <form:select path="usuariAplicacio.politicaDePluginFirmaWeb" cssClass="form-control col-md-9-optional"  required="required"  aria-required="true"  onchange="if(typeof onChangePoliticaDePluginFirmaWeb == 'function') {  onChangePoliticaDePluginFirmaWeb(this); };">
+
+
             <c:forEach items="${__theForm.listOfValuesForPoliticaDePluginFirmaWeb}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
+
                 <c:if test="${empty tmp.key}">
                   <c:set var="containEmptyValue"  value="true" />
                 </c:if>
@@ -300,8 +322,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.POLITICACUSTODIA)}">
         <tr id="usuariAplicacio_politicaCustodia_rowid">
           <td id="usuariAplicacio_politicaCustodia_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.POLITICACUSTODIA])?'usuariAplicacio.politicaCustodia':__theForm.labels[UsuariAplicacioFields.POLITICACUSTODIA]}" /> &nbsp;(*)
+            <label for="usuariAplicacio.politicaCustodia">
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.POLITICACUSTODIA])?'usuariAplicacio.politicaCustodia':__theForm.labels[UsuariAplicacioFields.POLITICACUSTODIA]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioFields.POLITICACUSTODIA]}">
               <i class="fas fa-info-circle" title="${__theForm.help[UsuariAplicacioFields.POLITICACUSTODIA]}" ></i>
@@ -311,13 +333,16 @@
           <form:errors path="usuariAplicacio.politicaCustodia" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.POLITICACUSTODIA)}" >
           <form:hidden path="usuariAplicacio.politicaCustodia"/>
-          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.usuariAplicacio.politicaCustodia,__theForm.listOfValuesForPoliticaCustodia)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.usuariAplicacio.politicaCustodia,__theForm.listOfValuesForPoliticaCustodia)}" aria-label="usuariAplicacio.politicaCustodia"   required aria-required="true"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.POLITICACUSTODIA)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="usuariAplicacio_politicaCustodia"  onchange="if(typeof onChangePoliticaCustodia == 'function') {  onChangePoliticaCustodia(this); };"  cssClass="form-control col-md-9-optional" path="usuariAplicacio.politicaCustodia">
+          <form:select path="usuariAplicacio.politicaCustodia" cssClass="form-control col-md-9-optional"  required="required"  aria-required="true"  onchange="if(typeof onChangePoliticaCustodia == 'function') {  onChangePoliticaCustodia(this); };">
+
+
             <c:forEach items="${__theForm.listOfValuesForPoliticaCustodia}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
+
                 <c:if test="${empty tmp.key}">
                   <c:set var="containEmptyValue"  value="true" />
                 </c:if>
@@ -331,7 +356,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.CUSTODIAINFOID)}">
         <tr id="usuariAplicacio_custodiaInfoID_rowid">
           <td id="usuariAplicacio_custodiaInfoID_columnlabelid">
-            <label>
+            <label for="usuariAplicacio.custodiaInfoID">
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.CUSTODIAINFOID])?'usuariAplicacio.custodiaInfoID':__theForm.labels[UsuariAplicacioFields.CUSTODIAINFOID]}" />
              </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioFields.CUSTODIAINFOID]}">
@@ -342,13 +367,16 @@
           <form:errors path="usuariAplicacio.custodiaInfoID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CUSTODIAINFOID)}" >
           <form:hidden path="usuariAplicacio.custodiaInfoID"/>
-          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.usuariAplicacio.custodiaInfoID,__theForm.listOfCustodiaInfoForCustodiaInfoID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.usuariAplicacio.custodiaInfoID,__theForm.listOfCustodiaInfoForCustodiaInfoID)}" aria-label="usuariAplicacio.custodiaInfoID"   />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CUSTODIAINFOID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="usuariAplicacio_custodiaInfoID"  onchange="if(typeof onChangeCustodiaInfoID == 'function') {  onChangeCustodiaInfoID(this); };"  cssClass="form-control col-md-9-optional" path="usuariAplicacio.custodiaInfoID">
+          <form:select path="usuariAplicacio.custodiaInfoID" cssClass="form-control col-md-9-optional"  onchange="if(typeof onChangeCustodiaInfoID == 'function') {  onChangeCustodiaInfoID(this); };">
+
+
             <c:forEach items="${__theForm.listOfCustodiaInfoForCustodiaInfoID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
+
                 <c:if test="${empty tmp.key}">
                   <c:set var="containEmptyValue"  value="true" />
                 </c:if>
@@ -356,10 +384,12 @@
             <%-- El camp pot ser null, per la qual cosa afegim una entrada buida si no s'ha definit abans --%>
             <c:if test="${not containEmptyValue}">
               <c:if test="${empty __theForm.usuariAplicacio.custodiaInfoID }">
-                  <form:option value="" selected="true" ></form:option>
+                  <option value="" selected></option>
+
               </c:if>
               <c:if test="${not empty __theForm.usuariAplicacio.custodiaInfoID }">
-                  <form:option value="" ></form:option>
+
+                  <option value="" ></option>
               </c:if>
             </c:if>
           </form:select>
@@ -371,7 +401,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.CREARUSUARIS)}">
         <tr id="usuariAplicacio_crearUsuaris_rowid">
           <td id="usuariAplicacio_crearUsuaris_columnlabelid">
-            <label>
+            <label for="usuariAplicacio.crearUsuaris">
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.CREARUSUARIS])?'usuariAplicacio.crearUsuaris':__theForm.labels[UsuariAplicacioFields.CREARUSUARIS]}" />
              </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioFields.CREARUSUARIS]}">
@@ -380,8 +410,11 @@
             </td>
           <td id="usuariAplicacio_crearUsuaris_columnvalueid">
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CREARUSUARIS)}" >
-              <form:errors path="usuariAplicacio.crearUsuaris" cssClass="errorField alert alert-danger" />
-              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CREARUSUARIS)? 'false' : 'true'}" path="usuariAplicacio.crearUsuaris" />
+              <form:errors  path="usuariAplicacio.crearUsuaris" cssClass="errorField alert alert-danger" />
+<fieldset>
+<legend class="sr-only">Evitar errors d'Accessibilitat</legend>
+              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CREARUSUARIS)? 'false' : 'true'}" id="usuariAplicacio.crearUsuaris" path="usuariAplicacio.crearUsuaris"   />
+</fieldset>
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CREARUSUARIS)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.usuariAplicacio.crearUsuaris}" />
@@ -393,7 +426,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.TIPUSREVISORS)}">
         <tr id="usuariAplicacio_tipusRevisors_rowid">
           <td id="usuariAplicacio_tipusRevisors_columnlabelid">
-            <label>
+            <label for="usuariAplicacio.tipusRevisors">
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.TIPUSREVISORS])?'usuariAplicacio.tipusRevisors':__theForm.labels[UsuariAplicacioFields.TIPUSREVISORS]}" />
              </label>
               <c:if test="${not empty __theForm.help[UsuariAplicacioFields.TIPUSREVISORS]}">

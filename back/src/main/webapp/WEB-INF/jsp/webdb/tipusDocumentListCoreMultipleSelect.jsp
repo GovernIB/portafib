@@ -1,7 +1,7 @@
       <%--  CHECK DE SELECCIO MULTIPLE  --%>
       <c:if test="${__theFilterForm.visibleMultipleSelection}">
       <td>
-       <form:checkbox path="selectedItems" value="${tipusDocument.tipusDocumentID}"/>
+       <form:checkbox path="selectedItems" aria-label="Seleccionar" value="${tipusDocument.tipusDocumentID}"/>
        &nbsp;
       </td>
       </c:if>

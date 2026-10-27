@@ -24,9 +24,9 @@ List<String> roles = new ArrayList<String>();
 <c:set var="url" value="${urlActual}" />
 
 <div>
-    <h5>
+    <span style="font-size: 1.25rem">
         <fmt:message key="menuinici" />
-    </h5>
+    </span>
     <%
     List<MenuItem> optionalMenus = new ArrayList<MenuItem>();
 

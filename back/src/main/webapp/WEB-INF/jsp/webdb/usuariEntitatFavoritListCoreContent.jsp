@@ -25,24 +25,33 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFavoritFields.ID)}">
-          <td>
+        <td>
           ${usuariEntitatFavorit.ID}
+             <c:if test="${empty usuariEntitatFavorit.ID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFavoritFields.ORIGENID)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariEntitatFavorit.origenID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariEntitatForOrigenID[tmp]}
           </c:if>
+             <c:if test="${empty usuariEntitatFavorit.origenID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFavoritFields.FAVORITID)}">
-          <td>
+        <td>
           <c:set var="tmp">${usuariEntitatFavorit.favoritID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariEntitatForFavoritID[tmp]}
           </c:if>
+             <c:if test="${empty usuariEntitatFavorit.favoritID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

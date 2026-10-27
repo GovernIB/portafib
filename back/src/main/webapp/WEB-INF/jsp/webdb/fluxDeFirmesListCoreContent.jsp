@@ -25,13 +25,19 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FluxDeFirmesFields.FLUXDEFIRMESID)}">
-          <td>
+        <td>
           ${fluxDeFirmes.fluxDeFirmesID}
+             <c:if test="${empty fluxDeFirmes.fluxDeFirmesID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FluxDeFirmesFields.NOM)}">
-          <td>
+        <td>
           ${fluxDeFirmes.nom}
+             <c:if test="${empty fluxDeFirmes.nom}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

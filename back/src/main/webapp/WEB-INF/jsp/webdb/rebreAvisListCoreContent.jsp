@@ -25,29 +25,41 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RebreAvisFields.ID)}">
-          <td>
+        <td>
           ${rebreAvis.id}
+             <c:if test="${empty rebreAvis.id}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RebreAvisFields.USUARIENTITATID)}">
-          <td>
+        <td>
           <c:set var="tmp">${rebreAvis.usuariEntitatID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariEntitatForUsuariEntitatID[tmp]}
           </c:if>
+             <c:if test="${empty rebreAvis.usuariEntitatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RebreAvisFields.TIPUSNOTIFICACIOID)}">
-          <td>
+        <td>
           <c:set var="tmp">${rebreAvis.tipusNotificacioID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfTipusNotificacioForTipusNotificacioID[tmp]}
           </c:if>
+             <c:if test="${empty rebreAvis.tipusNotificacioID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RebreAvisFields.REBREAGRUPAT)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${rebreAvis.rebreAgrupat?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${rebreAvis.rebreAgrupat?'success':'error'}.png"/>" alt="${rebreAvis.rebreAgrupat}" >
+             <c:if test="${empty rebreAvis.rebreAgrupat}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

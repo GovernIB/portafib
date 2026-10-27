@@ -25,24 +25,33 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RevisorDeDestinatariFields.REVISORDEDESTINATARIID)}">
-          <td>
+        <td>
           ${revisorDeDestinatari.revisorDeDestinatariID}
+             <c:if test="${empty revisorDeDestinatari.revisorDeDestinatariID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RevisorDeDestinatariFields.DESTINATARIID)}">
-          <td>
+        <td>
           <c:set var="tmp">${revisorDeDestinatari.destinatariID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariEntitatForDestinatariID[tmp]}
           </c:if>
+             <c:if test="${empty revisorDeDestinatari.destinatariID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RevisorDeDestinatariFields.REVISORID)}">
-          <td>
+        <td>
           <c:set var="tmp">${revisorDeDestinatari.revisorID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariEntitatForRevisorID[tmp]}
           </c:if>
+             <c:if test="${empty revisorDeDestinatari.revisorID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

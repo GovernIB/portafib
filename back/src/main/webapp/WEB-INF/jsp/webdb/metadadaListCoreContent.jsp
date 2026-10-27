@@ -25,39 +25,57 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,MetadadaFields.METADADAID)}">
-          <td>
+        <td>
           ${metadada.metadadaID}
+             <c:if test="${empty metadada.metadadaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,MetadadaFields.NOM)}">
-          <td>
+        <td>
           ${metadada.nom}
+             <c:if test="${empty metadada.nom}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,MetadadaFields.VALOR)}">
-          <td>
+        <td>
           ${metadada.valor}
+             <c:if test="${empty metadada.valor}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,MetadadaFields.DESCRIPCIO)}">
-          <td>
+        <td>
           ${metadada.descripcio}
+             <c:if test="${empty metadada.descripcio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,MetadadaFields.PETICIODEFIRMAID)}">
-          <td>
+        <td>
           <c:set var="tmp">${metadada.peticioDeFirmaID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfPeticioDeFirmaForPeticioDeFirmaID[tmp]}
           </c:if>
+             <c:if test="${empty metadada.peticioDeFirmaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,MetadadaFields.TIPUSMETADADAID)}">
-          <td>
+        <td>
           <c:set var="tmp">${metadada.tipusMetadadaID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForTipusMetadadaID[tmp]}
           </c:if>
+             <c:if test="${empty metadada.tipusMetadadaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

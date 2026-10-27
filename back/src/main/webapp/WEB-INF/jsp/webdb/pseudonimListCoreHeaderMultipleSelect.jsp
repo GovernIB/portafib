@@ -1,5 +1,3 @@
       <c:if test="${__theFilterForm.visibleMultipleSelection}">
-      <th>
-         <input type="checkbox" onClick="selectUnselectCheckBoxes(this)" />
-      </th>
+    <th aria-label="Seleccionar tots"><input type="checkbox" aria-label="SeleccionarTots" onClick="selectUnselectCheckBoxes(this)" /></th>
       </c:if>

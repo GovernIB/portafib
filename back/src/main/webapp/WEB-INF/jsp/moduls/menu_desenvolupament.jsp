@@ -2,7 +2,7 @@
 %><%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
 <div>
-  <h5>Desenvolupament</h5>
+  <span style="font-size: 1.25rem">Desenvolupament</span>
 
   
   <ul class="tree" style="margin: 3px; padding: 0px;">

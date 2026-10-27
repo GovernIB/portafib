@@ -25,37 +25,52 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusDocumentFields.TIPUSDOCUMENTID)}">
-          <td>
+        <td>
           ${tipusDocument.tipusDocumentID}
+             <c:if test="${empty tipusDocument.tipusDocumentID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusDocumentFields.NOMID)}">
-          <td>
+        <td>
           <c:set var="tmp">${tipusDocument.nomID}</c:set>
           <c:if test="${not empty tmp}">
           ${tipusDocument.nom.traduccions[lang].valor}
           </c:if>
+             <c:if test="${empty tipusDocument.nom}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusDocumentFields.TIPUSDOCUMENTBASEID)}">
-          <td>
+        <td>
           <c:set var="tmp">${tipusDocument.tipusDocumentBaseID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForTipusDocumentBaseID[tmp]}
           </c:if>
+             <c:if test="${empty tipusDocument.tipusDocumentBaseID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusDocumentFields.DESCRIPCIO)}">
-          <td>
+        <td>
           ${tipusDocument.descripcio}
+             <c:if test="${empty tipusDocument.descripcio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusDocumentFields.USUARIAPLICACIOID)}">
-          <td>
+        <td>
           <c:set var="tmp">${tipusDocument.usuariAplicacioID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariAplicacioForUsuariAplicacioID[tmp]}
           </c:if>
+             <c:if test="${empty tipusDocument.usuariAplicacioID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

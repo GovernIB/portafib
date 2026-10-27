@@ -20,9 +20,9 @@
   <form:hidden id="orderBy" path="orderBy"/> 
   <form:hidden id="orderAsc" path="orderAsc"/>
 
-  <form:hidden path="nou" value="false"/>
+  <form:hidden path="nou"/>
 
-<script type="text/javascript">
+<script>
   function executeOrderBy(orderBy, orderType) {
     document.getElementById('orderBy').value = orderBy;
     document.getElementById('orderAsc').value = orderType;

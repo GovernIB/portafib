@@ -25,18 +25,27 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CodiBarresFields.CODIBARRESID)}">
-          <td>
+        <td>
           ${codiBarres.codiBarresID}
+             <c:if test="${empty codiBarres.codiBarresID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CodiBarresFields.NOM)}">
-          <td>
+        <td>
           ${codiBarres.nom}
+             <c:if test="${empty codiBarres.nom}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CodiBarresFields.DESCRIPCIO)}">
-          <td>
+        <td>
           ${codiBarres.descripcio}
+             <c:if test="${empty codiBarres.descripcio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

@@ -25,29 +25,41 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RevisorDeFirmaFields.REVISORDEFIRMAID)}">
-          <td>
+        <td>
           ${revisorDeFirma.revisorDeFirmaID}
+             <c:if test="${empty revisorDeFirma.revisorDeFirmaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RevisorDeFirmaFields.USUARIENTITATID)}">
-          <td>
+        <td>
           <c:set var="tmp">${revisorDeFirma.usuariEntitatID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariEntitatForUsuariEntitatID[tmp]}
           </c:if>
+             <c:if test="${empty revisorDeFirma.usuariEntitatID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RevisorDeFirmaFields.FIRMAID)}">
-          <td>
+        <td>
           <c:set var="tmp">${revisorDeFirma.firmaID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfFirmaForFirmaID[tmp]}
           </c:if>
+             <c:if test="${empty revisorDeFirma.firmaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RevisorDeFirmaFields.OBLIGATORI)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${revisorDeFirma.obligatori?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${revisorDeFirma.obligatori?'success':'error'}.png"/>" alt="${revisorDeFirma.obligatori}" >
+             <c:if test="${empty revisorDeFirma.obligatori}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

@@ -5,8 +5,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusDocumentFields.TIPUSDOCUMENTID)}">
         <tr id="tipusDocument_tipusDocumentID_rowid">
           <td id="tipusDocument_tipusDocumentID_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.TIPUSDOCUMENTID])?'tipusDocument.tipusDocumentID':__theForm.labels[TipusDocumentFields.TIPUSDOCUMENTID]}" /> &nbsp;(*)
+            <label for="tipusDocument.tipusDocumentID">
+              <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.TIPUSDOCUMENTID])?'tipusDocument.tipusDocumentID':__theForm.labels[TipusDocumentFields.TIPUSDOCUMENTID]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[TipusDocumentFields.TIPUSDOCUMENTID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[TipusDocumentFields.TIPUSDOCUMENTID]}" ></i>
@@ -14,7 +14,7 @@
             </td>
           <td id="tipusDocument_tipusDocumentID_columnvalueid">
             <form:errors path="tipusDocument.tipusDocumentID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTID)? 'true' : 'false'}" cssClass="w-50 form-control  ${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTID)? ' uneditable-input' : ''}"  style=""  path="tipusDocument.tipusDocumentID"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTID)? 'readonly' : ''}" cssClass="w-50 form-control  ${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTID)? ' uneditable-input' : ''}"  style=""  path="tipusDocument.tipusDocumentID"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -23,8 +23,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusDocumentFields.NOMID)}">
         <tr id="tipusDocument_nomID_rowid">
           <td id="tipusDocument_nomID_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.NOMID])?'tipusDocument.nomID':__theForm.labels[TipusDocumentFields.NOMID]}" /> &nbsp;(*)
+            <label id="tipusDocument_nomID_labelid">
+              <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.NOMID])?'tipusDocument.nomID':__theForm.labels[TipusDocumentFields.NOMID]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[TipusDocumentFields.NOMID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[TipusDocumentFields.NOMID]}" ></i>
@@ -36,16 +36,16 @@
          <ul class="nav nav-tabs" style="margin: 0 15px -1px;">
              <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
             <li class="nav-item ">
-                 <a class="nav-link ${(counter.index == 0)? 'active':''}" href="#${counter.index}_tab_nom_${idioma.idiomaID}" data-toggle="tab">${idioma.nom}</a>
+                 <a class="nav-link ${(counter.index == 0)? 'active':''}" href="#tab_${counter.index}_nom_${idioma.idiomaID}" lang="${idioma.idiomaID}" data-toggle="tab">${idioma.nom}</a>
             </li>
           </c:forEach>
            
          </ul>
          <div class="tab-content well well-white" style="padding:8px;margin:0px;">
            <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
-           <div class="tab-pane ${(counter.index == 0)? 'active':'' }" id="${counter.index}_tab_nom_${idioma.idiomaID}">
+           <div class="tab-pane ${(counter.index == 0)? 'active':'' }" id="tab_${counter.index}_nom_${idioma.idiomaID}">
                <form:errors path="tipusDocument.nom.traduccions['${idioma.idiomaID}'].valor" cssClass="errorField alert alert-danger"/>
-               <form:input path="tipusDocument.nom.traduccions['${idioma.idiomaID}'].valor" cssClass="form-control  ${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.NOMID)? ' uneditable-input' : ''}" readonly="${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.NOMID)}" maxlength="4000" />
+               <form:input required="required"  aria-required="true"  aria-labelledby="tipusDocument_nomID_labelid" path="tipusDocument.nom.traduccions['${idioma.idiomaID}'].valor" cssClass="form-control  ${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.NOMID)? ' uneditable-input' : ''}" readonly="${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.NOMID)}" maxlength="4000" />
            </div>
            </c:forEach>
          </div>
@@ -58,8 +58,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusDocumentFields.TIPUSDOCUMENTBASEID)}">
         <tr id="tipusDocument_tipusDocumentBaseID_rowid">
           <td id="tipusDocument_tipusDocumentBaseID_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.TIPUSDOCUMENTBASEID])?'tipusDocument.tipusDocumentBaseID':__theForm.labels[TipusDocumentFields.TIPUSDOCUMENTBASEID]}" /> &nbsp;(*)
+            <label for="tipusDocument.tipusDocumentBaseID">
+              <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.TIPUSDOCUMENTBASEID])?'tipusDocument.tipusDocumentBaseID':__theForm.labels[TipusDocumentFields.TIPUSDOCUMENTBASEID]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[TipusDocumentFields.TIPUSDOCUMENTBASEID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[TipusDocumentFields.TIPUSDOCUMENTBASEID]}" ></i>
@@ -69,13 +69,16 @@
           <form:errors path="tipusDocument.tipusDocumentBaseID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTBASEID)}" >
           <form:hidden path="tipusDocument.tipusDocumentBaseID"/>
-          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.tipusDocument.tipusDocumentBaseID,__theForm.listOfValuesForTipusDocumentBaseID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.tipusDocument.tipusDocumentBaseID,__theForm.listOfValuesForTipusDocumentBaseID)}" aria-label="tipusDocument.tipusDocumentBaseID"   required aria-required="true"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTBASEID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="tipusDocument_tipusDocumentBaseID"  onchange="if(typeof onChangeTipusDocumentBaseID == 'function') {  onChangeTipusDocumentBaseID(this); };"  cssClass="form-control col-md-9-optional" path="tipusDocument.tipusDocumentBaseID">
+          <form:select path="tipusDocument.tipusDocumentBaseID" cssClass="form-control col-md-9-optional"  required="required"  aria-required="true"  onchange="if(typeof onChangeTipusDocumentBaseID == 'function') {  onChangeTipusDocumentBaseID(this); };">
+
+
             <c:forEach items="${__theForm.listOfValuesForTipusDocumentBaseID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
+
                 <c:if test="${empty tmp.key}">
                   <c:set var="containEmptyValue"  value="true" />
                 </c:if>
@@ -89,7 +92,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusDocumentFields.DESCRIPCIO)}">
         <tr id="tipusDocument_descripcio_rowid">
           <td id="tipusDocument_descripcio_columnlabelid">
-            <label>
+            <label for="tipusDocument.descripcio">
               <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.DESCRIPCIO])?'tipusDocument.descripcio':__theForm.labels[TipusDocumentFields.DESCRIPCIO]}" />
              </label>
               <c:if test="${not empty __theForm.help[TipusDocumentFields.DESCRIPCIO]}">
@@ -101,18 +104,18 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.DESCRIPCIO)? 'true' : 'false'}" path="tipusDocument.descripcio"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.DESCRIPCIO)? 'readonly' : ''}" path="tipusDocument.descripcio"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
-        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;" aria-label="Opcions de format"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_descripcio" class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('tipusDocument.descripcio'); ta.wrap='off';" >No Wrap</a>
           <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('tipusDocument.descripcio'); ta.wrap='soft';">Soft Wrap</a>
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('tipusDocument.descripcio'); ta.wrap='hard';">Hard Wrap</a>
         </div>
       </div>
-      <script type="text/javascript">
+      <script>
 			$('#dropdownMenuButton_descripcio').on('click', function(){
 					var valor = ($('#dropdownMenuContainer_descripcio').css('display') != 'none') ? 'none' : 'block';
                  $('#dropdownMenuContainer_descripcio').css('display', valor);
@@ -128,7 +131,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusDocumentFields.USUARIAPLICACIOID)}">
         <tr id="tipusDocument_usuariAplicacioID_rowid">
           <td id="tipusDocument_usuariAplicacioID_columnlabelid">
-            <label>
+            <label for="tipusDocument.usuariAplicacioID">
               <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.USUARIAPLICACIOID])?'tipusDocument.usuariAplicacioID':__theForm.labels[TipusDocumentFields.USUARIAPLICACIOID]}" />
              </label>
               <c:if test="${not empty __theForm.help[TipusDocumentFields.USUARIAPLICACIOID]}">
@@ -139,13 +142,16 @@
           <form:errors path="tipusDocument.usuariAplicacioID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.USUARIAPLICACIOID)}" >
           <form:hidden path="tipusDocument.usuariAplicacioID"/>
-          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.tipusDocument.usuariAplicacioID,__theForm.listOfUsuariAplicacioForUsuariAplicacioID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.tipusDocument.usuariAplicacioID,__theForm.listOfUsuariAplicacioForUsuariAplicacioID)}" aria-label="tipusDocument.usuariAplicacioID"   />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.USUARIAPLICACIOID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="tipusDocument_usuariAplicacioID"  onchange="if(typeof onChangeUsuariAplicacioID == 'function') {  onChangeUsuariAplicacioID(this); };"  cssClass="form-control col-md-9-optional" path="tipusDocument.usuariAplicacioID">
+          <form:select path="tipusDocument.usuariAplicacioID" cssClass="form-control col-md-9-optional"  onchange="if(typeof onChangeUsuariAplicacioID == 'function') {  onChangeUsuariAplicacioID(this); };">
+
+
             <c:forEach items="${__theForm.listOfUsuariAplicacioForUsuariAplicacioID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
+
                 <c:if test="${empty tmp.key}">
                   <c:set var="containEmptyValue"  value="true" />
                 </c:if>
@@ -153,10 +159,12 @@
             <%-- El camp pot ser null, per la qual cosa afegim una entrada buida si no s'ha definit abans --%>
             <c:if test="${not containEmptyValue}">
               <c:if test="${empty __theForm.tipusDocument.usuariAplicacioID }">
-                  <form:option value="" selected="true" ></form:option>
+                  <option value="" selected></option>
+
               </c:if>
               <c:if test="${not empty __theForm.tipusDocument.usuariAplicacioID }">
-                  <form:option value="" ></form:option>
+
+                  <option value="" ></option>
               </c:if>
             </c:if>
           </form:select>

@@ -9,7 +9,7 @@
   <form:hidden id="agruparPerValor"  path="groupValue"/>
 
 <%-- AGRUPAR PER - FUNCIONS --%>   
-<script type="text/javascript">
+<script>
   $("body").on("nodeselect.tree.data-api", "[role=leaf]", function (e) {
 
       var parentstr = "" + e.node.parentage[e.node.parentage.length - 1];
@@ -35,13 +35,13 @@
   
   <div id="GroupDiv" class="wellgroupfilter" style="${displayGroupDiv} padding:1px; margin-right:4px; float:left; ">
       <div  style="text-align:right">
-           <a style="margin-right:4px" href="#">
-               <i title="<fmt:message key="genapp.form.hidegroupby"/>" onclick="document.getElementById('GroupDiv').style.display='none'; document.getElementById('GroupButton').style.display='inline';" class="far fa-window-close"></i>
+           <a style="margin-right:4px" href="#" title="<fmt:message key="genapp.form.hidegroupby"/>" onclick="document.getElementById('GroupDiv').style.display='none'; document.getElementById('GroupButton').style.display='inline'; return false;">
+               <i aria-hidden="true" class="far fa-window-close"></i><span class="sr-only"><fmt:message key="genapp.form.hidegroupby"/></span>
             </a>
       </div>
 
 
-<style> ul.gj-list-bootstrap li [data-role=display]{padding:0px 0px 0px 0px;}  ul.gj-list-bootstrap li [data-role=expander].gj-tree-material-icons-expander { padding-top: 0px; padding-bottom: 0px; } </style>      <div id="tree"></div>
+      <div id="tree"></div>
       
       <script>
       

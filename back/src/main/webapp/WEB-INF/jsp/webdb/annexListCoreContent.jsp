@@ -25,33 +25,48 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,AnnexFields.ANNEXID)}">
-          <td>
+        <td>
           ${annex.annexID}
+             <c:if test="${empty annex.annexID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,AnnexFields.PETICIODEFIRMAID)}">
-          <td>
+        <td>
           <c:set var="tmp">${annex.peticioDeFirmaID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfPeticioDeFirmaForPeticioDeFirmaID[tmp]}
           </c:if>
+             <c:if test="${empty annex.peticioDeFirmaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,AnnexFields.FITXERID)}">
-          <td>
+        <td>
             <c:if test="${not empty annex.fitxer}">
               <a target="_blank" href="<c:url value="${pfi:fileUrl(annex.fitxer)}"/>">${annex.fitxer.nom}</a>
             </c:if>
-           </td>
+             <c:if test="${empty annex.fitxer}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,AnnexFields.ADJUNTAR)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${annex.adjuntar?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${annex.adjuntar?'success':'error'}.png"/>" alt="${annex.adjuntar}" >
+             <c:if test="${empty annex.adjuntar}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,AnnexFields.FIRMAR)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${annex.firmar?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${annex.firmar?'success':'error'}.png"/>" alt="${annex.firmar}" >
+             <c:if test="${empty annex.firmar}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

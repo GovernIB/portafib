@@ -15,7 +15,7 @@
        %>
     </c:when>
     <c:otherwise>
-        Seleccioni una opció ...
+        Seleccioni una opci&oacute; ...
     </c:otherwise>
 </c:choose>
 

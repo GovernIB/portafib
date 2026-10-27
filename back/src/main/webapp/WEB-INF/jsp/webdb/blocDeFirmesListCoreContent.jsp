@@ -25,29 +25,46 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BlocDeFirmesFields.BLOCDEFIRMESID)}">
-          <td>
+        <td>
           ${blocDeFirmes.blocDeFirmesID}
+             <c:if test="${empty blocDeFirmes.blocDeFirmesID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BlocDeFirmesFields.ORDRE)}">
-          <td>
+        <td>
           ${blocDeFirmes.ordre}
+             <c:if test="${empty blocDeFirmes.ordre}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BlocDeFirmesFields.DATAFINALITZACIO)}">
-          <td> <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${blocDeFirmes.dataFinalitzacio}" /></td>
+        <td>
+          <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${blocDeFirmes.dataFinalitzacio}" />
+             <c:if test="${empty blocDeFirmes.dataFinalitzacio}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BlocDeFirmesFields.FLUXDEFIRMESID)}">
-          <td>
+        <td>
           <c:set var="tmp">${blocDeFirmes.fluxDeFirmesID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfFluxDeFirmesForFluxDeFirmesID[tmp]}
           </c:if>
+             <c:if test="${empty blocDeFirmes.fluxDeFirmesID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BlocDeFirmesFields.MINIMDEFIRMES)}">
-          <td>
+        <td>
           ${blocDeFirmes.minimDeFirmes}
+             <c:if test="${empty blocDeFirmes.minimDeFirmes}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

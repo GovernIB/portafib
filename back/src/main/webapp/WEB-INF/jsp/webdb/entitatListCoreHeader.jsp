@@ -6,9 +6,7 @@
 
         <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
         <c:if test="${ __entry.key < 0 && ((empty __entry.value.searchBy)? true : !gen:contains(__theFilterForm.hiddenFields, __entry.value.searchBy)) && ((empty __entry.value.groupBy )? true : !gen:contains(__theFilterForm.hiddenFields, __entry.value.groupBy ))}">
-        <th>
-        ${pfi:getSortIconsAdditionalField(__theFilterForm,__entry.value)}
-        </th>
+        <th>${pfi:getSortIconsAdditionalField(__theFilterForm,__entry.value)}</th>
         </c:if>
         </c:forEach>
 
@@ -136,9 +134,7 @@
 
         <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
         <c:if test="${ __entry.key >=0 && ((empty __entry.value.searchBy)? true : !gen:contains(__theFilterForm.hiddenFields, __entry.value.searchBy)) && ((empty __entry.value.groupBy )? true : !gen:contains(__theFilterForm.hiddenFields, __entry.value.groupBy ))}">
-        <th>
-        ${pfi:getSortIconsAdditionalField(__theFilterForm,__entry.value)}
-        </th>
+        <th>${pfi:getSortIconsAdditionalField(__theFilterForm,__entry.value)}</th>
         </c:if>
         </c:forEach>
 

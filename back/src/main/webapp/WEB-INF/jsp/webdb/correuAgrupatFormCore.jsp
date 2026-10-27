@@ -5,8 +5,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,CorreuAgrupatFields.EMAIL)}">
         <tr id="correuAgrupat_email_rowid">
           <td id="correuAgrupat_email_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[CorreuAgrupatFields.EMAIL])?'correuAgrupat.email':__theForm.labels[CorreuAgrupatFields.EMAIL]}" /> &nbsp;(*)
+            <label for="correuAgrupat.email">
+              <fmt:message key="${(empty __theForm.labels[CorreuAgrupatFields.EMAIL])?'correuAgrupat.email':__theForm.labels[CorreuAgrupatFields.EMAIL]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[CorreuAgrupatFields.EMAIL]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CorreuAgrupatFields.EMAIL]}" ></i>
@@ -14,7 +14,7 @@
             </td>
           <td id="correuAgrupat_email_columnvalueid">
             <form:errors path="correuAgrupat.email" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.EMAIL)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.EMAIL)? ' uneditable-input' : ''}"  style="" maxlength="255" path="correuAgrupat.email"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.EMAIL)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.EMAIL)? ' uneditable-input' : ''}"  style="" maxlength="255" path="correuAgrupat.email"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -23,8 +23,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,CorreuAgrupatFields.SUBJECT)}">
         <tr id="correuAgrupat_subject_rowid">
           <td id="correuAgrupat_subject_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[CorreuAgrupatFields.SUBJECT])?'correuAgrupat.subject':__theForm.labels[CorreuAgrupatFields.SUBJECT]}" /> &nbsp;(*)
+            <label for="correuAgrupat.subject">
+              <fmt:message key="${(empty __theForm.labels[CorreuAgrupatFields.SUBJECT])?'correuAgrupat.subject':__theForm.labels[CorreuAgrupatFields.SUBJECT]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[CorreuAgrupatFields.SUBJECT]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CorreuAgrupatFields.SUBJECT]}" ></i>
@@ -32,7 +32,7 @@
             </td>
           <td id="correuAgrupat_subject_columnvalueid">
             <form:errors path="correuAgrupat.subject" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.SUBJECT)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.SUBJECT)? ' uneditable-input' : ''}"  style="" maxlength="255" path="correuAgrupat.subject"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.SUBJECT)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.SUBJECT)? ' uneditable-input' : ''}"  style="" maxlength="255" path="correuAgrupat.subject"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -41,8 +41,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,CorreuAgrupatFields.MESSAGE)}">
         <tr id="correuAgrupat_message_rowid">
           <td id="correuAgrupat_message_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[CorreuAgrupatFields.MESSAGE])?'correuAgrupat.message':__theForm.labels[CorreuAgrupatFields.MESSAGE]}" /> &nbsp;(*)
+            <label for="correuAgrupat.message">
+              <fmt:message key="${(empty __theForm.labels[CorreuAgrupatFields.MESSAGE])?'correuAgrupat.message':__theForm.labels[CorreuAgrupatFields.MESSAGE]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[CorreuAgrupatFields.MESSAGE]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CorreuAgrupatFields.MESSAGE]}" ></i>
@@ -53,18 +53,18 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.MESSAGE)? 'true' : 'false'}" path="correuAgrupat.message"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.MESSAGE)? 'readonly' : ''}" path="correuAgrupat.message"  required="required"  aria-required="true"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_message" style="vertical-align:top;display:inline;position:relative;">
-        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;" aria-label="Opcions de format"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_message" class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('correuAgrupat.message'); ta.wrap='off';" >No Wrap</a>
           <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('correuAgrupat.message'); ta.wrap='soft';">Soft Wrap</a>
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('correuAgrupat.message'); ta.wrap='hard';">Hard Wrap</a>
         </div>
       </div>
-      <script type="text/javascript">
+      <script>
 			$('#dropdownMenuButton_message').on('click', function(){
 					var valor = ($('#dropdownMenuContainer_message').css('display') != 'none') ? 'none' : 'block';
                  $('#dropdownMenuContainer_message').css('display', valor);
@@ -80,7 +80,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,CorreuAgrupatFields.HTML)}">
         <tr id="correuAgrupat_html_rowid">
           <td id="correuAgrupat_html_columnlabelid">
-            <label>
+            <label for="correuAgrupat.html">
               <fmt:message key="${(empty __theForm.labels[CorreuAgrupatFields.HTML])?'correuAgrupat.html':__theForm.labels[CorreuAgrupatFields.HTML]}" />
              </label>
               <c:if test="${not empty __theForm.help[CorreuAgrupatFields.HTML]}">
@@ -89,8 +89,11 @@
             </td>
           <td id="correuAgrupat_html_columnvalueid">
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.HTML)}" >
-              <form:errors path="correuAgrupat.html" cssClass="errorField alert alert-danger" />
-              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.HTML)? 'false' : 'true'}" path="correuAgrupat.html" />
+              <form:errors  path="correuAgrupat.html" cssClass="errorField alert alert-danger" />
+<fieldset>
+<legend class="sr-only">Evitar errors d'Accessibilitat</legend>
+              <form:checkbox cssClass="" onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.HTML)? 'false' : 'true'}" id="correuAgrupat.html" path="correuAgrupat.html"   />
+</fieldset>
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.HTML)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.correuAgrupat.html}" />
@@ -102,8 +105,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,CorreuAgrupatFields.USUARIENTITATID)}">
         <tr id="correuAgrupat_usuariEntitatID_rowid">
           <td id="correuAgrupat_usuariEntitatID_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[CorreuAgrupatFields.USUARIENTITATID])?'correuAgrupat.usuariEntitatID':__theForm.labels[CorreuAgrupatFields.USUARIENTITATID]}" /> &nbsp;(*)
+            <label for="correuAgrupat.usuariEntitatID">
+              <fmt:message key="${(empty __theForm.labels[CorreuAgrupatFields.USUARIENTITATID])?'correuAgrupat.usuariEntitatID':__theForm.labels[CorreuAgrupatFields.USUARIENTITATID]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[CorreuAgrupatFields.USUARIENTITATID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CorreuAgrupatFields.USUARIENTITATID]}" ></i>
@@ -113,13 +116,16 @@
           <form:errors path="correuAgrupat.usuariEntitatID" cssClass="errorField alert alert-danger" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.USUARIENTITATID)}" >
           <form:hidden path="correuAgrupat.usuariEntitatID"/>
-          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.correuAgrupat.usuariEntitatID,__theForm.listOfUsuariEntitatForUsuariEntitatID)}"  />
+          <input type="text" readonly="true" class="form-control col-md-9-optional uneditable-input" value="${gen:findValue(__theForm.correuAgrupat.usuariEntitatID,__theForm.listOfUsuariEntitatForUsuariEntitatID)}" aria-label="correuAgrupat.usuariEntitatID"   required aria-required="true"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.USUARIENTITATID)}" >
           <c:set var="containEmptyValue"  value="false" />
-          <form:select id="correuAgrupat_usuariEntitatID"  onchange="if(typeof onChangeUsuariEntitatID == 'function') {  onChangeUsuariEntitatID(this); };"  cssClass="form-control col-md-9-optional" path="correuAgrupat.usuariEntitatID">
+          <form:select path="correuAgrupat.usuariEntitatID" cssClass="form-control col-md-9-optional"  required="required"  aria-required="true"  onchange="if(typeof onChangeUsuariEntitatID == 'function') {  onChangeUsuariEntitatID(this); };">
+
+
             <c:forEach items="${__theForm.listOfUsuariEntitatForUsuariEntitatID}" var="tmp">
                 <form:option value="${tmp.key}">${tmp.value}</form:option>
+
                 <c:if test="${empty tmp.key}">
                   <c:set var="containEmptyValue"  value="true" />
                 </c:if>
@@ -133,8 +139,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,CorreuAgrupatFields.DATACREACIO)}">
         <tr id="correuAgrupat_dataCreacio_rowid">
           <td id="correuAgrupat_dataCreacio_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[CorreuAgrupatFields.DATACREACIO])?'correuAgrupat.dataCreacio':__theForm.labels[CorreuAgrupatFields.DATACREACIO]}" /> &nbsp;(*)
+            <label for="correuAgrupat.dataCreacio">
+              <fmt:message key="${(empty __theForm.labels[CorreuAgrupatFields.DATACREACIO])?'correuAgrupat.dataCreacio':__theForm.labels[CorreuAgrupatFields.DATACREACIO]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[CorreuAgrupatFields.DATACREACIO]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CorreuAgrupatFields.DATACREACIO]}" ></i>
@@ -143,18 +149,18 @@
           <td id="correuAgrupat_dataCreacio_columnvalueid">
     <form:errors path="correuAgrupat.dataCreacio" cssClass="errorField alert alert-danger" />
             <div class="form-group"  style="margin-bottom: 0px;" >
-                <div class="input-group date" id="correuAgrupat_dataCreacio" data-target-input="nearest">
-                      <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.DATACREACIO)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#correuAgrupat_dataCreacio" path="correuAgrupat.dataCreacio" />
+                <div class="input-group date" id="correuAgrupat_dataCreacioDiv" data-target-input="nearest">
+                      <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.DATACREACIO)? 'readonly' : ''}" cssClass="form-control datetimepicker-input"  data-target="#correuAgrupat_dataCreacioDiv" path="correuAgrupat.dataCreacio"   required="required"  aria-required="true"  />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.DATACREACIO)}" >
-                    <div class="input-group-append"  data-target="#correuAgrupat_dataCreacio"  data-toggle="datetimepicker">
+                    <div class="input-group-append"  data-target="#correuAgrupat_dataCreacioDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
                     </c:if>
                 </div>
             </div>
-        <script type="text/javascript">
+        <script>
             $(function () {
-                $('#correuAgrupat_dataCreacio').datetimepicker({
+                $('#correuAgrupat_dataCreacioDiv').datetimepicker({
                     format: '${gen:getJSDateTimePattern()}',
                     locale: '${lang}',
                     icons: {
@@ -162,14 +168,15 @@
                     }
                 });
             });
-        </script>           </td>
+        </script>
+           </td>
         </tr>
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,CorreuAgrupatFields.ERROR)}">
         <tr id="correuAgrupat_error_rowid">
           <td id="correuAgrupat_error_columnlabelid">
-            <label>
+            <label for="correuAgrupat.error">
               <fmt:message key="${(empty __theForm.labels[CorreuAgrupatFields.ERROR])?'correuAgrupat.error':__theForm.labels[CorreuAgrupatFields.ERROR]}" />
              </label>
               <c:if test="${not empty __theForm.help[CorreuAgrupatFields.ERROR]}">
@@ -181,18 +188,18 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.ERROR)? 'true' : 'false'}" path="correuAgrupat.error"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.ERROR)? 'readonly' : ''}" path="correuAgrupat.error"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_error" style="vertical-align:top;display:inline;position:relative;">
-        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;" aria-label="Opcions de format"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_error" class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('correuAgrupat.error'); ta.wrap='off';" >No Wrap</a>
           <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('correuAgrupat.error'); ta.wrap='soft';">Soft Wrap</a>
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('correuAgrupat.error'); ta.wrap='hard';">Hard Wrap</a>
         </div>
       </div>
-      <script type="text/javascript">
+      <script>
 			$('#dropdownMenuButton_error').on('click', function(){
 					var valor = ($('#dropdownMenuContainer_error').css('display') != 'none') ? 'none' : 'block';
                  $('#dropdownMenuContainer_error').css('display', valor);

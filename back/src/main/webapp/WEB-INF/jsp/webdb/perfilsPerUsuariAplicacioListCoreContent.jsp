@@ -25,24 +25,33 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilsPerUsuariAplicacioFields.PERFILSPERUSRAPPID)}">
-          <td>
+        <td>
           ${perfilsPerUsuariAplicacio.perfilsPerUsrAppID}
+             <c:if test="${empty perfilsPerUsuariAplicacio.perfilsPerUsrAppID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilsPerUsuariAplicacioFields.PERFILDEFIRMAID)}">
-          <td>
+        <td>
           <c:set var="tmp">${perfilsPerUsuariAplicacio.perfilDeFirmaID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfPerfilDeFirmaForPerfilDeFirmaID[tmp]}
           </c:if>
+             <c:if test="${empty perfilsPerUsuariAplicacio.perfilDeFirmaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilsPerUsuariAplicacioFields.USUARIAPLICACIOID)}">
-          <td>
+        <td>
           <c:set var="tmp">${perfilsPerUsuariAplicacio.usuariAplicacioID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariAplicacioForUsuariAplicacioID[tmp]}
           </c:if>
+             <c:if test="${empty perfilsPerUsuariAplicacio.usuariAplicacioID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

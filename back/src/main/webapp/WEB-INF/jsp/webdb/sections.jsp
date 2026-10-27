@@ -34,7 +34,7 @@
 
 				newtable.appendChild(tbody);
 
-				var html = '<%=HtmlCSS.TITOL_BEGIN%>' + seccion.title + '<%=HtmlCSS.TITOL_END%>';
+				var html = '<span class="llistaformularititol">' + seccion.title + '</span>';
 				div.innerHTML = html;
 
 				div.appendChild(newtable);

@@ -25,168 +25,255 @@
 
 
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.FIRMAID)}">
-          <td>
+        <td>
           ${firma.firmaID}
+             <c:if test="${empty firma.firmaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.DESTINATARIID)}">
-          <td>
+        <td>
           <c:set var="tmp">${firma.destinatariID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfUsuariEntitatForDestinatariID[tmp]}
           </c:if>
+             <c:if test="${empty firma.destinatariID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.BLOCDEFIRMAID)}">
-          <td>
+        <td>
           <c:set var="tmp">${firma.blocDeFirmaID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfBlocDeFirmesForBlocDeFirmaID[tmp]}
           </c:if>
+             <c:if test="${empty firma.blocDeFirmaID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.OBLIGATORI)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${firma.obligatori?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${firma.obligatori?'success':'error'}.png"/>" alt="${firma.obligatori}" >
+             <c:if test="${empty firma.obligatori}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.FITXERFIRMATID)}">
-          <td>
+        <td>
             <c:if test="${not empty firma.fitxerFirmat}">
               <a target="_blank" href="<c:url value="${pfi:fileUrl(firma.fitxerFirmat)}"/>">${firma.fitxerFirmat.nom}</a>
             </c:if>
-           </td>
+             <c:if test="${empty firma.fitxerFirmat}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.NUMFIRMADOCUMENT)}">
-          <td>
+        <td>
           ${firma.numFirmaDocument}
+             <c:if test="${empty firma.numFirmaDocument}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.CAIXAPAGINA)}">
-          <td>
+        <td>
           ${firma.caixaPagina}
+             <c:if test="${empty firma.caixaPagina}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.CAIXAX)}">
-          <td>
+        <td>
           ${firma.caixaX}
+             <c:if test="${empty firma.caixaX}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.CAIXAY)}">
-          <td>
+        <td>
           ${firma.caixaY}
+             <c:if test="${empty firma.caixaY}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.CAIXAAMPLE)}">
-          <td>
+        <td>
           ${firma.caixaAmple}
+             <c:if test="${empty firma.caixaAmple}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.CAIXAALT)}">
-          <td>
+        <td>
           ${firma.caixaAlt}
+             <c:if test="${empty firma.caixaAlt}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.NUMEROSERIECERTIFICAT)}">
-          <td>
+        <td>
           ${firma.numeroSerieCertificat}
+             <c:if test="${empty firma.numeroSerieCertificat}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.EMISSORCERTIFICAT)}">
-          <td>
+        <td>
           ${firma.emissorCertificat}
+             <c:if test="${empty firma.emissorCertificat}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.NOMCERTIFICAT)}">
-          <td>
+        <td>
           ${firma.nomCertificat}
+             <c:if test="${empty firma.nomCertificat}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.TIPUSESTATDEFIRMAFINALID)}">
-          <td>
+        <td>
           <c:set var="tmp">${firma.tipusEstatDeFirmaFinalID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForTipusEstatDeFirmaFinalID[tmp]}
           </c:if>
+             <c:if test="${empty firma.tipusEstatDeFirmaFinalID}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.MOSTRARRUBRICA)}">
-          <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${firma.mostrarRubrica?'success':'error'}.png"/>">
+        <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${firma.mostrarRubrica?'success':'error'}.png"/>" alt="${firma.mostrarRubrica}" >
+             <c:if test="${empty firma.mostrarRubrica}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.MOTIU)}">
-          <td>
+        <td>
           ${firma.motiu}
+             <c:if test="${empty firma.motiu}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.MINIMDEREVISORS)}">
-          <td>
+        <td>
           ${firma.minimDeRevisors}
+             <c:if test="${empty firma.minimDeRevisors}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.CHECKADMINISTRATIONIDOFSIGNER)}">
-          <td>
+        <td>
             &nbsp;<c:if test="${not empty firma.checkAdministrationIdOfSigner}">
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${firma.checkAdministrationIdOfSigner?'success':'error'}.png"/>">
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${firma.checkAdministrationIdOfSigner?'success':'error'}.png"/>" alt="${firma.checkAdministrationIdOfSigner}" >
             </c:if>
+             <c:if test="${empty firma.checkAdministrationIdOfSigner}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.CHECKDOCUMENTMODIFICATIONS)}">
-          <td>
+        <td>
             &nbsp;<c:if test="${not empty firma.checkDocumentModifications}">
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${firma.checkDocumentModifications?'success':'error'}.png"/>">
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${firma.checkDocumentModifications?'success':'error'}.png"/>" alt="${firma.checkDocumentModifications}" >
             </c:if>
+             <c:if test="${empty firma.checkDocumentModifications}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.CHECKVALIDATIONSIGNATURE)}">
-          <td>
+        <td>
             &nbsp;<c:if test="${not empty firma.checkValidationSignature}">
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${firma.checkValidationSignature?'success':'error'}.png"/>">
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${firma.checkValidationSignature?'success':'error'}.png"/>" alt="${firma.checkValidationSignature}" >
             </c:if>
+             <c:if test="${empty firma.checkValidationSignature}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.PERFILDEFIRMA)}">
-          <td>
+        <td>
           ${firma.perfilDeFirma}
+             <c:if test="${empty firma.perfilDeFirma}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNNOM)}">
-          <td>
+        <td>
           ${firma.usuariExternNom}
+             <c:if test="${empty firma.usuariExternNom}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNLLINATGES)}">
-          <td>
+        <td>
           ${firma.usuariExternLlinatges}
+             <c:if test="${empty firma.usuariExternLlinatges}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNEMAIL)}">
-          <td>
+        <td>
           ${firma.usuariExternEmail}
+             <c:if test="${empty firma.usuariExternEmail}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNIDIOMA)}">
-          <td>
+        <td>
           ${firma.usuariExternIdioma}
+             <c:if test="${empty firma.usuariExternIdioma}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNTOKEN)}">
-          <td>
+        <td>
           ${firma.usuariExternToken}
+             <c:if test="${empty firma.usuariExternToken}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.USUARIEXTERNNIVELLSEGURETAT)}">
-          <td>
+        <td>
           <c:set var="tmp">${firma.usuariExternNivellSeguretat}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForUsuariExternNivellSeguretat[tmp]}
           </c:if>
+             <c:if test="${empty firma.usuariExternNivellSeguretat}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.SIGNATUREPLUGINID)}">
-          <td>
+        <td>
           ${firma.signaturePluginId}
+             <c:if test="${empty firma.signaturePluginId}">
+             <span aria-hidden="true">&nbsp;</span><span class="sr-only">Sense valor</span>
+             </c:if>
           </td>
         </c:if>
 

@@ -5,8 +5,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,CodiBarresFields.CODIBARRESID)}">
         <tr id="codiBarres_codiBarresID_rowid">
           <td id="codiBarres_codiBarresID_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[CodiBarresFields.CODIBARRESID])?'codiBarres.codiBarresID':__theForm.labels[CodiBarresFields.CODIBARRESID]}" /> &nbsp;(*)
+            <label for="codiBarres.codiBarresID">
+              <fmt:message key="${(empty __theForm.labels[CodiBarresFields.CODIBARRESID])?'codiBarres.codiBarresID':__theForm.labels[CodiBarresFields.CODIBARRESID]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[CodiBarresFields.CODIBARRESID]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CodiBarresFields.CODIBARRESID]}" ></i>
@@ -14,7 +14,7 @@
             </td>
           <td id="codiBarres_codiBarresID_columnvalueid">
             <form:errors path="codiBarres.codiBarresID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CodiBarresFields.CODIBARRESID)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CodiBarresFields.CODIBARRESID)? ' uneditable-input' : ''}"  style="" maxlength="255" path="codiBarres.codiBarresID"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CodiBarresFields.CODIBARRESID)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CodiBarresFields.CODIBARRESID)? ' uneditable-input' : ''}"  style="" maxlength="255" path="codiBarres.codiBarresID"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -23,8 +23,8 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,CodiBarresFields.NOM)}">
         <tr id="codiBarres_nom_rowid">
           <td id="codiBarres_nom_columnlabelid">
-            <label>
-              <fmt:message key="${(empty __theForm.labels[CodiBarresFields.NOM])?'codiBarres.nom':__theForm.labels[CodiBarresFields.NOM]}" /> &nbsp;(*)
+            <label for="codiBarres.nom">
+              <fmt:message key="${(empty __theForm.labels[CodiBarresFields.NOM])?'codiBarres.nom':__theForm.labels[CodiBarresFields.NOM]}" />&nbsp;<span class="text-danger" aria-hidden="true">(*)</span><span class="sr-only">(obligatori, obligatorio)</span>
              </label>
               <c:if test="${not empty __theForm.help[CodiBarresFields.NOM]}">
               <i class="fas fa-info-circle" title="${__theForm.help[CodiBarresFields.NOM]}" ></i>
@@ -32,7 +32,7 @@
             </td>
           <td id="codiBarres_nom_columnvalueid">
             <form:errors path="codiBarres.nom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CodiBarresFields.NOM)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,CodiBarresFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="codiBarres.nom"   />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CodiBarresFields.NOM)? 'readonly' : ''}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,CodiBarresFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="codiBarres.nom"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -41,7 +41,7 @@
         <c:if test="${!gen:contains(__theForm.hiddenFields,CodiBarresFields.DESCRIPCIO)}">
         <tr id="codiBarres_descripcio_rowid">
           <td id="codiBarres_descripcio_columnlabelid">
-            <label>
+            <label for="codiBarres.descripcio">
               <fmt:message key="${(empty __theForm.labels[CodiBarresFields.DESCRIPCIO])?'codiBarres.descripcio':__theForm.labels[CodiBarresFields.DESCRIPCIO]}" />
              </label>
               <c:if test="${not empty __theForm.help[CodiBarresFields.DESCRIPCIO]}">
@@ -53,18 +53,18 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,CodiBarresFields.DESCRIPCIO)? 'true' : 'false'}" path="codiBarres.descripcio"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,CodiBarresFields.DESCRIPCIO)? 'readonly' : ''}" path="codiBarres.descripcio"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
-        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;"><span class="caret"></span></button>
+        <button  class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="margin-left:0px;" aria-label="Opcions de format"><span class="caret"></span></button>
         <div id="dropdownMenuContainer_descripcio" class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('codiBarres.descripcio'); ta.wrap='off';" >No Wrap</a>
           <a class="dropdown-item"  href="#" onclick="javascript:var ta=document.getElementById('codiBarres.descripcio'); ta.wrap='soft';">Soft Wrap</a>
           <a class="dropdown-item" href="#" onclick="javascript:var ta=document.getElementById('codiBarres.descripcio'); ta.wrap='hard';">Hard Wrap</a>
         </div>
       </div>
-      <script type="text/javascript">
+      <script>
 			$('#dropdownMenuButton_descripcio').on('click', function(){
 					var valor = ($('#dropdownMenuContainer_descripcio').css('display') != 'none') ? 'none' : 'block';
                  $('#dropdownMenuContainer_descripcio').css('display', valor);

@@ -1,7 +1,7 @@
 <%-- ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! --%>
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
-<label style="font-size: 1.25rem;font-weight: bold;">
+<span class="llistaformularititol">
   <c:if test="${not empty __theFilterForm.titleCode}">
       <fmt:message key="${__theFilterForm.titleCode}">
         <fmt:param value="${__theFilterForm.titleParam}" />
@@ -16,13 +16,13 @@
           <fmt:param value="${entitynameplural}"/>
       </fmt:message>
   </c:if>
-  </label>
+</span>
 
-      <%-- AGRUPAR PER BOTO - INICI  --%>
+  <%-- AGRUPAR PER BOTO - INICI  --%>
   <c:if test="${fn:length(groupby_items) > 0}">
       <c:set var="displayGroupBut" value="${__theFilterForm.visibleGroupBy?'display:none;':''}" />
       <a id="GroupButton" style="${displayGroupBut}" title="<fmt:message key="genapp.form.groupby"/>" onclick="document.getElementById('GroupDiv').style.display = 'inherit'; document.getElementById('GroupButton').style.display = 'none';" class="btn btn-sm btn-secondary" role="button" data-toggle="modal">
-         <img src="<c:url value="/img/treeicon.png"/>"/>
+         <img alt="Tree" src="<c:url value="/img/treeicon.png"/>"/>
       </a>
   </c:if>
       <%-- AGRUPAR PER BOTO - FINAL  --%>
@@ -47,7 +47,7 @@
     </c:if>
       <%-- BOTO DE ESBORRAT MULTIPLE  --%>
     <c:if test="${__theFilterForm.deleteSelectedButtonVisible && __theFilterForm.visibleMultipleSelection && not empty grupEntitatItems}">
-      <a class="btn btn-danger btn-sm float-right botoselecciolist" style="" href="#myModal"
+      <a class="btn btn-danger btn-sm float-right botoselecciolist" style="" href="javascript:void(0);"
         onclick="openModalSubmit('<c:url value="${contexte}/deleteSelected"/>','show', 'grupEntitat');"
         title="<fmt:message key="genapp.delete"/>">
         <i class="fas fa-trash icon-white"></i>
