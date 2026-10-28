@@ -63,7 +63,7 @@
 						<li class="dropdown">
 
 							<button class="btn colorVerd dropdown-toggle" <%=backGroundColorHexStyle%> type="button"
-								id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
+								id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" role="menu"
 								aria-expanded="false">
 								<i class="fas fa-home fa-lg"></i>
 								<fmt:message key="estitat_entitats" />
@@ -72,7 +72,7 @@
 							<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
 								<c:forEach var="entry" items="${loginInfo.entitats}">
 									<c:if test="${not(entry.key eq loginInfo.entitatID)}">
-										<a class="dropdown-item"
+										<a class="dropdown-item" role="menuitem"
 											href="<c:url value="/canviarEntitat/${entry.key}"></c:url>">
 											${entry.value.nom} </a>
 									</c:if>
@@ -88,7 +88,7 @@
 					<li class="dropdown">
 
 						<button class="btn colorVerd dropdown-toggle" <%=backGroundColorHexStyle%> type="button"
-							id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
+							id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" role="menu"
 							aria-expanded="false">
 							<i class="fas fa-language fa-lg"></i>
 							<!--   <fmt:message key="idiomes" />  -->
@@ -99,15 +99,15 @@
 
 								<c:set var="idiomaID" value="${idioma.idiomaID}" />
 
-								<a class="dropdown-item" href="?lang=${idiomaID}"> <img
+								<a class="dropdown-item" href="?lang=${idiomaID}" role="menuitem"> <img
 									src="<c:url value="/img/${idiomaID}_petit_${lang eq idiomaID? 'on' : 'off'}.gif"/>"
-									alt="${idiomaID}" width="17" height="14" border="0" />${idioma.nom}
+									alt="${idiomaID}" width="17" height="14" style="border:0px;" />&nbsp;${idioma.nom}
 								</a>
 
 
 
 
-								<%--                             <c:set var="idioma" value="${idiomaItem.idiomaID}"/>
+<%--                             <c:set var="idioma" value="${idiomaItem.idiomaID}"/>
                             
                             <a class="dropdown-item"
                                 href="<c:url value="/canviarIdioma/${idioma}"></c:url>">

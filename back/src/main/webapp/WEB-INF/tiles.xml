@@ -176,6 +176,7 @@
     <definition name="webdb" extends="base.definition">
         <put-attribute name="pipella" value="webdb" />
         <put-attribute name="menu" value="/WEB-INF/jsp/webdb/menu_webdb.jsp" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdbmodificable/webdbavis.jsp" />
     </definition>
     
     <!--  ===========  DESENVOLUPAMENT ================== -->

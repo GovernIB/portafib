@@ -70,34 +70,3 @@
 		$(item).addClass('disponible');
 	}
 </script>
-<style>
-.no-disponible {
-  display: none;
-  visibility: hidden;
-}
-
-.disponible {
-  display: block;
-  visibility: visible;
-}
-
-.mainMenu .upper-right-corner {
-  z-index: 9;
-  float: right;
-  padding-right: 9px;
-}
-
-.mainMenu .upper-left-corner {
-  z-index: 9;
-  float: left;
-}
-.thumbnail {
-  /* display: block; */
-  line-height: 20px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
-  transition: all 0.2s ease-in-out;
-}
-</style>
-

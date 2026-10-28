@@ -6,15 +6,19 @@
 
 <%=HtmlCSS.TITOL_BEGIN %><fmt:message key="${seleccioUsuariForm.titol}" /><%=HtmlCSS.TITOL_END %>
 
-<%=HtmlCSS.SUBTITOL_BEGIN %>
+
 <c:set var="subtitleTranslated" value="${fn:startsWith(seleccioUsuariForm.subtitol,'=')}" />
 <c:if test="${subtitleTranslated}">
+   <br><%=HtmlCSS.SUBTITOL_BEGIN %>
    <c:out value="${fn:substringAfter(seleccioUsuariForm.subtitol, '=')}"/>
+   <%=HtmlCSS.SUBTITOL_END %>
 </c:if>
 <c:if test="${not subtitleTranslated}">
+  <br> <%=HtmlCSS.SUBTITOL_BEGIN %>
   <fmt:message key="${seleccioUsuariForm.subtitol}" />
+  <%=HtmlCSS.SUBTITOL_END %>
 </c:if>
-<%=HtmlCSS.SUBTITOL_END %>
+
 
 <table class="tdformlabel table-sm table table-bordered table-striped marTop10" style="margin-bottom: 0px;">
 <tbody>
