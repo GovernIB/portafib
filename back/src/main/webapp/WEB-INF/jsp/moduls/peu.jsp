@@ -61,6 +61,10 @@ Version version = new Version();
             <c:if test="${not empty loginInfo.entitatID}">
                 <c:out value="${loginInfo.entitat.adrezaHtml}" escapeXml="false" />
             </c:if>
+            
+            <p>&nbsp;</p>
+            
+            <a styleClass="text-dark linkPeu" href="<c:url value="/public/accessibilitat"/>"><fmt:message key="label.accessibilitat" /></a>
         </div>
 
 
