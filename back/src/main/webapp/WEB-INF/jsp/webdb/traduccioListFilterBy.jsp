@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,TraduccioFields.TRADUCCIOID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="traduccio_traduccioID" style="display: inline;">
+              <label id="traduccio_traduccioID" style="display: inline;">
               <span class="add-on"><fmt:message key="traduccio.traduccioID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="traduccioIDDesde" />
+              <form:input cssClass="input-append input-small" path="traduccioIDDesde"  aria-labelledby="traduccio_traduccioID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="traduccioIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="traduccioIDFins"  aria-labelledby="traduccio_traduccioID" />
 
             </div>
 

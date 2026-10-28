@@ -10,7 +10,7 @@
 
 <div>
 <br/>
-<center>
+<div style="text-align:center;">
 <img src="<c:url value="/img/app-logo.png"/>"  alt="PortaFIB" />
 
 <br/>
@@ -29,7 +29,7 @@
 </a>
 </div>
 <br/>
-</center>
+</div>
 
 </div>
 

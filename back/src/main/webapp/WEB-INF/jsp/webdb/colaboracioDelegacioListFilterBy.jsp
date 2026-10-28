@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,ColaboracioDelegacioFields.COLABORACIODELEGACIOID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="colaboracioDelegacio_colaboracioDelegacioID" style="display: inline;">
+              <label id="colaboracioDelegacio_colaboracioDelegacioID" style="display: inline;">
               <span class="add-on"><fmt:message key="colaboracioDelegacio.colaboracioDelegacioID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="colaboracioDelegacioIDDesde" />
+              <form:input cssClass="input-append input-small" path="colaboracioDelegacioIDDesde"  aria-labelledby="colaboracioDelegacio_colaboracioDelegacioID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="colaboracioDelegacioIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="colaboracioDelegacioIDFins"  aria-labelledby="colaboracioDelegacio_colaboracioDelegacioID" />
 
             </div>
 
@@ -105,18 +105,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,ColaboracioDelegacioFields.ESDELEGAT)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="colaboracioDelegacio_esDelegat" style="display: inline;">
+              <label id="colaboracioDelegacio_esDelegat" style="display: inline;">
               <span class="add-on"><fmt:message key="colaboracioDelegacio.esDelegat" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="esDelegatDesde" />
+              <form:input cssClass="input-append input-small" path="esDelegatDesde"  aria-labelledby="colaboracioDelegacio_esDelegat" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="esDelegatFins" />
+              <form:input cssClass="input-append input-small search-query" path="esDelegatFins"  aria-labelledby="colaboracioDelegacio_esDelegat" />
 
             </div>
 
@@ -263,18 +263,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,ColaboracioDelegacioFields.ACTIVA)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="colaboracioDelegacio_activa" style="display: inline;">
+              <label id="colaboracioDelegacio_activa" style="display: inline;">
               <span class="add-on"><fmt:message key="colaboracioDelegacio.activa" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="activaDesde" />
+              <form:input cssClass="input-append input-small" path="activaDesde"  aria-labelledby="colaboracioDelegacio_activa" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="activaFins" />
+              <form:input cssClass="input-append input-small search-query" path="activaFins"  aria-labelledby="colaboracioDelegacio_activa" />
 
             </div>
 
@@ -283,18 +283,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,ColaboracioDelegacioFields.REVISOR)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="colaboracioDelegacio_revisor" style="display: inline;">
+              <label id="colaboracioDelegacio_revisor" style="display: inline;">
               <span class="add-on"><fmt:message key="colaboracioDelegacio.revisor" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="revisorDesde" />
+              <form:input cssClass="input-append input-small" path="revisorDesde"  aria-labelledby="colaboracioDelegacio_revisor" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="revisorFins" />
+              <form:input cssClass="input-append input-small search-query" path="revisorFins"  aria-labelledby="colaboracioDelegacio_revisor" />
 
             </div>
 

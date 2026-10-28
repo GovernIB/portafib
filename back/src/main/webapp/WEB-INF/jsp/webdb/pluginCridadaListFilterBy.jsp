@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginCridadaFields.PLUGINCRIDADAID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="pluginCridada_pluginCridadaID" style="display: inline;">
+              <label id="pluginCridada_pluginCridadaID" style="display: inline;">
               <span class="add-on"><fmt:message key="pluginCridada.pluginCridadaID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="pluginCridadaIDDesde" />
+              <form:input cssClass="input-append input-small" path="pluginCridadaIDDesde"  aria-labelledby="pluginCridada_pluginCridadaID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="pluginCridadaIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="pluginCridadaIDFins"  aria-labelledby="pluginCridada_pluginCridadaID" />
 
             </div>
 
@@ -144,18 +144,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginCridadaFields.PLUGINID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="pluginCridada_pluginID" style="display: inline;">
+              <label id="pluginCridada_pluginID" style="display: inline;">
               <span class="add-on"><fmt:message key="pluginCridada.pluginID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="pluginIDDesde" />
+              <form:input cssClass="input-append input-small" path="pluginIDDesde"  aria-labelledby="pluginCridada_pluginID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="pluginIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="pluginIDFins"  aria-labelledby="pluginCridada_pluginID" />
 
             </div>
 
@@ -209,18 +209,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginCridadaFields.TIPUSTESULTAT)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="pluginCridada_tipusTesultat" style="display: inline;">
+              <label id="pluginCridada_tipusTesultat" style="display: inline;">
               <span class="add-on"><fmt:message key="pluginCridada.tipusTesultat" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="tipusTesultatDesde" />
+              <form:input cssClass="input-append input-small" path="tipusTesultatDesde"  aria-labelledby="pluginCridada_tipusTesultat" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="tipusTesultatFins" />
+              <form:input cssClass="input-append input-small search-query" path="tipusTesultatFins"  aria-labelledby="pluginCridada_tipusTesultat" />
 
             </div>
 
@@ -229,18 +229,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginCridadaFields.TEMPSEXECUCIO)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="pluginCridada_tempsExecucio" style="display: inline;">
+              <label id="pluginCridada_tempsExecucio" style="display: inline;">
               <span class="add-on"><fmt:message key="pluginCridada.tempsExecucio" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="tempsExecucioDesde" />
+              <form:input cssClass="input-append input-small" path="tempsExecucioDesde"  aria-labelledby="pluginCridada_tempsExecucio" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="tempsExecucioFins" />
+              <form:input cssClass="input-append input-small search-query" path="tempsExecucioFins"  aria-labelledby="pluginCridada_tempsExecucio" />
 
             </div>
 

@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,TipusNotificacioFields.TIPUSNOTIFICACIOID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="tipusNotificacio_tipusNotificacioID" style="display: inline;">
+              <label id="tipusNotificacio_tipusNotificacioID" style="display: inline;">
               <span class="add-on"><fmt:message key="tipusNotificacio.tipusNotificacioID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="tipusNotificacioIDDesde" />
+              <form:input cssClass="input-append input-small" path="tipusNotificacioIDDesde"  aria-labelledby="tipusNotificacio_tipusNotificacioID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="tipusNotificacioIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="tipusNotificacioIDFins"  aria-labelledby="tipusNotificacio_tipusNotificacioID" />
 
             </div>
 

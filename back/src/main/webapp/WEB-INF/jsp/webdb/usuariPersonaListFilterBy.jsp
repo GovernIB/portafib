@@ -145,18 +145,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariPersonaFields.USUARIINTERN)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="usuariPersona_usuariIntern" style="display: inline;">
+              <label id="usuariPersona_usuariIntern" style="display: inline;">
               <span class="add-on"><fmt:message key="usuariPersona.usuariIntern" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="usuariInternDesde" />
+              <form:input cssClass="input-append input-small" path="usuariInternDesde"  aria-labelledby="usuariPersona_usuariIntern" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="usuariInternFins" />
+              <form:input cssClass="input-append input-small search-query" path="usuariInternFins"  aria-labelledby="usuariPersona_usuariIntern" />
 
             </div>
 

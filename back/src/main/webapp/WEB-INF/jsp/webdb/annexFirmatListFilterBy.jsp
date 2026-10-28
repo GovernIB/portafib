@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,AnnexFirmatFields.ANNEXFIRMATID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="annexFirmat_annexfirmatID" style="display: inline;">
+              <label id="annexFirmat_annexfirmatID" style="display: inline;">
               <span class="add-on"><fmt:message key="annexFirmat.annexfirmatID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="annexfirmatIDDesde" />
+              <form:input cssClass="input-append input-small" path="annexfirmatIDDesde"  aria-labelledby="annexFirmat_annexfirmatID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="annexfirmatIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="annexfirmatIDFins"  aria-labelledby="annexFirmat_annexfirmatID" />
 
             </div>
 
@@ -75,18 +75,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,AnnexFirmatFields.ANNEXID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="annexFirmat_annexID" style="display: inline;">
+              <label id="annexFirmat_annexID" style="display: inline;">
               <span class="add-on"><fmt:message key="annexFirmat.annexID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="annexIDDesde" />
+              <form:input cssClass="input-append input-small" path="annexIDDesde"  aria-labelledby="annexFirmat_annexID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="annexIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="annexIDFins"  aria-labelledby="annexFirmat_annexID" />
 
             </div>
 
@@ -95,18 +95,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,AnnexFirmatFields.FIRMAID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="annexFirmat_firmaID" style="display: inline;">
+              <label id="annexFirmat_firmaID" style="display: inline;">
               <span class="add-on"><fmt:message key="annexFirmat.firmaID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="firmaIDDesde" />
+              <form:input cssClass="input-append input-small" path="firmaIDDesde"  aria-labelledby="annexFirmat_firmaID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="firmaIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="firmaIDFins"  aria-labelledby="annexFirmat_firmaID" />
 
             </div>
 

@@ -56,23 +56,23 @@
 
 						<li style="margin-top: 14px;"><a
 							href="<c:out value="${loginInfo.entitat.web}" />" target="_blank">
-								<i> ${loginInfo.entitat.nom}</i>
+								<i style="color:#000; font-weight:bold;"> ${loginInfo.entitat.nom}</i>
 						</a></li>
 
 
 						<li class="dropdown">
 
 							<button class="btn colorVerd dropdown-toggle" <%=backGroundColorHexStyle%> type="button"
-								id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" role="menu"
+								id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" 
 								aria-expanded="false">
 								<i class="fas fa-home fa-lg"></i>
 								<fmt:message key="estitat_entitats" />
 							</button>
 
-							<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+							<div class="dropdown-menu" aria-labelledby="dropdownMenu1">
 								<c:forEach var="entry" items="${loginInfo.entitats}">
 									<c:if test="${not(entry.key eq loginInfo.entitatID)}">
-										<a class="dropdown-item" role="menuitem"
+										<a class="dropdown-item" 
 											href="<c:url value="/canviarEntitat/${entry.key}"></c:url>">
 											${entry.value.nom} </a>
 									</c:if>
@@ -88,8 +88,8 @@
 					<li class="dropdown">
 
 						<button class="btn colorVerd dropdown-toggle" <%=backGroundColorHexStyle%> type="button"
-							id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" role="menu"
-							aria-expanded="false">
+							id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" 
+							aria-expanded="false" aria-label="Selecciona l'idioma">
 							<i class="fas fa-language fa-lg"></i>
 							<!--   <fmt:message key="idiomes" />  -->
 						</button>
@@ -99,7 +99,7 @@
 
 								<c:set var="idiomaID" value="${idioma.idiomaID}" />
 
-								<a class="dropdown-item" href="?lang=${idiomaID}" role="menuitem"> <img
+								<a class="dropdown-item" href="?lang=${idiomaID}" > <img
 									src="<c:url value="/img/${idiomaID}_petit_${lang eq idiomaID? 'on' : 'off'}.gif"/>"
 									alt="${idiomaID}" width="17" height="14" style="border:0px;" />&nbsp;${idioma.nom}
 								</a>
@@ -129,11 +129,11 @@
 				<c:if test="${not empty loginInfo.usuariPersona}">
 
 
-					<li class="dropdown " > <%-- colorVerd --%>
+					<li class="dropdown" > <%-- colorVerd --%>
 
 						<button class="btn colorVerd dropdown-toggle" <%=backGroundColorHexStyle%> type="button"
 							id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false">
+							aria-expanded="false" aria-label="Configuracio">
 							<i class="fas fa-ellipsis-v"></i>
 						</button>
 						<div class="dropdown-menu  dropdown-menu-right"

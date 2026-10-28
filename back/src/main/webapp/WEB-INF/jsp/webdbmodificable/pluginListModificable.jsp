@@ -23,13 +23,13 @@
       </button>
             </div>
             <div class="modal-body">
-                <center>
+                <div style="text-align:center;">
                     <select class="" id="plantillamoduldefirmaid" name="plantillamoduldefirmaid">
                         <c:forEach items="${llistatDePlantillaDeModuls}" var="tmp">
                             <option value="${tmp.pluginID}">${tmp.nom.traduccions[lang].valor}</option>
                         </c:forEach>
                     </select>
-                </center>
+                </div>
             </div>
             <div class="modal-footer">
                 <div align="center">

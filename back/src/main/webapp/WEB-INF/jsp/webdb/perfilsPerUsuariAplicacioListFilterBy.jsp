@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PerfilsPerUsuariAplicacioFields.PERFILSPERUSRAPPID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="perfilsPerUsuariAplicacio_perfilsPerUsrAppID" style="display: inline;">
+              <label id="perfilsPerUsuariAplicacio_perfilsPerUsrAppID" style="display: inline;">
               <span class="add-on"><fmt:message key="perfilsPerUsuariAplicacio.perfilsPerUsrAppID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="perfilsPerUsrAppIDDesde" />
+              <form:input cssClass="input-append input-small" path="perfilsPerUsrAppIDDesde"  aria-labelledby="perfilsPerUsuariAplicacio_perfilsPerUsrAppID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="perfilsPerUsrAppIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="perfilsPerUsrAppIDFins"  aria-labelledby="perfilsPerUsuariAplicacio_perfilsPerUsrAppID" />
 
             </div>
 
@@ -75,18 +75,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PerfilsPerUsuariAplicacioFields.PERFILDEFIRMAID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="perfilsPerUsuariAplicacio_perfilDeFirmaID" style="display: inline;">
+              <label id="perfilsPerUsuariAplicacio_perfilDeFirmaID" style="display: inline;">
               <span class="add-on"><fmt:message key="perfilsPerUsuariAplicacio.perfilDeFirmaID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="perfilDeFirmaIDDesde" />
+              <form:input cssClass="input-append input-small" path="perfilDeFirmaIDDesde"  aria-labelledby="perfilsPerUsuariAplicacio_perfilDeFirmaID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="perfilDeFirmaIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="perfilDeFirmaIDFins"  aria-labelledby="perfilsPerUsuariAplicacio_perfilDeFirmaID" />
 
             </div>
 

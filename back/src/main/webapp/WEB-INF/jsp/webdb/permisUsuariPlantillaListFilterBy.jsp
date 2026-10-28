@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PermisUsuariPlantillaFields.PERMISUSUARIPLANTILLAID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="permisUsuariPlantilla_permisUsuariPlantillaID" style="display: inline;">
+              <label id="permisUsuariPlantilla_permisUsuariPlantillaID" style="display: inline;">
               <span class="add-on"><fmt:message key="permisUsuariPlantilla.permisUsuariPlantillaID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="permisUsuariPlantillaIDDesde" />
+              <form:input cssClass="input-append input-small" path="permisUsuariPlantillaIDDesde"  aria-labelledby="permisUsuariPlantilla_permisUsuariPlantillaID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="permisUsuariPlantillaIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="permisUsuariPlantillaIDFins"  aria-labelledby="permisUsuariPlantilla_permisUsuariPlantillaID" />
 
             </div>
 
@@ -90,18 +90,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PermisUsuariPlantillaFields.PLANTILLAFLUXDEFIRMESID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="permisUsuariPlantilla_plantillaFluxDeFirmesID" style="display: inline;">
+              <label id="permisUsuariPlantilla_plantillaFluxDeFirmesID" style="display: inline;">
               <span class="add-on"><fmt:message key="permisUsuariPlantilla.plantillaFluxDeFirmesID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="plantillaFluxDeFirmesIDDesde" />
+              <form:input cssClass="input-append input-small" path="plantillaFluxDeFirmesIDDesde"  aria-labelledby="permisUsuariPlantilla_plantillaFluxDeFirmesID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="plantillaFluxDeFirmesIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="plantillaFluxDeFirmesIDFins"  aria-labelledby="permisUsuariPlantilla_plantillaFluxDeFirmesID" />
 
             </div>
 

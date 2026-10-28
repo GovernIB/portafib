@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,GrupEntitatFields.GRUPENTITATID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="grupEntitat_grupEntitatID" style="display: inline;">
+              <label id="grupEntitat_grupEntitatID" style="display: inline;">
               <span class="add-on"><fmt:message key="grupEntitat.grupEntitatID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="grupEntitatIDDesde" />
+              <form:input cssClass="input-append input-small" path="grupEntitatIDDesde"  aria-labelledby="grupEntitat_grupEntitatID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="grupEntitatIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="grupEntitatIDFins"  aria-labelledby="grupEntitat_grupEntitatID" />
 
             </div>
 

@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PropietatGlobalFields.PROPIETATGLOBALID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="propietatGlobal_propietatGlobalID" style="display: inline;">
+              <label id="propietatGlobal_propietatGlobalID" style="display: inline;">
               <span class="add-on"><fmt:message key="propietatGlobal.propietatGlobalID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="propietatGlobalIDDesde" />
+              <form:input cssClass="input-append input-small" path="propietatGlobalIDDesde"  aria-labelledby="propietatGlobal_propietatGlobalID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="propietatGlobalIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="propietatGlobalIDFins"  aria-labelledby="propietatGlobal_propietatGlobalID" />
 
             </div>
 

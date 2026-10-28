@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.PETICIODEFIRMAID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="peticioDeFirma_peticioDeFirmaID" style="display: inline;">
+              <label id="peticioDeFirma_peticioDeFirmaID" style="display: inline;">
               <span class="add-on"><fmt:message key="peticioDeFirma.peticioDeFirmaID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="peticioDeFirmaIDDesde" />
+              <form:input cssClass="input-append input-small" path="peticioDeFirmaIDDesde"  aria-labelledby="peticioDeFirma_peticioDeFirmaID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="peticioDeFirmaIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="peticioDeFirmaIDFins"  aria-labelledby="peticioDeFirma_peticioDeFirmaID" />
 
             </div>
 
@@ -120,18 +120,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.TIPUSDOCUMENTID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="peticioDeFirma_tipusDocumentID" style="display: inline;">
+              <label id="peticioDeFirma_tipusDocumentID" style="display: inline;">
               <span class="add-on"><fmt:message key="peticioDeFirma.tipusDocumentID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="tipusDocumentIDDesde" />
+              <form:input cssClass="input-append input-small" path="tipusDocumentIDDesde"  aria-labelledby="peticioDeFirma_tipusDocumentID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="tipusDocumentIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="tipusDocumentIDFins"  aria-labelledby="peticioDeFirma_tipusDocumentID" />
 
             </div>
 
@@ -324,30 +324,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="petifirma_tipusOperacioFirma_select"   id="petifirma_tipusOperacioFirma_select" path="tipusOperacioFirmaSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="petifirma_tipusOperacioFirma_select" path="tipusOperacioFirmaSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForTipusOperacioFirma}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.tipusOperacioFirmaSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#petifirma_tipusOperacioFirma_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "petifirma_tipusOperacioFirma_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "petifirma_tipusOperacioFirma_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -366,30 +360,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="petifirma_tipusFirmaID_select"   id="petifirma_tipusFirmaID_select" path="tipusFirmaIDSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="petifirma_tipusFirmaID_select" path="tipusFirmaIDSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForTipusFirmaID}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.tipusFirmaIDSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#petifirma_tipusFirmaID_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "petifirma_tipusFirmaID_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "petifirma_tipusFirmaID_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -408,30 +396,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="petifirma_algorismeDeFirmaID_select"   id="petifirma_algorismeDeFirmaID_select" path="algorismeDeFirmaIDSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="petifirma_algorismeDeFirmaID_select" path="algorismeDeFirmaIDSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForAlgorismeDeFirmaID}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.algorismeDeFirmaIDSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#petifirma_algorismeDeFirmaID_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "petifirma_algorismeDeFirmaID_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "petifirma_algorismeDeFirmaID_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -450,30 +432,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="petifirma_modeDeFirma_select"   id="petifirma_modeDeFirma_select" path="modeDeFirmaSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="petifirma_modeDeFirma_select" path="modeDeFirmaSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForModeDeFirma}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.modeDeFirmaSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#petifirma_modeDeFirma_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "petifirma_modeDeFirma_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "petifirma_modeDeFirma_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -492,30 +468,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="petifirma_posicioTaulaFirmesID_select"   id="petifirma_posicioTaulaFirmesID_select" path="posicioTaulaFirmesIDSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="petifirma_posicioTaulaFirmesID_select" path="posicioTaulaFirmesIDSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForPosicioTaulaFirmesID}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.posicioTaulaFirmesIDSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#petifirma_posicioTaulaFirmesID_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "petifirma_posicioTaulaFirmesID_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "petifirma_posicioTaulaFirmesID_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -534,30 +504,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="petifirma_tipusEstatPeticioDeFirmaID_select"   id="petifirma_tipusEstatPeticioDeFirmaID_select" path="tipusEstatPeticioDeFirmaIDSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="petifirma_tipusEstatPeticioDeFirmaID_select" path="tipusEstatPeticioDeFirmaIDSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForTipusEstatPeticioDeFirmaID}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.tipusEstatPeticioDeFirmaIDSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#petifirma_tipusEstatPeticioDeFirmaID_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "petifirma_tipusEstatPeticioDeFirmaID_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "petifirma_tipusEstatPeticioDeFirmaID_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -606,30 +570,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="petifirma_prioritatID_select"   id="petifirma_prioritatID_select" path="prioritatIDSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="petifirma_prioritatID_select" path="prioritatIDSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForPrioritatID}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.prioritatIDSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#petifirma_prioritatID_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "petifirma_prioritatID_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "petifirma_prioritatID_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -641,18 +599,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.FLUXDEFIRMESID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="peticioDeFirma_fluxDeFirmesID" style="display: inline;">
+              <label id="peticioDeFirma_fluxDeFirmesID" style="display: inline;">
               <span class="add-on"><fmt:message key="peticioDeFirma.fluxDeFirmesID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="fluxDeFirmesIDDesde" />
+              <form:input cssClass="input-append input-small" path="fluxDeFirmesIDDesde"  aria-labelledby="peticioDeFirma_fluxDeFirmesID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="fluxDeFirmesIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="fluxDeFirmesIDFins"  aria-labelledby="peticioDeFirma_fluxDeFirmesID" />
 
             </div>
 
@@ -796,18 +754,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="peticioDeFirma_informacioAddicionalAvaluable" style="display: inline;">
+              <label id="peticioDeFirma_informacioAddicionalAvaluable" style="display: inline;">
               <span class="add-on"><fmt:message key="peticioDeFirma.informacioAddicionalAvaluable" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="informacioAddicionalAvaluableDesde" />
+              <form:input cssClass="input-append input-small" path="informacioAddicionalAvaluableDesde"  aria-labelledby="peticioDeFirma_informacioAddicionalAvaluable" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="informacioAddicionalAvaluableFins" />
+              <form:input cssClass="input-append input-small search-query" path="informacioAddicionalAvaluableFins"  aria-labelledby="peticioDeFirma_informacioAddicionalAvaluable" />
 
             </div>
 
@@ -816,18 +774,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.CUSTODIAINFOID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="peticioDeFirma_custodiaInfoID" style="display: inline;">
+              <label id="peticioDeFirma_custodiaInfoID" style="display: inline;">
               <span class="add-on"><fmt:message key="peticioDeFirma.custodiaInfoID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="custodiaInfoIDDesde" />
+              <form:input cssClass="input-append input-small" path="custodiaInfoIDDesde"  aria-labelledby="peticioDeFirma_custodiaInfoID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="custodiaInfoIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="custodiaInfoIDFins"  aria-labelledby="peticioDeFirma_custodiaInfoID" />
 
             </div>
 
@@ -881,18 +839,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.AVISWEB)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="peticioDeFirma_avisWeb" style="display: inline;">
+              <label id="peticioDeFirma_avisWeb" style="display: inline;">
               <span class="add-on"><fmt:message key="peticioDeFirma.avisWeb" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="avisWebDesde" />
+              <form:input cssClass="input-append input-small" path="avisWebDesde"  aria-labelledby="peticioDeFirma_avisWeb" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="avisWebFins" />
+              <form:input cssClass="input-append input-small search-query" path="avisWebFins"  aria-labelledby="peticioDeFirma_avisWeb" />
 
             </div>
 
@@ -901,18 +859,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.SEGELLATDETEMPS)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="peticioDeFirma_segellatDeTemps" style="display: inline;">
+              <label id="peticioDeFirma_segellatDeTemps" style="display: inline;">
               <span class="add-on"><fmt:message key="peticioDeFirma.segellatDeTemps" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="segellatDeTempsDesde" />
+              <form:input cssClass="input-append input-small" path="segellatDeTempsDesde"  aria-labelledby="peticioDeFirma_segellatDeTemps" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="segellatDeTempsFins" />
+              <form:input cssClass="input-append input-small search-query" path="segellatDeTempsFins"  aria-labelledby="peticioDeFirma_segellatDeTemps" />
 
             </div>
 
@@ -928,30 +886,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="petifirma_origenPeticioDeFirma_select"   id="petifirma_origenPeticioDeFirma_select" path="origenPeticioDeFirmaSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="petifirma_origenPeticioDeFirma_select" path="origenPeticioDeFirmaSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForOrigenPeticioDeFirma}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.origenPeticioDeFirmaSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#petifirma_origenPeticioDeFirma_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "petifirma_origenPeticioDeFirma_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "petifirma_origenPeticioDeFirma_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -963,18 +915,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.CONFIGURACIODEFIRMAID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="peticioDeFirma_configuracioDeFirmaID" style="display: inline;">
+              <label id="peticioDeFirma_configuracioDeFirmaID" style="display: inline;">
               <span class="add-on"><fmt:message key="peticioDeFirma.configuracioDeFirmaID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="configuracioDeFirmaIDDesde" />
+              <form:input cssClass="input-append input-small" path="configuracioDeFirmaIDDesde"  aria-labelledby="peticioDeFirma_configuracioDeFirmaID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="configuracioDeFirmaIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="configuracioDeFirmaIDFins"  aria-labelledby="peticioDeFirma_configuracioDeFirmaID" />
 
             </div>
 

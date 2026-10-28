@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,MetadadaFields.METADADAID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="metadada_metadadaID" style="display: inline;">
+              <label id="metadada_metadadaID" style="display: inline;">
               <span class="add-on"><fmt:message key="metadada.metadadaID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="metadadaIDDesde" />
+              <form:input cssClass="input-append input-small" path="metadadaIDDesde"  aria-labelledby="metadada_metadadaID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="metadadaIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="metadadaIDFins"  aria-labelledby="metadada_metadadaID" />
 
             </div>
 
@@ -120,18 +120,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,MetadadaFields.PETICIODEFIRMAID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="metadada_peticioDeFirmaID" style="display: inline;">
+              <label id="metadada_peticioDeFirmaID" style="display: inline;">
               <span class="add-on"><fmt:message key="metadada.peticioDeFirmaID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="peticioDeFirmaIDDesde" />
+              <form:input cssClass="input-append input-small" path="peticioDeFirmaIDDesde"  aria-labelledby="metadada_peticioDeFirmaID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="peticioDeFirmaIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="peticioDeFirmaIDFins"  aria-labelledby="metadada_peticioDeFirmaID" />
 
             </div>
 
@@ -147,30 +147,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="metadada_tipusMetadadaID_select"   id="metadada_tipusMetadadaID_select" path="tipusMetadadaIDSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="metadada_tipusMetadadaID_select" path="tipusMetadadaIDSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForTipusMetadadaID}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.tipusMetadadaIDSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#metadada_tipusMetadadaID_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "metadada_tipusMetadadaID_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "metadada_tipusMetadadaID_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });

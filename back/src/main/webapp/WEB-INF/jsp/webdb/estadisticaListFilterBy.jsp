@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,EstadisticaFields.ESTADISTICAID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="estadistica_estadisticaID" style="display: inline;">
+              <label id="estadistica_estadisticaID" style="display: inline;">
               <span class="add-on"><fmt:message key="estadistica.estadisticaID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="estadisticaIDDesde" />
+              <form:input cssClass="input-append input-small" path="estadisticaIDDesde"  aria-labelledby="estadistica_estadisticaID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="estadisticaIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="estadisticaIDFins"  aria-labelledby="estadistica_estadisticaID" />
 
             </div>
 
@@ -136,30 +136,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="estadis_tipus_select"   id="estadis_tipus_select" path="tipusSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="estadis_tipus_select" path="tipusSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForTipus}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.tipusSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#estadis_tipus_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "estadis_tipus_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "estadis_tipus_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -186,18 +180,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,EstadisticaFields.VALOR)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="estadistica_valor" style="display: inline;">
+              <label id="estadistica_valor" style="display: inline;">
               <span class="add-on"><fmt:message key="estadistica.valor" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="valorDesde" />
+              <form:input cssClass="input-append input-small" path="valorDesde"  aria-labelledby="estadistica_valor" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="valorFins" />
+              <form:input cssClass="input-append input-small search-query" path="valorFins"  aria-labelledby="estadistica_valor" />
 
             </div>
 

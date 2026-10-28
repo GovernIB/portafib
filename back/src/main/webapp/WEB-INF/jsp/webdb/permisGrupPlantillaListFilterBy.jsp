@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PermisGrupPlantillaFields.PERMISGRUPPLANTILLAID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="permisGrupPlantilla_permisGrupPlantillaID" style="display: inline;">
+              <label id="permisGrupPlantilla_permisGrupPlantillaID" style="display: inline;">
               <span class="add-on"><fmt:message key="permisGrupPlantilla.permisGrupPlantillaID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="permisGrupPlantillaIDDesde" />
+              <form:input cssClass="input-append input-small" path="permisGrupPlantillaIDDesde"  aria-labelledby="permisGrupPlantilla_permisGrupPlantillaID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="permisGrupPlantillaIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="permisGrupPlantillaIDFins"  aria-labelledby="permisGrupPlantilla_permisGrupPlantillaID" />
 
             </div>
 
@@ -75,18 +75,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PermisGrupPlantillaFields.GRUPENTITATID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="permisGrupPlantilla_grupEntitatID" style="display: inline;">
+              <label id="permisGrupPlantilla_grupEntitatID" style="display: inline;">
               <span class="add-on"><fmt:message key="permisGrupPlantilla.grupEntitatID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="grupEntitatIDDesde" />
+              <form:input cssClass="input-append input-small" path="grupEntitatIDDesde"  aria-labelledby="permisGrupPlantilla_grupEntitatID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="grupEntitatIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="grupEntitatIDFins"  aria-labelledby="permisGrupPlantilla_grupEntitatID" />
 
             </div>
 
@@ -95,18 +95,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PermisGrupPlantillaFields.PLANTILLAFLUXDEFIRMESID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="permisGrupPlantilla_plantillaFluxDeFirmesID" style="display: inline;">
+              <label id="permisGrupPlantilla_plantillaFluxDeFirmesID" style="display: inline;">
               <span class="add-on"><fmt:message key="permisGrupPlantilla.plantillaFluxDeFirmesID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="plantillaFluxDeFirmesIDDesde" />
+              <form:input cssClass="input-append input-small" path="plantillaFluxDeFirmesIDDesde"  aria-labelledby="permisGrupPlantilla_plantillaFluxDeFirmesID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="plantillaFluxDeFirmesIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="plantillaFluxDeFirmesIDFins"  aria-labelledby="permisGrupPlantilla_plantillaFluxDeFirmesID" />
 
             </div>
 

@@ -43,7 +43,7 @@
     
       <tr>
         <td colspan="4">
-            <center><b><fmt:message key="permisosplantilla.perusuari" /></b></center>
+            <div style="text-align:center;"><b><fmt:message key="permisosplantilla.perusuari" /></b></div>
             <br/>
         </td>
       </tr>
@@ -52,7 +52,7 @@
       <tr>
     
        <td>
-         <center><i><fmt:message key="permisosplantilla.listuser" /></i></center>
+         <div style="text-align:center;"><i><fmt:message key="permisosplantilla.listuser" /></i></div>
                 
                 
             <table class="table table-sm table-bordered table-striped" style="width:auto;"> 
@@ -111,7 +111,7 @@
 
       <tr>
         <td colspan="4">
-            <center><b><fmt:message key="permisosplantilla.pergrup" /></b></center>
+            <div style="text-align:center;"><b><fmt:message key="permisosplantilla.pergrup" /></b></div>
             <br/>
         </td>
       </tr>
@@ -120,7 +120,7 @@
       <tr>
     
        <td>
-         <center><i><fmt:message key="permisosplantilla.listgrup" /></i></center>
+         <div style="text-align:center;"><i><fmt:message key="permisosplantilla.listgrup" /></i></div>
                 
                 
             <table class="table table-sm table-bordered table-striped" style="width:auto;"> 
@@ -157,7 +157,7 @@
        <td valign="top">
 
            <c:if test="${not empty grups}">
-           <center><i><fmt:message key="permisosplantilla.addgroup"></fmt:message> </i></center>
+           <div style="text-align:center;"><i><fmt:message key="permisosplantilla.addgroup"></fmt:message> </i></div>
            <table>
             <tr>
               <td>

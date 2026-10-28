@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,AnnexFields.ANNEXID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="annex_annexID" style="display: inline;">
+              <label id="annex_annexID" style="display: inline;">
               <span class="add-on"><fmt:message key="annex.annexID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="annexIDDesde" />
+              <form:input cssClass="input-append input-small" path="annexIDDesde"  aria-labelledby="annex_annexID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="annexIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="annexIDFins"  aria-labelledby="annex_annexID" />
 
             </div>
 
@@ -75,18 +75,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,AnnexFields.PETICIODEFIRMAID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="annex_peticioDeFirmaID" style="display: inline;">
+              <label id="annex_peticioDeFirmaID" style="display: inline;">
               <span class="add-on"><fmt:message key="annex.peticioDeFirmaID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="peticioDeFirmaIDDesde" />
+              <form:input cssClass="input-append input-small" path="peticioDeFirmaIDDesde"  aria-labelledby="annex_peticioDeFirmaID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="peticioDeFirmaIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="peticioDeFirmaIDFins"  aria-labelledby="annex_peticioDeFirmaID" />
 
             </div>
 
@@ -95,18 +95,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,AnnexFields.ADJUNTAR)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="annex_adjuntar" style="display: inline;">
+              <label id="annex_adjuntar" style="display: inline;">
               <span class="add-on"><fmt:message key="annex.adjuntar" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="adjuntarDesde" />
+              <form:input cssClass="input-append input-small" path="adjuntarDesde"  aria-labelledby="annex_adjuntar" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="adjuntarFins" />
+              <form:input cssClass="input-append input-small search-query" path="adjuntarFins"  aria-labelledby="annex_adjuntar" />
 
             </div>
 
@@ -115,18 +115,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,AnnexFields.FIRMAR)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="annex_firmar" style="display: inline;">
+              <label id="annex_firmar" style="display: inline;">
               <span class="add-on"><fmt:message key="annex.firmar" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="firmarDesde" />
+              <form:input cssClass="input-append input-small" path="firmarDesde"  aria-labelledby="annex_firmar" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="firmarFins" />
+              <form:input cssClass="input-append input-small search-query" path="firmarFins"  aria-labelledby="annex_firmar" />
 
             </div>
 

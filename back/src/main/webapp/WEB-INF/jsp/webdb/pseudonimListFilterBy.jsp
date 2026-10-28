@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PseudonimFields.PSEUDONIMID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="pseudonim_pseudonimid" style="display: inline;">
+              <label id="pseudonim_pseudonimid" style="display: inline;">
               <span class="add-on"><fmt:message key="pseudonim.pseudonimid" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="pseudonimidDesde" />
+              <form:input cssClass="input-append input-small" path="pseudonimidDesde"  aria-labelledby="pseudonim_pseudonimid" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="pseudonimidFins" />
+              <form:input cssClass="input-append input-small search-query" path="pseudonimidFins"  aria-labelledby="pseudonim_pseudonimid" />
 
             </div>
 

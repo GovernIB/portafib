@@ -11,7 +11,9 @@ for (List<MenuItem> menu : menus) {
 <ul class="tree" style="margin: 3px; padding: 0px;">
     <c:forEach var="item" items="${menu}">
         <c:if test="${empty item }">
-            <hr style="margin-top: 6px; margin-bottom: 6px;" />
+        <li style="list-style-type: none;">
+                    <hr style="margin-top: 6px; margin-bottom: 6px;" />
+        </li>
         </c:if>
         <c:if test="${not empty item }">
             <c:if test="${fn:substring(item.label, 0, 1) == '='}">

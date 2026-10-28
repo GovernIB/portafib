@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginFirmaWebPerUsuariAplicacioFields.PLUGINFIRMAWEBPERUSRAPPID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="pluginFirmaWebPerUsuariAplicacio_pluginfirmawebperusrappid" style="display: inline;">
+              <label id="pluginFirmaWebPerUsuariAplicacio_pluginfirmawebperusrappid" style="display: inline;">
               <span class="add-on"><fmt:message key="pluginFirmaWebPerUsuariAplicacio.pluginfirmawebperusrappid" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="pluginfirmawebperusrappidDesde" />
+              <form:input cssClass="input-append input-small" path="pluginfirmawebperusrappidDesde"  aria-labelledby="pluginFirmaWebPerUsuariAplicacio_pluginfirmawebperusrappid" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="pluginfirmawebperusrappidFins" />
+              <form:input cssClass="input-append input-small search-query" path="pluginfirmawebperusrappidFins"  aria-labelledby="pluginFirmaWebPerUsuariAplicacio_pluginfirmawebperusrappid" />
 
             </div>
 
@@ -90,18 +90,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginFirmaWebPerUsuariAplicacioFields.PLUGINFIRMAWEBID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="pluginFirmaWebPerUsuariAplicacio_pluginFirmaWebID" style="display: inline;">
+              <label id="pluginFirmaWebPerUsuariAplicacio_pluginFirmaWebID" style="display: inline;">
               <span class="add-on"><fmt:message key="pluginFirmaWebPerUsuariAplicacio.pluginFirmaWebID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="pluginFirmaWebIDDesde" />
+              <form:input cssClass="input-append input-small" path="pluginFirmaWebIDDesde"  aria-labelledby="pluginFirmaWebPerUsuariAplicacio_pluginFirmaWebID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="pluginFirmaWebIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="pluginFirmaWebIDFins"  aria-labelledby="pluginFirmaWebPerUsuariAplicacio_pluginFirmaWebID" />
 
             </div>
 
@@ -117,30 +117,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="pfwpua_accio_select"   id="pfwpua_accio_select" path="accioSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="pfwpua_accio_select" path="accioSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForAccio}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.accioSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#pfwpua_accio_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "pfwpua_accio_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "pfwpua_accio_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });

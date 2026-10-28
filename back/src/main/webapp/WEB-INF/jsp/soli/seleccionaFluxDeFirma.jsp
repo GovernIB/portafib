@@ -149,7 +149,7 @@
 
 
 <c:if test="${seleccioFluxDeFirmesForm.tipus != -1}">
-<center><button class="btn btn-primary" type="button" onclick="preSubmit();"  class="btn btn-primary"><fmt:message key="acceptar"/></button></center>
+<div style="text-align:center;"><button class="btn btn-primary" type="button" onclick="preSubmit();"  class="btn btn-primary"><fmt:message key="acceptar"/></button></div>
 </c:if>
 <script type="text/javascript">
 

@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,FitxerFields.FITXERID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="fitxer_fitxerID" style="display: inline;">
+              <label id="fitxer_fitxerID" style="display: inline;">
               <span class="add-on"><fmt:message key="fitxer.fitxerID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="fitxerIDDesde" />
+              <form:input cssClass="input-append input-small" path="fitxerIDDesde"  aria-labelledby="fitxer_fitxerID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="fitxerIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="fitxerIDFins"  aria-labelledby="fitxer_fitxerID" />
 
             </div>
 
@@ -105,18 +105,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,FitxerFields.TAMANY)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="fitxer_tamany" style="display: inline;">
+              <label id="fitxer_tamany" style="display: inline;">
               <span class="add-on"><fmt:message key="fitxer.tamany" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="tamanyDesde" />
+              <form:input cssClass="input-append input-small" path="tamanyDesde"  aria-labelledby="fitxer_tamany" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="tamanyFins" />
+              <form:input cssClass="input-append input-small search-query" path="tamanyFins"  aria-labelledby="fitxer_tamany" />
 
             </div>
 

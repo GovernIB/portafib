@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,TipusDocumentColaboracioDelegacioFields.ID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="tipusDocumentColaboracioDelegacio_id" style="display: inline;">
+              <label id="tipusDocumentColaboracioDelegacio_id" style="display: inline;">
               <span class="add-on"><fmt:message key="tipusDocumentColaboracioDelegacio.id" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="idDesde" />
+              <form:input cssClass="input-append input-small" path="idDesde"  aria-labelledby="tipusDocumentColaboracioDelegacio_id" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="idFins" />
+              <form:input cssClass="input-append input-small search-query" path="idFins"  aria-labelledby="tipusDocumentColaboracioDelegacio_id" />
 
             </div>
 
@@ -75,18 +75,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,TipusDocumentColaboracioDelegacioFields.COLABORACIODELEGACIOID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="tipusDocumentColaboracioDelegacio_colaboracioDelegacioID" style="display: inline;">
+              <label id="tipusDocumentColaboracioDelegacio_colaboracioDelegacioID" style="display: inline;">
               <span class="add-on"><fmt:message key="tipusDocumentColaboracioDelegacio.colaboracioDelegacioID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="colaboracioDelegacioIDDesde" />
+              <form:input cssClass="input-append input-small" path="colaboracioDelegacioIDDesde"  aria-labelledby="tipusDocumentColaboracioDelegacio_colaboracioDelegacioID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="colaboracioDelegacioIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="colaboracioDelegacioIDFins"  aria-labelledby="tipusDocumentColaboracioDelegacio_colaboracioDelegacioID" />
 
             </div>
 
@@ -95,18 +95,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,TipusDocumentColaboracioDelegacioFields.TIPUSDOCUMENTID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="tipusDocumentColaboracioDelegacio_tipusDocumentID" style="display: inline;">
+              <label id="tipusDocumentColaboracioDelegacio_tipusDocumentID" style="display: inline;">
               <span class="add-on"><fmt:message key="tipusDocumentColaboracioDelegacio.tipusDocumentID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="tipusDocumentIDDesde" />
+              <form:input cssClass="input-append input-small" path="tipusDocumentIDDesde"  aria-labelledby="tipusDocumentColaboracioDelegacio_tipusDocumentID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="tipusDocumentIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="tipusDocumentIDFins"  aria-labelledby="tipusDocumentColaboracioDelegacio_tipusDocumentID" />
 
             </div>
 

@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,GrupEntitatUsuariEntitatFields.GRUPENTITATUSUARIENTITATID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="grupEntitatUsuariEntitat_grupEntitatUsuariEntitatID" style="display: inline;">
+              <label id="grupEntitatUsuariEntitat_grupEntitatUsuariEntitatID" style="display: inline;">
               <span class="add-on"><fmt:message key="grupEntitatUsuariEntitat.grupEntitatUsuariEntitatID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="grupEntitatUsuariEntitatIDDesde" />
+              <form:input cssClass="input-append input-small" path="grupEntitatUsuariEntitatIDDesde"  aria-labelledby="grupEntitatUsuariEntitat_grupEntitatUsuariEntitatID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="grupEntitatUsuariEntitatIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="grupEntitatUsuariEntitatIDFins"  aria-labelledby="grupEntitatUsuariEntitat_grupEntitatUsuariEntitatID" />
 
             </div>
 
@@ -90,18 +90,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,GrupEntitatUsuariEntitatFields.GRUPENTITATID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="grupEntitatUsuariEntitat_grupEntitatID" style="display: inline;">
+              <label id="grupEntitatUsuariEntitat_grupEntitatID" style="display: inline;">
               <span class="add-on"><fmt:message key="grupEntitatUsuariEntitat.grupEntitatID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="grupEntitatIDDesde" />
+              <form:input cssClass="input-append input-small" path="grupEntitatIDDesde"  aria-labelledby="grupEntitatUsuariEntitat_grupEntitatID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="grupEntitatIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="grupEntitatIDFins"  aria-labelledby="grupEntitatUsuariEntitat_grupEntitatID" />
 
             </div>
 

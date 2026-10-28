@@ -100,18 +100,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.ACTIVA)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="entitat_activa" style="display: inline;">
+              <label id="entitat_activa" style="display: inline;">
               <span class="add-on"><fmt:message key="entitat.activa" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="activaDesde" />
+              <form:input cssClass="input-append input-small" path="activaDesde"  aria-labelledby="entitat_activa" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="activaFins" />
+              <form:input cssClass="input-append input-small search-query" path="activaFins"  aria-labelledby="entitat_activa" />
 
             </div>
 
@@ -225,18 +225,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.MAXUPLOADSIZE)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="entitat_maxUploadSize" style="display: inline;">
+              <label id="entitat_maxUploadSize" style="display: inline;">
               <span class="add-on"><fmt:message key="entitat.maxUploadSize" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="maxUploadSizeDesde" />
+              <form:input cssClass="input-append input-small" path="maxUploadSizeDesde"  aria-labelledby="entitat_maxUploadSize" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="maxUploadSizeFins" />
+              <form:input cssClass="input-append input-small search-query" path="maxUploadSizeFins"  aria-labelledby="entitat_maxUploadSize" />
 
             </div>
 
@@ -245,18 +245,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.MAXSIZEFITXERADAPTAT)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="entitat_maxSizeFitxerAdaptat" style="display: inline;">
+              <label id="entitat_maxSizeFitxerAdaptat" style="display: inline;">
               <span class="add-on"><fmt:message key="entitat.maxSizeFitxerAdaptat" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="maxSizeFitxerAdaptatDesde" />
+              <form:input cssClass="input-append input-small" path="maxSizeFitxerAdaptatDesde"  aria-labelledby="entitat_maxSizeFitxerAdaptat" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="maxSizeFitxerAdaptatFins" />
+              <form:input cssClass="input-append input-small search-query" path="maxSizeFitxerAdaptatFins"  aria-labelledby="entitat_maxSizeFitxerAdaptat" />
 
             </div>
 
@@ -265,18 +265,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.MAXFILESTOSIGNATSAMETIME)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="entitat_maxFilesToSignAtSameTime" style="display: inline;">
+              <label id="entitat_maxFilesToSignAtSameTime" style="display: inline;">
               <span class="add-on"><fmt:message key="entitat.maxFilesToSignAtSameTime" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="maxFilesToSignAtSameTimeDesde" />
+              <form:input cssClass="input-append input-small" path="maxFilesToSignAtSameTimeDesde"  aria-labelledby="entitat_maxFilesToSignAtSameTime" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="maxFilesToSignAtSameTimeFins" />
+              <form:input cssClass="input-append input-small search-query" path="maxFilesToSignAtSameTimeFins"  aria-labelledby="entitat_maxFilesToSignAtSameTime" />
 
             </div>
 
@@ -292,30 +292,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="entitat_usPoliticaDeFirma_select"   id="entitat_usPoliticaDeFirma_select" path="usPoliticaDeFirmaSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="entitat_usPoliticaDeFirma_select" path="usPoliticaDeFirmaSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForUsPoliticaDeFirma}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.usPoliticaDeFirmaSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#entitat_usPoliticaDeFirma_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "entitat_usPoliticaDeFirma_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "entitat_usPoliticaDeFirma_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -387,18 +381,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.MOTIUDELEGACIOID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="entitat_motiuDelegacioID" style="display: inline;">
+              <label id="entitat_motiuDelegacioID" style="display: inline;">
               <span class="add-on"><fmt:message key="entitat.motiuDelegacioID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="motiuDelegacioIDDesde" />
+              <form:input cssClass="input-append input-small" path="motiuDelegacioIDDesde"  aria-labelledby="entitat_motiuDelegacioID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="motiuDelegacioIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="motiuDelegacioIDFins"  aria-labelledby="entitat_motiuDelegacioID" />
 
             </div>
 
@@ -407,18 +401,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.FIRMATPERFORMATID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="entitat_firmatPerFormatID" style="display: inline;">
+              <label id="entitat_firmatPerFormatID" style="display: inline;">
               <span class="add-on"><fmt:message key="entitat.firmatPerFormatID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="firmatPerFormatIDDesde" />
+              <form:input cssClass="input-append input-small" path="firmatPerFormatIDDesde"  aria-labelledby="entitat_firmatPerFormatID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="firmatPerFormatIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="firmatPerFormatIDFins"  aria-labelledby="entitat_firmatPerFormatID" />
 
             </div>
 
@@ -434,30 +428,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="entitat_algorismeDeFirmaID_select"   id="entitat_algorismeDeFirmaID_select" path="algorismeDeFirmaIDSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="entitat_algorismeDeFirmaID_select" path="algorismeDeFirmaIDSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForAlgorismeDeFirmaID}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.algorismeDeFirmaIDSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#entitat_algorismeDeFirmaID_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "entitat_algorismeDeFirmaID_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "entitat_algorismeDeFirmaID_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -476,30 +464,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="entitat_politicaCustodia_select"   id="entitat_politicaCustodia_select" path="politicaCustodiaSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="entitat_politicaCustodia_select" path="politicaCustodiaSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForPoliticaCustodia}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.politicaCustodiaSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#entitat_politicaCustodia_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "entitat_politicaCustodia_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "entitat_politicaCustodia_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -511,18 +493,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.CUSTODIAINFOID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="entitat_custodiaInfoID" style="display: inline;">
+              <label id="entitat_custodiaInfoID" style="display: inline;">
               <span class="add-on"><fmt:message key="entitat.custodiaInfoID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="custodiaInfoIDDesde" />
+              <form:input cssClass="input-append input-small" path="custodiaInfoIDDesde"  aria-labelledby="entitat_custodiaInfoID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="custodiaInfoIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="custodiaInfoIDFins"  aria-labelledby="entitat_custodiaInfoID" />
 
             </div>
 
@@ -538,30 +520,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="entitat_politicaTaulaFirmes_select"   id="entitat_politicaTaulaFirmes_select" path="politicaTaulaFirmesSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="entitat_politicaTaulaFirmes_select" path="politicaTaulaFirmesSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForPoliticaTaulaFirmes}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.politicaTaulaFirmesSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#entitat_politicaTaulaFirmes_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "entitat_politicaTaulaFirmes_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "entitat_politicaTaulaFirmes_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -580,30 +556,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="entitat_posicioTaulaFirmes_select"   id="entitat_posicioTaulaFirmes_select" path="posicioTaulaFirmesSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="entitat_posicioTaulaFirmes_select" path="posicioTaulaFirmesSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForPosicioTaulaFirmes}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.posicioTaulaFirmesSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#entitat_posicioTaulaFirmes_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "entitat_posicioTaulaFirmes_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "entitat_posicioTaulaFirmes_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -637,30 +607,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="entitat_politicaSegellatDeTemps_select"   id="entitat_politicaSegellatDeTemps_select" path="politicaSegellatDeTempsSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="entitat_politicaSegellatDeTemps_select" path="politicaSegellatDeTempsSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForPoliticaSegellatDeTemps}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.politicaSegellatDeTempsSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#entitat_politicaSegellatDeTemps_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "entitat_politicaSegellatDeTemps_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "entitat_politicaSegellatDeTemps_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -672,18 +636,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.PLUGINSEGELLTEMPSID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="entitat_pluginSegellTempsID" style="display: inline;">
+              <label id="entitat_pluginSegellTempsID" style="display: inline;">
               <span class="add-on"><fmt:message key="entitat.pluginSegellTempsID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="pluginSegellTempsIDDesde" />
+              <form:input cssClass="input-append input-small" path="pluginSegellTempsIDDesde"  aria-labelledby="entitat_pluginSegellTempsID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="pluginSegellTempsIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="pluginSegellTempsIDFins"  aria-labelledby="entitat_pluginSegellTempsID" />
 
             </div>
 
@@ -692,18 +656,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.PLUGINRUBRICAID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="entitat_pluginRubricaID" style="display: inline;">
+              <label id="entitat_pluginRubricaID" style="display: inline;">
               <span class="add-on"><fmt:message key="entitat.pluginRubricaID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="pluginRubricaIDDesde" />
+              <form:input cssClass="input-append input-small" path="pluginRubricaIDDesde"  aria-labelledby="entitat_pluginRubricaID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="pluginRubricaIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="pluginRubricaIDFins"  aria-labelledby="entitat_pluginRubricaID" />
 
             </div>
 
@@ -712,18 +676,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.VALIDARFIRMA)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="entitat_validarfirma" style="display: inline;">
+              <label id="entitat_validarfirma" style="display: inline;">
               <span class="add-on"><fmt:message key="entitat.validarfirma" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="validarfirmaDesde" />
+              <form:input cssClass="input-append input-small" path="validarfirmaDesde"  aria-labelledby="entitat_validarfirma" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="validarfirmaFins" />
+              <form:input cssClass="input-append input-small search-query" path="validarfirmaFins"  aria-labelledby="entitat_validarfirma" />
 
             </div>
 
@@ -732,18 +696,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.COMPROVARNIFFIRMA)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="entitat_comprovarNifFirma" style="display: inline;">
+              <label id="entitat_comprovarNifFirma" style="display: inline;">
               <span class="add-on"><fmt:message key="entitat.comprovarNifFirma" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="comprovarNifFirmaDesde" />
+              <form:input cssClass="input-append input-small" path="comprovarNifFirmaDesde"  aria-labelledby="entitat_comprovarNifFirma" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="comprovarNifFirmaFins" />
+              <form:input cssClass="input-append input-small search-query" path="comprovarNifFirmaFins"  aria-labelledby="entitat_comprovarNifFirma" />
 
             </div>
 
@@ -752,18 +716,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.CHECKCANVIATDOCFIRMAT)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="entitat_checkCanviatDocFirmat" style="display: inline;">
+              <label id="entitat_checkCanviatDocFirmat" style="display: inline;">
               <span class="add-on"><fmt:message key="entitat.checkCanviatDocFirmat" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="checkCanviatDocFirmatDesde" />
+              <form:input cssClass="input-append input-small" path="checkCanviatDocFirmatDesde"  aria-labelledby="entitat_checkCanviatDocFirmat" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="checkCanviatDocFirmatFins" />
+              <form:input cssClass="input-append input-small search-query" path="checkCanviatDocFirmatFins"  aria-labelledby="entitat_checkCanviatDocFirmat" />
 
             </div>
 
@@ -772,18 +736,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.PLUGINVALIDAFIRMESID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="entitat_pluginValidaFirmesID" style="display: inline;">
+              <label id="entitat_pluginValidaFirmesID" style="display: inline;">
               <span class="add-on"><fmt:message key="entitat.pluginValidaFirmesID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="pluginValidaFirmesIDDesde" />
+              <form:input cssClass="input-append input-small" path="pluginValidaFirmesIDDesde"  aria-labelledby="entitat_pluginValidaFirmesID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="pluginValidaFirmesIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="pluginValidaFirmesIDFins"  aria-labelledby="entitat_pluginValidaFirmesID" />
 
             </div>
 
@@ -792,18 +756,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.PLUGINVALIDACERTIFICATID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="entitat_pluginValidaCertificatID" style="display: inline;">
+              <label id="entitat_pluginValidaCertificatID" style="display: inline;">
               <span class="add-on"><fmt:message key="entitat.pluginValidaCertificatID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="pluginValidaCertificatIDDesde" />
+              <form:input cssClass="input-append input-small" path="pluginValidaCertificatIDDesde"  aria-labelledby="entitat_pluginValidaCertificatID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="pluginValidaCertificatIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="pluginValidaCertificatIDFins"  aria-labelledby="entitat_pluginValidaCertificatID" />
 
             </div>
 

@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,FirmaFields.FIRMAID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="firma_firmaID" style="display: inline;">
+              <label id="firma_firmaID" style="display: inline;">
               <span class="add-on"><fmt:message key="firma.firmaID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="firmaIDDesde" />
+              <form:input cssClass="input-append input-small" path="firmaIDDesde"  aria-labelledby="firma_firmaID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="firmaIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="firmaIDFins"  aria-labelledby="firma_firmaID" />
 
             </div>
 
@@ -90,18 +90,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,FirmaFields.BLOCDEFIRMAID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="firma_blocDeFirmaID" style="display: inline;">
+              <label id="firma_blocDeFirmaID" style="display: inline;">
               <span class="add-on"><fmt:message key="firma.blocDeFirmaID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="blocDeFirmaIDDesde" />
+              <form:input cssClass="input-append input-small" path="blocDeFirmaIDDesde"  aria-labelledby="firma_blocDeFirmaID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="blocDeFirmaIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="blocDeFirmaIDFins"  aria-labelledby="firma_blocDeFirmaID" />
 
             </div>
 
@@ -110,18 +110,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,FirmaFields.OBLIGATORI)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="firma_obligatori" style="display: inline;">
+              <label id="firma_obligatori" style="display: inline;">
               <span class="add-on"><fmt:message key="firma.obligatori" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="obligatoriDesde" />
+              <form:input cssClass="input-append input-small" path="obligatoriDesde"  aria-labelledby="firma_obligatori" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="obligatoriFins" />
+              <form:input cssClass="input-append input-small search-query" path="obligatoriFins"  aria-labelledby="firma_obligatori" />
 
             </div>
 
@@ -130,18 +130,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,FirmaFields.NUMFIRMADOCUMENT)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="firma_numFirmaDocument" style="display: inline;">
+              <label id="firma_numFirmaDocument" style="display: inline;">
               <span class="add-on"><fmt:message key="firma.numFirmaDocument" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="numFirmaDocumentDesde" />
+              <form:input cssClass="input-append input-small" path="numFirmaDocumentDesde"  aria-labelledby="firma_numFirmaDocument" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="numFirmaDocumentFins" />
+              <form:input cssClass="input-append input-small search-query" path="numFirmaDocumentFins"  aria-labelledby="firma_numFirmaDocument" />
 
             </div>
 
@@ -150,18 +150,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,FirmaFields.CAIXAPAGINA)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="firma_caixaPagina" style="display: inline;">
+              <label id="firma_caixaPagina" style="display: inline;">
               <span class="add-on"><fmt:message key="firma.caixaPagina" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="caixaPaginaDesde" />
+              <form:input cssClass="input-append input-small" path="caixaPaginaDesde"  aria-labelledby="firma_caixaPagina" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="caixaPaginaFins" />
+              <form:input cssClass="input-append input-small search-query" path="caixaPaginaFins"  aria-labelledby="firma_caixaPagina" />
 
             </div>
 
@@ -170,18 +170,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,FirmaFields.CAIXAX)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="firma_caixaX" style="display: inline;">
+              <label id="firma_caixaX" style="display: inline;">
               <span class="add-on"><fmt:message key="firma.caixaX" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="caixaXDesde" />
+              <form:input cssClass="input-append input-small" path="caixaXDesde"  aria-labelledby="firma_caixaX" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="caixaXFins" />
+              <form:input cssClass="input-append input-small search-query" path="caixaXFins"  aria-labelledby="firma_caixaX" />
 
             </div>
 
@@ -190,18 +190,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,FirmaFields.CAIXAY)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="firma_caixaY" style="display: inline;">
+              <label id="firma_caixaY" style="display: inline;">
               <span class="add-on"><fmt:message key="firma.caixaY" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="caixaYDesde" />
+              <form:input cssClass="input-append input-small" path="caixaYDesde"  aria-labelledby="firma_caixaY" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="caixaYFins" />
+              <form:input cssClass="input-append input-small search-query" path="caixaYFins"  aria-labelledby="firma_caixaY" />
 
             </div>
 
@@ -210,18 +210,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,FirmaFields.CAIXAAMPLE)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="firma_caixaAmple" style="display: inline;">
+              <label id="firma_caixaAmple" style="display: inline;">
               <span class="add-on"><fmt:message key="firma.caixaAmple" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="caixaAmpleDesde" />
+              <form:input cssClass="input-append input-small" path="caixaAmpleDesde"  aria-labelledby="firma_caixaAmple" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="caixaAmpleFins" />
+              <form:input cssClass="input-append input-small search-query" path="caixaAmpleFins"  aria-labelledby="firma_caixaAmple" />
 
             </div>
 
@@ -230,18 +230,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,FirmaFields.CAIXAALT)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="firma_caixaAlt" style="display: inline;">
+              <label id="firma_caixaAlt" style="display: inline;">
               <span class="add-on"><fmt:message key="firma.caixaAlt" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="caixaAltDesde" />
+              <form:input cssClass="input-append input-small" path="caixaAltDesde"  aria-labelledby="firma_caixaAlt" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="caixaAltFins" />
+              <form:input cssClass="input-append input-small search-query" path="caixaAltFins"  aria-labelledby="firma_caixaAlt" />
 
             </div>
 
@@ -250,18 +250,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,FirmaFields.NUMEROSERIECERTIFICAT)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="firma_numeroSerieCertificat" style="display: inline;">
+              <label id="firma_numeroSerieCertificat" style="display: inline;">
               <span class="add-on"><fmt:message key="firma.numeroSerieCertificat" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="numeroSerieCertificatDesde" />
+              <form:input cssClass="input-append input-small" path="numeroSerieCertificatDesde"  aria-labelledby="firma_numeroSerieCertificat" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="numeroSerieCertificatFins" />
+              <form:input cssClass="input-append input-small search-query" path="numeroSerieCertificatFins"  aria-labelledby="firma_numeroSerieCertificat" />
 
             </div>
 
@@ -307,30 +307,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="firma_tipusEstatDeFirmaFinalID_select"   id="firma_tipusEstatDeFirmaFinalID_select" path="tipusEstatDeFirmaFinalIDSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="firma_tipusEstatDeFirmaFinalID_select" path="tipusEstatDeFirmaFinalIDSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForTipusEstatDeFirmaFinalID}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.tipusEstatDeFirmaFinalIDSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#firma_tipusEstatDeFirmaFinalID_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "firma_tipusEstatDeFirmaFinalID_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "firma_tipusEstatDeFirmaFinalID_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -342,18 +336,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,FirmaFields.MOSTRARRUBRICA)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="firma_mostrarRubrica" style="display: inline;">
+              <label id="firma_mostrarRubrica" style="display: inline;">
               <span class="add-on"><fmt:message key="firma.mostrarRubrica" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="mostrarRubricaDesde" />
+              <form:input cssClass="input-append input-small" path="mostrarRubricaDesde"  aria-labelledby="firma_mostrarRubrica" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="mostrarRubricaFins" />
+              <form:input cssClass="input-append input-small search-query" path="mostrarRubricaFins"  aria-labelledby="firma_mostrarRubrica" />
 
             </div>
 
@@ -377,18 +371,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,FirmaFields.MINIMDEREVISORS)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="firma_minimDeRevisors" style="display: inline;">
+              <label id="firma_minimDeRevisors" style="display: inline;">
               <span class="add-on"><fmt:message key="firma.minimDeRevisors" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="minimDeRevisorsDesde" />
+              <form:input cssClass="input-append input-small" path="minimDeRevisorsDesde"  aria-labelledby="firma_minimDeRevisors" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="minimDeRevisorsFins" />
+              <form:input cssClass="input-append input-small search-query" path="minimDeRevisorsFins"  aria-labelledby="firma_minimDeRevisors" />
 
             </div>
 
@@ -494,30 +488,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="firma_usuariExternNivellSeguretat_select"   id="firma_usuariExternNivellSeguretat_select" path="usuariExternNivellSeguretatSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="firma_usuariExternNivellSeguretat_select" path="usuariExternNivellSeguretatSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForUsuariExternNivellSeguretat}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.usuariExternNivellSeguretatSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#firma_usuariExternNivellSeguretat_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "firma_usuariExternNivellSeguretat_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "firma_usuariExternNivellSeguretat_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -529,18 +517,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,FirmaFields.SIGNATUREPLUGINID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="firma_signaturePluginId" style="display: inline;">
+              <label id="firma_signaturePluginId" style="display: inline;">
               <span class="add-on"><fmt:message key="firma.signaturePluginId" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="signaturePluginIdDesde" />
+              <form:input cssClass="input-append input-small" path="signaturePluginIdDesde"  aria-labelledby="firma_signaturePluginId" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="signaturePluginIdFins" />
+              <form:input cssClass="input-append input-small search-query" path="signaturePluginIdFins"  aria-labelledby="firma_signaturePluginId" />
 
             </div>
 

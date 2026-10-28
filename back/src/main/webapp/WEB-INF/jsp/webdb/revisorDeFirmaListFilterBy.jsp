@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,RevisorDeFirmaFields.REVISORDEFIRMAID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="revisorDeFirma_revisorDeFirmaID" style="display: inline;">
+              <label id="revisorDeFirma_revisorDeFirmaID" style="display: inline;">
               <span class="add-on"><fmt:message key="revisorDeFirma.revisorDeFirmaID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="revisorDeFirmaIDDesde" />
+              <form:input cssClass="input-append input-small" path="revisorDeFirmaIDDesde"  aria-labelledby="revisorDeFirma_revisorDeFirmaID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="revisorDeFirmaIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="revisorDeFirmaIDFins"  aria-labelledby="revisorDeFirma_revisorDeFirmaID" />
 
             </div>
 
@@ -90,18 +90,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,RevisorDeFirmaFields.FIRMAID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="revisorDeFirma_firmaID" style="display: inline;">
+              <label id="revisorDeFirma_firmaID" style="display: inline;">
               <span class="add-on"><fmt:message key="revisorDeFirma.firmaID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="firmaIDDesde" />
+              <form:input cssClass="input-append input-small" path="firmaIDDesde"  aria-labelledby="revisorDeFirma_firmaID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="firmaIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="firmaIDFins"  aria-labelledby="revisorDeFirma_firmaID" />
 
             </div>
 
@@ -110,18 +110,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,RevisorDeFirmaFields.OBLIGATORI)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="revisorDeFirma_obligatori" style="display: inline;">
+              <label id="revisorDeFirma_obligatori" style="display: inline;">
               <span class="add-on"><fmt:message key="revisorDeFirma.obligatori" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="obligatoriDesde" />
+              <form:input cssClass="input-append input-small" path="obligatoriDesde"  aria-labelledby="revisorDeFirma_obligatori" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="obligatoriFins" />
+              <form:input cssClass="input-append input-small search-query" path="obligatoriFins"  aria-labelledby="revisorDeFirma_obligatori" />
 
             </div>
 

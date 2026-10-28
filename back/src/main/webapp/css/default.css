@@ -173,7 +173,8 @@ body {
 }
 
 label {
-    font-size: 12px;
+    font-size:14px;
+    font-weight:bold;
 }
 
 a {
@@ -203,9 +204,8 @@ table th {
 }
 
 small {
-    font-size: 11px;
+    font-size: 12px;
     font-style: italic;
-    color: #999999;
 }
 
 .accordion-group {

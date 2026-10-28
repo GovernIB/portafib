@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,RoleUsuariEntitatFields.ID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="roleUsuariEntitat_id" style="display: inline;">
+              <label id="roleUsuariEntitat_id" style="display: inline;">
               <span class="add-on"><fmt:message key="roleUsuariEntitat.id" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="idDesde" />
+              <form:input cssClass="input-append input-small" path="idDesde"  aria-labelledby="roleUsuariEntitat_id" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="idFins" />
+              <form:input cssClass="input-append input-small search-query" path="idFins"  aria-labelledby="roleUsuariEntitat_id" />
 
             </div>
 

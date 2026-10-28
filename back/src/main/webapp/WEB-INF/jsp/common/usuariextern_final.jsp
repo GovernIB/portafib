@@ -3,7 +3,7 @@
 <br/>
 
 
-<center>
+<div style="text-align:center;">
   <div class="alert ${(status eq 2)? 'alert-success':'alert-danger'}">
     <h2>
       <fmt:message key="usuariextern.token.${(status eq 2)? 'finalprocesdefirma':'error.titol'}" />
@@ -22,6 +22,6 @@
     </c:if>
     <br> TOKEN: <b>${token}</b> <br>
   </div>
-</center>
+</div>
 
 <br/>

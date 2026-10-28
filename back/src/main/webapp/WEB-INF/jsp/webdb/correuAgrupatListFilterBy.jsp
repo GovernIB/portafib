@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,CorreuAgrupatFields.CORREUAGRUPATID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="correuAgrupat_correuAgrupatID" style="display: inline;">
+              <label id="correuAgrupat_correuAgrupatID" style="display: inline;">
               <span class="add-on"><fmt:message key="correuAgrupat.correuAgrupatID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="correuAgrupatIDDesde" />
+              <form:input cssClass="input-append input-small" path="correuAgrupatIDDesde"  aria-labelledby="correuAgrupat_correuAgrupatID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="correuAgrupatIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="correuAgrupatIDFins"  aria-labelledby="correuAgrupat_correuAgrupatID" />
 
             </div>
 
@@ -120,18 +120,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,CorreuAgrupatFields.HTML)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="correuAgrupat_html" style="display: inline;">
+              <label id="correuAgrupat_html" style="display: inline;">
               <span class="add-on"><fmt:message key="correuAgrupat.html" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="htmlDesde" />
+              <form:input cssClass="input-append input-small" path="htmlDesde"  aria-labelledby="correuAgrupat_html" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="htmlFins" />
+              <form:input cssClass="input-append input-small search-query" path="htmlFins"  aria-labelledby="correuAgrupat_html" />
 
             </div>
 

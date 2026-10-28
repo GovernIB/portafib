@@ -85,18 +85,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,IdiomaFields.SUPORTAT)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="idioma_suportat" style="display: inline;">
+              <label id="idioma_suportat" style="display: inline;">
               <span class="add-on"><fmt:message key="idioma.suportat" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="suportatDesde" />
+              <form:input cssClass="input-append input-small" path="suportatDesde"  aria-labelledby="idioma_suportat" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="suportatFins" />
+              <form:input cssClass="input-append input-small search-query" path="suportatFins"  aria-labelledby="idioma_suportat" />
 
             </div>
 
@@ -105,18 +105,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,IdiomaFields.ORDRE)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="idioma_ordre" style="display: inline;">
+              <label id="idioma_ordre" style="display: inline;">
               <span class="add-on"><fmt:message key="idioma.ordre" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="ordreDesde" />
+              <form:input cssClass="input-append input-small" path="ordreDesde"  aria-labelledby="idioma_ordre" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="ordreFins" />
+              <form:input cssClass="input-append input-small search-query" path="ordreFins"  aria-labelledby="idioma_ordre" />
 
             </div>
 

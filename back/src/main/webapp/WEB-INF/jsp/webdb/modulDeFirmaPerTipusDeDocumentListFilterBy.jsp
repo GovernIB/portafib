@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,ModulDeFirmaPerTipusDeDocumentFields.ID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="modulDeFirmaPerTipusDeDocument_ID" style="display: inline;">
+              <label id="modulDeFirmaPerTipusDeDocument_ID" style="display: inline;">
               <span class="add-on"><fmt:message key="modulDeFirmaPerTipusDeDocument.ID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="IDDesde" />
+              <form:input cssClass="input-append input-small" path="IDDesde"  aria-labelledby="modulDeFirmaPerTipusDeDocument_ID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="IDFins" />
+              <form:input cssClass="input-append input-small search-query" path="IDFins"  aria-labelledby="modulDeFirmaPerTipusDeDocument_ID" />
 
             </div>
 
@@ -90,18 +90,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,ModulDeFirmaPerTipusDeDocumentFields.TIPUSDOCUMENTID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="modulDeFirmaPerTipusDeDocument_tipusDocumentID" style="display: inline;">
+              <label id="modulDeFirmaPerTipusDeDocument_tipusDocumentID" style="display: inline;">
               <span class="add-on"><fmt:message key="modulDeFirmaPerTipusDeDocument.tipusDocumentID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="tipusDocumentIDDesde" />
+              <form:input cssClass="input-append input-small" path="tipusDocumentIDDesde"  aria-labelledby="modulDeFirmaPerTipusDeDocument_tipusDocumentID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="tipusDocumentIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="tipusDocumentIDFins"  aria-labelledby="modulDeFirmaPerTipusDeDocument_tipusDocumentID" />
 
             </div>
 
@@ -110,18 +110,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,ModulDeFirmaPerTipusDeDocumentFields.PLUGINID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="modulDeFirmaPerTipusDeDocument_pluginID" style="display: inline;">
+              <label id="modulDeFirmaPerTipusDeDocument_pluginID" style="display: inline;">
               <span class="add-on"><fmt:message key="modulDeFirmaPerTipusDeDocument.pluginID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="pluginIDDesde" />
+              <form:input cssClass="input-append input-small" path="pluginIDDesde"  aria-labelledby="modulDeFirmaPerTipusDeDocument_pluginID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="pluginIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="pluginIDFins"  aria-labelledby="modulDeFirmaPerTipusDeDocument_pluginID" />
 
             </div>
 

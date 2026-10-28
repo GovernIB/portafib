@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,TipusDocumentFields.TIPUSDOCUMENTID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="tipusDocument_tipusDocumentID" style="display: inline;">
+              <label id="tipusDocument_tipusDocumentID" style="display: inline;">
               <span class="add-on"><fmt:message key="tipusDocument.tipusDocumentID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="tipusDocumentIDDesde" />
+              <form:input cssClass="input-append input-small" path="tipusDocumentIDDesde"  aria-labelledby="tipusDocument_tipusDocumentID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="tipusDocumentIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="tipusDocumentIDFins"  aria-labelledby="tipusDocument_tipusDocumentID" />
 
             </div>
 
@@ -75,18 +75,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,TipusDocumentFields.NOMID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="tipusDocument_nomID" style="display: inline;">
+              <label id="tipusDocument_nomID" style="display: inline;">
               <span class="add-on"><fmt:message key="tipusDocument.nomID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="nomIDDesde" />
+              <form:input cssClass="input-append input-small" path="nomIDDesde"  aria-labelledby="tipusDocument_nomID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="nomIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="nomIDFins"  aria-labelledby="tipusDocument_nomID" />
 
             </div>
 
@@ -102,30 +102,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="tipusdoc_tipusDocumentBaseID_select"   id="tipusdoc_tipusDocumentBaseID_select" path="tipusDocumentBaseIDSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="tipusdoc_tipusDocumentBaseID_select" path="tipusDocumentBaseIDSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForTipusDocumentBaseID}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.tipusDocumentBaseIDSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#tipusdoc_tipusDocumentBaseID_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "tipusdoc_tipusDocumentBaseID_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "tipusdoc_tipusDocumentBaseID_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });

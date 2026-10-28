@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginFields.PLUGINID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="plugin_pluginID" style="display: inline;">
+              <label id="plugin_pluginID" style="display: inline;">
               <span class="add-on"><fmt:message key="plugin.pluginID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="pluginIDDesde" />
+              <form:input cssClass="input-append input-small" path="pluginIDDesde"  aria-labelledby="plugin_pluginID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="pluginIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="pluginIDFins"  aria-labelledby="plugin_pluginID" />
 
             </div>
 
@@ -90,18 +90,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginFields.NOMID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="plugin_nomID" style="display: inline;">
+              <label id="plugin_nomID" style="display: inline;">
               <span class="add-on"><fmt:message key="plugin.nomID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="nomIDDesde" />
+              <form:input cssClass="input-append input-small" path="nomIDDesde"  aria-labelledby="plugin_nomID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="nomIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="nomIDFins"  aria-labelledby="plugin_nomID" />
 
             </div>
 
@@ -110,18 +110,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginFields.DESCRIPCIOCURTAID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="plugin_descripcioCurtaID" style="display: inline;">
+              <label id="plugin_descripcioCurtaID" style="display: inline;">
               <span class="add-on"><fmt:message key="plugin.descripcioCurtaID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="descripcioCurtaIDDesde" />
+              <form:input cssClass="input-append input-small" path="descripcioCurtaIDDesde"  aria-labelledby="plugin_descripcioCurtaID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="descripcioCurtaIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="descripcioCurtaIDFins"  aria-labelledby="plugin_descripcioCurtaID" />
 
             </div>
 
@@ -145,18 +145,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginFields.ORDRE)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="plugin_ordre" style="display: inline;">
+              <label id="plugin_ordre" style="display: inline;">
               <span class="add-on"><fmt:message key="plugin.ordre" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="ordreDesde" />
+              <form:input cssClass="input-append input-small" path="ordreDesde"  aria-labelledby="plugin_ordre" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="ordreFins" />
+              <form:input cssClass="input-append input-small search-query" path="ordreFins"  aria-labelledby="plugin_ordre" />
 
             </div>
 
@@ -172,30 +172,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="plugin_tipus_select"   id="plugin_tipus_select" path="tipusSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="plugin_tipus_select" path="tipusSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForTipus}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.tipusSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#plugin_tipus_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "plugin_tipus_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "plugin_tipus_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -244,30 +238,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="plugin_politicaDeUs_select"   id="plugin_politicaDeUs_select" path="politicaDeUsSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="plugin_politicaDeUs_select" path="politicaDeUsSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForPoliticaDeUs}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.politicaDeUsSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#plugin_politicaDeUs_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "plugin_politicaDeUs_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "plugin_politicaDeUs_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -294,18 +282,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PluginFields.ACTIU)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="plugin_actiu" style="display: inline;">
+              <label id="plugin_actiu" style="display: inline;">
               <span class="add-on"><fmt:message key="plugin.actiu" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="actiuDesde" />
+              <form:input cssClass="input-append input-small" path="actiuDesde"  aria-labelledby="plugin_actiu" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="actiuFins" />
+              <form:input cssClass="input-append input-small search-query" path="actiuFins"  aria-labelledby="plugin_actiu" />
 
             </div>
 
@@ -321,30 +309,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="plugin_politicaMostrarPropietats_select"   id="plugin_politicaMostrarPropietats_select" path="politicaMostrarPropietatsSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="plugin_politicaMostrarPropietats_select" path="politicaMostrarPropietatsSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForPoliticaMostrarPropietats}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.politicaMostrarPropietatsSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#plugin_politicaMostrarPropietats_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "plugin_politicaMostrarPropietats_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "plugin_politicaMostrarPropietats_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });

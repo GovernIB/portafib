@@ -111,7 +111,7 @@
              <br/><br/>
              <table width="100%" border="4"><tr><td>
              <object data="${urlfile}" type="${fitxer.key.mime}" width="100%" height="750">    
-               <center><a href="${urlfile}"><c:out value="${nomfile}" /></a></center>
+               <div style="text-align:center;"><a href="${urlfile}"><c:out value="${nomfile}" /></a></div>
              </object>
              </td></tr></table>
           </c:when>
@@ -121,7 +121,7 @@
           <%-- Constants.DOC_BIN --%>
           <c:otherwise>
               <br/><br/><br/>
-              <center><a target="_blank" href="${urlfile}"><c:out value="${nomfile}" /></a> <br/></center>
+              <div style="text-align:center;"><a target="_blank" href="${urlfile}"><c:out value="${nomfile}" /></a> <br/></div>
           </c:otherwise>
        </c:choose>
     </div>

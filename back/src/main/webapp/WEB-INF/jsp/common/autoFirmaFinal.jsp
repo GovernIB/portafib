@@ -7,11 +7,11 @@
 <br>
 <br>
 
-<center>
+<div style="text-align:center;">
 <fmt:message key="autofirma.final.msg1"/><br>
 <fmt:message key="autofirma.final.msg2"/><br>
 <a href="<c:url value="/common/autofirma/download/${id}" />" target="_blank" class="btn btn-primary" style="color:white;">
  <fmt:message key="descarregardocumentfirmat"/>
 </a> &nbsp; 
 <a href="<c:url value="/common/autofirma/list" />" class="btn btn-secondary"><fmt:message key="tornar"/></a>
-</center>
+</div>

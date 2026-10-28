@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,BitacolaFields.BITACOLAID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="bitacola_bitacolaID" style="display: inline;">
+              <label id="bitacola_bitacolaID" style="display: inline;">
               <span class="add-on"><fmt:message key="bitacola.bitacolaID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="bitacolaIDDesde" />
+              <form:input cssClass="input-append input-small" path="bitacolaIDDesde"  aria-labelledby="bitacola_bitacolaID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="bitacolaIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="bitacolaIDFins"  aria-labelledby="bitacola_bitacolaID" />
 
             </div>
 
@@ -166,30 +166,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="bitacola_tipusObjecte_select"   id="bitacola_tipusObjecte_select" path="tipusObjecteSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="bitacola_tipusObjecte_select" path="tipusObjecteSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForTipusObjecte}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.tipusObjecteSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#bitacola_tipusObjecte_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "bitacola_tipusObjecte_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "bitacola_tipusObjecte_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -223,30 +217,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="bitacola_tipusOperacio_select"   id="bitacola_tipusOperacio_select" path="tipusOperacioSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="bitacola_tipusOperacio_select" path="tipusOperacioSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForTipusOperacio}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.tipusOperacioSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#bitacola_tipusOperacio_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "bitacola_tipusOperacio_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "bitacola_tipusOperacio_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });

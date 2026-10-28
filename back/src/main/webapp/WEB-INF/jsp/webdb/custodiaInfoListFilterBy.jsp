@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.CUSTODIAINFOID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="custodiaInfo_custodiaInfoID" style="display: inline;">
+              <label id="custodiaInfo_custodiaInfoID" style="display: inline;">
               <span class="add-on"><fmt:message key="custodiaInfo.custodiaInfoID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="custodiaInfoIDDesde" />
+              <form:input cssClass="input-append input-small" path="custodiaInfoIDDesde"  aria-labelledby="custodiaInfo_custodiaInfoID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="custodiaInfoIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="custodiaInfoIDFins"  aria-labelledby="custodiaInfo_custodiaInfoID" />
 
             </div>
 
@@ -105,18 +105,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.PLUGINID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="custodiaInfo_pluginID" style="display: inline;">
+              <label id="custodiaInfo_pluginID" style="display: inline;">
               <span class="add-on"><fmt:message key="custodiaInfo.pluginID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="pluginIDDesde" />
+              <form:input cssClass="input-append input-small" path="pluginIDDesde"  aria-labelledby="custodiaInfo_pluginID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="pluginIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="pluginIDFins"  aria-labelledby="custodiaInfo_pluginID" />
 
             </div>
 
@@ -140,18 +140,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.CUSTODIAR)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="custodiaInfo_custodiar" style="display: inline;">
+              <label id="custodiaInfo_custodiar" style="display: inline;">
               <span class="add-on"><fmt:message key="custodiaInfo.custodiar" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="custodiarDesde" />
+              <form:input cssClass="input-append input-small" path="custodiarDesde"  aria-labelledby="custodiaInfo_custodiar" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="custodiarFins" />
+              <form:input cssClass="input-append input-small search-query" path="custodiarFins"  aria-labelledby="custodiaInfo_custodiar" />
 
             </div>
 
@@ -197,30 +197,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="custodia_missatgePosicioPaginaID_select"   id="custodia_missatgePosicioPaginaID_select" path="missatgePosicioPaginaIDSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="custodia_missatgePosicioPaginaID_select" path="missatgePosicioPaginaIDSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForMissatgePosicioPaginaID}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.missatgePosicioPaginaIDSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#custodia_missatgePosicioPaginaID_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "custodia_missatgePosicioPaginaID_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "custodia_missatgePosicioPaginaID_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -254,30 +248,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="custodia_codiBarresPosicioPaginaID_select"   id="custodia_codiBarresPosicioPaginaID_select" path="codiBarresPosicioPaginaIDSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="custodia_codiBarresPosicioPaginaID_select" path="codiBarresPosicioPaginaIDSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForCodiBarresPosicioPaginaID}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.codiBarresPosicioPaginaIDSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#custodia_codiBarresPosicioPaginaID_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "custodia_codiBarresPosicioPaginaID_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "custodia_codiBarresPosicioPaginaID_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -418,18 +406,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.EDITABLE)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="custodiaInfo_editable" style="display: inline;">
+              <label id="custodiaInfo_editable" style="display: inline;">
               <span class="add-on"><fmt:message key="custodiaInfo.editable" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="editableDesde" />
+              <form:input cssClass="input-append input-small" path="editableDesde"  aria-labelledby="custodiaInfo_editable" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="editableFins" />
+              <form:input cssClass="input-append input-small search-query" path="editableFins"  aria-labelledby="custodiaInfo_editable" />
 
             </div>
 

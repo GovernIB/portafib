@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,NotificacioWSFields.NOTIFICACIOID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="notificacioWS_notificacioID" style="display: inline;">
+              <label id="notificacioWS_notificacioID" style="display: inline;">
               <span class="add-on"><fmt:message key="notificacioWS.notificacioID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="notificacioIDDesde" />
+              <form:input cssClass="input-append input-small" path="notificacioIDDesde"  aria-labelledby="notificacioWS_notificacioID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="notificacioIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="notificacioIDFins"  aria-labelledby="notificacioWS_notificacioID" />
 
             </div>
 
@@ -75,18 +75,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,NotificacioWSFields.PETICIODEFIRMAID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="notificacioWS_peticioDeFirmaID" style="display: inline;">
+              <label id="notificacioWS_peticioDeFirmaID" style="display: inline;">
               <span class="add-on"><fmt:message key="notificacioWS.peticioDeFirmaID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="peticioDeFirmaIDDesde" />
+              <form:input cssClass="input-append input-small" path="peticioDeFirmaIDDesde"  aria-labelledby="notificacioWS_peticioDeFirmaID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="peticioDeFirmaIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="peticioDeFirmaIDFins"  aria-labelledby="notificacioWS_peticioDeFirmaID" />
 
             </div>
 
@@ -95,18 +95,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,NotificacioWSFields.TIPUSNOTIFICACIOID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="notificacioWS_tipusNotificacioID" style="display: inline;">
+              <label id="notificacioWS_tipusNotificacioID" style="display: inline;">
               <span class="add-on"><fmt:message key="notificacioWS.tipusNotificacioID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="tipusNotificacioIDDesde" />
+              <form:input cssClass="input-append input-small" path="tipusNotificacioIDDesde"  aria-labelledby="notificacioWS_tipusNotificacioID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="tipusNotificacioIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="tipusNotificacioIDFins"  aria-labelledby="notificacioWS_tipusNotificacioID" />
 
             </div>
 
@@ -307,18 +307,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,NotificacioWSFields.REINTENTS)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="notificacioWS_reintents" style="display: inline;">
+              <label id="notificacioWS_reintents" style="display: inline;">
               <span class="add-on"><fmt:message key="notificacioWS.reintents" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="reintentsDesde" />
+              <form:input cssClass="input-append input-small" path="reintentsDesde"  aria-labelledby="notificacioWS_reintents" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="reintentsFins" />
+              <form:input cssClass="input-append input-small search-query" path="reintentsFins"  aria-labelledby="notificacioWS_reintents" />
 
             </div>
 

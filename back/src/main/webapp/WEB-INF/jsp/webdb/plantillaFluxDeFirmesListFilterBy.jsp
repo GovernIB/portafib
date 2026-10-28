@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,PlantillaFluxDeFirmesFields.FLUXDEFIRMESID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="plantillaFluxDeFirmes_fluxDeFirmesID" style="display: inline;">
+              <label id="plantillaFluxDeFirmes_fluxDeFirmesID" style="display: inline;">
               <span class="add-on"><fmt:message key="plantillaFluxDeFirmes.fluxDeFirmesID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="fluxDeFirmesIDDesde" />
+              <form:input cssClass="input-append input-small" path="fluxDeFirmesIDDesde"  aria-labelledby="plantillaFluxDeFirmes_fluxDeFirmesID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="fluxDeFirmesIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="fluxDeFirmesIDFins"  aria-labelledby="plantillaFluxDeFirmes_fluxDeFirmesID" />
 
             </div>
 

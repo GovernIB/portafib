@@ -55,18 +55,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,BlocDeFirmesFields.BLOCDEFIRMESID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="blocDeFirmes_blocDeFirmesID" style="display: inline;">
+              <label id="blocDeFirmes_blocDeFirmesID" style="display: inline;">
               <span class="add-on"><fmt:message key="blocDeFirmes.blocDeFirmesID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="blocDeFirmesIDDesde" />
+              <form:input cssClass="input-append input-small" path="blocDeFirmesIDDesde"  aria-labelledby="blocDeFirmes_blocDeFirmesID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="blocDeFirmesIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="blocDeFirmesIDFins"  aria-labelledby="blocDeFirmes_blocDeFirmesID" />
 
             </div>
 
@@ -75,18 +75,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,BlocDeFirmesFields.ORDRE)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="blocDeFirmes_ordre" style="display: inline;">
+              <label id="blocDeFirmes_ordre" style="display: inline;">
               <span class="add-on"><fmt:message key="blocDeFirmes.ordre" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="ordreDesde" />
+              <form:input cssClass="input-append input-small" path="ordreDesde"  aria-labelledby="blocDeFirmes_ordre" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="ordreFins" />
+              <form:input cssClass="input-append input-small search-query" path="ordreFins"  aria-labelledby="blocDeFirmes_ordre" />
 
             </div>
 
@@ -149,18 +149,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,BlocDeFirmesFields.FLUXDEFIRMESID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="blocDeFirmes_fluxDeFirmesID" style="display: inline;">
+              <label id="blocDeFirmes_fluxDeFirmesID" style="display: inline;">
               <span class="add-on"><fmt:message key="blocDeFirmes.fluxDeFirmesID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="fluxDeFirmesIDDesde" />
+              <form:input cssClass="input-append input-small" path="fluxDeFirmesIDDesde"  aria-labelledby="blocDeFirmes_fluxDeFirmesID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="fluxDeFirmesIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="fluxDeFirmesIDFins"  aria-labelledby="blocDeFirmes_fluxDeFirmesID" />
 
             </div>
 
@@ -169,18 +169,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,BlocDeFirmesFields.MINIMDEFIRMES)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="blocDeFirmes_minimDeFirmes" style="display: inline;">
+              <label id="blocDeFirmes_minimDeFirmes" style="display: inline;">
               <span class="add-on"><fmt:message key="blocDeFirmes.minimDeFirmes" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="minimDeFirmesDesde" />
+              <form:input cssClass="input-append input-small" path="minimDeFirmesDesde"  aria-labelledby="blocDeFirmes_minimDeFirmes" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="minimDeFirmesFins" />
+              <form:input cssClass="input-append input-small search-query" path="minimDeFirmesFins"  aria-labelledby="blocDeFirmes_minimDeFirmes" />
 
             </div>
 

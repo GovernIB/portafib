@@ -115,18 +115,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariEntitatFields.ACTIU)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="usuariEntitat_actiu" style="display: inline;">
+              <label id="usuariEntitat_actiu" style="display: inline;">
               <span class="add-on"><fmt:message key="usuariEntitat.actiu" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="actiuDesde" />
+              <form:input cssClass="input-append input-small" path="actiuDesde"  aria-labelledby="usuariEntitat_actiu" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="actiuFins" />
+              <form:input cssClass="input-append input-small search-query" path="actiuFins"  aria-labelledby="usuariEntitat_actiu" />
 
             </div>
 
@@ -150,18 +150,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariEntitatFields.PREDETERMINAT)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="usuariEntitat_predeterminat" style="display: inline;">
+              <label id="usuariEntitat_predeterminat" style="display: inline;">
               <span class="add-on"><fmt:message key="usuariEntitat.predeterminat" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="predeterminatDesde" />
+              <form:input cssClass="input-append input-small" path="predeterminatDesde"  aria-labelledby="usuariEntitat_predeterminat" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="predeterminatFins" />
+              <form:input cssClass="input-append input-small search-query" path="predeterminatFins"  aria-labelledby="usuariEntitat_predeterminat" />
 
             </div>
 
@@ -170,18 +170,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariEntitatFields.REBRETOTSELSAVISOS)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="usuariEntitat_rebreTotsElsAvisos" style="display: inline;">
+              <label id="usuariEntitat_rebreTotsElsAvisos" style="display: inline;">
               <span class="add-on"><fmt:message key="usuariEntitat.rebreTotsElsAvisos" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="rebreTotsElsAvisosDesde" />
+              <form:input cssClass="input-append input-small" path="rebreTotsElsAvisosDesde"  aria-labelledby="usuariEntitat_rebreTotsElsAvisos" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="rebreTotsElsAvisosFins" />
+              <form:input cssClass="input-append input-small search-query" path="rebreTotsElsAvisosFins"  aria-labelledby="usuariEntitat_rebreTotsElsAvisos" />
 
             </div>
 
@@ -197,30 +197,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="usrentitat_politicaDePluginFirmaWeb_select"   id="usrentitat_politicaDePluginFirmaWeb_select" path="politicaDePluginFirmaWebSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="usrentitat_politicaDePluginFirmaWeb_select" path="politicaDePluginFirmaWebSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForPoliticaDePluginFirmaWeb}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.politicaDePluginFirmaWebSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#usrentitat_politicaDePluginFirmaWeb_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "usrentitat_politicaDePluginFirmaWeb_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "usrentitat_politicaDePluginFirmaWeb_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -239,30 +233,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="usrentitat_politicaCustodia_select"   id="usrentitat_politicaCustodia_select" path="politicaCustodiaSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="usrentitat_politicaCustodia_select" path="politicaCustodiaSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForPoliticaCustodia}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.politicaCustodiaSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#usrentitat_politicaCustodia_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "usrentitat_politicaCustodia_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "usrentitat_politicaCustodia_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -274,18 +262,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariEntitatFields.CUSTODIAINFOID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="usuariEntitat_custodiaInfoID" style="display: inline;">
+              <label id="usuariEntitat_custodiaInfoID" style="display: inline;">
               <span class="add-on"><fmt:message key="usuariEntitat.custodiaInfoID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="custodiaInfoIDDesde" />
+              <form:input cssClass="input-append input-small" path="custodiaInfoIDDesde"  aria-labelledby="usuariEntitat_custodiaInfoID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="custodiaInfoIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="custodiaInfoIDFins"  aria-labelledby="usuariEntitat_custodiaInfoID" />
 
             </div>
 

@@ -134,14 +134,14 @@
         <%-- XYZ ZZZ Si estam amb flux rest llavors mostrar boto de OK i Cancelar  --%>
         
         <c:if test="${isPlantillaRest && not readOnly}">
-        <center>
+        <div style="text-align:center;">
         <a href="<c:url value="${contexte}/finalRestOK"/>" class="btn btn-large btn-primary"> <fmt:message key="genapp.save" /> </a>
         <a href="<c:url value="${contexte}/finalRestCanceled"/>" class="btn btn-large btn-secondary"><fmt:message key="genapp.cancel" /></a>
-        </center>
+        </div>
         </c:if>
         
       
-        <center>
+        <div style="text-align:center;">
           <c:if test="${readOnly == false || onlyFlux == false}">            
             <hr />
             <p class="text-error">
@@ -483,9 +483,9 @@
                                   <div class="radius" style="${background} ${backgroundimage} float:right; border: 2px solid #ff0000; margin: 4px; padding: 8px; text-align: left">
                                      
                                      <label class="checkbox inline" style="padding-left: 0px;padding-top: 0px;">
-                                    <center><b><fmt:message key="revisorDeFirma.revisorDeFirma" /></b>
-                                    
-                                    </center>
+                                     <div style="text-align:center;">
+                                     <b><fmt:message key="revisorDeFirma.revisorDeFirma" /></b>
+                                    </div>
                                     <i>${revisor.usuariEntitat.usuariPersona.nom}&nbsp${revisor.usuariEntitat.usuariPersona.llinatges}<br/>
                                     ${pfi:ofuscar(revisor.usuariEntitat.usuariPersona.nif)}</i>
                                     
@@ -552,7 +552,7 @@
             </tr>
 
           </table>
-        </center>
+        </div>
         <!-- Final de no mostrar flux si es nova plantilla -->
       </c:if>
 

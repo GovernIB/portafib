@@ -107,30 +107,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="usrapp_callbackVersio_select"   id="usrapp_callbackVersio_select" path="callbackVersioSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="usrapp_callbackVersio_select" path="callbackVersioSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForCallbackVersio}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.callbackVersioSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#usrapp_callbackVersio_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "usrapp_callbackVersio_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "usrapp_callbackVersio_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -157,18 +151,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioFields.ACTIU)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="usuariAplicacio_actiu" style="display: inline;">
+              <label id="usuariAplicacio_actiu" style="display: inline;">
               <span class="add-on"><fmt:message key="usuariAplicacio.actiu" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="actiuDesde" />
+              <form:input cssClass="input-append input-small" path="actiuDesde"  aria-labelledby="usuariAplicacio_actiu" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="actiuFins" />
+              <form:input cssClass="input-append input-small search-query" path="actiuFins"  aria-labelledby="usuariAplicacio_actiu" />
 
             </div>
 
@@ -214,30 +208,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="usrapp_politicaDePluginFirmaWeb_select"   id="usrapp_politicaDePluginFirmaWeb_select" path="politicaDePluginFirmaWebSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="usrapp_politicaDePluginFirmaWeb_select" path="politicaDePluginFirmaWebSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForPoliticaDePluginFirmaWeb}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.politicaDePluginFirmaWebSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#usrapp_politicaDePluginFirmaWeb_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "usrapp_politicaDePluginFirmaWeb_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "usrapp_politicaDePluginFirmaWeb_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -256,30 +244,24 @@
               </div>
 
               <div class="input-group-prepend" style="min-width:200px">
-                <form:select aria-label="usrapp_politicaCustodia_select"   id="usrapp_politicaCustodia_select" path="politicaCustodiaSelect" cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
+              <form:select id="usrapp_politicaCustodia_select" path="politicaCustodiaSelect"  cssClass="search-query input-medium form-control select2 select2-hidden-accessible" multiple="true" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <c:forEach var="_entry" items="${__theFilterForm.mapOfValuesForPoliticaCustodia}">
                       <option value="${_entry.key}" ${fn:contains(__theFilterForm.politicaCustodiaSelect, _entry.key)?'selected':''} >${_entry.value}</option>
                     </c:forEach>
-                </form:select>
+              </form:select>
               </div>
-
               <script>
                 $(document).ready(function() {
                     var $select = $('#usrapp_politicaCustodia_select');
-                    var ariaLabel = $select.attr('aria-label');
-
                     $select.select2({
                         closeOnSelect: false
                     });
-
-                    if (ariaLabel) {
-                        $select.next('.select2-container')
-                               .find('[role="combobox"]')
-                               .attr('aria-label', ariaLabel);
-                        $select.next('.select2-container')
-                               .find('.select2-search__field')
-                               .attr('aria-label', ariaLabel);
-                    }
+                    $select.next('.select2-container')
+                           .find('[role="combobox"]')
+                           .attr('aria-label', "usrapp_politicaCustodia_select");
+                    $select.next('.select2-container')
+                           .find('.select2-search__field')
+                           .attr('aria-label', "usrapp_politicaCustodia_select");
 
                     $('.select2-selection__rendered').css('padding-bottom','5px');
                 });
@@ -291,18 +273,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioFields.CUSTODIAINFOID)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="usuariAplicacio_custodiaInfoID" style="display: inline;">
+              <label id="usuariAplicacio_custodiaInfoID" style="display: inline;">
               <span class="add-on"><fmt:message key="usuariAplicacio.custodiaInfoID" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="custodiaInfoIDDesde" />
+              <form:input cssClass="input-append input-small" path="custodiaInfoIDDesde"  aria-labelledby="usuariAplicacio_custodiaInfoID" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="custodiaInfoIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="custodiaInfoIDFins"  aria-labelledby="usuariAplicacio_custodiaInfoID" />
 
             </div>
 
@@ -311,18 +293,18 @@
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioFields.CREARUSUARIS)}">
             <div class="input-group" style="padding-right: 24px;padding-bottom: 4px;">
             <%-- FILTRE NUMERO DESDE-FINS --%>
-              <label for="usuariAplicacio_crearUsuaris" style="display: inline;">
+              <label id="usuariAplicacio_crearUsuaris" style="display: inline;">
               <span class="add-on"><fmt:message key="usuariAplicacio.crearUsuaris" />:</span>
               </label>
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="crearUsuarisDesde" />
+              <form:input cssClass="input-append input-small" path="crearUsuarisDesde"  aria-labelledby="usuariAplicacio_crearUsuaris" />
 
 
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
 
-              <form:input cssClass="input-append input-small search-query" path="crearUsuarisFins" />
+              <form:input cssClass="input-append input-small search-query" path="crearUsuarisFins"  aria-labelledby="usuariAplicacio_crearUsuaris" />
 
             </div>
 
