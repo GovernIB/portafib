@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 @MenuOption(
         group = Tab.MENU_DELE,
         labelCode = "delegacio.pendent.plural",
-        addSeparatorBefore = true,
+        addSeparatorBefore = false,
         order = 20)
 public class EstatFirmaPendentDeleController extends  EstatFirmaAbstractDeleController {
   

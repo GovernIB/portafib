@@ -99,15 +99,25 @@ public class Utils {
 
             if (orderedBythisfield) {
 
-                html = "<span style=\"cursor:row-resize\" onClick=\"javascript:executeOrderBy('" + field + "', "
-                        + !isOrderedAsc + ");\"" + " title=\""
+                // Nota (ca): afegim role="button", tabindex="0" i onkeypress/onkeydown
+                // perque l'element sigui accessible via teclat (evitar avis de WAVE
+                // "Device dependent event handler").
+                String jsCall = "executeOrderBy('" + field + "', " + !isOrderedAsc + ");";
+                html = "<span style=\"cursor:row-resize\" role=\"button\" tabindex=\"0\""
+                        + " onclick=\"javascript:" + jsCall + "\""
+                        + " onkeypress=\"javascript:if(event.key==='Enter'||event.key===' '){event.preventDefault();"
+                        + jsCall + "}\"" + " title=\""
                         + I18NUtils.tradueix(!isOrderedAsc ? "genapp.form.sort.asc" : "genapp.form.sort.desc") + "\" >"
-                        + getText(code) + "<i class=\"" + (isOrderedAsc ? "fas fa-chevron-up" : "fas fa-chevron-down")
-                        + "\"></i></span>";
+                        + getText(code) + "<i class=\""
+                        + (isOrderedAsc ? "fas fa-sort-alpha-up" : "fas fa-sort-alpha-up-alt") + "\"></i></span>";
             } else {
-                html = "<span style=\"cursor:row-resize\" onclick=\"javascript:executeOrderBy('" + field
-                        + "', true);\" " + " title=\"" + I18NUtils.tradueix("genapp.form.sort.asc") + "\">"
-                        + getText(code) + "<i class=\"fas fa-arrows-alt-v\"></i></span>";
+                // Nota (ca): idem, afegim accessibilitat via teclat.
+                String jsCall = "executeOrderBy('" + field + "', true);";
+                html = "<span style=\"cursor:row-resize\" role=\"button\" tabindex=\"0\""
+                        + " onclick=\"javascript:" + jsCall + "\""
+                        + " onkeypress=\"javascript:if(event.key==='Enter'||event.key===' '){event.preventDefault();"
+                        + jsCall + "}\"" + " title=\"" + I18NUtils.tradueix("genapp.form.sort.asc") + "\">"
+                        + getText(code) + "<i class=\"fas fa-sort\"></i></span>";
             }
             return html;
         } else {

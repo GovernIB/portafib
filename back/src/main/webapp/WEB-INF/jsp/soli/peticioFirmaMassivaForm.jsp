@@ -1,93 +1,82 @@
 <%@page import="org.fundaciobit.genapp.common.web.html.HtmlCSS"%>
-<%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
+<%@include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
 <form:form modelAttribute="peticioFirmaMassivaForm" method="post" name="peticioFirmaMassivaForm" enctype="multipart/form-data">
 
-<%=HtmlCSS.TITOL_BEGIN %><fmt:message key="peticioFirmaMassiva.titol" /><%=HtmlCSS.TITOL_END %>
-<%=HtmlCSS.SUBTITOL_BEGIN%> <fmt:message key="peticioFirmaMassiva.subtitol" /><%=HtmlCSS.SUBTITOL_END%>
+    <%=HtmlCSS.TITOL_BEGIN%><fmt:message key="peticioFirmaMassiva.titol" /><%=HtmlCSS.TITOL_END%>
+    <br />
+    <%=HtmlCSS.SUBTITOL_BEGIN%>
+    <fmt:message key="peticioFirmaMassiva.subtitol" /><%=HtmlCSS.SUBTITOL_END%>
 
-<table class="tdformlabel table-sm table table-bordered table-striped marTop10" style="margin-bottom: 0px;">
-<tbody>
-  <tr>
-      <td>
-        <label><fmt:message key="peticioDeFirma.titol" />
-        &nbsp;
-        <a href="#" data-toggle="tooltip" data-placement="top" title="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />"><i class="fas fa-info-circle"></i></a>
-        &nbsp;(*)
-        </label>
-      </td>
-      <td>
-       <form:errors  path="titolPeticio" cssClass="errorField alert alert-danger" />
-       <input  name="titolPeticio" type="text" class="col-md-9-optional" placeholder="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />" >
-      </td>
-  </tr>
-  <tr>
-      <td>
-        <label><fmt:message key="peticioDeFirma.descripcio" />
-        &nbsp;
-        <a href="#" data-toggle="tooltip" data-placement="top" title="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />"><i class="fas fa-info-circle"></i></a>
-        &nbsp;(*)
-        </label>
-      </td>
-      <td>
-       <form:errors  path="descripcio" cssClass="errorField alert alert-danger" />
-       <input name="descripcio" type="text" class="col-md-9-optional" placeholder="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />" >
-      </td>
-  </tr>
-  <tr>
-      <td>
-        <label><fmt:message key="peticioDeFirma.motiu" />
-        &nbsp;
-        <a href="#" data-toggle="tooltip" data-placement="top" title="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />"><i class="fas fa-info-circle"></i></a>
-        &nbsp;(*)
-        </label>
-      </td>
-      <td>
-       <form:errors  path="motiu" cssClass="errorField alert alert-danger" />
-       <input  name="motiu" type="text" class="col-md-9-optional" placeholder="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />" >
-      </td>
-  </tr>
-  <tr>
-      <td>
-        <label><fmt:message key="peticioFirmaMassiva.peticiobase" /> &nbsp;(*)</label>
-      </td>
-      <td valign="top">
-         <form:errors path="peticioDeFirmaID" cssClass="errorField alert alert-danger" />
-         <form:select id="peticioDeFirmaID" path="peticioDeFirmaID"  cssClass="col-md-9-optional">
-            <c:forEach items="${peticioFirmaMassivaForm.peticionsDeFirmesBase}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
-            </c:forEach>
-         </form:select>
-         
-         <button onclick="mostrarFlux('peticioDeFirmaID');" type="button" class="btn btn-info"><i class="fas fa-eye"></i></button>
-      </td>
-  </tr>
-  <tr>
-      <td>
-        <label><fmt:message key="peticioFirmaMassiva.fitxers" />
-        &nbsp;
-        <a href="#" data-toggle="tooltip" data-placement="top" title="<fmt:message key="peticioFirmaMassiva.ajudafitxers" />"><i class="fas fa-info-circle"></i></a>
-        &nbsp;(*)</label>
-      </td>
-      <td>
-       <form:errors path="files" cssClass="errorField alert alert-danger" />
-       <form:input path="files" type="file" multiple="multiple" class="col-md-9-optional" />
-      </td>
-  </tr>
-</tbody>
-</table>
+    <table class="tdformlabel table-sm table table-bordered table-striped marTop10" style="margin-bottom: 0px;">
+        <tbody>
+            <tr>
+                <td><label for="titolPeticio"><fmt:message key="peticioDeFirma.titol" /> &nbsp; <a href="#"
+                            data-toggle="tooltip" data-placement="top" title="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />">
+                            <i class="fas fa-info-circle"></i>
+                        </a> &nbsp;(*) </label></td>
+                <td><form:errors path="titolPeticio" cssClass="errorField alert alert-danger" /> <input id="titolPeticio"
+                    name="titolPeticio" type="text" class="col-md-9-optional"
+                    placeholder="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />"></td>
+            </tr>
+            <tr>
+                <td><label for="descripcio"><fmt:message key="peticioDeFirma.descripcio" /> &nbsp; <a href="#"
+                            data-toggle="tooltip" data-placement="top" title="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />">
+                            <i class="fas fa-info-circle"></i>
+                        </a> &nbsp;(*) </label></td>
+                <td><form:errors path="descripcio" cssClass="errorField alert alert-danger" /> <input id="descripcio"
+                    name="descripcio" type="text" class="col-md-9-optional"
+                    placeholder="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />"></td>
+            </tr>
+            <tr>
+                <td><label for="motiu"><fmt:message key="peticioDeFirma.motiu" /> &nbsp; <a href="#" data-toggle="tooltip"
+                            data-placement="top" title="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />">
+                            <i class="fas fa-info-circle"></i>
+                        </a> &nbsp;(*) </label></td>
+                <td>
+                    <form:errors path="motiu" cssClass="errorField alert alert-danger" />
+                 <input id="motiu" name="motiu" type="text"
+                    class="col-md-9-optional" placeholder="<fmt:message key="peticioFirmaMassiva.ajudasubstitucio" />"></td>
+            </tr>
+            <tr>
+                <td><label for="peticioDeFirmaID"><fmt:message key="peticioFirmaMassiva.peticiobase" /> &nbsp;(*)</label></td>
+                <td valign="top"><form:errors path="peticioDeFirmaID" cssClass="errorField alert alert-danger" /> <form:select
+                        id="peticioDeFirmaID" path="peticioDeFirmaID" cssClass="col-md-9-optional">
+                        <c:forEach items="${peticioFirmaMassivaForm.peticionsDeFirmesBase}" var="tmp">
+                            <form:option value="${tmp.key}">${tmp.value}</form:option>
+                        </c:forEach>
+                    </form:select>
 
-<div class="navbar-form pagination-centered" style="margin-top: 15px;">
-  <button class="btn btn-primary" type="submit" class="btn btn-primary"><fmt:message key="peticioFirmaMassiva.boto"/></button>
-</div>
+                    <button onclick="mostrarFlux('peticioDeFirmaID');" type="button" class="btn btn-info">
+                        <i aria-hidden="true" class="fas fa-eye"></i> <span class="sr-only">Veure</span>
+                    </button></td>
+            </tr>
+            <tr>
+                <td><label for="files"><fmt:message key="peticioFirmaMassiva.fitxers" /> &nbsp; <a href="#"
+                            data-toggle="tooltip" data-placement="top" title="<fmt:message key="peticioFirmaMassiva.ajudafitxers" />">
+                            <i class="fas fa-info-circle"></i>
+                        </a> &nbsp;(*)</label></td>
+                <td><form:errors path="files" cssClass="errorField alert alert-danger" /> <form:input id="files" path="files"
+                        type="file" multiple="multiple" class="col-md-9-optional" /></td>
+            </tr>
+        </tbody>
+    </table>
 
-<script type="text/javascript">
-      function mostrarFlux(selectID) {
-          var e = document.getElementById(selectID);
-          var peticio = e.options[e.selectedIndex].value;
-          window.open('<c:url value="/soli/plantilla/viewfluxpeticioid"/>/' + peticio + '?readOnly=true' ,'popup','toolbar=no,directories=no,menubar=no,location=no,scrollbars=yes,width=560,height=650');
-      }
-</script>
+    <div class="navbar-form pagination-centered" style="margin-top: 15px;">
+        <button class="btn btn-primary" type="submit" class="btn btn-primary">
+            <fmt:message key="peticioFirmaMassiva.boto" />
+        </button>
+    </div>
+
+    <script type="text/javascript">
+                    function mostrarFlux(selectID) {
+                        var e = document.getElementById(selectID);
+                        var peticio = e.options[e.selectedIndex].value;
+                        window.open('<c:url value="/soli/plantilla/viewfluxpeticioid"/>/' + peticio + '?readOnly=true',
+                                'popup',
+                                'toolbar=no,directories=no,menubar=no,location=no,scrollbars=yes,width=560,height=650');
+                    }
+                </script>
 
 
 </form:form>

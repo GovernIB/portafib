@@ -2,6 +2,9 @@
 <%@page import="org.fundaciobit.genapp.common.web.menuoptions.MenuItem"%>
 <%@page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
+
+<hr style="margin-top: 6px; margin-bottom: 6px;" />
+
 <%
 int count = 0;
 

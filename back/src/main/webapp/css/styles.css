@@ -120,6 +120,10 @@ Sobreescriu el blau #007bff (~4.0:1) per un blau més fosc accessible. */
     color: #000;
 }
 
+.tree li {
+    margin-bottom: 6px; /* separació entre elements */
+}
+
 /* FI Estils generals */
 
 /* Motlla de pa */
