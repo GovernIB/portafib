@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.caib.portafib.back.utils.Tab;
-import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.logic.EstadisticaLogicaLocal;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 
