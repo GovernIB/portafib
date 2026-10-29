@@ -1,5 +1,7 @@
 
 
+echo PARAMETREZ   %*
+
 @echo off
 :: uncomment the line bellow if the java.exe is not in the %PATH% 
 ::PATH %PATH%;%JAVA_HOME%\bin\
@@ -22,5 +24,6 @@ IF %jver% LSS 11 (
   exit /b 1
 ) ELSE (
   set MAVEN_OPTS=-Dfile.encoding=UTF-8
-  mvn exec:java
+  echo mvn exec:java -Dexec.args="%*"
+  call mvn exec:java -Dexec.args="%*"
 )

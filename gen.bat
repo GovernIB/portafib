@@ -1,0 +1,2 @@
+
+genapp.bat ../../portafib.genappjson ../..
