@@ -1,0 +1,54 @@
+
+
+USUARIOS Y CONTRASEÑAS
+======================
+
+Buenos días:
+
+Antes de nada el contacto técnico para el tema de Firmas Digitales (incluido PortaFIB) es governdigital.firmes@ibdigital.caib.es
+Como vamos un poco liados por aquí, os envío solamente las peticiones para las credenciales para atacar a PortaFIB.
+A la gente responsable de Volant en la CAIB les tenéis que pedir lo siguiente:
+Nuevo usuario aplicación para atacar a PortaFIB de SE (Serveis Estables) desde VOLANT (la nueva aplicación, aquí deberéis enviar el nombre y el código de la aplicación asignado). Los roles de este usuario deberían ser PFI_WS y dentro de PortaFIB se le tiene que asignar un Perfil de Firma para PDFs (PAdES).
+Por otro lado, durante la fase de desarrollo deberéis simular el envío de la firma a un responsable de la CAIB, que sustituiréis por el usuario desarrollador. Para ello deberéis pedir dar de alta un conjunto de Usuarios Persona que serán los desarrolladores. En caso de  que no os den estos usuarios, PortaFIB permite enviar peticiones a usuarios externos a CAIB ... se debe modificar un poco la llamada al API pero no hay problema.
+
+Os deberían pasar un usuario y una contraseña para el usuario Aplicación. Y para los usuarios persona, indicaros los usernames i contraseñas asignadas.
+Acabo un par de tareas urgentes que tengo y os paso la información del API.
+
+
+Vamos a por el tema del API
+===========================
+
+* https://github.com/GovernIB/portafib/blob/portafib-3.0/doc/Manual_Integracio_API_Firma_Async_Simple_v2_0.odt : Este documento es de la API antigua pero contiene en la introducción el funcionamiento de la Firma Asíncrona (la que se envia a PortaFIB).
+* https://github.com/GovernIB/portafib/blob/portafib-3.0/doc/Manual_de_Migraci%C3%B3_de_APIsIB_a_Api_Interna.odt: En este documento se explica la nueva API Swagger (Son las mismas clases que el API V2.0 pero con anotaciones Swagger/OpenAPI)
+* https://se.caib.es/portafibapi/interna/index.html?urls.primaryName=Signature%20v1#/AsyncSignatureOnWeb%20v1: En está página podéis ver los métodos disponibles en el API de Firma Asíncrona. Incluso cuando tengáis el usuario aplicación para SE (Serveis Estables) podríais hacer pruebas de llamadas, aunque os aconsejo para las pruebas el punto siguiente.
+* https://github.com/GovernIB/portafib/tree/portafib-3.0/api-interna-client-signature-v1-examples: Este es un miniproyecto en JAVA para probar la firma asíncrona (no incluye el CallBack, lo simula llamando varias veces a PortaFIB para averiguar el estado de la Petición de Firma). El test que debéis ejecutar es https://github.com/GovernIB/portafib/blob/portafib-3.0/api-interna-client-signature-v1-examples/src/main/java/es/caib/portafib/apiinterna/client/signature/v1/example/api/FirmaAsincWebV1ApiTest.java y la configuración se crea copiando el fichero https://github.com/GovernIB/portafib/blob/portafib-3.0/api-interna-client-signature-v1-examples/asyncsignatureonweb.properties.sample a asyncsignatureonweb.properties y actualizando los valores. Los campos importantes son: 
+
+basePath=https://se.caib.es/portafibapi/interna
+username=[ El que os pasen ]
+password=[ El que os pasen ]
+PROFILE=PADES  (pero que lo confirmen)
+nifsDestinataris=123456789C  (DNI de la persona que debe firmar, en desarrollo la del desarrollador)
+
+
+Para firmar a las Peticiones de Firma, creadas con esta API debéis acceder a https://se.caib.es/portafibback.
+
+Para el CallBack, tenéis los siguientes recursos:
+* https://github.com/GovernIB/portafib/tree/portafib-3.0/ws/portafib_callback_server_rest: Ejemplo muy simple de implementación del Servio Rest de CallBack 
+* https://github.com/GovernIB/enviafib/blob/enviafib-2.0/enviafib-api-interna/src/main/java/es/caib/enviafib/api/interna/all/portafibcallback/PortaFIBCallbackRestService.java: Ejemplo completo de implementación del Servio Rest de CallBack. Este ejemplo crea un thread para el procesamiento del aviso del Callback y responde rápidamente a PortaFIB de la recepción del evento. Hay que gestionar estados para la petición: enviada, procesando callback, error en callback y ejecutado callback. NUNCA se debe devolver un error a PORTAFIB !!!!!!
+* https://github.com/GovernIB/portafib/blob/portafib-3.0/doc/Manual_Integracio_API_Firma_Async_Simple_v2_0.odt : A partir de la Fase 4.1 se documenta como implementar el CallBack
+Una vez implementado el CallBack en vuestra aplicación, deberéis avisar a los Administradores de PortaFIB de la URL de callback (URL donde vais a escuchar los avisos del estado de la Petición) i 
+
+No se si me dejo algo, pero en principio esto es todo.
+
+(1) Una vez recibido el usuario y contraseña os aconsejo hacer pruebas con Swagger UI llamando a métodos como:
+https://se.caib.es/portafibapi/interna/index.html?urls.primaryName=Signature%20v1#/AsyncSignatureOnWeb%20v1/getDocumentaryTypes
+https://se.caib.es/portafibapi/interna/index.html?urls.primaryName=Signature%20v1#/AsyncSignatureOnWeb%20v1/getLanguages
+https://se.caib.es/portafibapi/interna/index.html?urls.primaryName=Signature%20v1#/AsyncSignatureOnWeb%20v1/getProfiles
+
+(2) Cuando hayáis validado que el usuario aplicación y contraseña funcionan, podéis empezar con el ejemplo https://github.com/GovernIB/portafib/blob/portafib-3.0/api-interna-client-signature-v1-examples/src/main/java/es/caib/portafib/apiinterna/client/signature/v1/example/api/FirmaAsincWebV1ApiTest.java
+
+(3) Adaptar el ejemplo Aaterior a vuestra aplicación.
+
+(4) Finalmente implementaríais el Callback, avisaríais a PortaFIB con la URL y empezaríais a recibir eventos en vuestro CallBack.
+
+Atentament,
