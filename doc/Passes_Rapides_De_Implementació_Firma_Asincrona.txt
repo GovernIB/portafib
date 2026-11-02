@@ -29,16 +29,24 @@ password=[ El que os pasen ]
 PROFILE=PADES  (pero que lo confirmen)
 nifsDestinataris=123456789C  (DNI de la persona que debe firmar, en desarrollo la del desarrollador)
 
-
 Para firmar a las Peticiones de Firma, creadas con esta API debéis acceder a https://se.caib.es/portafibback.
 
-Para el CallBack, tenéis los siguientes recursos:
+
+
+
+Para el CallBack, tenéis los siguientes recursos
+================================================
+
 * https://github.com/GovernIB/portafib/tree/portafib-3.0/ws/portafib_callback_server_rest: Ejemplo muy simple de implementación del Servio Rest de CallBack 
 * https://github.com/GovernIB/enviafib/blob/enviafib-2.0/enviafib-api-interna/src/main/java/es/caib/enviafib/api/interna/all/portafibcallback/PortaFIBCallbackRestService.java: Ejemplo completo de implementación del Servio Rest de CallBack. Este ejemplo crea un thread para el procesamiento del aviso del Callback y responde rápidamente a PortaFIB de la recepción del evento. Hay que gestionar estados para la petición: enviada, procesando callback, error en callback y ejecutado callback. NUNCA se debe devolver un error a PORTAFIB !!!!!!
 * https://github.com/GovernIB/portafib/blob/portafib-3.0/doc/Manual_Integracio_API_Firma_Async_Simple_v2_0.odt : A partir de la Fase 4.1 se documenta como implementar el CallBack
 Una vez implementado el CallBack en vuestra aplicación, deberéis avisar a los Administradores de PortaFIB de la URL de callback (URL donde vais a escuchar los avisos del estado de la Petición) i 
+* La forma de la URL deberia ser algo como: https://[HOST]:[PORT]/volantapi/interna/public/portafib/callback/v1
+* La URL no debe ser autenticada, o sea que debe tener acceso publico.
 
-No se si me dejo algo, pero en principio esto es todo.
+
+RESUMEN
+=======
 
 (1) Una vez recibido el usuario y contraseña os aconsejo hacer pruebas con Swagger UI llamando a métodos como:
 https://se.caib.es/portafibapi/interna/index.html?urls.primaryName=Signature%20v1#/AsyncSignatureOnWeb%20v1/getDocumentaryTypes
@@ -47,7 +55,7 @@ https://se.caib.es/portafibapi/interna/index.html?urls.primaryName=Signature%20v
 
 (2) Cuando hayáis validado que el usuario aplicación y contraseña funcionan, podéis empezar con el ejemplo https://github.com/GovernIB/portafib/blob/portafib-3.0/api-interna-client-signature-v1-examples/src/main/java/es/caib/portafib/apiinterna/client/signature/v1/example/api/FirmaAsincWebV1ApiTest.java
 
-(3) Adaptar el ejemplo Aaterior a vuestra aplicación.
+(3) Adaptar el ejemplo anterior a vuestra aplicación.
 
 (4) Finalmente implementaríais el Callback, avisaríais a PortaFIB con la URL y empezaríais a recibir eventos en vuestro CallBack.
 
