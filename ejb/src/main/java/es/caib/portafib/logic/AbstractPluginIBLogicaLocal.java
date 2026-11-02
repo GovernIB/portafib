@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.pluginsib.core.v3.utils.PropertyInfo;
 
 import es.caib.portafib.model.entity.Plugin;
 
@@ -37,5 +38,7 @@ public interface AbstractPluginIBLogicaLocal<I> extends PluginLogicaLocal {
             throws I18NException;
 
     public Where getWhere(String entitatID);
+
+    public List<PropertyInfo> getAvailablePluginProperties(long pluginID) throws I18NException;
 
 }

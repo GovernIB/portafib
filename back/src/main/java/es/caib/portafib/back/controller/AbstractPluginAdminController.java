@@ -16,6 +16,7 @@ import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.pluginsib.core.v3.utils.PropertyInfo;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -115,6 +116,21 @@ public abstract class AbstractPluginAdminController<I> extends PluginController 
             p.setTipus(getTipusDePlugin());
             // XYZ ZZZ #160
             p.setPoliticaMostrarPropietats(ConstantsV2.PLUGIN_POLITICA_MOSTRAR_PROPIETATS_EDIT_ENTITAT_MOSTRAR_ADMIN);
+        } else {
+            // Si ja tenim Classe llavors podem carregar le spropietats disponibles
+            
+            List<PropertyInfo> pluginProperties = this.getPluginEjb().getAvailablePluginProperties(pluginForm.getPlugin().getPluginID());
+            
+            if (pluginProperties != null && pluginProperties.size()!= 0) {
+                
+                mav.addObject("availablepluginproperties", pluginProperties);
+                
+                pluginForm.addAdditionalButton(new AdditionalButton("fas fa-list", "propietats.disponibles.plugin",
+                        "javascript:mostrarPropietatsDisponibles()", AdditionalButtonStyle.INFO));
+                
+                pluginForm.setAttachedAdditionalJspCode(true);
+            }
+            
         }
         
         // Si <I> no es de classe ISignatureWebPlugin llavors amagam el camp ICONAID
@@ -138,6 +154,10 @@ public abstract class AbstractPluginAdminController<I> extends PluginController 
             pluginForm.addReadOnlyField(CODI);
             pluginForm.addReadOnlyField(ORDRE);
         }
+        
+        
+        
+        
 
         return pluginForm;
     }

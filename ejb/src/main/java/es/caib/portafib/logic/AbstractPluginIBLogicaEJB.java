@@ -18,7 +18,9 @@ import java.util.Map;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.pluginsib.core.v3.IPluginIB;
+import org.fundaciobit.pluginsib.core.v3.utils.AbstractPluginProperties;
 import org.fundaciobit.pluginsib.core.v3.utils.PluginsManager;
+import org.fundaciobit.pluginsib.core.v3.utils.PropertyInfo;
 import org.fundaciobit.pluginsib.utils.templateengine.TemplateEngine;
 
 /**
@@ -157,6 +159,21 @@ public abstract class AbstractPluginIBLogicaEJB<I extends IPluginIB> extends Plu
         }
 
         return plugins;
+
+    }
+
+    @Override
+    public List<PropertyInfo> getAvailablePluginProperties(long pluginID) throws I18NException {
+
+        I pluginInstance = getInstanceByPluginID(pluginID);
+
+        if (pluginInstance instanceof AbstractPluginProperties) {
+
+            return ((AbstractPluginProperties) pluginInstance).getAvailableProperties();
+
+        } else {
+            return null;
+        }
 
     }
 
