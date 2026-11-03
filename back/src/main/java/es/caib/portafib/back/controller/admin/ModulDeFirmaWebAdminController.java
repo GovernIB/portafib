@@ -9,7 +9,7 @@ import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.html.IconUtils;
 import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
-import org.fundaciobit.pluginsib.signature.api.PropertyInfo;
+import org.fundaciobit.pluginsib.core.v3.utils.PropertyInfo;
 import org.fundaciobit.pluginsib.signatureweb.api.AbstractSignatureWebPlugin;
 import org.fundaciobit.pluginsib.signatureweb.api.ISignatureWebPlugin;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -23,7 +23,6 @@ import es.caib.portafib.back.controller.AbstractPluginAdminController;
 import es.caib.portafib.back.form.webdb.PluginFilterForm;
 import es.caib.portafib.back.form.webdb.PluginForm;
 import es.caib.portafib.back.utils.Tab;
-import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
 
 import java.util.List;
@@ -131,7 +130,7 @@ public class ModulDeFirmaWebAdminController extends AbstractPluginAdminControlle
 
         AbstractSignatureWebPlugin abstractPlugin = (AbstractSignatureWebPlugin) plugin;
 
-        List<PropertyInfo> propietats = abstractPlugin.getAvailableProperties(Constants.PORTAFIB_PROPERTY_BASE);
+        List<PropertyInfo> propietats = abstractPlugin.getAvailableProperties();
 
         mav.addObject("propietats", propietats);
         mav.addObject("nom", plugin.getName(LocaleContextHolder.getLocale()));

@@ -13,15 +13,15 @@ import org.fundaciobit.genapp.common.query.StringField;
 public class ObfuscatedNifStringField extends Field<String> {
 
     public ObfuscatedNifStringField(StringField sf) {
-        this(sf.table, sf.javaName, sf.sqlName);
+        this(sf.table, sf.javaName, sf.sqlName, sf.size);
     }
 
-    private ObfuscatedNifStringField(String table, String javaName, String sqlName) {
-        super(table, javaName, sqlName, new StringSelect(table, javaName));
+    private ObfuscatedNifStringField(String table, String javaName, String sqlName, Integer size) {
+        super(table, javaName, sqlName, new StringSelect(table, javaName), size);
     }
 
     private ObfuscatedNifStringField(String path, StringField field) {
-        super(null, path + field.javaName, null, new StringSelect(null, path + field.javaName), field.codeLabel);
+        super(null, path + field.javaName, null, new StringSelect(null, path + field.javaName), field.codeLabel, field.size);
     }
 
     public static class StringSelect extends SelectField<String> {

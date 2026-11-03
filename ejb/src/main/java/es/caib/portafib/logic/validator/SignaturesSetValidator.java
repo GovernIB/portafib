@@ -266,7 +266,7 @@ public class SignaturesSetValidator<T extends PassarelaSignaturesSet> {
 
     public Field<?> getF(String path) {
 
-        return new StringField("", path, path);
+        return new StringField("", path, path, null);
     }
 
     public String get(Field<?> field) {

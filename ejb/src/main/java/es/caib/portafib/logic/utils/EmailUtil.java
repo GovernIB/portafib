@@ -19,6 +19,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.ejb.CorreuAgrupatService;
 import es.caib.portafib.logic.RebreAvisLogicaLocal;
+import es.caib.portafib.model.fields.CorreuAgrupatFields;
 import es.caib.portafib.persistence.CorreuAgrupatJPA;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -131,8 +132,15 @@ public class EmailUtil {
 
                     java.lang.String email = emailInfo.getEmail();
                     java.lang.String subject = emailInfo.getSubject();
+                    
+                    if (CorreuAgrupatFields.SUBJECT.size >= subject.length()) {
+                        subject = subject.substring(0, CorreuAgrupatFields.SUBJECT.size - 1);
+                    }
+                    
+                    
                     java.lang.String message = emailInfo.getMessage();
                     boolean html = emailInfo.isHtml();
+
 
                     CorreuAgrupatJPA ca = new CorreuAgrupatJPA(email, subject, message, html, usuariEntitatId,
                             new java.sql.Timestamp(System.currentTimeMillis()), null);
