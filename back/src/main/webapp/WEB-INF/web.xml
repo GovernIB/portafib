@@ -167,15 +167,6 @@
             <url-pattern>/public/*</url-pattern>
             <!-- GENERADOR DE SEGELLAT DE TEMPS PER FIRMA EN SERVIDOR -->
             <url-pattern>/common/timestampgenerator/*</url-pattern>
-            <!-- Usuaris Externs: Login per TOKEN -->
-            <!--   TODO En la versió 2.0.14 eliminar aquesta ruta dels usuris externs -->
-            <url-pattern>/common/externaluser/*</url-pattern>
-            <!-- 
-            <url-pattern>/common/plantilla/viewonlyflux/*</url-pattern>
-            
-            URL's a Imatges de Plugins de la selecció de plugin que siguin d'accés públic. #1153
-            <url-pattern>/common/arxiu/*</url-pattern>
-             -->
             <!--  REST Autenticació per Codi -->
             <url-pattern>/common/json/usuarientitatrevisor</url-pattern>
             <url-pattern>/common/json/usuarientitatrevisorall</url-pattern>
