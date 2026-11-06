@@ -14,14 +14,13 @@ Version version = new Version();
                 <b> <fmt:message key="app.nom" /> v<%=version.getVersion()%>
                 </b>
             </p>
-            <small> <sec:authorize access="hasAnyRole('ROLE_ADEN','ROLE_ADMIN')"> 
-				Build: <%=version.getBuildTime()%>
-                    <br /> 
-	     		JDK: <%=version.getJdkVersion()%>
-                    <br />
-                Versió de JBoss Compatible: <%=version.getJBossCompliant()%><br />
-                Versió de JBoss Executant-se: ${jboss_version}<br />
-                    <fmt:message key="revisio" />: 
+            <small>
+                <sec:authorize access="hasAnyRole('ROLE_ADEN','ROLE_ADMIN')"> 
+				<p>Build: <%=version.getBuildTime()%></p>
+                <p>JDK: <%=version.getJdkVersion()%></p>
+                <p>Versió de JBoss Compatible: <%=version.getJBossCompliant()%></p>
+                <p>Versió de JBoss Executant-se: ${jboss_version}</p>
+                <p><fmt:message key="revisio" />: 
 				<%
                     if (version.getScmRevision() == null) {
                     %>
@@ -33,7 +32,7 @@ Version version = new Version();
                     <%
                     }
                     %>
-                    <br />
+                </p>
                 </sec:authorize> <span style="padding-top: 2px"> <i><fmt:message key="desenvolupatper" /></i>
             </span>
             </small>
@@ -48,9 +47,17 @@ Version version = new Version();
                 <c:out value="${loginInfo.entitat.adrezaHtml}" escapeXml="false" />
             </c:if>
             
-            <p>&nbsp;</p>
-            
-            <a styleClass="text-dark linkPeu" href="<c:url value="/public/accessibilitat"/>"><fmt:message key="label.accessibilitat" /></a>
+            <p style="margin-top:15px;">
+            <a styleClass="text-dark linkPeu" href="<c:url value="/public/accessibilitat"/>">
+               <fmt:message key="label.accessibilitat" />
+            </a>
+            </p>
+
+            <p>
+            <a styleClass="text-dark linkPeu" href="<c:url value="/public/mapaweb"/>">
+               <fmt:message key="label.mapaweb" />
+            </a>
+            </p>
         </div>
 
 
@@ -62,9 +69,9 @@ Version version = new Version();
                 </a>
                 <br>
                 <!-- Button to trigger modal -->
-                <small><a href="#modalAjuda" role="button" data-toggle="modal">
+                <p><a href="#modalAjuda" role="button" data-toggle="modal">
                         <fmt:message key="ajuda.necessitau" />
-                    </a></small>
+                    </a></p>
 
             </c:if>
         </div>

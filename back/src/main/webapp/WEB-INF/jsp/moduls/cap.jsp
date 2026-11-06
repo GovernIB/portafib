@@ -40,6 +40,7 @@
 			</c:if>
 			<div class="logoGovern">
 				<img src="<c:url value="/img/app-logo-header.png"/>" alt="PortaFIB" />
+                <h1 class="sr-only">PortaFIB</h1>
 			</div>
 			<c:if test="${isMobile}">
 				<div class="clearfix"></div>
@@ -99,7 +100,7 @@
 
 								<c:set var="idiomaID" value="${idioma.idiomaID}" />
 
-								<a class="dropdown-item" href="?lang=${idiomaID}" > <img
+								<a class="dropdown-item" lang="${idiomaID}"  href="?lang=${idiomaID}" > <img
 									src="<c:url value="/img/${idiomaID}_petit_${lang eq idiomaID? 'on' : 'off'}.gif"/>"
 									alt="${idiomaID}" width="17" height="14" style="border:0px;" />&nbsp;${idioma.nom}
 								</a>

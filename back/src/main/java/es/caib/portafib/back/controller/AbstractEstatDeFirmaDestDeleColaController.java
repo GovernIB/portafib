@@ -1,4 +1,5 @@
 package es.caib.portafib.back.controller;
+
 import es.caib.portafib.back.controller.webdb.EstatDeFirmaController;
 import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
@@ -397,7 +398,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
                 // NOVA COLUMNA PETICIO DE FIRMA
                 AdditionalField<String, String> adfieldRN = new AdditionalField<String, String>();
-                adfieldRN.setCodeName("peticioDeFirma.remitentNom");
+                adfieldRN.setCodeName(PeticioDeFirmaFields.REMITENTNOM.fullName);
                 adfieldRN.setPosition(COLUMN_PETICIODEFIRMA_REMITENT);
                 adfieldRN.setEscapeXml(false);
                 // Els valors s'ompliran al mètode postList()
@@ -416,7 +417,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             // ===================  Cerca per Descripcio de petició de Firma
             {
                 AdditionalField<String, String> addfieldDESC = new AdditionalField<String, String>();
-                addfieldDESC.setCodeName("peticioDeFirma.descripcio");
+                addfieldDESC.setCodeName(PeticioDeFirmaFields.DESCRIPCIO.fullName);
                 addfieldDESC.setPosition(COLUMN_PETICIODEFIRMA_DESCRIPCIO);
                 // No omplirem els valors
                 addfieldDESC.setValueMap(new HashMap<String, String>());
@@ -431,7 +432,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             // ===================  Cerca per Motiu de petició de Firma
             {
                 AdditionalField<String, String> addfieldMOTIU = new AdditionalField<String, String>();
-                addfieldMOTIU.setCodeName("peticioDeFirma.motiu");
+                addfieldMOTIU.setCodeName(PeticioDeFirmaFields.MOTIU.fullName);
                 addfieldMOTIU.setPosition(COLUMN_PETICIODEFIRMA_MOTIU);
                 // No omplirem els valors
                 addfieldMOTIU.setValueMap(new HashMap<String, String>());
@@ -446,7 +447,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             // ===================  Cerca per remitent descripcio
             if (role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE)) {
                 AdditionalField<String, String> addfieldREMIDESC = new AdditionalField<String, String>();
-                addfieldREMIDESC.setCodeName("peticioDeFirma.remitentDescripcio");
+                addfieldREMIDESC.setCodeName(PeticioDeFirmaFields.REMITENTDESCRIPCIO.fullName);
                 addfieldREMIDESC.setPosition(COLUMN_PETICIODEFIRMA_REMITENTDESCRIPCIO);
                 // No omplirem els valors
                 addfieldREMIDESC.setValueMap(new HashMap<String, String>());
@@ -525,7 +526,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
                 // NOVA COLUMNA
                 AdditionalField<String, String> adfieldDC = new AdditionalField<String, String>();
-                adfieldDC.setCodeName("colaboracioDelegacio.destinatariID");
+                adfieldDC.setCodeName(ColaboracioDelegacioFields.DESTINATARIID.fullName);
                 adfieldDC.setPosition(COLUMN_DELEGAT_DE_COLABORADOR);
                 adfieldDC.setEscapeXml(false);
                 // Els valors s'ompliran al mètode postList()
@@ -539,7 +540,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             // NOVA COLUMNA: Prioritat
             AdditionalField<String, String> adfieldPR = new AdditionalField<String, String>();
             adfieldPR.setCodeName("=<i class=\"fa-exclamation-triangle\" title=\""
-                    + I18NUtils.tradueix(PeticioDeFirmaFields.PRIORITATID.fullName) + "\"></i>");
+                    + I18NUtils.tradueix(PeticioDeFirmaFields.PRIORITATID.fullName)
+                    + "\"></i><span class=\"sr-only\">Prioritat</span>");
             adfieldPR.setPosition(COLUMN_PETICIODEFIRMA_PRIORITAT);
             adfieldPR.setEscapeXml(false);
             // Els valors s'ompliran al mètode postList()
@@ -644,8 +646,9 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/estatdelesfirmes/{firmesid}", method = RequestMethod.GET)
-    public void estatdelesfirmes(HttpServletRequest request, HttpServletResponse response, @PathVariable
-    String firmesid) throws I18NException {
+    public void estatdelesfirmes(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable
+            String firmesid) throws I18NException {
 
         final boolean isDebug = log.isDebugEnabled();
 
@@ -678,9 +681,11 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/firmarseleccionats", method = RequestMethod.POST)
-    public ModelAndView firmarSeleccionats(HttpServletRequest request, HttpServletResponse response, @ModelAttribute
-    EstatDeFirmaFilterForm filterForm, @RequestParam("url_user")
-    String baseUrlFull) throws I18NException {
+    public ModelAndView firmarSeleccionats(HttpServletRequest request, HttpServletResponse response,
+            @ModelAttribute
+            EstatDeFirmaFilterForm filterForm,
+            @RequestParam("url_user")
+            String baseUrlFull) throws I18NException {
 
         noPermetreUsuarisExterns();
 
@@ -811,7 +816,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         caducitat.add(Calendar.MINUTE, 9 + fileInfoFullArray.size());
 
         // {0} ==> es substituirà per l'ID del plugin de firma seleccionat per firmar
-        String relativeControllerBase = AbstractSignatureModuleController.getRelativeControllerBase(request, getContextWeb());
+        String relativeControllerBase = AbstractSignatureModuleController.getRelativeControllerBase(request,
+                getContextWeb());
 
         final String urlFinal = response.encodeURL(relativeControllerBase + "/finalFirma/" + signaturesSetID);
 
@@ -993,8 +999,9 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/acceptarseleccionats", method = RequestMethod.POST)
-    public ModelAndView acceptarSeleccionats(HttpServletRequest request, HttpServletResponse response, @ModelAttribute
-    EstatDeFirmaFilterForm filterForm) throws I18NException {
+    public ModelAndView acceptarSeleccionats(HttpServletRequest request, HttpServletResponse response,
+            @ModelAttribute
+            EstatDeFirmaFilterForm filterForm) throws I18NException {
 
         // seleccionats conté els estatIDs
         String[] seleccionatsStr = filterForm.getSelectedItems();
@@ -1029,9 +1036,11 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/acceptar/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
-    public ModelAndView acceptar(HttpServletRequest request, HttpServletResponse response, @PathVariable
-    Long estatDeFirmaID, @PathVariable
-    Long peticioDeFirmaID) throws I18NException {
+    public ModelAndView acceptar(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable
+            Long estatDeFirmaID,
+            @PathVariable
+            Long peticioDeFirmaID) throws I18NException {
 
         acceptarInternal(request, estatDeFirmaID, peticioDeFirmaID);
 
@@ -1063,10 +1072,13 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/firmar/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
-    public ModelAndView firmar(HttpServletRequest request, HttpServletResponse response, @PathVariable
-    Long estatDeFirmaID, @PathVariable
-    Long peticioDeFirmaID, @RequestParam("url_user")
-    String baseUrlFull) throws I18NException {
+    public ModelAndView firmar(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable
+            Long estatDeFirmaID,
+            @PathVariable
+            Long peticioDeFirmaID,
+            @RequestParam("url_user")
+            String baseUrlFull) throws I18NException {
 
         //log.info("baseUrlFull = " + baseUrlFull);
 
@@ -1137,12 +1149,14 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
         // XYZ ZZZ ZZZ
         ModelAndView mav;
-        
-        log.info("\n\n\n  USUARI INTERN[" + loginInfo.getUsuariPersona().getNif() + "] => " + loginInfo.getUsuariPersona().isUsuariIntern() + "  \n\n\n");
-        
+
+        log.info("\n\n\n  USUARI INTERN[" + loginInfo.getUsuariPersona().getNif() + "] => "
+                + loginInfo.getUsuariPersona().isUsuariIntern() + "  \n\n\n");
+
         if (loginInfo.getUsuariPersona().isUsuariIntern()) {
             final String view = "PluginDeFirmaContenidor_AutoFirma";
-            mav = AbstractSignatureModuleController.startPrivateSignatureProcess(request, response, view, signaturesSet);
+            mav = AbstractSignatureModuleController.startPrivateSignatureProcess(request, response, view,
+                    signaturesSet);
         } else {
             final String view = "PluginDeFirmaContenidor_UsuariExtern";
             mav = AbstractSignatureModuleController.startPublicSignatureProcess(request, response, view, signaturesSet);
@@ -1203,8 +1217,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         boolean administrationIdCanBeValidated;
         boolean willCanCheckIfSignedDocumentWasAlteredAfterSignature;
         {
-            PortaFIBSignaturesSet pss = AbstractSignatureModuleController.getPortaFIBSignaturesSet(request, signaturesSetID,
-                    modulDeFirmaEjb);
+            PortaFIBSignaturesSet pss = AbstractSignatureModuleController.getPortaFIBSignaturesSet(request,
+                    signaturesSetID, modulDeFirmaEjb);
 
             administrationIdCanBeValidated = this.modulDeFirmaEjb
                     .administrationIdCanBeValidatedFromPlugin(pss.getSelectedPluginID());
@@ -1308,12 +1322,12 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                                 log.debug("firmat.getAbsolutePath(): " + firmat.getAbsolutePath());
                             }
 
-                            if (firmat==null || !firmat.exists()) {
+                            if (firmat == null || !firmat.exists()) {
                                 String msg = "El plugin amb ID " + ss.getSelectedPluginID()
                                         + " ha retornat un status OK per la petició " + ss.getSignaturesSetID()
-                                        + " però el fitxer Signat no existeix o val null: " 
-                                        + (firmat==null?"NULL": firmat.getAbsolutePath()) 
-                                        + "(app: " + ss.getCommonInfoSignature().getUsername() + ")";
+                                        + " però el fitxer Signat no existeix o val null: "
+                                        + (firmat == null ? "NULL" : firmat.getAbsolutePath()) + "(app: "
+                                        + ss.getCommonInfoSignature().getUsername() + ")";
                                 log.error(msg, new Exception());
                                 throw new Exception(msg);
                             }
@@ -1621,8 +1635,7 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
             break;
 
             case ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
-            case ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_ASYNC_V1: 
-            {
+            case ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_SWAGGER_ASYNC_V1: {
                 UsuariAplicacioConfiguracioJPA configuracioDefirma = configuracioDeFirmaLogicaEjb
                         .findByPrimaryKeyUnauthorized(peticioDeFirma.getConfiguracioDeFirmaID());
 
@@ -1731,9 +1744,11 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/rebutjar/{estatDeFirmaID}/{peticioDeFirmaID}")
-    public ModelAndView rebutjar(HttpServletRequest request, HttpServletResponse response, @PathVariable
-    Long estatDeFirmaID, @PathVariable
-    Long peticioDeFirmaID) throws I18NException {
+    public ModelAndView rebutjar(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable
+            Long estatDeFirmaID,
+            @PathVariable
+            Long peticioDeFirmaID) throws I18NException {
         String motiuDeRebuig = request.getParameter("motiu");
         rebutjarInternal(request, response, estatDeFirmaID, peticioDeFirmaID, motiuDeRebuig);
         return llistatPaginat(request, response, null);
@@ -1794,8 +1809,9 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/rebutjarseleccionats", method = RequestMethod.POST)
-    public ModelAndView rebutjarSeleccionats(HttpServletRequest request, HttpServletResponse response, @ModelAttribute
-    EstatDeFirmaFilterForm filterForm) throws I18NException {
+    public ModelAndView rebutjarSeleccionats(HttpServletRequest request, HttpServletResponse response,
+            @ModelAttribute
+            EstatDeFirmaFilterForm filterForm) throws I18NException {
 
         // seleccionats conté els estatIDs
         String[] seleccionatsStr = filterForm.getSelectedItems();
@@ -1831,9 +1847,11 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/validar/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
-    public ModelAndView validar(HttpServletRequest request, HttpServletResponse response, @PathVariable
-    Long estatDeFirmaID, @PathVariable
-    Long peticioDeFirmaID) throws I18NException {
+    public ModelAndView validar(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable
+            Long estatDeFirmaID,
+            @PathVariable
+            Long peticioDeFirmaID) throws I18NException {
 
         boolean checkSiEstaEnMarxa = true;
         boolean checkEstatsInicials = true;
@@ -1857,9 +1875,11 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/invalidar/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.POST)
-    public ModelAndView invalidar(HttpServletRequest request, HttpServletResponse response, @PathVariable
-    Long estatDeFirmaID, @PathVariable
-    Long peticioDeFirmaID) throws I18NException {
+    public ModelAndView invalidar(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable
+            Long estatDeFirmaID,
+            @PathVariable
+            Long peticioDeFirmaID) throws I18NException {
 
         // TODO traduir
         // checkRole(request, "invalidar");
@@ -1895,9 +1915,11 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/marcarrevisant/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
-    public ModelAndView marcarrevisant(HttpServletRequest request, HttpServletResponse response, @PathVariable
-    Long estatDeFirmaID, @PathVariable
-    Long peticioDeFirmaID) throws I18NException {
+    public ModelAndView marcarrevisant(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable
+            Long estatDeFirmaID,
+            @PathVariable
+            Long peticioDeFirmaID) throws I18NException {
 
         try {
             boolean checkSiEstaEnMarxa = true;
@@ -2221,11 +2243,11 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
 
                 if (remitent) {
                     StringBuilder str = new StringBuilder();
-                    str.append("<small><b>");
-                    str.append(pf.getRemitentNom()).append("</b>");
+                    str.append("<small><p><b>");
+                    str.append(pf.getRemitentNom()).append("</b></p>");
                     String remiDesc = pf.getRemitentDescripcio();
                     if (remiDesc != null) {
-                        str.append("<br/>").append(remiDesc);
+                        str.append(remiDesc);
                     }
                     str.append("</small>");
                     mapCR.put(estatDeFirmaId, str.toString());
@@ -2250,8 +2272,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                 mapDI.clear();
 
                 for (EstatDeFirma estatDeFirma : estatDeFirmaList) {
-                    mapDI.put(estatDeFirma.getEstatDeFirmaID(), "<small>"
-                            + dateTimeFormat.format(estatDeFirma.getDataInici()).replace(" ", "<br/>") + "</small>");
+                    mapDI.put(estatDeFirma.getEstatDeFirmaID(), "<small><p>"
+                            + dateTimeFormat.format(estatDeFirma.getDataInici()).replace(" ", "</p>") + "</small>");
                     estatFirmaIDs.add(estatDeFirma.getEstatDeFirmaID());
                 }
             }
@@ -2284,8 +2306,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                         .getValueMap();
                 mapDF.clear();
                 for (EstatDeFirma estatDeFirma : estatDeFirmaList) {
-                    mapDF.put(estatDeFirma.getEstatDeFirmaID(), "<small>"
-                            + dateTimeFormat.format(estatDeFirma.getDataFi()).replace(" ", "<br/>") + "</small>");
+                    mapDF.put(estatDeFirma.getEstatDeFirmaID(), "<small><p>"
+                            + dateTimeFormat.format(estatDeFirma.getDataFi()).replace(" ", "</p>") + "</small>");
                 }
             }
 
@@ -2333,30 +2355,30 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                     int[] valors = infoDelegatsByEstat.get(estatDeFirmaId);
                     StringBuilder str = new StringBuilder();
                     if (valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT + 2] != 0) {
-                        str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.2") + ": "
+                        str.append("<p><small>" + I18NUtils.tradueix("tipusestatdefirmafinal.2") + ": "
                                 + valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT + 2] + "/" + valors[0]
-                                + "</small><br/>\n");
+                                + "</small></p>\n");
                     }
 
                     if (valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT + 2] != 0) {
-                        str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.5") + ": "
+                        str.append("<p><small>" + I18NUtils.tradueix("tipusestatdefirmafinal.5") + ": "
                                 + valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT + 2] + "/" + valors[0]
-                                + "</small><br/>\n");
+                                + "</small></p>\n");
                     }
 
                     if (valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT + 2] != 0) {
-                        str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.3") + ": "
+                        str.append("<p><small>" + I18NUtils.tradueix("tipusestatdefirmafinal.3") + ": "
                                 + valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT + 2] + "/" + valors[0]
-                                + "</small><br/>\n");
+                                + "</small></p>\n");
                     }
                     if (valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT + 2] != 0) {
-                        str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.4") + ": "
+                        str.append("<p><small>" + I18NUtils.tradueix("tipusestatdefirmafinal.4") + ": "
                                 + valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT + 2] + "/" + valors[0]
-                                + "</small><br/>\n");
+                                + "</small></p>\n");
                     }
                     if (valors[1] != 0) {
-                        str.append("<small>" + I18NUtils.tradueix("pendent") + ": " + valors[1] + "/" + valors[0]
-                                + "</small><br/>\n");
+                        str.append("<p><small>" + I18NUtils.tradueix("pendent") + ": " + valors[1] + "/" + valors[0]
+                                + "</small></p>\n");
                     }
 
                     if (str.length() != 0) {
@@ -2415,23 +2437,23 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                     int[] valors = infoColaboradorsByEstat.get(estatDeFirmaId);
                     StringBuilder str = new StringBuilder();
                     if (valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT + 2] != 0) {
-                        str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.0") + ": "
+                        str.append("<p><small>" + I18NUtils.tradueix("tipusestatdefirmafinal.0") + ": "
                                 + valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT + 2] + "/" + valors[0]
-                                + "</small><br/>\n");
+                                + "</small></p>\n");
                     }
                     if (valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT + 2] != 0) {
-                        str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.1") + ": "
+                        str.append("<p><small>" + I18NUtils.tradueix("tipusestatdefirmafinal.1") + ": "
                                 + valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT + 2] + "/" + valors[0]
-                                + "</small><br/>\n");
+                                + "</small></p>\n");
                     }
                     if (valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT + 2] != 0) {
-                        str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.4") + ": "
+                        str.append("<p><small>" + I18NUtils.tradueix("tipusestatdefirmafinal.4") + ": "
                                 + valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT + 2] + "/" + valors[0]
-                                + "</small><br/>\n");
+                                + "</small></p>\n");
                     }
                     if (valors[1] != 0) {
-                        str.append("<small>" + I18NUtils.tradueix("pendent") + ": " + valors[1] + "/" + valors[0]
-                                + "</small><br/>\n");
+                        str.append("<p><small>" + I18NUtils.tradueix("pendent") + ": " + valors[1] + "/" + valors[0]
+                                + "</small></p>\n");
                     }
 
                     if (str.length() != 0) {
@@ -2528,18 +2550,18 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
                     StringBuilder str = new StringBuilder();
 
                     if (valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT + 2] != 0) {
-                        str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.0") + ": "
+                        str.append("<p><small>" + I18NUtils.tradueix("tipusestatdefirmafinal.0") + ": "
                                 + valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT + 2] + "/" + valors[0]
-                                + "</small><br/>\n");
+                                + "</small></p>\n");
                     }
                     if (valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT + 2] != 0) {
-                        str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.1") + ": "
+                        str.append("<p><small>" + I18NUtils.tradueix("tipusestatdefirmafinal.1") + ": "
                                 + valors[(int) ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT + 2] + "/" + valors[0]
-                                + "</small><br/>\n");
+                                + "</small></p>\n");
                     }
                     if (valors[1] != 0) {
-                        str.append("<small class=\"warning\">" + I18NUtils.tradueix("pendent") + ": " + valors[1] + "/"
-                                + valors[0] + "</small><br/>\n");
+                        str.append("<p><small class=\"warning\">" + I18NUtils.tradueix("pendent") + ": " + valors[1] + "/"
+                                + valors[0] + "</small></p>\n");
                     }
 
                     if (str.length() != 0) {
@@ -3030,9 +3052,11 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/viewDocuments/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
-    public ModelAndView viewDocumentsFullView(HttpServletRequest request, HttpServletResponse response, @PathVariable
-    Long estatDeFirmaID, @PathVariable
-    Long peticioDeFirmaID) throws I18NException {
+    public ModelAndView viewDocumentsFullView(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable
+            Long estatDeFirmaID,
+            @PathVariable
+            Long peticioDeFirmaID) throws I18NException {
 
         // p.e. viewDocuments_ROLE_DEST
         String view = "viewDocumentsFullView_" + getRole();
@@ -3063,9 +3087,11 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/fullView/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
-    public ModelAndView fullView(HttpServletRequest request, HttpServletResponse response, @PathVariable
-    Long estatDeFirmaID, @PathVariable
-    Long peticioDeFirmaID) throws I18NException {
+    public ModelAndView fullView(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable
+            Long estatDeFirmaID,
+            @PathVariable
+            Long peticioDeFirmaID) throws I18NException {
 
         String view = getFullViewTile();
 
@@ -3139,7 +3165,8 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
         Map<Long, List<Signature>> signatures = processSignatures(fitxers, request);
         mav.addObject("signatures", signatures);
         if (request.getParameter("validar") != null) {
-            mav.addObject("signaturesValidation", processSignaturesValidation(fitxers, signatures, peticioDeFirma.getSolicitantUsuariAplicacioID()));
+            mav.addObject("signaturesValidation",
+                    processSignaturesValidation(fitxers, signatures, peticioDeFirma.getSolicitantUsuariAplicacioID()));
         }
 
         // Traduccions
@@ -3250,16 +3277,18 @@ public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDe
     }
 
     @RequestMapping(value = "/docfirmat/{peticioDeFirmaID}", method = RequestMethod.GET)
-    public void docfirmat(HttpServletResponse response, @PathVariable
-    Long peticioDeFirmaID) throws I18NException {
+    public void docfirmat(HttpServletResponse response,
+            @PathVariable
+            Long peticioDeFirmaID) throws I18NException {
         Fitxer f = peticioDeFirmaLogicaEjb.getLastSignedFileOfPeticioDeFirma(peticioDeFirmaID);
         final boolean attachment = false;
         FileDownloadController.fullDownload(f.getFitxerID(), f.getNom(), f.getMime(), response, attachment);
     }
 
     @RequestMapping(value = "/docfirmat/descarregar/{peticioDeFirmaID}", method = RequestMethod.GET)
-    public void docfirmatDescarregar(HttpServletResponse response, @PathVariable
-    Long peticioDeFirmaID) throws I18NException {
+    public void docfirmatDescarregar(HttpServletResponse response,
+            @PathVariable
+            Long peticioDeFirmaID) throws I18NException {
         Fitxer f = peticioDeFirmaLogicaEjb.getLastSignedFileOfPeticioDeFirma(peticioDeFirmaID);
         final boolean attachment = true;
         FileDownloadController.fullDownload(f.getFitxerID(), f.getNom(), f.getMime(), response, attachment);

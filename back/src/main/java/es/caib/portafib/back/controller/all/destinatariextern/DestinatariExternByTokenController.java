@@ -45,210 +45,202 @@ import java.util.Set;
  */
 @SuppressWarnings("removal")
 @Controller
-@RequestMapping(value = { ConstantsV2.CONTEXT_EXTERNALUSER_TOKEN, ConstantsV2.CONTEXT_EXTERNALUSER_TOKEN_PUBLIC  })
+@RequestMapping(value = { ConstantsV2.CONTEXT_EXTERNALUSER_TOKEN, ConstantsV2.CONTEXT_EXTERNALUSER_TOKEN_PUBLIC })
 public class DestinatariExternByTokenController {
 
-  public static final String EXTERNAL_USER_TOKEN = "EXTERNAL_USER_TOKEN";
+    public static final String EXTERNAL_USER_TOKEN = "EXTERNAL_USER_TOKEN";
 
-  public static final String EXTERNAL_USER_ESTATFIRMAID = "EXTERNAL_USER_ESTATFIRMAID";
+    public static final String EXTERNAL_USER_ESTATFIRMAID = "EXTERNAL_USER_ESTATFIRMAID";
 
-  protected Logger log = Logger.getLogger(this.getClass());
+    protected Logger log = Logger.getLogger(this.getClass());
 
-  @EJB(mappedName = EstatDeFirmaLogicaLocal.JNDI_NAME)
-  protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
+    @EJB(mappedName = EstatDeFirmaLogicaLocal.JNDI_NAME)
+    protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
 
-  @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
-  protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
+    @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
+    protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
 
-  @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME)
-  protected FirmaLogicaLocal firmaLogicaEjb;
+    @EJB(mappedName = FirmaLogicaLocal.JNDI_NAME)
+    protected FirmaLogicaLocal firmaLogicaEjb;
 
-  @RequestMapping(value = "/{token}", method = RequestMethod.GET)
-  public ModelAndView token(HttpServletRequest request, HttpServletResponse response,
-      @PathVariable("token") String token) throws Exception, I18NException {
+    @RequestMapping(value = "/{token}", method = RequestMethod.GET)
+    public ModelAndView token(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable("token")
+            String token) throws Exception, I18NException {
 
-    log.debug("token::TOKEN => |" + token + "|");
+        log.debug("token::TOKEN => |" + token + "|");
 
-    FirmaJPA firma = firmaLogicaEjb.getFirmaByToken(token);
-    if (firma == null) {
-      return showErrorPage(token, "usuariextern.token.error.noexisteix", token);
+        FirmaJPA firma = firmaLogicaEjb.getFirmaByToken(token);
+        if (firma == null) {
+            return showErrorPage(token, "usuariextern.token.error.noexisteix", token);
+        }
+
+        String username = firma.getUsuariEntitat().getUsuariPersonaID();
+        log.info("token::USUARI EXTERN::USERNAME => |" + username + "|");
+
+        String idiomaID = firma.getUsuariExternIdioma();
+
+        log.info("token::USUARI EXTERN::IDIOMA => " + idiomaID);
+
+        PortaFIBSessionLocaleResolver.setLocaleManually(request, idiomaID);
+
+        try {
+            LoginInfo loginInfo = LoginInfo.getInstance();
+
+            if (!username.equals(loginInfo.getUsuariPersona().getUsuariPersonaID())) {
+                return showErrorPage(token, "usuariextern.token.error.jaloguejat");
+            }
+
+        } catch (es.caib.portafib.back.security.LoginException e) {
+            // OK
+        }
+
+        // registram l'usuari
+        registrarUsuari(request, token, firma, username);
+
+        if (firma.getTipusEstatDeFirmaFinalID() != null) {
+            return showErrorPage(token, "usuariextern.token.error.firma.japrocessada", token,
+                    String.valueOf(firma.getTipusEstatDeFirmaFinalID()));
+        }
+
+        PeticioDeFirmaJPA peticio = estatDeFirmaLogicaEjb.getPeticioDeFirmaFromFirmaID(firma.getFirmaID());
+
+        if (peticio.getTipusEstatPeticioDeFirmaID() != ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
+
+            String estatStr = I18NCommonUtils.tradueix(LocaleContextHolder.getLocale(),
+                    "tipusestatpeticiodefirma." + peticio.getTipusEstatPeticioDeFirmaID());
+
+            return showErrorPage(token, "usuariextern.token.error.peticio.japrocessada", token, estatStr);
+
+        }
+
+        for (EstatDeFirma ef : firma.getEstatDeFirmas()) {
+            final long estatInicial = ef.getTipusEstatDeFirmaInicialID();
+            if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
+
+                request.getSession().setAttribute(EXTERNAL_USER_ESTATFIRMAID, ef.getEstatDeFirmaID());
+
+                // redirect a pantalla completa de firma
+                String redirect = ConstantsV2.CONTEXT_EXTERNALUSER_ESTATDEFIRMA_PUBLIC + "/fullView/"
+                        + ef.getEstatDeFirmaID() + "/" + peticio.getPeticioDeFirmaID(); //+ "?lang=" + idiomaID;
+
+                return new ModelAndView(new RedirectView(redirect, true));
+
+            }
+        }
+
+        //  "Error desconegut processant la firma amb identificador (token) " + token
+        //    + ". No s'ha trobat Estat de Firma de tipus ASSIGNAT_PER_FIRMAR (Petició: "
+        //    + peticio.getPeticioDeFirmaID() + " | FirmaID: " + firma.getFirmaID() + ")";
+
+        return showErrorPage(token, "usuariextern.token.error.noassignatperfirmar", token,
+                String.valueOf(peticio.getPeticioDeFirmaID()), String.valueOf(firma.getFirmaID()));
+
     }
 
-    String username = firma.getUsuariEntitat().getUsuariPersonaID();
-    log.info("token::USUARI EXTERN::USERNAME => |" + username + "|");
-    
-    String idiomaID = firma.getUsuariExternIdioma();
-    
-    log.info("token::USUARI EXTERN::IDIOMA => " + idiomaID);
-    
-    PortaFIBSessionLocaleResolver.setLocaleManually(request, idiomaID);
+    private void registrarUsuari(HttpServletRequest request, String token, FirmaJPA firma, String username) {
+        Collection<GrantedAuthority> springAuthorities = new ArrayList<GrantedAuthority>();
+        springAuthorities.add(new SimpleGrantedAuthority(Constants.ROLE_DEST));
 
-    try {
-      LoginInfo loginInfo = LoginInfo.getInstance();
+        final String password = "";
+        User user = new User(username, password, springAuthorities);
 
-      if (!username.equals(loginInfo.getUsuariPersona().getUsuariPersonaID())) {
-        return showErrorPage(token, "usuariextern.token.error.jaloguejat");
-      }
+        UsuariEntitatJPA usuariEntitat = firma.getUsuariEntitat();
 
-    } catch (es.caib.portafib.back.security.LoginException e) {
-      // OK
+        UsuariPersonaJPA usuariPersona = usuariEntitat.getUsuariPersona();
+        String entitatIDActual = usuariEntitat.getEntitatID();
+
+        Map<String, EntitatJPA> entitats = new HashMap<String, EntitatJPA>();
+        entitats.put(entitatIDActual, usuariEntitat.getEntitat());
+
+        Map<String, Set<GrantedAuthority>> rolesPerEntitat;
+        rolesPerEntitat = new HashMap<String, Set<GrantedAuthority>>();
+        rolesPerEntitat.put(entitatIDActual, new HashSet<GrantedAuthority>(springAuthorities));
+        rolesPerEntitat.put(null, new HashSet<GrantedAuthority>(springAuthorities));
+
+        Map<String, UsuariEntitatJPA> usuariEntitatPerEntitatID;
+        usuariEntitatPerEntitatID = new HashMap<String, UsuariEntitatJPA>();
+        usuariEntitatPerEntitatID.put(entitatIDActual, usuariEntitat);
+
+        final boolean needConfigUser = false;
+
+        // create a new authentication token for usuariAplicacio
+
+        //usuariPersona.setIdiomaID(idiomaID);
+
+        LoginInfo loginInfo = new LoginInfo(user, usuariPersona, entitatIDActual, entitats, rolesPerEntitat,
+                usuariEntitatPerEntitatID, needConfigUser);
+
+        // log.info("Pre LoginInfo.getInstance() => " + LoginInfo.getInstance());
+
+        // and set the authentication of the current Session context
+        SecurityContextHolder.getContext().setAuthentication(loginInfo.generateToken());
+
+        log.info("POST LoginInfo.getInstance() => " + LoginInfo.getInstance());
+
+        log.info("Inicialitzada Informació de Usuari Extern dins de LoginInfo");
+
+        request.getSession().setAttribute(EXTERNAL_USER_TOKEN, token);
     }
 
-    // registram l'usuari
-    registrarUsuari(request, token, firma, username);
-
-    if (firma.getTipusEstatDeFirmaFinalID() != null) {
-      return showErrorPage(token, "usuariextern.token.error.firma.japrocessada",
-          token, String.valueOf(firma.getTipusEstatDeFirmaFinalID()));
+    protected ModelAndView showErrorPage(String token, String errorcode, String... params) {
+        return finalPageWithMessage(token, ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT, errorcode, params);
     }
 
-    PeticioDeFirmaJPA peticio = estatDeFirmaLogicaEjb.getPeticioDeFirmaFromFirmaID(firma
-        .getFirmaID());
+    protected ModelAndView finalPageWithMessage(String token, Long estat, String errorcode, String... params) {
+        ModelAndView model = new ModelAndView("externaluser_final");
+        model.addObject("token", token);
 
-    if (peticio.getTipusEstatPeticioDeFirmaID() != ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
+        if (estat == null) {
+            estat = ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT;
+        }
+        model.addObject("status", estat);
 
-      String estatStr = I18NCommonUtils.tradueix(LocaleContextHolder.getLocale(),
-          "tipusestatpeticiodefirma." + peticio.getTipusEstatPeticioDeFirmaID()); 
+        model.addObject("errorcode", errorcode);
+        for (int i = 0; i < params.length; i++) {
+            model.addObject("param" + i, params[i]);
+        }
 
-      return showErrorPage(token,  "usuariextern.token.error.peticio.japrocessada", token,
-          estatStr);
-
+        return model;
     }
 
-    for (EstatDeFirma ef : firma.getEstatDeFirmas()) {
-      final long estatInicial = ef.getTipusEstatDeFirmaInicialID();
-      if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
+    @RequestMapping(value = "/final", method = RequestMethod.GET)
+    public ModelAndView finalProcess(HttpServletRequest request, HttpServletResponse response) throws I18NException {
 
-        request.getSession()
-            .setAttribute(EXTERNAL_USER_ESTATFIRMAID, ef.getEstatDeFirmaID());
+        String token = (String) request.getSession().getAttribute(EXTERNAL_USER_TOKEN);
 
-        // redirect a pantalla completa de firma
-        String redirect = ConstantsV2.CONTEXT_EXTERNALUSER_ESTATDEFIRMA_PUBLIC + "/fullView/"
-            + ef.getEstatDeFirmaID() + "/" + peticio.getPeticioDeFirmaID(); //+ "?lang=" + idiomaID;
+        FirmaJPA firma = firmaLogicaEjb.getFirmaByToken(token);
+        if (firma == null) {
+            //No existeix cap firma amb identificador (token) " + token;  
+            return showErrorPage(token, "usuariextern.token.error.noexisteix", token);
+        }
 
-        return new ModelAndView(new RedirectView(redirect, true));
+        String message;
+        Long estat = firma.getTipusEstatDeFirmaFinalID();
+        if (estat == null) {
 
-      }
+            //      if (ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT == firma.getTipusEstatDeFirmaFinalID()) {
+            //        // La firma s'ha rebutjat
+            //        message = "usuariextern.token.error.estat.rebutjat"; 
+            //      } else 
+            {
+                // Pareix que la firma s'ha cancel·lat
+                message = "usuariextern.token.error.estat.cancelat";
+            }
+        } else {
+            if (estat == ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT) {
+                // La firma s'ha rebutjat
+                message = "usuariextern.token.error.estat.rebutjat";
+            } else if (estat == ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT) {
+                // usuariextern.token.error.estat.firmat=La firma s´ha realitzat correctament
+                message = "usuariextern.token.error.estat.firmat";
+            } else {
+                message = "usuariextern.token.error.estat.unknown";
+            }
+        }
+
+        return finalPageWithMessage(token, estat, message, String.valueOf(estat));
+
     }
-
-    //  "Error desconegut processant la firma amb identificador (token) " + token
-    //    + ". No s'ha trobat Estat de Firma de tipus ASSIGNAT_PER_FIRMAR (Petició: "
-    //    + peticio.getPeticioDeFirmaID() + " | FirmaID: " + firma.getFirmaID() + ")";
-    
-    return showErrorPage(token, "usuariextern.token.error.noassignatperfirmar", 
-        token, String.valueOf(peticio.getPeticioDeFirmaID()),
-        String.valueOf(firma.getFirmaID()) );
-
-  }
-
-  private void registrarUsuari(HttpServletRequest request, String token, FirmaJPA firma, String username) {
-    Collection<GrantedAuthority> springAuthorities = new ArrayList<GrantedAuthority>();
-    springAuthorities.add(new SimpleGrantedAuthority(Constants.ROLE_DEST));
-
-    final String password = "";
-    User user = new User(username, password, springAuthorities);
-
-    UsuariEntitatJPA usuariEntitat = firma.getUsuariEntitat();
-
-    UsuariPersonaJPA usuariPersona = usuariEntitat.getUsuariPersona();
-    String entitatIDActual = usuariEntitat.getEntitatID();
-
-    Map<String, EntitatJPA> entitats = new HashMap<String, EntitatJPA>();
-    entitats.put(entitatIDActual, usuariEntitat.getEntitat());
-
-    Map<String, Set<GrantedAuthority>> rolesPerEntitat;
-    rolesPerEntitat = new HashMap<String, Set<GrantedAuthority>>();
-    rolesPerEntitat.put(entitatIDActual,
-        new HashSet<GrantedAuthority>(springAuthorities));
-    rolesPerEntitat.put(null, new HashSet<GrantedAuthority>(springAuthorities));
-
-    Map<String, UsuariEntitatJPA> usuariEntitatPerEntitatID;
-    usuariEntitatPerEntitatID = new HashMap<String, UsuariEntitatJPA>();
-    usuariEntitatPerEntitatID.put(entitatIDActual, usuariEntitat);
-
-    final boolean needConfigUser = false;
-
-    // create a new authentication token for usuariAplicacio
-
-    //usuariPersona.setIdiomaID(idiomaID);
-
-    LoginInfo loginInfo = new LoginInfo(user, usuariPersona, entitatIDActual, entitats,
-        rolesPerEntitat, usuariEntitatPerEntitatID, needConfigUser);
-
-    // log.info("Pre LoginInfo.getInstance() => " + LoginInfo.getInstance());
-
-    // and set the authentication of the current Session context
-    SecurityContextHolder.getContext().setAuthentication(loginInfo.generateToken());
-
-    log.info("POST LoginInfo.getInstance() => " + LoginInfo.getInstance());
-
-    log.info("Inicialitzada Informació de Usuari Extern dins de LoginInfo");
-
-    request.getSession().setAttribute(EXTERNAL_USER_TOKEN, token);
-  }
-
-
-  protected ModelAndView showErrorPage(String token, String errorcode, String ... params) {
-    return finalPageWithMessage(token, ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT, errorcode, params);
-  }
-  
-  protected ModelAndView finalPageWithMessage(String token,  Long estat, String errorcode, String ... params) {
-    ModelAndView model = new ModelAndView("externaluser_final");
-    model.addObject("token", token);
-   
-    if (estat == null) {
-      estat = ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT;
-    }
-    model.addObject("status", estat);
-    
-    
-    model.addObject("errorcode", errorcode);
-    for (int i = 0; i < params.length; i++) {
-      model.addObject("param" + i, params[i]);
-    }
-    
-    return model;
-  }
-
-  @RequestMapping(value = "/final", method = RequestMethod.GET)
-  public ModelAndView finalProcess(HttpServletRequest request, HttpServletResponse response)
-      throws I18NException {
-
-    String token = (String) request.getSession().getAttribute(EXTERNAL_USER_TOKEN);
-
-    FirmaJPA firma = firmaLogicaEjb.getFirmaByToken(token);
-    if (firma == null) {
-      //No existeix cap firma amb identificador (token) " + token;  
-      return showErrorPage(token, "usuariextern.token.error.noexisteix", token);
-    }
-
-    String message;
-    Long estat = firma.getTipusEstatDeFirmaFinalID();
-    if (estat == null) {
-      
-//      if (ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT == firma.getTipusEstatDeFirmaFinalID()) {
-//        // La firma s'ha rebutjat
-//        message = "usuariextern.token.error.estat.rebutjat"; 
-//      } else 
-      {
-        // Pareix que la firma s'ha cancel·lat
-        message = "usuariextern.token.error.estat.cancelat";
-      }
-    } else {
-      if (estat == ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT) {
-        // La firma s'ha rebutjat
-        message = "usuariextern.token.error.estat.rebutjat"; 
-      } else if (estat == ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT) {
-        // usuariextern.token.error.estat.firmat=La firma s´ha realitzat correctament
-        message = "usuariextern.token.error.estat.firmat";
-      } else {
-        message = "usuariextern.token.error.estat.unknown";
-      }
-    }
-
-    return finalPageWithMessage(token,  estat, message,  String.valueOf(estat));
-
-  }
-
 
 }

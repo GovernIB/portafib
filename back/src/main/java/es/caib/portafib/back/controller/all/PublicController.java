@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
  * @autor anadal
  * 
  */
-@Tile(name = "acessibilitat", extendsTile = Tab.MENU_INICI, type = TileType.ANOTHER, contentJsp = "/WEB-INF/jsp/all/acessibilitat.jsp")
+@Tile(name = "accessibilitat", extendsTile = Tab.MENU_INICI, type = TileType.ANOTHER, contentJsp = "/WEB-INF/jsp/all/accessibilitat.jsp")
 @Controller
 public class PublicController {
 
@@ -44,7 +44,7 @@ public class PublicController {
     @RequestMapping(value = "/public/accessibilitat")
     public ModelAndView accessibilitat(HttpSession session, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ModelAndView mav = new ModelAndView("acessibilitat");
+        ModelAndView mav = new ModelAndView("accessibilitat");
         mav.addObject("backurl", PropietatGlobalUtil.getAppUrl());
         return mav;
     }

@@ -8,19 +8,19 @@
            <c:when test="${__theFilterForm.actionsRenderer == 1}">
             <div class="btn-group" role="group" >
             <c:if test="${__theFilterForm.editButtonVisible}">
-            <a class="btn btn-warning" href="<c:url value="${contexte}/${traduccio.traduccioID}/edit"/>" role="button"  title="<fmt:message key="genapp.edit"/>">
+            <a class="btn btn-warning" href="<c:url value="${contexte}/${traduccio.traduccioID}/edit"/>" role="button" >
                <i aria-hidden="true" class="fas fa-edit"></i>
                <span class="sr-only"><fmt:message key="genapp.edit"/></span>
             </a>
             </c:if>
             <c:if test="${__theFilterForm.viewButtonVisible}">
-            <a class="btn btn-info" href="<c:url value="${contexte}/view/${traduccio.traduccioID}"/>" role="button"  title="<fmt:message key="genapp.view"/>">
+            <a class="btn btn-info" href="<c:url value="${contexte}/view/${traduccio.traduccioID}"/>" role="button" >
                <i aria-hidden="true" class="fas fa-eye"></i>
                <span class="sr-only"><fmt:message key="genapp.view"/></span>
             </a>
             </c:if>
             <c:if test="${__theFilterForm.deleteButtonVisible}">
-            <a class="btn btn-danger" href="javascript:void(0);" role="button"  onclick="openModal('<c:url value="${contexte}/${traduccio.traduccioID}/delete"/>','show');" title="<fmt:message key="genapp.delete"/>">
+            <a class="btn btn-danger" href="javascript:void(0);" role="button"  onclick="openModal('<c:url value="${contexte}/${traduccio.traduccioID}/delete"/>','show');">
                <i aria-hidden="true" class="fas fa-trash icon-white"></i>
                <span class="sr-only"><fmt:message key="genapp.delete"/></span>
             </a>
@@ -33,7 +33,7 @@
                   <c:url var="thehref" value="${thelink}"/>
                   <c:url var="thelink" value=""/>
                   </c:if>
-                  <a class="btn <c:out value="${button.style}" />" href="${thehref}" role="button"  onclick="${thelink}" title="<fmt:message key="${button.codeText}"/>">
+                  <a class="btn <c:out value="${button.style}" />" href="${thehref}" role="button"  onclick="${thelink}">
                      <c:if test="${fn:startsWith(button.icon, '/')}">
                      <img src="<c:url value="${button.icon}"/>" alt="${button.codeText}"/>
                      </c:if>                     <c:if test="${!fn:startsWith(button.icon, '/')}">
@@ -52,7 +52,7 @@
                   <c:url var="thehref" value="${thelink}"/>
                   <c:url var="thelink" value=""/>
                   </c:if>
-                  <a class="btn <c:out value="${button.style}" />" href="${thehref}" role="button"  onclick="${thelink}" title="<fmt:message key="${button.codeText}"/>">
+                  <a class="btn <c:out value="${button.style}" />" href="${thehref}" role="button"  onclick="${thelink}">
                      <c:if test="${fn:startsWith(button.icon, '/')}">
                      <img src="<c:url value="${button.icon}"/>" alt="${button.codeText}"/>
                      </c:if>                     <c:if test="${!fn:startsWith(button.icon, '/')}">

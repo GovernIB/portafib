@@ -3,7 +3,8 @@
 
 <input type="hidden" id="motiuRebuig" name="motiuRebuig" value=""/>
 
-</div> </form>
+</form>
+</fieldset>
 
 
 
@@ -17,6 +18,7 @@
   z-index: 2050;
 }
 </style>
+
 <div>
     <form action="<%=request.getContextPath() + PeticioDeFirmaCrearAdappController.CONTEXT_ADAPP_CREAR_PETICIOFIRMA%>/selectflux"
         method="get" name="seleccioUsuariAppForm">
@@ -37,7 +39,7 @@
 
                         <table>
                             <tr>
-                                <td><fmt:message key="usuariAplicacio.usuariAplicacio"></fmt:message></td>
+                                <td><label for="usuariAplicacioID" ><fmt:message key="usuariAplicacio.usuariAplicacio"></fmt:message></label></td>
                                 <td><select class="input-xlarge" id="usuariAplicacioID" name="usuariAplicacioID">
                                         <c:forEach items="${listOfUsuariAplicacio}" var="tmp">
                                             <option value="${tmp}">${tmp}</option>
@@ -45,7 +47,7 @@
                                 </select></td>
                             </tr>
                             <tr>
-                                <td><fmt:message key="peticioDeFirma.origenPeticioDeFirma"></fmt:message></td>
+                                <td><label for="origenPeticioDeFirma"><fmt:message key="peticioDeFirma.origenPeticioDeFirma"></fmt:message></label></td>
                                 <td><select class="input-xlarge" id="origenPeticioDeFirma" name="origenPeticioDeFirma">
                                         <c:forEach items="${listOfOrigenPeticioDeFirma}" var="tmp">
                                             <option value="${tmp.key}">${tmp.value}</option>
@@ -113,23 +115,14 @@
     </div>
    </div>
    --%>
-  </form>
-  </div>
+
 <script type="text/javascript">
 
   function openSelectUserAppDialog() {
       $('#selectUserAppModal').modal('show');
   }
 
-  
-</script>
-
-<%--  ==============  FINAL  MODAL DE SELECCIӓ D'USUARI  ================ --%>
-
-
-
-<script type="text/javascript">
-
+  <%--  ==============  FINAL  MODAL DE SELECCIӓ D'USUARI  ================ --%>
 
   function rebutjar(peticioID) {
     var reason = prompt("<fmt:message key="motiurebutjar"/>:", "");
@@ -192,8 +185,13 @@
       openModalSubmit('<c:url value="${contexte}/esborrarSeleccionades"/>','show','peticioDeFirmaFilterForm');
     }
   }
+
   
-  
+<%--  PER AJUSTA AMB ELS TAGs INCLOSOS D'ABANS I DESPRES--%>  
+<div>
 </script>
 
- <form> <div>
+<fieldset>
+<legend class=\"sr-only\">Accessibilitat <%--  Només per completar fieldSet --%></legend>
+<form>
+    <div>

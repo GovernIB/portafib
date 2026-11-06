@@ -133,10 +133,19 @@
         <put-attribute name="titol" value="usuariPersona.usuariPersona" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/seleccioUsuariForm.jsp" />
     </definition>
+    
+    <definition name="homepublic" extends="principal">
+        <put-attribute name="titol" value="=Accessibilitat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/all/homepublic.jsp" />
+    </definition>
 
-    <definition name="acessibilitat" extends="principal">
+    <definition name="accessibilitat" extends="principal">
         <put-attribute name="titol" value="usuariPersona.usuariPersona" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/all/acessibilitat.jsp" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/all/accessibilitat.jsp" />
+    </definition>
+    
+    <definition name="keyvaluePublic" extends="principal">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/keyvalue.jsp" />
     </definition>
 
     <definition name="externaluser_wait" extends="base.definition.cap_contingut_peu">

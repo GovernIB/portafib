@@ -31,16 +31,24 @@
 
     <%--  PIPELLES --%>
     <main class="row-fluid ${isMobile?'container-mobile main-mobile':'container main'}" style="margin-bottom: 0px; max-width: none;">
+    
+    <%if (LoginInfo.getInstance().getUsuariPersona() != null && LoginInfo.getInstance().getUsuariPersona().isUsuariIntern()) {
+        /*      <c:if test="${loginInfo.usuariPersona.usuariIntern }">
+          
+        </c:if>
+*/
+        
+        %>
 
     <ul class="nav nav-tabs ${isMobile?'custom-submenu-mobile':'custom-submenu'}" style="margin-bottom: 0px; margin-left: 40px;">
-
-        <c:if test="${loginInfo.usuariPersona.usuariIntern }">
+    
+    
+    
+    
             <li class="nav-item ${(empty pipella)?'active' : '' }"><a class="nav-link ${(empty pipella)?'active' : '' }"
-                    href="<c:url value="/canviarPipella/"/>">
-                    <fmt:message key="inici" />
-                </a></li>
-        </c:if>
-
+                href="<c:url value="/canviarPipella/"/>">
+                <fmt:message key="inici" />
+            </a></li>
 
 
         <c:forEach var="rolG" items="${loginInfo.roles}">
@@ -79,9 +87,13 @@
                     class="nav-link ${(pipella eq 'desenvolupament')?'active' : '' }"
                     href="<c:url value="/canviarPipella/desenvolupament"/>"> Desenvolupament</a></li>
         </c:if>
+        
+        
+
 
     </ul>
 
+        <% } // Final IF de Usuari Intern %>
 
     <!-- INICI MENU + CONTINGUT -->
     <div class="well well-white" style="padding: 10px;">

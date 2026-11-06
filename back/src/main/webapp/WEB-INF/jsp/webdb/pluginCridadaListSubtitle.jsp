@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
   <c:if test="${not empty __theFilterForm.subTitleCode}">
-<h6 style="margin-top:-10px; margin-bottom:10px; font-style:italic;">
+<p style="margin-top:-5px; margin-bottom:15px; font-style:italic; font-size: 1rem;font-weight: 500;line-height: 1.2;">
 <c:set var="subtitleTranslated" value="${fn:startsWith(__theFilterForm.subTitleCode,'=')}" />
 <c:if test="${subtitleTranslated}">
    <c:out value="${fn:substringAfter(__theFilterForm.subTitleCode, '=')}" escapeXml="false" />
@@ -10,5 +10,5 @@
 <c:if test="${not subtitleTranslated}">
   <fmt:message key="${__theFilterForm.subTitleCode}" />
 </c:if>
-</h6>
+</p>
   </c:if>

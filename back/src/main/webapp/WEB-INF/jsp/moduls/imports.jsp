@@ -1,16 +1,15 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
+<%@page contentType="text/html;charset=UTF-8" language="java"%>
+<%@include file="/WEB-INF/jsp/moduls/includes.jsp"%>
+
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title><fmt:message key="app.benvingut" /></title>
+<title><fmt:message key="app.benvingut" /> - ${urlActual}</title>
 
 <%-- CSS --%>
 
 <%-- Select Multiple i Select amb cerca --%>
 <link href="<c:url value="/css/select2.min.css"/>" rel="stylesheet">
-
-
 
 <%-- Bootstrap CSS --%>
 <link href="<c:url value="/css/bootstrap.css"/>" rel="stylesheet">

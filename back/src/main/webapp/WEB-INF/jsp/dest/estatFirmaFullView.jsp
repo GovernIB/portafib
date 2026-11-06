@@ -10,7 +10,7 @@
 <%-- TODO ${rolecontext}/plantilla s'ha de sustituir per URL desde Controller  --%>
   <iframe scrolling="auto"
     src="<c:url value="/${rolecontext}/plantilla/viewonlyflux/${peticioDeFirma.fluxDeFirmesID}?readOnly=true"/>"
-    style="width: 100%; height: 375px;"> </iframe>
+    style="width: 100%; height: 375px;" title="Flux de Firmes"> </iframe>
 
   <br /> <br />
   
@@ -147,7 +147,7 @@
       <li>
       <small>
          ${pfi:getNom(destinatari.usuariEntitat.usuariPersona)}
-         &nbsp;<img src="<c:url value="/img/fletxa.gif" />"/>&nbsp;
+         &nbsp;<img src="<c:url value="/img/fletxa.gif" />" alt="igual"/>&nbsp;
          <b>
            <c:choose>
              <c:when test="${empty destinatari.tipusEstatDeFirmaFinalID}">
@@ -190,7 +190,7 @@
           <li> 
           <small> 
              ${pfi:getNom(estat.usuariEntitat.usuariPersona)} 
-             &nbsp;<img src="<c:url value="/img/fletxa.gif" />"/>&nbsp;
+             &nbsp;<img src="<c:url value="/img/fletxa.gif" />" alt="igual"/>&nbsp;
              <b>               
              <c:choose>
                <c:when test="${empty estat.tipusEstatDeFirmaFinalID}">
@@ -233,7 +233,7 @@
               <li>              
               <small>
               ${pfi:getNom(estat.usuariEntitat.usuariPersona)}  
-              &nbsp;<img src="<c:url value="/img/fletxa.gif" />"/>&nbsp;
+              &nbsp;<img src="<c:url value="/img/fletxa.gif" />" alt="igual"/>&nbsp;
                <b>
                <c:choose>
                  <c:when test="${empty estat.tipusEstatDeFirmaFinalID}">
@@ -277,7 +277,7 @@
           <li> 
           <small> 
              ${pfi:getNom(estat.usuariEntitat.usuariPersona)} 
-             &nbsp;<img src="<c:url value="/img/fletxa.gif" />"/>&nbsp;
+             &nbsp;<img src="<c:url value="/img/fletxa.gif"/>" alt="igual"/>&nbsp;
              <b>               
              <c:choose>
                <c:when test="${empty estat.tipusEstatDeFirmaFinalID}">

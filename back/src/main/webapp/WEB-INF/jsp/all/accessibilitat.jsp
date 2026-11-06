@@ -14,10 +14,40 @@
 </p>
 
 <br>
+<h2>Pàgines Avaluades</h2>
+
+<div style="border: 1px solid #000000; padding: 10px; margin-bottom: 10px;border-radius: 15px;">
+
+<ol>
+<li>/portafibback/dest/estatDeFirmaPendent/list</li>
+<li>/portafibback/dest/estatDeFirmaFirmada/list</li>
+<li>/portafibback/dest/estatDeFirmaRebutjada/list</li>
+<li>/portafibback/dest/estatDeFirmaPendentDeRevisors/list</li>
+<li>/portafibback/dele/estatDeFirmaPendent/list</li>
+<li>/portafibback/dele/estatDeFirmaFirmada/list</li>
+<li>/portafibback/dele/estatDeFirmaRebutjada/list</li>
+<li>/portafibback/dele/delegatde/list</li>
+<li>/portafibback/cola/estatDeFirmaPendent/list</li>
+<li>/portafibback/cola/estatDeFirmaValidat/list</li>
+<li>/portafibback/cola/estatDeFirmaInvalidat/list</li>
+<li>/portafibback/cola/estatDeFirmaDescartat/list</li>
+<li>/portafibback/cola/colaboradorde/list</li>
+<li>/portafibback/cola/informacio</li>
+<li>/portafibback/revi/estatDeFirmaPendent/list</li>
+<li>/portafibback/revi/estatDeFirmaAcceptada/list</li>
+<li>/portafibback/revi/estatDeFirmaRebutjada/list</li>
+<li>/portafibback/revi/estatDeFirmaDescartades/list</li>
+</ol>
+
+</div>
+
+
+
+<br>
 <h2>Situació de compliment</h2>
 
 <p>
-    Aquest lloc web és <span style="background-color: #ffff00;"><b>No Conforme / Parcialment Conforme / Conforme</b></span> amb
+    Aquest lloc web és <span ><b>Parcialment Conforme</b></span> amb
     <a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2018-12699" target="_blank" rel="noopener noreferrer">
         el RD 1112/2018
     </a>
@@ -38,56 +68,43 @@
     </a>.
 </p>
 
-<p>
-    <span style="background-color: #ffff00;">
-        1. Ús d’encapçalaments: Absència d’un encapçalament principal H1.
+
+
+
+<br><p>
+    <span>
+        1. Separació del contingut i la presentació: generació de contingut mitjançant fulls d’estil
     </span>
 </p>
-
 <p>
-    <span style="background-color: #ffff00;">
-        Els elements d’encapçalament (H1...H6) serveixen per identificar els títols de les diferents seccions en què s’estructura un document.
-        El nivell emprat en cada encapçalament és el que definirà l’estructura jeràrquica de les seccions del document. Per tant, aquesta
-        estructura d’encapçalaments i els nivells emprats ha de ser correcta, reflectint l’estructura lògica del contingut de la pàgina,
-        identificant com a encapçalaments tots els títols de secció, sense emprar elements d’encapçalament únicament per crear efectes
-        de presentació i sense saltar nivells intermedis en descendir en la jerarquia d’encapçalaments.
+    No s’han d’utilitzar els fulls d’estil CSS per incorporar contingut textual o informació que formi part del contingut de la pàgina, ja que aquest contingut pot no estar disponible per als lectors de pantalla ni per a altres aplicacions que no representin gràficament la pàgina. Tota la informació rellevant ha d’estar disponible directament en el contingut HTML.
+</p>
+<p>
+    Per tant, cal evitar generar contingut informatiu mitjançant els pseudoelements CSS ::before i ::after i la propietat content. Per exemple, s'han detectat textos com ara «Browse» i etiquetes de controls del selector de data i hora generats directament des dels fulls d'estil. Aquests textos s'haurien d'incorporar al codi HTML o proporcionar-se mitjançant mecanismes accessibles.
+</p>
+
+<br><p>
+    <span>
+        2. Independència del dispositiu: indicador del focus del teclat no visible
     </span>
 </p>
-
 <p>
-    <span style="background-color: #ffff00;">
-        Algunes pàgines no contenen un encapçalament H1, sinó que contenen altres encapçalaments de nivell inferior. Tot i que totes les
-        pantalles presenten algun tipus d’encapçalament, la jerarquia no és correcta en tots els casos.
-    </span>
+    L’indicador del focus del teclat ha de ser visible perquè les persones que naveguen mitjançant el teclat o altres dispositius d’interacció puguin identificar en tot moment quin element de la pàgina està seleccionat.
+</p>
+<p>
+    Cal respectar l’indicador de focus que proporcionen per defecte els navegadors i evitar eliminar-lo mitjançant propietats CSS com ara outline: none o outline: 0. Si es modifica l’indicador, els canvis han de servir per millorar-ne la visibilitat, mai per fer-lo desaparèixer.
 </p>
 
-<p>
-    <span style="background-color: #ffff00;">
-        Una estructura correcta d’encapçalaments és de gran importància, ja que les aplicacions d’usuari i els productes de suport, com
-        els lectors de pantalla, poden proporcionar mecanismes especials de navegació que permetin als usuaris accedir de manera ràpida
-        a les diferents seccions que componen una pàgina web (p. ex. mitjançant un índex o mapa del document amb accessos directes a les
-        diferents seccions).
-    </span>
-</p>
 
-<p>
-    <span style="background-color: #ffff00;">2. Editor de taulers de control.</span>
-</p>
 
-<p>
-    <span style="background-color: #ffff00;">
-        L’editor de taulers de control actualment no és accessible. Es tracta d’un component interactiu que utilitza elements gràfics amb
-        funcionalitat d’arrossegar i deixar anar (<i>drag and drop</i>) i altres interaccions complexes que no són completament operables
-        mitjançant el teclat ni compatibles amb tecnologies de suport, com ara els lectors de pantalla.
-    </span>
-</p>
+
 
 <br>
 <h2>Preparació de la present declaració d’accessibilitat</h2>
 
 <p>
     La present declaració va ser preparada el
-    <span style="background-color: #ffff00;">8 de setembre de 2026.</span>
+    <span >6 de novembre de 2026.</span>
 </p>
 
 <p>
@@ -182,27 +199,29 @@
     <tbody>
         <tr>
             <td>Puntuació mitjana del lloc web</td>
-            <td><span style="background-color: #ffff00;">8.20</span></td>
+            <td><span >8.66</span></td>
         </tr>
         <tr>
             <td>Nivell d’adequació estimat</td>
-            <td><span style="background-color: #ffff00;">No Vàlid / A / AA</span></td>
+            <td><span >AA</span></td>
         </tr>
         <tr>
             <td>Situació de compliment estimada</td>
-            <td><span style="background-color: #ffff00;">No Conforme / Parcialment Conforme / Conforme</span></td>
+            <td><span >Parcialment Conforme</span></td>
         </tr>
     </tbody>
 </table>
 <br>
 <p>
-    <span style="background-color: #ffff00;">Nivell AA WCAG 2.1</span>
+    <span >Nivell AA WCAG 2.1</span>
 </p>
 <br>
+<%--
 <p>
-<span style="background-color: #ffff00;">
+<span >
     El lloc web està dissenyat per a la seva visualització <i>responsive</i>, de manera que es visualitza de forma òptima en dispositius tauleta i mòbils.
-</span>
+</span> 
 </p>
+--%>
 
 </div>
