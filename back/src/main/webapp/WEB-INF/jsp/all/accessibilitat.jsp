@@ -1,4 +1,5 @@
-﻿<div style="min-width: 45%;max-width: 400px;">
+﻿<%@include file="/WEB-INF/jsp/moduls/includes.jsp"%>
+<div style="min-width: 45%;max-width: 400px;">
 <h1>DECLARACIÓ D'ACCESSIBILITAT</h1>
 
 <p>
@@ -13,6 +14,7 @@
     La present declaració d’accessibilitat només s’aplica al lloc web <b>${backurl}</b> i no inclou les pàgines que condueixen a enllaços externs.
 </p>
 
+<sec:authorize access="hasRole('ROLE_ADMIN')">
 <br>
 <h2>Pàgines Avaluades</h2>
 
@@ -40,7 +42,7 @@
 </ol>
 
 </div>
-
+</sec:authorize>
 
 
 <br>

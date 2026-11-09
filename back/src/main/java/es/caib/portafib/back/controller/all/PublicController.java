@@ -109,43 +109,48 @@ public class PublicController {
          */
 
         tabsList.add(Tab.MENU_INICI);
+        
+        
+        if (LoginInfo.getInstance().getUsuariPersona().isUsuariIntern()) {
+        
 
-        // Mapeig de roles a tabs
-        for (GrantedAuthority role : roles) {
-            String roleName = role.getAuthority();
-            switch (roleName) {
-                case Constants.ROLE_ADMIN:
-                    tabsList.add(Tab.MENU_ADMIN);
-                break;
-                case Constants.ROLE_ANY:
-                    // Any usuari autenticat ve l'inici
-                    tabsList.add(Tab.MENU_INICI);
-                break;
-                case Constants.ROLE_USUARI_TIPUS_I:
-                case Constants.ROLE_DEST:
-                    tabsList.add(Tab.MENU_DEST);
-                break;
-                case Constants.ROLE_DELE:
-                    tabsList.add(Tab.MENU_DELE);
-                break;
-                case Constants.ROLE_COLA:
-                    tabsList.add(Tab.MENU_COLA);
-                break;
-                case Constants.ROLE_ADEN:
-                    tabsList.add(Tab.MENU_ADEN);
-                break;
-                case Constants.ROLE_ADAPP:
-                    tabsList.add(Tab.MENU_ADAPP);
-                break;
-                case Constants.ROLE_SOLI:
-                    tabsList.add(Tab.MENU_SOLI);
-                break;
-                case Constants.ROLE_REVI:
-                    tabsList.add(Tab.MENU_REVI);
-                break;
-                default:
-                // Rol no reconegut, ignorar
-                break;
+            // Mapeig de roles a tabs
+            for (GrantedAuthority role : roles) {
+                String roleName = role.getAuthority();
+                switch (roleName) {
+                    case Constants.ROLE_ADMIN:
+                        tabsList.add(Tab.MENU_ADMIN);
+                    break;
+                    case Constants.ROLE_USUARI_TIPUS_I:
+                    case Constants.ROLE_ANY:
+                        // Any usuari autenticat ve l'inici
+                        tabsList.add(Tab.MENU_INICI);
+                    break;
+                    case Constants.ROLE_DEST:
+                        tabsList.add(Tab.MENU_DEST);
+                    break;
+                    case Constants.ROLE_DELE:
+                        tabsList.add(Tab.MENU_DELE);
+                    break;
+                    case Constants.ROLE_COLA:
+                        tabsList.add(Tab.MENU_COLA);
+                    break;
+                    case Constants.ROLE_ADEN:
+                        tabsList.add(Tab.MENU_ADEN);
+                    break;
+                    case Constants.ROLE_ADAPP:
+                        tabsList.add(Tab.MENU_ADAPP);
+                    break;
+                    case Constants.ROLE_SOLI:
+                        tabsList.add(Tab.MENU_SOLI);
+                    break;
+                    case Constants.ROLE_REVI:
+                        tabsList.add(Tab.MENU_REVI);
+                    break;
+                    default:
+                    // Rol no reconegut, ignorar
+                    break;
+                }
             }
         }
 
