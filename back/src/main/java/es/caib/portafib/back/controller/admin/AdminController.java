@@ -51,9 +51,8 @@ import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 
 @Controller
 public class AdminController {
-    
-    public static final String KEYVALUE_ADMIN_TILE = "keyvalueAdmin";
 
+    public static final String KEYVALUE_ADMIN_TILE = "keyvalueAdmin";
 
     public static class KeyValueItem implements Comparable<KeyValueItem> {
         private String key;
@@ -127,7 +126,7 @@ public class AdminController {
                     "<i class=\"fas fa-database\"></i>", humanReadableByteCount(entry.getValue())));
         }
 
-        ModelAndView mav = new ModelAndView("keyvalueAdmin");
+        ModelAndView mav = new ModelAndView(KEYVALUE_ADMIN_TILE);
         mav.addObject("title", "Size of database tables");
         mav.addObject("subtitle", "");
         mav.addObject("keyValueList", keyValuelist);
@@ -150,31 +149,21 @@ public class AdminController {
 
         String[] tabs = { Tab.MENU_INICI, Tab.MENU_SOLI, Tab.MENU_DEST, Tab.MENU_DELE, Tab.MENU_COLA, Tab.MENU_REVI,
                 Tab.MENU_ADEN, Tab.MENU_ADAPP, Tab.MENU_ADMIN };
-        
-        
-        
-        String title = "Llistat d'Opcions de Menú";
-        String subtitle =
-                "Per descarregar les URL a les pàgines web en format pla, feis clic aquí:"
-                        + " <b><a target=\"_blank\"  href=\"" + request.getContextPath()
-                        + "/admin/webpagesplain?includenew=true\" >[AMB NEW]</a></b>"
-                        + " &nbsp;&nbsp;<b><a target=\"_blank\"  href=\"" + request.getContextPath()
-                        + "/admin/webpagesplain?includenew=false\" >[SENSE NEW]</a></b>";
-        String tile = KEYVALUE_ADMIN_TILE;
-        
-        return webPages(session, request, response, tabs, title, subtitle, tile);
-        
-    }
-    
-    
 
-    
-    
-    
+        String title = "Llistat d'Opcions de Menú";
+        String subtitle = "Per descarregar les URL a les pàgines web en format pla, feis clic aquí:"
+                + " <b><a target=\"_blank\"  href=\"" + request.getContextPath()
+                + "/admin/webpagesplain?includenew=true\" >[AMB NEW]</a></b>"
+                + " &nbsp;&nbsp;<b><a target=\"_blank\"  href=\"" + request.getContextPath()
+                + "/admin/webpagesplain?includenew=false\" >[SENSE NEW]</a></b>";
+        String tile = KEYVALUE_ADMIN_TILE;
+
+        return webPages(session, request, response, tabs, title, subtitle, tile);
+
+    }
 
     public static ModelAndView webPages(HttpSession session, HttpServletRequest request, HttpServletResponse response,
-            String[] tabs, String title, String subtitle, String tile)
-                throws Exception {
+            String[] tabs, String title, String subtitle, String tile) throws Exception {
         List<KeyValueItem> keyValuelist = new ArrayList<KeyValueItem>();
         final String appUrl = PropietatGlobalUtil.getAppUrl();
 
@@ -219,7 +208,7 @@ public class AdminController {
         String includeNewStr = request.getParameter("includenew");
 
         boolean includeNew = "true".equalsIgnoreCase(includeNewStr);
-        
+
         final String appUrl = PropietatGlobalUtil.getAppUrl();
 
         String[] tabs = { Tab.MENU_INICI, Tab.MENU_SOLI, Tab.MENU_DEST, Tab.MENU_DELE, Tab.MENU_COLA, Tab.MENU_REVI,
@@ -240,7 +229,7 @@ public class AdminController {
                     if (item == null) {
                         continue;
                     }
-                    
+
                     writer.println(appUrl + item.getUrl());
                 }
 
