@@ -173,9 +173,6 @@
                     <div class="input-group-append"  data-target="#dataSolicitudDesdeDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#dataSolicitudDesdeDiv').datetimepicker({
@@ -187,6 +184,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
             <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="dataSolicitudFinsDiv" data-target-input="nearest">
@@ -195,9 +195,6 @@
                     <div class="input-group-append"  data-target="#dataSolicitudFinsDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#dataSolicitudFinsDiv').datetimepicker({
@@ -209,6 +206,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
             </div>
 
     
@@ -227,9 +227,6 @@
                     <div class="input-group-append"  data-target="#dataFinalDesdeDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#dataFinalDesdeDiv').datetimepicker({
@@ -241,6 +238,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
             <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="dataFinalFinsDiv" data-target-input="nearest">
@@ -249,9 +249,6 @@
                     <div class="input-group-append"  data-target="#dataFinalFinsDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#dataFinalFinsDiv').datetimepicker({
@@ -263,6 +260,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
             </div>
 
     
@@ -281,9 +281,6 @@
                     <div class="input-group-append"  data-target="#dataCaducitatDesdeDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#dataCaducitatDesdeDiv').datetimepicker({
@@ -295,6 +292,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
             <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="dataCaducitatFinsDiv" data-target-input="nearest">
@@ -303,9 +303,6 @@
                     <div class="input-group-append"  data-target="#dataCaducitatFinsDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#dataCaducitatFinsDiv').datetimepicker({
@@ -317,6 +314,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
             </div>
 
     

@@ -14,7 +14,7 @@
             </td>
           <td id="propietatGlobal_clau_columnvalueid">
             <form:errors path="propietatGlobal.clau" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PropietatGlobalFields.CLAU)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PropietatGlobalFields.CLAU)? ' uneditable-input' : ''}"  style="" maxlength="255" path="propietatGlobal.clau"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PropietatGlobalFields.CLAU)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PropietatGlobalFields.CLAU)? ' uneditable-input' : ''}"  style="" maxlength="255" path="propietatGlobal.clau"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -35,7 +35,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,PropietatGlobalFields.VALOR)? 'readonly' : ''}" path="propietatGlobal.valor"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,PropietatGlobalFields.VALOR)? 'true' : 'false'}" path="propietatGlobal.valor"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_valor" style="vertical-align:top;display:inline;position:relative;">
@@ -119,7 +119,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,PropietatGlobalFields.DESCRIPCIO)? 'readonly' : ''}" path="propietatGlobal.descripcio"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,PropietatGlobalFields.DESCRIPCIO)? 'true' : 'false'}" path="propietatGlobal.descripcio"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">

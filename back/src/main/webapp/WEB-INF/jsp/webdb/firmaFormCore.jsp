@@ -170,7 +170,7 @@
             </td>
           <td id="firma_numFirmaDocument_columnvalueid">
             <form:errors path="firma.numFirmaDocument" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMFIRMADOCUMENT)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMFIRMADOCUMENT)? ' uneditable-input' : ''}"  style=""  path="firma.numFirmaDocument"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMFIRMADOCUMENT)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMFIRMADOCUMENT)? ' uneditable-input' : ''}"  style=""  path="firma.numFirmaDocument"   />
 
            </td>
         </tr>
@@ -188,7 +188,7 @@
             </td>
           <td id="firma_caixaPagina_columnvalueid">
             <form:errors path="firma.caixaPagina" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAPAGINA)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAPAGINA)? ' uneditable-input' : ''}"  style=""  path="firma.caixaPagina"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAPAGINA)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAPAGINA)? ' uneditable-input' : ''}"  style=""  path="firma.caixaPagina"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -206,7 +206,7 @@
             </td>
           <td id="firma_caixaX_columnvalueid">
             <form:errors path="firma.caixaX" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAX)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAX)? ' uneditable-input' : ''}"  style=""  path="firma.caixaX"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAX)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAX)? ' uneditable-input' : ''}"  style=""  path="firma.caixaX"   />
 
            </td>
         </tr>
@@ -224,7 +224,7 @@
             </td>
           <td id="firma_caixaY_columnvalueid">
             <form:errors path="firma.caixaY" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAY)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAY)? ' uneditable-input' : ''}"  style=""  path="firma.caixaY"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAY)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAY)? ' uneditable-input' : ''}"  style=""  path="firma.caixaY"   />
 
            </td>
         </tr>
@@ -242,7 +242,7 @@
             </td>
           <td id="firma_caixaAmple_columnvalueid">
             <form:errors path="firma.caixaAmple" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAAMPLE)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAAMPLE)? ' uneditable-input' : ''}"  style=""  path="firma.caixaAmple"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAAMPLE)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAAMPLE)? ' uneditable-input' : ''}"  style=""  path="firma.caixaAmple"   />
 
            </td>
         </tr>
@@ -260,7 +260,7 @@
             </td>
           <td id="firma_caixaAlt_columnvalueid">
             <form:errors path="firma.caixaAlt" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAALT)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAALT)? ' uneditable-input' : ''}"  style=""  path="firma.caixaAlt"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAALT)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAALT)? ' uneditable-input' : ''}"  style=""  path="firma.caixaAlt"   />
 
            </td>
         </tr>
@@ -278,7 +278,7 @@
             </td>
           <td id="firma_numeroSerieCertificat_columnvalueid">
             <form:errors path="firma.numeroSerieCertificat" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMEROSERIECERTIFICAT)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMEROSERIECERTIFICAT)? ' uneditable-input' : ''}"  style=""  path="firma.numeroSerieCertificat"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMEROSERIECERTIFICAT)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMEROSERIECERTIFICAT)? ' uneditable-input' : ''}"  style=""  path="firma.numeroSerieCertificat"   />
 
            </td>
         </tr>
@@ -296,7 +296,7 @@
             </td>
           <td id="firma_emissorCertificat_columnvalueid">
             <form:errors path="firma.emissorCertificat" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.EMISSORCERTIFICAT)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.EMISSORCERTIFICAT)? ' uneditable-input' : ''}"  style="" maxlength="1000" path="firma.emissorCertificat"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,FirmaFields.EMISSORCERTIFICAT)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.EMISSORCERTIFICAT)? ' uneditable-input' : ''}"  style="" maxlength="1000" path="firma.emissorCertificat"   />
 
            </td>
         </tr>
@@ -314,7 +314,7 @@
             </td>
           <td id="firma_nomCertificat_columnvalueid">
             <form:errors path="firma.nomCertificat" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.NOMCERTIFICAT)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.NOMCERTIFICAT)? ' uneditable-input' : ''}"  style="" maxlength="1000" path="firma.nomCertificat"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,FirmaFields.NOMCERTIFICAT)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.NOMCERTIFICAT)? ' uneditable-input' : ''}"  style="" maxlength="1000" path="firma.nomCertificat"   />
 
            </td>
         </tr>
@@ -402,7 +402,7 @@
             </td>
           <td id="firma_motiu_columnvalueid">
             <form:errors path="firma.motiu" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.MOTIU)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.MOTIU)? ' uneditable-input' : ''}"  style="" maxlength="255" path="firma.motiu"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,FirmaFields.MOTIU)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.MOTIU)? ' uneditable-input' : ''}"  style="" maxlength="255" path="firma.motiu"   />
 
            </td>
         </tr>
@@ -420,7 +420,7 @@
             </td>
           <td id="firma_minimDeRevisors_columnvalueid">
             <form:errors path="firma.minimDeRevisors" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.MINIMDEREVISORS)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.MINIMDEREVISORS)? ' uneditable-input' : ''}"  style=""  path="firma.minimDeRevisors"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,FirmaFields.MINIMDEREVISORS)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.MINIMDEREVISORS)? ' uneditable-input' : ''}"  style=""  path="firma.minimDeRevisors"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -513,7 +513,7 @@
             </td>
           <td id="firma_perfilDeFirma_columnvalueid">
             <form:errors path="firma.perfilDeFirma" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.PERFILDEFIRMA)? 'readonly' : ''}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.PERFILDEFIRMA)? ' uneditable-input' : ''}"  style="" maxlength="50" path="firma.perfilDeFirma"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,FirmaFields.PERFILDEFIRMA)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.PERFILDEFIRMA)? ' uneditable-input' : ''}"  style="" maxlength="50" path="firma.perfilDeFirma"   />
 
            </td>
         </tr>
@@ -531,7 +531,7 @@
             </td>
           <td id="firma_usuariExternNom_columnvalueid">
             <form:errors path="firma.usuariExternNom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNNOM)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNNOM)? ' uneditable-input' : ''}"  style="" maxlength="100" path="firma.usuariExternNom"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNNOM)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNNOM)? ' uneditable-input' : ''}"  style="" maxlength="100" path="firma.usuariExternNom"   />
 
            </td>
         </tr>
@@ -549,7 +549,7 @@
             </td>
           <td id="firma_usuariExternLlinatges_columnvalueid">
             <form:errors path="firma.usuariExternLlinatges" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNLLINATGES)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNLLINATGES)? ' uneditable-input' : ''}"  style="" maxlength="255" path="firma.usuariExternLlinatges"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNLLINATGES)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNLLINATGES)? ' uneditable-input' : ''}"  style="" maxlength="255" path="firma.usuariExternLlinatges"   />
 
            </td>
         </tr>
@@ -567,7 +567,7 @@
             </td>
           <td id="firma_usuariExternEmail_columnvalueid">
             <form:errors path="firma.usuariExternEmail" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNEMAIL)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNEMAIL)? ' uneditable-input' : ''}"  style="" maxlength="255" path="firma.usuariExternEmail"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNEMAIL)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNEMAIL)? ' uneditable-input' : ''}"  style="" maxlength="255" path="firma.usuariExternEmail"   />
 
            </td>
         </tr>
@@ -585,7 +585,7 @@
             </td>
           <td id="firma_usuariExternIdioma_columnvalueid">
             <form:errors path="firma.usuariExternIdioma" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNIDIOMA)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNIDIOMA)? ' uneditable-input' : ''}"  style="" maxlength="2" path="firma.usuariExternIdioma"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNIDIOMA)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNIDIOMA)? ' uneditable-input' : ''}"  style="" maxlength="2" path="firma.usuariExternIdioma"   />
 
            </td>
         </tr>
@@ -603,7 +603,7 @@
             </td>
           <td id="firma_usuariExternToken_columnvalueid">
             <form:errors path="firma.usuariExternToken" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNTOKEN)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNTOKEN)? ' uneditable-input' : ''}"  style="" maxlength="255" path="firma.usuariExternToken"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNTOKEN)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.USUARIEXTERNTOKEN)? ' uneditable-input' : ''}"  style="" maxlength="255" path="firma.usuariExternToken"   />
 
            </td>
         </tr>
@@ -666,7 +666,7 @@
             </td>
           <td id="firma_signaturePluginId_columnvalueid">
             <form:errors path="firma.signaturePluginId" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.SIGNATUREPLUGINID)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.SIGNATUREPLUGINID)? ' uneditable-input' : ''}"  style=""  path="firma.signaturePluginId"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,FirmaFields.SIGNATUREPLUGINID)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,FirmaFields.SIGNATUREPLUGINID)? ' uneditable-input' : ''}"  style=""  path="firma.signaturePluginId"   />
 
            </td>
         </tr>

@@ -16,7 +16,7 @@
     </parent>
 
     <dependencies>
-        
+
         <!-- Internas -->
         <dependency>
             <groupId>es.caib.portafib</groupId>
@@ -27,7 +27,30 @@
 
 
         <!-- Externas -->
-        
+
+        <dependency>
+            <groupId>es.caib.comanda</groupId>
+            <artifactId>comanda-api-client-management</artifactId>
+            <version>1.0.0</version>
+
+            <exclusions>
+                <!--  com.google.code.findbugs:jsr305 -->
+                <exclusion>
+                    <groupId>com.google.code.findbugs</groupId>
+                    <artifactId>jsr305</artifactId>
+
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+
+        </dependency>
+
+
         <dependency>
             <groupId>org.fundaciobit.pluginsib.exportdata</groupId>
             <artifactId>pluginsib-exportdata-api</artifactId>
@@ -75,15 +98,15 @@
             <artifactId>commons-fileupload</artifactId>
             <version>1.3</version>
         </dependency>
-<!-- 
+        <!-- 
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <scope>provided</scope>
         </dependency>
  -->
- 
-         <!-- Servlet API -->
+
+        <!-- Servlet API -->
         <dependency>
             <groupId>org.jboss.spec.javax.servlet</groupId>
             <artifactId>jboss-servlet-api_4.0_spec</artifactId>
@@ -233,7 +256,7 @@
             <artifactId>spring-mobile-device</artifactId>
             <version>1.1.5.RELEASE</version>
             <exclusions>
-                <!-- Problemes amb enforcer -->  
+                <!-- Problemes amb enforcer -->
                 <exclusion>
                     <artifactId>spring-web</artifactId>
                     <groupId>org.springframework</groupId>
@@ -266,8 +289,8 @@
                 <webXml.authMethod>KEYCLOAK</webXml.authMethod>
             </properties>
         </profile>
-        
-                <!-- Profile jboss72: actiu per defecte -->
+
+        <!-- Profile jboss72: actiu per defecte -->
         <profile>
             <id>jboss72_def</id>
             <activation>
@@ -284,8 +307,8 @@
                 </dependency>
             </dependencies>
         </profile>
-    
-    
+
+
         <!-- Profile jboss72: actiu per propietat -->
         <profile>
             <id>jboss72_explicit</id>
@@ -323,11 +346,11 @@
                 </dependency>
             </dependencies>
         </profile>
-        
-        
+
+
     </profiles>
 
-    <build>   
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -350,8 +373,8 @@
                             <targetPath>WEB-INF</targetPath>
                             <filtering>true</filtering>
                         </resource>
-                    
-                    
+
+
                         <!-- Documents pdf que es troben dins /doc/pdf i han
                         d'anar a WEBAPP/Documentacio -->
                         <resource>

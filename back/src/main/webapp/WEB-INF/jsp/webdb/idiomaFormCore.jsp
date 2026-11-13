@@ -14,7 +14,7 @@
             </td>
           <td id="idioma_idiomaID_columnvalueid">
             <form:errors path="idioma.idiomaID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,IdiomaFields.IDIOMAID)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,IdiomaFields.IDIOMAID)? ' uneditable-input' : ''}"  style="" maxlength="5" path="idioma.idiomaID"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,IdiomaFields.IDIOMAID)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,IdiomaFields.IDIOMAID)? ' uneditable-input' : ''}"  style="" maxlength="5" path="idioma.idiomaID"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -32,7 +32,7 @@
             </td>
           <td id="idioma_nom_columnvalueid">
             <form:errors path="idioma.nom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,IdiomaFields.NOM)? 'readonly' : ''}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,IdiomaFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="idioma.nom"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,IdiomaFields.NOM)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,IdiomaFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="idioma.nom"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -75,7 +75,7 @@
             </td>
           <td id="idioma_ordre_columnvalueid">
             <form:errors path="idioma.ordre" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,IdiomaFields.ORDRE)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,IdiomaFields.ORDRE)? ' uneditable-input' : ''}"  style=""  path="idioma.ordre"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,IdiomaFields.ORDRE)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,IdiomaFields.ORDRE)? ' uneditable-input' : ''}"  style=""  path="idioma.ordre"  required="required"  aria-required="true"   />
 
            </td>
         </tr>

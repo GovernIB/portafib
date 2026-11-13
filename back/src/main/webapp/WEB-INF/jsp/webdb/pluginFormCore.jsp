@@ -14,7 +14,7 @@
             </td>
           <td id="plugin_codi_columnvalueid">
             <form:errors path="plugin.codi" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginFields.CODI)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PluginFields.CODI)? ' uneditable-input' : ''}"  style="" maxlength="255" path="plugin.codi"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PluginFields.CODI)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PluginFields.CODI)? ' uneditable-input' : ''}"  style="" maxlength="255" path="plugin.codi"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -102,7 +102,7 @@
             </td>
           <td id="plugin_classe_columnvalueid">
             <form:errors path="plugin.classe" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginFields.CLASSE)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PluginFields.CLASSE)? ' uneditable-input' : ''}"  style="" maxlength="255" path="plugin.classe"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PluginFields.CLASSE)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PluginFields.CLASSE)? ' uneditable-input' : ''}"  style="" maxlength="255" path="plugin.classe"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -120,7 +120,7 @@
             </td>
           <td id="plugin_ordre_columnvalueid">
             <form:errors path="plugin.ordre" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginFields.ORDRE)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,PluginFields.ORDRE)? ' uneditable-input' : ''}"  style=""  path="plugin.ordre"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PluginFields.ORDRE)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,PluginFields.ORDRE)? ' uneditable-input' : ''}"  style=""  path="plugin.ordre"   />
 
            </td>
         </tr>
@@ -180,7 +180,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,PluginFields.PROPERTIESADMIN)? 'readonly' : ''}" path="plugin.propertiesAdmin"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,PluginFields.PROPERTIESADMIN)? 'true' : 'false'}" path="plugin.propertiesAdmin"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_propertiesAdmin" style="vertical-align:top;display:inline;position:relative;">
@@ -219,7 +219,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,PluginFields.PROPERTIESENTITAT)? 'readonly' : ''}" path="plugin.propertiesEntitat"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,PluginFields.PROPERTIESENTITAT)? 'true' : 'false'}" path="plugin.propertiesEntitat"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_propertiesEntitat" style="vertical-align:top;display:inline;position:relative;">

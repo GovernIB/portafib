@@ -133,7 +133,7 @@ public class EmailUtil {
                     java.lang.String email = emailInfo.getEmail();
                     java.lang.String subject = emailInfo.getSubject();
                     
-                    if (CorreuAgrupatFields.SUBJECT.size >= subject.length()) {
+                    if (subject.length() >= CorreuAgrupatFields.SUBJECT.size) {
                         subject = subject.substring(0, CorreuAgrupatFields.SUBJECT.size - 1);
                     }
                     

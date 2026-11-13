@@ -61,14 +61,11 @@
     <form:errors path="pluginCridada.data" cssClass="errorField alert alert-danger" />
             <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="pluginCridada_dataDiv" data-target-input="nearest">
-                      <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.DATA)? 'readonly' : ''}" cssClass="form-control datetimepicker-input"  data-target="#pluginCridada_dataDiv" path="pluginCridada.data"   required="required"  aria-required="true"  />
+                      <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.DATA)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#pluginCridada_dataDiv" path="pluginCridada.data"   required="required"  aria-required="true"  />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.DATA)}" >
                     <div class="input-group-append"  data-target="#pluginCridada_dataDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#pluginCridada_dataDiv').datetimepicker({
@@ -80,6 +77,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
            </td>
         </tr>
         </c:if>
@@ -130,7 +130,7 @@
             </td>
           <td id="pluginCridada_metodePlugin_columnvalueid">
             <form:errors path="pluginCridada.metodePlugin" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.METODEPLUGIN)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.METODEPLUGIN)? ' uneditable-input' : ''}"  style="" maxlength="100" path="pluginCridada.metodePlugin"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.METODEPLUGIN)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.METODEPLUGIN)? ' uneditable-input' : ''}"  style="" maxlength="100" path="pluginCridada.metodePlugin"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -151,7 +151,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.PARAMETRESTEXT)? 'readonly' : ''}" path="pluginCridada.parametresText"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.PARAMETRESTEXT)? 'true' : 'false'}" path="pluginCridada.parametresText"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_parametresText" style="vertical-align:top;display:inline;position:relative;">
@@ -253,7 +253,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.RETORNTEXT)? 'readonly' : ''}" path="pluginCridada.retornText"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.RETORNTEXT)? 'true' : 'false'}" path="pluginCridada.retornText"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_retornText" style="vertical-align:top;display:inline;position:relative;">
@@ -352,7 +352,7 @@
             </td>
           <td id="pluginCridada_tipusTesultat_columnvalueid">
             <form:errors path="pluginCridada.tipusTesultat" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.TIPUSTESULTAT)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.TIPUSTESULTAT)? ' uneditable-input' : ''}"  style=""  path="pluginCridada.tipusTesultat"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.TIPUSTESULTAT)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.TIPUSTESULTAT)? ' uneditable-input' : ''}"  style=""  path="pluginCridada.tipusTesultat"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -370,7 +370,7 @@
             </td>
           <td id="pluginCridada_tempsExecucio_columnvalueid">
             <form:errors path="pluginCridada.tempsExecucio" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.TEMPSEXECUCIO)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.TEMPSEXECUCIO)? ' uneditable-input' : ''}"  style=""  path="pluginCridada.tempsExecucio"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.TEMPSEXECUCIO)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,PluginCridadaFields.TEMPSEXECUCIO)? ' uneditable-input' : ''}"  style=""  path="pluginCridada.tempsExecucio"  required="required"  aria-required="true"   />
 
            </td>
         </tr>

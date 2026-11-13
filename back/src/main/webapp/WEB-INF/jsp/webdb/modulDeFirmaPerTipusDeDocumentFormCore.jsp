@@ -14,7 +14,7 @@
             </td>
           <td id="modulDeFirmaPerTipusDeDocument_nom_columnvalueid">
             <form:errors path="modulDeFirmaPerTipusDeDocument.nom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,ModulDeFirmaPerTipusDeDocumentFields.NOM)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,ModulDeFirmaPerTipusDeDocumentFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="100" path="modulDeFirmaPerTipusDeDocument.nom"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,ModulDeFirmaPerTipusDeDocumentFields.NOM)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,ModulDeFirmaPerTipusDeDocumentFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="100" path="modulDeFirmaPerTipusDeDocument.nom"  required="required"  aria-required="true"   />
 
            </td>
         </tr>

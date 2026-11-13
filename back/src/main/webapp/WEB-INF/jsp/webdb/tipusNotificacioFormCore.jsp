@@ -14,7 +14,7 @@
             </td>
           <td id="tipusNotificacio_tipusNotificacioID_columnvalueid">
             <form:errors path="tipusNotificacio.tipusNotificacioID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.TIPUSNOTIFICACIOID)? 'readonly' : ''}" cssClass="w-50 form-control  ${gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.TIPUSNOTIFICACIOID)? ' uneditable-input' : ''}"  style=""  path="tipusNotificacio.tipusNotificacioID"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.TIPUSNOTIFICACIOID)? 'true' : 'false'}" cssClass="w-50 form-control  ${gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.TIPUSNOTIFICACIOID)? ' uneditable-input' : ''}"  style=""  path="tipusNotificacio.tipusNotificacioID"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -32,7 +32,7 @@
             </td>
           <td id="tipusNotificacio_nom_columnvalueid">
             <form:errors path="tipusNotificacio.nom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.NOM)? 'readonly' : ''}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="tipusNotificacio.nom"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.NOM)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="tipusNotificacio.nom"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -53,7 +53,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.DESCRIPCIO)? 'readonly' : ''}" path="tipusNotificacio.descripcio"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,TipusNotificacioFields.DESCRIPCIO)? 'true' : 'false'}" path="tipusNotificacio.descripcio"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">

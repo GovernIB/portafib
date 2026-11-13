@@ -84,14 +84,11 @@
     <form:errors path="estatDeFirma.dataInici" cssClass="errorField alert alert-danger" />
             <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="estatDeFirma_dataIniciDiv" data-target-input="nearest">
-                      <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.DATAINICI)? 'readonly' : ''}" cssClass="form-control datetimepicker-input"  data-target="#estatDeFirma_dataIniciDiv" path="estatDeFirma.dataInici"   required="required"  aria-required="true"  />
+                      <form:input readonly="${gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.DATAINICI)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#estatDeFirma_dataIniciDiv" path="estatDeFirma.dataInici"   required="required"  aria-required="true"  />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.DATAINICI)}" >
                     <div class="input-group-append"  data-target="#estatDeFirma_dataIniciDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#estatDeFirma_dataIniciDiv').datetimepicker({
@@ -103,6 +100,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
            </td>
         </tr>
         </c:if>
@@ -121,14 +121,11 @@
     <form:errors path="estatDeFirma.dataFi" cssClass="errorField alert alert-danger" />
             <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="estatDeFirma_dataFiDiv" data-target-input="nearest">
-                      <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.DATAFI)? 'readonly' : ''}" cssClass="form-control datetimepicker-input"  data-target="#estatDeFirma_dataFiDiv" path="estatDeFirma.dataFi"   />
+                      <form:input readonly="${gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.DATAFI)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#estatDeFirma_dataFiDiv" path="estatDeFirma.dataFi"   />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.DATAFI)}" >
                     <div class="input-group-append"  data-target="#estatDeFirma_dataFiDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#estatDeFirma_dataFiDiv').datetimepicker({
@@ -140,6 +137,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
            </td>
         </tr>
         </c:if>
@@ -283,7 +283,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.DESCRIPCIO)? 'readonly' : ''}" path="estatDeFirma.descripcio"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,EstatDeFirmaFields.DESCRIPCIO)? 'true' : 'false'}" path="estatDeFirma.descripcio"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">

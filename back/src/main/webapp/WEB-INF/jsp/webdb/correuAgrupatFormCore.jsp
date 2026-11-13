@@ -14,7 +14,7 @@
             </td>
           <td id="correuAgrupat_email_columnvalueid">
             <form:errors path="correuAgrupat.email" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.EMAIL)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.EMAIL)? ' uneditable-input' : ''}"  style="" maxlength="255" path="correuAgrupat.email"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.EMAIL)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.EMAIL)? ' uneditable-input' : ''}"  style="" maxlength="255" path="correuAgrupat.email"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -32,7 +32,7 @@
             </td>
           <td id="correuAgrupat_subject_columnvalueid">
             <form:errors path="correuAgrupat.subject" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.SUBJECT)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.SUBJECT)? ' uneditable-input' : ''}"  style="" maxlength="255" path="correuAgrupat.subject"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.SUBJECT)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.SUBJECT)? ' uneditable-input' : ''}"  style="" maxlength="255" path="correuAgrupat.subject"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -53,7 +53,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.MESSAGE)? 'readonly' : ''}" path="correuAgrupat.message"  required="required"  aria-required="true"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.MESSAGE)? 'true' : 'false'}" path="correuAgrupat.message"  required="required"  aria-required="true"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_message" style="vertical-align:top;display:inline;position:relative;">
@@ -150,14 +150,11 @@
     <form:errors path="correuAgrupat.dataCreacio" cssClass="errorField alert alert-danger" />
             <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="correuAgrupat_dataCreacioDiv" data-target-input="nearest">
-                      <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.DATACREACIO)? 'readonly' : ''}" cssClass="form-control datetimepicker-input"  data-target="#correuAgrupat_dataCreacioDiv" path="correuAgrupat.dataCreacio"   required="required"  aria-required="true"  />
+                      <form:input readonly="${gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.DATACREACIO)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#correuAgrupat_dataCreacioDiv" path="correuAgrupat.dataCreacio"   required="required"  aria-required="true"  />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.DATACREACIO)}" >
                     <div class="input-group-append"  data-target="#correuAgrupat_dataCreacioDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#correuAgrupat_dataCreacioDiv').datetimepicker({
@@ -169,6 +166,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
            </td>
         </tr>
         </c:if>
@@ -188,7 +188,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.ERROR)? 'readonly' : ''}" path="correuAgrupat.error"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,CorreuAgrupatFields.ERROR)? 'true' : 'false'}" path="correuAgrupat.error"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_error" style="vertical-align:top;display:inline;position:relative;">

@@ -14,7 +14,7 @@
             </td>
           <td id="usuariAplicacio_usuariAplicacioID_columnvalueid">
             <form:errors path="usuariAplicacio.usuariAplicacioID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.USUARIAPLICACIOID)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.USUARIAPLICACIOID)? ' uneditable-input' : ''}"  style="" maxlength="101" path="usuariAplicacio.usuariAplicacioID"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.USUARIAPLICACIOID)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.USUARIAPLICACIOID)? ' uneditable-input' : ''}"  style="" maxlength="101" path="usuariAplicacio.usuariAplicacioID"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -66,7 +66,7 @@
             </td>
           <td id="usuariAplicacio_emailAdmin_columnvalueid">
             <form:errors path="usuariAplicacio.emailAdmin" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.EMAILADMIN)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.EMAILADMIN)? ' uneditable-input' : ''}"  style="" maxlength="100" path="usuariAplicacio.emailAdmin"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.EMAILADMIN)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.EMAILADMIN)? ' uneditable-input' : ''}"  style="" maxlength="100" path="usuariAplicacio.emailAdmin"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -118,7 +118,7 @@
             </td>
           <td id="usuariAplicacio_callbackURL_columnvalueid">
             <form:errors path="usuariAplicacio.callbackURL" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CALLBACKURL)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CALLBACKURL)? ' uneditable-input' : ''}"  style="" maxlength="400" path="usuariAplicacio.callbackURL"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CALLBACKURL)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CALLBACKURL)? ' uneditable-input' : ''}"  style="" maxlength="400" path="usuariAplicacio.callbackURL"   />
 
            </td>
         </tr>
@@ -198,7 +198,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.DESCRIPCIO)? 'readonly' : ''}" path="usuariAplicacio.descripcio"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.DESCRIPCIO)? 'true' : 'false'}" path="usuariAplicacio.descripcio"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">

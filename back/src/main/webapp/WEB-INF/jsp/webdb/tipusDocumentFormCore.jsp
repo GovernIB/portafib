@@ -14,7 +14,7 @@
             </td>
           <td id="tipusDocument_tipusDocumentID_columnvalueid">
             <form:errors path="tipusDocument.tipusDocumentID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTID)? 'readonly' : ''}" cssClass="w-50 form-control  ${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTID)? ' uneditable-input' : ''}"  style=""  path="tipusDocument.tipusDocumentID"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTID)? 'true' : 'false'}" cssClass="w-50 form-control  ${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTID)? ' uneditable-input' : ''}"  style=""  path="tipusDocument.tipusDocumentID"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -104,7 +104,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.DESCRIPCIO)? 'readonly' : ''}" path="tipusDocument.descripcio"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.DESCRIPCIO)? 'true' : 'false'}" path="tipusDocument.descripcio"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">

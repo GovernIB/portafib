@@ -10,6 +10,8 @@ public interface Constants {
     public static final String PORTAFIB_PROPERTY_BASE = "es.caib.portafib.";
 
     public static final String MAIL_SERVICE = "java:/es.caib.portafib.mail";
+    
+    public static final String PREFIX_APP = "PFI";
 
     // TRUE ROLES
     // Rol ADMIN: Administrador PortaFIB

@@ -141,7 +141,17 @@ public class PropietatsConstants {
                 new Propietat(true, "es.caib.portafib.bitacolacleanercronexpression",
                         "Opcional. Expressió cron que indica cada quan s´ha d´executar el netejador de Bitacoles antigues. Per defecte s´executa cada dia a les 5:00 (0 0 5 1/1 * ? *). Exemples: - L´executa cada dos minuts: 0 0/2 * 1/1 * ? *  - L´executa cada dia a les 6:00: 0 0 6 1/1 * ? Veure www.cronmaker.com per altres valors. Requereix una execució del cron o reiniciar el servidor per actualitzar el valor."),
                 new Propietat(true, "es.caib.portafib.bitacolacleanerdaysold", "Opcional. Valor a utilitzat per esborrar les Bitacoles amb més de X dies d´antiguitat.\r\n"
-                        + " Per defecte val null el que indica que no es netejarà cap bitàcola")
+                        + " Per defecte val null el que indica que no es netejarà cap bitàcola"),
+
+                // Propietats de connexió amb l'aplicació COMANDA per l'enviament d'avisos
+                new Propietat(true, "es.caib.portafib.comanda.url",
+                        "URL de l'API interna de COMANDA per enviar avisos. Obligatòria si es volen enviar avisos a COMANDA. Exemple: https://dev.caib.es/comandaapi/interna"),
+                new Propietat(true, "es.caib.portafib.comanda.username",
+                        "Nom d'usuari per autenticar-se contra l'API interna de COMANDA. Obligatòria si es volen enviar avisos a COMANDA."),
+                new Propietat(true, "es.caib.portafib.comanda.password",
+                        "Contrasenya per autenticar-se contra l'API interna de COMANDA. Obligatòria si es volen enviar avisos a COMANDA."),
+                new Propietat(true, "es.caib.portafib.comanda.entorncodi",
+                        "Codi de l'entorn (per exemple DEV, PRE, PRO) que s'envia a COMANDA juntament amb l'avís. Obligatòria si es volen enviar avisos a COMANDA.")
         };
 
         for (Propietat p : propietats_bbdd_per_entitat) {

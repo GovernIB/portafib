@@ -14,7 +14,7 @@
             </td>
           <td id="entitat_entitatID_columnvalueid">
             <form:errors path="entitat.entitatID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.ENTITATID)? 'readonly' : ''}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.ENTITATID)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.entitatID"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,EntitatFields.ENTITATID)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.ENTITATID)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.entitatID"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -32,7 +32,7 @@
             </td>
           <td id="entitat_nom_columnvalueid">
             <form:errors path="entitat.nom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.NOM)? 'readonly' : ''}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.nom"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,EntitatFields.NOM)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.nom"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -53,7 +53,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.DESCRIPCIO)? 'readonly' : ''}" path="entitat.descripcio"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,EntitatFields.DESCRIPCIO)? 'true' : 'false'}" path="entitat.descripcio"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
@@ -114,7 +114,7 @@
             </td>
           <td id="entitat_web_columnvalueid">
             <form:errors path="entitat.web" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.WEB)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.WEB)? ' uneditable-input' : ''}"  style="" maxlength="250" path="entitat.web"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,EntitatFields.WEB)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.WEB)? ' uneditable-input' : ''}"  style="" maxlength="250" path="entitat.web"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -380,7 +380,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.FILTRECERTIFICATS)? 'readonly' : ''}" path="entitat.filtreCertificats"  required="required"  aria-required="true"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,EntitatFields.FILTRECERTIFICATS)? 'true' : 'false'}" path="entitat.filtreCertificats"  required="required"  aria-required="true"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_filtreCertificats" style="vertical-align:top;display:inline;position:relative;">
@@ -473,7 +473,7 @@
             </td>
           <td id="entitat_suportTelefon_columnvalueid">
             <form:errors path="entitat.suportTelefon" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTTELEFON)? 'readonly' : ''}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTTELEFON)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.suportTelefon"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTTELEFON)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTTELEFON)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.suportTelefon"   />
 
            </td>
         </tr>
@@ -501,7 +501,7 @@
            <c:if test="${not (gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTWEB))}">
 
             <form:errors path="entitat.suportWeb" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTWEB)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTWEB)? ' uneditable-input' : ''}"  style="" maxlength="250" path="entitat.suportWeb"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTWEB)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTWEB)? ' uneditable-input' : ''}"  style="" maxlength="250" path="entitat.suportWeb"   />
 
            </c:if>
 
@@ -521,7 +521,7 @@
             </td>
           <td id="entitat_suportEmail_columnvalueid">
             <form:errors path="entitat.suportEmail" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTEMAIL)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTEMAIL)? ' uneditable-input' : ''}"  style="" maxlength="100" path="entitat.suportEmail"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTEMAIL)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.SUPORTEMAIL)? ' uneditable-input' : ''}"  style="" maxlength="100" path="entitat.suportEmail"   />
 
            </td>
         </tr>
@@ -584,7 +584,7 @@
             </td>
           <td id="entitat_maxUploadSize_columnvalueid">
             <form:errors path="entitat.maxUploadSize" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXUPLOADSIZE)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXUPLOADSIZE)? ' uneditable-input' : ''}"  style=""  path="entitat.maxUploadSize"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXUPLOADSIZE)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXUPLOADSIZE)? ' uneditable-input' : ''}"  style=""  path="entitat.maxUploadSize"   />
 
            </td>
         </tr>
@@ -602,7 +602,7 @@
             </td>
           <td id="entitat_maxSizeFitxerAdaptat_columnvalueid">
             <form:errors path="entitat.maxSizeFitxerAdaptat" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXSIZEFITXERADAPTAT)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXSIZEFITXERADAPTAT)? ' uneditable-input' : ''}"  style=""  path="entitat.maxSizeFitxerAdaptat"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXSIZEFITXERADAPTAT)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXSIZEFITXERADAPTAT)? ' uneditable-input' : ''}"  style=""  path="entitat.maxSizeFitxerAdaptat"   />
 
            </td>
         </tr>
@@ -620,7 +620,7 @@
             </td>
           <td id="entitat_maxFilesToSignAtSameTime_columnvalueid">
             <form:errors path="entitat.maxFilesToSignAtSameTime" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXFILESTOSIGNATSAMETIME)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXFILESTOSIGNATSAMETIME)? ' uneditable-input' : ''}"  style=""  path="entitat.maxFilesToSignAtSameTime"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXFILESTOSIGNATSAMETIME)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.MAXFILESTOSIGNATSAMETIME)? ' uneditable-input' : ''}"  style=""  path="entitat.maxFilesToSignAtSameTime"   />
 
            </td>
         </tr>
@@ -672,7 +672,7 @@
             </td>
           <td id="entitat_policyIdentifier_columnvalueid">
             <form:errors path="entitat.policyIdentifier" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIER)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIER)? ' uneditable-input' : ''}"  style="" maxlength="100" path="entitat.policyIdentifier"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIER)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIER)? ' uneditable-input' : ''}"  style="" maxlength="100" path="entitat.policyIdentifier"   />
 
            </td>
         </tr>
@@ -693,7 +693,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIERHASH)? 'readonly' : ''}" path="entitat.policyIdentifierHash"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIERHASH)? 'true' : 'false'}" path="entitat.policyIdentifierHash"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_policyIdentifierHash" style="vertical-align:top;display:inline;position:relative;">
@@ -729,7 +729,7 @@
             </td>
           <td id="entitat_policyIdentifierHashAlgorithm_columnvalueid">
             <form:errors path="entitat.policyIdentifierHashAlgorithm" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIERHASHALGORITHM)? 'readonly' : ''}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIERHASHALGORITHM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.policyIdentifierHashAlgorithm"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIERHASHALGORITHM)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIERHASHALGORITHM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="entitat.policyIdentifierHashAlgorithm"   />
 
            </td>
         </tr>
@@ -757,7 +757,7 @@
            <c:if test="${not (gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYURLDOCUMENT))}">
 
             <form:errors path="entitat.policyUrlDocument" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYURLDOCUMENT)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYURLDOCUMENT)? ' uneditable-input' : ''}"  style="" maxlength="255" path="entitat.policyUrlDocument"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYURLDOCUMENT)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYURLDOCUMENT)? ' uneditable-input' : ''}"  style="" maxlength="255" path="entitat.policyUrlDocument"   />
 
            </c:if>
 
@@ -1031,7 +1031,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.PROPIETATSTAULAFIRMES)? 'readonly' : ''}" path="entitat.propietatsTaulaFirmes"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,EntitatFields.PROPIETATSTAULAFIRMES)? 'true' : 'false'}" path="entitat.propietatsTaulaFirmes"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_propietatsTaulaFirmes" style="vertical-align:top;display:inline;position:relative;">

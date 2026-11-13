@@ -14,7 +14,7 @@
             </td>
           <td id="metadada_nom_columnvalueid">
             <form:errors path="metadada.nom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,MetadadaFields.NOM)? 'readonly' : ''}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,MetadadaFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="metadada.nom"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,MetadadaFields.NOM)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,MetadadaFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="metadada.nom"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -35,7 +35,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,MetadadaFields.VALOR)? 'readonly' : ''}" path="metadada.valor"  required="required"  aria-required="true"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,MetadadaFields.VALOR)? 'true' : 'false'}" path="metadada.valor"  required="required"  aria-required="true"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_valor" style="vertical-align:top;display:inline;position:relative;">
@@ -74,7 +74,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,MetadadaFields.DESCRIPCIO)? 'readonly' : ''}" path="metadada.descripcio"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,MetadadaFields.DESCRIPCIO)? 'true' : 'false'}" path="metadada.descripcio"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">

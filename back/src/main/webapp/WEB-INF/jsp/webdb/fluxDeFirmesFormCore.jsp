@@ -14,7 +14,7 @@
             </td>
           <td id="fluxDeFirmes_nom_columnvalueid">
             <form:errors path="fluxDeFirmes.nom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FluxDeFirmesFields.NOM)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FluxDeFirmesFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="255" path="fluxDeFirmes.nom"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,FluxDeFirmesFields.NOM)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,FluxDeFirmesFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="255" path="fluxDeFirmes.nom"  required="required"  aria-required="true"   />
 
            </td>
         </tr>

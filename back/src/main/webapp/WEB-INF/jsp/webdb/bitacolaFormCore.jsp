@@ -14,7 +14,7 @@
             </td>
           <td id="bitacola_entitatid_columnvalueid">
             <form:errors path="bitacola.entitatid" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.ENTITATID)? 'readonly' : ''}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,BitacolaFields.ENTITATID)? ' uneditable-input' : ''}"  style="" maxlength="50" path="bitacola.entitatid"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,BitacolaFields.ENTITATID)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,BitacolaFields.ENTITATID)? ' uneditable-input' : ''}"  style="" maxlength="50" path="bitacola.entitatid"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -32,7 +32,7 @@
             </td>
           <td id="bitacola_usuariid_columnvalueid">
             <form:errors path="bitacola.usuariid" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.USUARIID)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,BitacolaFields.USUARIID)? ' uneditable-input' : ''}"  style="" maxlength="101" path="bitacola.usuariid"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,BitacolaFields.USUARIID)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,BitacolaFields.USUARIID)? ' uneditable-input' : ''}"  style="" maxlength="101" path="bitacola.usuariid"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -52,14 +52,11 @@
     <form:errors path="bitacola.data" cssClass="errorField alert alert-danger" />
             <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="bitacola_dataDiv" data-target-input="nearest">
-                      <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.DATA)? 'readonly' : ''}" cssClass="form-control datetimepicker-input"  data-target="#bitacola_dataDiv" path="bitacola.data"   required="required"  aria-required="true"  />
+                      <form:input readonly="${gen:contains(__theForm.readOnlyFields ,BitacolaFields.DATA)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#bitacola_dataDiv" path="bitacola.data"   required="required"  aria-required="true"  />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,BitacolaFields.DATA)}" >
                     <div class="input-group-append"  data-target="#bitacola_dataDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#bitacola_dataDiv').datetimepicker({
@@ -71,6 +68,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
            </td>
         </tr>
         </c:if>
@@ -121,7 +121,7 @@
             </td>
           <td id="bitacola_objecteid_columnvalueid">
             <form:errors path="bitacola.objecteid" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.OBJECTEID)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,BitacolaFields.OBJECTEID)? ' uneditable-input' : ''}"  style="" maxlength="100" path="bitacola.objecteid"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,BitacolaFields.OBJECTEID)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,BitacolaFields.OBJECTEID)? ' uneditable-input' : ''}"  style="" maxlength="100" path="bitacola.objecteid"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -176,7 +176,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.DESCRIPCIO)? 'readonly' : ''}" path="bitacola.descripcio"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,BitacolaFields.DESCRIPCIO)? 'true' : 'false'}" path="bitacola.descripcio"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
@@ -215,7 +215,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.OBJECTESERIALITZAT)? 'readonly' : ''}" path="bitacola.objecteSerialitzat"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,BitacolaFields.OBJECTESERIALITZAT)? 'true' : 'false'}" path="bitacola.objecteSerialitzat"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_objecteSerialitzat" style="vertical-align:top;display:inline;position:relative;">

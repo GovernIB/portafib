@@ -51,7 +51,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,PlantillaFluxDeFirmesFields.DESCRIPCIO)? 'readonly' : ''}" path="plantillaFluxDeFirmes.descripcio"  required="required"  aria-required="true"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,PlantillaFluxDeFirmesFields.DESCRIPCIO)? 'true' : 'false'}" path="plantillaFluxDeFirmes.descripcio"  required="required"  aria-required="true"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">

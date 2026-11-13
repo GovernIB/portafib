@@ -2,7 +2,6 @@ package es.caib.portafib.back.controller.admin;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -68,6 +67,8 @@ public class PropietatGlobalDisponibleAdminController {
                 keyValuelist.add(new KeyValueItem(clau, prop.descripcio, "", post));
             }
         }
+        
+        keyValuelist.sort((a, b) -> a.getKey().compareToIgnoreCase(b.getKey()));
 
         ModelAndView mav = new ModelAndView(AdminController.KEYVALUE_ADMIN_TILE);
         mav.addObject("title", I18NUtils.tradueix("propietatsglobals.disponibles")); //"Propietats Globals Disponibles");

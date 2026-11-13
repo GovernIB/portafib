@@ -20,9 +20,9 @@ public class Configuracio implements Constants {
     private static final Logger LOG = Logger.getLogger(Configuracio.class);
 
     public static final Map<String, Propietat> PROPIETATS_FITXER_PORTAFIB_PROPERTIES = new HashMap<String, Propietat>();
-    
+
     public static final Map<String, Propietat> PROPIETATS_FITXER_SYSTEM_PORTAFIB_PROPERTIES = new HashMap<String, Propietat>();
-    
+
     static {
 
         final Propietat[] portafib_properties = {
@@ -101,66 +101,74 @@ public class Configuracio implements Constants {
                         "Opcional. Indica si s'ha de validar el certificat emprant el Plugin de CheckCertificate quan l'autenticació es realitza emprant ClientCert. Valor per defecte false. Exemple: es.caib.portafib.checkcertificateinclientcert=true"),
                 new Propietat(false, "es.caib.portafib.signaturemodule.absoluteurl",
                         " (PortaFIB 1.1.0 Deprecat 12/01/2016: Migrat a Propietats Globals del menú d'Administrador) Opcional. Si no es defineix llavors obté la URL absoluta de la petició (Pot haver-hi  problemes si el Apache-Proxy no té activat \"ProxyPreserveHost On\"). Si és defineix s'utilitzarà aquesta URL com ruta absoluta en els plugins de firma web que ho requereixin (JavaWebStart, SIA, ...). Serveix per Plugins de Firma que han d'accedir externament al Servidor de PortaFIB. Exemple: es.caib.portafib.signaturemodule.absoluteurl= http://portafib.ibit.org/portafib"),
-                new Propietat(true, "es.caib.portafib.documentconverterplugin", "Classe Plugin de Conversió de Documents"),
+                new Propietat(true, "es.caib.portafib.documentconverterplugin",
+                        "Classe Plugin de Conversió de Documents"),
                 new Propietat(true, "es.caib.portafib.plugins.documentconverter.openoffice.host",
                         "Paràmetres del Plugin de Conversió de Documents"),
                 new Propietat(true, "es.caib.portafib.plugins.documentconverter.openoffice.port",
                         "Paràmetres del Plugin de Conversió de Documents"),
                 new Propietat(true, "es.caib.portafib.userinformationplugin", ""),
                 new Propietat(true, "es.caib.portafib.certificateplugin", ""),
-                new Propietat(true, "es.caib.portafib.obfuscateusernames", "Optional. Default value true. Permet ofuscar o no els usernames en els desplegables d'usuaris dels fluxos de firmes"),
-                new Propietat(true, "es.caib.portafib.revisorcomboboxsusesearch", "Optional. Default value false. En el dialeg de selecció de Revisors permet que el combobox mostri un llistat (false) o afegeixi una barra de cerca(true)"),
-                new Propietat(true, "es.caib.portafib.propagatemailerrors", "Serveix per ignorar errors en l'enviament de correus."
-                        + " Per defecte val true, que significa que es llança una excepció "
-                        + " si hi ha un error en l'enviament de correus. Si val false únicament es guarda l'error al log.")
+                new Propietat(true, "es.caib.portafib.obfuscateusernames",
+                        "Optional. Default value true. Permet ofuscar o no els usernames en els desplegables d'usuaris dels fluxos de firmes"),
+                new Propietat(true, "es.caib.portafib.revisorcomboboxsusesearch",
+                        "Optional. Default value false. En el dialeg de selecció de Revisors permet que el combobox mostri un llistat (false) o afegeixi una barra de cerca(true)"),
+                new Propietat(true, "es.caib.portafib.propagatemailerrors",
+                        "Serveix per ignorar errors en l'enviament de correus."
+                                + " Per defecte val true, que significa que es llança una excepció "
+                                + " si hi ha un error en l'enviament de correus. Si val false únicament es guarda l'error al log."),
+
         };
-        
-        
+
         final Propietat[] portafib_system_properties = {
 
                 new Propietat(true, "es.caib.portafib.filesdirectory", "Directori on es guardaran tots els fitxers"),
 
-                new Propietat(true, "es.caib.portafib.filesystemmanagerclass", 
+                new Propietat(true, "es.caib.portafib.filesystemmanagerclass",
                         "Si volem guardar tots els fitxers en el mateix directori utilitzar"
-                        + " 'org.fundaciobit.genapp.common.filesystem.SimpleFileSystemManager' "
-                        + " o si volem distribuir els fitxers en subdirectoris, llavors utilitzar la classe "
-                        + " org.fundaciobit.genapp.common.filesystem.ThreeFolderFileSystemManager."
-                        + " Revisar punt \"Migracio de 1.1.4 a 2.0.0 del 'Manual de Migracions'"),
-                
+                                + " 'org.fundaciobit.genapp.common.filesystem.SimpleFileSystemManager' "
+                                + " o si volem distribuir els fitxers en subdirectoris, llavors utilitzar la classe "
+                                + " org.fundaciobit.genapp.common.filesystem.ThreeFolderFileSystemManager."
+                                + " Revisar punt \"Migracio de 1.1.4 a 2.0.0 del 'Manual de Migracions'"),
+
                 new Propietat(true, "es.caib.portafib.checkapplicationuserwithuserinformationplugin",
                         "Nou a 3.0.1. Opcional. Valor per defecte true."
-                        + " Durant la creació d'un usuari aplicació, si aquesta propietat val true llavors comprova "
-                        + "que aquest usuari aplicació existeixi al sistema d'autenticació/autorització"),
+                                + " Durant la creació d'un usuari aplicació, si aquesta propietat val true llavors comprova "
+                                + "que aquest usuari aplicació existeixi al sistema d'autenticació/autorització"),
                 new Propietat(true, "es.caib.portafib.userinformationplugin",
-                        "Classe que gestionarà l'obtenció d'informació dels usuaris:" 
-                          + "org.fundaciobit.pluginsib.userinformation.keycloak.KeyCloakUserInformationPlugin," 
-                          + "org.fundaciobit.pluginsib.userinformation.database.DataBaseUserInformationPlugin o"
-                          + "org.fundaciobit.pluginsib.userinformation.ldap.LdapUserInformationPlugin"
-                   ),
-                new Propietat(true, "es.caib.portafib.pluginsib.userinformation.", "Propietats per configurar els diferents plugins d'informació d'usuari")
+                        "Classe que gestionarà l'obtenció d'informació dels usuaris:"
+                                + "org.fundaciobit.pluginsib.userinformation.keycloak.KeyCloakUserInformationPlugin,"
+                                + "org.fundaciobit.pluginsib.userinformation.database.DataBaseUserInformationPlugin o"
+                                + "org.fundaciobit.pluginsib.userinformation.ldap.LdapUserInformationPlugin"),
+                new Propietat(true, "es.caib.portafib.pluginsib.userinformation.",
+                        "Propietats per configurar els diferents plugins d'informació d'usuari"),
+
+                // Propietats de connexió amb l'aplicació COMANDA per l'enviament d'avisos
+                new Propietat(true, "es.caib.portafib.comanda.url",
+                        "URL de l'API interna de COMANDA per enviar avisos. Exemple: es.caib.portafib.comanda.url=https://dev.caib.es/comandaapi/interna"),
+                new Propietat(true, "es.caib.portafib.comanda.username",
+                        "Nom d'usuari per autenticar-se contra l'API interna de COMANDA."),
+                new Propietat(true, "es.caib.portafib.comanda.password",
+                        "Contrasenya per autenticar-se contra l'API interna de COMANDA."),
+                new Propietat(true, "es.caib.portafib.comanda.entorncodi",
+                        "Codi de l'entorn (per exemple DEV, PRE, PRO) que s'envia a COMANDA juntament amb l'avís.")
 
         };
-        
-
 
         for (Propietat p : portafib_properties) {
             PROPIETATS_FITXER_PORTAFIB_PROPERTIES.put(p.clau, p);
         }
-        
+
         for (Propietat p : portafib_system_properties) {
             PROPIETATS_FITXER_SYSTEM_PORTAFIB_PROPERTIES.put(p.clau, p);
         }
 
     }
 
-    
-    
-    
-
     private static Properties portafibProperties;
 
     private static Properties portafibSystemProperties;
-    
+
     public static void reloadProperties() {
         portafibProperties = null;
         portafibSystemProperties = null;
@@ -238,7 +246,8 @@ public class Configuracio implements Constants {
     }
 
     public static boolean isRevisorsComboboxUseSearch() {
-        return "true".equalsIgnoreCase(getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "revisorcomboboxsusesearch"));
+        return "true".equalsIgnoreCase(
+                getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "revisorcomboboxsusesearch"));
     }
 
     public static String getDefaultLanguage() {
@@ -255,7 +264,6 @@ public class Configuracio implements Constants {
     public static String getHeaderBackgroundColor() {
         return getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "headerbackgroundcolor");
     }
-
 
     /**
      * Permet indicar si volem mostrar als usuaris un enllaç cap a una APK de Android.
@@ -284,10 +292,9 @@ public class Configuracio implements Constants {
         return "true".equalsIgnoreCase(
                 getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "checkcertificateinclientcert"));
     }
-    
-    
+
     public static boolean propagateMailErrors() {
-        
+
         String pme = getPortaFIBProperties().getProperty(PORTAFIB_PROPERTY_BASE + "propagatemailerrors");
         if (pme == null || pme.trim().isEmpty()) {
             return true;

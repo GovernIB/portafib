@@ -14,7 +14,7 @@
             </td>
           <td id="usuariPersona_usuariPersonaID_columnvalueid">
             <form:errors path="usuariPersona.usuariPersonaID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.USUARIPERSONAID)? 'readonly' : ''}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.USUARIPERSONAID)? ' uneditable-input' : ''}"  style="" maxlength="50" path="usuariPersona.usuariPersonaID"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.USUARIPERSONAID)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.USUARIPERSONAID)? ' uneditable-input' : ''}"  style="" maxlength="50" path="usuariPersona.usuariPersonaID"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -32,7 +32,7 @@
             </td>
           <td id="usuariPersona_nom_columnvalueid">
             <form:errors path="usuariPersona.nom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NOM)? 'readonly' : ''}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="usuariPersona.nom"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NOM)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NOM)? ' uneditable-input' : ''}"  style="" maxlength="50" path="usuariPersona.nom"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -50,7 +50,7 @@
             </td>
           <td id="usuariPersona_llinatges_columnvalueid">
             <form:errors path="usuariPersona.llinatges" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.LLINATGES)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.LLINATGES)? ' uneditable-input' : ''}"  style="" maxlength="100" path="usuariPersona.llinatges"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.LLINATGES)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.LLINATGES)? ' uneditable-input' : ''}"  style="" maxlength="100" path="usuariPersona.llinatges"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -68,7 +68,7 @@
             </td>
           <td id="usuariPersona_email_columnvalueid">
             <form:errors path="usuariPersona.email" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.EMAIL)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.EMAIL)? ' uneditable-input' : ''}"  style="" maxlength="100" path="usuariPersona.email"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.EMAIL)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.EMAIL)? ' uneditable-input' : ''}"  style="" maxlength="100" path="usuariPersona.email"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -86,7 +86,7 @@
             </td>
           <td id="usuariPersona_nif_columnvalueid">
             <form:errors path="usuariPersona.nif" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NIF)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NIF)? ' uneditable-input' : ''}"  style="" maxlength="9" path="usuariPersona.nif"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NIF)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NIF)? ' uneditable-input' : ''}"  style="" maxlength="9" path="usuariPersona.nif"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -226,7 +226,7 @@
             </td>
           <td id="usuariPersona_contrasenya_columnvalueid">
             <form:errors path="usuariPersona.contrasenya" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.CONTRASENYA)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.CONTRASENYA)? ' uneditable-input' : ''}"  style="" maxlength="255" path="usuariPersona.contrasenya"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.CONTRASENYA)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.CONTRASENYA)? ' uneditable-input' : ''}"  style="" maxlength="255" path="usuariPersona.contrasenya"   />
 
            </td>
         </tr>

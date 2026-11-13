@@ -746,10 +746,12 @@
     <definition name="pseudonimListAdmin" extends="role_admin">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pseudonimList.jsp" />
     </definition>
-    
-    
+
+    <definition name="AvisComandaAdmin" extends="role_admin">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/admin/aviscomanda.jsp" />
+    </definition>
+
     <!--  ===========  COL·LABORADOR ================== -->
-    
     
     <definition name="role_cola" extends="base.definition">
         <put-attribute name="pipella" value="ROLE_COLA" />

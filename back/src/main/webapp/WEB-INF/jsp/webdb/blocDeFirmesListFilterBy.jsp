@@ -113,9 +113,6 @@
                     <div class="input-group-append"  data-target="#dataFinalitzacioDesdeDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#dataFinalitzacioDesdeDiv').datetimepicker({
@@ -127,6 +124,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
               <span class="add-on">&nbsp;<fmt:message key="genapp.to" />&nbsp;</span>
             <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="dataFinalitzacioFinsDiv" data-target-input="nearest">
@@ -135,9 +135,6 @@
                     <div class="input-group-append"  data-target="#dataFinalitzacioFinsDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#dataFinalitzacioFinsDiv').datetimepicker({
@@ -149,6 +146,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
             </div>
 
     

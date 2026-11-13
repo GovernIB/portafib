@@ -14,7 +14,7 @@
             </td>
           <td id="notificacioWS_peticioDeFirmaID_columnvalueid">
             <form:errors path="notificacioWS.peticioDeFirmaID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.PETICIODEFIRMAID)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.PETICIODEFIRMAID)? ' uneditable-input' : ''}"  style=""  path="notificacioWS.peticioDeFirmaID"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.PETICIODEFIRMAID)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.PETICIODEFIRMAID)? ' uneditable-input' : ''}"  style=""  path="notificacioWS.peticioDeFirmaID"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -68,14 +68,11 @@
     <form:errors path="notificacioWS.dataCreacio" cssClass="errorField alert alert-danger" />
             <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="notificacioWS_dataCreacioDiv" data-target-input="nearest">
-                      <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.DATACREACIO)? 'readonly' : ''}" cssClass="form-control datetimepicker-input"  data-target="#notificacioWS_dataCreacioDiv" path="notificacioWS.dataCreacio"   required="required"  aria-required="true"  />
+                      <form:input readonly="${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.DATACREACIO)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#notificacioWS_dataCreacioDiv" path="notificacioWS.dataCreacio"   required="required"  aria-required="true"  />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.DATACREACIO)}" >
                     <div class="input-group-append"  data-target="#notificacioWS_dataCreacioDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#notificacioWS_dataCreacioDiv').datetimepicker({
@@ -87,6 +84,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
            </td>
         </tr>
         </c:if>
@@ -105,14 +105,11 @@
     <form:errors path="notificacioWS.dataEnviament" cssClass="errorField alert alert-danger" />
             <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="notificacioWS_dataEnviamentDiv" data-target-input="nearest">
-                      <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.DATAENVIAMENT)? 'readonly' : ''}" cssClass="form-control datetimepicker-input"  data-target="#notificacioWS_dataEnviamentDiv" path="notificacioWS.dataEnviament"   />
+                      <form:input readonly="${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.DATAENVIAMENT)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#notificacioWS_dataEnviamentDiv" path="notificacioWS.dataEnviament"   />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.DATAENVIAMENT)}" >
                     <div class="input-group-append"  data-target="#notificacioWS_dataEnviamentDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#notificacioWS_dataEnviamentDiv').datetimepicker({
@@ -124,6 +121,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
            </td>
         </tr>
         </c:if>
@@ -143,7 +143,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.DESCRIPCIO)? 'readonly' : ''}" path="notificacioWS.descripcio"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.DESCRIPCIO)? 'true' : 'false'}" path="notificacioWS.descripcio"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
@@ -207,7 +207,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.ERROR)? 'readonly' : ''}" path="notificacioWS.error"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.ERROR)? 'true' : 'false'}" path="notificacioWS.error"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_error" style="vertical-align:top;display:inline;position:relative;">
@@ -245,14 +245,11 @@
     <form:errors path="notificacioWS.dataError" cssClass="errorField alert alert-danger" />
             <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="notificacioWS_dataErrorDiv" data-target-input="nearest">
-                      <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.DATAERROR)? 'readonly' : ''}" cssClass="form-control datetimepicker-input"  data-target="#notificacioWS_dataErrorDiv" path="notificacioWS.dataError"   />
+                      <form:input readonly="${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.DATAERROR)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#notificacioWS_dataErrorDiv" path="notificacioWS.dataError"   />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.DATAERROR)}" >
                     <div class="input-group-append"  data-target="#notificacioWS_dataErrorDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#notificacioWS_dataErrorDiv').datetimepicker({
@@ -264,6 +261,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
            </td>
         </tr>
         </c:if>
@@ -280,7 +280,7 @@
             </td>
           <td id="notificacioWS_reintents_columnvalueid">
             <form:errors path="notificacioWS.reintents" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.REINTENTS)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.REINTENTS)? ' uneditable-input' : ''}"  style=""  path="notificacioWS.reintents"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.REINTENTS)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.REINTENTS)? ' uneditable-input' : ''}"  style=""  path="notificacioWS.reintents"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -298,7 +298,7 @@
             </td>
           <td id="notificacioWS_usuariAplicacioID_columnvalueid">
             <form:errors path="notificacioWS.usuariAplicacioID" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.USUARIAPLICACIOID)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.USUARIAPLICACIOID)? ' uneditable-input' : ''}"  style="" maxlength="101" path="notificacioWS.usuariAplicacioID"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.USUARIAPLICACIOID)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.USUARIAPLICACIOID)? ' uneditable-input' : ''}"  style="" maxlength="101" path="notificacioWS.usuariAplicacioID"  required="required"  aria-required="true"   />
 
            </td>
         </tr>

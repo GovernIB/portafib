@@ -565,6 +565,40 @@ public class PropietatGlobalUtil implements ConstantsV2 {
         return val;
     }
 
+    /**
+     * Obté una propietat global obligatòria de COMANDA. Si no està definida o
+     * està buida llança una excepció.
+     */
+    private static String getComandaRequiredProperty(final String partialPropertyName) {
+        String val = getString(partialPropertyName);
+        if (val == null || val.trim().isEmpty()) {
+            throw new RuntimeException("La propietat global '" + PORTAFIB_PROPERTY_BASE + partialPropertyName
+                    + "' és obligatòria si es volen enviar avisos a COMANDA. Vagi a 'Gestió de Propietats Globals'"
+                    + " i seleccioni 'Propietats Globals Disponibles' per donar d'alta aquesta propietat");
+        }
+        return val.trim();
+    }
+
+    /** URL de l'API interna de COMANDA (obligatòria per enviar avisos). */
+    public static String getComandaUrl() {
+        return getComandaRequiredProperty("comanda.url");
+    }
+
+    /** Usuari de l'API interna de COMANDA (obligatòria per enviar avisos). */
+    public static String getComandaUsername() {
+        return getComandaRequiredProperty("comanda.username");
+    }
+
+    /** Contrasenya de l'API interna de COMANDA (obligatòria per enviar avisos). */
+    public static String getComandaPassword() {
+        return getComandaRequiredProperty("comanda.password");
+    }
+
+    /** Codi d'entorn a COMANDA, per exemple DEV (obligatòria per enviar avisos). */
+    public static String getComandaEntornCodi() {
+        return getComandaRequiredProperty("comanda.entorncodi");
+    }
+
     public static String getContentSecurityPolicyFrameAncestors() {
         final String partialPropertyName = "csp-frame-ancestors";
         String val = getString(partialPropertyName);

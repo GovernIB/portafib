@@ -14,7 +14,7 @@
             </td>
           <td id="peticioDeFirma_titol_columnvalueid">
             <form:errors path="peticioDeFirma.titol" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.TITOL)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.TITOL)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.titol"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.TITOL)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.TITOL)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.titol"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -32,7 +32,7 @@
             </td>
           <td id="peticioDeFirma_descripcio_columnvalueid">
             <form:errors path="peticioDeFirma.descripcio" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DESCRIPCIO)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DESCRIPCIO)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.descripcio"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DESCRIPCIO)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DESCRIPCIO)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.descripcio"   />
 
            </td>
         </tr>
@@ -50,7 +50,7 @@
             </td>
           <td id="peticioDeFirma_motiu_columnvalueid">
             <form:errors path="peticioDeFirma.motiu" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.MOTIU)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.MOTIU)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.motiu"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.MOTIU)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.MOTIU)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.motiu"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -296,7 +296,7 @@
             </td>
           <td id="peticioDeFirma_descripcioTipusDocument_columnvalueid">
             <form:errors path="peticioDeFirma.descripcioTipusDocument" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DESCRIPCIOTIPUSDOCUMENT)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DESCRIPCIOTIPUSDOCUMENT)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.descripcioTipusDocument"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DESCRIPCIOTIPUSDOCUMENT)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DESCRIPCIOTIPUSDOCUMENT)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.descripcioTipusDocument"   />
 
            </td>
         </tr>
@@ -316,14 +316,11 @@
     <form:errors path="peticioDeFirma.dataSolicitud" cssClass="errorField alert alert-danger" />
             <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="peticioDeFirma_dataSolicitudDiv" data-target-input="nearest">
-                      <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DATASOLICITUD)? 'readonly' : ''}" cssClass="form-control datetimepicker-input"  data-target="#peticioDeFirma_dataSolicitudDiv" path="peticioDeFirma.dataSolicitud"   />
+                      <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DATASOLICITUD)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#peticioDeFirma_dataSolicitudDiv" path="peticioDeFirma.dataSolicitud"   />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DATASOLICITUD)}" >
                     <div class="input-group-append"  data-target="#peticioDeFirma_dataSolicitudDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#peticioDeFirma_dataSolicitudDiv').datetimepicker({
@@ -335,6 +332,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
            </td>
         </tr>
         </c:if>
@@ -353,14 +353,11 @@
     <form:errors path="peticioDeFirma.dataFinal" cssClass="errorField alert alert-danger" />
             <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="peticioDeFirma_dataFinalDiv" data-target-input="nearest">
-                      <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DATAFINAL)? 'readonly' : ''}" cssClass="form-control datetimepicker-input"  data-target="#peticioDeFirma_dataFinalDiv" path="peticioDeFirma.dataFinal"   />
+                      <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DATAFINAL)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#peticioDeFirma_dataFinalDiv" path="peticioDeFirma.dataFinal"   />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DATAFINAL)}" >
                     <div class="input-group-append"  data-target="#peticioDeFirma_dataFinalDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#peticioDeFirma_dataFinalDiv').datetimepicker({
@@ -372,6 +369,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
            </td>
         </tr>
         </c:if>
@@ -390,14 +390,11 @@
     <form:errors path="peticioDeFirma.dataCaducitat" cssClass="errorField alert alert-danger" />
             <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="peticioDeFirma_dataCaducitatDiv" data-target-input="nearest">
-                      <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DATACADUCITAT)? 'readonly' : ''}" cssClass="form-control datetimepicker-input"  data-target="#peticioDeFirma_dataCaducitatDiv" path="peticioDeFirma.dataCaducitat"   required="required"  aria-required="true"  />
+                      <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DATACADUCITAT)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#peticioDeFirma_dataCaducitatDiv" path="peticioDeFirma.dataCaducitat"   required="required"  aria-required="true"  />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.DATACADUCITAT)}" >
                     <div class="input-group-append"  data-target="#peticioDeFirma_dataCaducitatDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#peticioDeFirma_dataCaducitatDiv').datetimepicker({
@@ -409,6 +406,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
            </td>
         </tr>
         </c:if>
@@ -632,7 +632,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.MOTIUDEREBUIG)? 'readonly' : ''}" path="peticioDeFirma.motiuDeRebuig"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.MOTIUDEREBUIG)? 'true' : 'false'}" path="peticioDeFirma.motiuDeRebuig"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_motiuDeRebuig" style="vertical-align:top;display:inline;position:relative;">
@@ -804,7 +804,7 @@
             </td>
           <td id="peticioDeFirma_remitentNom_columnvalueid">
             <form:errors path="peticioDeFirma.remitentNom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.REMITENTNOM)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.REMITENTNOM)? ' uneditable-input' : ''}"  style="" maxlength="100" path="peticioDeFirma.remitentNom"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.REMITENTNOM)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.REMITENTNOM)? ' uneditable-input' : ''}"  style="" maxlength="100" path="peticioDeFirma.remitentNom"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -822,7 +822,7 @@
             </td>
           <td id="peticioDeFirma_remitentDescripcio_columnvalueid">
             <form:errors path="peticioDeFirma.remitentDescripcio" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.REMITENTDESCRIPCIO)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.REMITENTDESCRIPCIO)? ' uneditable-input' : ''}"  style="" maxlength="500" path="peticioDeFirma.remitentDescripcio"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.REMITENTDESCRIPCIO)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.REMITENTDESCRIPCIO)? ' uneditable-input' : ''}"  style="" maxlength="500" path="peticioDeFirma.remitentDescripcio"   />
 
            </td>
         </tr>
@@ -840,7 +840,7 @@
             </td>
           <td id="peticioDeFirma_expedientCodi_columnvalueid">
             <form:errors path="peticioDeFirma.expedientCodi" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTCODI)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTCODI)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.expedientCodi"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTCODI)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTCODI)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.expedientCodi"   />
 
            </td>
         </tr>
@@ -858,7 +858,7 @@
             </td>
           <td id="peticioDeFirma_expedientNom_columnvalueid">
             <form:errors path="peticioDeFirma.expedientNom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTNOM)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTNOM)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.expedientNom"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTNOM)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTNOM)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.expedientNom"   />
 
            </td>
         </tr>
@@ -876,7 +876,7 @@
             </td>
           <td id="peticioDeFirma_expedientUrl_columnvalueid">
             <form:errors path="peticioDeFirma.expedientUrl" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTURL)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTURL)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.expedientUrl"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTURL)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTURL)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.expedientUrl"   />
 
            </td>
         </tr>
@@ -894,7 +894,7 @@
             </td>
           <td id="peticioDeFirma_procedimentCodi_columnvalueid">
             <form:errors path="peticioDeFirma.procedimentCodi" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PROCEDIMENTCODI)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PROCEDIMENTCODI)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.procedimentCodi"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PROCEDIMENTCODI)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PROCEDIMENTCODI)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.procedimentCodi"   />
 
            </td>
         </tr>
@@ -912,7 +912,7 @@
             </td>
           <td id="peticioDeFirma_procedimentNom_columnvalueid">
             <form:errors path="peticioDeFirma.procedimentNom" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PROCEDIMENTNOM)? 'readonly' : ''}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PROCEDIMENTNOM)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.procedimentNom"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PROCEDIMENTNOM)? 'true' : 'false'}" cssClass="w-100 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PROCEDIMENTNOM)? ' uneditable-input' : ''}"  style="" maxlength="255" path="peticioDeFirma.procedimentNom"   />
 
            </td>
         </tr>
@@ -933,7 +933,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.INFORMACIOADDICIONAL)? 'readonly' : ''}" path="peticioDeFirma.informacioAddicional"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.INFORMACIOADDICIONAL)? 'true' : 'false'}" path="peticioDeFirma.informacioAddicional"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_informacioAddicional" style="vertical-align:top;display:inline;position:relative;">
@@ -969,7 +969,7 @@
             </td>
           <td id="peticioDeFirma_informacioAddicionalAvaluable_columnvalueid">
             <form:errors path="peticioDeFirma.informacioAddicionalAvaluable" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE)? 'readonly' : ''}" cssClass="w-50 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE)? ' uneditable-input' : ''}"  style=""  path="peticioDeFirma.informacioAddicionalAvaluable"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE)? 'true' : 'false'}" cssClass="w-50 form-control  ${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE)? ' uneditable-input' : ''}"  style=""  path="peticioDeFirma.informacioAddicionalAvaluable"   />
 
            </td>
         </tr>

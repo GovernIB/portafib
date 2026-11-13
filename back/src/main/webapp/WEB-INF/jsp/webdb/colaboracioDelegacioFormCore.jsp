@@ -107,7 +107,7 @@
             </td>
           <td id="colaboracioDelegacio_motiu_columnvalueid">
             <form:errors path="colaboracioDelegacio.motiu" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.MOTIU)? 'readonly' : ''}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.MOTIU)? ' uneditable-input' : ''}"  style="" maxlength="60" path="colaboracioDelegacio.motiu"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.MOTIU)? 'true' : 'false'}" cssClass="w-75 form-control  ${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.MOTIU)? ' uneditable-input' : ''}"  style="" maxlength="60" path="colaboracioDelegacio.motiu"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -128,7 +128,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.DESCRIPCIO)? 'readonly' : ''}" path="colaboracioDelegacio.descripcio"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.DESCRIPCIO)? 'true' : 'false'}" path="colaboracioDelegacio.descripcio"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_descripcio" style="vertical-align:top;display:inline;position:relative;">
@@ -166,14 +166,11 @@
     <form:errors path="colaboracioDelegacio.dataInici" cssClass="errorField alert alert-danger" />
             <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="colaboracioDelegacio_dataIniciDiv" data-target-input="nearest">
-                      <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.DATAINICI)? 'readonly' : ''}" cssClass="form-control datetimepicker-input"  data-target="#colaboracioDelegacio_dataIniciDiv" path="colaboracioDelegacio.dataInici"   required="required"  aria-required="true"  />
+                      <form:input readonly="${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.DATAINICI)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#colaboracioDelegacio_dataIniciDiv" path="colaboracioDelegacio.dataInici"   required="required"  aria-required="true"  />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.DATAINICI)}" >
                     <div class="input-group-append"  data-target="#colaboracioDelegacio_dataIniciDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#colaboracioDelegacio_dataIniciDiv').datetimepicker({
@@ -185,6 +182,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
            </td>
         </tr>
         </c:if>
@@ -203,14 +203,11 @@
     <form:errors path="colaboracioDelegacio.dataFi" cssClass="errorField alert alert-danger" />
             <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="colaboracioDelegacio_dataFiDiv" data-target-input="nearest">
-                      <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.DATAFI)? 'readonly' : ''}" cssClass="form-control datetimepicker-input"  data-target="#colaboracioDelegacio_dataFiDiv" path="colaboracioDelegacio.dataFi"   />
+                      <form:input readonly="${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.DATAFI)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#colaboracioDelegacio_dataFiDiv" path="colaboracioDelegacio.dataFi"   />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.DATAFI)}" >
                     <div class="input-group-append"  data-target="#colaboracioDelegacio_dataFiDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#colaboracioDelegacio_dataFiDiv').datetimepicker({
@@ -222,6 +219,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
            </td>
         </tr>
         </c:if>
@@ -291,7 +291,7 @@
   <table style="width:100%">
   <tr>
   <td>
-       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.MOTIUDESHABILITADA)? 'readonly' : ''}" path="colaboracioDelegacio.motiuDeshabilitada"  />
+       <form:textarea rows="3" wrap="soft" style="overflow:auto;display: inline;resize:both;" cssClass="form-control col-md-9-optional" readonly="${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.MOTIUDESHABILITADA)? 'true' : 'false'}" path="colaboracioDelegacio.motiuDeshabilitada"  />
    </td>
    <td style="width:40px">
       <div id="dropdownMenuButton_motiuDeshabilitada" style="vertical-align:top;display:inline;position:relative;">

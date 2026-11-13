@@ -14,7 +14,7 @@
             </td>
           <td id="blocDeFirmes_ordre_columnvalueid">
             <form:errors path="blocDeFirmes.ordre" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.ORDRE)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.ORDRE)? ' uneditable-input' : ''}"  style=""  path="blocDeFirmes.ordre"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.ORDRE)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.ORDRE)? ' uneditable-input' : ''}"  style=""  path="blocDeFirmes.ordre"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
@@ -34,14 +34,11 @@
     <form:errors path="blocDeFirmes.dataFinalitzacio" cssClass="errorField alert alert-danger" />
             <div class="form-group"  style="margin-bottom: 0px;" >
                 <div class="input-group date" id="blocDeFirmes_dataFinalitzacioDiv" data-target-input="nearest">
-                      <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.DATAFINALITZACIO)? 'readonly' : ''}" cssClass="form-control datetimepicker-input"  data-target="#blocDeFirmes_dataFinalitzacioDiv" path="blocDeFirmes.dataFinalitzacio"   />
+                      <form:input readonly="${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.DATAFINALITZACIO)? 'true' : 'false'}" cssClass="form-control datetimepicker-input"  data-target="#blocDeFirmes_dataFinalitzacioDiv" path="blocDeFirmes.dataFinalitzacio"   />
                     <c:if test="${!gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.DATAFINALITZACIO)}" >
                     <div class="input-group-append"  data-target="#blocDeFirmes_dataFinalitzacioDiv"  data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    </c:if>
-                </div>
-            </div>
         <script>
             $(function () {
                 $('#blocDeFirmes_dataFinalitzacioDiv').datetimepicker({
@@ -53,6 +50,9 @@
                 });
             });
         </script>
+                    </c:if>
+                </div>
+            </div>
            </td>
         </tr>
         </c:if>
@@ -103,7 +103,7 @@
             </td>
           <td id="blocDeFirmes_minimDeFirmes_columnvalueid">
             <form:errors path="blocDeFirmes.minimDeFirmes" cssClass="errorField alert alert-danger" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.MINIMDEFIRMES)? 'readonly' : ''}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.MINIMDEFIRMES)? ' uneditable-input' : ''}"  style=""  path="blocDeFirmes.minimDeFirmes"  required="required"  aria-required="true"   />
+            <form:input readonly="${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.MINIMDEFIRMES)? 'true' : 'false'}" cssClass="w-25 form-control  ${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.MINIMDEFIRMES)? ' uneditable-input' : ''}"  style=""  path="blocDeFirmes.minimDeFirmes"  required="required"  aria-required="true"   />
 
            </td>
         </tr>
