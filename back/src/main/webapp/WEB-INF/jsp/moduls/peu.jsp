@@ -80,8 +80,7 @@ Version version = new Version();
         <c:if test="${not empty loginInfo.entitatID}">
 
             <!-- Modal -->
-            <div id="modalAjuda" class="modal" tabindex="-1" role="dialog" />"
-                aria-hidden="true">
+            <div id="modalAjuda" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">

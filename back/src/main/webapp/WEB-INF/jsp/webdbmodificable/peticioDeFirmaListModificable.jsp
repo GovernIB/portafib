@@ -186,12 +186,11 @@
     }
   }
 
-  
-<%--  PER AJUSTA AMB ELS TAGs INCLOSOS D'ABANS I DESPRES--%>  
-<div>
+<%--  PER AJUSTA AMB ELS TAGs INCLOSOS D'ABANS I DESPRES--%> 
 </script>
 
 <fieldset>
-<legend class=\"sr-only\">Accessibilitat <%--  Només per completar fieldSet --%></legend>
+ <%--  Només per completar fieldSet --%>
+<legend class="sr-only">Accessibilitat</legend>
 <form>
     <div>

@@ -19,7 +19,7 @@ body {
 }
 
 a {
-    color: #317a4c;
+    color: #0069d9;
 }
 
 a:hover {
@@ -194,7 +194,7 @@ Sobreescriu el blau #007bff (~4.0:1) per un blau més fosc accessible. */
         color: #000 !important;
     }
     a.dropdown-item.mobil:hover {
-        color: #317a4c !important;
+        color: #0069d9 !important;
         background-color: #FFF !important;
     }
     .p-3aplicacio {
@@ -444,7 +444,7 @@ a.dropdown-item.mobil:hover {
 
 .btn-suport {
     background-color: transparent;
-    color: #317a4c;
+    color: #0069d9;
     padding: 0px;
     cursor: pointer;
     margin-bottom: 2px;
@@ -469,7 +469,7 @@ a.dropdown-item.mobil:hover {
 }
 
 .dades a {
-    color: #317a4c;
+    color: #0069d9;
 }
 
 .dades a:hover, .dades a:focus {
@@ -506,7 +506,7 @@ Sobreescriu el gris clar (Suportar nou ROL usuari-tipus-I per back i equiperar-h
 }
 
 a.linkPeu:hover, a.linkPeu:focus, a.linkPeu:active {
-    color: #317a4c !important;
+    color: #0069d9 !important;
 }
 /* FI Peu */
 
@@ -610,7 +610,7 @@ a.iconoXarxes {
 
 /* Per paginació */
 .page-link {
-    color: #317a4c;
+    color: #0069d9;
 }
 
 .page-item.active .page-link {

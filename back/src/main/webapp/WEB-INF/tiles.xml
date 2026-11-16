@@ -135,7 +135,7 @@
     </definition>
     
     <definition name="homepublic" extends="principal">
-        <put-attribute name="titol" value="=Accessibilitat" />
+        <put-attribute name="titol" value="=Home public" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/all/homepublic.jsp" />
     </definition>
 
