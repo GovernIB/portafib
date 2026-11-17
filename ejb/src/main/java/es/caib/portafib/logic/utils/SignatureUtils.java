@@ -694,20 +694,28 @@ public class SignatureUtils {
         //System.gc();
 
         // (2) Adaptam el fitxer
-
         if (FileInfoSignature.SIGN_TYPE_PADES.equals(pfis.getSignType())) {
 
             // (a.2.0) Validar que sigui un PDF
 
             if (!PdfUtils.isPdf(original)) {
                 // TODO XYZ ZZZ TRA
-                String msg = "El fitxer a signar ha de ser un PDF per a poder fer una firma PAdES. SignID: "
-                        + pfis.getSignID();
+                String msg = "El fitxer a signar ha de ser un PDF per a poder fer una firma PAdES (SignID: " + pfis.getSignID()
+                        + ")";
                 log.error(msg, new Exception());
-                throw new I18NException("genapp.comodi", msg);
+                throw new I18NException("peticiodefirma.fitxernoespdf", "(SignID: " + pfis.getSignID() + ")");
             }
 
-            // (a.2.1) Converteix a PDF si necessari. En qualsevol cas deixa el
+            // (a.2.1) Revisar si és un PDF protegit
+            
+            if (PdfUtils.isPdfProtected(original)) {
+                // TODO XYZ ZZZ TRA
+                String msg = "El fitxer a signar és un PDF protegit i no es pot signar (SignID: " + pfis.getSignID() + ")";
+                log.error(msg, new Exception());
+                throw new I18NException("peticiodefirma.pdfambcontrasenya", "(SignID: " + pfis.getSignID() + ")");
+            }
+
+            // (a.2.2) Converteix a PDF si necessari. En qualsevol cas deixa el
             // fitxer a "adaptat"
             SignatureUtils.convertirDocumentAPDF(originalInfo, original, adaptat);
 

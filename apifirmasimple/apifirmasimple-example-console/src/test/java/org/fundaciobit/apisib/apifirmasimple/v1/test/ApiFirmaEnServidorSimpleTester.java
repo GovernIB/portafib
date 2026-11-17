@@ -236,7 +236,11 @@ public class ApiFirmaEnServidorSimpleTester {
             logErrorPerfilBuit(PROFILE_PADES_PROPERTY);
         }
 
-        FirmaSimpleFile fileToSign = getSimpleFileFromResource("hola.pdf", "application/pdf");
+        FirmaSimpleFile fileToSign = getPadesFileToSign();
+        
+        if (fileToSign == null) {
+            fileToSign = getSimpleFileFromResource("hola.pdf", "application/pdf");
+        }
 
         System.out.println(" PERFIL => " + perfil);
         internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"));
@@ -254,7 +258,10 @@ public class ApiFirmaEnServidorSimpleTester {
             logErrorPerfilBuit(PROFILE_MIX_PADES_XADES_CADES);
         }
         {
-            FirmaSimpleFile fileToSign = getSimpleFileFromResource("hola.pdf", "application/pdf");
+            FirmaSimpleFile fileToSign = getPadesFileToSign();
+            if (fileToSign == null) {
+                fileToSign = getSimpleFileFromResource("hola.pdf", "application/pdf");
+            }
 
             FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"));
 
@@ -297,6 +304,10 @@ public class ApiFirmaEnServidorSimpleTester {
                 }
             }
         }
+    }
+
+    public FirmaSimpleFile getPadesFileToSign() throws Exception {
+        return null;
     }
 
     @Test
@@ -543,6 +554,7 @@ public class ApiFirmaEnServidorSimpleTester {
     public static FirmaSimpleFile getSimpleFileFromResource(String fileName, String mime) throws Exception {
 
         InputStream is = FileUtils.readResource(ApiFirmaEnServidorSimpleTester.class, "testfiles/" + fileName);
+
         File tmp = File.createTempFile("testFile", fileName);
         tmp.deleteOnExit();
         ByteArrayOutputStream fos = new ByteArrayOutputStream();
@@ -591,5 +603,8 @@ public class ApiFirmaEnServidorSimpleTester {
         System.err.println("La propietat " + perfilProperty
                 + " està buida. Això significa que si l'usuari aplicacio té més d'un perfil assignat, llavors llançarà un error.");
     }
+    
+    
+    
 
 }

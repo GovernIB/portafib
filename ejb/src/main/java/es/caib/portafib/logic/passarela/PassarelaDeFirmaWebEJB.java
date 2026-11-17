@@ -290,6 +290,8 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
                             custodiaInfoLogicaEjb.custodiaPAdESActionsOnStartPeticioDeFirma(peticioDeFirma, cust,
                                     custStartInfo, locale);
                         }
+                        
+                        
                     break;
 
                     case ConstantsV2.TIPUSFIRMA_CADES:
@@ -330,7 +332,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
             if (!deleteSignaturesSetByTransactionID(signaturesSetID)) {
                 deleteSignaturesSetDirectory(signaturesSetID);
             }
-            ;
+            
 
             throw i18n;
         }

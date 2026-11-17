@@ -13,6 +13,7 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignedFileInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStartTransactionRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.apisib.apifirmasimple.v1.jersey.ApiFirmaWebSimpleJersey;
+import org.fundaciobit.pluginsib.core.v3.utils.FileUtils;
 
 import java.awt.Desktop;
 import java.io.BufferedReader;
@@ -70,7 +71,17 @@ public class ApiFirmaWebSimpleTester {
                 System.out.println("Nom : ]" + nom + "[");
                 System.out.println("Mime : ]" + mime + "[");
 
-                FirmaSimpleFile fileToSign = ApiFirmaEnServidorSimpleTester.getSimpleFileFromResource(nom, mime);
+                File f = new File(nom);
+                FirmaSimpleFile fileToSign;
+                if (f.exists()) {
+
+                    byte[] data = FileUtils.readFromFile(f);
+
+                    fileToSign = new FirmaSimpleFile(f.getName(), "application/pdf", data);
+                } else {
+
+                    fileToSign = ApiFirmaEnServidorSimpleTester.getSimpleFileFromResource(nom, mime);
+                }
                 // "hola_3mb.pdf",
                 // "hola.pdf",
                 // "application/pdf");
@@ -92,7 +103,7 @@ public class ApiFirmaWebSimpleTester {
                 filesToSign[i] = fileInfoSignature;
             }
 
-            final String languageUI = prop.getProperty("languageui","ca");
+            final String languageUI = prop.getProperty("languageui", "ca");
             final String username = prop.getProperty("signer.username");
             final String administrationID = prop.getProperty("signer.administrationid");
             String signerEmail = prop.getProperty("signer.email");
@@ -309,11 +320,10 @@ public class ApiFirmaWebSimpleTester {
     }
 
     protected static ApiFirmaWebSimple getApiFirmaWebSimple(Properties prop) throws Exception {
-        
-        ApiFirmaWebSimpleJersey api = new ApiFirmaWebSimpleJersey(prop.getProperty("endpoint"), prop.getProperty("username"),
-                prop.getProperty("password"));
-        
-        
+
+        ApiFirmaWebSimpleJersey api = new ApiFirmaWebSimpleJersey(prop.getProperty("endpoint"),
+                prop.getProperty("username"), prop.getProperty("password"));
+
         // AIXÒ ES PER DEPURAR CRIDADA HTTP I RESPOSTA HTTP
         /*
         Method method = org.fundaciobit.apisib.jerseycore.AbstractApisIBConnectionManagerJersey.class.getDeclaredMethod("getClient");
@@ -322,7 +332,7 @@ public class ApiFirmaWebSimpleTester {
         com.sun.jersey.client.apache4.ApacheHttpClient4 client = (com.sun.jersey.client.apache4.ApacheHttpClient4)resultado;
         client.addFilter(new LoggingFilter(System.out));
         */
-        
+
         return api;
     }
 

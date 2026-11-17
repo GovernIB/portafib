@@ -122,12 +122,11 @@ public class PassarelaDeFirmaEnServidorEJB extends AbstractPassarelaDeFirmaEJB<I
             log.info("signDocuments()::signaturesSetID=" + signaturesSetID);
 
             PassarelaFileInfoSignature[] fisArray = passarelaSignaturesSet.getFileInfoSignatureArray();
-
+            
             for (PassarelaFileInfoSignature pfis : fisArray) {
                 final String signID = pfis.getSignID();
                 File original = getFitxerOriginalPath(signaturesSetID, signID);
                 File adaptat = getFitxerAdaptatPath(signaturesSetID, signID);
-
                 processFileToSign(locale, entitatID, pfis, original, adaptat, usrApp);
             }
 

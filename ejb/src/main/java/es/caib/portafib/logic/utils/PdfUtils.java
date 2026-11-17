@@ -72,7 +72,7 @@ public class PdfUtils implements ConstantsV2 {
             log.debug("convertToPDF(): MIME = " + mime);
         }
 
-        if (MIME_TYPE_PDF.equals(mime) || isPdf(fileToConvert)) {
+        if (isPdf(fileToConvert) && !isPdfProtected(fileToConvert)) {
 
             if (fileToConvertInfo.getNom().toLowerCase().endsWith("." + PDF_FILE_EXTENSION)
                     && (MIME_TYPE_PDF.equals(mime) || mime == null)) {
@@ -174,39 +174,29 @@ public class PdfUtils implements ConstantsV2 {
     }
     */
 
-    public static final boolean isPdf(File file) {
-
-        // Llegeix el fitxer amb itext. Si llança excepció retornar false. Sinó retorna true
-        /*
-         Quan iText obre un PDF passant-li una ruta (String), internament utilitza un RandomAccessFile mapejat
-         (memory-mapped file) que manté el descriptor del fitxer obert i bloquejat a Windows fins que el GC alliberi
-          tots els objectes interns. Encara que facis reader.close(), el MappedByteBuffer no s'allibera immediatament
-           (és un bug conegut de la JVM en sistemes Windows). Per això FileUtils.moveFile falla després al delete().
-         */
-        /*
-        PdfReader reader = null;
-        try {
-            reader = new PdfReader(file.getAbsolutePath());
-            return true;
-        } catch (Throwable e) {
-            return false;
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (Exception e) {
-                }
-            }
-            
-        }
-        */
-
+    public static boolean isPdfProtected(File file) throws I18NException {
         try (PDDocument doc = Loader.loadPDF(file)) {
+            return doc.isEncrypted();
+        } catch (org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException pie) {
+            // Si hi ha un error de PDf protegit significa que és un PDF
             return true;
         } catch (IOException e) {
+            String msg = "Error checking if PDF is protected: " + e.getMessage();
+            log.error(msg, e);
+            throw new I18NException("genapp.comodi", msg);
+        }
+    }
+
+    public static final boolean isPdf(File file) {
+        try (PDDocument doc = Loader.loadPDF(file)) {
+            return true;
+        } catch (org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException pie) {
+            // Si hi ha un error de PDf protegit significa que és un PDF
+            return true;
+        } catch (IOException e) {
+            //log.error("Error checking if file is PDF: " + e.getMessage(), e);
             return false;
         }
-
     }
 
     public static int add_TableSign_Attachments_CustodyInfo_PDF(File srcPDF, File dstPDF,
