@@ -521,6 +521,7 @@ public class EstadisticaAdenController extends EstadisticaController {
 
         List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
 
+
         final List<Integer> tipus1 = List.of(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_INICI, ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FINAL,
                 ConstantsV2.ESTADISTICA_TIPUS_PETICIO_REBUTJADA, ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FIRMA_REALITZADA,
                 ConstantsV2.ESTADISTICA_TIPUS_PASSARELA_FIRMA_SERVIDOR,

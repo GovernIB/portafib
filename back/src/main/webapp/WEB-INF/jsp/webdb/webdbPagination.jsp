@@ -54,9 +54,10 @@ function reassignAction() {
         </c:if>
     </div>
 
+
+<c:if test="${__theFilterForm.itemsPerPage != null}">    
     <fmt:message var="allitems" key="genapp.form.allitems" />
-    <div class="col" style="text-align: right"
-        id="${formName}_pagination_right">
+    <div class="col" style="text-align: right" id="${formName}_pagination_right">
         <div class="row float-right">
         <label for="itemsPerPage" style="margin:5px"><fmt:message key="genapp.form.itemsperpage" />:</label>
         <form:select cssClass="input-small" cssStyle="width:4em;"
@@ -70,7 +71,7 @@ function reassignAction() {
         </form:select>
         </div>
     </div>
-
+</c:if>
 
 </div>
 

@@ -35,7 +35,9 @@ import es.caib.portafib.logic.utils.PropietatGlobalUtil;
         order = 156,
         group = Tab.MENU_ADMIN,
         baseLink = "/admin/sizeofdatabasetables",
-        relativeLink = "")
+        relativeLink = "",
+        addSeparatorBefore = true
+        )
 @MenuOption(
         labelCode = "=WebPages list",
         order = 1050,
