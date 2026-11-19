@@ -30,7 +30,7 @@ for (List<MenuItem> menu : menus) {
             <c:set var="theurlbase" value="${item.urlbase}" />
             <li style="list-style-type: disc; list-style-position: inside;">
             <a href="<c:url value="${theurl}"/>">
-               <span style="${(fn:contains(urlActual, theurlbase))? "font-weight:bold;" : ""} ${(fn:endsWith(traduccio, '(*)'))? "color:red;" : ""}">${traduccio}</span>
+               <span style="${(fn:contains(urlActual, theurlbase))? 'font-weight:bold;' : ''} ${(fn:endsWith(traduccio, '(*)'))? 'color:red;' : ''}">${traduccio}</span>
             </a>
             </li>
         </c:if>

@@ -13,6 +13,7 @@ import org.fundaciobit.genapp.common.query.SelectConstant;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import es.caib.portafib.back.controller.common.MenuOptionConditionHasRoleUser;
 import es.caib.portafib.back.controller.webdb.RevisorDeDestinatariController;
 import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.RevisorDeDestinatariFilterForm;
@@ -29,6 +31,7 @@ import es.caib.portafib.back.form.webdb.RevisorDeDestinatariForm;
 import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.ObfuscatedNifStringField;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.persistence.UsuariPersonaJPA;
@@ -50,6 +53,18 @@ import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 @RequestMapping(value = "/dest/revisordedestinatari")
 @SessionAttributes(
         types = { RevisorDeDestinatariForm.class, RevisorDeDestinatariFilterForm.class, SeleccioUsuariForm.class })
+/*         if (LoginInfo.getInstance().hasRole(Constants.ROLE_USER)) {
+
+            menu1.add(null);
+            menu1.add(Utils.retallaDarrerPath("revisor.gestio", "/dest/revisordedestinatari/list",80));
+        }
+ * */
+@MenuOption(
+        group = Tab.MENU_DEST,
+        labelCode = "revisor.gestio",
+        order = 80,
+        addSeparatorBefore = true,
+        condition = MenuOptionConditionHasRoleUser.class)
 public class GestioRevisorDeDestinatariDestController extends RevisorDeDestinatariController
         implements RoleUsuariEntitatFields, RevisorDeDestinatariFields {
 

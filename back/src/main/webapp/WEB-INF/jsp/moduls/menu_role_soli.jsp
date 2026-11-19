@@ -12,17 +12,12 @@
             <fmt:message key="ROLE_SOLI.menu" />
         </span>
         <%
-        List<List<MenuItem>> menus = new ArrayList<List<MenuItem>>();
-        /*
-        MenuItem menuGoogle = new MenuItem("=MENU Google", "", "http://www.google.com", 0);
-        
-        MenuItem menumeneame = new MenuItem("=MENU Meneame", "", "http://www.meneame.net", 1000);
-*/
-        List<MenuItem> discoveredMenus = MenuOptionManager.getMenuItems(Tab.MENU_SOLI); //, menuGoogle, menumeneame);
-        menus.add(discoveredMenus);
+        List<List<MenuItem>> menus = new ArrayList<List<MenuItem>>(); 
+        {
+            List<MenuItem> discoveredMenus = MenuOptionManager.getMenuItems(request, Tab.MENU_SOLI); //, menuGoogle, menumeneame);
+            menus.add(discoveredMenus);
+        }
         %>
-        
         <%@ include file="/WEB-INF/jsp/moduls/menu_role_generator.jsp"%>
-
     </div>
 </sec:authorize>

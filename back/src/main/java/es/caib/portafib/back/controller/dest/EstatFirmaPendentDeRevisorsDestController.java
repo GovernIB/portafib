@@ -34,7 +34,6 @@ import es.caib.portafib.utils.ConstantsV2;
         labelCode = "solicituddefirma.llistat.pendentderevisors.plural",
         baseLink = ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "DeRevisors/list",
         relativeLink = "",
-        addSeparatorAfter = true,
         order = 50)
 public class EstatFirmaPendentDeRevisorsDestController extends EstatFirmaPendentDestController {
 

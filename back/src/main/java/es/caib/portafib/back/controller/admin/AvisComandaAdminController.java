@@ -38,7 +38,8 @@ import es.caib.portafib.logic.utils.PropietatGlobalUtil;
         group = Tab.MENU_ADMIN,
         labelCode = "admin.aviscomanda.label",
         order = 55,
-        addSeparatorBefore = true)
+        addSeparatorBefore = true,
+        condition = AvisComandaAdminController.MenuOptionConditionComandaUrl.class)
 @Tile(
         name = AvisComandaAdminController.TILE_AVIS_COMANDA,
         extendsTile = Tab.MENU_ADMIN,
@@ -48,6 +49,19 @@ import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 
 @Controller
 public class AvisComandaAdminController {
+
+    /** Condició de MenuOption per només mostrar menú si la propietat URL de Comanda es diferent de null i no buida */
+    public static class MenuOptionConditionComandaUrl
+            implements org.fundaciobit.genapp.common.web.menuoptions.MenuOptionCondition {
+
+        protected Logger log = Logger.getLogger(MenuOptionConditionComandaUrl.class);
+
+        @Override
+        public boolean isVisible(HttpServletRequest request) {
+            String comandaUrl = PropietatGlobalUtil.getComandaUrl();
+            return (comandaUrl != null && !comandaUrl.isEmpty());
+        }
+    }
 
     public static final Logger log = Logger.getLogger(AvisComandaAdminController.class);
 
@@ -105,11 +119,14 @@ public class AvisComandaAdminController {
             URL redireccio = (redireccioStr != null && !redireccioStr.isEmpty()) ? new URL(redireccioStr) : null;
 
             // Propietats de connexió amb Comanda llegides de Configuracio de portafib-commons
-            final String url = PropietatGlobalUtil.getComandaUrl();
-            final String username = PropietatGlobalUtil.getComandaUsername();
-            final String password = PropietatGlobalUtil.getComandaPassword();
-            final String codiAplicacio = Constants.PREFIX_APP; 
-            final String entornCodi = PropietatGlobalUtil.getComandaEntornCodi();
+            final String url = getComandaRequiredProperty(PropietatGlobalUtil.getComandaUrl(), "comanda.url");
+            final String username = getComandaRequiredProperty(PropietatGlobalUtil.getComandaUsername(),
+                    "comanda.username");
+            final String password = getComandaRequiredProperty(PropietatGlobalUtil.getComandaPassword(),
+                    "comanda.password");
+            final String codiAplicacio = Constants.PREFIX_APP;
+            final String entornCodi = getComandaRequiredProperty(PropietatGlobalUtil.getComandaEntornCodi(),
+                    "comanda.entorncodi");
 
             final String avisID = codiAplicacio + "_" + LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
 
@@ -127,18 +144,15 @@ public class AvisComandaAdminController {
 
         } catch (Throwable e) {
 
-            HtmlUtils.saveMessageError(request,
-                    I18NUtils.tradueix("admin.aviscomanda.creacio.error", e.getMessage()));
-            
-            
+            HtmlUtils.saveMessageError(request, I18NUtils.tradueix("admin.aviscomanda.creacio.error", e.getMessage()));
+
             Throwable rootCause = e.getCause();
             String rootCauseMessage;
             if (rootCause == null) {
                 rootCauseMessage = "";
             } else {
-                rootCauseMessage = " ( " +  rootCause.getMessage() + " )";
+                rootCauseMessage = " ( " + rootCause.getMessage() + " )";
             }
-            
 
             log.error("Error creant avís a Comanda: " + e.getMessage() + rootCauseMessage, e);
 
@@ -148,13 +162,27 @@ public class AvisComandaAdminController {
     }
 
     /**
+     * Obté una propietat global obligatòria de COMANDA. Si no està definida o
+     * està buida llança una excepció.
+     */
+    private static String getComandaRequiredProperty(final String val, String partialPropertyName) throws Exception{
+
+        if (val == null || val.trim().isEmpty()) {
+            throw new Exception("La propietat global '" + Constants.PORTAFIB_PROPERTY_BASE + partialPropertyName
+                    + "' és obligatòria si es volen enviar avisos a COMANDA. Vagi a 'Gestió de Propietats Globals'"
+                    + " i seleccioni 'Propietats Globals Disponibles' per donar d'alta aquesta propietat");
+        }
+        return val.trim();
+    }
+
+    /**
      * Emplena el ModelAndView amb els valors per defecte del formulari.
      */
     private void emplenaValorsPerDefecte(ModelAndView mav) {
 
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
-//
-//        LocalDateTime ara = LocalDateTime.now();
+        //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
+        //
+        //        LocalDateTime ara = LocalDateTime.now();
 
         mav.addObject("tipusList", AvisTipus.values());
         mav.addObject("tipusSeleccionat", AvisTipus.INFO.name());

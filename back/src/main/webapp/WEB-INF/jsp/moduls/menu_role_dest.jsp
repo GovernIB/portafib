@@ -16,34 +16,12 @@
             <fmt:message key="ROLE_DEST.menu" />
         </span>
         <%
-
         List<List<MenuItem>> menus = new ArrayList<List<MenuItem>>();
-
-        List<MenuItem> menu1 = new ArrayList<MenuItem>();
-        if (Configuracio.isDesenvolupament()) {
-            menu1.add(Utils.retallaDarrerPath("solicituddefirma.llistat.totes.plural",
-            ConstantsV2.CONTEXT_DEST_ESTATFIRMA + "/list", 10));
-            menu1.add(null);
+        {
+            List<MenuItem> discoveredMenus = MenuOptionManager.getMenuItems(request, Tab.MENU_DEST);
+            menus.add(discoveredMenus);
         }
-
-        if (LoginInfo.getInstance().hasRole(Constants.ROLE_USER)) {
-            menu1.add(null);
-            menu1.add(Utils.retallaDarrerPath("colaboracio.gestio", "/dest/colaborador/list", 60));
-            menu1.add(null);
-            menu1.add(Utils.retallaDarrerPath("delegacio.gestio", "/dest/delegat/list",70));
-            menu1.add(null);
-            menu1.add(Utils.retallaDarrerPath("revisor.gestio", "/dest/revisordedestinatari/list",80));
-        }
-
-        List<MenuItem> discoveredMenus = MenuOptionManager.getMenuItems(Tab.MENU_DEST, menu1.toArray(new MenuItem [menu1.size()])); //(menuGoogle, menumeneame );
-
-
-        menus.add(discoveredMenus);
-        pageContext.setAttribute("menu", discoveredMenus);
-
         %>
-        
         <%@ include file="/WEB-INF/jsp/moduls/menu_role_generator.jsp"%>
-
     </div>
 </sec:authorize>

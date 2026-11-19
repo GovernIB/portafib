@@ -8,20 +8,16 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 <sec:authorize access="hasRole('ROLE_ADEN')">
     <div>
-        <span style="font-size: 1.25rem">
-            <fmt:message key="ROLE_ADEN.menu" />
+        <span style="font-size: 1.25rem"> <fmt:message key="ROLE_ADEN.menu" />
         </span>
         <%
         List<List<MenuItem>> menus = new ArrayList<List<MenuItem>>();
-        /*
-        MenuItem menuGoogle = new MenuItem("=MENU Google", "", "http://www.google.com", 0);
-        
-        MenuItem menumeneame = new MenuItem("=MENU Meneame", "", "http://www.meneame.net", 1000);
-*/
-        List<MenuItem> discoveredMenus = MenuOptionManager.getMenuItems(Tab.MENU_ADEN); //, menuGoogle, menumeneame);
+        {
+        List<MenuItem> discoveredMenus = MenuOptionManager.getMenuItems(request, Tab.MENU_ADEN);
         menus.add(discoveredMenus);
+        }
         %>
-        
+
         <%@ include file="/WEB-INF/jsp/moduls/menu_role_generator.jsp"%>
 
     </div>

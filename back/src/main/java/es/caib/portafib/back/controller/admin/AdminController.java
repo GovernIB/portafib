@@ -170,7 +170,7 @@ public class AdminController {
         final String appUrl = PropietatGlobalUtil.getAppUrl();
 
         for (String tab : tabs) {
-            List<MenuItem> items = MenuOptionManager.getMenuItems(tab);
+            List<MenuItem> items = MenuOptionManager.getMenuItems(request,tab);
             for (MenuItem item : items) {
 
                 if (item == null) {
@@ -223,7 +223,7 @@ public class AdminController {
 
         for (String tab : tabs) {
 
-            Map<Class<?>, List<MenuItem>> fullInfo = MenuOptionManager.getMenuItemsByClass(tab);
+            Map<Class<?>, List<MenuItem>> fullInfo = MenuOptionManager.getMenuItemsByClass(request, tab);
 
             fullInfo.forEach((classe, items) -> {
                 //writer.println("Class: " + classe.getName());

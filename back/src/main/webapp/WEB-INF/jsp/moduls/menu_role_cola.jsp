@@ -10,27 +10,16 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 <sec:authorize access="hasRole('ROLE_COLA')">
     <div>
-        <span style="font-size: 1.25rem">
-            <fmt:message key="ROLE_COLA.menu" />
+        <span style="font-size: 1.25rem"> <fmt:message key="ROLE_COLA.menu" />
         </span>
         <%
         List<List<MenuItem>> menus = new ArrayList<List<MenuItem>>();
-        /*
-        MenuItem menuGoogle = new MenuItem("=MENU Google", "", "http://www.google.com", 0);
-        
-        MenuItem menumeneame = new MenuItem("=MENU Meneame", "", "http://www.meneame.net", 1000);
-*/      
-        List<MenuItem> menu1 = new ArrayList<MenuItem>();
-        if (Configuracio.isDesenvolupament()) {
-            menu1.add(Utils.retallaDarrerPath("colaboracio.totes.plural", ConstantsV2.CONTEXT_COLA_ESTATFIRMA  + "/list", 10));
-            menu1.add(null);
+        {
+            List<MenuItem> discoveredMenus = MenuOptionManager.getMenuItems(request, Tab.MENU_COLA);
+            menus.add(discoveredMenus);
         }
-
-
-        List<MenuItem> discoveredMenus = MenuOptionManager.getMenuItems(Tab.MENU_COLA, menu1.toArray(new MenuItem [menu1.size()]));
-        menus.add(discoveredMenus);
         %>
-        
+
         <%@ include file="/WEB-INF/jsp/moduls/menu_role_generator.jsp"%>
 
     </div>

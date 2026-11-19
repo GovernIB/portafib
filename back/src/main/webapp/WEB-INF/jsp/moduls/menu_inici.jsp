@@ -111,7 +111,7 @@ List<String> roles = new ArrayList<String>();
     List<List<MenuItem>> menus = new ArrayList<List<MenuItem>>();
 
     menus.add(optionalMenus);
-    List<MenuItem> discoveredMenus = MenuOptionManager.getMenuItems(Tab.MENU_INICI); //, menuGoogle, menumeneame);
+    List<MenuItem> discoveredMenus = MenuOptionManager.getMenuItems(request, Tab.MENU_INICI); //, menuGoogle, menumeneame);
     menus.add(discoveredMenus);
     %>
 

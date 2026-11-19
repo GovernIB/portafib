@@ -27,6 +27,8 @@
 
 
         <!-- Externas -->
+        
+        
 
         <dependency>
             <groupId>es.caib.comanda</groupId>
@@ -41,6 +43,13 @@
 
                 </exclusion>
             </exclusions>
+        </dependency>
+        
+        <!-- javax.servlet:jstl:1.2 -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
         </dependency>
 
         <dependency>

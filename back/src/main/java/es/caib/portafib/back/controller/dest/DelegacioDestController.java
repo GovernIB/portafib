@@ -37,6 +37,7 @@ import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
@@ -50,6 +51,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import es.caib.portafib.back.controller.AbstractSignatureModuleController;
+import es.caib.portafib.back.controller.common.MenuOptionConditionHasRoleUser;
 import es.caib.portafib.back.controller.common.SearchJSONController;
 import es.caib.portafib.back.controller.webdb.ColaboracioDelegacioController;
 import es.caib.portafib.back.form.SeleccioUsuariForm;
@@ -59,6 +61,7 @@ import es.caib.portafib.back.form.webdb.ColaboracioDelegacioForm;
 import es.caib.portafib.back.form.webdb.TipusDocumentRefList;
 import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
 import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.commons.utils.Constants;
@@ -96,6 +99,16 @@ import es.caib.portafib.persistence.UsuariEntitatJPA;
 @SessionAttributes(
         types = { ColaboracioDelegacioDestForm.class, ColaboracioDelegacioForm.class,
                 ColaboracioDelegacioFilterForm.class, SeleccioUsuariForm.class })
+/*  if (LoginInfo.getInstance().hasRole(Constants.ROLE_USER)) {
+           
+            menu1.add(null);
+            menu1.add(Utils.retallaDarrerPath("delegacio.gestio", "/dest/delegat/list",70));*/
+@MenuOption(
+        group = Tab.MENU_DEST,
+        labelCode = "delegacio.gestio",
+        order = 70,
+        addSeparatorBefore = true,
+        condition = MenuOptionConditionHasRoleUser.class)
 public class DelegacioDestController extends ColaboracioDelegacioController implements Constants {
 
     public static final String SELECTION_DELE_COLA_USUARI_ENTITAT = "SELECTION_DELE_COLA_USUARI_ENTITAT_ID";
