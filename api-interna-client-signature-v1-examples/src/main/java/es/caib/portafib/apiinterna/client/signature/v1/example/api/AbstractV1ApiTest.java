@@ -49,13 +49,13 @@ public abstract class AbstractV1ApiTest<A> extends BasicAbstractV1ApiTest<A> {
         System.out.println("Test OK");
     }
 
-    public void callTipusDocumentalListTest() throws ApiException, Exception {
+    public Set<DocumentaryType> callTipusDocumentalListTest() throws ApiException, Exception {
 
         final Integer expectedError = null;
 
         ApiClient apiClient = getApiClient();
 
-        internalTestTipusDocumentalList(expectedError, "callTipusDocumentalListTest", apiClient);
+        return internalTestTipusDocumentalList(expectedError, "callTipusDocumentalListTest", apiClient);
     }
 
     public void callPerfilsDeFirmaListTest() throws ApiException, Exception {

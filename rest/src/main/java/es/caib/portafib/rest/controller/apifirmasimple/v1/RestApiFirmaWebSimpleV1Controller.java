@@ -46,8 +46,10 @@ import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.TipusDocument;
+import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.commons.utils.Configuracio;
+import es.caib.portafib.ejb.EntitatService;
 import es.caib.portafib.utils.ConstantsV2;
 
 import javax.ejb.EJB;
@@ -86,6 +88,10 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
 
     @EJB(mappedName = EstadisticaLogicaLocal.JNDI_NAME)
     protected EstadisticaLogicaLocal estadisticaLogicaEjb;
+    
+    @EJB(mappedName = EntitatService.JNDI_NAME)
+    protected EntitatService entitatEjb;
+
 
     protected static final Map<String, TransactionInfo> currentTransactions = new ConcurrentHashMap<String, TransactionInfo>();
 
@@ -280,8 +286,20 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
 
             String userapp = ua.getUsuariAplicacioID();
 
-            Where whereTD = Where.OR(TipusDocumentFields.USUARIAPLICACIOID.equal(userapp),
-                    TipusDocumentFields.USUARIAPLICACIOID.isNull());
+            Where wTipusBase = TipusDocumentFields.USUARIAPLICACIOID.isNull();
+            Where wTipusDeEntitat;
+            {
+                String usrAppEntitat = entitatEjb.executeQueryOne(EntitatFields.USUARIAPLICACIOID,
+                        EntitatFields.ENTITATID.equal(ua.getEntitatID()));
+                wTipusDeEntitat = TipusDocumentFields.USUARIAPLICACIOID.equal(usrAppEntitat);
+            }
+            Where wTipusDeUsuariAplicacio = TipusDocumentFields.USUARIAPLICACIOID.equal(userapp); 
+
+            Where whereTD =  Where.AND(
+                    // Ignorar el Tipus Indra
+                    TipusDocumentFields.TIPUSDOCUMENTID.greaterThanOrEqual(0L), 
+                    Where.OR(wTipusBase, wTipusDeEntitat, wTipusDeUsuariAplicacio));
+            
 
             List<TipusDocument> list = tipusDocumentEjb.select(whereTD,
                     new OrderBy(TipusDocumentFields.TIPUSDOCUMENTID));

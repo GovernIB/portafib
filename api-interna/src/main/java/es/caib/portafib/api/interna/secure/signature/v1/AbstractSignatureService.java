@@ -736,7 +736,9 @@ public abstract class AbstractSignatureService extends RestUtils {
 
         //log.info("\n\nXYZ ZZZ ZZZ  languageUI => ]" + languageUI + "[ \n\n");
 
-        String usuariAplicacio = checkUsuariAplicacio(request);
+        UsuariAplicacioJPA usuariAplicacioJPA = checkUsuariAplicacioFull(request);
+        
+        final String usuariAplicacio = usuariAplicacioJPA.getUsuariAplicacioID();
 
         // Check de commonInfo
         if (languageUI == null || languageUI.trim().length() == 0) {
@@ -752,10 +754,17 @@ public abstract class AbstractSignatureService extends RestUtils {
             if (log.isDebugEnabled()) {
                 log.debug("getAvailableTypesOfDocuments ==> Usuari-APP = " + usuariAplicacio);
             }
+            
+            
+            Where wTipusBase = TipusDocumentFields.USUARIAPLICACIOID.isNull();
+            Where wTipusDeEntitat = TipusDocumentFields.USUARIAPLICACIOID.equal(usuariAplicacioJPA.getEntitat().getUsuariAplicacioID());
+            Where wTipusDeUsuariAplicacio = TipusDocumentFields.USUARIAPLICACIOID.equal(usuariAplicacio); 
 
-            Where whereTD = Where.OR(TipusDocumentFields.USUARIAPLICACIOID.equal(usuariAplicacio),
-                    TipusDocumentFields.USUARIAPLICACIOID.isNull());
-
+            Where whereTD =  Where.AND(
+                    // Ignorar el Tipus Indra
+                    TipusDocumentFields.TIPUSDOCUMENTID.greaterThanOrEqual(0L), 
+                    Where.OR(wTipusBase, wTipusDeEntitat, wTipusDeUsuariAplicacio));
+            
             List<TipusDocument> list = tipusDocumentEjb.select(whereTD,
                     new OrderBy(TipusDocumentFields.TIPUSDOCUMENTID));
 

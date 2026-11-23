@@ -3,6 +3,7 @@ package org.fundaciobit.apisib.apifirmasimple.v1.test;
 import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaWebSimple;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAddFileToSignRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleDocumentTypeInformation;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetSignatureResultRequest;
@@ -14,6 +15,7 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStartTransactio
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.apisib.apifirmasimple.v1.jersey.ApiFirmaWebSimpleJersey;
 import org.fundaciobit.pluginsib.core.v3.utils.FileUtils;
+import org.junit.Test;
 
 import java.awt.Desktop;
 import java.io.BufferedReader;
@@ -47,9 +49,7 @@ public class ApiFirmaWebSimpleTester {
         String transactionID = null;
         try {
 
-            Properties prop = new Properties();
-
-            prop.load(new FileInputStream(new File("./apifirmawebsimple.properties")));
+            Properties prop = getFirmaWebProperties();
 
             final String perfil = prop.getProperty(PROFILE_WEB_PROPERTY);
 
@@ -206,6 +206,13 @@ public class ApiFirmaWebSimpleTester {
         }
     }
 
+    public static Properties getFirmaWebProperties() throws IOException, FileNotFoundException {
+        Properties prop = new Properties();
+
+        prop.load(new FileInputStream(new File("./apifirmawebsimple.properties")));
+        return prop;
+    }
+
     protected static void processStatusFileOfSign(ApiFirmaWebSimple api, String transactionID,
             FirmaSimpleGetTransactionStatusResponse fullTransactionStatus)
             throws Exception, FileNotFoundException, IOException {
@@ -334,6 +341,28 @@ public class ApiFirmaWebSimpleTester {
         */
 
         return api;
+    }
+
+    @Test
+    public List<FirmaSimpleDocumentTypeInformation> testGetDocumentaryTypes() throws Exception {
+
+        Properties prop = getFirmaWebProperties();
+
+        ApiFirmaWebSimple api = getApiFirmaWebSimple(prop);
+
+        final String languagesUI[] = new String[] { "ca", "es" };
+
+        List<FirmaSimpleDocumentTypeInformation> listProfiles = null;
+
+        for (String languageUI : languagesUI) {
+            System.out.println(" ==== LanguageUI : " + languageUI + " ===========");
+
+            listProfiles = api.getAvailableTypesOfDocuments(languageUI);
+
+        }
+
+        return listProfiles;
+
     }
 
 }
