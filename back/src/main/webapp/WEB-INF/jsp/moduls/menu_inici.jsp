@@ -27,17 +27,18 @@ List<String> roles = new ArrayList<String>();
     <span style="font-size: 1.25rem"> <fmt:message key="menuinici" />
     </span>
     <%
-    List<MenuItem> optionalMenus = new ArrayList<MenuItem>();
+    //List<MenuItem> optionalMenus = new ArrayList<MenuItem>();
 
-    
+    /*
     if (LoginInfo.getInstance().getUsuariPersona() != null && !LoginInfo.getInstance().getUsuariPersona().isUsuariIntern()) {
         
        // Usuari extern: Només pot veure menu d'inici
         optionalMenus.add(new MenuItem("pagina.principal", "/public/index.html", "/public/index.html", 10)); 
         
-    } else {
+    } else
+    {
         
-        
+        /*
         optionalMenus.add(new MenuItem("pagina.principal", "/common/principal.html", "/common/principal.html", 10));
     
         Boolean autofirma = PropietatGlobalUtil.getAutofirmaAllowed(LoginInfo.getInstance().getEntitatID());
@@ -48,24 +49,30 @@ List<String> roles = new ArrayList<String>();
             optionalMenus.add(null); // Separator
             optionalMenus.add(new MenuItem("autofirma.gestio", "/common/autofirma/list", "/common/autofirma", 20));
         }
+        */
         %>
     
     
         <!-- RebreAvis -->
     
+ 
     
         <%
+        /*
+        FALTA !!!!!
         if (roles.contains(Constants.ROLE_SOLI) || roles.contains(Constants.ROLE_DEST) || roles.contains(Constants.ROLE_COLA)
                 || roles.contains(Constants.ROLE_DELE) || roles.contains(Constants.ROLE_REVI)) {
             optionalMenus.add(null); // Separator
             optionalMenus.add(new MenuItem("notificaciocorreu.plural", "/common/rebreAvis/list", "/common/rebreAvis", 30));
         }
+        */
         %>
     
     
     
     
         <%
+        /*
         if (LoginInfo.getInstance().getUsuariPersona() != null) {
             optionalMenus.add(null); // Separator
             optionalMenus.add(new MenuItem(
@@ -73,44 +80,54 @@ List<String> roles = new ArrayList<String>();
                     + LoginInfo.getInstance().getUsuariPersona().getUsuariPersonaID() + "/edit",
             "/common/configuracio/usuaripersona/", 40));
         }
+        */
     
+        /*
         if (LoginInfo.getInstance().getUsuariPersona() != null && LoginInfo.getInstance().getEntitatID() != null) {
             optionalMenus.add(new MenuItem(
             "inici.configuracio.usuarientitat", "/common/configuracio/usuarientitat/"
                     + LoginInfo.getInstance().getUsuariEntitat().getUsuariEntitatID() + "/edit",
             "/common/configuracio/usuarientitat/", 50));
         }
+        */
     
+        /*
         if (roles.contains(Constants.ROLE_USER) && (roles.contains(Constants.ROLE_SOLI) || roles.contains(Constants.ROLE_DEST)
                 || roles.contains(Constants.ROLE_ADEN))) {
             optionalMenus.add(null); // Separator
             optionalMenus.add(
             new MenuItem("favorit.gestio", "/common/usuariEntitatFavorit/list/1", "/common/usuariEntitatFavorit/", 60));
         }
+        */
     
+        /*
         if (roles.contains(Constants.ROLE_USER) && (roles.contains(Constants.ROLE_SOLI) || roles.contains(Constants.ROLE_DEST)
                 || roles.contains(Constants.ROLE_COLA) || roles.contains(Constants.ROLE_DELE)
                 || roles.contains(Constants.ROLE_ADEN))) {
             optionalMenus.add(null); // Separator
             optionalMenus.add(new MenuItem("carrec.llistat", "/common/carrecs/list/1", "/common/carrecs/", 70));
         }
+        */
     
+        /*
         optionalMenus.add(null); // Separator
-    
         optionalMenus.add(new MenuItem("manualusuari", "/doc/Manual_de_Usuari_de_PortaFIB.pdf",
                 "/doc/Manual_de_Usuari_de_PortaFIB.pdf", 80));
+        */
     
+        /*
         String androidApk = Configuracio.getAndroidApk();
         pageContext.setAttribute("androidApk", androidApk);
         if (androidApk != null && !androidApk.isEmpty()) {
             optionalMenus.add(null); // Separator
             optionalMenus.add(new MenuItem("appmobil", "/common/app.html", "/common/app.html", 90));
         }
-    }
+        */
+    //}
 
     List<List<MenuItem>> menus = new ArrayList<List<MenuItem>>();
 
-    menus.add(optionalMenus);
+    //menus.add(optionalMenus);
     List<MenuItem> discoveredMenus = MenuOptionManager.getMenuItems(request, Tab.MENU_INICI); //, menuGoogle, menumeneame);
     menus.add(discoveredMenus);
     %>

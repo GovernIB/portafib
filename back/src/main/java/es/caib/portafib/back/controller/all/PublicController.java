@@ -3,6 +3,7 @@ package es.caib.portafib.back.controller.all;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.fundaciobit.genapp.common.web.tiles.Tile;
 import org.fundaciobit.genapp.common.web.tiles.TileAttribute;
 import org.fundaciobit.genapp.common.web.tiles.TileType;
@@ -41,6 +42,15 @@ import javax.servlet.http.HttpSession;
         contentJsp = "/WEB-INF/jsp/common/keyvalue.jsp",
         attributes = { @TileAttribute(name = "titol", value = "public.public") },
         type = TileType.ANOTHER)
+
+// new MenuItem("pagina.principal", "/public/index.html", "/public/index.html", 10)
+@MenuOption(
+        group = Tab.MENU_INICI,
+        labelCode = "pagina.principal",
+        baseLink = "/public/index.html",
+        relativeLink = "",
+        order = 10,
+        condition = MenuOptionConditionIsUsuariExtern.class) 
 @Controller
 public class PublicController {
 

@@ -4,6 +4,7 @@ import es.caib.portafib.back.controller.webdb.RebreAvisController;
 import es.caib.portafib.back.form.webdb.RebreAvisFilterForm;
 import es.caib.portafib.back.form.webdb.RebreAvisForm;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.persistence.RebreAvisJPA;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
@@ -23,6 +24,9 @@ import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,6 +34,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -39,9 +45,47 @@ import java.util.Map;
  * @author mgonzalez
  * @author anadal (correus agrupats)
  */
+/*
+  optionalMenus.add(null); // Separator
+   optionalMenus.add(new MenuItem("notificaciocorreu.plural", "/common/rebreAvis/list", "/common/rebreAvis", 30));
+ */
+@MenuOption(
+        group = Tab.MENU_INICI,
+        labelCode = "notificaciocorreu.plural",
+        baseLink = "/common/rebreAvis",
+        order = 30,
+        addSeparatorBefore = true,
+        condition = GestioNotificacioCorreuController.MenuOptionConditionShowGestioNotificacioCorreu.class)
 @Controller
 @RequestMapping(value = "/common/rebreAvis")
 public class GestioNotificacioCorreuController extends RebreAvisController {
+
+    /**
+     * 
+     * @author anadal (u80067)
+     * 24 nov 2026 8:17:41
+     */
+    public static class MenuOptionConditionShowGestioNotificacioCorreu extends MenuOptionConditionAbstractUsuariIntern {
+
+        @Override
+        public boolean isVisible(HttpServletRequest request) throws Exception {
+
+            List<String> roles = new ArrayList<String>();
+            {
+                Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>) SecurityContextHolder
+                        .getContext().getAuthentication().getAuthorities();
+                for (SimpleGrantedAuthority authority : authorities) {
+                    roles.add(authority.getAuthority());
+                    //System.out.println("ROLE MENU: " + authority.getAuthority());
+                }
+            }
+
+            return super.isVisible(request) && (roles.contains(Constants.ROLE_SOLI)
+                    || roles.contains(Constants.ROLE_DEST) || roles.contains(Constants.ROLE_COLA)
+                    || roles.contains(Constants.ROLE_DELE) || roles.contains(Constants.ROLE_REVI));
+        }
+
+    }
 
     @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
     protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
@@ -115,17 +159,19 @@ public class GestioNotificacioCorreuController extends RebreAvisController {
             // Excloure els tipus que ja té
             final Where w1 = TipusNotificacioFields.TIPUSNOTIFICACIOID.notIn(subQuery);
             // Excloure els tipus que no son avisos
-            final Where w2 = Where.OR(TipusNotificacioFields.ESAVIS.isNull(), TipusNotificacioFields.ESAVIS.equal(true));
+            final Where w2 = Where.OR(TipusNotificacioFields.ESAVIS.isNull(),
+                    TipusNotificacioFields.ESAVIS.equal(true));
             // Excloure els tipus INCIDENCIA_ADMINISTRADOR si no se es administrador
-            
+
             final Where w3;
             if (LoginInfo.getInstance().hasRole(Constants.ROLE_ADEN)) {
                 w3 = null;
             } else {
-                w3 = TipusNotificacioFields.TIPUSNOTIFICACIOID.notEqual(ConstantsV2.NOTIFICACIOAVIS_INCIDENCIES_ADMINISTRADOR);
+                w3 = TipusNotificacioFields.TIPUSNOTIFICACIOID
+                        .notEqual(ConstantsV2.NOTIFICACIOAVIS_INCIDENCIES_ADMINISTRADOR);
             }
-            
-            where = Where.AND(w1,w2,w3);
+
+            where = Where.AND(w1, w2, w3);
 
         } else {
             where = _w;

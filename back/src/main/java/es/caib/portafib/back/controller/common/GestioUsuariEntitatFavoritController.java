@@ -7,8 +7,10 @@ import es.caib.portafib.back.form.webdb.UsuariEntitatFavoritForm;
 import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.ObfuscatedNifStringField;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
+import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.persistence.UsuariEntitatFavoritJPA;
 import es.caib.portafib.persistence.UsuariEntitatJPA;
 import es.caib.portafib.persistence.UsuariPersonaJPA;
@@ -20,12 +22,15 @@ import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.SelectConstant;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +44,7 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +54,23 @@ import java.util.Map;
  * @author mgonzalez
  * @author anadal
  */
+
+/*
+ if (roles.contains(Constants.ROLE_USER) && (roles.contains(Constants.ROLE_SOLI) || roles.contains(Constants.ROLE_DEST)
+                || roles.contains(Constants.ROLE_ADEN))) {
+            optionalMenus.add(null); // Separator
+            optionalMenus.add(
+            new MenuItem("favorit.gestio", "/common/usuariEntitatFavorit/list/1", "/common/usuariEntitatFavorit/", 60));
+        }
+ */
+@MenuOption(
+        group = Tab.MENU_INICI,
+        labelCode = "favorit.gestio",
+        baseLink = "/common/usuariEntitatFavorit",
+        addSeparatorBefore = true,
+        order = 60,
+        condition = GestioUsuariEntitatFavoritController.MenuOptionConditionShowUsuariEntitatFavorit.class)
+
 @Controller
 @RequestMapping(value = "/common/usuariEntitatFavorit")
 @SessionAttributes(
@@ -55,6 +78,32 @@ import java.util.Map;
 public class GestioUsuariEntitatFavoritController extends UsuariEntitatFavoritController {
 
     public static final String USUARI_ENTITAT_ID_HOLDER = "GestioUsuariEntitatFavoritController_USUARI_ENTITAT_ID_HOLDER";
+
+    /**
+     * 
+     * @author anadal (u80067)
+     * 24 nov 2026 10:33:18
+     */
+    public static class MenuOptionConditionShowUsuariEntitatFavorit extends MenuOptionConditionAbstractUsuariIntern {
+
+        @Override
+        public boolean isVisible(HttpServletRequest request) throws Exception {
+
+            List<String> roles = new ArrayList<String>();
+            {
+                Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>) SecurityContextHolder
+                        .getContext().getAuthentication().getAuthorities();
+                for (SimpleGrantedAuthority authority : authorities) {
+                    roles.add(authority.getAuthority());
+                    //System.out.println("ROLE MENU: " + authority.getAuthority());
+                }
+            }
+
+            return super.isVisible(request)
+                    && roles.contains(Constants.ROLE_USER) && (roles.contains(Constants.ROLE_SOLI)
+                            || roles.contains(Constants.ROLE_DEST) || roles.contains(Constants.ROLE_ADEN));
+        }
+    }
 
     @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
     protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
@@ -66,14 +115,15 @@ public class GestioUsuariEntitatFavoritController extends UsuariEntitatFavoritCo
     protected SeleccioUsuariValidator seleccioUsuariValidator;
 
     //===== GESTIONA FORMULARI PREVI A ALTA-MODIFICACIO D'UN USUARI-ENTITAT
-    
+
     @PostConstruct
     public void init() {
 
         UsuariPersonaQueryPath upqp = new UsuariEntitatQueryPath().USUARIPERSONA();
         this.usuariEntitatRefList = new UsuariEntitatRefList(this.usuariEntitatRefList);
         this.usuariEntitatRefList.setSelects(new Select<?>[] { upqp.LLINATGES().select, new SelectConstant(", "),
-                upqp.NOM().select, new SelectConstant(" ("), new ObfuscatedNifStringField(upqp.NIF()).select, new SelectConstant(")") });
+                upqp.NOM().select, new SelectConstant(" ("), new ObfuscatedNifStringField(upqp.NIF()).select,
+                new SelectConstant(")") });
 
     }
 
@@ -184,7 +234,7 @@ public class GestioUsuariEntitatFavoritController extends UsuariEntitatFavoritCo
         /*
         // Fixam la llista amb l'usuari favorit
         UsuariEntitatJPA ue = usuariEntitatLogicaEjb.findByPrimaryKeyFull(usuariEntitatIDFavorit);
-
+        
         List<StringKeyValue> lskvFavorit = new ArrayList<StringKeyValue>(1);
         lskvFavorit.add(skvFavorit);
         usuariEntitatFavoritForm.setListOfUsuariEntitatForFavoritID(lskvFavorit);

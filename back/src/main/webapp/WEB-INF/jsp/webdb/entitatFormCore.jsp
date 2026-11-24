@@ -138,7 +138,7 @@
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.FAVICONID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
                 <div class="custom-file">
-                  <input id="entitat.faviconID" name="faviconID" class="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.FAVICONID)? ' uneditable-input' : ''}"  type="file"  required aria-required="true"  />
+                  <input id="entitat.faviconID" name="faviconID" class="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.FAVICONID)? ' uneditable-input' : ''}"  type="file"  />
                   <span id="faviconID-custom-file-label2" class="custom-file-label" >
                     <c:if test="${ empty __theForm.entitat.favicon}">
                     <fmt:message key="genapp.form.file.select"/>
@@ -195,7 +195,7 @@
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOWEBID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
                 <div class="custom-file">
-                  <input id="entitat.logoWebID" name="logoWebID" class="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOWEBID)? ' uneditable-input' : ''}"  type="file"  required aria-required="true"  />
+                  <input id="entitat.logoWebID" name="logoWebID" class="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOWEBID)? ' uneditable-input' : ''}"  type="file"  />
                   <span id="logoWebID-custom-file-label2" class="custom-file-label" >
                     <c:if test="${ empty __theForm.entitat.logoWeb}">
                     <fmt:message key="genapp.form.file.select"/>
@@ -252,7 +252,7 @@
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOWEBPEUID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
                 <div class="custom-file">
-                  <input id="entitat.logoWebPeuID" name="logoWebPeuID" class="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOWEBPEUID)? ' uneditable-input' : ''}"  type="file"  required aria-required="true"  />
+                  <input id="entitat.logoWebPeuID" name="logoWebPeuID" class="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOWEBPEUID)? ' uneditable-input' : ''}"  type="file"  />
                   <span id="logoWebPeuID-custom-file-label2" class="custom-file-label" >
                     <c:if test="${ empty __theForm.entitat.logoWebPeu}">
                     <fmt:message key="genapp.form.file.select"/>
@@ -309,7 +309,7 @@
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOSEGELLID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
                 <div class="custom-file">
-                  <input id="entitat.logoSegellID" name="logoSegellID" class="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOSEGELLID)? ' uneditable-input' : ''}"  type="file"  required aria-required="true"  />
+                  <input id="entitat.logoSegellID" name="logoSegellID" class="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.LOGOSEGELLID)? ' uneditable-input' : ''}"  type="file"  />
                   <span id="logoSegellID-custom-file-label2" class="custom-file-label" >
                     <c:if test="${ empty __theForm.entitat.logoSegell}">
                     <fmt:message key="genapp.form.file.select"/>
@@ -422,7 +422,7 @@
             <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.PDFAUTORITZACIODELEGACIOID)}" >
               <div class="input-group col-md-9-optional" style="padding: 0px">
                 <div class="custom-file">
-                  <input id="entitat.pdfAutoritzacioDelegacioID" name="pdfAutoritzacioDelegacioID" class="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.PDFAUTORITZACIODELEGACIOID)? ' uneditable-input' : ''}"  type="file"  required aria-required="true"  />
+                  <input id="entitat.pdfAutoritzacioDelegacioID" name="pdfAutoritzacioDelegacioID" class="custom-file-input form-control  ${gen:contains(__theForm.readOnlyFields ,EntitatFields.PDFAUTORITZACIODELEGACIOID)? ' uneditable-input' : ''}"  type="file"  />
                   <span id="pdfAutoritzacioDelegacioID-custom-file-label2" class="custom-file-label" >
                     <c:if test="${ empty __theForm.entitat.pdfAutoritzacioDelegacio}">
                     <fmt:message key="genapp.form.file.select"/>

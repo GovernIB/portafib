@@ -7,6 +7,7 @@ import es.caib.portafib.back.form.AutoFirmaForm;
 import es.caib.portafib.back.form.webdb.FitxerFilterForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
+import es.caib.portafib.back.utils.Tab;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.AutoFirmaValidator;
 import es.caib.portafib.persistence.EntitatJPA;
@@ -41,6 +42,7 @@ import org.fundaciobit.genapp.common.web.form.AdditionalButtonStyle;
 import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
 import org.fundaciobit.pluginsib.signature.api.CommonInfoSignature;
 import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
 import org.fundaciobit.pluginsib.signature.api.ITimeStampGenerator;
@@ -91,6 +93,18 @@ import java.util.Map;
  *
  *
  */
+
+/*
+ *             optionalMenus.add(null); // Separator
+            optionalMenus.add(new MenuItem("autofirma.gestio", "/common/autofirma/list", "/common/autofirma", 20));
+ */
+@MenuOption(
+        group = Tab.MENU_INICI,
+        labelCode = "autofirma.gestio",
+        baseLink = "/common/autofirma", // Automàticament posa /list al final        
+        order = 20,
+        condition = AutoFirmaController.MenuOptionConditionShowAutoFirma.class,
+        addSeparatorBefore = true)
 @Controller
 @RequestMapping(value = AutoFirmaController.CONTEXTWEB)
 @SessionAttributes(types = { AutoFirmaForm.class, FitxerFilterForm.class })
@@ -99,6 +113,30 @@ public class AutoFirmaController extends FitxerController implements PeticioDeFi
     public static final String CONTEXTWEB = "/common/autofirma";
 
     public static final String AUTOFIRMA = "AUTOFIRMA";
+    
+    
+    
+    /**
+     * 
+     * @author anadal (u80067)
+     * 23 nov 2026 11:46:53
+     */
+    public static class MenuOptionConditionShowAutoFirma extends MenuOptionConditionAbstractUsuariIntern {
+
+        @Override
+        public boolean isVisible(HttpServletRequest request) throws Exception {
+
+            Boolean autofirma = PropietatGlobalUtil.getAutofirmaAllowed(LoginInfo.getInstance().getEntitatID());
+            if (autofirma == null) {
+                autofirma = request.isUserInRole("ROLE_AUTOFIRMA");
+            }
+            
+            return super.isVisible(request) && (LoginInfo.getInstance().getEntitatID() != null && autofirma);
+        }
+
+    }
+    
+    
 
     @EJB(mappedName = ModulDeFirmaWebLogicaLocal.JNDI_NAME)
     protected ModulDeFirmaWebLogicaLocal modulDeFirmaEjb;

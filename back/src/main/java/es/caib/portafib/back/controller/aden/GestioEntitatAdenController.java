@@ -29,8 +29,8 @@ import org.springframework.web.servlet.ModelAndView;
 @MenuOption(
         group = Tab.MENU_ADEN,
         labelCode = "entitat.modificar",
-        baseLink = "/aden/entitat/current",
-        relativeLink = "",
+        baseLink = "/aden/entitat/",
+        relativeLink = "current",
         order = 10)
 public class GestioEntitatAdenController extends GestioEntitatAdminController {
 

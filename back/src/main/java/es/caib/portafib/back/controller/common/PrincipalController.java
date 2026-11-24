@@ -7,9 +7,12 @@ import es.caib.portafib.persistence.EntitatJPA;
 import es.caib.portafib.commons.utils.Configuracio;
 import es.caib.portafib.commons.utils.Constants;
 import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.back.utils.Tab;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOption;
+import org.fundaciobit.genapp.common.web.menuoptions.MenuOptionCondition;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -28,113 +31,139 @@ import javax.servlet.http.HttpSession;
  * @autor anadal
  * 
  */
+
+// new MenuItem("pagina.principal", "/common/principal.html", "/common/principal.html", 10)
+@MenuOption(
+        group = Tab.MENU_INICI,
+        labelCode = "pagina.principal",
+        baseLink = "/common/principal.html",
+        relativeLink = "",
+        order = 10,
+        condition = PrincipalController.MenuOptionConditionShowPaginaPrincipal.class)
+
 @Controller
 public class PrincipalController implements Constants {
 
-	protected final Logger log = Logger.getLogger(getClass());
+    /**
+     * 
+     * @author anadal (u80067)
+     * 23 nov 2026 15:05:10
+     */
+    public static class MenuOptionConditionShowPaginaPrincipal extends MenuOptionConditionAbstractUsuariIntern {
 
-	@RequestMapping(value = "/common/principal.html")
-	public ModelAndView principal(HttpSession session, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+        @Override
+        public boolean isVisible(HttpServletRequest request) throws Exception {
+            return super.isVisible(request);
+        }
 
-		Boolean initialized = (Boolean) session.getAttribute("inicialitzat");
+    }
 
-		if (initialized == null) {
-			HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("app.benvingut"));
-			session.setAttribute("inicialitzat", true);
-		}
+    protected final Logger log = Logger.getLogger(getClass());
 
-		if (initialized == null && Configuracio.isCAIB() && request.isUserInRole(ROLE_DEST)) {
-			return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list", true));
-		} else {
-			return new ModelAndView("principal");
-		}
+    @RequestMapping(value = "/common/principal.html")
+    public ModelAndView principal(HttpSession session, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
 
-	}
+        Boolean initialized = (Boolean) session.getAttribute("inicialitzat");
 
-	@RequestMapping(value = "/canviarPipella", method = RequestMethod.GET)
-	public ModelAndView canviarPipella(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return canviarPipella(request, response, null);
-	}
+        if (initialized == null) {
+            HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("app.benvingut"));
+            session.setAttribute("inicialitzat", true);
+        }
 
-	@RequestMapping(value = "/canviarPipella/{pipella}", method = RequestMethod.GET)
-	public ModelAndView canviarPipella(HttpServletRequest request, HttpServletResponse response,
-			@PathVariable String pipella) throws Exception {
+        if (initialized == null && Configuracio.isCAIB() && request.isUserInRole(ROLE_DEST)) {
+            return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list", true));
+        } else {
+            return new ModelAndView("principal");
+        }
 
-		if (pipella != null && pipella.trim().length() != 0) {
-			if ("webdb".equals(pipella)) {
-				return new ModelAndView("webdb");
-			}
-			if (ROLE_ADEN.equals(pipella)) {
-				return new ModelAndView("role_aden");
-				// return new ModelAndView(new RedirectView("/aden/peticionscaducades/list/1",
-				// true));
-			}
-			if (ROLE_ADAPP.equals(pipella)) {
-				return new ModelAndView("role_adapp");
-				// return new ModelAndView(new RedirectView("/aden/peticionscaducades/list/1",
-				// true));
-			}
+    }
 
-			if (ROLE_ADMIN.equals(pipella)) {
-				// return new ModelAndView("role_admin");
-				// "/admin/fitxersorfes/list/1"
-				return new ModelAndView(new RedirectView("/admin/entitat/list/1", true));
-			}
-			if (ROLE_COLA.equals(pipella)) {
-				// return new ModelAndView("role_cola");
-				return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_COLA_ESTATFIRMA_PENDENT + "/list", true));
-			}
-			if (ROLE_DELE.equals(pipella)) {
-				// return new ModelAndView("role_dele");
-				return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_DELE_ESTATFIRMA_PENDENT + "/list", true));
-			}
-			if (ROLE_DEST.equals(pipella)) {
-				return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list", true));
-			}
-			if (ROLE_SOLI.equals(pipella)) {
-				// return new ModelAndView("role_soli");
-				return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/list", true));
-			}
+    @RequestMapping(value = "/canviarPipella", method = RequestMethod.GET)
+    public ModelAndView canviarPipella(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return canviarPipella(request, response, null);
+    }
 
-			if (ROLE_REVI.equals(pipella)) {
-				// return new ModelAndView("role_soli");
-				return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_REVI_ESTATFIRMA_PENDENT + "/list", true));
-			}
-			if (Configuracio.isDesenvolupament() && "desenvolupament".equals(pipella)) {
-				return new ModelAndView("desenvolupament");
-			}
+    @RequestMapping(value = "/canviarPipella/{pipella}", method = RequestMethod.GET)
+    public ModelAndView canviarPipella(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable
+            String pipella) throws Exception {
 
-			throw new Exception("S'ha accedit a canviarPipella amb un paràmetre desconegut: " + pipella);
-		}
+        if (pipella != null && pipella.trim().length() != 0) {
+            if ("webdb".equals(pipella)) {
+                return new ModelAndView("webdb");
+            }
+            if (ROLE_ADEN.equals(pipella)) {
+                return new ModelAndView("role_aden");
+                // return new ModelAndView(new RedirectView("/aden/peticionscaducades/list/1",
+                // true));
+            }
+            if (ROLE_ADAPP.equals(pipella)) {
+                return new ModelAndView("role_adapp");
+                // return new ModelAndView(new RedirectView("/aden/peticionscaducades/list/1",
+                // true));
+            }
 
-		return new ModelAndView("principal");
-	}
+            if (ROLE_ADMIN.equals(pipella)) {
+                // return new ModelAndView("role_admin");
+                // "/admin/fitxersorfes/list/1"
+                return new ModelAndView(new RedirectView("/admin/entitat/list/1", true));
+            }
+            if (ROLE_COLA.equals(pipella)) {
+                // return new ModelAndView("role_cola");
+                return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_COLA_ESTATFIRMA_PENDENT + "/list", true));
+            }
+            if (ROLE_DELE.equals(pipella)) {
+                // return new ModelAndView("role_dele");
+                return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_DELE_ESTATFIRMA_PENDENT + "/list", true));
+            }
+            if (ROLE_DEST.equals(pipella)) {
+                return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list", true));
+            }
+            if (ROLE_SOLI.equals(pipella)) {
+                // return new ModelAndView("role_soli");
+                return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/list", true));
+            }
 
-	@RequestMapping(value = "/canviarEntitat/{entitatID}", method = RequestMethod.GET)
-	public ModelAndView canviarEntitat(HttpServletRequest request, HttpServletResponse response,
-			@PathVariable String entitatID) throws Exception {
+            if (ROLE_REVI.equals(pipella)) {
+                // return new ModelAndView("role_soli");
+                return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_REVI_ESTATFIRMA_PENDENT + "/list", true));
+            }
+            if (Configuracio.isDesenvolupament() && "desenvolupament".equals(pipella)) {
+                return new ModelAndView("desenvolupament");
+            }
 
-		LoginInfo loginInfo = LoginInfo.getInstance();
+            throw new Exception("S'ha accedit a canviarPipella amb un paràmetre desconegut: " + pipella);
+        }
 
-		Map<String, EntitatJPA> entitats = loginInfo.getEntitats();
+        return new ModelAndView("principal");
+    }
 
-		if (entitats.get(entitatID) == null) {
-			HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.noentitat", entitatID));
-		} else {
-			String entitatActual = loginInfo.getEntitatID();
-			try {
-				loginInfo.setEntitatID(entitatID);
-				SecurityContextHolder.getContext().setAuthentication(loginInfo.generateToken());
-			} catch (Exception e) {
-				// Restauram l'entitat
-				loginInfo.setEntitatID(entitatActual);
-				throw e;
-			}
-		}
+    @RequestMapping(value = "/canviarEntitat/{entitatID}", method = RequestMethod.GET)
+    public ModelAndView canviarEntitat(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable
+            String entitatID) throws Exception {
 
-		return new ModelAndView("principal");
+        LoginInfo loginInfo = LoginInfo.getInstance();
 
-	}
+        Map<String, EntitatJPA> entitats = loginInfo.getEntitats();
+
+        if (entitats.get(entitatID) == null) {
+            HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.noentitat", entitatID));
+        } else {
+            String entitatActual = loginInfo.getEntitatID();
+            try {
+                loginInfo.setEntitatID(entitatID);
+                SecurityContextHolder.getContext().setAuthentication(loginInfo.generateToken());
+            } catch (Exception e) {
+                // Restauram l'entitat
+                loginInfo.setEntitatID(entitatActual);
+                throw e;
+            }
+        }
+
+        return new ModelAndView("principal");
+
+    }
 
 }
