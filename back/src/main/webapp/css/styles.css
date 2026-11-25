@@ -91,6 +91,10 @@ a:hover {
     border-color: #0062cc;
 }
 
+.btn-warning {
+    color: #000000 !important;
+}
+
 .btn-info {
     color: #000;
 }

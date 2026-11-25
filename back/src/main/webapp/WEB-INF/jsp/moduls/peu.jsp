@@ -53,7 +53,7 @@ Version version = new Version();
             </a>
             </p>
 
-            <p>
+            <p style="margin-top:10px;">
             <a styleClass="text-dark linkPeu" href="<c:url value="/public/mapaweb"/>">
                <fmt:message key="label.mapaweb" />
             </a>

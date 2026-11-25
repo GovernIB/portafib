@@ -2118,7 +2118,7 @@ public abstract class AbstractPeticioDeFirmaByTipusSolicitant extends AbstractPe
             }
 
             filterForm.addAdditionalButton(new AdditionalButton("fas fa-plus-circle", "peticiodefirma.crear", action,
-                    AdditionalButtonStyle.SECONDARY));
+                    AdditionalButtonStyle.PRIMARY));
         }
 
         // Ocultar Columna Data Final
