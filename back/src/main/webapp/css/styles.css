@@ -609,8 +609,11 @@ a.iconoXarxes {
 /* FI Capsa Box */
 
 /* Per paginació */
-.page-link {
-    color: #0069d9;
+.pagination-sm .page-link {
+  padding: 0.25rem 0.75rem;
+  font-size: 1rem;
+  color: #0069d9;
+  font-weight: bold;
 }
 
 .page-item.active .page-link {

@@ -247,7 +247,7 @@ public class ApiFirmaEnServidorSimpleTester {
         }
 
         System.out.println(" PERFIL => " + perfil);
-        internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"));
+        internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"), "testSignatureServerPAdES");
     }
 
     @Test
@@ -267,7 +267,7 @@ public class ApiFirmaEnServidorSimpleTester {
                 fileToSign = getSimpleFileFromResource("hola.pdf", "application/pdf");
             }
 
-            FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"));
+            FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"), "testSignatureServerPAdESXAdESCAdES_PAdES");
 
             // Hauria de ser firma PADES
             if (result != null) {
@@ -282,7 +282,7 @@ public class ApiFirmaEnServidorSimpleTester {
         {
             FirmaSimpleFile fileToSign = getSimpleFileFromResource("sample.xml", "text/xml");
 
-            FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"));
+            FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"), "testSignatureServerPAdESXAdESCAdES_XAdES");
 
             // Hauria de ser firma PADES
             if (result != null) {
@@ -297,7 +297,7 @@ public class ApiFirmaEnServidorSimpleTester {
         {
             FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto.jpg", "image/jpeg");
 
-            FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"));
+            FirmaSimpleSignatureResult result = internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"), "testSignatureServerPAdESXAdESCAdES_CAdES");
 
             // Hauria de ser firma PADES
             if (result != null) {
@@ -328,7 +328,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
         FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto.jpg", "image/jpeg");
 
-        internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"));
+        internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"), "testSignatureServerCAdES");
     }
 
     @Test
@@ -345,7 +345,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
         FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto.jpg", "image/jpeg");
 
-        internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"));
+        internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"), "testSignatureServerXAdESBinary");
     }
 
     @Test
@@ -362,14 +362,14 @@ public class ApiFirmaEnServidorSimpleTester {
 
         FirmaSimpleFile fileToSign = getSimpleFileFromResource("sample.xml", "text/xml");
 
-        internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"));
+        internalSignDocument(api, perfil, fileToSign, prop.getProperty("alias"), "testSignatureServerXAdESXml");
     }
 
     
 
 
     protected FirmaSimpleSignatureResult internalSignDocument(ApiFirmaEnServidorSimple api, final String perfil,
-            FirmaSimpleFile fileToSign, String alias) throws Exception, FileNotFoundException, IOException {
+            FirmaSimpleFile fileToSign, String alias, String test) throws Exception, FileNotFoundException, IOException {
         String signID = "1";
         String name = fileToSign.getNom();
         String reason = "Per aprovar pressuposts";
@@ -438,11 +438,12 @@ public class ApiFirmaEnServidorSimpleTester {
 
                     System.err.println("  RESULT: OK");
                     FirmaSimpleFile fsf = fullResults.getSignedFile();
-                    FileOutputStream fos = new FileOutputStream(fsf.getNom());
+                    File f = new File(this.getResultsFolder(),  test + "_" + fileToSign.getNom() + "_" + fsf.getNom());
+                    FileOutputStream fos = new FileOutputStream(f);
                     fos.write(fsf.getData());
                     fos.flush();
                     fos.close();
-                    System.out.println("  RESULT: Fitxer signat guardat en '" + fsf.getNom() + "'");
+                    System.out.println("  RESULT: Fitxer signat guardat en '" + f.getAbsolutePath() + "'");
                     printSignatureInfo(fullResults);
 
                     return fullResults;
@@ -453,6 +454,15 @@ public class ApiFirmaEnServidorSimpleTester {
 
         return null;
     }
+    
+    
+    public File getResultsFolder() {
+        File parent = new File("results");
+        parent.mkdirs();
+        return parent;
+    }
+    
+    
 
     @Test
     public void testUpgradeSignatureCAdES() throws Exception, FileNotFoundException, IOException {
